@@ -26,3 +26,7 @@ class Ad(models.Model):
         verbose_name = "Ad"
         verbose_name_plural = "Ads"
         ordering = ["-created"]
+
+class AdImage(models.Model):
+    ad_id = models.ForeignKey(Ad, related_name='images')
+    image = models.ImageField(upload_to='ad')

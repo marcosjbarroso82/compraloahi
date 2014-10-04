@@ -1,4 +1,12 @@
 from django.contrib import admin
 from . import models
 
-admin.site.register(models.Ad)
+class AdImageInline(admin.TabularInline):
+    model = models.AdImage
+    extra = 4
+
+class AdAdmin(admin.ModelAdmin):
+    prepopulated_fields = {"slug": ("title",)}
+    inlines = [ AdImageInline, ]
+
+admin.site.register(models.Ad, AdAdmin)
