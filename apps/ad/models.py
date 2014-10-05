@@ -1,9 +1,13 @@
 from django.db import models
 from south.modelsinspector import add_introspection_rules
+from .forms import StringListField
 
 class TagField(models.TextField, metaclass=models.SubfieldBase):
     description = "Stores tags in a single database column."
     #__metaclass__ = models.SubfieldBase
+
+    def formfield(self, **kwargs):
+        return models.Field.formfield(self, StringListField, **kwargs)
 
     def __init__(self, delimiter=",", *args, **kwargs):
         self.delimiter = delimiter
@@ -11,7 +15,6 @@ class TagField(models.TextField, metaclass=models.SubfieldBase):
 
 
     def to_python(self, value):
-        #return []
         # If it's already a list, leave it
         if isinstance(value, list):
             #return value
