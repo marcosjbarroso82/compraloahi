@@ -1,5 +1,6 @@
 from django.db import models
 from taggit.managers import TaggableManager
+from django.contrib.auth.models import User
 
 class AdQuerySet(models.QuerySet):
     def published(self):
@@ -14,6 +15,7 @@ class Ad(models.Model):
     slug = models.SlugField(max_length=200, unique=True)
     published = models.BooleanField(default=True)
     tags = TaggableManager()
+    author = models.ForeignKey(User, related_name='ads')
     # tags []
     # price (moneda)
     # author. foreingkey.
