@@ -1,4 +1,5 @@
 from django.db import models
+from taggit.managers import TaggableManager
 
 class AdQuerySet(models.QuerySet):
     def published(self):
@@ -12,7 +13,7 @@ class Ad(models.Model):
     pub_date = models.DateTimeField(blank=True, null=True)
     slug = models.SlugField(max_length=200, unique=True)
     published = models.BooleanField(default=True)
-    # imagen. fileupload.
+    tags = TaggableManager()
     # tags []
     # price (moneda)
     # author. foreingkey.
