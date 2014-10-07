@@ -37,8 +37,11 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'relatedwidget',
+
     'taggit',
-    'apps.ad'
+    'apps.ad',
+    'apps.agenda',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -79,13 +82,14 @@ USE_L10N = True
 
 USE_TZ = True
 
+SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT= os.path.join(SITE_ROOT,'static/')
 
 
-SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
 MEDIA_ROOT = os.path.join(SITE_ROOT, 'media')
 

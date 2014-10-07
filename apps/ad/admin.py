@@ -1,13 +1,18 @@
 from django.contrib import admin
 from . import models
+from apps.agenda.models import Agenda
+
+from relatedwidget import RelatedWidgetWrapperBase
+
 
 class AdImageInline(admin.TabularInline):
     model = models.AdImage
     extra = 4
 
-class AdAdmin(admin.ModelAdmin):
+class AdAdmin(RelatedWidgetWrapperBase, admin.ModelAdmin):
     prepopulated_fields = {"slug": ("title",)}
-    inlines = [ AdImageInline, ]
+    inlines = [ AdImageInline]
+
     #exclude = ('author',)
     readonly_fields = ['author',]
 
