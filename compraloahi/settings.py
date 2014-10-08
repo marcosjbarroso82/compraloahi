@@ -42,6 +42,8 @@ INSTALLED_APPS = (
     'taggit',
     'apps.ad',
     'apps.agenda',
+    'django.contrib.gis',
+    'world',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -64,7 +66,9 @@ WSGI_APPLICATION = 'compraloahi.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
+        #
+        # 'ENGINE': 'django.db.backends.sqlite3',
+        'ENGINE': 'django.contrib.gis.db.backends.spatialite',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
