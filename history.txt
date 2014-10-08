@@ -1,0 +1,1000 @@
+  882  ls
+  883  rm -r snippets/ vim-pathogen/
+  884  cd bundle/
+  885  ls
+  886  rm -r gundo/ nerdtree/ python_fold python_fold.vim snipMate/ syntastic/
+  887  ls
+  888  cd ..
+  889  ls
+  890  cd autoload/
+  891  ls
+  892  rm pathogen.vim 
+  893  ls
+  894  cd ..
+  895  ls
+  896  cd ftplugin/
+  897  ls
+  898  rm python.vim 
+  899  cd ..
+  900  cd ftplugin/
+  901  ls
+  902  cd ..
+  903  ls
+  904  git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+  905  vim ~/.vimrc
+  906  vim
+  907  sudo apt-get update
+  908  sudo apt-get upgrade
+  909  sudo apt-get clean && sudo apt-get update
+  910  sudo apt-get upgrade
+  911  vim
+  912  vim .vimrc
+  913  ls
+  914  ls -a
+  915  vim .vimrc-backup 
+  916  exit
+  917  source ~/virtualenv/django/bin/activate
+  918  exit
+  919  mkdir .vim
+  920  cd .vim/
+  921  mkdir bundle
+  922  git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+  923  vim ~/.vimrc
+  924  vim
+  925  vim ~/.vimrc
+  926  cd ~/
+  927  git clone git://github.com/yodiaditya/vim-pydjango.git
+  928  cd vim-pydjango/
+  929  ls
+  930  ls -a
+  931  cd .vim/
+  932  ls
+  933  cd bundle/
+  934  ls
+  935  cd ..
+  936  rm -r .vim
+  937  rm .vimrc
+  938  ln -s ~/vim-pydjango/.vim ~/.vim
+  939  ln -s ~/vim-pydjango/.vimrc ~/.vimrc
+  940  git clone http://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
+  941  vim ~/.vimrc
+  942  clear
+  943  vim ~/.vimrc
+  944  vim
+  945  clear
+  946  sudo apt-get install python-setuptools python-pip exuberant-ctags
+  947  sudo pip install git+git://github.com/kevinw/pyflakes.git
+  948  sudo pip install pylint
+  949  sudo pip install pep8
+  950  source ~/virtualenv/django/bin/activate
+  951  sudo apt-get install python-setuptools python-pip exuberant-ctags
+  952  sudo pip install git+git://github.com/kevinw/pyflakes.git
+  953  sudo pip install pylint
+  954  sudo pip install pep8
+  955  cd proyectos/django_test/
+  956  ls
+  957  vim article/models.py 
+  958  vim
+  959  xterm
+  960  $TERM
+  961  terminfo
+  962  term terminfo
+  963  vim
+  964  cd /media/
+  965  ls
+  966  cd marcos/
+  967  ls
+  968  cd 6561-3939/
+  969  ls
+  970  chmod -r 777 Carpeta\ sin\ título/
+  971  chmod -R 777 Carpeta\ sin\ título/
+  972  sudo chmod -R 777 Carpeta\ sin\ título/
+  973  ls
+  974  sudo mv Carpeta\ sin\ título/ a
+  975  cd Carpeta\ sin\ título/
+  976  ls
+  977  chmod 777 *
+  978  source virtualenv/django/bin/activate
+  979  cd proyectos/qblog/
+  980  python
+  981  sudo apt-get install python-setuptools python-pip exuberant-ctags
+  982  apt-get install python-setuptools python-pip exuberant-ctags
+  983  pip install git+git://github.com/kevinw/pyflakes.git
+  984  exit
+  985  source virtualenv/django/bin/activate
+  986  vim
+  987  cd proyectos/qblog/
+  988  vim
+  989  exit
+  990  source 
+  991  source ~/virtualenv/django/bin/activate
+  992  clear
+  993  vim
+  994  cd proyectos/
+  995  ls
+  996  django-admin startproject qblog
+  997  ls
+  998  cd qblog/
+  999  ls
+ 1000  cd qblog/
+ 1001  ls
+ 1002  cd ..
+ 1003  ls
+ 1004  python manage.py migrate
+ 1005  python manage.py createsuperuserr
+ 1006  manage.py createsuperuser
+ 1007  python manage.py createsuperuser
+ 1008  python manage.py runserver
+ 1009  python manage.py startapp blog
+ 1010  ls blog/
+ 1011  ls blog/migrations/
+ 1012  exit
+ 1013  cd proyectos
+ 1014  django startapp qblog2
+ 1015  django
+ 1016  python
+ 1017  sudo apt-get install ipython
+ 1018  sudo pip install ipdb
+ 1019  sudo apt-get install python-setuptools python-pip exuberant-ctags
+ 1020  sudo pip install git+git://github.com/kevinw/pyflakes.git
+ 1021  sudo pip install pylint
+ 1022  sudo pip install pep8
+ 1023  cd virtualenv/
+ 1024  sudo apt-get install python-setuptools
+ 1025  virtualenv django-vim
+ 1026  ls
+ 1027  source django-vim/bin/activate
+ 1028  cd django-vim
+ 1029  ls
+ 1030  cd ~/proyectos/
+ 1031  pip install django
+ 1032  clear
+ 1033  django-admin startproject qblog-vim
+ 1034  ls
+ 1035  rm -r qblog/
+ 1036  django-admin
+ 1037  django-admin startproject qblog
+ 1038  cd qblog/
+ 1039  python manage.py migrate
+ 1040  clear
+ 1041  python manage.py createsuperuser
+ 1042  python manage.py runserver
+ 1043  python manage.py startapp blog
+ 1044  tree blog
+ 1045  sudo apt-get install tree
+ 1046  clear
+ 1047  tree qblog/
+ 1048  vim
+ 1049  pip install --upgrade pyflakes
+ 1050  vim
+ 1051  exit
+ 1052  source virtualenvs/django-vim/bin/activate
+ 1053  vim
+ 1054  exit
+ 1055  vim ~/.virtualenvs/django-vim/bin/activate
+ 1056  touch ~/.virtualenvs/django-vim/bin/activate
+ 1057  cd ~/.virtualenvs/django-vim/bin/
+ 1058  ls
+ 1059  exit
+ 1060  source .virtualenvs/django-vim/bin/activate
+ 1061  vim
+ 1062  cim
+ 1063  vim
+ 1064  cd proyectos/
+ 1065  django-admin startprojet djangor
+ 1066  pip install django
+ 1067  alias python python3
+ 1068  cd proyectos/
+ 1069  django-admin createproject d
+ 1070  wget -q -O - http://archive.getdeb.net/getdeb-archive.key | sudo apt-key add -
+ 1071  sudo sh -c 'echo "deb http://archive.getdeb.net/ubuntu $(lsb_release -sc)-getdeb apps" >> /etc/apt/sources.list.d/getdeb.list'
+ 1072  sudo apt-get update
+ 1073  sudo apt-get install pycharm
+ 1074  alias python=python3
+ 1075  vim
+ 1076  cd .virtualenvs/
+ 1077  ls
+ 1078  rm -R django-vim/
+ 1079  ls
+ 1080  cd ..
+ 1081  source .virtualenvs/django/bin/activate
+ 1082  clear
+ 1083  cd proyectos/
+ 1084  ls
+ 1085  rm -R qblog/
+ 1086  ls
+ 1087  django-admin startproject qblog
+ 1088  pip install python-django
+ 1089  pip install django
+ 1090  exit
+ 1091  source ~/.virtualenvs/django/bin/activate
+ 1092  vim
+ 1093  VIM
+ 1094  vim
+ 1095  exit
+ 1096  history | grep "django-vim"
+ 1097  cd .virtualenvs/
+ 1098  virtualenv django-vim
+ 1099  ls
+ 1100  cd ..
+ 1101  cd .virtualenvs/
+ 1102  rm -R django
+ 1103  rm -R django-vim/
+ 1104  virtualenv django
+ 1105  ls
+ 1106  cd ..
+ 1107  source .virtualenvs/django/bin/activate
+ 1108  pip install django
+ 1109  django-admin startproject
+ 1110  django-admin startproject qblog
+ 1111  ls
+ 1112  rm -R qblog/
+ 1113  cd proyectos/
+ 1114  django-admin startproject qblog
+ 1115  cd qblog/
+ 1116  ls
+ 1117  vim
+ 1118  ls
+ 1119  manage.py migrate
+ 1120  chmod +x manage.py 
+ 1121  manage.py migrate
+ 1122  ls -la
+ 1123  chmod a+x manage.py 
+ 1124  manage.py
+ 1125  ./manage.py
+ 1126  ./manage.py  migrate
+ 1127  ./manage.py createsuperuser
+ 1128  ./manage.py runserver
+ 1129  ls
+ 1130  ./manage.py startapp blog
+ 1131  tree
+ 1132  exit
+ 1133  python
+ 1134  python3
+ 1135  alias python=python3
+ 1136  python
+ 1137  cd .virtualenvs/
+ 1138  ls
+ 1139  rm -R django/
+ 1140  history | grep "virtual"
+ 1141  virtualenv django
+ 1142  source django/bin/activate
+ 1143  python
+ 1144  pip install django
+ 1145  cd ~/proyectos/
+ 1146  rm -R qblog/
+ 1147  django createproject qblog
+ 1148  django-admin createproject qblog
+ 1149  python
+ 1150  django startproject qblog
+ 1151  django-admin start project
+ 1152  django-admin startprojectt qblog
+ 1153  django-admin startproject qblog
+ 1154  ls
+ 1155  tre
+ 1156  tree
+ 1157  cd qblog/
+ 1158  tree
+ 1159  vim
+ 1160  clear
+ 1161  vim
+ 1162  clear
+ 1163  vim
+ 1164  clear
+ 1165  vim
+ 1166  clear
+ 1167  vim
+ 1168  python -c "import sys; print(sys.version)"
+ 1169  vim
+ 1170  source .virtualenvs/django/bin/activate
+ 1171  cd proyectos/qblog/
+ 1172  manage.py runserver
+ 1173  ./manage.py runserver
+ 1174  ./manage.py migrate
+ 1175  ./manage.py runserver
+ 1176  cd proyectos/
+ 1177  ls
+ 1178  rm -R qblog/
+ 1179  cd ../.virtualenvs/
+ 1180  ls
+ 1181  cd ..
+ 1182  source .virtualenvs/django/bin/activate
+ 1183  cd proyectos/
+ 1184  django startproject qblog
+ 1185  django-admin startproject qblog
+ 1186  ls
+ 1187  cd qblog/
+ 1188  ls
+ 1189  clear
+ 1190  ls -la
+ 1191  ./manage.py migrate
+ 1192  ./manage.py createsuperuser
+ 1193  ./manage.py runserver
+ 1194  ./manage.py startapp blog
+ 1195  ls
+ 1196  tree
+ 1197  ./manage.py makemigrations blog
+ 1198  ./manage.py migrate blog
+ 1199  clear
+ 1200  ./manage.py makemigrations blog
+ 1201  clear
+ 1202  ./manage.py makemigrations blog
+ 1203  clear
+ 1204  ./manage.py migrate blog
+ 1205  ./manage.py runserver
+ 1206  ./manage.py migrate blog
+ 1207  ./manage.py makemigrations blog
+ 1208  ./manage.py runserver
+ 1209  ./manage.py shell
+ 1210  pip install django_markdown
+ 1211  ./manage.py runserver
+ 1212  ./manage.py makemigrations blog
+ 1213  ./manage.py migrate blog
+ 1214  ./manage.py runserver
+ 1215  exit
+ 1216  source .virtualenvs/django/bin/activate
+ 1217  cd proyectos/qblog
+ 1218  ./manage.py runserver
+ 1219  source .virtualenvs/django/bin/activate
+ 1220  cd proyectos/
+ 1221  mkdir cms
+ 1222  cd cms/
+ 1223  pip install djangocms-installer
+ 1224  djangocms -p . cms
+ 1225  ls
+ 1226  ls -la
+ 1227  djangocms -p . cms
+ 1228  djangocms -p . cms2
+ 1229  ls
+ 1230  cd ..
+ 1231  ls
+ 1232  django-admin.py startproject polls
+ 1233  ls
+ 1234  cd polls/
+ 1235  tree
+ 1236  ./manage.py migrate
+ 1237  python manage.py migrate
+ 1238  ls
+ 1239  ./manage.py runserver
+ 1240  python manage.py makemigration
+ 1241  history | grep "migra"
+ 1242  manage.py migrate
+ 1243  ./manage.py migrate
+ 1244  ls -la
+ 1245  python manage.py migrate
+ 1246  python manage.py makemigrations
+ 1247  ./manage.py migrate
+ 1248  ./manage.py makemigrations
+ 1249  ./manage.py startapp polls
+ 1250  cd ..
+ 1251  ls
+ 1252  rm -R polls/ qblog qblog-master/ cms/
+ 1253  exit
+ 1254  cd .virtualenvs/
+ 1255  ls
+ 1256  rm -R django/
+ 1257  virtualenv -p /usr/bin/python.3.4 django
+ 1258  virtualenv -p /usr/bin/python3.4 django
+ 1259  source django/bin/activate
+ 1260  pip install django
+ 1261  python
+ 1262  cd ~/proyectos/
+ 1263  ls
+ 1264  python -c "import django; print(django.get_version))
+ 1265  python -c "import django; print(django.get_version))"
+ 1266  python -c "import django; print(django.get_version())"
+ 1267  django-admin.py startproject mysite
+ 1268  ls
+ 1269  cd mysite/
+ 1270  python manage.py migrate
+ 1271  ./manage.py runserver
+ 1272  ./manage.py startapp polls
+ 1273  tree
+ 1274  ./manage.py makemigrations polls
+ 1275  ./manage.py sqlmigrate polls 0001
+ 1276  ./manage.py migrate
+ 1277  ./manage.py shell
+ 1278  ./manage.py createsupersuser
+ 1279  ./manage.py createsuperuser
+ 1280  ./manage.py runserver
+ 1281  python -c "import sys
+ 1282  sys.path = sys.path[1:]
+ 1283  import django
+ 1284  print(django.__path__)
+ 1285  "
+ 1286  cp ~/.virtualenvs/django/lib/python3.4/site-packages/django/contrib/admin/templates/admin/base_site.html mysite/templates/admin/
+ 1287  ./manage.py runserver
+ 1288  clear
+ 1289  ./manage.py runserver
+ 1290  ./manage.py shell
+ 1291  ./manage.py runserver
+ 1292  cd Descargas/
+ 1293  cd vim-3d9d6241de2b/
+ 1294  cd src/
+ 1295  ls
+ 1296  ./configure 
+ 1297  ./configure  --enable-perlinterp --enable-python3interp --enable-rubyinterp --enable-cscope --enable-gui=auto --enable-gtk2-check --enable-gnome-check --with-features=huge --enable-multibyte --with-x --with-compiledby="Senor QA <senor@qa>" --with-python3-config-dir=/usr/lib/python3.4/config-3.4m-x86_64-linux-gnu/
+ 1298  sudo apt-get ncurses
+ 1299  sudo apt-get install libncurses5-dev
+ 1300  source .virtualenvs/django/bin/activate
+ 1301  cd proyectos/mysite/
+ 1302  ls
+ 1303  ./manage.py runserver
+ 1304  ./manage.py createapp aad
+ 1305  history | grep "app"
+ 1306  ./manage.py startapp ad
+ 1307  ls
+ 1308  ./manage.py makemigration
+ 1309  ./manage.py makemigrations
+ 1310  history | grep "polls"
+ 1311  ./manage.py makemigrations ad
+ 1312  ./manage.py makemigrations
+ 1313  ./manage.py migrate sqlmigrate ad 0001
+ 1314  ./manage.py sqlmigrate ad Ad 0001
+ 1315  ./manage.py sqlmigrate ad ad 0001
+ 1316  ./manage.py sqlmigrate ad 0001
+ 1317  ./manage.py makemigrations
+ 1318  ./manage.py runserver
+ 1319  ./manage.py migrate
+ 1320  ./manage.py runserver
+ 1321  ./manage.py makemigrations
+ 1322  ./manage.py makemigrtions ad
+ 1323  ./manage.py makemigrations ad
+ 1324  history | grep "make"
+ 1325  ./manage.py makemigrations ad
+ 1326  ./manage.py runserver
+ 1327  ./manage.py makemigrations ad
+ 1328  clear
+ 1329  ./manage.py makemigrations ad
+ 1330  ./manage.py runserver
+ 1331  ./manage.py migrate
+ 1332  ./manage.py migrate ad
+ 1333  ./manage.py makemigrations ad
+ 1334  ./manage.py migrate ad
+ 1335  ./manage.py help
+ 1336  ./manage.py flush
+ 1337  ./manage.py help
+ 1338  ./manage.py sqlclear
+ 1339  ./manage.py sqlflush
+ 1340  ./manage.py help
+ 1341  ./manage.py runserver
+ 1342  ./manage.py createsuperuser
+ 1343  ./manage.py runserver
+ 1344  ./manage.py makemigrations
+ 1345  ./manage.py migrate ad
+ 1346  ./manage.py makemigrations
+ 1347  ./manage.py migrate ad
+ 1348  ./manage.py makemigrations
+ 1349  ./manage.py migrate ad
+ 1350  ./manage.py makemigrations
+ 1351  ./manage.py migrate ad
+ 1352  ./manage.py makemigrations
+ 1353  ./manage.py migrate ad
+ 1354  ./manage.py runserver
+ 1355  ./manage.py migrate ad 0001
+ 1356  ./manage.py makemigrations
+ 1357  ./manage.py runserver
+ 1358  ./manage.py makemigrations
+ 1359  ./manage.py migrate ad
+ 1360  ./manage.py runserver
+ 1361  ./manage.py makemigrations
+ 1362  ./manage.py migrate ad
+ 1363  ./manage.py runserver
+ 1364  ./manage.py makemigrations
+ 1365  ./manage.py migrate ad
+ 1366  ./manage.py runserver
+ 1367  ./manage.py makemigrations
+ 1368  ./manage.py syncdb
+ 1369  ./manage.py runserver
+ 1370  source .virtualenvs/django/bin/activate
+ 1371  cd proyectos/mysite/
+ 1372  ./manage.py runserver
+ 1373  history | grep "flush"
+ 1374  ./manage.py flush
+ 1375  ./manage.py makemigrations
+ 1376  ./manage.py migrate
+ 1377  ./manage.py makemigrations
+ 1378  ./manage.py migrate
+ 1379  ./manage.py makemigrations
+ 1380  ./manage.py migrate
+ 1381  ./manage.py flush
+ 1382  ./manage.py makemigrations
+ 1383  ./manage.py migrate
+ 1384  ./manage.py runserver
+ 1385  ./manage.py syndb
+ 1386  ./manage.py syncdb
+ 1387  ./manage.py runserver
+ 1388  ./manage.py syncdb
+ 1389  ./manage.py flush
+ 1390  ./manage.py makemigrations
+ 1391  ./manage.py migrate
+ 1392  ./manage.py syncdb
+ 1393  ./manage.py makemigrations
+ 1394  ./manage.py migrate
+ 1395  history | grep "manage"
+ 1396  ./manage.py migrate ad
+ 1397  ./manage.py migrate ad 0001
+ 1398  history | grep "sql"
+ 1399  ./manage.py slqmigrate 0001
+ 1400  ./manage.py sqlmigrate 0001
+ 1401  ./manage.py sqlmigrate ad 0001 
+ 1402  ./manage.py runserver
+ 1403  pip install django_markdown
+ 1404  ./manage.py runserver
+ 1405  ./manage.py makemigrations
+ 1406  ./manage.py migrate
+ 1407  ./manage.py runserver
+ 1408  source .virtualenvs/django/bin/activate
+ 1409  cd proyectos/mysite/
+ 1410  ls
+ 1411  ./manage.py runserver
+ 1412  sudo apt-get update
+ 1413  sudo apt-get upgrade
+ 1414  source .virtualenvs/django/bin/activate
+ 1415  cd proyectos/
+ 1416  lls
+ 1417  ls
+ 1418  cd mysite/
+ 1419  ls
+ 1420  ./manage.py runserver
+ 1421  exit
+ 1422  cd proyectos/
+ 1423  mkdir connmarcos
+ 1424  cd connmarcos/
+ 1425  git clone https://marcosbarroso_82@bitbucket.org/conmarcos/muestranub.git
+ 1426  cd muestranub/
+ 1427  ./manage.py runserver
+ 1428  ls
+ 1429  git update
+ 1430  git pull
+ 1431  cd ..
+ 1432  git pull
+ 1433  cd muestranub/
+ 1434  git pull
+ 1435  ls
+ 1436  cd de
+ 1437  cd deploy_nubiquo/
+ 1438  ls
+ 1439  cd ..
+ 1440  source deploy_nubiquo/bin/activate
+ 1441  ./manage.py runserver
+ 1442  pip install django.core.management
+ 1443  python -c "import django; print(django.get_version())"
+ 1444  ./manage.py runserver
+ 1445  cd deploy_nubiquo/
+ 1446  ls
+ 1447  cd bin
+ 1448  ls
+ 1449  cd ..
+ 1450  cd lib/
+ 1451  ls
+ 1452  cd ..
+ 1453  ls
+ 1454  cd include/
+ 1455  ls
+ 1456  cd ..
+ 1457  ls
+ 1458  cd bin/
+ 1459  ls
+ 1460  cd sivlrst7
+ 1461  clear
+ 1462  cd ..
+ 1463  cd lib/python3.4/site-packages/
+ 1464  ls
+ 1465  cd django
+ 1466  ls
+ 1467  cd core/
+ 1468  ls
+ 1469  cd management/
+ 1470  python
+ 1471  cd ..
+ 1472  ./manage.py runserver
+ 1473  pip install execute_from_command_line
+ 1474  python
+ 1475  pip install django==1.6
+ 1476  ./manage.py runserver
+ 1477  source .virtualenvs/django/bin/activate
+ 1478  cd proyectos/mysite/
+ 1479  ./manage.py runserver
+ 1480  ./manage.py makemigrations
+ 1481  ./manage.py runserver
+ 1482  cd proyectos/
+ 1483  mkdir compraloahi
+ 1484  cd compraloahi/
+ 1485  pip freeze > requirements.txt
+ 1486  vim requirements.txt 
+ 1487  rm requirements.txt 
+ 1488  source ~/.virtualenvs/django/bin/activate
+ 1489  pip freeze requiremetns.txt
+ 1490  pip freeze > requiremetns.txt
+ 1491  git init
+ 1492  git add .
+ 1493  git st
+ 1494  git status
+ 1495  git commit -m "initial commit"
+ 1496  history | grep "project"
+ 1497  cd ..
+ 1498  django-admin startproject compraloahi
+ 1499  django-admin --help
+ 1500  django-admin startproject --help
+ 1501  cd compraloahi/
+ 1502  django-admin startproject compraloahi .
+ 1503  ls
+ 1504  ls -la
+ 1505  cd compraloahi/
+ 1506  ls
+ 1507  cd ..
+ 1508  ls
+ 1509  ./manage.py runserver
+ 1510  ./manage.py makemigrations
+ 1511  ./manage.py migrate
+ 1512  ./manage.py runserver
+ 1513  ./manage.py createsuperuser
+ 1514  ./manage.py runserver
+ 1515  mkdir apps
+ 1516  cd apps/
+ 1517  cd ..
+ 1518  ./manage.py startapp ./apps/Ad
+ 1519  ./manage.py  startapp --help
+ 1520  ./manage.py startapp ad ./apps/
+ 1521  tree apps/
+ 1522  rm -r apps
+ 1523  mkdir apps
+ 1524  tree apps/ad
+ 1525  mkdir ./apps/ad
+ 1526  mkdir apps
+ 1527  ./manage.py startapp ad ./apps/ad
+ 1528  tree apps
+ 1529  git remote add origin https://marcosbarroso_82@bitbucket.org/conmarcos/compraloahi.git
+ 1530  git push -u origin master
+ 1531  git add .
+ 1532  git status
+ 1533  git commit -m "Created Django Project and Ad app"
+ 1534  git push
+ 1535  git checkout -b "Ad app"
+ 1536  git checkout -b "ad_app"
+ 1537  git branch
+ 1538  git status
+ 1539  git add
+ 1540  git status
+ 1541  git ls
+ 1542  git ls-files
+ 1543  pip uninstall markdown
+ 1544  pip list
+ 1545  git status
+ 1546  mkdir borrarestoy
+ 1547  git status
+ 1548  pip uninstall django-markdown
+ 1549  pip list
+ 1550  history | grep "freez"
+ 1551  pip freeze > requiremetns.txt
+ 1552  git status
+ 1553  ./manage.py makemigrations
+ 1554  ./manage.py migrate
+ 1555  ./manage.py runserver
+ 1556  git status
+ 1557  git add ./apps
+ 1558  clear
+ 1559  git status
+ 1560  git pull
+ 1561  clear; git status
+ 1562  git add .gitignore 
+ 1563  clear; git status
+ 1564  git add compraloahi/settings.py db.sqlite3 requiremetns.txt
+ 1565  clear; git status
+ 1566  git branch
+ 1567  git commit -m "+ added first fields to Ad"
+ 1568  git push
+ 1569  git commit -a -m "+ added first fields to Ad"
+ 1570  git push
+ 1571  git branch
+ 1572  git push ad_app
+ 1573  clear
+ 1574  git status
+ 1575  git commit
+ 1576  git branch
+ 1577  git push
+ 1578  git push --help
+ 1579  git branch
+ 1580  git push origin ad_app
+ 1581  ./manage.py makemigrations
+ 1582  clear
+ 1583  ./manage.py makemigrations
+ 1584  pip install pillow
+ 1585  ./manage.py makemigrations
+ 1586  ./manage.py migrate
+ 1587  ./manage.py runserver
+ 1588  git status
+ 1589  ls -l
+ 1590  ./manage.py runserver
+ 1591  git status
+ 1592  git add Captura_de_pantalla_de_2014-09-12_125320.png apps/ad/migrations/0002_adimage.py
+ 1593  git commit -m "+ added model AdImage for Ads Images
+ 1594  - need to find out how to configure the image saving path"
+ 1595  git branch
+ 1596  git push
+ 1597  ./manage.py runserver
+ 1598  git status
+ 1599  git add compraloahi/media/
+ 1600  git status
+ 1601  git rm Captura_de_pantalla_de_2014-09-12_125320.png
+ 1602  git status
+ 1603  git commit -m "+ setted media path"
+ 1604  git status
+ 1605  git add apps/ad/admin.py
+ 1606  git status
+ 1607  git add
+ 1608  clear; git status
+ 1609  git add  apps/ad/models.py compraloahi/settings.py db.sqlite3
+ 1610  git status
+ 1611  git commit -m "* adding missing modified files in previous commit"
+ 1612  git push ad_app
+ 1613  git push origin ad_app
+ 1614  clear
+ 1615  ls
+ 1616  git pull
+ 1617  git pull remote ad_app
+ 1618  git branch --set-upstream-to=origin/<branch> ad_app
+ 1619  git pull ad_app
+ 1620  git branch --set-upstream-to=origin/ad_app ad_app
+ 1621  git pull
+ 1622  history | grep "git"
+ 1623  git branch
+ 1624  ./manage.py makemigrations
+ 1625  ./manage.py migrate
+ 1626  pip install south
+ 1627  ./manage.py makemigrations
+ 1628  ./manage.py runserver
+ 1629  ./manage.py makemigrations
+ 1630  ./manage.py runserver
+ 1631  ./manage.py migrate
+ 1632  ./manage.py runserver
+ 1633  ./manage.py makemigrations
+ 1634  ./manage.py migrate
+ 1635  clear
+ 1636  ./manage.py migrate
+ 1637  clear
+ 1638  ./manage.py makemigrations
+ 1639  ./manage.py migrate
+ 1640  ./manage.py makemigrations
+ 1641  ./manage.py migrate
+ 1642  ./manage.py makemigrations
+ 1643  ./manage.py migrate
+ 1644  ./manage.py makemigrations
+ 1645  ./manage.py migrate
+ 1646  ./manage.py runserver
+ 1647  ./manage.py makemigrations
+ 1648  ./manage.py migrate
+ 1649  ./manage.py runserver
+ 1650  history | grep "flush"
+ 1651  ./manage.py flush
+ 1652  ./manage.py createsuperuser
+ 1653  ./manage.py makemigrations
+ 1654  ./manage.py migrate
+ 1655  ./manage.py runserver
+ 1656  ./manage.py flush
+ 1657  ./manage.py reset south
+ 1658  ./manage.py sqlclear south | ./manage.py dbshell 
+ 1659  ./manage.py flush
+ 1660  ./manage.py createsuperuser
+ 1661  ./manage.py makemigrations
+ 1662  ./manage.py migrate
+ 1663  ./manage.py makemigrations
+ 1664  ./manage.py migrate
+ 1665  ./manage.py makemigrations
+ 1666  ./manage.py migrate
+ 1667  ./manage.py makemigrations
+ 1668  ./manage.py migrate
+ 1669  ./manage.py runserver
+ 1670  ./manage.py makemigrations
+ 1671  ./manage.py migrate
+ 1672  ./manage.py migrate --help
+ 1673  history 
+ 1674  cd proyectos/compraloahi/
+ 1675  history
+ 1676  git pull remote add_app
+ 1677  git pull remote ad_app
+ 1678  git branch
+ 1679  git pull remote ad_app
+ 1680  git checkout -b ad_app
+ 1681  git checkout ad_app
+ 1682  git push
+ 1683  git checkout ad_app
+ 1684  git fetch origin 270067a
+ 1685  git fetch --help
+ 1686  git reset --hard 270067a
+ 1687  git checkout -b ad_app_tag
+ 1688  source ~/.virtualenvs/django/bin/activate
+ 1689  ./manage.py runserver
+ 1690  pip install django-taggit
+ 1691  ./manage.py makemigrations
+ 1692  clear
+ 1693  ./manage.py makemigrations
+ 1694  ./manage.py migrate
+ 1695  ./manage.py runserver
+ 1696  clear; git status
+ 1697  git add apps/ad/models.py compraloahi/settings.py db.sqlite3 apps/ad/migrations/0003_auto_20141006_0030.py apps/ad/migrations/0004_ad_tags.py compraloahi/media/ad/Captura_de_pantalla_de_2014-09-12_125320.png
+ 1698  git commit -m "implemented taggit packaged"
+ 1699  git push
+ 1700  clear
+ 1701  ./manage.py makemigrations
+ 1702  ./manage.py migrate
+ 1703  ./manage.py runserver
+ 1704  ./manage.py makemigrations
+ 1705  ./manage.py migrate
+ 1706  ./manage.py runserver
+ 1707  clear; git staturs
+ 1708  clear; git status
+ 1709  git add apps/ad/admin.py apps/ad/models.py db.sqlite3 apps/ad/migrations/0005_ad_author.py apps/ad/migrations/0006_auto_20141006_0207.py
+ 1710  git commit -m "+ added authot field
+ 1711  + added filter on admin section to display only own Ads except for the superUser
+ 1712  + added edit permission check to allow only author users and superuser to edit Ad"
+ 1713  git push
+ 1714  git branch
+ 1715  source .virtualenvs/django/bin/activate
+ 1716  cd proyectos/compraloahi/
+ 1717  ./manage.py runserver
+ 1718  git branch
+ 1719  ./manage.py runserver
+ 1720  git branch
+ 1721  git status
+ 1722  git push
+ 1723  git push ad_app_tag
+ 1724  history | grep "ad_app!
+ 1725  history | grep "ad_app"
+ 1726  git push origin ad_app tag
+ 1727  git push origin ad_app_tag
+ 1728  history | grep "checkout"
+ 1729  git --help
+ 1730  git pull --help
+ 1731  history | grep "pip"
+ 1732  pip freeze
+ 1733  git checkout master
+ 1734  git checkout ad_app_tag
+ 1735  git checkout master
+ 1736  git reset db.sqlite3
+ 1737  git stash
+ 1738  git checkout master
+ 1739  git branch
+ 1740  git merge ad_app_tag
+ 1741  clear; git status
+ 1742  git add .gitignore
+ 1743  clear; git status
+ 1744  ./manage.py runserver
+ 1745  clear; git status
+ 1746  git commit -m "+ merged ad_app_tag"
+ 1747  git push
+ 1748  history | grep "branch"
+ 1749  history | grep "checkout"
+ 1750  git branch
+ 1751  source .virtualenvs/django/bin/activate
+ 1752  cd proyectos/compraloahi/
+ 1753  git branch
+ 1754  history | grep "checkout"
+ 1755  git checkout -b "custom agenda"
+ 1756  git checkout -b "custom-agenda"
+ 1757  history | grep "app"
+ 1758  clear; history | grep "app"
+ 1759  ./manage.py startapp agenda ./apps/agenda
+ 1760  mkdir ./apps/agenda
+ 1761  ./manage.py startapp agenda ./apps/agenda
+ 1762  clear
+ 1763  ./manage.py makemigrations
+ 1764  ./manage.py migrate
+ 1765  ./manage.py makemigrations
+ 1766  ./manage.py migrate
+ 1767  ./manage.py runserver
+ 1768  ./manage.py makemigrations
+ 1769  ./manage.py migrate
+ 1770  ./manage.py runserver
+ 1771  ./manage.py makemigrations
+ 1772  ./manage.py migrate
+ 1773  ./manage.py runserver
+ 1774  ./manage.py makemigrations
+ 1775  ./manage.py runserver
+ 1776  ./manage.py makemigrations
+ 1777  ./manage.py runserver
+ 1778  ./manage.py makemigrations
+ 1779  ./manage.py migrate
+ 1780  ./manage.py runserver
+ 1781  ./manage.py makemigrations
+ 1782  ./manage.py migrate
+ 1783  ./manage.py makemigrations
+ 1784  ./manage.py migrate
+ 1785  ./manage.py runserver
+ 1786  clear
+ 1787  ./manage.py runserver
+ 1788  clear
+ 1789  ./manage.py runserver
+ 1790  ./manage.py makemigrations
+ 1791  ./manage.py runserver
+ 1792  clear; git status
+ 1793  git add apps/ad/migrations/0007_ad_agenda.py apps/ad/migrations/0008_remove_ad_agenda.py apps/ad/migrations/0009_ad_agenda.py apps/agenda/
+ 1794  git commit -m "just testing"
+ 1795  history | grep "origin"
+ 1796  git branch
+ 1797  git push -u origin custom-agenda
+ 1798  ./manage.py runserver
+ 1799  ./manage.py makemigrations
+ 1800  ./manage.py migrate
+ 1801  ./manage.py runserver
+ 1802  ./manage.py makemigrations
+ 1803  ./manage.py migrate
+ 1804  ./manage.py runserver
+ 1805  ./manage.py makemigrations
+ 1806  ./manage.py migrate
+ 1807  ./manage.py runserver
+ 1808  ./manage.py makemigrations
+ 1809  ./manage.py migrate
+ 1810  ./manage.py runserver
+ 1811  ./manage.py makemigrations
+ 1812  ./manage.py migrate
+ 1813  ./manage.py runserver
+ 1814  pip install django-relatedadminwidget
+ 1815  ./manage.py collectstatic
+ 1816  ./manage.py runserver
+ 1817  ./manage.py collectstatic
+ 1818  ./manage.py runserver
+ 1819  clear; git status
+ 1820  git add apps/ad/migrations/0010_auto_20141007_1759.py apps/ad/migrations/0011_auto_20141007_1853.py apps/ad/migrations/0012_auto_20141007_1901.py apps/agenda/migrations/0005_auto_20141007_1759.py apps/agenda/migrations/0006_auto_20141007_1802.py apps/agenda/migrations/0007_auto_20141007_1853.py apps/agenda/migrations/0008_auto_20141007_1919.py compraloahi/static/
+ 1821  clear; git status
+ 1822  git commit -m "some changes and added useless admin widget"
+ 1823  git push
+ 1824  history | grep "sudo"
+ 1825  sudo baobab 
+ 1826  sudo nautilus
+ 1827  clear; git status
+ 1828  git commit -m "just data"
+ 1829  git add apps/ad/admin.py apps/ad/models.py apps/agenda/models.py compraloahi/settings.py db.sqlite3
+ 1830  git commit -m "just data"
+ 1831  clear
+ 1832  git checkout -b "geodjango"
+ 1833  ls
+ 1834  spatialite db.sqlite3 "SELECT InitSpatialMetaData();"
+ 1835  clear; history | grep "start"
+ 1836  python manage.py startapp world
+ 1837  ls
+ 1838  mkdir world/data
+ 1839  cd world/data
+ 1840  wget http://thematicmapping.org/downloads/TM_WORLD_BORDERS-0.3.zip
+ 1841  unzip TM_WORLD_BORDERS-0.3.zip
+ 1842  cd ../..
+ 1843  ogrinfo world/data/TM_WORLD_BORDERS-0.3.shp
+ 1844  sudo apt-get install gdal-bin
+ 1845  ogrinfo world/data/TM_WORLD_BORDERS-0.3.shp
+ 1846  ogrinfo -so world/data/TM_WORLD_BORDERS-0.3.shp TM_WORLD_BORDERS-0.3
+ 1847  ./manage.py makemigrations
+ 1848  pip install psycopg2
+ 1849  pip install pg_config
+ 1850  sudo apt-get install pg_config
+ 1851  clear
+ 1852  python manage.py makemigrations
+ 1853  pip install psycopg2
+ 1854  sudo apt-get install psycopg2
+ 1855  sudo apt-get install libpq-dev python-dev
+ 1856  sudo apt-get install psycopg2
+ 1857  pip install psycopg2
+ 1858  python manage.py makemigrations
+ 1859  ./manage.py migrate
+ 1860  python manage.py sqlmigrate world 0001
+ 1861  python manage.py shell
+ 1862  python manage.py makemigrations
+ 1863  python manage.py shell
+ 1864  python manage.py ogrinspect [options] <data_source> <model_name> [options]
+ 1865  python manage.py ogrinspect world/data/TM_WORLD_BORDERS-0.3.shp WorldBorder --srid=4326 --mapping --multi
+ 1866  python manage.py shell
+ 1867  ./manage.py runserver
+ 1868  pip install gis
+ 1869  ./manage.py runserver
+ 1870  clear; git status
+ 1871  git add compraloahi/settings.py compraloahi/urls.py db.sqlite3 world/load.py world/__init__.py world/admin.py world/data/ world/migrations/ world/models.py world/tests.py world/views.py
+ 1872  clear; git status
+ 1873  git commit -m "geodjango finally working"
+ 1874  history | grep "origin"
+ 1875  git branch
+ 1876  git push origin geodejango
+ 1877  git push origin geodjango
+ 1878  history | grep "freez"
+ 1879  ls
+ 1880  pip freeze > requiremetns.txt
+ 1881  history > history.txt
