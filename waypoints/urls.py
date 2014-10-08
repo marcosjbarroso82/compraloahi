@@ -1,0 +1,10 @@
+# Import django modules
+from django.conf.urls import patterns, url
+
+
+
+urlpatterns = patterns('waypoints.views',
+    url(r'^$', 'index',     name='waypoints-index'),
+    url(r'^save$', 'save',      name='waypoints-save'),
+    url(r'^search$', 'search',  name='waypoints-search'),
+)

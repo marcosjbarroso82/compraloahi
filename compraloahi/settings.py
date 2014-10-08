@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
+fillPath = lambda x: os.path.join(os.path.dirname(__file__), x)
+
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
@@ -26,6 +29,9 @@ TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
 
+TEMPLATE_DIRS = (
+    fillPath('templates'),
+)
 
 # Application definition
 
@@ -44,6 +50,7 @@ INSTALLED_APPS = (
     'apps.agenda',
     'django.contrib.gis',
     'world',
+    'waypoints',
 )
 
 MIDDLEWARE_CLASSES = (
