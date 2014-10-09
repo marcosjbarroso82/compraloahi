@@ -35,3 +35,4 @@ class AdAdmin(admin.ModelAdmin):
         obj.save()
 
 admin.site.register(models.Ad, AdAdmin)
+admin.site.register(models.AdImage, admin.ModelAdmin)

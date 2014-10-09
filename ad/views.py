@@ -2,9 +2,9 @@ from django import http
 #from django.core.urlresolvers import reverse
 
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
-
-from .models import Ad
-from .forms import CreateAdForm
+from django.forms.models import inlineformset_factory
+from .models import Ad, AdImage
+from .forms import CreateAdForm, AdImage_inline_formset
 
 
 class IndexAdView(ListView):
@@ -28,17 +28,51 @@ class DetailAdView(DetailView):
 class CreateAdView(CreateView):
     template_name = 'ad/create.html'
     form_class = CreateAdForm
-    success_url = '/ad/index/'
+    success_url = '/ad/'
+    model = Ad
+
+    def get(self, *args, **kwargs):
+        self.object = None
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        images_form = AdImage_inline_formset()
+        return self.render_to_response(
+            self.get_context_data(
+                form=form,
+                images_form=images_form))
 
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated():
             raise http.Http404
         return super(CreateAdView, self).dispatch(request, *args, **kwargs)
 
-    def form_valid(self, form):
+    def post(self, *args, **kwargs):
+        self.object = None
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        images_form = AdImage_inline_formset(self.request.POST)
+        if (form.is_valid() and images_form.is_valid()):
+            return self.form_valid(form, images_form)
+        else:
+            return self.form_invalid(form, images_form)
+
+    def form_valid(self, form, images_form):
+        form.save(commit=False)
         form.instance.author = self.request.user
+        form.instance.save()
+
+        for image_form in images_form:
+            image_form.instance.ad_id = form.instance
+            image_form.instance.image = image_form['image']
+            image_form.save()
 
         return super(CreateAdView, self).form_valid(form)
+
+    def form_invalid(self, form, images_form):
+        return self.render_to_response(
+            self.get_context_data(
+                form=form,
+                images_form=images_form))
 
 
 class UpdateAdView(UpdateView):

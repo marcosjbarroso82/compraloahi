@@ -8,6 +8,11 @@
     <form action="" method="post" class="form">
         {% csrf_token %}
         {% bootstrap_form form %}
+
+        {{ images_form.management_form }}
+        {% for image_form in images_form %}
+            {% bootstrap_form image_form %}
+        {% endfor %}
         {% buttons %}
             <button type="submit" class="btn btn-primary">
                 {% bootstrap_icon "save" %} Crear aviso
