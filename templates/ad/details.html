@@ -1,0 +1,13 @@
+{% extends 'layout/base.html' %}
+{% load bootstrap3 %}
+{% block title %}Aviso {{ ad.title }}{% endblock %}
+
+
+{% block body_block %}
+{% bootstrap_messages %}
+    <h1>Ad Details</h1>
+    <h2>{{ ad.title }}</h2>
+    <p>{{ ad.body }}</p>
+    <a href="/ad/modify/{{ ad.id }}" class="btn btn-primary">Modify</a><br />
+    <a href="{% url 'ad:index' %}" class="btn btn-primary">All ads</a>
+{% endblock %}

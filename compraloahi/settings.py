@@ -12,6 +12,11 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
+import sys
+
+#PROJECT_ROOT = os.path.dirname(__file__)
+#sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
@@ -37,6 +42,9 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'bootstrap3',
+    'taggit',
+    'ad',
+    'adLocation',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -83,6 +91,13 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, "templates"),
 )
+
+STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"), )
+
+SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
+
+MEDIA_ROOT = os.path.join(SITE_ROOT, 'media')

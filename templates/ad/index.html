@@ -1,0 +1,26 @@
+{% extends 'layout/base.html' %}
+{% load bootstrap3 %}
+{% block title %}Lista de avisos {% endblock %}
+
+
+{% block body_block %}
+    <h1>All Ads list</h1>
+    {% bootstrap_messages %}
+    {% if ad_list %}
+        <ul class="mail-list">
+            {% for ad in ad_list %}
+                <li>
+                    <a href="{% url 'ad:detail' ad.id %}">
+                        <span class="mail-title">{{ ad.title}}</span> <br>
+                        <span class="mail-subject">{{ ad.body }}</span> <br>
+                        <span class="mail-date">Creado el : {{ ad.created }}</span>
+                    </a>
+                </li>
+                <hr>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No ads are available.</p>
+    {% endif %}
+
+{% endblock %}

@@ -1,5 +1,4 @@
 # Python bytecode
 *.py[co]
 *.pyc
-
 .idea/
