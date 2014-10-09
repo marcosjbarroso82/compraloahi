@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+
+<form action="/ad/create/" method="post">
+    {% csrf_token %}
+    <ul>
+        {{ form.as_ul }}
+    </ul>
+    <!-- <input type="text" name="title" id="title"/>
+    <input type="body" name="title" id="body"/> -->
+
+    <input type="submit" name="submit" value="Create Ad"/>
+    <a href="/ad/">Cancel</a>
+</form>
+        {% endblock %}

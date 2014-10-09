@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>All Ads list</h1>
+{% if ad_list %}
+        <ul>
+        {% for ad in ad_list %}
+            <li><a href="{% url 'ad:detail' ad.id %}">{{ ad.title}}</a> </li>
+        {% endfor %}
+        </ul>
+{% else %}
+        <p>No ads are available.</p>
+{% endif %}
+
+<a href="/ad/create/">Create an Ad</a>
+
+{% endblock %}
