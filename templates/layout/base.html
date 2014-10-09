@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+
+{% load bootstrap3 %}
+<html>
+<head>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    
+    <title>{% block title %}Nubiquo{% endblock %}</title>
+</head>
+
+<body>
+{% if user.is_authenticated %}
+{% include "layout/menu.html" %}
+{% endif %}
+<div class="container">
+    {% block body_block %}
+        This is body_block's default content.
+    {% endblock %}
+</div>
+
+</body>
+</html>
