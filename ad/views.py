@@ -1,3 +1,4 @@
+import string
 from django import http
 # from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
@@ -81,7 +82,7 @@ class CreateAdView(CreateView):
 class UpdateAdView(UpdateView):
     model = Ad
     fields = ["title", "body"]
-    template_name = "ad/create.html"
+    template_name = "ad/update.html"
 
     def get_object(self):
         return Ad.objects.get(pk=self.kwargs['pk'])
@@ -109,19 +110,7 @@ class UpdateAdView(UpdateView):
         context['images_form'] = AdImage_inline_formset(instance=form.instance)
         return context
 
-    """
-    INTENTO PASARLE POR N PARAMETROS LAS DIFERENTES INSTANCIAS DE LAS IMAGENES
-    def get_form_kwargs(self):
-        kwargs = super(UpdateAdView, self).get_form_kwargs()
-        ad = self.get_object()
-        imagenes = AdImage.objects.get(ad_id=ad.id)
-        count = 0
-
-        for ad_img in imagenes:
-            kwargs['images-' + count] = ad_img
-            count += 1
-        return kwargs
-    """
+    
 
     def post(self, *args, **kwargs):
         self.object = None

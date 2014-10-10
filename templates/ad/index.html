@@ -4,7 +4,7 @@
 
 
 {% block body_block %}
-
+    <a href="/ad/create" id="btnAddAd" class="btn btn-primary">Agrega tu aviso</a>
     <h1>All Ads list</h1>
     {% bootstrap_messages %}
 
@@ -235,6 +235,10 @@
             display: block;
             width: 40px;
             padding: 10px 0px 9px;
+        }
+
+        #btnAddAd{
+            float: right;
         }
     }
 
