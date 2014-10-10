@@ -1,5 +1,5 @@
 from django import http
-#from django.core.urlresolvers import reverse
+# from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
@@ -88,7 +88,8 @@ class UpdateAdView(UpdateView):
 
     def get_success_url(self):
         return '/ad/' + str(self.object.id)
-
+    
+    """
     def get(self, *args, **kwargs):
         self.object = None
         form_class = self.get_form_class()
@@ -97,14 +98,30 @@ class UpdateAdView(UpdateView):
         return self.render_to_response(
             self.get_context_data(
                 form=form,
-                images_form=images_form, objects=self.get_object))
+                images_form=images_form),)
+    """
 
-    def get_context_data(self, **kwargs):
-        context = super(UpdateAdView, self).get_context_data(**kwargs)
+    def get_context_data(self, *args, **kwargs):
+        context = super(UpdateAdView, self).get_context_data(*args, **kwargs)
         form_class = self.get_form_class()
-        context['form'] = self.get_form(form_class)
-        context['images_form'] = AdImage_inline_formset()
+        form = self.get_form(form_class)
+        context['form'] = form
+        context['images_form'] = AdImage_inline_formset(instance=form.instance)
         return context
+
+    """
+    INTENTO PASARLE POR N PARAMETROS LAS DIFERENTES INSTANCIAS DE LAS IMAGENES
+    def get_form_kwargs(self):
+        kwargs = super(UpdateAdView, self).get_form_kwargs()
+        ad = self.get_object()
+        imagenes = AdImage.objects.get(ad_id=ad.id)
+        count = 0
+
+        for ad_img in imagenes:
+            kwargs['images-' + count] = ad_img
+            count += 1
+        return kwargs
+    """
 
     def post(self, *args, **kwargs):
         self.object = None
