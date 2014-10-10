@@ -7,12 +7,13 @@
 
 {% bootstrap_messages %}
     <h1>{{ object.title }}</h1>
+
     <form action="" method="post" class="form" enctype="multipart/form-data">
         {% csrf_token %}
         {% bootstrap_form form %}
 
-        {{ images_form.management_form }}
-        {% for image_form in images_form %}
+        {{ images_formset.management_form }}
+        {% for image_form in images_formset %}
             {{ image_form.id }}
             <div class="inline {{ images_form.prefix }} form-inline">
                  {{ image_form }}
@@ -30,8 +31,8 @@
 <script src="{{ STATIC_URL }}jquery-formset-12/jquery.formset.js"></script>
 <script type="text/javascript">
         $(function() {
-            $(".inline.{{ images_form.prefix }}").formset({
-                prefix: "{{ images_form.prefix }}",
+            $(".inline.{{ images_formset.prefix }}").formset({
+                prefix: "{{ images_formset.prefix }}",
             })
          
         })

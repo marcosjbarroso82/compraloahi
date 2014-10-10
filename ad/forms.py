@@ -26,4 +26,4 @@ class InlineAdImageForm(BaseInlineFormSet):
         model = AdImage
 """
 
-AdImage_inline_formset = inlineformset_factory(Ad, AdImage, extra=1)
+AdImage_inline_formset = inlineformset_factory(Ad, AdImage, extra=1, can_delete=True)

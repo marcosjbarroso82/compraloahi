@@ -1,11 +1,12 @@
 import string
 from django import http
 # from django.core.urlresolvers import reverse
+from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from .models import Ad, AdImage
-from .forms import CreateAdForm, AdImage_inline_formset
+from .forms import CreateAdForm, AdModifyForm, AdImage_inline_formset
 
 
 class IndexAdView(ListView):
@@ -68,7 +69,8 @@ class CreateAdView(CreateView):
             image_form.instance.ad_id = form.instance
             image_form.instance.image = image_form.cleaned_data.get(
                 'image')
-            image_form.save()
+            if image_form.is_valid():
+                image_form.save()
 
         return super(CreateAdView, self).form_valid(form)
 
@@ -80,6 +82,56 @@ class CreateAdView(CreateView):
 
 
 class UpdateAdView(UpdateView):
+    model = Ad
+    form_class = AdModifyForm
+    template_name = 'ad/update.html'
+    success_url = '/ad/'
+
+    def get_context_data(self, **kwargs):
+        context = super(UpdateAdView, self).get_context_data(**kwargs)
+        context['form'] = self.get_form(self.form_class)
+
+        if self.request.method == 'POST':
+            context['images_formset'] = AdImage_inline_formset(self.request.POST, self.request.FILES, instance=self.object)
+        else:
+            context['images_formset'] = AdImage_inline_formset(instance=self.object)
+        return context
+
+    def form_valid(self, form):
+        context = self.get_context_data()
+        form = context['form']
+        images_formset = context['images_formset']
+        form.save(commit=False)
+
+        for image_form in images_formset:
+            #image_form.instance.ad_id = form.instance
+            #image_form.instance.image = image_form.cleaned_data.get('image')
+            if image_form.is_valid():
+                image_form.instance.image = image_form.cleaned_data.get('image')
+                image_form.save()
+
+        try:
+            # For Django 1.7+
+            for obj in images_formset.deleted_forms:
+                obj.instance.delete()
+        except AssertionError:
+            # Django 1.6 and earlier already deletes the objects, trying to
+            # delete them a second time raises an AssertionError.
+            pass
+
+        #return HttpResponseRedirect(self.get_success_url())
+        return super(UpdateAdView, self).form_valid(form)
+        #images_formset = context['images_formset']
+        """
+        if images_formset.is_valid():
+            form.save()
+            #images_formset.save()
+            return HttpResponseRedirect(self.get_success_url())
+        else:
+            return super(UpdateAdView, self).form_valid(form)
+        """
+
+class UpdateAdView2(UpdateView):
     model = Ad
     fields = ["title", "body"]
     template_name = "ad/update.html"
