@@ -46,4 +46,4 @@ class Ad(models.Model):
 
 class AdImage(models.Model):
     ad_id = models.ForeignKey(Ad, related_name='images')
-    image = models.ImageField(upload_to='ad')
+    image = models.ImageField(upload_to='ad', null=False, blank=False)

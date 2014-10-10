@@ -15,7 +15,7 @@
         {{ images_formset.management_form }}
         {% for image_form in images_formset %}
             {{ image_form.id }}
-            <div class="inline {{ images_form.prefix }} form-inline">
+            <div class="inline {{ images_formset.prefix }} form-inline">
                  {{ image_form }}
             </div>
             

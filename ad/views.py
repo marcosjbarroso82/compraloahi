@@ -69,8 +69,9 @@ class CreateAdView(CreateView):
             image_form.instance.ad_id = form.instance
             image_form.instance.image = image_form.cleaned_data.get(
                 'image')
-            if image_form.is_valid():
+            if image_form.is_valid() and image_form.instance.image.name:
                 image_form.save()
+
 
         return super(CreateAdView, self).form_valid(form)
 
@@ -108,7 +109,8 @@ class UpdateAdView(UpdateView):
             #image_form.instance.image = image_form.cleaned_data.get('image')
             if image_form.is_valid():
                 image_form.instance.image = image_form.cleaned_data.get('image')
-                image_form.save()
+                if image_form.instance.image.name:
+                    image_form.save()
 
         try:
             # For Django 1.7+
