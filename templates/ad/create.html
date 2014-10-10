@@ -4,14 +4,20 @@
 
 
 {% block body_block %}
+
 {% bootstrap_messages %}
-    <form action="" method="post" class="form">
+    <form action="" method="post" class="form" enctype="multipart/form-data">
         {% csrf_token %}
         {% bootstrap_form form %}
 
         {{ images_form.management_form }}
         {% for image_form in images_form %}
-            {% bootstrap_form image_form %}
+            {{ image_form.id }}
+            <div class="inline {{ images_form.prefix }} form-inline">
+                 {{ image_form }}
+            </div>
+            
+            
         {% endfor %}
         {% buttons %}
             <button type="submit" class="btn btn-primary">
@@ -19,4 +25,15 @@
             </button>
         {% endbuttons %}
     </form>
+    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<script src="{{ STATIC_URL }}jquery-formset-12/jquery.formset.js"></script>
+<script type="text/javascript">
+        $(function() {
+            $(".inline.{{ images_form.prefix }}").formset({
+                prefix: "{{ images_form.prefix }}",
+            })
+         
+        })
+
+</script>
 {% endblock %}

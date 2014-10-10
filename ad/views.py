@@ -1,8 +1,8 @@
 from django import http
 #from django.core.urlresolvers import reverse
-
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
-from django.forms.models import inlineformset_factory
 from .models import Ad, AdImage
 from .forms import CreateAdForm, AdImage_inline_formset
 
@@ -41,16 +41,16 @@ class CreateAdView(CreateView):
                 form=form,
                 images_form=images_form))
 
-    def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_authenticated():
-            raise http.Http404
-        return super(CreateAdView, self).dispatch(request, *args, **kwargs)
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(CreateAdView, self).dispatch(*args, **kwargs)
 
     def post(self, *args, **kwargs):
         self.object = None
         form_class = self.get_form_class()
         form = self.get_form(form_class)
-        images_form = AdImage_inline_formset(self.request.POST)
+        images_form = AdImage_inline_formset(
+            self.request.POST, self.request.FILES, instance=form.instance)
         if (form.is_valid() and images_form.is_valid()):
             return self.form_valid(form, images_form)
         else:
@@ -61,9 +61,12 @@ class CreateAdView(CreateView):
         form.instance.author = self.request.user
         form.instance.save()
 
+        # images_form.save()
+
         for image_form in images_form:
             image_form.instance.ad_id = form.instance
-            image_form.instance.image = image_form['image']
+            image_form.instance.image = image_form.cleaned_data.get(
+                'image')
             image_form.save()
 
         return super(CreateAdView, self).form_valid(form)
@@ -78,10 +81,59 @@ class CreateAdView(CreateView):
 class UpdateAdView(UpdateView):
     model = Ad
     fields = ["title", "body"]
-    template_name = "ad/update.html"
+    template_name = "ad/create.html"
 
     def get_object(self):
         return Ad.objects.get(pk=self.kwargs['pk'])
 
     def get_success_url(self):
         return '/ad/' + str(self.object.id)
+
+    def get(self, *args, **kwargs):
+        self.object = None
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        images_form = AdImage_inline_formset()
+        return self.render_to_response(
+            self.get_context_data(
+                form=form,
+                images_form=images_form, objects=self.get_object))
+
+    def get_context_data(self, **kwargs):
+        context = super(UpdateAdView, self).get_context_data(**kwargs)
+        form_class = self.get_form_class()
+        context['form'] = self.get_form(form_class)
+        context['images_form'] = AdImage_inline_formset()
+        return context
+
+    def post(self, *args, **kwargs):
+        self.object = None
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        images_form = AdImage_inline_formset(
+            self.request.POST, self.request.FILES, instance=form.instance)
+        if (form.is_valid() and images_form.is_valid()):
+            return self.form_valid(form, images_form)
+        else:
+            return self.form_invalid(form, images_form)
+
+    def form_valid(self, form, images_form):
+        form.save(commit=False)
+        form.instance.author = self.request.user
+        form.instance.save()
+
+        # images_form.save()
+
+        for image_form in images_form:
+            image_form.instance.ad_id = form.instance
+            image_form.instance.image = image_form.cleaned_data.get(
+                'image')
+            image_form.save()
+
+        return super(CreateAdView, self).form_valid(form)
+
+    def form_invalid(self, form, images_form):
+        return self.render_to_response(
+            self.get_context_data(
+                form=form,
+                images_form=images_form))
