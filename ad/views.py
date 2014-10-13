@@ -64,15 +64,12 @@ class CreateAdView(CreateView):
         form.instance.save()
 
         # images_form.save()
-
         for image_form in images_form:
             image_form.instance.ad_id = form.instance
             image_form.instance.image = image_form.cleaned_data.get(
                 'image')
             if image_form.is_valid() and image_form.instance.image.name:
                 image_form.save()
-
-
         return super(CreateAdView, self).form_valid(form)
 
     def form_invalid(self, form, images_form):
@@ -105,95 +102,15 @@ class UpdateAdView(UpdateView):
         form.save(commit=False)
 
         for image_form in images_formset:
-            #image_form.instance.ad_id = form.instance
-            #image_form.instance.image = image_form.cleaned_data.get('image')
             if image_form.is_valid():
                 image_form.instance.image = image_form.cleaned_data.get('image')
                 if image_form.instance.image.name:
                     image_form.save()
 
-        try:
-            # For Django 1.7+
-            for obj in images_formset.deleted_forms:
-                obj.instance.delete()
-        except AssertionError:
-            # Django 1.6 and earlier already deletes the objects, trying to
-            # delete them a second time raises an AssertionError.
-            pass
+        for image_form in images_formset.deleted_forms:
+            image_form.instance.delete()
 
-        #return HttpResponseRedirect(self.get_success_url())
+
         return super(UpdateAdView, self).form_valid(form)
-        #images_formset = context['images_formset']
-        """
-        if images_formset.is_valid():
-            form.save()
-            #images_formset.save()
-            return HttpResponseRedirect(self.get_success_url())
-        else:
-            return super(UpdateAdView, self).form_valid(form)
-        """
 
-class UpdateAdView2(UpdateView):
-    model = Ad
-    fields = ["title", "body"]
-    template_name = "ad/update.html"
 
-    def get_object(self):
-        return Ad.objects.get(pk=self.kwargs['pk'])
-
-    def get_success_url(self):
-        return '/ad/' + str(self.object.id)
-    
-    """
-    def get(self, *args, **kwargs):
-        self.object = None
-        form_class = self.get_form_class()
-        form = self.get_form(form_class)
-        images_form = AdImage_inline_formset()
-        return self.render_to_response(
-            self.get_context_data(
-                form=form,
-                images_form=images_form),)
-    """
-
-    def get_context_data(self, *args, **kwargs):
-        context = super(UpdateAdView, self).get_context_data(*args, **kwargs)
-        form_class = self.get_form_class()
-        form = self.get_form(form_class)
-        context['form'] = form
-        context['images_form'] = AdImage_inline_formset(instance=form.instance)
-        return context
-
-    
-
-    def post(self, *args, **kwargs):
-        self.object = None
-        form_class = self.get_form_class()
-        form = self.get_form(form_class)
-        images_form = AdImage_inline_formset(
-            self.request.POST, self.request.FILES, instance=form.instance)
-        if (form.is_valid() and images_form.is_valid()):
-            return self.form_valid(form, images_form)
-        else:
-            return self.form_invalid(form, images_form)
-
-    def form_valid(self, form, images_form):
-        form.save(commit=False)
-        form.instance.author = self.request.user
-        form.instance.save()
-
-        # images_form.save()
-
-        for image_form in images_form:
-            image_form.instance.ad_id = form.instance
-            image_form.instance.image = image_form.cleaned_data.get(
-                'image')
-            image_form.save()
-
-        return super(CreateAdView, self).form_valid(form)
-
-    def form_invalid(self, form, images_form):
-        return self.render_to_response(
-            self.get_context_data(
-                form=form,
-                images_form=images_form))

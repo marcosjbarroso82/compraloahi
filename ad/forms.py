@@ -21,11 +21,4 @@ class AdModifyForm(forms.ModelForm):
         excluded = ('author', 'modified', 'pub_date', 'created', 'published')
 
 
-"""
-class InlineAdImageForm(BaseInlineFormSet):
-
-    class Meta:
-        model = AdImage
-"""
-
 AdImage_inline_formset = inlineformset_factory(Ad, AdImage, extra=1, can_delete=True)
