@@ -11,16 +11,27 @@
     <form action="" method="post" class="form" enctype="multipart/form-data">
         {% csrf_token %}
         {% bootstrap_form form %}
-
+        <!-- Images FormSet -->
         {{ images_formset.management_form }}
         {% for image_form in images_formset %}
             {{ image_form.id }}
             <div class="inline {{ images_formset.prefix }} form-inline">
                  {{ image_form }}
             </div>
-            
-            
         {% endfor %}
+        <!-- End Images FormSet -->
+
+        <!-- Locations FormSet -->
+        {{ locations_formset.management_form }}
+        {% for location_form in locations_formset %}
+            {{ location_form.id }}
+            <div class="inline {{ locations_formset.prefix }} form-inline">
+                 {{ location_form }}
+            </div>
+        {% endfor %}
+        <!-- End Locations FormSet -->
+
+
         {% buttons %}
             <button type="submit" class="btn btn-primary">
                 {% bootstrap_icon "save" %} Crear aviso
@@ -33,6 +44,9 @@
         $(function() {
             $(".inline.{{ images_formset.prefix }}").formset({
                 prefix: "{{ images_formset.prefix }}",
+            })
+            $(".inline.{{ locations_formset.prefix }}").formset({
+                prefix: "{{ locations_formset.prefix }}",
             })
          
         })

@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from .models import Ad, AdImage
-from .forms import CreateAdForm, AdModifyForm, AdImage_inline_formset
+from .forms import CreateAdForm, AdModifyForm, AdImage_inline_formset, AdLocation_inline_formset
 
 
 class IndexAdView(ListView):
@@ -38,10 +38,12 @@ class CreateAdView(CreateView):
         form_class = self.get_form_class()
         form = self.get_form(form_class)
         images_form = AdImage_inline_formset()
+        locations_form = AdLocation_inline_formset()
         return self.render_to_response(
             self.get_context_data(
                 form=form,
-                images_form=images_form))
+                images_form=images_form,
+                locations_form=locations_form))
 
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
@@ -51,14 +53,20 @@ class CreateAdView(CreateView):
         self.object = None
         form_class = self.get_form_class()
         form = self.get_form(form_class)
+
+        # Images
         images_form = AdImage_inline_formset(
             self.request.POST, self.request.FILES, instance=form.instance)
-        if (form.is_valid() and images_form.is_valid()):
-            return self.form_valid(form, images_form)
-        else:
-            return self.form_invalid(form, images_form)
+        # Locations
+        locations_form = AdLocation_inline_formset(
+            self.request.POST, self.request.FILES, instance=form.instance)
 
-    def form_valid(self, form, images_form):
+        if (form.is_valid() and images_form.is_valid()):
+            return self.form_valid(form, images_form, locations_form)
+        else:
+            return self.form_invalid(form, images_form, locations_form)
+
+    def form_valid(self, form, images_form, locations_form):
         form.save(commit=False)
         form.instance.author = self.request.user
         form.instance.save()
@@ -70,13 +78,24 @@ class CreateAdView(CreateView):
                 'image')
             if image_form.is_valid() and image_form.instance.image.name:
                 image_form.save()
+
+        # locations_form.save()
+        for location_form in locations_form:
+            location_form.instance.ad = form.instance
+            location_form.instance.title = image_form.cleaned_data.get('title')
+            location_form.instance.lat = image_form.cleaned_data.get('lat')
+            location_form.instance.lng = image_form.cleaned_data.get('lng')
+            if location_form.is_valid():
+                location_form.save()
+
         return super(CreateAdView, self).form_valid(form)
 
-    def form_invalid(self, form, images_form):
+    def form_invalid(self, form, images_form, locations_form):
         return self.render_to_response(
             self.get_context_data(
                 form=form,
-                images_form=images_form))
+                images_form=images_form,
+                locations_form=locations_form))
 
 
 class UpdateAdView(UpdateView):
@@ -91,25 +110,37 @@ class UpdateAdView(UpdateView):
 
         if self.request.method == 'POST':
             context['images_formset'] = AdImage_inline_formset(self.request.POST, self.request.FILES, instance=self.object)
+            context['locations_formset'] = AdLocation_inline_formset(self.request.POST, self.request.FILES, instance=self.object)
         else:
             context['images_formset'] = AdImage_inline_formset(instance=self.object)
+            context['locations_formset'] = AdLocation_inline_formset(instance=self.object)
         return context
 
     def form_valid(self, form):
         context = self.get_context_data()
         form = context['form']
         images_formset = context['images_formset']
+        locations_formset = context['locations_formset']
         form.save(commit=False)
 
+        # Images
         for image_form in images_formset:
             if image_form.is_valid():
                 image_form.instance.image = image_form.cleaned_data.get('image')
                 if image_form.instance.image.name:
                     image_form.save()
-
         for image_form in images_formset.deleted_forms:
             image_form.instance.delete()
 
+        # Locations
+        for location_form in locations_formset:
+            if location_form.is_valid():
+                location_form.instance.title = location_form.cleaned_data.get('title')
+                location_form.instance.lat = location_form.cleaned_data.get('lat')
+                location_form.instance.lng = location_form.cleaned_data.get('lng')
+                location_form.save()
+        for location_form in locations_formset.deleted_forms:
+            location_form.instance.delete()
 
         return super(UpdateAdView, self).form_valid(form)
 

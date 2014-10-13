@@ -8,7 +8,5 @@ class AdLocation(models.Model):
     lat = models.FloatField(null=True)
     lng = models.FloatField(null=True)
 
-
-
     def __str__(self):
         return self.title

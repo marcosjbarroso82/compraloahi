@@ -15,6 +15,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='ad',
             name='tags',
-            field=taggit.managers.TaggableManager(blank=True, verbose_name='Tags', help_text='A comma-separated list of tags.', to='taggit.Tag', through='taggit.TaggedItem'),
+            field=taggit.managers.TaggableManager(to='taggit.Tag', blank=True, help_text='A comma-separated list of tags.', through='taggit.TaggedItem', verbose_name='Tags'),
         ),
     ]

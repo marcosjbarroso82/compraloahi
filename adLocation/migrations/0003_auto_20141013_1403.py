@@ -14,6 +14,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='adlocation',
             name='ad',
-            field=models.ForeignKey(to='ad.Ad', unique=True, related_name='locations'),
+            field=models.ForeignKey(related_name='locations', unique=True, to='ad.Ad'),
         ),
     ]

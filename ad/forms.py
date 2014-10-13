@@ -3,6 +3,7 @@ from django import forms
 from django.forms.models import inlineformset_factory
 
 from .models import Ad, AdImage
+from adLocation.models import AdLocation
 
 
 class CreateAdForm(forms.ModelForm):
@@ -22,3 +23,4 @@ class AdModifyForm(forms.ModelForm):
 
 
 AdImage_inline_formset = inlineformset_factory(Ad, AdImage, extra=1, can_delete=True)
+AdLocation_inline_formset = inlineformset_factory(Ad, AdLocation, extra=1, can_delete=True)

@@ -16,9 +16,19 @@
             <div class="inline {{ images_form.prefix }} form-inline">
                  {{ image_form }}
             </div>
-            
-            
         {% endfor %}
+        <div id="locations">
+            <h3>Locations</h3>
+        {{ locations_form.management_form }}
+        {% for location_form in locations_form %}
+            {{ location_form.id }}
+            <div class="inline {{ locations_form.prefix }} form-inline">
+                 {{ location_form }}
+            </div>
+        {% endfor %}
+        </div>
+
+
         {% buttons %}
             <button type="submit" class="btn btn-primary">
                 {% bootstrap_icon "save" %} Crear aviso
@@ -32,7 +42,9 @@
             $(".inline.{{ images_form.prefix }}").formset({
                 prefix: "{{ images_form.prefix }}",
             })
-         
+            $(".inline.{{ locations_form.prefix }}").formset({
+                prefix: "{{ locations_form.prefix }}",
+            })
         })
 
 </script>
