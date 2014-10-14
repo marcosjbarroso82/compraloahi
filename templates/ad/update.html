@@ -31,6 +31,8 @@
         {% endfor %}
         <!-- End Locations FormSet -->
 
+        <!-- End Locations Map -->
+
 
         {% buttons %}
             <button type="submit" class="btn btn-primary">
@@ -38,9 +40,12 @@
             </button>
         {% endbuttons %}
     </form>
+        <!-- Locations Map -->
+        <div id="mapa" class="capas"></div>
+        <div id="datos" class="capas"></div>
     <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-<script src="{{ STATIC_URL }}jquery-formset-12/jquery.formset.js"></script>
-<script type="text/javascript">
+    <script src="{{ STATIC_URL }}jquery-formset-12/jquery.formset.js"></script>
+    <script type="text/javascript">
         $(function() {
             $(".inline.{{ images_formset.prefix }}").formset({
                 prefix: "{{ images_formset.prefix }}",
@@ -48,8 +53,13 @@
             $(".inline.{{ locations_formset.prefix }}").formset({
                 prefix: "{{ locations_formset.prefix }}",
             })
-         
+            $(".inline.{{ locations_formset.prefix }}").click(function () {
+                console.log("click");
+            });
+
         })
 
-</script>
+    </script>
+    <script src="http://maps.googleapis.com/maps/api/js?sensor=TRUE"></script>
+    <script src="{{ STATIC_URL }}scripts.js"></script>
 {% endblock %}
