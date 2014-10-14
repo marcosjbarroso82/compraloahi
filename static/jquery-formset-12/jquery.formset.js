@@ -52,26 +52,17 @@
                 row.find('a.' + options.deleteCssClass).click(function() {
                     var row = $(this).parents('.' + options.formCssClass),
                         del = row.find('input:hidden[id $= "-DELETE"]');
-                    
-                    var forms = $('.' + options.formCssClass).not('.formset-custom-template');
-                    console.log(row);
-                    //console.log('input[name=' + options.prefix + "-" + forms.length + "-" + "title]" );
-                    //length = forms.length + 1;
-                    //console.log('length::' + length);
-                   // console.log($('input[name=' + options.prefix + "-" + length  + "-" + "title]").val() );
-                    //console.log( row.find() );
                     if (del.length) {
                         // We're dealing with an inline formset; rather than remove
                         // this form from the DOM, we'll mark it as deleted and hide
                         // it, then let Django handle the deleting:
-                        
                         del.val('on');
                         row.hide();
                     } else {
                         row.remove();
                         // Update the TOTAL_FORMS form count.
                         // Also update names and IDs for all remaining form controls so they remain in sequence:
-                        
+                        var forms = $('.' + options.formCssClass).not('.formset-custom-template');
                         $('#id_' + options.prefix + '-TOTAL_FORMS').val(forms.length);
                         for (var i=0, formCount=forms.length; i<formCount; i++) {
                             applyExtraClasses(forms.eq(i), i);
@@ -148,57 +139,14 @@
                 var formCount = parseInt($('#id_' + options.prefix + '-TOTAL_FORMS').val()),
                     row = options.formTemplate.clone(true).removeClass('formset-custom-template'),
                     buttonRow = $(this).parents('tr.' + options.formCssClass + '-add').get(0) || this;
-
                 applyExtraClasses(row, formCount);
                 row.insertBefore($(buttonRow)).show();
-                //console.log(row);
                 row.find('input,select,textarea,label').each(function() {
                     updateElementIndex($(this), options.prefix, formCount);
                 });
                 $('#id_' + options.prefix + '-TOTAL_FORMS').val(formCount + 1);
                 // If a post-add callback was supplied, call it with the added form:
                 if (options.added) options.added(row);
-
-                
-
-                if (options['prefix'] == "locations") {
-                    var latlng = new google.maps.LatLng(-31.428498, -64.185829);
-                    console.log(latlng);
-                    var marker2 = new google.maps.Marker({
-                        position: latlng,
-                        map: map,
-                        draggable: true,
-                        title: "yo2"
-                    });
-                    google.maps.event.addListener(marker2, 'position_changed', function() {
-                        coords = marker2.getPosition();
-                        console.log(marker2.title + ": " + coords.lat() + ";" + coords.lng() );
-                        $('input[name=' + options.prefix + "-" + formCount + "-" + "lat]").val( coords.lat() );
-                        $('input[name=' + options.prefix + "-" + formCount + "-" + "lng]").val( coords.lng() );
-                    });
-
-                    $('input[name=' + options.prefix + "-" + formCount + "-" + "title]").change(function(){
-                        //console.log($("#" + 'id_' + options.prefix + "-" + formCount + "-" + 'title').val);
-                        //console.log( $(this).val() );   
-                        marker2['title'] = $(this).val();
-                    });
-
-                /*
-                    console.log($('#id_' + options.prefix + '-TOTAL_FORMS').val(formCount + 1));
-                    console.log("create Marker");
-                    console.log(map);
-                    var latlng = new google.maps.LatLng(-31.428498, -64.185829);
-                    console.log(latlng);
-                    var marker2 = new google.maps.Marker({
-                        position: latlng,
-                        map: map,
-                        draggable: true,
-                        title: "yo2"
-                    });
-                    */
-
-                }
-
                 return false;
             });
         }
