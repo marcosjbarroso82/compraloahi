@@ -45,6 +45,8 @@ INSTALLED_APPS = (
     'taggit',
     'ad',
     'adLocation',
+    'sorl.thumbnail',
+
 )
 
 MIDDLEWARE_CLASSES = (
@@ -103,3 +105,6 @@ SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
 MEDIA_ROOT = os.path.join(SITE_ROOT, 'media')
 
 MEDIA_URL = "/media/"
+
+THUMBNAIL_DEBUG = True
+THUMBNAIL_FORMAT = 'PNG'
