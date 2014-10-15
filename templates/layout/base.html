@@ -8,8 +8,9 @@
 
     {% bootstrap_css %}
     {% bootstrap_javascript %}
+    {% block js_header_block %}{% endblock %}
     
-    <title>{% block title %}Nubiquo{% endblock %}</title>
+    <title>{% block title %}Compralo ahi{% endblock %}</title>
 </head>
 
 <body>
@@ -23,4 +24,7 @@
 </div>
 
 </body>
+<footer>
+    {% block js_footer_block %}{% endblock %}
+</footer>
 </html>

@@ -5,6 +5,18 @@
 
 {% block body_block %}
     <a href="/ad/create" id="btnAddAd" class="btn btn-primary">Agrega tu aviso</a>
+    <div id="search_form_wrapper">
+        <label for="tags">Search</label>
+        <input id="tags" type="text"/>
+        <label for="lat">Lat:</label>
+        <input id="lat" type="text"/>
+        <label for="lng">Lng:</label>
+        <input id="lng" type="text"/>
+        <label for="radius">Radius:</label>
+        <input id="radius" type="text"/>
+        <input id="search_btn"type="submit" value="search"/>
+    </div>
+    <div id="result"></div>
     <h1>All Ads list</h1>
     {% bootstrap_messages %}
 
@@ -21,7 +33,14 @@
                         <img alt="Independence Day" src="https://farm4.staticflickr.com/3100/2693171833_3545fb852c_q.jpg" />
                         <div class="info">
                             <h2 class="title">{{ ad.title }}</h2>
-                            <p class="desc">{{ ad.body }}</p>
+                            <!-- <p class="desc">{{ ad.body }}</p>-->
+                            {% with ad.images.all|first as image %}
+                              <!-- <p>Image:{{ image.url }}</p> -->
+                            {% endwith %}
+                            {% for image in ad.images.all %}
+                                <!--<p>Imaage2:</p><img src="{{ MEDIA_URL }}{{ image.image.url }}">-->
+                                <p>Imaage2:</p><img src="{{ image.image.url }}">
+                            {% endfor %}
                             <ul>
                                 <li style="width:50%;"><a href="{% url 'ad:detail' ad.id %}"><span class="fa fa-fw fa-eye"></span> Show</a></li>
                                 <li style="width:50%;"><span class="fa fa-money"></span> $39.99</li>
@@ -42,10 +61,6 @@
     {% else %}
         <p>No ads are available.</p>
     {% endif %}
-
-
-
-
 
 <style type="text/css">
     @import url("http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,400italic");
@@ -244,6 +259,30 @@
 
 </style>
 
+{% endblock %}
 
+{% block js_footer_block %}
+        <script>
 
+            $("#search_btn").click(search);
+            function search() {
+                var tags =  $("#tags").val();
+                //console.log(tags);
+
+                $.ajax({
+                    data: {'tags':tags},
+                    url: "/ad/search/",
+                    type: "get",
+                    success: renderAd,
+                });
+            }
+            function renderAd(ads){
+                console.log("renderAd");
+                console.log(ads);
+                for (var i = 0; i<ads.length; i++) {
+                    $("#result").append("<ul><li>Title: " + ads[i].fields.title + "</li><li>Body: " + ads[i].fields.body + "</li><ul>");
+                }
+            }
+
+        </script>
 {% endblock %}

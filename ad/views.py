@@ -1,12 +1,23 @@
 import string
 from django import http
 # from django.core.urlresolvers import reverse
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
+from django.core import serializers
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, TemplateView
 from .models import Ad, AdImage
 from .forms import CreateAdForm, AdModifyForm, AdImage_inline_formset, AdLocation_inline_formset
+
+class SearchAdView(TemplateView):
+    def get(self, request, *args, **kwargs):
+        tags =  request.GET['tags']
+        queryset = Ad.objects.all()
+        queryset = Ad.objects.all()
+        data = serializers.serialize("json", queryset, fields=("title", "body") )
+        print(data)
+        return HttpResponse(data, content_type="application/json")
+
 
 
 class IndexAdView(ListView):

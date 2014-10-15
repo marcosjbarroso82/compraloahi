@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, url
 from .views import LatestAdView, DetailAdView, CreateAdView, IndexAdView, \
-    UpdateAdView
+    UpdateAdView, SearchAdView
 
 
 urlpatterns = patterns('',
@@ -13,4 +13,6 @@ urlpatterns = patterns('',
                            name="ad-create"),
                        url(r'^modify/(?P<pk>\d+)/$',
                            UpdateAdView.as_view(), name="update"),
+                       url(r'^search/$', SearchAdView.as_view(),
+                           name="latest"),
                        )
