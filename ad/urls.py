@@ -1,4 +1,5 @@
 from django.conf.urls import patterns, url
+
 from .views import LatestAdView, DetailAdView, CreateAdView, IndexAdView, \
     UpdateAdView, SearchAdView
 
