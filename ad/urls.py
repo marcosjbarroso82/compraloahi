@@ -1,10 +1,13 @@
 from django.conf.urls import patterns, url
+
 from .views import LatestAdView, DetailAdView, CreateAdView, IndexAdView, \
-    UpdateAdView, SearchAdView
+    UpdateAdView, SearchAdView, AdList
 
 
 urlpatterns = patterns('',
                        url(r'^$', IndexAdView.as_view(), name="index"),
+                       url(r'^ad-list/$', AdList.as_view(),
+                           name="ad-list"),
                        url(r'^latest/$', LatestAdView.as_view(),
                            name="latest"),
                        url(r'^(?P<pk>\d+)/$',

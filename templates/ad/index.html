@@ -31,19 +31,13 @@
                             <span class="year">2014</span>
                             <span class="time">ALL DAY</span>
                         </time>
-                        <!-- <img alt="Independence Day" src="https://farm4.staticflickr.com/3100/2693171833_3545fb852c_q.jpg" /> -->
-
                         {% with ad.images.all|first as image %}
                             {% thumbnail image.image "100x100" crop="center" as im %}
                                 <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
                             {% endthumbnail %}
-                              <!-- <img src="{{ image.image.url }}"> -->
                             {% endwith %}
                         <div class="info">
                             <h2 class="title">{{ ad.title }}</h2>
-                            <!-- <p class="desc">{{ ad.body }}</p>-->
-
-
                             <ul>
                                 <li style="width:50%;"><a href="{% url 'ad:detail' ad.id %}"><span class="fa fa-fw fa-eye"></span> Show</a></li>
                                 <li style="width:50%;"><span class="fa fa-money"></span> $39.99</li>
@@ -282,8 +276,14 @@
             function renderAd(ads){
                 console.log("renderAd");
                 console.log(ads);
+                $("#result").html("");
                 for (var i = 0; i<ads.length; i++) {
-                    $("#result").append("<ul><li>Title: " + ads[i].fields.title + "</li><li>Body: " + ads[i].fields.body + "</li><ul>");
+                    //$("#result").append("<ul><li>Title: " + ads[i].fields.title + "</li><li>Body: " + ads[i].fields.body + "</li><ul>");
+                    $("#result").append("<ul><li>Title: " + ads[i].title + "</li>" +
+                        "<li>Body: " + ads[i].body + "</li>" +
+                        "<li>Thumbnail: " + ads[i].thumbnail + "</li>" +
+
+                        " <ul>");
                 }
             }
 

@@ -1,0 +1,40 @@
+{% extends 'layout/base.html' %}
+{% load bootstrap3 %}
+{% block title %}Lista de avisos {% endblock %}
+{% load thumbnail %}
+
+{% block css_header_block %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/list.css" >
+{% endblock %}
+
+
+{% block body_block %}
+    <a href="/ad/create" id="btnAddAd" class="btn btn-primary">Agrega tu aviso</a>
+    <div id="search_form_wrapper">
+        <label for="tags">Search</label>
+        <input id="tags" type="text"/>
+        <label for="lat">Lat:</label>
+        <input id="lat" type="text"/>
+        <label for="lng">Lng:</label>
+        <input id="lng" type="text"/>
+        <label for="radius">Radius:</label>
+        <input id="radius" type="text"/>
+        <input id="search_btn"type="submit" value="search"/>
+    </div>
+    <div id="result"></div>
+    <h1>All Ads list</h1>
+    {% bootstrap_messages %}
+    <ul id="list" class="event-list">
+    </ul>
+{% endblock %}
+
+{% block js_footer_block %}
+    <script src="{{ STATIC_URL }}js/ad-list.js"></script>
+    <script>
+        {% autoescape off %}
+        var json_data = {{ json_data }};
+        {% endautoescape %}
+
+        render_ad_list(json_data);
+    </script>
+{% endblock %}

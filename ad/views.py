@@ -1,24 +1,47 @@
-import string
-from django import http
-# from django.core.urlresolvers import reverse
-from django.http import HttpResponseRedirect, HttpResponse
-from django.core import serializers
+from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, TemplateView
-from .models import Ad, AdImage
+from .models import Ad
 from .forms import CreateAdForm, AdModifyForm, AdImage_inline_formset, AdLocation_inline_formset
+import json
+from sorl.thumbnail import get_thumbnail
+from datetime import datetime
+
+def _getAdListJson(tags=None, lat=None, lng=None, radius=None):
+    object_response = []
+    queryset = Ad.objects.all()
+
+
+    if tags:
+        tags = tags.split()
+        queryset = queryset.filter(tags__name__in=tags).distinct()
+    if lat and lng and radius:
+        queryset = queryset.filter(locations__lat__range=(lat - radius, lat + radius))
+        queryset = queryset.filter(locations__lng__range=(lng - radius, lng + radius))
+
+    for ad in queryset:
+        thumbnail = get_thumbnail(ad.images.first().image, '100x100', crop='center', quality=99).url
+        object_response.append( {"title": ad.title + " " + str(datetime.now().strftime('%M:%S')), "body":ad.body, "thumbnail": thumbnail} )
+    return json.dumps(object_response)
+
 
 class SearchAdView(TemplateView):
     def get(self, request, *args, **kwargs):
         tags =  request.GET['tags']
-        queryset = Ad.objects.all()
-        queryset = Ad.objects.all()
-        data = serializers.serialize("json", queryset, fields=("title", "body") )
-        print(data)
+        lat =  float(request.GET['lat'])
+        lng =  float(request.GET['lng'])
+        radius =  float(request.GET['radius'])
+
+        data = _getAdListJson(tags=tags, lat=lat,  radius=radius, lng=lng)
         return HttpResponse(data, content_type="application/json")
 
+class AdList(TemplateView):
+    template_name = "ad/ad-list.html"
 
+    def get_context_data(self, **kwargs):
+        data = _getAdListJson()
+        return {'json_data': data}
 
 class IndexAdView(ListView):
     template_name = "ad/index.html"
@@ -82,7 +105,7 @@ class CreateAdView(CreateView):
         form.instance.author = self.request.user
         form.instance.save()
 
-        # images_form.save()
+        # look, validate and save all images
         for image_form in images_form:
             image_form.instance.ad_id = form.instance
             image_form.instance.image = image_form.cleaned_data.get(
@@ -90,7 +113,7 @@ class CreateAdView(CreateView):
             if image_form.is_valid() and image_form.instance.image.name:
                 image_form.save()
 
-        # locations_form.save()
+        # look, validate and save all locations
         for location_form in locations_form:
             location_form.instance.ad = form.instance
             location_form.instance.title = image_form.cleaned_data.get('title')
@@ -137,7 +160,8 @@ class UpdateAdView(UpdateView):
         # Images
         for image_form in images_formset:
             if image_form.is_valid():
-                image_form.instance.image = image_form.cleaned_data.get('image')
+                image_form.instance.image = image_form.cleaned_data.get(
+                    'image')
                 if image_form.instance.image.name:
                     image_form.save()
         for image_form in images_formset.deleted_forms:
@@ -154,5 +178,3 @@ class UpdateAdView(UpdateView):
             location_form.instance.delete()
 
         return super(UpdateAdView, self).form_valid(form)
-
-
