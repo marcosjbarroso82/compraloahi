@@ -9,25 +9,53 @@
 
 
 {% block body_block %}
-    <a href="/ad/create" id="btnAddAd" class="btn btn-primary">Agrega tu aviso</a>
-    <div id="search_form_wrapper">
-        <label for="tags">Search</label>
-        <input id="tags" type="text"/>
-        <label for="lat">Lat:</label>
-        <input id="lat" type="text"/>
-        <label for="lng">Lng:</label>
-        <input id="lng" type="text"/>
-        <label for="radius">Radius:</label>
-        <input id="radius" type="text"/>
-        <input id="search_btn" type="submit" value="search"/>
-
-        <div id="mapa" class="capas"></div>
+<a href="/ad/create" id="btnAddAd" class="btn btn-primary">Agrega tu aviso</a>
+    <div id="search_form_wrapper" class="col-lg-12 col-home">
+        <div class="col-lg-6">
+            <div id="mapa" class="capas"></div>
+        </div>
+        <div class="col-lg-6">
+            <div class="form">
+                <label for="tags" class="form-label">Search</label>
+                <input id="tags" class="form-control" type="text"/>    
+            </div>
+            <div class="form">
+                <label for="lat" class="form-label">Lat:</label>
+                <input id="lat" type="text" class="form-control"/>    
+            </div>
+            <div class="form">
+                <label class="form-label" for="lng">Lng:</label>
+                <input id="lng" type="text" class="form-control"/>    
+            </div>
+            <div class="form">
+                <label class="form-label" for="radius">Radius:</label>
+                <input id="radius" type="text" class="form-control"/>    
+            </div>
+            <div class="range range-success">
+                <input type="range" name="range" min="1" max="100" value="50" onchange="rangeSuccess.value=value">
+                <output id="rangeSuccess">50</output>
+            </div>
+            <input id="search_btn" type="submit" value="search" class="btn btn-primary rigth" />
+        </div>
     </div>
+<div class="col-lg-3 sidebar col-home">
+    <h1>SIDEBAR</h1>
+    <ul>
+       <li>Categoria 1</li> 
+       <li>Categoria 1</li> 
+       <li>Categoria 1</li> 
+       <li>Categoria 1</li> 
+    </ul>
+</div>
+<div class="col-lg-9 content col-home">
+    
     <div id="result"></div>
     <h1>All Ads list</h1>
     {% bootstrap_messages %}
     <ul id="list" class="event-list">
     </ul>
+</div>
+    
 {% endblock %}
 
 {% block js_footer_block %}
