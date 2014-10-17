@@ -19,7 +19,9 @@
         <input id="lng" type="text"/>
         <label for="radius">Radius:</label>
         <input id="radius" type="text"/>
-        <input id="search_btn"type="submit" value="search"/>
+        <input id="search_btn" type="submit" value="search"/>
+
+        <div id="mapa" class="capas"></div>
     </div>
     <div id="result"></div>
     <h1>All Ads list</h1>
@@ -37,4 +39,6 @@
 
         render_ad_list(json_data);
     </script>
+    <script src="http://maps.googleapis.com/maps/api/js?sensor=TRUE"></script>
+    <script src="{{ STATIC_URL }}js/search-map.js"></script>
 {% endblock %}

@@ -32,7 +32,7 @@ function render_ad_list(ad_list) {
         $("#list").append(row);
     }
 }
-
+var temp;
 // Search Form
 $("#search_btn").click(search);
 function search() {
@@ -40,9 +40,12 @@ function search() {
     var lat     = $("#lat").val();
     var lng     = $("#lng").val();
     var radius  = $("#radius").val();
-
+    console.log("click" );
+    console.log('tags:' + tags + 'lat:' + lat + 'lng: ' + lng + 'radius: ' + String(radius) );
+    temp = {'tags':tags, 'lat':lat, 'radius':radius, 'lng':lng};
     $.ajax({
-        data: {'tags':tags, 'lat':lat, 'lng':lng, 'radius':radius},
+        //data: {'tags':tags, 'lat':lat, 'lng':lng, 'radius':radius},
+        data: temp,
         url: "/ad/search/",
         type: "get",
         success: render_ad_list,

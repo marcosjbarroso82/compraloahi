@@ -6,6 +6,7 @@ from django.views.generic import ListView, DetailView, \
     CreateView, UpdateView, TemplateView
 from sorl.thumbnail import get_thumbnail
 import json
+
 from datetime import datetime
 from .models import Ad
 from .forms import CreateAdForm, AdModifyForm, \
@@ -19,6 +20,8 @@ def _getAdListJson(tags=None, lat=None, lng=None, radius=None):
         tags = tags.split()
         queryset = queryset.filter(tags__name__in=tags).distinct()
     if lat and lng and radius:
+        print("lat" + str(lat))
+        print("lng" + str(lng))
         queryset = queryset.filter(locations__lat__range=(lat - radius, lat + radius))
         queryset = queryset.filter(locations__lng__range=(lng - radius, lng + radius))
 
@@ -28,7 +31,6 @@ def _getAdListJson(tags=None, lat=None, lng=None, radius=None):
     return json.dumps(object_response)
 
 class SearchAdView(TemplateView):
-
     def get(self, request, *args, **kwargs):
         tags =  request.GET['tags']
         lat =  float(request.GET['lat'])
@@ -36,9 +38,6 @@ class SearchAdView(TemplateView):
         radius =  float(request.GET['radius'])
 
         data = _getAdListJson(tags=tags, lat=lat,  radius=radius, lng=lng)
-        queryset = Ad.objects.all()
-        data = serializers.serialize(
-            "json", queryset, fields=("title", "body"))
         return HttpResponse(data, content_type="application/json")
 
 class AdList(TemplateView):
