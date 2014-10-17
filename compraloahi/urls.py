@@ -11,5 +11,5 @@ urlpatterns = patterns('',
                        url(r'^media/(?P<path>.*)$',
                            "django.views.static.serve",
                            {'document_root': settings.MEDIA_ROOT}),
-
+                       (r'^accounts/', include('allauth.urls')),
                        )
