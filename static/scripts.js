@@ -1,19 +1,14 @@
 $(function() {
 
-
-console.log("ok");
     if (navigator.geolocation) {
         console.log("if navigator");
         navigator.geolocation.getCurrentPosition(getCoords, getError);
-
     } else {
-        console.log("else navigator");
+        // TODO: Set to a proper Location
         initialize( 13.30272, -87.144107);
     }
 
-
     function getCoords(position) {
-        console.log("getCoords");
         var lat = position.coords.latitude;
         var lng = position.coords.longitude;
 
@@ -29,12 +24,11 @@ console.log("ok");
 
     function getError(err) {
      console.log("getError");
+        // TODO: Set to a proper Location
         initialize( -31.428495, -64.185829);
     }
 
     function initialize(lat, lng) {
-        console.log("initialize");
-        console.log("lat:"+lat+" lng:"+lng);
         var latlng = new google.maps.LatLng(lat, lng);
         var mapSettings = {
             center: latlng,
