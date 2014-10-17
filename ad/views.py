@@ -1,17 +1,19 @@
 from django.http import HttpResponse
+from django.core import serializers
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, TemplateView
-from .models import Ad
-from .forms import CreateAdForm, AdModifyForm, AdImage_inline_formset, AdLocation_inline_formset
-import json
+from django.views.generic import ListView, DetailView, \
+    CreateView, UpdateView, TemplateView
 from sorl.thumbnail import get_thumbnail
+import json
 from datetime import datetime
+from .models import Ad
+from .forms import CreateAdForm, AdModifyForm, \
+    AdImage_inline_formset, AdLocation_inline_formset
 
 def _getAdListJson(tags=None, lat=None, lng=None, radius=None):
     object_response = []
     queryset = Ad.objects.all()
-
 
     if tags:
         tags = tags.split()
@@ -25,8 +27,8 @@ def _getAdListJson(tags=None, lat=None, lng=None, radius=None):
         object_response.append( {"title": ad.title + " " + str(datetime.now().strftime('%M:%S')), "body":ad.body, "thumbnail": thumbnail} )
     return json.dumps(object_response)
 
-
 class SearchAdView(TemplateView):
+
     def get(self, request, *args, **kwargs):
         tags =  request.GET['tags']
         lat =  float(request.GET['lat'])
@@ -34,6 +36,9 @@ class SearchAdView(TemplateView):
         radius =  float(request.GET['radius'])
 
         data = _getAdListJson(tags=tags, lat=lat,  radius=radius, lng=lng)
+        queryset = Ad.objects.all()
+        data = serializers.serialize(
+            "json", queryset, fields=("title", "body"))
         return HttpResponse(data, content_type="application/json")
 
 class AdList(TemplateView):
@@ -143,11 +148,15 @@ class UpdateAdView(UpdateView):
         context['form'] = self.get_form(self.form_class)
 
         if self.request.method == 'POST':
-            context['images_formset'] = AdImage_inline_formset(self.request.POST, self.request.FILES, instance=self.object)
-            context['locations_formset'] = AdLocation_inline_formset(self.request.POST, self.request.FILES, instance=self.object)
+            context['images_formset'] = AdImage_inline_formset(
+                self.request.POST, self.request.FILES, instance=self.object)
+            context['locations_formset'] = AdLocation_inline_formset(
+                self.request.POST, self.request.FILES, instance=self.object)
         else:
-            context['images_formset'] = AdImage_inline_formset(instance=self.object)
-            context['locations_formset'] = AdLocation_inline_formset(instance=self.object)
+            context['images_formset'] = AdImage_inline_formset(
+                instance=self.object)
+            context['locations_formset'] = AdLocation_inline_formset(
+                instance=self.object)
         return context
 
     def form_valid(self, form):
@@ -170,9 +179,12 @@ class UpdateAdView(UpdateView):
         # Locations
         for location_form in locations_formset:
             if location_form.is_valid():
-                location_form.instance.title = location_form.cleaned_data.get('title')
-                location_form.instance.lat = location_form.cleaned_data.get('lat')
-                location_form.instance.lng = location_form.cleaned_data.get('lng')
+                location_form.instance.title = location_form.cleaned_data.get(
+                    'title')
+                location_form.instance.lat = location_form.cleaned_data.get(
+                    'lat')
+                location_form.instance.lng = location_form.cleaned_data.get(
+                    'lng')
                 location_form.save()
         for location_form in locations_formset.deleted_forms:
             location_form.instance.delete()
