@@ -1,0 +1,36 @@
+{% extends 'layout/base.html' %}
+{% load bootstrap3 %}
+{% block title %}Lista de avisos {% endblock %}
+{% load thumbnail %}
+
+{% block css_header_block %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/list.css" >
+{% endblock %}
+
+{% block body_block %}
+ 
+ <div class="container">
+    <div class="row col-lg-12" id="home-search">
+        <div class="col-lg-6">
+            <form action="/ad/ad-list" method="get" class="input-group custom-search-form">
+              <input type="text" class="form-control" name="tags">
+              <span class="input-group-btn">
+              <button class="btn btn-default" type="submit" >
+              <span class="glyphicon glyphicon-search"></span>
+             </button>
+             </span>
+            </form><!-- /input-group -->
+        </div>
+    </div>
+</div>
+
+    <div class="col-md-12">
+        <div class="col-md-6 col-home">
+            <p> Compralo ahi! a la vuelta de tus pies</p>
+        </div>
+        <div class="col-md-6 col-home">
+            <img src="/static/image/mapa.jpg">
+        </div>
+        
+    </div>
+{% endblock %}

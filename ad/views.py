@@ -48,10 +48,10 @@ class AdList(TemplateView):
         data = _getAdListJson()
         return {'json_data': data}
 
-class IndexAdView(ListView):
-    template_name = "ad/index.html"
-    context_object_name = "ad_list"
-    queryset = Ad.objects.all()
+class IndexAdView(TemplateView):
+    template_name = "index.html"
+    #context_object_name = "ad_list"
+    #queryset = Ad.objects.all()
 
 
 class LatestAdView(ListView):
