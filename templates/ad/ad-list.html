@@ -64,9 +64,11 @@
         {% autoescape off %}
         var json_data = {{ json_data }};
         {% endautoescape %}
-
         render_ad_list(json_data);
     </script>
     <script src="http://maps.googleapis.com/maps/api/js?sensor=TRUE"></script>
     <script src="{{ STATIC_URL }}js/search-map.js"></script>
+    <script>
+        loadPositions(json_data);
+    </script>
 {% endblock %}

@@ -20,14 +20,20 @@ def _getAdListJson(tags=None, lat=None, lng=None, radius=None):
         tags = tags.split()
         queryset = queryset.filter(tags__name__in=tags).distinct()
     if lat and lng and radius:
-        print("lat" + str(lat))
-        print("lng" + str(lng))
-        queryset = queryset.filter(locations__lat__range=(lat - radius, lat + radius))
-        queryset = queryset.filter(locations__lng__range=(lng - radius, lng + radius))
+        radius_in_degrees = radius / 111200 # TODO: Need more precision than this
+        lat_from = lat - radius_in_degrees
+        lat_to = lat + radius_in_degrees
+        lng_from = lng - radius_in_degrees
+        lng_to = lng + radius_in_degrees
+
+        queryset = queryset.filter(locations__lat__range=(lat_from, lat_to))
+        queryset = queryset.filter(locations__lng__range=(lng_from, lng_to ))
 
     for ad in queryset:
         thumbnail = get_thumbnail(ad.images.first().image, '100x100', crop='center', quality=99).url
-        object_response.append( {"title": ad.title + " " + str(datetime.now().strftime('%M:%S')), "body":ad.body, "thumbnail": thumbnail} )
+        location = ad.locations.first()
+        object_response.append( {"title": ad.title + " " + str(datetime.now().strftime('%M:%S')), "body":ad.body, "thumbnail": thumbnail,
+                                 "lat": location.lat, "lng": location.lng, "pk": ad.pk} )
     return json.dumps(object_response)
 
 class SearchAdView(TemplateView):
