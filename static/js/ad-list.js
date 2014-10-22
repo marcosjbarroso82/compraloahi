@@ -13,7 +13,7 @@ function render_ad_list(ad_list) {
                 "<p class='lat'>{lat}</p>"+
                 "<p class='lat'>{lng}</p>"+
                 "<ul>"+
-                    "<li style='width:50%;'><a href='#'><span class='fa fa-fw fa-eye'></span> Show</a></li>"+
+                    "<li style='width:50%;'><a href='/ad/{pk}'><span class='fa fa-fw fa-eye'></span> Show</a></li>"+
                     "<li style='width:50%;'><span class='fa fa-money'></span> $39.99</li>"+
                 "</ul>"+
             "</div>"+

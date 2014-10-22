@@ -17,6 +17,7 @@
         {% if user.is_authenticated %}
             <a href="/ad/modify/{{ ad.id }}" class="btn btn-primary">Modify</a><br />
             <a href="{% url 'ad:index' %}" class="btn btn-primary">All ads</a>
+            <a href="{% url 'postman_write' ad.author %}" class="btn btn-primary">Contact</a>
         {% endif %}
     </div>
     <div class="row col-lg-12">
