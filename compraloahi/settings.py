@@ -29,6 +29,7 @@ INSTALLED_APPS = (
     'ad',
     'adLocation',
     'sorl.thumbnail',
+    'userProfile',
 )
 
 MIDDLEWARE_CLASSES = (

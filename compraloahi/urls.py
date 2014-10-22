@@ -12,4 +12,5 @@ urlpatterns = patterns('',
                            "django.views.static.serve",
                            {'document_root': settings.MEDIA_ROOT}),
                        (r'^accounts/', include('allauth.urls')),
+                       (r'^accounts/', include('userProfile.urls')),
                        )
