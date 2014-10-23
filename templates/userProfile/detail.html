@@ -1,32 +1,124 @@
 {% extends 'layout/base.html' %}
 {% load bootstrap3 %}
 {% block title %}{{ profile.first_name|capfirst }} {{ profile.last_name|capfirst }}{% endblock %}
-
+{% load thumbnail %}
 
 {% block body_block %}
 {% bootstrap_messages %}
-    <h1>Perfil</h1>
+    <style>
+        .glyphicon {  margin-bottom: 10px;margin-right: 10px;}
 
-    <div class="">
-        <h2> Informacion de contacto </h2>
-        {% for phone in profile.phones.all %}
-            <div class="row">
-                <label class="form-label">{{ phone.type }}</label>
-                <p>{{ phone.number }}</p>
+        small {
+            display: block;
+            line-height: 1.428571429;
+            color: #999;
+        }
+    </style>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="well well-sm">
+                    <div class="row">
+                        <div class="col-sm-6 col-md-4">
+
+                            {% thumbnail profile.image "400x400" crop="center" as im %}
+                                <img class="img-rounded img-responsive" id="item-display" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+                            {% endthumbnail %}
+
+                        </div>
+                        <div class="col-sm-6 col-md-8">
+                            <h4>
+                                {{ user.first_name|capfirst }}, {{ user.last_name|capfirst }}</h4>
+                            <small>
+                                {% with profile.locations.all|first as location %}
+                                    <cite title="{{ location.title }}">
+                                        {{ location.title }}
+                                    </cite>
+                                {% endwith %}
+                            </small>
+                            <p>
+                                <i class="glyphicon glyphicon-envelope"></i>{{ user.email }}
+                                <br />
+                                {% for phone in profile.phones.all %}
+                                    <div>
+                                        {% if phone.type == 'FAX' %}
+                                            <i class="glyphicon glyphicon-phone-alt"></i>
+                                        {% elif phone.type == 'TEL' %}
+                                            <i class="glyphicon glyphicon-earphone"></i>
+                                        {% else %}
+                                            <i class="glyphicon glyphicon-earphone"></i>
+                                        {% endif %}
+
+                                        <label>{{ phone.type }}</label>
+                                        {{ phone.number }}
+                                    </div>
+                                    <br/>
+                                {% endfor %}
+                                <i class="glyphicon glyphicon-gift"></i>{{ profile.birth_date.year }} - {{ profile.birth_date.month }} - {{ profile.birth_date.day }}
+                            </p>
+                            <!-- Split button -->
+                            <div class="btn-group">
+                                <a href="/accounts/profile/edit" class="btn btn-warning">{% bootstrap_icon "edit" %}Edit</a>
+                                <a href="/accounts/password/change" class="btn btn-warning">{% bootstrap_icon "cog" %}Change password</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-        {% endfor %}
-
+        </div>
     </div>
 
-    <div class="">
-        <h2>Mis ubicaciones</h2>
-        <ul>
-            {% for location in profile.locations.all %}
-                <li>{{ location.title }}</li>
-            {% endfor %}
-        </ul>
-    </div>
 
-    <a href="/accounts/profile/edit" class="btn btn-primary">Modify</a><br />
+    <div class="col-md-6">
+
+        <div class="panel panel-default">
+              <!-- Default panel contents -->
+              <div class="panel-heading">Mis ubicaciones</div>
+              <div class="panel-body">
+                <p>Gestiona rapido tus posiciones</p>
+              </div>
+
+              <ul class="list-group">
+                    {% for location in profile.locations.all %}
+                        <li class="list-group-item">
+                            {{ location.title }}
+                            <a href="/accounts/profile/position/delete/{{ location.id }}" class="btn btn-danger">{% bootstrap_icon "remove" %}Delete</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+        </div>
+
+    </div>
+    <div class="col-md-6">
+
+        <div class="panel panel-default">
+              <!-- Default panel contents -->
+              <div class="panel-heading">Mis Avisos</div>
+              <div class="panel-body">
+                <p>Ultimos avisos...</p>
+              </div>
+
+              <ul class="media-list">
+                    {% for ad in user.ads.all %}
+                        <li class="media">
+                            <a class="pull-left" href="#">
+                                {% with ad.images.all|first as image %}
+                                    {% thumbnail image.image "100x100" crop="center" as im %}
+                                        <img id="media-object" src="{{ im.url }}" width="64" height="64">
+                                    {% endthumbnail %}
+                              {% endwith %}
+                            </a>
+                            <div class="media-body">
+                              <h4 class="media-heading">{{ ad.title }}</h4>
+                              <p> {{ ad.description }}</p>
+                              <div class="pull-right">
+                                  <a href="ad/detail/{{ ad.id }}" class="btn btn-success">{% bootstrap_icon "eye-open" %}Show</a>
+                              </div>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+        </div>
+    </div>
 
 {% endblock %}

@@ -37,6 +37,7 @@ class UserProfileCreateView(CreateView):
         form_class = self.get_form_class()
         form = self.get_form(form_class)
 
+
         # Phones
         phones_form = Phone_inline_formset(
             self.request.POST, self.request.FILES, instance=form.instance)
@@ -49,14 +50,18 @@ class UserProfileCreateView(CreateView):
             return self.form_invalid(form, phones_form, locations_form)
 
     def form_valid(self, form, phones_form, locations_form):
+        user = self.request.user
+        user.first_name = form.cleaned_data.get('first_name')
+        user.last_name = form.cleaned_data.get('last_name')
+        user.save()
+
         form.save(commit=False)
-        form.instance.user = self.request.user
+        form.instance.user = user
         form.instance.save()
         # look, validate and save all phones
         for phone_form in phones_form:
             phone_form.instance.userProfile = form.instance
-            phone_form.instance.type = phone_form.cleaned_data.get(
-                'type')
+            phone_form.instance.type = phone_form.cleaned_data.get('type')
             phone_form.instance.number = phone_form.cleaned_data.get('number')
             if phone_form.is_valid():
                 phone_form.save()
@@ -111,13 +116,18 @@ class UserProfileUpdateView(UpdateView):
         locations_formset = context['locations_form']
         form.save(commit=False)
 
+        user = self.request.user
+        user.first_name = form.cleaned_data.get('first_name')
+        user.last_name = form.cleaned_data.get('last_name')
+        user.save()
+
         # Phones
         for phone_form in phones_formset:
             if phone_form.is_valid():
                 phone_form.instance.type = phone_form.cleaned_data.get('type')
                 phone_form.instance.number = phone_form.cleaned_data.get('number')
-                #if phone_form.instance.number is not '':
-                phone_form.save()
+                if phone_form.is_valid():
+                    phone_form.save()
 
         for phone_form in phones_formset.deleted_forms:
             phone_form.instance.delete()
@@ -145,7 +155,7 @@ class UserProfileDetailView(DetailView):
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
         if self.get_object():
-            return super(UserProfileCreateView, self).dispatch(*args, **kwargs)
+            return super(UserProfileDetailView, self).dispatch(*args, **kwargs)
         else:
             return HttpResponseRedirect('/accounts/profile/create/')
 

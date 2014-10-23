@@ -5,11 +5,11 @@ from .models import UserProfile, Phone, UserLocation
 
 
 class UserProfileForm(forms.ModelForm):
-
+    first_name = forms.CharField(max_length=60, label='First Name')
+    last_name = forms.CharField(max_length=60, label='Last Name')
     class Meta:
         model = UserProfile
-        fields = ['first_name', 'last_name']
-        required = ['first_name', 'last_name']
+        fields = ['image', 'birth_date']
         excluded = ('user',)
 
 

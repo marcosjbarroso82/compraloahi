@@ -10,8 +10,8 @@ TYPE_PHONE = (
 
 
 class UserProfile(models.Model):
-    first_name = models.CharField(max_length=50)
-    last_name = models.CharField(max_length=50)
+    image = models.ImageField(upload_to='profile', null=False, blank=False)
+    birth_date = models.DateField()
     user = models.OneToOneField(User, unique=True)
     #phones = models.ManyToOneRel(Phone)
 
