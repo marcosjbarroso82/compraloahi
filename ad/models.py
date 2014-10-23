@@ -4,12 +4,20 @@ from django.contrib.auth.models import User
 
 from taggit.managers import TaggableManager
 
-
+from taggit.models import GenericTaggedItemBase, TagBase
 class AdQuerySet(models.QuerySet):
 
     def published(self):
         return self.filter(publish=True)
 
+class CategoryTag (TagBase):
+    pass
+
+    def __str__(self):
+        return self.name
+
+class CategoryTaggedItem (GenericTaggedItemBase):
+    tag = models.ForeignKey(CategoryTag)
 
 class Ad(models.Model):
     title = models.CharField(max_length=40)
@@ -20,6 +28,7 @@ class Ad(models.Model):
     slug = models.SlugField(max_length=200, unique=True)
     published = models.BooleanField(default=True)
     tags = TaggableManager(blank=True)
+    categories = TaggableManager(verbose_name='categories', through=CategoryTaggedItem, blank=True)
     author = models.ForeignKey(User, related_name='ads')
 
     objects = AdQuerySet.as_manager()
