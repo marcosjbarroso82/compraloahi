@@ -14,5 +14,5 @@ urlpatterns = patterns('',
                        (r'^accounts/', include('allauth.urls')),
                        (r'^accounts/', include('userProfile.urls')),
                        (r'^messages/', include('postman.urls')),
-
+                       (r'^ckeditor/', include('ckeditor.urls')),
                        )

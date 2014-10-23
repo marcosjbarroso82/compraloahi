@@ -1,6 +1,8 @@
 from django import forms
 from django.forms.models import inlineformset_factory
 
+from ckeditor.widgets import CKEditorWidget
+
 from .models import Ad, AdImage
 
 from adLocation.models import AdLocation
@@ -12,13 +14,14 @@ class CreateAdForm(forms.ModelForm):
         model = Ad
         fields = ('title', 'body', 'slug', 'tags')
         excluded = ('author', 'modified', 'pub_date', 'created', 'published')
+        widgets = {'body': CKEditorWidget(config_name='awesome_ckeditor')}
 
 
 class AdModifyForm(forms.ModelForm):
 
     class Meta:
         model = Ad
-        fields = ('title', 'body', 'slug', 'tags')
+        fields = ('title', 'slug', 'tags')
         excluded = ('author', 'modified', 'pub_date', 'created', 'published')
 
 

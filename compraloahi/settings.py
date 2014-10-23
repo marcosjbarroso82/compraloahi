@@ -31,6 +31,7 @@ INSTALLED_APPS = (
     'adLocation',
     'sorl.thumbnail',
     'userProfile',
+    'ckeditor',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -144,4 +145,16 @@ POSTMAN_MAILER_APP = None  # default is 'mailer'
     # 'arg_name': '',  # default is 'channel'
     # 'arg_default': 'postman_friends',  # no default, mandatory to enable the feature
 # }  # default is {}
+
+CKEDITOR_UPLOAD_PATH = "uploads/"
+CKEDITOR_JQUERY_URL = '//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js'
+
+
+CKEDITOR_CONFIGS = {
+    'awesome_ckeditor': {
+        'toolbar': 'Basic',
+        "removePlugins": "stylesheetparser",
+        'uiColor' : '#333333',
+    },
+}
 
