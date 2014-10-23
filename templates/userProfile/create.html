@@ -1,6 +1,6 @@
 {% extends 'layout/base.html' %}
 {% load bootstrap3 %}
-{% block title %}Crear Aviso {% endblock %}
+{% block title %}Crear perfil {% endblock %}
 
 
 {% block body_block %}
@@ -8,35 +8,34 @@
 {% bootstrap_messages %}
     <form action="" method="post" class="form" enctype="multipart/form-data">
         {% csrf_token %}
-        {{ form.media }}
-        {{ form.as_p }}
+        {% bootstrap_form form %}
 
-        {{ images_form.management_form }}
-        {% for image_form in images_form %}
-            {{ image_form.id }}
-            <div class="inline {{ images_form.prefix }} form-inline">
-                 {{ image_form }}
+        {{ phones_form.management_form }}
+        {% for phone_form in phones_form %}
+            {{ phone_form.id }}
+            <div class="inline {{ phones_form.prefix }} form-inline">
+                 {{ phone_form }}
             </div>
         {% endfor %}
+
         <div id="locations">
             <h3>Locations</h3>
 
-        {{ locations_form.management_form }}
-        {% for location_form in locations_form %}
-            {{ location_form.id }}
-            <div class="inline {{ locations_form.prefix }} form-inline">
-                 {{ location_form }}
-            </div>
-        {% endfor %}
+            {{ locations_form.management_form }}
+            {% for location_form in locations_form %}
+                {{ location_form.id }}
+                <div class="inline {{ locations_form.prefix }} form-inline">
+                     {{ location_form }}
+                </div>
+            {% endfor %}
         </div>
         <!-- Locations Map -->
         <div id="mapa" class="capas"></div>
         <!-- End Locations Map -->
 
-
         {% buttons %}
             <button type="submit" class="btn btn-primary">
-                {% bootstrap_icon "save" %} Crear aviso
+                {% bootstrap_icon "save" %} Create
             </button>
         {% endbuttons %}
     </form>
@@ -52,10 +51,12 @@
 
     <script type="text/javascript">
             $(function() {
-                $(".inline.{{ images_form.prefix }}").formset({
-                    prefix: "{{ images_form.prefix }}",
+                $(".inline.{{ phones_form.prefix }}").formset({
+                    prefix: "{{ phones_form.prefix }}",
                 })
-
+                $(".inline.{{ locations_form.prefix }}").formset({
+                    prefix: "{{ locations_form.prefix }}",
+                })
             })
     </script>
 {% endblock %}

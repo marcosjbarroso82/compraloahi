@@ -4,17 +4,23 @@ from pip._vendor.requests.compat import basestring
 from adLocation.models import AdLocation
 from django.forms import widgets
 from .models import Ad, AdImage, CategoryTag
+from ckeditor.widgets import CKEditorWidget
 
 class TextCheckboxSelectMultiple(widgets.CheckboxSelectMultiple):
     """
     Set checked values based on a comma separated list instead of a python list
     """
     def render(self, name, value, **kwargs):
-        if isinstance(value, basestring):
-            value = value.split(",")
-        value = list(value)
-        value = [tag.tag.name for tag in value]
+        #if isinstance(value, basestring):
+            #value = value.split(",")
+        try:
+            value = list(value)
+            value = [tag.tag.name for tag in value]
+        except:
+            value = []
         return super(TextCheckboxSelectMultiple, self).render(name, value, **kwargs)
+
+
 
 class TextMultiField(forms.MultipleChoiceField):
     """
@@ -51,6 +57,7 @@ class CreateAdForm(forms.ModelForm):
         model = Ad
         fields = ('title', 'body', 'slug', 'tags', 'categories',)
         excluded = ('author', 'modified', 'pub_date', 'created', 'published')
+        widgets = {'body': CKEditorWidget(config_name='awesome_ckeditor')}
 
 
 class AdModifyForm(forms.ModelForm):

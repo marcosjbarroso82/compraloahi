@@ -1,31 +1,101 @@
 {% extends 'layout/base.html' %}
 {% load bootstrap3 %}
+{% load thumbnail %}
+
 {% block title %}Aviso {{ ad.title }}{% endblock %}
 
+{% block css_header_block %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/ad_detail.css" >
+{% endblock %}
 
 {% block body_block %}
-{% bootstrap_messages %}
-    <div class="col-lg-6 col-home">
-        <img src="/static/image/mapa.jpg" height="300" width="300">
-    </div>
-    <div class="col-lg-6 col-home">
-        <h2>{{ ad.title }}</h2>
-        <div class="form">
-            <label class="form-label">Descripcion corta :</label>
-            <p> </p>
+
+    {% bootstrap_messages %}
+
+    <div class="container-fluid">
+        <div class="content-wrapper">
+            <div class="item-container">
+                <div class="container">
+                    <div class="col-md-7">
+                        <div class="product col-md-3 service-image-left">
+
+                            <center>
+                                  {% with ad.images.all|first as image %}
+                                        {% thumbnail image.image "400x400" crop="center" as im %}
+                                            <img id="item-display" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+                                        {% endthumbnail %}
+                                          <!-- <img src="{{ image.image.url }}"> -->
+                                  {% endwith %}
+                            </center>
+                        </div>
+
+                        <div class="container service1-items col-sm-2 col-md-2 pull-right">
+                            <center>
+                                {% for images in ad.images.all %}
+                                    <a id="item-1" class="service1-item">
+                                        {% thumbnail images.image "100x100" crop="center" as im %}
+                                                <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+                                        {% endthumbnail %}
+                                    </a>
+                                {% endfor %}
+                            </center>
+                        </div>
+                    </div>
+
+                    <div class="col-md-5">
+                        <div class="product-title">{{ ad.title }}</div>
+                        <div class="product-desc">Descripcion corta</div>
+                        <div class="product-rating"><i class="fa fa-star gold"></i> <i class="fa fa-star gold"></i> <i class="fa fa-star gold"></i> <i class="fa fa-star gold"></i> <i class="fa fa-star-o"></i> </div>
+                        <hr>
+                        <div class="product-price">$ 1234.00</div>
+                        <div class="product-stock">In Stock</div>
+                        <hr>
+
+                        <div class="row">
+                            {% if user.is_authenticated %}
+                                <a href="/ad/modify/{{ ad.id }}" class="btn btn-warning">Modify</a>
+                                <a href="{% url 'ad:index' %}" class="btn btn-primary">All ads</a>
+                                <a href="{% url 'postman_write' ad.author %}" class="btn btn-primary">Contact</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="col-md-12 product-info">
+                        <ul id="myTab" class="nav nav-tabs nav_tabs">
+
+                            <li class="active"><a href="#service-one" data-toggle="tab">DESCRIPTION</a></li>
+                            <li><a href="#service-two" data-toggle="tab">PRODUCT INFO</a></li>
+                            <li><a href="#service-three" data-toggle="tab">REVIEWS</a></li>
+
+                        </ul>
+                    <div id="myTabContent" class="tab-content">
+                            <div class="tab-pane fade in active" id="service-one">
+
+                                <section class="container product-info">
+                                    {{ ad.body }}
+                                </section>
+
+                            </div>
+                        <div class="tab-pane fade" id="service-two">
+
+                            <section class="container">
+
+                            </section>
+
+                        </div>
+                        <div class="tab-pane fade" id="service-three">
+
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+            </div>
         </div>
-        {% if user.is_authenticated %}
-            <a href="/ad/modify/{{ ad.id }}" class="btn btn-primary">Modify</a><br />
-            <a href="{% url 'ad:index' %}" class="btn btn-primary">All ads</a>
-            <a href="{% url 'postman_write' ad.author %}" class="btn btn-primary">Contact</a>
-        {% endif %}
     </div>
-    <div class="row col-lg-12">
-        <h1>DESCRIPCION</h1>
-        <p>
-            {{ ad.body }}
-        </p>
-    </div>
+
+  <!--------------  COMENTARIOS ------------------->
     <div class="col-lg-12">
         <h1>Comentarios</h1>
         <div class="container">

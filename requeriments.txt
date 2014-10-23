@@ -1,0 +1,17 @@
+Django==1.7
+Pillow==2.6.1
+django-allauth==0.18.0
+django-appconf==0.6
+django-autoslug-field==0.2.3
+django-bootstrap3==4.11.0
+django-ckeditor==4.4.6
+django-extensions==1.4.0
+django-geoposition==0.2.2
+django-relatedadminwidget==0.0.2
+django-taggit==0.12.2
+oauthlib==0.6.3
+python3-openid==3.0.4
+requests==2.4.3
+requests-oauthlib==0.4.1
+six==1.8.0
+sorl-thumbnail==11.12.1b

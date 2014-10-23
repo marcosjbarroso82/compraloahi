@@ -1,7 +1,6 @@
 {% extends 'layout/base.html' %}
 {% load bootstrap3 %}
 {% block title %}Lista de avisos {% endblock %}
-{% load thumbnail %}
 
 {% block css_header_block %}
     <link rel="stylesheet" href="{{ STATIC_URL }}css/list.css" >
@@ -11,7 +10,9 @@
  
  <div class="container">
     <div class="row col-lg-12" id="home-search">
+        <div class="col-lg-3"></div>
         <div class="col-lg-6">
+            <h1>Buscate algo</h1>
             <form action="/ad/ad-list" method="get" class="input-group custom-search-form">
               <input type="text" class="form-control" name="tags">
               <span class="input-group-btn">
@@ -19,18 +20,25 @@
               <span class="glyphicon glyphicon-search"></span>
              </button>
              </span>
-            </form><!-- /input-group -->
+            </form>
         </div>
     </div>
-</div>
+
 
     <div class="col-md-12">
-        <div class="col-md-6 col-home">
+        <div class="col-md-6">
+            <h3>Compralo ahi:</h3>
             <p> Compralo ahi! a la vuelta de tus pies</p>
+            <p> Busca lo que queres para cuando podes</p>
+            <p> ¿Sos perezoso para moverte por largas distancia? Esta es tu solucion. </p>
+            <p> En la vida, el tiempo y las oportunidades son de las pocas cosas que una vez perdidas no puedes recuperar... <br/>
+                No te pierdas ninguna, configura tu perfil para saber todas las oportunidades que tenes cerca
+            </p>
         </div>
-        <div class="col-md-6 col-home">
+        <div class="col-md-6">
             <img src="/static/image/mapa.jpg">
         </div>
         
     </div>
+ </div>
 {% endblock %}
