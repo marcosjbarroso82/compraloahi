@@ -1,1 +1,11 @@
 Django==1.7
+Pillow==2.6.1
+django-appconf==0.6
+django-autoslug-field==0.2.3
+django-bootstrap3==4.11.0
+django-extensions==1.4.0
+django-geoposition==0.2.2
+django-relatedadminwidget==0.0.2
+django-taggit==0.12.2
+six==1.8.0
+sorl-thumbnail==11.12.1b

@@ -7,6 +7,7 @@ DEBUG = True
 
 TEMPLATE_DEBUG = True
 
+STATIC_URL = '/static/'
 
 ALLOWED_HOSTS = []
 
@@ -18,12 +19,18 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.facebook',
+    'allauth.socialaccount.providers.google',
     'bootstrap3',
     'taggit',
     'ad',
     'adLocation',
     'sorl.thumbnail',
-    'postman',
+    'userProfile',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -63,7 +70,7 @@ USE_TZ = True
 LOGIN_URL = '/admin/login'
 LOGIN_REDIRECT_URL = '/'
 
-STATIC_URL = '/static/'
+
 
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"), )
 
@@ -73,12 +80,54 @@ MEDIA_ROOT = os.path.join(SITE_ROOT, 'media')
 
 MEDIA_URL = "/media/"
 
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.core.context_processors.static',
+    "django.contrib.auth.context_processors.auth",
+    # Required by allauth template tags
+    "django.core.context_processors.request",
+    # allauth specific context processors
+    "allauth.account.context_processors.account",
+    "allauth.socialaccount.context_processors.socialaccount",
+
+)
+
+AUTHENTICATION_BACKENDS = (
+    # Needed to login by username in Django admin, regardless of `allauth`
+    "django.contrib.auth.backends.ModelBackend",
+
+    # `allauth` specific authentication methods, such as login by e-mail
+    "allauth.account.auth_backends.AuthenticationBackend",
+)
+
+
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, "templates"),
 )
 
+
 THUMBNAIL_DEBUG = True
 THUMBNAIL_FORMAT = 'PNG'
+
+
+SITE_ID = 1
+
+#SOCIALACCOUNT_QUERY_EMAIL = True
+
+SOCIALACCOUNT_PROVIDERS = {
+    'facebook': {
+        'SCOPE': ['email', 'publish_stream'],
+
+        # Instead of OAuth
+        'METHOD': 'js_sdk'  # instead of 'oauth2'
+
+        # Instead of Facebook Connect Javascript SDK
+        #'METHOD': 'oauth2'
+    },
+    'google': {
+        'SCOPE': ['https://www.googleapis.com/auth/userinfo.profile'],
+        'AUTH_PARAMS': {'access_type': 'online'}}
+}
 
 POSTMAN_DISALLOW_ANONYMOUS = True  # default is False
 POSTMAN_DISALLOW_MULTIRECIPIENTS = True  # default is False

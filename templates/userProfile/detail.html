@@ -1,0 +1,32 @@
+{% extends 'layout/base.html' %}
+{% load bootstrap3 %}
+{% block title %}{{ profile.first_name|capfirst }} {{ profile.last_name|capfirst }}{% endblock %}
+
+
+{% block body_block %}
+{% bootstrap_messages %}
+    <h1>Perfil</h1>
+
+    <div class="">
+        <h2> Informacion de contacto </h2>
+        {% for phone in profile.phones.all %}
+            <div class="row">
+                <label class="form-label">{{ phone.type }}</label>
+                <p>{{ phone.number }}</p>
+            </div>
+        {% endfor %}
+
+    </div>
+
+    <div class="">
+        <h2>Mis ubicaciones</h2>
+        <ul>
+            {% for location in profile.locations.all %}
+                <li>{{ location.title }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <a href="/accounts/profile/edit" class="btn btn-primary">Modify</a><br />
+
+{% endblock %}
