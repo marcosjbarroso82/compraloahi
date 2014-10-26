@@ -3,6 +3,7 @@
 {% block title %}{{ profile.first_name|capfirst }} {{ profile.last_name|capfirst }}{% endblock %}
 {% load thumbnail %}
 
+
 {% block body_block %}
 {% bootstrap_messages %}
     <style>
@@ -15,6 +16,8 @@
         }
     </style>
     <div class="container">
+
+    {% include "userProfile/mis_mensajes.html" %}
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="well well-sm">
@@ -121,4 +124,10 @@
         </div>
     </div>
 
+{% endblock %}
+
+{% block js_footer_block %}
+    <script>
+        console.log("cargado")
+    </script>
 {% endblock %}

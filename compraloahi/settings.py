@@ -32,6 +32,8 @@ INSTALLED_APPS = (
     'sorl.thumbnail',
     'userProfile',
     'ckeditor',
+    'postman',
+    'pagination',
 )
 
 MIDDLEWARE_CLASSES = (
