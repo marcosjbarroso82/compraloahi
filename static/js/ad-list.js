@@ -46,6 +46,7 @@ function render_ad_list(ad_list) {
             })
     }
 }
+// TODO: Choose proper variable
 var temp;
 // Search Form
 $("#search_btn").click(search);

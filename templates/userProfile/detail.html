@@ -3,12 +3,6 @@
 {% block title %}{{ profile.first_name|capfirst }} {{ profile.last_name|capfirst }}{% endblock %}
 {% load thumbnail %}
 
-{% load comments %}
-
-<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}fluent_comments/css/ajaxcomments.css" />
-<script type="text/javascript" src="{{ STATIC_URL }}fluent_comments/js/ajaxcomments.js"></script>
-
-
 
 {% block body_block %}
 
@@ -23,11 +17,6 @@
         }
     </style>
     <div class="container">
-    <p>Comments</p>
-{% get_comment_count for ad as comment_count %}
-<h3>Comments: {{ comment_count }}</h3>
-<p>End Comments</p>
-
     {% include "userProfile/mis_mensajes.html" %}
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12">

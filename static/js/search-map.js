@@ -1,6 +1,6 @@
 var current_lat;
 var current_lng;
-var current_radius = 10000;
+var current_radius = 1000;
 var position_marker;
 var position_area;
 var map;

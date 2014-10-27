@@ -1,6 +1,5 @@
 from django import forms
 from django.forms.models import inlineformset_factory
-from pip._vendor.requests.compat import basestring
 from adLocation.models import AdLocation
 from django.forms import widgets
 from .models import Ad, AdImage, CategoryTag
@@ -11,15 +10,12 @@ class TextCheckboxSelectMultiple(widgets.CheckboxSelectMultiple):
     Set checked values based on a comma separated list instead of a python list
     """
     def render(self, name, value, **kwargs):
-        #if isinstance(value, basestring):
-            #value = value.split(",")
         try:
             value = list(value)
             value = [tag.tag.name for tag in value]
         except:
             value = []
         return super(TextCheckboxSelectMultiple, self).render(name, value, **kwargs)
-
 
 
 class TextMultiField(forms.MultipleChoiceField):
@@ -34,23 +30,6 @@ class TextMultiField(forms.MultipleChoiceField):
 
 
 class CreateAdForm(forms.ModelForm):
-    """
-    title = forms.CheckboxChoiceInput(choices= CategoryTag.objects.all(),
-                                 #widget=forms.CheckboxSelectMultiple)
-                                 widget=forms.CheckboxChoiceInput )
-                                 """
-    #categories = forms.ChoiceField(choices=FAVORITE_COLORS_CHOICES, widget=forms.RadioSelect)
-    #categories = forms.ChoiceField(choices=FAVORITE_COLORS_CHOICES, widget=forms.CheckboxSelectMultiple)
-    #categories = forms.MultipleChoiceField(choices=CategoryTag.objects.all(), widget=forms.CheckboxSelectMultiple)
-    #categories = forms.MultipleChoiceField(choices=tuple(CategoryTag.objects.all().values_list("name", "name")), widget=forms.CheckboxSelectMultiple)
-    #categories = forms.ModelChoiceField(queryset= CategoryTag.objects.all().values_list("name", flat=True))
-    """
-    categories = forms.ModelMultipleChoiceField(
-                                                #queryset=CategoryTag.objects.all(),
-                                                widget=forms.CheckboxSelectMultiple(),
-                                                #choices=CategoryTag.objects.all(),
-       """
-    #categories = TextMultiField(choices=",".join( CategoryTag.objects.all().values_list("name", flat=True) ))
     categories = TextMultiField(choices=tuple(CategoryTag.objects.all().values_list("name", "name") ) )
 
     class Meta:

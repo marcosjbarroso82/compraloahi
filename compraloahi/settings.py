@@ -38,17 +38,8 @@ INSTALLED_APPS = (
     'django_comments_xtd',
     'haystack',
     'whoosh',
+    'common_tags',
 )
-
-HAYSTACK_CONNECTIONS = {
-    'default': {
-        'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
-        'PATH': os.path.join(os.path.dirname(__file__), 'whoosh_index'),
-    },
-}
-
-COMMENTS_XTD_MAX_THREAD_LEVEL = 2
-COMMENTS_APP = "django_comments_xtd"
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -174,3 +165,12 @@ CKEDITOR_CONFIGS = {
     },
 }
 
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
+        'PATH': os.path.join(os.path.dirname(__file__), 'whoosh_index'),
+    },
+}
+
+COMMENTS_XTD_MAX_THREAD_LEVEL = 2
+COMMENTS_APP = "django_comments_xtd"
