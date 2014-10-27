@@ -1,15 +1,46 @@
 {% extends 'layout/base.html' %}
 {% load bootstrap3 %}
 {% load thumbnail %}
-
+{% load comments %}
 {% block title %}Aviso {{ ad.title }}{% endblock %}
+
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}fluent_comments/css/ajaxcomments.css" />
+<script type="text/javascript" src="{{ STATIC_URL }}fluent_comments/js/ajaxcomments.js"></script>
 
 {% block css_header_block %}
     <link rel="stylesheet" href="{{ STATIC_URL }}css/ad_detail.css" >
 {% endblock %}
 
 {% block body_block %}
+    {% get_comment_count for object as comment_count %}
+    <p>xtd</p>
+    {% get_comment_count for object as comment_count %}
+    <p>commetn_count: {{ comment_count }}</p>
+    {% render_comment_list for object %}
+    {% render_comment_form for ad %}
+    <p>End XTD</p>
 
+
+
+    <p>Comments</p>
+    {% get_comment_count for ad as comment_count %}
+    <h3>Comments: {{ comment_count }}</h3>
+
+    <ol>
+        {% get_comment_list for ad as comments %}
+        {% for comment in comments %}
+        <li>{{ comment }}</li>
+        {% endfor %}
+    </ol>
+    {% render_comment_form for ad %}
+
+
+
+
+
+
+
+<p>End Comments</p>
     {% bootstrap_messages %}
 
     <div class="container-fluid">

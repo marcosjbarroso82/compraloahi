@@ -39,7 +39,7 @@ function initialize() {
     var latlng = new google.maps.LatLng(current_lat, current_lng);
     var mapSettings = {
         center: latlng,
-        zoom: 12,
+        zoom: 9,
         mapTypeId: google.maps.MapTypeId.ROADMAP
     }
     map = new google.maps.Map($("#mapa").get(0), mapSettings);
@@ -67,11 +67,14 @@ function initialize() {
 }
 
 function loadPositions(positions) {
+    for (var i=0; i < ad_position_areas.length; i++) {
+        ad_position_areas[i].setMap(null);
+    }
     ad_position_areas = []
     for (var i=0; i < positions.length; i++) {
         position = positions[i];
         ad_position_areas[position.pk] = new google.maps.Circle({map: map,
-            center: new google.maps.LatLng(position.lat, position.lng), radius: 300});
+            center: new google.maps.LatLng(position.lat, position.lng), radius: 3000});
     }
     //ad_position_areas[$("#list").children()[0].dataset.pk].setMap(map)
 
@@ -81,7 +84,7 @@ function linkMapToSearchForm() {
     console.log("linkMapToSearchForm()");
     console.log("current_lat: " + current_lat + " current_lng: " + current_lng);
     $("#lat").val(current_lat);
-    $("#lng").val(current_lat);
+    $("#lng").val(current_lng);
     $("#radius").val( current_radius );
     /*
     google.maps.event.addListener(position_marker, 'position_changed', function() {

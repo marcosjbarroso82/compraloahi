@@ -19,12 +19,17 @@ def _getAdListJson(tags=None, lat=None, lng=None, radius=None):
     if tags:
         tags = tags.split()
         queryset = queryset.filter(tags__name__in=tags).distinct()
+
     if lat and lng and radius:
         radius_in_degrees = radius / 111200 # TODO: Need more precision than this
         lat_from = lat - radius_in_degrees
         lat_to = lat + radius_in_degrees
         lng_from = lng - radius_in_degrees
         lng_to = lng + radius_in_degrees
+
+        print("radius_in_degress: " + str(radius_in_degrees) )
+        print(str(lat_from) + " : " + str(lat_to))
+        print(str(lng_from) + " : " + str(lng_to))
 
         queryset = queryset.filter(locations__lat__range=(lat_from, lat_to))
         queryset = queryset.filter(locations__lng__range=(lng_from, lng_to ))
@@ -42,6 +47,11 @@ class SearchAdView(TemplateView):
         lat =  float(request.GET['lat'])
         lng =  float(request.GET['lng'])
         radius =  float(request.GET['radius'])
+
+        print("tags: " + tags)
+        print("lat: " + str(lat) )
+        print("lng: " + str(lng) )
+        print("radius: " + str (radius) )
 
         data = _getAdListJson(tags=tags, lat=lat,  radius=radius, lng=lng)
         return HttpResponse(data, content_type="application/json")

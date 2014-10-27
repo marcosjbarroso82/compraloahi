@@ -161,13 +161,9 @@ class UserProfileDetailView(FolderMixin, DetailView):
 
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
-        if kwargs['msg_folder']:
-            print("asfd")
-            print(kwargs)
+        if 'msg_folder' in kwargs and kwargs['msg_folder']:
             self.folder_name = kwargs['msg_folder']
             self.view_name = 'postman_' + kwargs['msg_folder']
-        print(self.folder_name)
-        print(self.view_name)
 
         if self.get_object():
             return super(UserProfileDetailView, self).dispatch(*args, **kwargs)

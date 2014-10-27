@@ -3,8 +3,15 @@
 {% block title %}{{ profile.first_name|capfirst }} {{ profile.last_name|capfirst }}{% endblock %}
 {% load thumbnail %}
 
+{% load comments %}
+
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}fluent_comments/css/ajaxcomments.css" />
+<script type="text/javascript" src="{{ STATIC_URL }}fluent_comments/js/ajaxcomments.js"></script>
+
+
 
 {% block body_block %}
+
 {% bootstrap_messages %}
     <style>
         .glyphicon {  margin-bottom: 10px;margin-right: 10px;}
@@ -16,6 +23,10 @@
         }
     </style>
     <div class="container">
+    <p>Comments</p>
+{% get_comment_count for ad as comment_count %}
+<h3>Comments: {{ comment_count }}</h3>
+<p>End Comments</p>
 
     {% include "userProfile/mis_mensajes.html" %}
         <div class="row">
@@ -115,7 +126,7 @@
                               <h4 class="media-heading">{{ ad.title }}</h4>
                               <p> {{ ad.description }}</p>
                               <div class="pull-right">
-                                  <a href="ad/detail/{{ ad.id }}" class="btn btn-success">{% bootstrap_icon "eye-open" %}Show</a>
+                                  <a href="/ad/{{ ad.id }}" class="btn btn-success">{% bootstrap_icon "eye-open" %}Show</a>
                               </div>
                             </div>
                         </li>
