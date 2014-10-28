@@ -154,7 +154,7 @@ CKEDITOR_JQUERY_URL = '//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.j
 CKEDITOR_CONFIGS = {
     'awesome_ckeditor': {
         'toolbar': [
-                    ["Format", "Bold", "Italic", "Underline", "Strike", "SpellChecker"],
+                    ["Format", "Bold", "Italic", "Underline", "Strike", "SpellChecker", 'TextColor'],
                     ['NumberedList', 'BulletedList', "Indent", "Outdent", 'JustifyLeft', 'JustifyCenter',
                         'JustifyRight', 'JustifyBlock'],
                     ["Table", "Link", "Unlink", "SectionLink", "Subscript", "Superscript"], ['Undo', 'Redo'],
