@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, url
 
 from .views import LatestAdView, DetailAdView, CreateAdView, IndexAdView, \
-    UpdateAdView, SearchAdView, AdList
+    UpdateAdView, SearchAdView, AdList, AdDeleteView
 
 
 urlpatterns = patterns('',
@@ -18,4 +18,6 @@ urlpatterns = patterns('',
                            UpdateAdView.as_view(), name="update"),
                        url(r'^search/$', SearchAdView.as_view(),
                            name="latest"),
+                       url(r'^delete/(?P<pk>\d+)/$',
+                           AdDeleteView.as_view(), name="delete"),
                        )

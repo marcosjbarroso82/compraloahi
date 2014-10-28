@@ -3,8 +3,10 @@ from django.core import serializers
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.views.generic import ListView, DetailView, \
-    CreateView, UpdateView, TemplateView
+    CreateView, UpdateView, TemplateView, DeleteView
 from sorl.thumbnail import get_thumbnail
+from django.http import HttpResponseRedirect
+from django.contrib import messages
 import json
 
 from datetime import datetime
@@ -70,6 +72,27 @@ class DetailAdView(DetailView):
     template_name = "ad/details.html"
     excluded = ('created', '')
     model = Ad
+
+
+class AdDeleteView(DeleteView):
+    model = Ad
+    success_url = '/accounts/profile'
+
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(AdDeleteView, self).dispatch(*args, **kwargs)
+
+    def get(self, *args, **kwargs):
+        return self.delete(self.request, *args, **kwargs)
+
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.object.delete()
+        messages.success(self.request, "Aviso "
+                         + self.object.title + " removed success.")
+        return HttpResponseRedirect(self.get_success_url())
+
+
 
 
 class CreateAdView(CreateView):

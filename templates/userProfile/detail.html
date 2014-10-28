@@ -115,6 +115,7 @@
                               <h4 class="media-heading">{{ ad.title }}</h4>
                               <p> {{ ad.description }}</p>
                               <div class="pull-right">
+                                  <a href="/ad/delete/{{ ad.id }}" class="btn btn-danger">{% bootstrap_icon "remove" %}Delete</a>
                                   <a href="/ad/{{ ad.id }}" class="btn btn-success">{% bootstrap_icon "eye-open" %}Show</a>
                               </div>
                             </div>
