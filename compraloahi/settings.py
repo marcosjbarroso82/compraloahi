@@ -97,6 +97,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     # allauth specific context processors
     "allauth.account.context_processors.account",
     "allauth.socialaccount.context_processors.socialaccount",
+    "postman.context_processors.inbox",
 
 )
 
@@ -127,10 +128,10 @@ SOCIALACCOUNT_PROVIDERS = {
         'SCOPE': ['email', 'publish_stream'],
 
         # Instead of OAuth
-        'METHOD': 'js_sdk'  # instead of 'oauth2'
+        #'METHOD': 'js_sdk'  # instead of 'oauth2'
 
         # Instead of Facebook Connect Javascript SDK
-        #'METHOD': 'oauth2'
+        'METHOD': 'oauth2'
     },
     'google': {
         'SCOPE': ['https://www.googleapis.com/auth/userinfo.profile'],
@@ -159,7 +160,13 @@ CKEDITOR_JQUERY_URL = '//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.j
 
 CKEDITOR_CONFIGS = {
     'awesome_ckeditor': {
-        'toolbar': 'Basic',
+        'toolbar': [
+                    ["Format", "Bold", "Italic", "Underline", "Strike", "SpellChecker"],
+                    ['NumberedList', 'BulletedList', "Indent", "Outdent", 'JustifyLeft', 'JustifyCenter',
+                        'JustifyRight', 'JustifyBlock'],
+                    ["Table", "Link", "Unlink", "SectionLink", "Subscript", "Superscript"], ['Undo', 'Redo'],
+                    ["Maximize"]
+                ],
         "removePlugins": "stylesheetparser",
         'uiColor' : '#333333',
     },
@@ -174,3 +181,9 @@ HAYSTACK_CONNECTIONS = {
 
 COMMENTS_XTD_MAX_THREAD_LEVEL = 2
 COMMENTS_APP = "django_comments_xtd"
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'testnubiquo@gmail.com'
+EMAIL_HOST_PASSWORD = 'nubiquo1234567890'
+EMAIL_USE_TLS = True
