@@ -2,9 +2,11 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.utils.decorators import method_decorator
 
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 
-from django.views.generic import CreateView, UpdateView, DetailView
+from django.views.generic import CreateView, UpdateView, DetailView, TemplateView
+
+from postman.views import FolderMixin
 
 from .models import Phone, UserProfile
 from .forms import UserProfileForm, Phone_inline_formset, Location_inline_formset
@@ -147,20 +149,39 @@ class UserProfileUpdateView(UpdateView):
 
 
 
-class UserProfileDetailView(DetailView):
+class UserProfileDetailView(FolderMixin, DetailView):
     model = UserProfile
     template_name = 'userProfile/detail.html'
     context_object_name = 'profile'
+    view_name = 'postman_sent'
+    folder_name = 'sent'
+    #view_name = 'postman_sent'
+    #folder_name = 'sent'
+
 
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
+        if 'msg_folder' in kwargs and kwargs['msg_folder']:
+            self.folder_name = kwargs['msg_folder']
+            self.view_name = 'postman_' + kwargs['msg_folder']
+
         if self.get_object():
             return super(UserProfileDetailView, self).dispatch(*args, **kwargs)
         else:
             return HttpResponseRedirect('/accounts/profile/create/')
+
+
 
     def get_object(self, queryset=None):
         try:
             return UserProfile.objects.get(user=self.request.user)
         except:
             return None
+
+
+class UserProfileAjaxInboxView(FolderMixin, TemplateView):
+    # for FolderMixin:
+    folder_name = 'inbox'
+    view_name = 'postman_inbox'
+    # for TemplateView:
+    template_name = 'postman/inbox.html'

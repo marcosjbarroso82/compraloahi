@@ -15,4 +15,6 @@ urlpatterns = patterns('',
                        (r'^accounts/', include('userProfile.urls')),
                        (r'^messages/', include('postman.urls')),
                        (r'^ckeditor/', include('ckeditor.urls')),
+                        url(r'^comments/', include('django_comments_xtd.urls')),
+                        (r'^search/', include('haystack.urls')),
                        )

@@ -38,3 +38,4 @@ class AdAdmin(admin.ModelAdmin):
 
 admin.site.register(models.Ad, AdAdmin)
 admin.site.register(models.AdImage, admin.ModelAdmin)
+admin.site.register(models.CategoryTag)

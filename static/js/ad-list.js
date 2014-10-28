@@ -46,6 +46,7 @@ function render_ad_list(ad_list) {
             })
     }
 }
+// TODO: Choose proper variable
 var temp;
 // Search Form
 $("#search_btn").click(search);
@@ -57,13 +58,14 @@ function search() {
     console.log("click" );
     console.log('tags:' + tags + 'lat:' + lat + 'lng: ' + lng + 'radius: ' + String(radius) );
     temp = {'tags':tags, 'lat':lat, 'radius':radius, 'lng':lng};
+    console.log("request data:" + temp);
     $.ajax({
         //data: {'tags':tags, 'lat':lat, 'lng':lng, 'radius':radius},
         data: temp,
         url: "/ad/search/",
         type: "get",
         success: function(data){
-            console.log("succcess" + data);
+            console.log("succcess 66:" + data);
             json_data =  data;
             render_ad_list(data);
             loadPositions(json_data);

@@ -32,6 +32,13 @@ INSTALLED_APPS = (
     'sorl.thumbnail',
     'userProfile',
     'ckeditor',
+    'postman',
+    'pagination',
+    'django.contrib.comments',
+    'django_comments_xtd',
+    'haystack',
+    'whoosh',
+    'common_tags',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -165,8 +172,15 @@ CKEDITOR_CONFIGS = {
     },
 }
 
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
+        'PATH': os.path.join(os.path.dirname(__file__), 'whoosh_index'),
+    },
+}
 
-
+COMMENTS_XTD_MAX_THREAD_LEVEL = 2
+COMMENTS_APP = "django_comments_xtd"
 
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587

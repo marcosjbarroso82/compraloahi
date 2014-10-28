@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, url
 
-from .views import UserProfileCreateView, UserProfileDetailView, UserProfileUpdateView
+from .views import UserProfileCreateView, UserProfileDetailView, UserProfileUpdateView,  UserProfileAjaxInboxView
 
 
 urlpatterns = patterns('',
@@ -9,4 +9,7 @@ urlpatterns = patterns('',
                            name="profile-edit"),
                        url(r'^profile/$', UserProfileDetailView.as_view(),
                            name="profile-detail"),
+                       url(r'^profile/(?P<msg_folder>\w+)/$', UserProfileDetailView.as_view(),
+                           name="profile-folder-detail"),
+
                        )

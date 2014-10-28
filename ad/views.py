@@ -19,6 +19,7 @@ def _getAdListJson(tags=None, lat=None, lng=None, radius=None):
     if tags:
         tags = tags.split()
         queryset = queryset.filter(tags__name__in=tags).distinct()
+
     if lat and lng and radius:
         radius_in_degrees = radius / 111200 # TODO: Need more precision than this
         lat_from = lat - radius_in_degrees
