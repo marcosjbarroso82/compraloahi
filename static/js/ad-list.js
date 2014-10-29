@@ -1,38 +1,39 @@
 // Render List Function
 function render_ad_list(ad_list) {
     $("#list").html("");
-    var ad_list_template = "<li id='li-ad-{pk}' data-pk={pk}>" +
-            "<time datetime='2014-07-20'><span class='day'>10</span>"+
-                "<span class='month'>11</span>"+
-                "<span class='year'>2014</span>"+
-                "<span class='time'>ALL DAY</span>"+
-            "</time>"+
-                    "<img src='{thumbnail}' width='100' height='100'>"+
-            "<div class='info'>"+
-                "<h2 class='title'>{title}</h2>"+
-                "<p class='lat'>{lat}</p>"+
-                "<p class='lat'>{lng}</p>"+
-                "<ul>"+
-                    "<li style='width:50%;'><a href='/ad/{pk}'><span class='fa fa-fw fa-eye'></span> Show</a></li>"+
-                    "<li style='width:50%;'><span class='fa fa-money'></span> $39.99</li>"+
-                "</ul>"+
-            "</div>"+
-            "<div class='social'>"+
-                "<ul>"+
-                    "<li class='facebook' style='width:33%;'><a href='#facebook'><span class='fa fa-facebook'></span></a></li>"+
-                    "<li class='twitter' style='width:34%;'><a href='#twitter'><span class='fa fa-twitter'></span></a></li>"+
-                    "<li class='google-plus' style='width:33%;'><a href='#google-plus'><span class='fa fa-google-plus'></span></a></li>"+
-                "</ul>"+
-            "</div>"+
-        "</li>"+
-    "<hr>";
+
+    var ad_list_template = '<li class="media list-group-item" id="li-ad-{pk}" data-pk={pk}>'+
+                              '<a class="pull-left col-md-3" href="#">'+
+                                '<img class="media-object img-thumbnail" width="100%" src="{thumbnail}" alt="post img">'+
+                              '</a>'+
+                              '<div class="media-body col-md-offset-3">'+
+                                '<h3 class="media-heading">{title}</h3>'+
+                                '<small> publish: {pub_date} </small>' +
+                                '<p class="pull-right">${price}</p> ' +
+                                '<p> {short_description} </p>' +
+                                '<a class="btn btn-default pull-right"  href="/ad/{pk}"><span class="glyphicon glyphicon-eye-open"></span></a> ' +
+                              '</div>'+
+                            '</li>';
+
+
+    var ad_list_template2= "<div class='blogShort' id='li-ad-{pk}' data-pk={pk}>"+
+                                "<h1></h1>" +
+                                "<img src='' alt='post img' class='pull-left img-responsive thumb margin10 img-thumbnail'> " +
+                                "<em> Price : $ {price} | Date : {pub_date} | <span class='lat'>{lng}</span> | <span class='lat'>{lat}</span> </em> " +
+                                "<article><p>{body}</p></article>" +
+                                "<a class='btn btn-blog pull-right marginBottom10' href='/ad/{pk}'>DETAIL</a> " +
+                            "</div>";
+
+
     for (var i=0; i < ad_list.length; i++) {
         var row = ad_list_template;
         row = row.replace("{title}", ad_list[i].title);
-        row = row.replace("{body}", ad_list[i].body);
+        row = row.replace("{short_description}", ad_list[i].short_description);
         row = row.replace("{thumbnail}", ad_list[i].thumbnail);
         row = row.replace("{lat}", ad_list[i].lat);
         row = row.replace("{lng}", ad_list[i].lng);
+        row = row.replace("{price}", ad_list[i].price);
+        row = row.replace("{pub_date}", ad_list[i].pub_date);
         row = row.replace(/{pk}/gi, ad_list[i].pk);
 
         $("#list").append(row);

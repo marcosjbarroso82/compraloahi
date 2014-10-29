@@ -16,114 +16,75 @@
             color: #999;
         }
     </style>
-    <div class="container">
-    {% include "userProfile/mis_mensajes.html" %}
-        <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="well well-sm">
-                    <div class="row">
-                        <div class="col-sm-6 col-md-4">
 
-                            {% thumbnail profile.image "400x400" crop="center" as im %}
-                                <img class="img-rounded img-responsive" id="item-display" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
-                            {% endthumbnail %}
+    <div class="col-md-3" style="margin-top: 80px;">
+      <strong>Menu</strong>
+      <hr>
+      <ul class="nav nav-pills nav-stacked">
+        <li class="nav-header"></li>
+        <li class="active"><a href="http://bootply.com" title="The Bootstrap Playground" target="ext">Profile</a></li>
+        <li><a href="/tagged/bootstrap-3">Messages</a></li>
+        <li class="divider"></li>
+        <li><a href="/61518" title="Bootstrap 3 Panel">My ads</a></li>
+        <li><a href="/61521" title="Bootstrap 3 Icons">My locations</a></li>
+        <li><a href="/61523" title="Bootstrap 3 ListGroup">My agenda</a></li>
+      </ul>
+  	</div><!-- /span-3 -->
+    <div class="col-md-9" style="margin-top: 80px;">
+        <div class="panel panel-default">
+            <div class="panel-heading">Profile</div>
+        
+            <div class="col-sm-6 col-md-4">
 
+                {% thumbnail profile.image "400x400" crop="center" as im %}
+                    <img class="img-rounded img-responsive" id="item-display" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+                {% endthumbnail %}
+
+            </div>
+            <div class="col-sm-6 col-md-8">
+                <h4>
+                    {{ user.first_name|capfirst }}, {{ user.last_name|capfirst }}</h4>
+                <small>
+                    {% with profile.locations.all|first as location %}
+                        <cite title="{{ location.title }}">
+                            {{ location.title }}
+                        </cite>
+                    {% endwith %}
+                </small>
+                <p>
+                    <i class="glyphicon glyphicon-envelope"></i>{{ user.email }}
+                    <br />
+                    {% for phone in profile.phones.all %}
+                        <div>
+                            {% if phone.type == 'FAX' %}
+                                <i class="glyphicon glyphicon-phone-alt"></i>
+                            {% elif phone.type == 'TEL' %}
+                                <i class="glyphicon glyphicon-earphone"></i>
+                            {% else %}
+                                <i class="glyphicon glyphicon-earphone"></i>
+                            {% endif %}
+
+                            <label>{{ phone.type }}</label>
+                            {{ phone.number }}
                         </div>
-                        <div class="col-sm-6 col-md-8">
-                            <h4>
-                                {{ user.first_name|capfirst }}, {{ user.last_name|capfirst }}</h4>
-                            <small>
-                                {% with profile.locations.all|first as location %}
-                                    <cite title="{{ location.title }}">
-                                        {{ location.title }}
-                                    </cite>
-                                {% endwith %}
-                            </small>
-                            <p>
-                                <i class="glyphicon glyphicon-envelope"></i>{{ user.email }}
-                                <br />
-                                {% for phone in profile.phones.all %}
-                                    <div>
-                                        {% if phone.type == 'FAX' %}
-                                            <i class="glyphicon glyphicon-phone-alt"></i>
-                                        {% elif phone.type == 'TEL' %}
-                                            <i class="glyphicon glyphicon-earphone"></i>
-                                        {% else %}
-                                            <i class="glyphicon glyphicon-earphone"></i>
-                                        {% endif %}
-
-                                        <label>{{ phone.type }}</label>
-                                        {{ phone.number }}
-                                    </div>
-                                    <br/>
-                                {% endfor %}
-                                <i class="glyphicon glyphicon-gift"></i>{{ profile.birth_date.year }} - {{ profile.birth_date.month }} - {{ profile.birth_date.day }}
-                            </p>
-                            <!-- Split button -->
-                            <div class="btn-group pull-right">
-                                <a href="/accounts/profile/edit" class="btn btn-warning">{% bootstrap_icon "edit" %}Edit</a>
-                                <a href="/accounts/password/change" class="btn btn-warning">{% bootstrap_icon "cog" %}Change password</a>
-                            </div>
-                        </div>
-                    </div>
+                        <br/>
+                    {% endfor %}
+                    <i class="glyphicon glyphicon-gift"></i>{{ profile.birth_date.year }} - {{ profile.birth_date.month }} - {{ profile.birth_date.day }}
+                </p>
+                <!-- Split button -->
+                <div class="btn-group pull-right">
+                    <a href="/accounts/profile/edit" class="btn btn-warning">{% bootstrap_icon "edit" %}Edit</a>
+                    <a href="/accounts/password/change" class="btn btn-warning">{% bootstrap_icon "cog" %}Change password</a>
                 </div>
             </div>
         </div>
     </div>
 
 
-    <div class="col-md-6">
 
-        <div class="panel panel-default">
-              <!-- Default panel contents -->
-              <div class="panel-heading">Mis ubicaciones</div>
-              <div class="panel-body">
-                <p>Gestiona rapido tus posiciones</p>
-              </div>
 
-              <ul class="list-group">
-                    {% for location in profile.locations.all %}
-                        <li class="list-group-item">
-                            {{ location.title }}
-                            <a href="/accounts/profile/position/delete/{{ location.id }}" class="btn btn-danger">{% bootstrap_icon "remove" %}Delete</a>
-                        </li>
-                    {% endfor %}
-                </ul>
-        </div>
 
-    </div>
-    <div class="col-md-6">
 
-        <div class="panel panel-default">
-              <!-- Default panel contents -->
-              <div class="panel-heading">Mis Avisos</div>
-              <div class="panel-body">
-                <p>Ultimos avisos...</p>
-              </div>
-
-              <ul class="media-list">
-                    {% for ad in user.ads.all %}
-                        <li class="media">
-                            <a class="pull-left" href="#">
-                                {% with ad.images.all|first as image %}
-                                    {% thumbnail image.image "100x100" crop="center" as im %}
-                                        <img id="media-object" src="{{ im.url }}" width="64" height="64">
-                                    {% endthumbnail %}
-                              {% endwith %}
-                            </a>
-                            <div class="media-body">
-                              <h4 class="media-heading">{{ ad.title }}</h4>
-                              <p> {{ ad.description }}</p>
-                              <div class="pull-right">
-                                  <a href="/ad/delete/{{ ad.id }}" class="btn btn-danger">{% bootstrap_icon "remove" %}Delete</a>
-                                  <a href="/ad/{{ ad.id }}" class="btn btn-success">{% bootstrap_icon "eye-open" %}Show</a>
-                              </div>
-                            </div>
-                        </li>
-                    {% endfor %}
-                </ul>
-        </div>
-    </div>
 
 {% endblock %}
 

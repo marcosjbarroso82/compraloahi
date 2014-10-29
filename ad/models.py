@@ -30,6 +30,8 @@ class Ad(models.Model):
     tags = TaggableManager(blank=True)
     categories = TaggableManager(verbose_name='categories', through=CategoryTaggedItem, blank=True)
     author = models.ForeignKey(User, related_name='ads')
+    short_description = models.CharField(max_length=120, blank=False)
+    price = models.FloatField(default='0.00')
 
     objects = AdQuerySet.as_manager()
 

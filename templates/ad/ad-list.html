@@ -7,55 +7,74 @@
     <link rel="stylesheet" href="{{ STATIC_URL }}css/list.css" >
 {% endblock %}
 
-
 {% block body_block %}
-<a href="/ad/create" id="btnAddAd" class="btn btn-primary">Agrega tu aviso</a>
-    <div id="search_form_wrapper" class="col-lg-12 col-home">
-        <div class="col-lg-6">
-            <div id="mapa" class="capas"></div>
-        </div>
-        <div class="col-lg-6">
-            <div class="form">
-                <label for="tags" class="form-label">Search</label>
-                <input id="tags" class="form-control" type="text"/>    
-            </div>
-            <div class="form">
-                <label for="lat" class="form-label">Lat:</label>
-                <input id="lat" type="text" class="form-control"/>    
-            </div>
-            <div class="form">
-                <label class="form-label" for="lng">Lng:</label>
-                <input id="lng" type="text" class="form-control"/>    
-            </div>
-            <div class="form">
-                <label class="form-label" for="radius">Radius:</label>
-                <input id="radius" type="text" class="form-control"/>    
-            </div>
-            <div class="range range-success">
-                <input type="range" name="range" min="1" max="100" value="50" onchange="rangeSuccess.value=value">
-                <output id="rangeSuccess">50</output>
-            </div>
-            <input id="search_btn" type="submit" value="search" class="btn btn-primary rigth" />
-        </div>
+    <div id="head-list" style="position: fixed; background-color: #ffffff; z-index: 10; height: 100px;" class="col-md-12">
+
     </div>
-<div class="col-lg-3 sidebar col-home">
-    <h1>SIDEBAR</h1>
-    <ul>
-       <li>Categoria 1</li> 
-       <li>Categoria 1</li> 
-       <li>Categoria 1</li> 
-       <li>Categoria 1</li> 
-    </ul>
+    <div class="col-lg-12" id="content-ad-list" style="padding-top: 100px;">
+    <div class="col-lg-5 sidebar" id="siderbar">
+         <div class="">
+        <div id="mapa" class="capas img-thumbnail"></div>
+    </div>
+        <div class="panel panel-default">
+            <div class="panel-heading text-center">Categorias</div>
+            <ul class="list-group panel-body">
+               <li class="list-group-item">Categoria 1<span class="badge">42</span></li>
+               <li class="list-group-item">Categoria 2<span class="badge">5</span></li>
+               <li class="list-group-item">Categoria 3<span class="badge">10</span></li>
+               <li class="list-group-item">Categoria 4<span class="badge">23</span></li>
+            </ul>
+        </div>
+
+    </div>
+    <!-- LIST -->
+    <div class="col-lg-7 content col-lg-offset-5">
+        <div class="row " id="form-search">
+            <div class="">
+                <input id="tags" class="form-control" type="text" placeholder="Search"/>
+
+                <div class="form-group" hidden="true" style="display: none;">
+                    <label for="lat" class="col-sm-2 control-label">Lat:</label>
+                    <div class="col-sm-10">
+                        <input id="lat" type="text" class="form-control"/>
+                    </div>
+                </div>
+                <div class="form-group" hidden="true" style="display: none;">
+                    <label class="col-sm-2 control-label" for="lng">Lng:</label>
+                    <div class="col-sm-10">
+                        <input id="lng" type="text" class="form-control"/>
+                    </div>
+                </div>
+                <div class="form-group" hidden="true" style="display: none;">
+                    <label class="col-sm-2 control-label" for="radius">Radius:</label>
+                    <div class="col-sm-10">
+                        <input id="radius2" type="text" class="form-control"/>
+                    </div>
+                </div>
+            </div>
+            <div class="">
+                    <label class="col-md-1" for="radius">Radius:</label>
+                    <div class="col-md-9">
+                        <div class="range range-success">
+                             <input id="radius" type="range" name="radius" min="1" max="100000" value="50" onchange="range.value=value">
+                            <output id="range">50</output>
+                        </div>
+                    </div>
+                    <input id="search_btn" type="submit" value="search" class="col-md-2 btn btn-sm btn-success pull-right" />
+                    <!-- SUBMIT -->
+            </div>
+
+        </div>
+
+        <div id="result" class="row">
+        <h1>All Ads list</h1>
+        {% bootstrap_messages %}
+        <ul id="list" class="media-list">
+        </ul>
+            </div>
+    </div>
+    <!-- END LIST -->
 </div>
-<div class="col-lg-9 content col-home">
-    
-    <div id="result"></div>
-    <h1>All Ads list</h1>
-    {% bootstrap_messages %}
-    <ul id="list" class="event-list">
-    </ul>
-</div>
-    
 {% endblock %}
 
 {% block js_footer_block %}

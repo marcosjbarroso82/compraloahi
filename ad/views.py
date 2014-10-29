@@ -14,6 +14,8 @@ from .models import Ad
 from .forms import CreateAdForm, AdModifyForm, \
     AdImage_inline_formset, AdLocation_inline_formset
 
+from django.template import defaultfilters
+
 def _getAdListJson(tags=None, lat=None, lng=None, radius=None):
     object_response = []
     queryset = Ad.objects.all()
@@ -33,11 +35,15 @@ def _getAdListJson(tags=None, lat=None, lng=None, radius=None):
         queryset = queryset.filter(locations__lng__range=(lng_from, lng_to ))
 
     for ad in queryset:
-        thumbnail = get_thumbnail(ad.images.first().image, '100x100', crop='center', quality=99).url
+        thumbnail = get_thumbnail(ad.images.first().image, '200x200', crop='center', quality=99).url
         location = ad.locations.first()
-        object_response.append( {"title": ad.title + " " + str(datetime.now().strftime('%M:%S')), "body":ad.body, "thumbnail": thumbnail,
-                                 "lat": location.lat, "lng": location.lng, "pk": ad.pk} )
+        #pubdate = str(ad.pub_date.day + "-" + ad.pub_date.month + "-" + ad.pub_date.year)
+        object_response.append({"title": ad.title + " " + str(datetime.now().strftime('%M:%S')), "body": ad.body,
+                                "thumbnail": thumbnail, "lat": location.lat, "lng": location.lng,
+                                "pk": ad.pk, "short_description": ad.short_description, "price": ad.price,
+                                'pub_date': defaultfilters.date(ad.pub_date, 'SHORT_DATETIME_FORMAT')})
     return json.dumps(object_response)
+
 
 class SearchAdView(TemplateView):
     def get(self, request, *args, **kwargs):
@@ -49,12 +55,14 @@ class SearchAdView(TemplateView):
         data = _getAdListJson(tags=tags, lat=lat,  radius=radius, lng=lng)
         return HttpResponse(data, content_type="application/json")
 
+
 class AdList(TemplateView):
     template_name = "ad/ad-list.html"
 
     def get_context_data(self, **kwargs):
         data = _getAdListJson()
         return {'json_data': data}
+
 
 class IndexAdView(TemplateView):
     template_name = "index.html"
@@ -91,8 +99,6 @@ class AdDeleteView(DeleteView):
         messages.success(self.request, "Aviso "
                          + self.object.title + " removed success.")
         return HttpResponseRedirect(self.get_success_url())
-
-
 
 
 class CreateAdView(CreateView):
