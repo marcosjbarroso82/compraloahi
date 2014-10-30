@@ -3,10 +3,10 @@ function render_ad_list(ad_list) {
     $("#list").html("");
 
     var ad_list_template = '<li class="media list-group-item" id="li-ad-{pk}" data-pk={pk}>'+
-                              '<a class="pull-left col-md-3" href="#">'+
+                              '<a class="pull-left col-md-2" href="#">'+
                                 '<img class="media-object img-thumbnail" width="100%" src="{thumbnail}" alt="post img">'+
                               '</a>'+
-                              '<div class="media-body col-md-offset-3">'+
+                              '<div class="media-body col-md-offset-2">'+
                                 '<h3 class="media-heading">{title}</h3>'+
                                 '<small> publish: {pub_date} </small>' +
                                 '<p class="pull-right">${price}</p> ' +
