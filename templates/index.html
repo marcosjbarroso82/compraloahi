@@ -3,18 +3,19 @@
 {% block title %}Lista de avisos {% endblock %}
 
 {% block css_header_block %}
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/list.css" >
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/home.css" >
 {% endblock %}
 
 {% block body_block %}
  
- <div class="container">
+ <div id="container-home">
+    <a href="/ad/create" id="btnAddAd" class="btn btn-primary btn-lg pull-right"><span class="glyphicon glyphicon-bullhorn"></span> Agrega tu aviso</a>
     <div class="row col-lg-12" id="home-search">
-        <a href="/ad/create" id="btnAddAd" class="btn btn-primary">Agrega tu aviso</a>
-        <div class="col-lg-3"></div>
-        <div class="col-lg-6">
-            <h1>Buscate algo</h1>
-            <form action="/ad/ad-list" method="get" class="input-group custom-search-form">
+
+
+        <div class="col-lg-6 col-lg-offset-3 pull-center">
+            <h1 id="title-search" class="text-center"> ¡ Encontra tu aviso !</h1>
+            <form action="/ad/ad-list" method="get" id="search" class="input-group custom-search-form">
               <input type="text" class="form-control" name="tags">
               <span class="input-group-btn">
               <button class="btn btn-default" type="submit" >
@@ -28,16 +29,64 @@
 
     <div class="col-md-12">
         <div class="col-md-6">
-            <h3>Compralo ahi:</h3>
-            <p> Compralo ahi! a la vuelta de tus pies</p>
-            <p> Busca lo que queres para cuando podes</p>
-            <p> ¿Sos perezoso para moverte por largas distancia? Esta es tu solucion. </p>
-            <p> En la vida, el tiempo y las oportunidades son de las pocas cosas que una vez perdidas no puedes recuperar... <br/>
-                No te pierdas ninguna, configura tu perfil para saber todas las oportunidades que tenes cerca
-            </p>
+            <h3> Compralo ahi:</h3>
+            <br>
+            <div class="timeline-centered">
+                <article class="timeline-entry">
+                    <div class="timeline-entry-inner">
+                        <div class="timeline-icon bg-success">
+                            <i class="entypo-feather"></i>
+                        </div>
+                        <div class="timeline-label">
+                            <h2><a href="#">Compralo ahi! a la vuelta de tus pies</a></h2>
+                            <p>Compralo ahi! a la vuelta de tus pies</p>
+                        </div>
+                    </div>
+
+                </article>
+                <article class="timeline-entry">
+                    <div class="timeline-entry-inner">
+                        <div class="timeline-icon bg-info">
+                            <i class="entypo-feather"></i>
+                        </div>
+                        <div class="timeline-label">
+                            <h2><a href="#">Busca lo que queres para cuando podes</a></h2>
+                            <p>Busca lo que queres para cuando podes</p>
+                        </div>
+                    </div>
+
+                </article>
+                <article class="timeline-entry">
+                    <div class="timeline-entry-inner">
+                        <div class="timeline-icon bg-success">
+                            <i class="entypo-feather"></i>
+                        </div>
+                        <div class="timeline-label">
+                            <h2><a href="#">¿Sos perezoso para moverte por largas distancia? </a></h2>
+                            <p>Esta es tu solucion. Compralo ahi! a la vuelta de tus pies</p>
+                        </div>
+                    </div>
+
+                </article>
+                <article class="timeline-entry">
+                    <div class="timeline-entry-inner">
+                        <div class="timeline-icon bg-info">
+                            <i class="entypo-feather"></i>
+                        </div>
+                        <div class="timeline-label">
+                            <h2><a href="#">Oportunidades</a></h2>
+                            <p>En la vida, el tiempo y las oportunidades son de las pocas cosas que una vez perdidas no puedes recuperar... <br/>
+                               No te pierdas ninguna, configura tu perfil para saber todas las oportunidades que tenes cerca</p>
+                        </div>
+                    </div>
+
+                </article>
+            </div>
+
+
         </div>
         <div class="col-md-6">
-            <img src="/static/image/mapa.jpg">
+            <img src="/static/image/mapa.jpg" class="pull-right">
         </div>
         
     </div>
