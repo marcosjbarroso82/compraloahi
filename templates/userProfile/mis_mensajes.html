@@ -19,7 +19,7 @@ in the INSTALLED_APPS setting.
 
 {% block content %}
     <div id="postman" class="">
-        <h1 class="">{% trans "Received Messages" %}</h1>
+
         <ul id="postman_menu" class="nav nav-pills" role="tablist">{% postman_unread as unread_count %}
             <li role="presentation" class="active"><a href="{% url 'profile-folder-detail' 'inbox' %}">{% trans "Inbox" %}{% if unread_count %}  <span class="badge">({{ unread_count }})</span>{% endif %}</a></li>
             <li role="presentation"><a href="{% url 'profile-folder-detail' 'sent' %}">{% trans "Sent Messages" %}</a></li>

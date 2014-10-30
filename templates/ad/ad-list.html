@@ -52,16 +52,22 @@
                     </div>
                 </div>
             </div>
-            <div class="">
-                    <label class="col-md-1" for="radius">Radius:</label>
-                    <div class="col-md-9">
+            <div class="" id="form-search-rad">
+                    <div class="row col-md-10">
                         <div class="range range-success">
                              <input id="radius" type="range" name="radius" min="1" max="100000" value="50" onchange="range.value=value">
                             <output id="range">50</output>
                         </div>
+                        <div class="help">Radius</div>
                     </div>
-                    <input id="search_btn" type="submit" value="search" class="col-md-2 btn btn-sm btn-success pull-right" />
+
                     <!-- SUBMIT -->
+                    <button id="search_btn" type="submit" class="col-md-2 btn btn-success pull-right">
+                        <i class="glyphicon glyphicon-search"></i> Search
+                    </button>
+
+
+
             </div>
 
         </div>

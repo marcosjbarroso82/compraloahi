@@ -1,10 +1,25 @@
 #container-profile{
     margin-top: 80px;
+
 }
 
+.panel{
+    height: 720px;
+}
 
 small {
     display: block;
     line-height: 1.428571429;
     color: #999;
+}
+
+.v-center {
+    vertical-align:middle !important;
+}
+
+.panel-heading{
+    text-align: center;
+    font-family: Monospace;
+    font-weight: bold;
+    text-decoration: double;
 }
