@@ -18,96 +18,105 @@
 
     {% bootstrap_messages %}
 
-    <div class="container-fluid" style="padding-top: 70px">
-            <div style="background-color: #f5f5f6">
-                <div class="container" style="background-color: #f5f5f6">
-                    <h1 class="text-center">{{ ad.title }}</h1>
+    <div class="container">
+
+    <div style="background-color: #f5f5f6">
+    <div class="container" style="background-color: #f5f5f6">
+        <h1 class="text-center">{{ ad.title }}</h1>
+    </div>
+    <hr>
+    <div class="container col-md-12" style="background-color: #f5f5f6">
+    <div class="col-md-6" >
+        <div class="container col-md-1 pull-left" style="background-color: #f5f5f6">
+            {% for images in ad.images.all %}
+                {% thumbnail images.image "800x800" crop="center" as im %}
+                    <a id="{{ images.pk }}" class="ad-image-gallery" data-image="{{ im.url }}">
+                {% endthumbnail %}
+            {% thumbnail images.image "100x100" crop="center" as im %}
+                <img class="img-thumbnail" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+            {% endthumbnail %}
+            </a>
+            {% endfor %}
+        </div>
+        <div class="col-md-11">
+            {% with ad.images.all|first as image %}
+                {% thumbnail image.image "800x800" crop="center" as im %}
+                    <!-- <img id="item-display" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}"> -->
+                    <a id="main-image-link" href="{{ im.url }}" class="cloud-zoom" rel=" adjustY:0, adjustX:60">
+                        <img id="main-image" class="img-thumbnail" src="{{ im.url }}">
+                    </a>
+                {% endthumbnail %}
+            {% endwith %}
+        </div>
+
+
+    </div>
+
+    <div class="col-md-6" style="background-color: #f5f5f6">
+        <div class="col-md-12">
+            <div class="col-md-11">
+                <div class="row">
+                    <div class="col-md-12">
+                    <div class="h1">${{ ad.price|floatformat:"0" }}<sup>{{ ad.price|float_decimal_part}}</sup></div>
+                    <div class="lead">{{ ad.short_description }}</div>
+                        </div>
                 </div>
                 <hr>
-                <div class="container" style="background-color: #f5f5f6">
-                    <div class="col-md-6" >
-                        <div class="col-md-11 pull-right">
-                                  {% with ad.images.all|first as image %}
-                                        {% thumbnail image.image "800x800" crop="center" as im %}
-                                           <!-- <img id="item-display" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}"> -->
-                                             <a id="main-image-link" href="{{ im.url }}" class="cloud-zoom" rel=" adjustY:0, adjustX:20">
-                                                 <img id="main-image" class="img-thumbnail" src="{{ im.url }}">
-                                             </a>
-                                        {% endthumbnail %}
-                                  {% endwith %}
-                        </div>
+                <div class="row">
 
-                        <div class="container col-md-1 pull-left" style="background-color: #f5f5f6">
-                                {% for images in ad.images.all %}
-                                    {% thumbnail images.image "800x800" crop="center" as im %}
-                                        <a id="{{ images.pk }}" class="ad-image-gallery" data-image="{{ im.url }}">
-                                    {% endthumbnail %}
-                                        {% thumbnail images.image "100x100" crop="center" as im %}
-                                                <img class="img-thumbnail" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
-                                        {% endthumbnail %}
-                                    </a>
-                                {% endfor %}
-                        </div>
+                    <div class="pull-left col-md-9">
+                        <div >Puntaje de este Anunciante</div>
+                        <div ><i class="fa fa-star gold"></i> <i class="fa fa-star gold"></i> <i class="fa fa-star gold"></i> <i class="fa fa-star gold"></i> <i class="fa fa-star-o"></i> </div>
                     </div>
-
-                    <div class="col-md-6" style="background-color: #f5f5f6">
-                        <div class="col-md-10">
-                            <div class="row">
-                                <div class="col-md-12">
-                                <div class="h1">${{ ad.price|floatformat:"0" }}<sup>{{ ad.price|float_decimal_part}}</sup></div>
-                                <div class="lead">{{ ad.short_description }}</div>
-                                </div>
-                            </div>
-                            <hr>
-
-                            <div class="row">
-                                <div class="col-md-10">
-                                    <div class="">Puntaje de este Anunciante</div>
-                                    <div class=""><i class="fa fa-star gold"></i> <i class="fa fa-star gold"></i> <i class="fa fa-star gold"></i> <i class="fa fa-star gold"></i> <i class="fa fa-star-o"></i> </div>
-                                </div>
-                                <div class="col-md-2 pull-right">
-                                    <a href="{% url 'postman_write' ad.author %}" class="btn btn-success">Contact</a>
-                                </div>
-                            </div>
-                        </div>
-                        </div>
+                    <div class="pull-right col-md-3">
+                        <a href="{% url 'postman_write' ad.author %}" class="btn btn-success">Contact</a>
                     </div>
                 </div>
-            </div>
-            <div class="container-fluid">
-                <div class="col-md-12 product-info">
-                        <ul id="myTab" class="nav nav-tabs nav_tabs">
-
-                            <li class="active"><a href="#service-one" data-toggle="tab">DESCRIPTION</a></li>
-                            <li><a href="#service-two" data-toggle="tab">PRODUCT INFO</a></li>
-                            <li><a href="#service-three" data-toggle="tab">REVIEWS</a></li>
-
-                        </ul>
-                    <div id="myTabContent" class="tab-content">
-                            <div class="tab-pane fade in active" id="service-one">
-
-                                <section class="container product-info">
-                                    {{ ad.body|safe }}
-                                </section>
-
-                            </div>
-                        <div class="tab-pane fade" id="service-two">
-
-                            <section class="container">
-
-                            </section>
-
-                        </div>
-                        <div class="tab-pane fade" id="service-three">
-
-                        </div>
-                    </div>
-                    <hr>
+                <hr>
+                <div class="row pull-right">
+                    <a href="https://www.facebook.com/bootsnipp"><i id="social" class="fa fa-facebook-square fa-3x social-fb"></i></a>
+                    <a href="https://twitter.com/bootsnipp"><i id="social" class="fa fa-twitter-square fa-3x social-tw"></i></a>
+                    <a href="https://plus.google.com/+Bootsnipp-page"><i id="social" class="fa fa-google-plus-square fa-3x social-gp"></i></a>
+                    <a href="mailto:bootsnipp@gmail.com"><i id="social" class="fa fa-envelope-square fa-3x social-em"></i></a>
                 </div>
             </div>
-            {% get_comment_count for object as comment_count %}
-            {% render_comment_list for object %}
-            {% render_comment_form for ad %}
+            <hr>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="col-md-12 product-info">
+            <ul id="myTab" class="nav nav-tabs nav_tabs">
+
+                <li class="active"><a href="#service-one" data-toggle="tab">DESCRIPTION</a></li>
+                <li><a href="#service-two" data-toggle="tab">PRODUCT INFO</a></li>
+                <li><a href="#service-three" data-toggle="tab">REVIEWS</a></li>
+
+            </ul>
+            <div id="myTabContent" class="tab-content">
+                <div class="tab-pane fade in active" id="service-one">
+
+                    <section class="container product-info">
+                        {{ ad.body|safe }}
+                    </section>
+
+                </div>
+                <div class="tab-pane fade" id="service-two">
+
+                    <section class="container">
+
+                    </section>
+
+                </div>
+                <div class="tab-pane fade" id="service-three">
+
+                </div>
+            </div>
+            <hr>
+        </div>
+    </div>
+    {% get_comment_count for object as comment_count %}
+    {% render_comment_list for object %}
+    {% render_comment_form for ad %}
 {% endblock %}
 
 
