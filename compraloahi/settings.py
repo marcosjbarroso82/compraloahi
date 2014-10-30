@@ -39,6 +39,7 @@ INSTALLED_APPS = (
     'haystack',
     'whoosh',
     'common_tags',
+    'user',
 )
 
 MIDDLEWARE_CLASSES = (
