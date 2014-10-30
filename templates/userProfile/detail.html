@@ -35,7 +35,7 @@
                             {% endthumbnail %}
                         </div>
                         <div class=" col-md-9 col-lg-9 ">
-                            <h2>{{ user.first_name|capfirst }}, {{ user.last_name|capfirst }}</h2>
+                            <h2 id="title-usernarme">{{ user.first_name|capfirst }}, {{ user.last_name|capfirst }}</h2>
                             <table class="table table-user-information">
                                 <tbody>
                                     <tr>
@@ -74,7 +74,7 @@
                                                     <i class="glyphicon glyphicon-earphone"></i>
                                                 {% else %}
                                                     <i class="glyphicon glyphicon-earphone"></i>
-                                                {% endif %} 
+                                                {% endif %}
                                                 {{ phone.number }}
                                                 <br/>
                                             {% endfor %}

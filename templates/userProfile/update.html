@@ -1,6 +1,6 @@
 {% extends 'layout/base.html' %}
 {% load bootstrap3 %}
-{% block title %}Crear perfil {% endblock %}
+{% block title %}Update profile {% endblock %}
 
 
 {% block body_block %}
@@ -8,14 +8,28 @@
 {% bootstrap_messages %}
     <form action="" method="post" class="form" enctype="multipart/form-data">
         {% csrf_token %}
-        {% bootstrap_form form %}
+
+        <div class="form-group">
+            <label class="control-label" for="id_first_name">First Name</label>
+            <input class="form-control" id="id_first_name" name="first_name" placeholder="First name" required="required" title="" type="text" value="{{ user.first_name }}">
+        </div>
+
+        <div class="form-group">
+            <label class="control-label" for="id_last_name">Last Name</label>
+            <input class="form-control" id="id_last_name" name="last_name" placeholder="Last name" required="required" title="" type="text" value="{{ user.last_name }}">
+        </div>
+
+        {% bootstrap_field form.birth_date %}
+
+        {% bootstrap_field form.image  %}
 
         {{ phones_form.management_form }}
         {% for phone_form in phones_form %}
             {{ phone_form.id }}
             <div class="inline {{ phones_form.prefix }} form-inline">
-                 {% bootstrap_field phone_form.type %}
-                 {% bootstrap_field phone_form.number %}
+                {% bootstrap_field phone_form.type %}
+                {% bootstrap_field phone_form.number %}
+
             </div>
         {% endfor %}
 
@@ -26,6 +40,7 @@
             {% for location_form in locations_form %}
                 {{ location_form.id }}
                 <div class="inline {{ locations_form.prefix }} form-inline">
+
                     {% bootstrap_field location_form.title %}
                     {% bootstrap_field location_form.lat %}
                     {% bootstrap_field location_form.lng %}
@@ -38,7 +53,7 @@
 
         {% buttons %}
             <button type="submit" class="btn btn-primary pull-right">
-                {% bootstrap_icon "save" %} Create
+                {% bootstrap_icon "save" %} Save Change
             </button>
         {% endbuttons %}
     </form>

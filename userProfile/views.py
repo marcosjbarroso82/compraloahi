@@ -92,7 +92,7 @@ class UserProfileUpdateView(UpdateView):
     model = UserProfile
     success_url = '/accounts/profile'
     form_class = UserProfileForm
-    template_name = 'userProfile/create.html'
+    template_name = 'userProfile/update.html'
 
     def get_object(self, queryset=None):
         return UserProfile.objects.get(user=self.request.user)
