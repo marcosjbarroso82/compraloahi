@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-{% load staticfiles %}
 {% load bootstrap3 %}
+{% load staticfiles %}
 <html>
 <head>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.js"></script>
@@ -14,16 +14,14 @@
     <title>{% block title %}Compralo ahi{% endblock %}</title>
 </head>
 
-<body>
+<body style="background-color: #f5f5f6">
 
 {% include "layout/menu.html" %}
 
 
-<div class="container container-body">
     {% block body_block %}
         This is body_block's default content.
     {% endblock %}
-</div>
 
 </body>
 <footer class="container-fluid footer bottom-block">
