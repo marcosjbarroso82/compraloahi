@@ -23,7 +23,7 @@
     position: absolute;
     display: block;
     width: 4px;
-    background: #f5f5f6;
+    background: #c5c5c6;
     /*left: 50%;*/
     top: 20px;
     bottom: 20px;
@@ -59,9 +59,9 @@
     -moz-border-radius: 20px;
     border-radius: 20px;
     text-align: center;
-    -moz-box-shadow: 0 0 0 5px #f5f5f6;
-    -webkit-box-shadow: 0 0 0 5px #f5f5f6;
-    box-shadow: 0 0 0 5px #f5f5f6;
+    -moz-box-shadow: 0 0 0 5px #c5c5c6;
+    -webkit-box-shadow: 0 0 0 5px #c5c5c6;
+    box-shadow: 0 0 0 5px #c5c5c6;
     line-height: 40px;
     font-size: 15px;
     float: left;
@@ -82,7 +82,7 @@
 
 .timeline-centered .timeline-entry .timeline-entry-inner .timeline-label {
     position: relative;
-    background: #f5f5f6;
+    background: #c5c5c6;
     padding: 1em;
     margin-left: 60px;
     -webkit-background-clip: padding-box;
@@ -101,7 +101,7 @@ width: 0;
 height: 0;
 border-style: solid;
 border-width: 9px 9px 9px 0;
-border-color: transparent #f5f5f6 transparent transparent;
+border-color: transparent #c5c5c6 transparent transparent;
 left: 0;
 top: 10px;
 margin-left: -9px;

@@ -34,8 +34,8 @@ class CreateAdForm(forms.ModelForm):
 
     class Meta:
         model = Ad
-        fields = ('title','short_description', 'price','body','slug', 'tags', 'categories',)
-        excluded = ('author', 'modified', 'pub_date', 'created', 'published')
+        fields = ('title', 'short_description', 'price', 'body', 'slug', 'tags', 'categories', 'pub_date')
+        excluded = ('author', 'modified', 'created', 'published')
         widgets = {'body': CKEditorWidget(config_name='awesome_ckeditor')}
 
 

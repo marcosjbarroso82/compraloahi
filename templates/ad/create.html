@@ -4,12 +4,18 @@
 
 
 {% block body_block %}
-
-{% bootstrap_messages %}
+    <div class="container">
+    {% bootstrap_messages %}
+    <h2>Create Ad</h2>
     <form action="" method="post" class="form" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.media }}
-        {{ form.as_p }}
+        {% bootstrap_field form.title %}
+        {% bootstrap_field form.short_description %}
+        {% bootstrap_field form.price %}
+        {% bootstrap_field form.pub_date %}
+        {% bootstrap_field form.categories %}
+        {{ form.body }}
 
         {{ images_form.management_form }}
         {% for image_form in images_form %}
@@ -25,7 +31,9 @@
         {% for location_form in locations_form %}
             {{ location_form.id }}
             <div class="inline {{ locations_form.prefix }} form-inline">
-                 {{ location_form }}
+                {% bootstrap_field location_form.title %}
+                {% bootstrap_field location_form.lat %}
+                {% bootstrap_field location_form.lng %}
             </div>
         {% endfor %}
         </div>
@@ -35,11 +43,13 @@
 
 
         {% buttons %}
-            <button type="submit" class="btn btn-primary">
-                {% bootstrap_icon "save" %} Crear aviso
+            <button type="submit" class="btn btn-primary pull-right">
+                {% bootstrap_icon "save" %} Create
             </button>
         {% endbuttons %}
     </form>
+    </div>
+
 
 {% endblock %}
 

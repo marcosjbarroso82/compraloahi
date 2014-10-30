@@ -4,60 +4,61 @@
 
 
 {% block body_block %}
+    <div class="container">
+        <h2>Edit profile</h2>
+        {% bootstrap_messages %}
+        <form action="" method="post" class="form" enctype="multipart/form-data">
+            {% csrf_token %}
 
-{% bootstrap_messages %}
-    <form action="" method="post" class="form" enctype="multipart/form-data">
-        {% csrf_token %}
-
-        <div class="form-group">
-            <label class="control-label" for="id_first_name">First Name</label>
-            <input class="form-control" id="id_first_name" name="first_name" placeholder="First name" required="required" title="" type="text" value="{{ user.first_name }}">
-        </div>
-
-        <div class="form-group">
-            <label class="control-label" for="id_last_name">Last Name</label>
-            <input class="form-control" id="id_last_name" name="last_name" placeholder="Last name" required="required" title="" type="text" value="{{ user.last_name }}">
-        </div>
-
-        {% bootstrap_field form.birth_date %}
-
-        {% bootstrap_field form.image  %}
-
-        {{ phones_form.management_form }}
-        {% for phone_form in phones_form %}
-            {{ phone_form.id }}
-            <div class="inline {{ phones_form.prefix }} form-inline">
-                {% bootstrap_field phone_form.type %}
-                {% bootstrap_field phone_form.number %}
-
+            <div class="form-group">
+                <label class="control-label" for="id_first_name">First Name</label>
+                <input class="form-control" id="id_first_name" name="first_name" placeholder="First name" required="required" title="" type="text" value="{{ user.first_name }}">
             </div>
-        {% endfor %}
 
-        <div id="locations">
-            <h3>Locations</h3>
+            <div class="form-group">
+                <label class="control-label" for="id_last_name">Last Name</label>
+                <input class="form-control" id="id_last_name" name="last_name" placeholder="Last name" required="required" title="" type="text" value="{{ user.last_name }}">
+            </div>
 
-            {{ locations_form.management_form }}
-            {% for location_form in locations_form %}
-                {{ location_form.id }}
-                <div class="inline {{ locations_form.prefix }} form-inline">
+            {% bootstrap_field form.birth_date %}
 
-                    {% bootstrap_field location_form.title %}
-                    {% bootstrap_field location_form.lat %}
-                    {% bootstrap_field location_form.lng %}
+            {% bootstrap_field form.image  %}
+
+            {{ phones_form.management_form }}
+            {% for phone_form in phones_form %}
+                {{ phone_form.id }}
+                <div class="inline {{ phones_form.prefix }} form-inline">
+                    {% bootstrap_field phone_form.type %}
+                    {% bootstrap_field phone_form.number %}
+
                 </div>
             {% endfor %}
-        </div>
-        <!-- Locations Map -->
-        <div id="mapa" class="capas"></div>
-        <!-- End Locations Map -->
 
-        {% buttons %}
-            <button type="submit" class="btn btn-primary pull-right">
-                {% bootstrap_icon "save" %} Save Change
-            </button>
-        {% endbuttons %}
-    </form>
+            <div id="locations">
+                <h3>Locations</h3>
 
+                {{ locations_form.management_form }}
+                {% for location_form in locations_form %}
+                    {{ location_form.id }}
+                    <div class="inline {{ locations_form.prefix }} form-inline">
+
+                        {% bootstrap_field location_form.title %}
+                        {% bootstrap_field location_form.lat %}
+                        {% bootstrap_field location_form.lng %}
+                    </div>
+                {% endfor %}
+            </div>
+            <!-- Locations Map -->
+            <div id="mapa" class="capas"></div>
+            <!-- End Locations Map -->
+
+            {% buttons %}
+                <button type="submit" class="btn btn-primary pull-right">
+                    {% bootstrap_icon "save" %} Save Change
+                </button>
+            {% endbuttons %}
+        </form>
+    </div>
 {% endblock %}
 
 {% block js_footer_block %}
