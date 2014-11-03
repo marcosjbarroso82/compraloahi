@@ -57,19 +57,21 @@
             <div class="col-md-11">
                 <div class="row">
                     <div class="col-md-12">
-                    <div class="h1">${{ ad.price|floatformat:"0" }}<sup>{{ ad.price|float_decimal_part}}</sup></div>
-                    <div class="lead">{{ ad.short_description }}</div>
-                        </div>
+                        <div class="product-price">${{ ad.price|floatformat:"0" }}<sup>{{ ad.price|float_decimal_part}}</sup></div>
+                        <br/>
+                        <div class="product-desc">{{ ad.short_description }}</div>
+                    </div>
                 </div>
                 <hr>
                 <div class="row">
-
-                    <div class="pull-left col-md-9">
-                        <div >Puntaje de este Anunciante</div>
-                        <div ><i class="fa fa-star gold"></i> <i class="fa fa-star gold"></i> <i class="fa fa-star gold"></i> <i class="fa fa-star gold"></i> <i class="fa fa-star-o"></i> </div>
+                    <div class="product-rating pull-left col-md-9">
+                        <div class="rating-block">
+                            <div >Puntaje de este Anunciante</div>
+                            <div ><i class="fa fa-star gold"></i> <i class="fa fa-star gold"></i> <i class="fa fa-star gold"></i> <i class="fa fa-star gold"></i> <i class="fa fa-star-o"></i> </div>
+                        </div>
                     </div>
                     <div class="pull-right col-md-3">
-                        <a href="{% url 'postman_write' ad.author %}" class="btn btn-success">Contact</a>
+                        <a href="{% url 'postman_write' ad.author %}" class="btn btn-success pull-right">Contact</a>
                     </div>
                 </div>
                 <hr>

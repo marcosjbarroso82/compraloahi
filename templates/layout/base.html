@@ -4,10 +4,9 @@
 <html>
 <head>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.js"></script>
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/main.css" >
+    <link rel="stylesheet" href="{{ STATIC_URL }}{{ css_folder }}main.css" >
 
-
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap-override.css" >
+    {% bootstrap_css %}
     {% bootstrap_javascript %}
     {% block js_header_block %}{% endblock %}
     {% block css_header_block %}{% endblock %}
@@ -16,7 +15,6 @@
 </head>
 
 <body style="background-color: #f5f5f6">
-
 {% include "layout/menu.html" %}
 
     <div class="container-fluid container-body">

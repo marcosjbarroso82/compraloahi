@@ -3,7 +3,8 @@ function render_ad_list(ad_list) {
     $("#list").html("");
 
     var ad_list_template = '<li class="media list-group-item" id="li-ad-{pk}" data-pk={pk}>'+
-                              '<a class="pull-left col-md-2" href="#">'+
+                              '<a id="ad-anchor-{pk}"</a>' +
+                               '<a class="pull-left col-md-2" href="#">'+
                                 '<img class="media-object img-thumbnail" width="100%" src="{thumbnail}" alt="post img">'+
                               '</a>'+
                               '<div class="media-body col-md-offset-2">'+
@@ -39,11 +40,13 @@ function render_ad_list(ad_list) {
         $("#list").append(row);
         $("#li-ad-" + ad_list[i].pk).hover(
             function(){
-                console.log("hover in " + $(this)[0].dataset.pk);
+                /* console.log("hover in " + $(this)[0].dataset.pk); */
                 ad_position_areas[$(this)[0].dataset.pk].setMap(map);
+                ad_position_areas[$(this)[0].dataset.pk].setOptions({strokeWeight: 2.0, fillColor: 'red'});
             },
             function(){
-                ad_position_areas[$(this)[0].dataset.pk].setMap(null);
+                /*ad_position_areas[$(this)[0].dataset.pk].setMap(null);*/
+                ad_position_areas[$(this)[0].dataset.pk].setOptions({strokeWeight: 2.0, fillColor: 'green'});
             })
     }
 }
@@ -69,6 +72,7 @@ function search() {
             console.log("succcess 66:" + data);
             json_data =  data;
             render_ad_list(data);
+            clearMapPositions();
             loadPositions(json_data);
         },
     });
