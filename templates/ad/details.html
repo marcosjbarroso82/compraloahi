@@ -18,14 +18,12 @@
 
     {% bootstrap_messages %}
 
-    <div class="container">
+    <div class="container" style="background-color: #f5f5f6">
 
     <div style="background-color: #f5f5f6">
-    <div class="container" style="background-color: #f5f5f6">
         <h1 class="text-center">{{ ad.title }}</h1>
     </div>
     <hr>
-    <div class="container col-md-12" style="background-color: #f5f5f6">
     <div class="col-md-6" >
         <div class="container col-md-1 pull-left" style="background-color: #f5f5f6">
             {% for images in ad.images.all %}
@@ -68,17 +66,15 @@
                         <div >Puntaje de este Anunciante</div>
                         <div ><i class="fa fa-star gold"></i> <i class="fa fa-star gold"></i> <i class="fa fa-star gold"></i> <i class="fa fa-star gold"></i> <i class="fa fa-star-o"></i> </div>
                     </div>
+
                     <!-- ######## CONTACT ############# -->
                     <div class="pull-right col-md-3">
-
-                       <a href="{% url 'postman_write' ad.author %}" class="btn btn-success" >Contact</a>
+                        <a href="{% url 'postman_write' ad.author %}" class="btn btn-success" >Contact</a>
 
                       <!-- BUTTON OPEN --->
-                      <button data-toggle="modal" data-target="#modalMessage">
+                      <button data-toggle="modal" class="btn btn-primary" data-target="#modalMessage">
                           <i class=""></i> Contact
                       </button>
-
-
 
                         <!-- /.modal compose message -->
                         <div class="modal" id="modalMessage">
@@ -103,7 +99,7 @@
                                 </form>
                               </div>
                               <div class="modal-footer">
-                                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancel</button> 
+                                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancel</button>
                                 <button type="submit" class="btn btn-primary" id="submitMessage">Send <i class="fa fa-arrow-circle-right fa-lg"></i></button>
                               </div>
                               <script type="text/javascript">
@@ -131,6 +127,7 @@
                           <!-- /.modal-dialog -->
                         </div>
                         <!-- /.modal compose message -->
+
                     </div>
                     <!-- ######## END CONTACT ############# -->
                 </div>
@@ -179,6 +176,7 @@
     {% get_comment_count for object as comment_count %}
     {% render_comment_list for object %}
     {% render_comment_form for ad %}
+    </div>
 {% endblock %}
 
 

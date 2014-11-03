@@ -63,21 +63,64 @@ function initialize() {
         fillOpacity:0.4
     });
 
+
     linkMapToSearchForm();
+    loadPositions(json_data);
+}
+
+function clearMapPositions() {
+    console.log('clearMapPositions');
+    ad_position_areas.forEach(function(adPositionArea) {
+        /* console.log(adPositionArea); */
+        adPositionArea.setMap(null);
+    });
+    /*
+     for (var i=0; i < ad_position_areas.length; i++) {
+         console.log('ad_position_areas ' + i + ':' + ad_position_areas[i]);
+         ad_position_areas[i][0].setMap(null);
+    }
+    */
 }
 
 function loadPositions(positions) {
-    for (var i=0; i < ad_position_areas.length; i++) {
-        ad_position_areas[i].setMap(null);
-    }
-    ad_position_areas = []
-    for (var i=0; i < positions.length; i++) {
-        position = positions[i];
-        ad_position_areas[position.pk] = new google.maps.Circle({map: map,
-            center: new google.maps.LatLng(position.lat, position.lng), radius: 3000});
-    }
-    //ad_position_areas[$("#list").children()[0].dataset.pk].setMap(map)
+    console.log("loadPositions");
 
+    ad_position_areas = [];
+    /* console.log(positions); */
+    for (var i=0; i < positions.length; i++) {
+        var position = positions[i];
+        ad_position_areas[position.pk] = new google.maps.Circle({
+            content: "contenido",
+            name: "este es el nombre",
+            pk: position.pk,
+            map: map,
+            center: new google.maps.LatLng(position.lat, position.lng),
+            radius: 3000,
+            strokeColor:"#0000FF",
+        strokeOpacity:0.8,
+        strokeWeight:2,
+        fillColor:"#0000FF",
+        fillOpacity:0.4
+        });
+
+        // escucha a las posiciones
+        google.maps.event.addListener(ad_position_areas[position.pk],'mouseover',function(pk){
+            $('li[data-pk="'+ this.pk +'"]').css('background-color', '#f0f');
+        });
+        google.maps.event.addListener(ad_position_areas[position.pk],'mouseout',function(pk){
+            $('li[data-pk="'+ this.pk +'"]').css('background-color', '#fff');
+
+        });
+
+        google.maps.event.addListener(ad_position_areas[position.pk], 'click', function(event) {
+            $('li[data-pk="'+ this.pk +'"]').css('background-color', '#f0f');
+
+              $('html, body').animate({
+                scrollTop: $("#" + "ad-anchor-" + this.pk).offset().top - 70
+            }, 1000);
+
+        });
+    }
 }
 
 function linkMapToSearchForm() {
@@ -86,16 +129,9 @@ function linkMapToSearchForm() {
     $("#lat").val(current_lat);
     $("#lng").val(current_lng);
     $("#radius").val( current_radius );
-    /*
-    google.maps.event.addListener(position_marker, 'position_changed', function() {
-        coords = position_marker.getPosition();
-        //console.log( coords.lat() + ";" + coords.lng() );
-        //$("#lat").val(coords.lat());
-        //$("#lng").val(coords.lng());
-    });
-    */
+
     google.maps.event.addListener(position_area, 'center_changed', function() {
-        console.log('center: ' + position_area.center.lat() + ";" + position_area.center.lng() );
+        /* console.log('center: ' + position_area.center.lat() + ";" + position_area.center.lng() ); */
         $("#lat").val( position_area.center.lat() );
         $("#lng").val( position_area.center.lng() );
     });
@@ -105,5 +141,11 @@ function linkMapToSearchForm() {
         current_radius = position_area.getRadius();
         $("#radius").val( current_radius );
     });
+
+    $("#radius").change(function(){
+        console.log("cambiando radio en el mapa");
+    position_area.setRadius(Number($("#radius").val()));
+    });
+
 
 }

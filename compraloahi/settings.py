@@ -103,6 +103,12 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 
 )
 
+# Dinamic theme change
+TEMPLATE_CONTEXT_PROCESSORS = TEMPLATE_CONTEXT_PROCESSORS + (
+    "theme_manager.theme_manager.css_folder",
+)
+
+
 AUTHENTICATION_BACKENDS = (
     # Needed to login by username in Django admin, regardless of `allauth`
     "django.contrib.auth.backends.ModelBackend",
