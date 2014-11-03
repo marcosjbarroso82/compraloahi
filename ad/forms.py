@@ -36,7 +36,7 @@ class CreateAdForm(forms.ModelForm):
         model = Ad
         fields = ('title', 'short_description', 'price', 'body', 'slug', 'tags', 'categories', 'pub_date')
         excluded = ('author', 'modified', 'created', 'published')
-        widgets = {'body': CKEditorWidget(config_name='awesome_ckeditor')}
+        widgets = {'body': CKEditorWidget(config_name='awesome_ckeditor'), 'pub_date': forms.TextInput(attrs={'type': 'date'})    }
 
 
 class AdModifyForm(forms.ModelForm):
