@@ -40,6 +40,7 @@ INSTALLED_APPS = (
     'whoosh',
     'common_tags',
     'user',
+    'message',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -169,7 +170,7 @@ CKEDITOR_CONFIGS = {
                     ["Maximize"]
                 ],
         "removePlugins": "stylesheetparser",
-        'uiColor' : '#333333',
+        'uiColor' : '#f5f5f6',
     },
 }
 

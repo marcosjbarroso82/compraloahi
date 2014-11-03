@@ -36,11 +36,12 @@ class CreateAdForm(forms.ModelForm):
         model = Ad
         fields = ('title', 'short_description', 'price', 'body', 'slug', 'tags', 'categories', 'pub_date')
         excluded = ('author', 'modified', 'created', 'published')
-        widgets = {'body': CKEditorWidget(config_name='awesome_ckeditor')}
+        widgets = {'body': CKEditorWidget(config_name='awesome_ckeditor', attrs={'id': 'ad_body'})}
 
 
 class AdModifyForm(forms.ModelForm):
     categories = TextMultiField(choices=tuple(CategoryTag.objects.all().values_list("name", "name") ), initial="cat1" )
+
     class Meta:
         model = Ad
         fields = ('title','short_description','price', 'body', 'slug', 'tags', "categories")

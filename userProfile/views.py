@@ -155,9 +155,6 @@ class UserProfileDetailView(FolderMixin, DetailView):
     context_object_name = 'profile'
     view_name = 'postman_sent'
     folder_name = 'sent'
-    #view_name = 'postman_sent'
-    #folder_name = 'sent'
-
 
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
@@ -169,8 +166,6 @@ class UserProfileDetailView(FolderMixin, DetailView):
             return super(UserProfileDetailView, self).dispatch(*args, **kwargs)
         else:
             return HttpResponseRedirect('/accounts/profile/create/')
-
-
 
     def get_object(self, queryset=None):
         try:
@@ -185,3 +180,6 @@ class UserProfileAjaxInboxView(FolderMixin, TemplateView):
     view_name = 'postman_inbox'
     # for TemplateView:
     template_name = 'postman/inbox.html'
+
+
+
