@@ -1,5 +1,5 @@
 def css_folder(request):
-    print(request.GET)
+    #print(request.GET)
     if 'css_folder' in request.GET:
         request.session['css_folder'] = request.GET['css_folder']
 

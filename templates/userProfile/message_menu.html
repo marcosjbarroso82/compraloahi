@@ -5,20 +5,54 @@
 
 
 <ul id="postman_menu" class="nav nav-pills" role="tablist">{% postman_unread as unread_count %}
-    <li role="presentation" class="active"><a id="inbox"%}">{% trans "Inbox" %}{% if unread_count %}  <span class="badge">({{ unread_count }})</span>{% endif %}</a></li>
-    <li role="presentation"><a href="{% url 'profile-folder-detail' 'sent' %}">{% trans "Sent Messages" %}</a></li>
-    <li role="presentation"><a href="{% url 'profile-folder-detail' 'archives' %}">{% trans "Archives" %}</a></li>
-    <li role="presentation"><a href="{% url 'profile-folder-detail' 'trash' %}">{% trans "Trash" %}</a></li>
+    <li role="presentation" class="active"><a id="msg-inbox">{% trans "Inbox" %}{% if unread_count %}  <span class="badge">({{ unread_count }})</span>{% endif %}</a></li>
+    <li role="presentation"><a id="msg-sent">{% trans "Sent Messages" %}</a></li>
+    <li role="presentation"><a id="msg-archives">{% trans "Archives" %}</a></li>
+    <li role="presentation"><a id="msg-trash">{% trans "Trash" %}</a></li>
 </ul>
 
+<div id="msg-cotent">
+
+</div>
+
 <script>
-    $("#inbox").click(function() {
+    $("#msg-inbox").click(function() {
 
         $.ajax({
-                url: "messages/inbox/",
+                url: "/message/ajax-inbox/",
                 type: "get",
                 success: function(data){
-                    $("#message-panel").html(data);
+                    $("#msg-cotent").html(data);
+                }
+        });
+    });
+    $("#msg-sent").click(function() {
+
+        $.ajax({
+                url: "/message/ajax-sent/",
+                type: "get",
+                success: function(data){
+                    $("#msg-cotent").html(data);
+                }
+        });
+    });
+    $("#msg-archives").click(function() {
+
+        $.ajax({
+                url: "/message/ajax-archives/",
+                type: "get",
+                success: function(data){
+                    $("#msg-cotent").html(data);
+                }
+        });
+    });
+    $("#msg-trash").click(function() {
+
+        $.ajax({
+                url: "/message/ajax-trash/",
+                type: "get",
+                success: function(data){
+                    $("#msg-cotent").html(data);
                 }
         });
     });

@@ -96,8 +96,8 @@
         <!-- ############## MESSAGE ############### -->
         <div class="panel panel-default tab-pane" id="message">
             <div class="panel-heading">My messages</div>
-            <div class="panel-body body-content">
-                {% include "userProfile/mis_mensajes.html" %}
+            <div id="message-panel" class="panel-body body-content">
+                {% include "userProfile/message_menu.html" %}
             </div>
 
         </div>
@@ -195,5 +195,7 @@
           e.preventDefault()
           $(this).tab('show')
         })
+
+
     </script>
 {% endblock %}

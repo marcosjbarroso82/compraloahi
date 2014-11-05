@@ -37,4 +37,5 @@ urlpatterns = patterns('',
 
 
                         (r'^search/', include('haystack.urls')),
+
                         )

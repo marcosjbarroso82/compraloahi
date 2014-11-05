@@ -43,6 +43,19 @@
                             <input id="lng" type="text" class="form-control"/>
                         </div>
                     </div>
+                    <!-- Address -->
+                    <div class="row">
+
+                    </div>
+                    <div class="form-group form-inline">
+                        <label class="sr-only" for="address">Dirección</label>
+                        <input id="address"  class="form-control form-inline col-md-10" type="text" placeholder="Dirección"/>
+                        <button id="search_address_btn" type="submit" class="form-inline col-md-2 btn btn-success pull-right">
+                            <i class="glyphicon glyphicon-search"></i> Buscar Dirección
+                        </button>
+                    </div>
+
+
                     <div class="form-group" hidden="true" style="display: none;">
                         <label class="col-sm-2 control-label" for="radius">Radius:</label>
                         <div class="col-sm-10">
@@ -84,11 +97,25 @@
     <script src="{{ STATIC_URL }}js/ad-list.js"></script>
     <script>
         {% autoescape off %}
-        var json_data = {{ json_data }};
+            var json_data = {{ json_data }};
         {% endautoescape %}
         render_ad_list(json_data);
     </script>
-    <script src="http://maps.googleapis.com/maps/api/js?sensor=TRUE"></script>
+    <script src="http://maps.googleapis.com/maps/api/js?sensor=TRUE&libraries=places"></script>
+    <script src="{{ STATIC_URL }}js/jquery.geocomplete.js"></script>
+    <script>
+        $("#address").geocomplete().bind("geocode:result", function(event, result){
+        position_area.setCenter(new google.maps.LatLng(result.geometry.location.lat(), result.geometry.location.lng()));
+        map.setCenter(new google.maps.LatLng(result.geometry.location.lat(), result.geometry.location.lng()));
+      });
+
+      $("#search_address_btn").click(function(){
+      $("#address").trigger("geocode");
+    });
+
+    </script>
+
+
     <script src="{{ STATIC_URL }}js/search-map.js"></script>
     <script>
         loadPositions(json_data);
