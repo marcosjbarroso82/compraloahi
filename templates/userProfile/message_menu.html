@@ -1,0 +1,25 @@
+{% load url from future %}
+{% load i18n %}
+{% load postman_tags  %}
+{% load pagination_tags %}
+
+
+<ul id="postman_menu" class="nav nav-pills" role="tablist">{% postman_unread as unread_count %}
+    <li role="presentation" class="active"><a id="inbox"%}">{% trans "Inbox" %}{% if unread_count %}  <span class="badge">({{ unread_count }})</span>{% endif %}</a></li>
+    <li role="presentation"><a href="{% url 'profile-folder-detail' 'sent' %}">{% trans "Sent Messages" %}</a></li>
+    <li role="presentation"><a href="{% url 'profile-folder-detail' 'archives' %}">{% trans "Archives" %}</a></li>
+    <li role="presentation"><a href="{% url 'profile-folder-detail' 'trash' %}">{% trans "Trash" %}</a></li>
+</ul>
+
+<script>
+    $("#inbox").click(function() {
+
+        $.ajax({
+                url: "messages/inbox/",
+                type: "get",
+                success: function(data){
+                    $("#message-panel").html(data);
+                }
+        });
+    });
+</script>
