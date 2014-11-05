@@ -1,5 +1,7 @@
 from django.http import HttpResponse
-from django.core import serializers
+
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.views.generic import ListView, DetailView, \
@@ -14,9 +16,12 @@ from .models import Ad
 from .forms import CreateAdForm, AdModifyForm, \
     AdImage_inline_formset, AdLocation_inline_formset
 
+from rest_framework.pagination import PaginationSerializer
+
 from django.template import defaultfilters
 
-def _getAdListJson(tags=None, lat=None, lng=None, radius=None):
+
+def _getAdListJson(tags=None, lat=None, lng=None, radius=None, page=1):
     object_response = []
     queryset = Ad.objects.all()
 
@@ -42,17 +47,33 @@ def _getAdListJson(tags=None, lat=None, lng=None, radius=None):
                                 "thumbnail": thumbnail, "lat": location.lat, "lng": location.lng,
                                 "pk": ad.pk, "short_description": ad.short_description, "price": ad.price,
                                 'pub_date': defaultfilters.date(ad.pub_date, 'SHORT_DATETIME_FORMAT')})
-    return json.dumps(object_response)
+
+    paginator = Paginator(object_response, 2)
+    result = paginator.page(page)
+
+    result_json = PaginationSerializer(result)
+
+    if result_json.data['previous'] is None:
+        result_json.data['previous'] = ''
+
+    if result_json.data['next'] is None:
+        result_json.data['next'] = ''
+
+    return result_json.data
 
 
 class SearchAdView(TemplateView):
     def get(self, request, *args, **kwargs):
-        tags =  request.GET['tags']
-        lat =  float(request.GET['lat'])
-        lng =  float(request.GET['lng'])
-        radius =  float(request.GET['radius'])
+        tags = request.GET['tags']
+        lat = float(request.GET['lat'])
+        lng = float(request.GET['lng'])
+        radius = float(request.GET['radius'])
+        try:
+            page = request.GET['page']
+        except:
+            page = 1
 
-        data = _getAdListJson(tags=tags, lat=lat,  radius=radius, lng=lng)
+        data = _getAdListJson(tags=tags, lat=lat,  radius=radius, lng=lng, page=page)
         return HttpResponse(data, content_type="application/json")
 
 
@@ -60,7 +81,11 @@ class AdList(TemplateView):
     template_name = "ad/ad-list.html"
 
     def get_context_data(self, **kwargs):
-        data = _getAdListJson()
+        try:
+            data = _getAdListJson(page=self.request.GET['page'])
+        except:
+            data = _getAdListJson()
+
         return {'json_data': data}
 
 

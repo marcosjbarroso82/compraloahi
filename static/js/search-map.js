@@ -65,7 +65,8 @@ function initialize() {
 
 
     linkMapToSearchForm();
-    loadPositions(json_data);
+
+    loadPositions(json_data.results);
 }
 
 function clearMapPositions() {

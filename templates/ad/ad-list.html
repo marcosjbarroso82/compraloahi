@@ -23,7 +23,6 @@
                     <li class="list-group-item">Categoria 4<span class="badge">23</span></li>
                 </ul>
             </div>
-
         </div>
         <!-- LIST -->
         <div class="col-lg-7 content col-lg-offset-5">
@@ -90,6 +89,10 @@
             </div>
         </div>
 
+        <div class="pagination pull-right" id="pagination">
+
+        </div>
+
     </div>
 {% endblock %}
 
@@ -112,9 +115,7 @@
       $("#search_address_btn").click(function(){
       $("#address").trigger("geocode");
     });
-
     </script>
-
 
     <script src="{{ STATIC_URL }}js/search-map.js"></script>
     <script>

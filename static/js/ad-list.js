@@ -1,5 +1,7 @@
 // Render List Function
-function render_ad_list(ad_list) {
+function render_ad_list(data) {
+    var ad_list = data.results;
+
     $("#list").html("");
 
     var ad_list_template = '<li class="media list-group-item" id="li-ad-{pk}" data-pk={pk}>'+
@@ -16,14 +18,19 @@ function render_ad_list(ad_list) {
                               '</div>'+
                             '</li>';
 
+    var ad_list_paginator = '<span class="step-links">' +
+                                '<a id="pag-previous" href="'+ data.previous +'"> << Previous</a>'+
+                                '<span class="current" id="pag-inf" > Page {pag_number} of '+ data.count +'. </span>'+
+                                '<a id="pag-next" href="' + data.next +'">Next >></a>'+
+                            '</span>';
 
-    var ad_list_template2= "<div class='blogShort' id='li-ad-{pk}' data-pk={pk}>"+
-                                "<h1></h1>" +
-                                "<img src='' alt='post img' class='pull-left img-responsive thumb margin10 img-thumbnail'> " +
-                                "<em> Price : $ {price} | Date : {pub_date} | <span class='lat'>{lng}</span> | <span class='lat'>{lat}</span> </em> " +
-                                "<article><p>{body}</p></article>" +
-                                "<a class='btn btn-blog pull-right marginBottom10' href='/ad/{pk}'>DETAIL</a> " +
-                            "</div>";
+    /*
+    ad_list_paginator.replace("{pag_number}", data.next)
+    ad_list_paginator.replace("{pages}", data.count)
+    ad_list_paginator.replace("{ref-previous}", data.previous);
+    ad_list_paginator.replace("{ref-next}", data.next);
+    */
+    $('#pagination').append(ad_list_paginator);
 
 
     for (var i=0; i < ad_list.length; i++) {
@@ -70,10 +77,10 @@ function search() {
         type: "get",
         success: function(data){
             console.log("succcess 66:" + data);
-            json_data =  data;
+            json_data =  data.results;
             render_ad_list(data);
             clearMapPositions();
             loadPositions(json_data);
-        },
+        }
     });
 }
