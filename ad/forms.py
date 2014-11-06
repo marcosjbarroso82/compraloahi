@@ -34,18 +34,20 @@ class CreateAdForm(forms.ModelForm):
 
     class Meta:
         model = Ad
-        fields = ('title', 'short_description', 'price', 'body', 'slug', 'tags', 'categories', 'pub_date')
+        fields = ('title', 'short_description', 'price', 'body', 'tags', 'categories', 'pub_date')
         excluded = ('author', 'modified', 'created', 'published')
-        widgets = {'body': CKEditorWidget(config_name='awesome_ckeditor')}
+        #widgets = {'body': CKEditorWidget(config_name='awesome_ckeditor')}
+        widgets = {'body': CKEditorWidget(config_name='awesome_ckeditor'), 'pub_date': forms.TextInput(attrs={'type': 'date'}) }
 
 
 class AdModifyForm(forms.ModelForm):
     categories = TextMultiField(choices=tuple(CategoryTag.objects.all().values_list("name", "name") ), initial="cat1" )
     class Meta:
         model = Ad
-        fields = ('title','short_description','price', 'body', 'slug', 'tags', "categories")
+        fields = ('title','short_description','price', 'body', 'tags', "categories")
         excluded = ('author', 'modified', 'pub_date', 'created', 'published')
-        widgets = {'body': CKEditorWidget(config_name='awesome_ckeditor')}
+        #widgets = {'body': CKEditorWidget(config_name='awesome_ckeditor')}
+        widgets = {'body': CKEditorWidget(config_name='awesome_ckeditor'), 'pub_date': forms.TextInput(attrs={'type': 'date'}) }
 
 AdImage_inline_formset = inlineformset_factory(
     Ad, AdImage, extra=1, can_delete=True)

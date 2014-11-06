@@ -11,6 +11,7 @@
         {% csrf_token %}
         {{ form.media }}
         {% bootstrap_field form.title %}
+        {% bootstrap_field form.tags %}
         {% bootstrap_field form.short_description %}
         {% bootstrap_field form.price %}
         {% bootstrap_field form.pub_date %}

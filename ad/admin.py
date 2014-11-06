@@ -13,7 +13,6 @@ class AdImageInline(admin.TabularInline):
 
 
 class AdAdmin(admin.ModelAdmin):
-    prepopulated_fields = {"slug": ("title",)}
     inlines = [AdImageInline, AdLocationInline]
     readonly_fields = ['author', ]
 
