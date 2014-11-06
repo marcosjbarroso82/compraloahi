@@ -1,0 +1,151 @@
+{% extends 'layout/base.html' %}
+{% load bootstrap3 %}
+{% block title %}Lista de avisos {% endblock %}
+{% load thumbnail %}
+
+{% block css_header_block %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/list.css" >
+{% endblock %}
+
+{% block body_block %}
+
+    <div class="container" >
+        <div class="col-lg-5 sidebar" id="siderbar">
+            <div class="">
+                <div class="">
+                    <!-- Address -->
+                    <div class="input-group stylish-input-group">
+                        <input id="address"  class="form-control form-inline col-md-10" type="text" placeholder="Ingrese la Dirección"/>
+                        <span class="input-group-addon">
+                            <button id="search_address_btn" type="submit" >
+                                <i class="glyphicon glyphicon-search"></i>
+                            </button>
+                        </span>
+
+                    </div>
+                    <br>
+                    <!-- Map -->
+                    <div class="">
+                        <div id="mapa" class="capas img-thumbnail"></div>
+                    </div>
+
+                    <!-- Radius -->
+                    <div class="">
+                        <div class="range range-success">
+                            <input id="radius" type="range" name="radius" min="1" max="6000" value="1000" onchange="range.value=value">
+                            <output id="range">1000</output>
+                        </div>
+                        <div class="help">Radius</div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading text-center">Categorias</div>
+                <ul class="list-group panel-body">
+                    <li class="list-group-item">Categoria 1<span class="badge">42</span></li>
+                    <li class="list-group-item">Categoria 2<span class="badge">5</span></li>
+                    <li class="list-group-item">Categoria 3<span class="badge">10</span></li>
+                    <li class="list-group-item">Categoria 4<span class="badge">23</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-lg-7 content col-lg-offset-5">
+            <!-- FORM SEARCH -->
+            <form method="get" action="/ad/ad-list/">
+                <div class="">
+                    <!-- TAG -->
+                    <div class="input-group stylish-input-group">
+                        <input id="tags" class="form-control" name="tags" type="text" placeholder="Search"/>
+                        <span class="input-group-addon">
+                            <!-- SUBMIT -->
+                            <button type="submit" style="border: none; width: 100%; ">
+                                <i class="glyphicon glyphicon-search"></i>
+                            </button>
+                        </span>
+                    </div>
+
+                    <!-- LATITUD -->
+                    <div hidden="true" style="display: none;">
+                        <input id="lat" type="text" name="lat"/>
+                    </div>
+
+                    <!-- LONGITUD -->
+                    <div hidden="true" style="display: none;">
+                        <input id="lng" type="text" name="lng"/>
+                    </div>
+
+                    <!-- RADIO -->
+                    <div hidden="true" style="display: none;">
+                        <input id="radius2" type="text" name="radius"/>
+                    </div>
+                </div>
+            </form>
+
+            {% bootstrap_messages %}
+            <div id="result" class="">
+                <h1>All Ads list</h1>
+                <!-- LIST -->
+                <ul id="ads-list" class="media-list">
+                    {% for ad in ads_list %}
+                        <li class="media list-group-item" id="li-ad-{{ ad.id }}" data_pk="{{ ad.id }}">
+
+                                <a id="ad-anchor-{{ ad.id }}"></a>
+                                <div class="pull-left col-md-2">
+                                {% with ad.images.all|first as image %}
+                                    {% thumbnail image.image "100x100" crop="center" as im %}
+                                        <img id="media-object img-thumbnail" class="img-rounded" src="{{ im.url }}" alt="post img">
+                                    {% endthumbnail %}
+                                {% endwith %}
+                                </div>
+                                <div class="media-body col-md-offset-3">
+                                    <h3 class="media-heading">{{ ad.title }}</h3>
+                                    <small> publish: {{ ad.pub_date }} </small>
+                                    <p class="pull-right">${{ ad.price }}</p>
+                                    <p> {{ ad.short_description }} </p>
+                                    <a class="btn btn-default pull-right"  href="/ad/{{ ad.id }}"><span class="glyphicon glyphicon-eye-open"></span></a>
+                                    {% with ad.locations.all|first as location %}
+                                        <span class="lat" hidden="true"> {{ location.lat }}</span>
+                                        <span class="lng" hidden="true">{{ location.lng }}</span>
+                                    {% endwith %}
+                                </div>
+                        </li>
+                    {% endfor %}
+
+                </ul>
+            </div>
+
+            <!-- PAGINATION -->
+            <div class="pagination pull-right" id="pagination">
+                <ul class="pager">
+                    <li class="previous{% if ads_list.has_previous %}"><a href="?page={{ ads_list.previous_page_number }}">{% else %} disabled"> <a>{% endif %}&larr; Anterior</a></li>
+                    <span class="">Page {{ ads_list.number }} of {{ ads_list.paginator.num_pages }}.</span>
+                    <li class="next{% if ads_list.has_next %}"><a href="?page={{ ads_list.next_page_number }}">{% else %} disabled"> <a>{% endif %}Siguiente &rarr;</a></li>
+                </ul>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js_footer_block %}
+
+    <script src="http://maps.googleapis.com/maps/api/js?sensor=TRUE&libraries=places"></script>
+    <script src="{{ STATIC_URL }}js/jquery.geocomplete.js"></script>
+
+    <script>
+        $("#address").geocomplete().bind("geocode:result", function(event, result){
+            position_area.setCenter(new google.maps.LatLng(result.geometry.location.lat(), result.geometry.location.lng()));
+            map.setCenter(new google.maps.LatLng(result.geometry.location.lat(), result.geometry.location.lng()));
+          });
+
+          $("#search_address_btn").click(function(){
+          $("#address").trigger("geocode");
+        });
+
+    </script>
+
+    <script src="{{ STATIC_URL }}js/search-map.js"></script>
+
+{% endblock %}

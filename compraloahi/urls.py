@@ -1,11 +1,11 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
-from ad.views import IndexAdView
+from .views import HomeView
 from . import settings
 
 
 urlpatterns = patterns('',
-                        url(r'^$', IndexAdView.as_view()),
+                        url(r'^$', HomeView.as_view()),
                         url(r'^admin/', include(admin.site.urls)),
 
                         url(r'^ad/', include("ad.urls", namespace="ad")),

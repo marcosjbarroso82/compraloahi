@@ -1,98 +1,57 @@
-from django.http import HttpResponse
 
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.views.generic import ListView, DetailView, \
-    CreateView, UpdateView, TemplateView, DeleteView
-from sorl.thumbnail import get_thumbnail
+    CreateView, UpdateView, DeleteView
 from django.http import HttpResponseRedirect
-from django.contrib import messages
-import json
 
-from datetime import datetime
+
 from .models import Ad
 from .forms import CreateAdForm, AdModifyForm, \
     AdImage_inline_formset, AdLocation_inline_formset
 
-from rest_framework.pagination import PaginationSerializer
 
-from django.template import defaultfilters
-
-
-def _getAdListJson(tags=None, lat=None, lng=None, radius=None, page=1):
-    object_response = []
-    queryset = Ad.objects.all()
-
-    if tags:
-        tags = tags.split()
-        queryset = queryset.filter(tags__name__in=tags).distinct()
-
-    if lat and lng and radius:
-        radius_in_degrees = radius / 111200 # TODO: Need more precision than this
-        lat_from = lat - radius_in_degrees
-        lat_to = lat + radius_in_degrees
-        lng_from = lng - radius_in_degrees
-        lng_to = lng + radius_in_degrees
-
-        queryset = queryset.filter(locations__lat__range=(lat_from, lat_to))
-        queryset = queryset.filter(locations__lng__range=(lng_from, lng_to ))
-
-    for ad in queryset:
-        thumbnail = get_thumbnail(ad.images.first().image, '200x200', crop='center', quality=99).url
-        location = ad.locations.first()
-        #pubdate = str(ad.pub_date.day + "-" + ad.pub_date.month + "-" + ad.pub_date.year)
-        object_response.append({"title": ad.title + " " + str(datetime.now().strftime('%M:%S')), "body": ad.body,
-                                "thumbnail": thumbnail, "lat": location.lat, "lng": location.lng,
-                                "pk": ad.pk, "short_description": ad.short_description, "price": ad.price,
-                                'pub_date': defaultfilters.date(ad.pub_date, 'SHORT_DATETIME_FORMAT')})
-
-    paginator = Paginator(object_response, 2)
-    result = paginator.page(page)
-
-    result_json = PaginationSerializer(result)
-
-    if result_json.data['previous'] is None:
-        result_json.data['previous'] = ''
-
-    if result_json.data['next'] is None:
-        result_json.data['next'] = ''
-
-    return result_json.data
-
-
-class SearchAdView(TemplateView):
-    def get(self, request, *args, **kwargs):
-        tags = request.GET['tags']
-        lat = float(request.GET['lat'])
-        lng = float(request.GET['lng'])
-        radius = float(request.GET['radius'])
-        try:
-            page = request.GET['page']
-        except:
-            page = 1
-
-        data = _getAdListJson(tags=tags, lat=lat,  radius=radius, lng=lng, page=page)
-        return HttpResponse(data, content_type="application/json")
-
-
-class AdList(TemplateView):
-    template_name = "ad/ad-list.html"
+class AdList(ListView):
+    template_name = "ad/list.html"
 
     def get_context_data(self, **kwargs):
+        paginator = Paginator(self.get_queryset(), 10)
+        page = self.request.GET.get('page')
         try:
-            data = _getAdListJson(page=self.request.GET['page'])
-        except:
-            data = _getAdListJson()
+            ads_list = paginator.page(page)
+        except PageNotAnInteger:
+            # If page is not an integer, deliver first page.
+            ads_list = paginator.page(1)
+        except EmptyPage:
+            # If page is out of range (e.g. 9999), deliver last page of results.
+            ads_list = paginator.page(paginator.num_pages)
 
-        return {'json_data': data}
+        return {'ads_list': ads_list}
 
+    def get_queryset(self):
+        queryset = Ad.objects.all()
+        if 'tags' in self.request.GET:
+            tags = self.request.GET['tags']
+            if tags:
+                tags = tags.split()
+                queryset = queryset.filter(tags__name__in=tags).distinct()
+        if self.request.GET.get('lat') and self.request.GET.get('lng') and self.request.GET.get('radius'):
+            lat = float(self.request.GET['lat'])
+            lng = float(self.request.GET['lng'])
+            radius = float(self.request.GET['radius'])
 
-class IndexAdView(TemplateView):
-    template_name = "index.html"
-    #context_object_name = "ad_list"
-    #queryset = Ad.objects.all()
+            radius_in_degrees = radius / 111200 # TODO: Need more precision than this
+            lat_from = lat - radius_in_degrees
+            lat_to = lat + radius_in_degrees
+            lng_from = lng - radius_in_degrees
+            lng_to = lng + radius_in_degrees
+
+            queryset = queryset.filter(locations__lat__range=(lat_from, lat_to))
+            queryset = queryset.filter(locations__lng__range=(lng_from, lng_to))
+
+        return queryset
 
 
 class LatestAdView(ListView):

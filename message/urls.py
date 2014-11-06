@@ -2,11 +2,8 @@ from django.conf.urls import patterns, url
 
 from postman.views import MessageView, InboxView, ArchivesView, SentView, TrashView
 
-from .views import WriteModalView
 
 urlpatterns = patterns('',
-                       url(r'^write_message/$', 'message.views.writeMessageModal',
-                           name="write-modal-message"),
 
                         # View Postman Inbox (AJAX)
                         url(r'^ajax-inbox/$',

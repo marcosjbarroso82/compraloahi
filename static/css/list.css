@@ -3,10 +3,6 @@
     width: 24%; /* con position fixed no toma el ancho seteado por bootstrap */
 }
 
-#form-search-rad{
-    margin-top: 20px;
-}
-
 /* ++++++++++++ RANGE OF RADIOS +++++++++++++++ */
 .range {
     display: table;
