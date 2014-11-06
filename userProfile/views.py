@@ -148,20 +148,13 @@ class UserProfileUpdateView(UpdateView):
         return super(UserProfileUpdateView, self).form_valid(form)
 
 
-
-class UserProfileDetailView(FolderMixin, DetailView):
+class UserProfileDetailView(DetailView):
     model = UserProfile
     template_name = 'userProfile/detail.html'
     context_object_name = 'profile'
-    view_name = 'postman_sent'
-    folder_name = 'sent'
 
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
-        if 'msg_folder' in kwargs and kwargs['msg_folder']:
-            self.folder_name = kwargs['msg_folder']
-            self.view_name = 'postman_' + kwargs['msg_folder']
-
         if self.get_object():
             return super(UserProfileDetailView, self).dispatch(*args, **kwargs)
         else:
@@ -173,13 +166,6 @@ class UserProfileDetailView(FolderMixin, DetailView):
         except:
             return None
 
-
-class UserProfileAjaxInboxView(FolderMixin, TemplateView):
-    # for FolderMixin:
-    folder_name = 'inbox'
-    view_name = 'postman_inbox'
-    # for TemplateView:
-    template_name = 'postman/inbox.html'
 
 
 

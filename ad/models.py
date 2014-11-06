@@ -6,10 +6,13 @@ from autoslug import AutoSlugField
 from taggit.managers import TaggableManager
 
 from taggit.models import GenericTaggedItemBase, TagBase
+
+
 class AdQuerySet(models.QuerySet):
 
     def published(self):
         return self.filter(publish=True)
+
 
 class CategoryTag (TagBase):
     pass
@@ -17,8 +20,10 @@ class CategoryTag (TagBase):
     def __str__(self):
         return self.name
 
+
 class CategoryTaggedItem (GenericTaggedItemBase):
     tag = models.ForeignKey(CategoryTag)
+
 
 class Ad(models.Model):
     title = models.CharField(max_length=40)

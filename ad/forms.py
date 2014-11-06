@@ -1,11 +1,12 @@
 from django import forms
 from django.forms.models import inlineformset_factory
-from adLocation.models import AdLocation
-from django.forms import widgets
+
 from .models import Ad, AdImage, CategoryTag
+from adLocation.models import AdLocation
 from ckeditor.widgets import CKEditorWidget
 
-class TextCheckboxSelectMultiple(widgets.CheckboxSelectMultiple):
+
+class TextCheckboxSelectMultiple(forms.widgets.CheckboxSelectMultiple):
     """
     Set checked values based on a comma separated list instead of a python list
     """
@@ -36,12 +37,12 @@ class CreateAdForm(forms.ModelForm):
         model = Ad
         fields = ('title', 'short_description', 'price', 'body', 'tags', 'categories', 'pub_date')
         excluded = ('author', 'modified', 'created', 'published')
-        #widgets = {'body': CKEditorWidget(config_name='awesome_ckeditor')}
         widgets = {'body': CKEditorWidget(config_name='awesome_ckeditor'), 'pub_date': forms.TextInput(attrs={'type': 'date'}) }
 
 
 class AdModifyForm(forms.ModelForm):
-    categories = TextMultiField(choices=tuple(CategoryTag.objects.all().values_list("name", "name") ), initial="cat1" )
+    categories = TextMultiField(choices=tuple(CategoryTag.objects.all().values_list("name", "name")), initial="cat1")
+
     class Meta:
         model = Ad
         fields = ('title','short_description','price', 'body', 'tags', "categories")

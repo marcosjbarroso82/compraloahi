@@ -1,32 +1,31 @@
 from django.conf.urls import patterns, url
 
-from .views import LatestAdView, DetailAdView, CreateAdView, IndexAdView, \
-    UpdateAdView, SearchAdView, AdList, AdDeleteView
-
-
-
+from .views import LatestAdView, DetailAdView, CreateAdView, \
+    UpdateAdView, AdList, AdDeleteView, AdsByUser
 
 
 urlpatterns = patterns('',
-                       url(r'^$', IndexAdView.as_view(), name="index"),
+                       # List and Search ads
                        url(r'^ad-list/$', AdList.as_view(),
                            name="ad-list"),
+                       # Latest ads
                        url(r'^latest/$', LatestAdView.as_view(),
-                           name="latest"),
-
-                       url(r'^(?P<pk>\d+)/$',
-                           DetailAdView.as_view(), name="detail"),
-
-
-
+                           name="ad-latest"),
+                       # Create Ad
                        url(r'^create/$', CreateAdView.as_view(),
                            name="ad-create"),
-                       url(r'^modify/(?P<pk>\d+)/$',
-                           UpdateAdView.as_view(), name="update"),
-                       url(r'^search/$', SearchAdView.as_view(),
-                           name="latest"),
+                       # Update Ad
+                       url(r'^update/(?P<pk>\d+)/$',
+                           UpdateAdView.as_view(),
+                           name="ad-update"),
+                       # Detele Ad
                        url(r'^delete/(?P<pk>\d+)/$',
-                           AdDeleteView.as_view(), name="delete"),
+                           AdDeleteView.as_view(),
+                           name="ad-delete"),
+                       url(r'^my-ads/$', AdsByUser.as_view(),
+                           name="ad-by-user"),
+                       # Detail Ad
                        url(r'^(?P<slug>[\w-]+)/*$',
-                           DetailAdView.as_view(), name="slug-detail"),
+                           DetailAdView.as_view(),
+                           name="ad-detail"),
                        )
