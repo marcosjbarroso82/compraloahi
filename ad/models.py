@@ -1,6 +1,7 @@
 from django.utils.timezone import now as datetime_now
 from django.db import models
 from django.contrib.auth.models import User
+from autoslug import AutoSlugField
 
 from taggit.managers import TaggableManager
 
@@ -30,7 +31,8 @@ class Ad(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
     pub_date = models.DateTimeField(blank=True, null=True)
-    slug = models.SlugField(max_length=200, unique=True)
+    #slug = models.SlugField(max_length=200, unique=True, po)
+    slug = AutoSlugField(populate_from='title', unique_with='pub_date')
     published = models.BooleanField(default=True)
     tags = TaggableManager(blank=True)
     categories = TaggableManager(verbose_name='categories', through=CategoryTaggedItem, blank=True)

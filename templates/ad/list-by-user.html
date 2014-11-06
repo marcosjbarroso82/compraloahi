@@ -1,0 +1,54 @@
+{% extends 'layout/base.html' %}
+{% load bootstrap3 %}
+{% block title %}Lista de avisos {% endblock %}
+{% load thumbnail %}
+
+{% block css_header_block %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/list.css" >
+{% endblock %}
+
+{% block body_block %}
+    <div class="container">
+        <h1>My Ads</h1>
+        {% bootstrap_messages %}
+
+        {% if ad_list %}
+            <div class="table-responsive" style="max-height: 88%;" >
+                <table class="table table-bordred table-striped">
+                    <thead>
+                        <th></th>
+                        <th></th>
+                        <th>Acciones</th>
+                    </thead>
+                    <tbody>
+                        {% for ad in ad_list %}
+                            <tr>
+                                    <td>
+                                        {% with ad.images.all|first as image %}
+                                            {% thumbnail image.image "100x100" crop="center" as im %}
+                                                <img id="media-object" class="img-rounded" src="{{ im.url }}" width="90" height="90">
+                                            {% endthumbnail %}
+                                        {% endwith %}
+                                    </td>
+                                    <td>
+                                        <h3><strong>{{ ad.title }}</strong></h3>
+                                        <small>{{ ad.short_description }}</small>
+                                        <p>{{ ad.slug }}</p>
+                                    </td>
+                                    <td class="v-center">
+                                        <div class="row">
+                                            <a href="/ad/update/{{ ad.id }}" class="btn btn-warning">{% bootstrap_icon "edit" %}</a>
+                                            <a href="/ad/delete/{{ ad.id }}" class="btn btn-danger">{% bootstrap_icon "remove" %}</a>
+                                            <a href="/ad/{{ ad.id }}" class="btn btn-success">{% bootstrap_icon "eye-open" %}</a>
+                                        </div>
+                                    </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <p>No ads are available.</p>
+        {% endif %}
+    </div>
+{% endblock %}

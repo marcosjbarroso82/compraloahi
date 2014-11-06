@@ -55,7 +55,7 @@ class AdList(ListView):
 
 
 class LatestAdView(ListView):
-    template_name = "ad/index.html"
+    template_name = "ad/latest.html"
     context_object_name = "ad_list"
     queryset = Ad.objects.order_by("created").reverse()[:3]
 
@@ -88,7 +88,7 @@ class AdDeleteView(DeleteView):
 class CreateAdView(CreateView):
     template_name = 'ad/create.html'
     form_class = CreateAdForm
-    success_url = '/ad/'
+    success_url = '/ad/my-ads/'
     model = Ad
 
     def get(self, *args, **kwargs):
@@ -160,7 +160,7 @@ class UpdateAdView(UpdateView):
     model = Ad
     form_class = AdModifyForm
     template_name = 'ad/update.html'
-    success_url = '/ad/'
+    success_url = '/ad/my-ads/'
 
     def get_context_data(self, **kwargs):
         context = super(UpdateAdView, self).get_context_data(**kwargs)
@@ -209,3 +209,13 @@ class UpdateAdView(UpdateView):
             location_form.instance.delete()
 
         return super(UpdateAdView, self).form_valid(form)
+
+
+class AdsByUser(ListView):
+    model = Ad
+    template_name = 'ad/list-by-user.html'
+    context_object_name = "ad_list"
+    #queryset = Ad.objects.order_by("created").reverse()[:3]
+
+    def get_queryset(self):
+        return Ad.objects.filter(author= self.request.user)
