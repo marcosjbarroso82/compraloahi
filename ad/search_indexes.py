@@ -12,6 +12,9 @@ class AdIndex(indexes.SearchIndex, indexes.Indexable):
     pub_date = indexes.DateTimeField(model_attr='pub_date')
     tags = indexes.CharField()
     #author = indexes.CharField()
+    author = indexes.CharField(model_attr='author')
+
+
 
     def prepare_tags(self, obj):
         return [tag.name for tag in Ad.tags.all()]
