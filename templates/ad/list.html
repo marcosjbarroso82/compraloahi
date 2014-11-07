@@ -104,7 +104,7 @@
                                     <small> publish: {{ ad.pub_date }} </small>
                                     <p class="pull-right">${{ ad.price }}</p>
                                     <p> {{ ad.short_description }} </p>
-                                    <a class="btn btn-default pull-right"  href="/ad/{{ ad.id }}"><span class="glyphicon glyphicon-eye-open"></span></a>
+                                    <a class="btn btn-default pull-right"  href="/ad/{{ ad.slug }}"><span class="glyphicon glyphicon-eye-open"></span></a>
                                     {% with ad.locations.all|first as location %}
                                         <span class="lat" hidden="true"> {{ location.lat }}</span>
                                         <span class="lng" hidden="true">{{ location.lng }}</span>

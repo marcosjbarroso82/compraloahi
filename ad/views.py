@@ -68,7 +68,7 @@ class DetailAdView(DetailView):
 
 class AdDeleteView(DeleteView):
     model = Ad
-    success_url = '/accounts/profile'
+    success_url = '/ad/my-ads/'
 
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):

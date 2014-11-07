@@ -181,13 +181,15 @@ CKEDITOR_CONFIGS = {
 
 HAYSTACK_CONNECTIONS = {
     'default': {
-        'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
-        'PATH': os.path.join(os.path.dirname(__file__), 'whoosh_index'),
+        'ENGINE': 'haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine',
+        'URL': 'http://127.0.0.1:9200/',
+        'INDEX_NAME': 'haystack',
     },
 }
 
 COMMENTS_XTD_MAX_THREAD_LEVEL = 2
 COMMENTS_APP = "django_comments_xtd"
+
 
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
@@ -195,10 +197,3 @@ EMAIL_HOST_USER = 'testnubiquo@gmail.com'
 EMAIL_HOST_PASSWORD = 'nubiquo1234567890'
 EMAIL_USE_TLS = True
 
-HAYSTACK_CONNECTIONS = {
-        'default': {
-            'ENGINE': 'haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine',
-            'URL': 'http://127.0.0.1:9200/',
-            'INDEX_NAME': 'haystack',
-        },
-    }
