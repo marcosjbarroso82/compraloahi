@@ -10,16 +10,26 @@ class AdIndex(indexes.SearchIndex, indexes.Indexable):
     #model fields
     title = indexes.CharField(model_attr='title')
     pub_date = indexes.DateTimeField(model_attr='pub_date')
-    tags = indexes.CharField()
+    #tags = indexes.CharField()
+    #tags = indexes.CharField(faceted=True, )
     #author = indexes.CharField()
-    author = indexes.CharField(model_attr='author')
+    #author = indexes.CharField(model_attr='author')
+    author = indexes.CharField(model_attr='author', faceted=True)
 
+    def prepare(self, object):
+        self.prepared_data = super(AdIndex, self).prepare(object)
 
+        # Add in tags (assuming there's a M2M relationship to Tag on the model).
+        # Note that this would NOT get picked up by the automatic
+        # schema tools provided by Haystack.
+        self.prepared_data['tags'] = [tag.name for tag in object.tags.all()]
 
+        return self.prepared_data
+
+    """
     def prepare_tags(self, obj):
         return [tag.name for tag in Ad.tags.all()]
-    #def prepare_author(self, obj):
-    #    return User
+    """
 
     class Meta:
         model = Ad

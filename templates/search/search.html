@@ -1,6 +1,6 @@
 {% extends 'layout/base.html' %}
-
 {% block body_block %}
+    <p>temaplate search.html</p>
     <h2>Search</h2>
 
     <form method="get" action=".">
@@ -15,6 +15,44 @@
         </table>
 
         {% if query %}
+            <!-- Begin faceting. -->
+    <h2>By Author</h2>
+
+    <div>
+        <dl>
+            {% if facets.fields.author %}
+                <dt>Author</dt>
+                {# Provide only the top 5 authors #}
+                {% for author in facets.fields.author|slice:":5" %}
+                    <dd><a href="{{ request.get_full_path }}&amp;selected_facets=author_exact:{{ author.0|urlencode }}">{{ author.0 }}</a> ({{ author.1 }})</dd>
+                {% endfor %}
+            {% else %}
+                <p>No author facets.</p>
+            {% endif %}
+        </dl>
+    </div>
+    <h2>By Tags</h2>
+    <div>
+        <dl>
+            {% if facets.fields.tags %}
+                <dt>Tags</dt>
+                {# Provide only the top 5 authors #}
+                {% for tag in facets.fields.tags|slice:":5" %}
+                    <dd><a href="{{ request.get_full_path }}&amp;selected_facets=tags_exact:{{ tag.0|urlencode }}">{{ tag.0 }}</a> ({{ tag.1 }})</dd>
+                {% endfor %}
+            {% else %}
+                <p>No tags facets.</p>
+            {% endif %}
+        </dl>
+    </div>
+
+
+    <p>facets.fields:</p>
+    <p>{{ facets.fields }}</p>
+
+
+
+    <!-- End faceting -->
             <h3>Results</h3>
 
             {% for result in page.object_list %}

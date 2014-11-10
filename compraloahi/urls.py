@@ -3,8 +3,15 @@ from django.contrib import admin
 from .views import HomeView
 from . import settings
 
+from haystack.forms import FacetedSearchForm
+from haystack.query import SearchQuerySet
+from haystack.views import FacetedSearchView
+
+sqs = SearchQuerySet().facet('author').facet('tags')
+
 
 urlpatterns = patterns('',
+                        url(r'^facet/$', FacetedSearchView(form_class=FacetedSearchForm, searchqueryset=sqs), name='haystack_search'),
                         url(r'^$', HomeView.as_view()),
                         url(r'^admin/', include(admin.site.urls)),
 

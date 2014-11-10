@@ -24,8 +24,4 @@ urlpatterns = patterns('',
                            name="ad-delete"),
                        url(r'^my-ads/$', AdsByUser.as_view(),
                            name="ad-by-user"),
-                       # Detail Ad
-                       url(r'^(?P<slug>[\w-]+)/*$',
-                           DetailAdView.as_view(),
-                           name="ad-detail"),
-                       )
+                        )
