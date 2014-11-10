@@ -13,16 +13,12 @@ class AdQuerySet(models.QuerySet):
     def published(self):
         return self.filter(publish=True)
 
-
-class CategoryTag (TagBase):
-    pass
+class Category(models.Model):
+    name = models.CharField(max_length=40)
+    slug = AutoSlugField(populate_from='name')
 
     def __str__(self):
         return self.name
-
-
-class CategoryTaggedItem (GenericTaggedItemBase):
-    tag = models.ForeignKey(CategoryTag)
 
 
 class Ad(models.Model):
@@ -35,8 +31,10 @@ class Ad(models.Model):
     slug = AutoSlugField(populate_from='title', unique_with='pub_date')
     published = models.BooleanField(default=True)
     tags = TaggableManager(blank=True)
-    categories = TaggableManager(verbose_name='categories', through=CategoryTaggedItem, blank=True)
+    #categories = TaggableManager(verbose_name='categories', through=CategoryTaggedItem, blank=True)
     author = models.ForeignKey(User, related_name='ads')
+    categories = models.ManyToManyField(Category)
+
     short_description = models.CharField(max_length=120, blank=False)
     price = models.FloatField(default='0.00')
 

@@ -1,7 +1,7 @@
 from django import forms
 from django.forms.models import inlineformset_factory
 
-from .models import Ad, AdImage, CategoryTag
+from .models import Ad, AdImage, Category
 from adLocation.models import AdLocation
 from ckeditor.widgets import CKEditorWidget
 
@@ -13,7 +13,8 @@ class TextCheckboxSelectMultiple(forms.widgets.CheckboxSelectMultiple):
     def render(self, name, value, **kwargs):
         try:
             value = list(value)
-            value = [tag.tag.name for tag in value]
+
+            value = [cat_id for cat_id in value]
         except:
             value = []
         return super(TextCheckboxSelectMultiple, self).render(name, value, **kwargs)
@@ -31,21 +32,21 @@ class TextMultiField(forms.MultipleChoiceField):
 
 
 class CreateAdForm(forms.ModelForm):
-    categories = TextMultiField(choices=tuple(CategoryTag.objects.all().values_list("name", "name") ) )
+    categories = TextMultiField(choices=tuple(Category.objects.all().values_list("name", "name") ) )
 
     class Meta:
         model = Ad
-        fields = ('title', 'short_description', 'price', 'body', 'tags', 'categories', 'pub_date')
+        fields = ('title', 'short_description', 'price', 'body', 'tags', 'pub_date', 'categories')
         excluded = ('author', 'modified', 'created', 'published')
         widgets = {'body': CKEditorWidget(config_name='awesome_ckeditor'), 'pub_date': forms.TextInput(attrs={'type': 'date'}) }
 
 
 class AdModifyForm(forms.ModelForm):
-    categories = TextMultiField(choices=tuple(CategoryTag.objects.all().values_list("name", "name")), initial="cat1")
+    categories = TextMultiField(choices=tuple(Category.objects.all().values_list("id", "name")))
 
     class Meta:
         model = Ad
-        fields = ('title','short_description','price', 'body', 'tags', "categories")
+        fields = ('title','short_description','price', 'body', 'tags', 'categories')
         excluded = ('author', 'modified', 'pub_date', 'created', 'published')
         #widgets = {'body': CKEditorWidget(config_name='awesome_ckeditor')}
         widgets = {'body': CKEditorWidget(config_name='awesome_ckeditor'), 'pub_date': forms.TextInput(attrs={'type': 'date'}) }
