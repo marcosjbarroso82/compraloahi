@@ -40,30 +40,52 @@
 
                 </div>
             </div>
+
             <div class="panel panel-default">
                 <div class="panel-heading text-center">Categorias</div>
                 <ul class="list-group panel-body">
-                    <li class="list-group-item">Categoria 1<span class="badge">42</span></li>
-                    <li class="list-group-item">Categoria 2<span class="badge">5</span></li>
-                    <li class="list-group-item">Categoria 3<span class="badge">10</span></li>
-                    <li class="list-group-item">Categoria 4<span class="badge">23</span></li>
+                    {% if facets.fields.categories %}
+                        {% for category in facets.fields.categories %}
+                            <li class="list-group-item"><a href="{{ request.get_full_path }}&amp;selected_facets=categories_exact:{{ category.0|urlencode }}">{{ category.0 }}<span class="badge">{{ category.1 }}</span></a></li>
+                        {% endfor %}
+                    {% else %}
+                        <li>No categories facets.</li>
+                    {% endif %}
+
+                </ul>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading text-center">Localidades</div>
+                <ul class="list-group panel-body">
+                    {% if facets.fields.localities %}
+                        {% for locality in facets.fields.localities %}
+                            <li class="list-group-item"><a href="{{ request.get_full_path }}&amp;selected_facets=localities_exact:{{ locality.0|urlencode }}">{{ locality.0 }}<span class="badge">{{ locality.1 }}</span></a></li>
+                        {% endfor %}
+                    {% else %}
+                        <li>No localities facets.</li>
+                    {% endif %}
+
                 </ul>
             </div>
         </div>
 
         <div class="col-lg-7 content col-lg-offset-5">
             <!-- FORM SEARCH -->
-            <form method="get" action="/ad/ad-list/">
+            <form method="get" action=".">
                 <div class="">
                     <!-- TAG -->
                     <div class="input-group stylish-input-group">
-                        <input id="tags" class="form-control" name="tags" type="text" placeholder="Search"/>
-                        <span class="input-group-addon">
-                            <!-- SUBMIT -->
-                            <button type="submit" style="border: none; width: 100%; ">
+                        {{ form.as_table }}
+                        <p>ASDASDASD</p>
+                        <button type="submit" style="border: none; width: 100%; ">
                                 <i class="glyphicon glyphicon-search"></i>
                             </button>
-                        </span>
+                        <!--<input id="tags" class="form-control" name="tags" type="text" placeholder="Search"/>
+                        <span class="input-group-addon">
+
+
+                        </span>-->
                     </div>
 
                     <!-- LATITUD -->
@@ -88,7 +110,7 @@
                 <h1>All Ads list</h1>
                 <!-- LIST -->
                 <ul id="ads-list" class="media-list">
-                    {% for ad in ads_list %}
+                    {% for ad in page.object_list %}
                         <li class="media list-group-item" id="li-ad-{{ ad.id }}" data_pk="{{ ad.id }}">
 
                                 <a id="ad-anchor-{{ ad.id }}"></a>
