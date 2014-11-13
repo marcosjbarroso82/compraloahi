@@ -5,14 +5,15 @@ from haystack.forms import FacetedSearchForm
 from haystack.query import SearchQuerySet
 
 from .views import LatestAdView, DetailAdView, CreateAdView, \
-    UpdateAdView, AdList, AdDeleteView, AdsByUser
+    UpdateAdView, AdList, AdDeleteView, AdsByUser, MyFacetedSearchView
 
+from .forms import AdSearchForm
 
 sqs = SearchQuerySet().facet('categories').facet('localities')
 
 
 urlpatterns = patterns('',
-                       url(r'^$', FacetedSearchView(form_class=FacetedSearchForm, searchqueryset=sqs, template='ad/list.html'), name='haystack_search'),
+                       url(r'^$', MyFacetedSearchView(form_class=AdSearchForm, searchqueryset=sqs, template='ad/list.html'), name='my_facet_search_view'),
                        # List and Search ads
                        url(r'^ad-list/$', AdList.as_view(),
                            name="ad-list"),

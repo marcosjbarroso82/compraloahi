@@ -1,10 +1,7 @@
-//var current_lat = getParameterByName('lat');
-var current_lat = parseFloat(getParameterByName('lat') !== '' ? getParameterByName('lat') : -31.428495);
-var current_lng = parseFloat(getParameterByName('lng') !== '' ? getParameterByName('lng') : -64.185829);
+var current_lat;
+var current_lng;
 var current_radius = parseFloat(getParameterByName('radius') !== '' ? getParameterByName('radius') : 1000);
-
-var tags = getParameterByName('tags');
-
+var q = getParameterByName('q') !== '' ? getParameterByName('q') : '';
 
 var position_area;
 var map;
@@ -12,16 +9,25 @@ var ad_position_areas = [];
 
 
 $(function() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(getCoords, getError);
-
-    } else {
-        // TODO: Set to a proper Location
-        current_lat = -31.428495;
-        current_lng = -64.185829;
+    if (getParameterByName('lat') !== '' && getParameterByName('lng') !== '') {
+        current_lat = getParameterByName('lat');
+        current_lng = getParameterByName('lng');
         initialize();
+    } else {
+        // obtener ubicacion a travez de sensor u otro medio
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(getCoords, getError);
+        }
+        // si no logramos obtener la ubicacion, poner una x defecto
+        else {
+            // TODO: Set to a proper Location
+            current_lat = -31.428495;
+            current_lng = -64.185829;
+            initialize();
+        }
     }
 });
+
 
 function getCoords(position) {
     current_lat = position.coords.latitude;
@@ -43,12 +49,9 @@ function initialize() {
     if(current_radius == ''){
         current_radius = 1000;
     }
-
     $("#radius").val( current_radius );
     $("#range").html(parseInt(current_radius));
-    $("#radius2").val(current_radius);
-
-    $("#tags").val(tags);
+    $("#q").val(q);
 
 
     var latlng = new google.maps.LatLng(current_lat, current_lng);
@@ -94,16 +97,24 @@ function linkMapToSearchForm() {
 
     google.maps.event.addListener(position_area, 'radius_changed', function() {
         current_radius = position_area.getRadius();
-        if(parseInt(current_radius) > 6000){
-            position_area.setRadius(6000);
+        if(parseInt(current_radius) > 600000){
+            position_area.setRadius(600000);
         }
         $("#radius").val( current_radius );
         $("#range").html(parseInt(current_radius));
-        $("#radius2").val(current_radius);
+        $("#map_radius").val(current_radius);
+    });
+    // TODO: Quizas on key pressed event funcionaria mejor. Mas en timepo real
+    $("#radius").change(function(){
+        current_radius = Number($("#radius").val());
+        position_area.setRadius(current_radius);
+        $("#map_radius").val(current_radius);
     });
 
-    $("#radius").change(function(){
-        position_area.setRadius(Number($("#radius").val()));
+    $("#map_radius").change(function(){
+        current_radius = Number($("#map_radius").val());
+        position_area.setRadius(current_radius);
+        $("#radius").val(current_radius);
     });
 
 
@@ -115,7 +126,6 @@ function loadPosition(){
     var ads_list = $("#ads-list").children();
 
     ads_list.each(function(){
-
         var ad_id = $(this)[0].getAttribute('data_pk');
         var lat = $(this).find('.lat')[0].innerHTML;
         var lng = $(this).find('.lng')[0].innerHTML;
@@ -153,17 +163,20 @@ function loadPosition(){
 
         });
 
-        // Agrega funciones al evento hover
-        $( this ).hover(
-            function(){
-                ad_position_areas[ad_id].setMap(map);
-                ad_position_areas[ad_id].setOptions({strokeWeight: 2.0, fillColor: 'red'});
-            },
-            function(){
-                ad_position_areas[ad_id].setOptions({strokeWeight: 2.0, fillColor: 'green'});
-            })
-    });
-}
+
+         // Agrega funciones al evento hover
+         $( this ).hover(
+         function(){
+         ad_position_areas[ad_id].setMap(map);
+         ad_position_areas[ad_id].setOptions({strokeWeight: 2.0, fillColor: 'red'});
+         },
+         function(){
+         ad_position_areas[ad_id].setOptions({strokeWeight: 2.0, fillColor: 'green'});
+         })
+
+         });
+
+    }
 
 function getParameterByName(name) {
     name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");

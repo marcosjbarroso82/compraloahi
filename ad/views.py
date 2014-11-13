@@ -6,11 +6,21 @@ from django.utils.decorators import method_decorator
 from django.views.generic import ListView, DetailView, \
     CreateView, UpdateView, DeleteView
 from django.http import HttpResponseRedirect
+from haystack.views import FacetedSearchView
 
 
 from .models import Ad
 from .forms import CreateAdForm, AdModifyForm, \
     AdImage_inline_formset, AdLocation_inline_formset
+
+from django.shortcuts import render_to_response
+
+from .forms import AdSearchForm
+
+class MyFacetedSearchView(FacetedSearchView):
+    pass
+
+
 
 
 class AdList(ListView):
