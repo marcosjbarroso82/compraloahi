@@ -2,6 +2,7 @@ import datetime
 from haystack import indexes
 from .models import Ad
 from django.contrib.auth.models import User
+from django.contrib.gis.geos import Point
 
 
 class AdIndex(indexes.SearchIndex, indexes.Indexable):
@@ -9,13 +10,32 @@ class AdIndex(indexes.SearchIndex, indexes.Indexable):
 
     #model fields
     title = indexes.CharField(model_attr='title')
+    short_description = indexes.CharField(model_attr='short_description')
+    slug = indexes.CharField(model_attr='slug')
     price = indexes.FloatField(model_attr='price')
     pub_date = indexes.DateTimeField(model_attr='pub_date')
     tags = indexes.CharField()
+    image1 = indexes.CharField()
+    image2 = indexes.CharField()
     localities = indexes.CharField(faceted=True)
     administrative_area_level_1 = indexes.CharField(faceted=True)
     administrative_area_level_2 = indexes.CharField(faceted=True)
     categories = indexes.MultiValueField(faceted=True)
+
+    location = indexes.LocationField()
+
+    def prepare_location(self, obj):
+        # If you're just storing the floats...
+        #return Point(-31.236019, -64.382913)
+        #return "%s,%s" % (-31.236019, -64.382913)
+        return "%s,%s" % (obj.locations.first().lat, obj.locations.first().lng)
+
+    def prepare_image1(self, obj):
+        return obj.images.first().image.url
+
+    def prepare_image2(self, obj):
+        return str(obj.images.first().image)
+
 
     def prepare(self, object):
         self.prepared_data = super(AdIndex, self).prepare(object)

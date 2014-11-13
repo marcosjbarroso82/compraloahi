@@ -32,7 +32,7 @@
                     <!-- Radius -->
                     <div class="">
                         <div class="range range-success">
-                            <input id="radius" type="range" name="radius" min="1" max="6000" value="1000" onchange="range.value=value">
+                            <input id="map_radius" type="range" name="map_radius" min="1" max="6000" value="1000" onchange="range.value=value">
                             <output id="range">1000</output>
                         </div>
                         <div class="help">Radius</div>
@@ -72,36 +72,33 @@
 
         <div class="col-lg-7 content col-lg-offset-5">
             <!-- FORM SEARCH -->
-            <form method="get" action=".">
+            <form method="get" action="/ad/my_facet_view">
+
                 <div class="">
-                    <!-- TAG -->
-                    <div class="input-group stylish-input-group">
-                        {{ form.as_table }}
-                        <p>ASDASDASD</p>
-                        <button type="submit" style="border: none; width: 100%; ">
-                                <i class="glyphicon glyphicon-search"></i>
-                            </button>
-                        <!--<input id="tags" class="form-control" name="tags" type="text" placeholder="Search"/>
-                        <span class="input-group-addon">
-
-
-                        </span>-->
-                    </div>
-
                     <!-- LATITUD -->
-                    <div hidden="true" style="display: none;">
-                        <input id="lat" type="text" name="lat"/>
+                    <div>
+                        <label for="q">q</label>
+                        <input id="q" type="text" name="q" value="{{ form.data.q }}"/>
                     </div>
-
+                    <!-- LATITUD -->
+                    <div>
+                        <label for="lat">lat</label>
+                        <input id="lat" type="text" name="lat" value="{{ form.data.lat }}"/>
+                    </div>
                     <!-- LONGITUD -->
-                    <div hidden="true" style="display: none;">
-                        <input id="lng" type="text" name="lng"/>
+                    <div >
+                        <label for="lng">lng</label>
+                        <input id="lng" type="text" name="lng" value="{{ form.data.lng }}"/>
                     </div>
 
                     <!-- RADIO -->
-                    <div hidden="true" style="display: none;">
-                        <input id="radius2" type="text" name="radius"/>
+                    <div >
+                        <label for="radius">Radius</label>
+                        <input id="radius" type="text" name="radius" value="{{ form.data.radius }}"/>
                     </div>
+                    <button type="submit" style="border: none; width: 100%; ">
+                        <i class="glyphicon glyphicon-search"></i>
+                    </button>
                 </div>
             </form>
 
@@ -111,12 +108,11 @@
                 <!-- LIST -->
                 <ul id="ads-list" class="media-list">
                     {% for ad in page.object_list %}
-                        <li class="media list-group-item" id="li-ad-{{ ad.id }}" data_pk="{{ ad.id }}">
-
-                                <a id="ad-anchor-{{ ad.id }}"></a>
+                        <li class="media list-group-item" id="li-ad-{{ ad.id }}" data_pk="{{ ad.pk }}">
+                                <a id="ad-anchor-{{ ad.pk }}"></a>
                                 <div class="pull-left col-md-2">
-                                {% with ad.images.all|first as image %}
-                                    {% thumbnail image.image "100x100" crop="center" as im %}
+                                {% with ad.image1 as image %}
+                                    {% thumbnail ad.image2 "100x100" crop="center" as im %}
                                         <img id="media-object img-thumbnail" class="img-rounded" src="{{ im.url }}" alt="post img">
                                     {% endthumbnail %}
                                 {% endwith %}
@@ -128,8 +124,8 @@
                                     <p> {{ ad.short_description }} </p>
                                     <a class="btn btn-default pull-right"  href="/ad/{{ ad.slug }}"><span class="glyphicon glyphicon-eye-open"></span></a>
                                     {% with ad.locations.all|first as location %}
-                                        <span class="lat" hidden="true"> {{ location.lat }}</span>
-                                        <span class="lng" hidden="true">{{ location.lng }}</span>
+                                        <span class="lat" hidden="true"> {{ ad.location.y }}</span>
+                                        <span class="lng" hidden="true">{{ ad.location.x }}</span>
                                     {% endwith %}
                                 </div>
                         </li>
@@ -156,17 +152,19 @@
     <script src="http://maps.googleapis.com/maps/api/js?sensor=TRUE&libraries=places"></script>
     <script src="{{ STATIC_URL }}js/jquery.geocomplete.js"></script>
 
+    <!-- Formulario buscar direccion  -->
     <script>
         $("#address").geocomplete().bind("geocode:result", function(event, result){
             position_area.setCenter(new google.maps.LatLng(result.geometry.location.lat(), result.geometry.location.lng()));
             map.setCenter(new google.maps.LatLng(result.geometry.location.lat(), result.geometry.location.lng()));
           });
-
           $("#search_address_btn").click(function(){
           $("#address").trigger("geocode");
         });
 
+
     </script>
+    <!-- Fin - Formulario buscar direccion  -->
 
     <script src="{{ STATIC_URL }}js/search-map.js"></script>
 
