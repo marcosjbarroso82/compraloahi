@@ -32,7 +32,7 @@ class TextMultiField(forms.MultipleChoiceField):
 
 
 class CreateAdForm(forms.ModelForm):
-    categories = TextMultiField(choices=tuple(Category.objects.all().values_list("name", "name") ) )
+    categories = TextMultiField(choices=tuple(Category.objects.all().values_list("id", "name")))
 
     class Meta:
         model = Ad

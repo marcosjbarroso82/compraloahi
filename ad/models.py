@@ -36,7 +36,7 @@ class Ad(models.Model):
     categories = models.ManyToManyField(Category)
 
     short_description = models.CharField(max_length=120, blank=False)
-    price = models.FloatField(default='0.00')
+    price = models.DecimalField(default='0.00', decimal_places=2, max_digits=10)
 
     objects = AdQuerySet.as_manager()
 
