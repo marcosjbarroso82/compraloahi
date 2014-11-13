@@ -1,67 +1,19 @@
-
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.views.generic import ListView, DetailView, \
     CreateView, UpdateView, DeleteView
 from django.http import HttpResponseRedirect
-from haystack.views import FacetedSearchView
 
+from haystack.views import FacetedSearchView
 
 from .models import Ad
 from .forms import CreateAdForm, AdModifyForm, \
     AdImage_inline_formset, AdLocation_inline_formset
 
-from django.shortcuts import render_to_response
 
-from .forms import AdSearchForm
-
-class MyFacetedSearchView(FacetedSearchView):
+class AdFacetedSearchView(FacetedSearchView):
     pass
-
-
-
-
-class AdList(ListView):
-    template_name = "ad/list.html"
-
-    def get_context_data(self, **kwargs):
-        paginator = Paginator(self.get_queryset(), 10)
-        page = self.request.GET.get('page')
-        try:
-            ads_list = paginator.page(page)
-        except PageNotAnInteger:
-            # If page is not an integer, deliver first page.
-            ads_list = paginator.page(1)
-        except EmptyPage:
-            # If page is out of range (e.g. 9999), deliver last page of results.
-            ads_list = paginator.page(paginator.num_pages)
-
-        return {'ads_list': ads_list}
-
-    def get_queryset(self):
-        queryset = Ad.objects.all()
-        if 'tags' in self.request.GET:
-            tags = self.request.GET['tags']
-            if tags:
-                tags = tags.split()
-                queryset = queryset.filter(tags__name__in=tags).distinct()
-        if self.request.GET.get('lat') and self.request.GET.get('lng') and self.request.GET.get('radius'):
-            lat = float(self.request.GET['lat'])
-            lng = float(self.request.GET['lng'])
-            radius = float(self.request.GET['radius'])
-
-            radius_in_degrees = radius / 111200 # TODO: Need more precision than this
-            lat_from = lat - radius_in_degrees
-            lat_to = lat + radius_in_degrees
-            lng_from = lng - radius_in_degrees
-            lng_to = lng + radius_in_degrees
-
-            queryset = queryset.filter(locations__lat__range=(lat_from, lat_to))
-            queryset = queryset.filter(locations__lng__range=(lng_from, lng_to))
-
-        return queryset
 
 
 class LatestAdView(ListView):

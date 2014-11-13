@@ -1,22 +1,17 @@
 from django.conf.urls import patterns, url
 
-from haystack.views import FacetedSearchView
-from haystack.forms import FacetedSearchForm
 from haystack.query import SearchQuerySet
 
 from .views import LatestAdView, DetailAdView, CreateAdView, \
-    UpdateAdView, AdList, AdDeleteView, AdsByUser, MyFacetedSearchView
+    UpdateAdView, AdDeleteView, AdsByUser, AdFacetedSearchView
 
 from .forms import AdSearchForm
 
 sqs = SearchQuerySet().facet('categories').facet('localities')
 
-
 urlpatterns = patterns('',
-                       url(r'^$', MyFacetedSearchView(form_class=AdSearchForm, searchqueryset=sqs, template='ad/list.html'), name='my_facet_search_view'),
                        # List and Search ads
-                       url(r'^ad-list/$', AdList.as_view(),
-                           name="ad-list"),
+                       url(r'^ad-list/$', AdFacetedSearchView(form_class=AdSearchForm, searchqueryset=sqs, template='ad/list.html'), name='my_facet_search_view'),
                        # Latest ads
                        url(r'^latest/$', LatestAdView.as_view(),
                            name="ad-latest"),

@@ -5,10 +5,8 @@ from .models import Ad, AdImage, Category
 from adLocation.models import AdLocation
 from ckeditor.widgets import CKEditorWidget
 
-
-from haystack.forms import SearchForm,  FacetedSearchForm
-from haystack.utils.geo import Point
-from haystack.utils.geo import D
+from haystack.forms import FacetedSearchForm
+from haystack.utils.geo import Point, D
 
 
 class AdSearchForm(FacetedSearchForm):
@@ -23,8 +21,7 @@ class AdSearchForm(FacetedSearchForm):
 
     def search(self):
         # First, store the SearchQuerySet received from other processing. (the main work is run internally by Haystack here).
-        #sqs = super(AdSearchForm, self).search()
-        sqs = super(FacetedSearchForm, self).search()
+        sqs = super(AdSearchForm, self).search()
         try:
             if self.cleaned_data.get('lat') and self.cleaned_data.get('lng') and self.cleaned_data.get('radius'):
                 location = Point(self.cleaned_data.get('lng'), self.cleaned_data.get('lat'))

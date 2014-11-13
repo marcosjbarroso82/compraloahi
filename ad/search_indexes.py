@@ -16,7 +16,6 @@ class AdIndex(indexes.SearchIndex, indexes.Indexable):
     pub_date = indexes.DateTimeField(model_attr='pub_date')
     tags = indexes.CharField()
     image1 = indexes.CharField()
-    image2 = indexes.CharField()
     localities = indexes.CharField(faceted=True)
     administrative_area_level_1 = indexes.CharField(faceted=True)
     administrative_area_level_2 = indexes.CharField(faceted=True)
@@ -31,11 +30,7 @@ class AdIndex(indexes.SearchIndex, indexes.Indexable):
         return "%s,%s" % (obj.locations.first().lat, obj.locations.first().lng)
 
     def prepare_image1(self, obj):
-        return obj.images.first().image.url
-
-    def prepare_image2(self, obj):
         return str(obj.images.first().image)
-
 
     def prepare(self, object):
         self.prepared_data = super(AdIndex, self).prepare(object)

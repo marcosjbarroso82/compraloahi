@@ -186,7 +186,8 @@ HAYSTACK_CONNECTIONS = {
         'INDEX_NAME': 'haystack',
     },
 }
-HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
+
+#HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
 #HAYSTACK_SIGNAL_PROCESSOR = 'ad.signals.RealtimeSignalProcessor'
 
 COMMENTS_XTD_MAX_THREAD_LEVEL = 2

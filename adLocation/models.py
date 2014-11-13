@@ -17,8 +17,12 @@ class AdLocation(models.Model):
     locality = models.CharField(max_length=40, blank=True, null=True)
 
     def save(self, *args, **kwargs):
-        response = urllib.request.urlopen('http://maps.googleapis.com/maps/api/geocode/json?latlng=-31.413260,-64.179306&sensor=true')
+        url = 'http://maps.googleapis.com/maps/api/geocode/json?latlng='+ str(self.lat) + ',' + str(self.lng) +'&sensor=true'
+        print(url)
+        response = urllib.request.urlopen(url)
+        print(response)
         json_response = response.read()
+
         obj = json.loads(json_response.decode("utf-8"))
 
         for district in obj["results"][0]["address_components"]:
