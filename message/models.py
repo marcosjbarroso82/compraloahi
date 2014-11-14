@@ -13,10 +13,15 @@ class MessageChannel(models.Model):
     ad = models.ForeignKey(Ad)
 
     def __str__(self):
-        return str(self.sender) + ' ' + str(self.reciever) + ' ' + self.status
+        return str(self.sender) + ' ' + str(self.recipient) + ' ' + self.status + ' ' + str(self.ad.id)
 
     def already_exist(self):
-        if len(MessageChannel.objects.filter(sender=self.sender, recipient=self.recipient).exclude(status='des')) > 0:
-            return True
-        else:
+        print("already exits")
+        len1 = len(MessageChannel.objects.filter(sender=self.sender, recipient=self.recipient, status="des", ad=self.ad))
+        print(len1)
+        if len1  > 0:
+            print("return false")
             return False
+        else:
+            print("return true")
+            return True
