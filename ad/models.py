@@ -13,6 +13,7 @@ class AdQuerySet(models.QuerySet):
     def published(self):
         return self.filter(publish=True)
 
+
 class Category(models.Model):
     name = models.CharField(max_length=40)
     slug = AutoSlugField(populate_from='name')

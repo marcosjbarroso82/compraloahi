@@ -136,11 +136,25 @@
 
             <!-- PAGINATION -->
             <div class="pagination pull-right" id="pagination">
-                <ul class="pager">
-                    <li class="previous{% if ads_list.has_previous %}"><a href="?page={{ ads_list.previous_page_number }}">{% else %} disabled"> <a>{% endif %}&larr; Anterior</a></li>
-                    <span class="">Page {{ ads_list.number }} of {{ ads_list.paginator.num_pages }}.</span>
-                    <li class="next{% if ads_list.has_next %}"><a href="?page={{ ads_list.next_page_number }}">{% else %} disabled"> <a>{% endif %}Siguiente &rarr;</a></li>
-                </ul>
+
+                {% if paginator %}
+                    {% load i18n %}
+                    <div class="pagination">
+                        {% if page.has_previous %}
+                            <a href="?page={{ page.previous_page_number }}{{ getvars }}" class="prev">&lsaquo;&lsaquo; {% trans "previous" %}</a>
+                        {% else %}
+                            <span class="disabled prev">&lsaquo;&lsaquo; {% trans "previous" %}</span>
+                        {% endif %}
+                        <span> Page {{ page.number }} of {{ paginator.num_pages }}</span>
+
+                        {% if page.has_next %}
+                            <a href="?page={{ page.next_page_number }}{{ getvars }}" class="next">{% trans "next" %} &rsaquo;&rsaquo;</a>
+                        {% else %}
+                            <span class="disabled next">{% trans "next" %} &rsaquo;&rsaquo;</span>
+                        {% endif %}
+                    </div>
+                {% endif %}
+
 
             </div>
         </div>

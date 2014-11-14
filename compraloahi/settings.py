@@ -189,6 +189,7 @@ HAYSTACK_CONNECTIONS = {
 
 #HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
 #HAYSTACK_SIGNAL_PROCESSOR = 'ad.signals.RealtimeSignalProcessor'
+HAYSTACK_SEARCH_RESULTS_PER_PAGE = 3
 
 COMMENTS_XTD_MAX_THREAD_LEVEL = 2
 COMMENTS_APP = "django_comments_xtd"
