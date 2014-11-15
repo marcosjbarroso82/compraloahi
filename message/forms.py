@@ -6,30 +6,39 @@ from postman.models import Message
 from ad.models import Ad
 
 class CustomWriteForm(BaseWriteForm):
-    ad_id = forms.CharField()
-
+    ad_id = forms.CharField(widget=forms.TextInput(attrs={'hidden':'True'}))
 
     def clean(self):
-        self.mc = MessageChannel(sender=self.instance.sender, recipient=self.cleaned_data['recipient'], ad=Ad.objects.get(pk=self.cleaned_data['ad_id']),
-                                 date=datetime_now())
+        ad = Ad.objects.get(pk=self.cleaned_data['ad_id'])
+        self.instance.recipient = ad.author
 
+        self.mc = MessageChannel(sender=self.instance.sender, recipient=ad.author, ad= ad,
+                                 date=datetime_now())
 
         if self.mc.already_exist():
             print("no existe")
             return super(CustomWriteForm, self).clean()
         raise forms.ValidationError('Ya hay una solicitud pendiente')
 
+
+    def clean_recipients(self):
+        """Check no filter prohibit the exchange."""
+        recipients = []
+        recipients.append(self.instance.recipient)
+
+        return recipients
+
+
     def save(self, *args, **kwargs):
         print("save")
         super(CustomWriteForm, self).save(self, *args, **kwargs)
         self.mc.save()
 
-
     class Meta(BaseWriteForm.Meta):
-        fields = ('recipient', 'subject', 'body')
-
-
-    """
-    class Meta(BaseWriteForm.Meta):
-        fields = ('body', 'ad_id')
-    """
+        fields = ('subject', 'body')
+        exclude = ('recipient', )
+        widgets = {
+            # for better confort, ensure a 'cols' of at least
+            # the 'width' of the body quote formatter.
+            'body': forms.Textarea(attrs={'rows': 6}),
+        }
