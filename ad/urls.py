@@ -32,4 +32,7 @@ urlpatterns = patterns('',
                        url(r'^(?P<pk>\d+)/$',
                            DetailAdView.as_view(),
                            name="ad-delete"),
+                       url(r'^ajax-table-ads-by-user/$', AdsByUser.as_view(template_name='userProfile/table_ads_by_user.html'),
+                           name="ajax-table-ad-by-user"),
+
                         )
