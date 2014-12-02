@@ -150,7 +150,7 @@ class UserProfileUpdateView(UpdateView):
 
 class UserProfileDetailView(DetailView):
     model = UserProfile
-    template_name = 'userProfile/detail.html'
+    template_name = 'userProfile/dashboard.html'
     context_object_name = 'profile'
 
     @method_decorator(login_required)

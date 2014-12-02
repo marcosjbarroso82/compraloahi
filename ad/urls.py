@@ -7,7 +7,7 @@ from .views import LatestAdView, DetailAdView, CreateAdView, \
 
 from .forms import AdSearchForm
 
-sqs = SearchQuerySet().facet('categories').facet('localities')
+sqs = SearchQuerySet().facet('categories').facet('localities').facet('provinces')
 
 urlpatterns = patterns('',
                        # List and Search ads

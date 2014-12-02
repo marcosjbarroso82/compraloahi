@@ -10,5 +10,6 @@ urlpatterns = patterns('',
                            name="profile-update"),
                        url(r'^profile/$', UserProfileDetailView.as_view(),
                            name="profile-detail"),
-
+                       url(r'^ajax-profile/$', UserProfileDetailView.as_view(template_name="userProfile/detail.html"),
+                           name="ajax-profile-detail"),
                        )

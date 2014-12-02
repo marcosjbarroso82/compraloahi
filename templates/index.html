@@ -104,7 +104,7 @@
                 <area shape="poly" name="mendoza" data-key="Mendoza" coords="61,207,47,203,42,209,35,210,36,204,26,204,24,211,13,212,15,219,18,224,22,228,21,245,16,258,14,263,11,266,15,270,14,286,18,293,23,294,28,301,34,302,39,304,45,307,53,310,54,273,76,273,77,251,73,244,73,240,71,235,64,228,63,222,62,216,61,208" href="#mendoza" />
                 <area shape="poly" name="neuquen" data-key="Neuquen" coords="56,339,54,336,54,310,49,307,44,306,36,303,31,302,27,300,24,295,18,294,14,287,10,287,6,302,5,318,13,333,5,340,4,355,6,360,2,366,5,370,2,376,3,382,13,382,14,375,17,372,27,367,27,360,31,357,37,351,43,346,48,344,54,339" href="#neuquen" />
                 <area shape="poly" name="sanluis" data-key="San Luis" coords="63,198,68,198,84,198,88,199,97,205,101,205,101,214,98,220,98,273,76,273,77,256,77,251,75,247,73,244,73,239,65,229,63,222,62,216,62,208,62,199" href="#sanluis" />
-                <area shape="poly" name="santafe" data-key="Santa Fe" coords="146,166,156,122,199,122,198,137,195,146,192,154,190,158,190,167,185,178,177,187,172,198,171,211,175,216,178,225,175,230,167,230,155,245,127,245,152,216,151,210,149,204,146,198,147,192,148,186,149,181,151,176,151,175,145,166" href="#santafe" />
+                <area shape="poly" name="santafe" data-key="Santa Fe Province" coords="146,166,156,122,199,122,198,137,195,146,192,154,190,158,190,167,185,178,177,187,172,198,171,211,175,216,178,225,175,230,167,230,155,245,127,245,152,216,151,210,149,204,146,198,147,192,148,186,149,181,151,176,151,175,145,166" href="#santafe" />
                 <area shape="poly" name="santiagodelestero" data-key="Santiago del Estero" coords="104,151,103,146,97,139,96,118,99,118,100,106,107,96,107,87,112,79,122,78,124,76,155,76,155,122,146,166,140,165,136,154,110,149,104,151" href="#santiagodelestero" />
                 <area shape="poly" name="entrerios" data-key="Entre Rios" coords="178,225,176,219,175,215,172,211,172,198,176,192,177,186,180,183,186,177,188,170,190,167,213,165,221,173,220,178,213,195,213,218,208,223,208,240,203,240,199,238,193,233,189,230,177,225" href="#entrerios" />
                 <area shape="poly" name="buenosaires" data-key="Buenos Aires" coords="127,245,155,245,166,230,175,230,179,226,192,233,199,239,208,240,208,248,223,263,224,268,223,274,223,279,225,284,232,284,231,297,217,317,214,316,212,320,191,330,178,333,179,333,152,332,144,329,142,331,143,337,148,347,144,350,141,361,145,367,138,376,127,366,128,259,127,257,127,246" href="#buenosaires" />
@@ -163,6 +163,14 @@
 
         var image = $('#mapaArgentina');
 
+        $('#Map').find("area").each(function(){
+            $( this ).click(function(){
+
+                window.location.replace("ad/ad-list/?selected_facets=provinces_exact:" + this.getAttribute('data-key'));
+            });
+        });
+
+
         $('#mapaArgentina').mapster({
             mapKey: 'data-key',
             singleSelect: true,
@@ -173,31 +181,105 @@
             },
             showToolTip: true,
             toolTipClose: ["tooltip-click", "area-click"],
+
             areas: [
                 {
                     key: "entrerios",
-                    fillColor: "ffffff",
-                    toolTip: "Entre Rios, capital: Parana"
+                    toolTip: "Entre Rios"
                 },
                 {
                     key: "misiones",
-                    fillColor: "fff000",
-                    toolTip: "Misiones, capital: Posadas"
+                    toolTip: "Misiones"
                 },
                 {
                     key: "cordoba",
-                    fillColor: "000000",
-                    toolTip: "Córdoba, capital: Córdoba"
+                    toolTip: "Córdoba"
                 },
                 {
                     key: "buenosaires",
-                    toolTip: "Buenos Aires, capital: La Plata"
+                    toolTip: "Buenos Aires"
                 },
                 {
                     key: "chubut",
-                    strokeColor: "FFFFFF",
-                    toolTip: "Chubut, capital: Rawson"
+                    toolTip: "Chubut"
+                },
+                {
+                    key: "malvinas",
+                    toolTip: "Malvinas"
+                },
+                {
+                    key: "corrientes",
+                    toolTip: "Corrientes"
+                },
+                {
+                    key: "chaco",
+                    toolTip: "Chaco"
+                },
+                {
+                    key: "formosa",
+                    toolTip: "Formosa"
+                },
+                {
+                    key: "salta",
+                    toolTip: "Salta"
+                },
+                {
+                    key: "jujuy",
+                    toolTip: "Jujuy"
+                },
+                {
+                    key: "tucuman",
+                    toolTip: "Tucuman"
+                },
+                {
+                    key: "catamarca",
+                    toolTip: "Catamarca"
+                },
+                {
+                    key: "larioja",
+                    toolTip: "La Rioja"
+                },
+                {
+                    key: "sanjuan",
+                    toolTip: "San Juan"
+                },
+                {
+                    key: "mendoza",
+                    toolTip: "Mendoza"
+                },
+                {
+                    key: "neuquen",
+                    toolTip: "Neuquen"
+                },
+                {
+                    key: "sanluis",
+                    toolTip: "San Luis"
+                },
+                {
+                    key: "santafe",
+                    toolTip: "Santa Fe"
+                },
+                {
+                    key: "santiagodelestero",
+                    toolTip: "Santiado del Estero"
+                },
+                {
+                    key: "lapampa",
+                    toolTip: "La Pampa"
+                },
+                {
+                    key: "rionegro",
+                    toolTip: "Rio Negro"
+                },
+                {
+                    key: "santacruz",
+                    toolTip: "Santa Cruz"
+                },
+                {
+                    key: "tierradelfuego",
+                    toolTip: "Tierra del Fuego"
                 }
+
             ]
         });
     </script>
