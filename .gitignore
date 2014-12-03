@@ -3,3 +3,4 @@
 *.pyc
 .idea/
 compraloahi/media/cache/
+compraloahi/media/cache/*
