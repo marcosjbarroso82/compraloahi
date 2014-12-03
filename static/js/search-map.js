@@ -8,7 +8,11 @@ var map;
 var ad_position_areas = [];
 
 
+var map_bounds = new google.maps.LatLngBounds();
+
+
 $(function() {
+    // Get Lat and Lng from url
     if (getParameterByName('lat') !== '' && getParameterByName('lng') !== '') {
         current_lat = getParameterByName('lat');
         current_lng = getParameterByName('lng');
@@ -27,8 +31,6 @@ $(function() {
         }
     }
 });
-
-
 function getCoords(position) {
     current_lat = position.coords.latitude;
     current_lng = position.coords.longitude;
@@ -44,24 +46,28 @@ function getError(err) {
 
 function initialize() {
     $("#lat").val(current_lat);
-    $("#lng").val(current_lng);
 
+    $("#lng").val(current_lng);
     if(current_radius == ''){
         current_radius = 1000;
     }
     $("#radius").val( current_radius );
     $("#range").html(parseInt(current_radius));
+
+
     $("#q").val(q);
 
-
     var latlng = new google.maps.LatLng(current_lat, current_lng);
+
+    map_bounds.extend(latlng);
+
     var mapSettings = {
         center: latlng,
         zoom: 12,
         mapTypeId: google.maps.MapTypeId.ROADMAP
     }
-    map = new google.maps.Map($("#mapa").get(0), mapSettings);
 
+    map = new google.maps.Map($("#mapa").get(0), mapSettings);
     position_area = new google.maps.Circle({
         map: map,
         editable: true,
@@ -74,11 +80,11 @@ function initialize() {
         fillOpacity:0.4,
         zIndex: 10
     });
+
     linkMapToSearchForm();
 
+
     loadPosition();
-
-
 }
 
 function clearMapPositions() {
@@ -90,11 +96,11 @@ function clearMapPositions() {
 
 function linkMapToSearchForm() {
 
+
     google.maps.event.addListener(position_area, 'center_changed', function() {
         $("#lat").val( position_area.center.lat() );
         $("#lng").val( position_area.center.lng() );
     });
-
     google.maps.event.addListener(position_area, 'radius_changed', function() {
         current_radius = position_area.getRadius();
         if(parseInt(current_radius) > 600000){
@@ -104,6 +110,7 @@ function linkMapToSearchForm() {
         $("#range").html(parseInt(current_radius));
         $("#map_radius").val(current_radius);
     });
+
     // TODO: Quizas on key pressed event funcionaria mejor. Mas en timepo real
     $("#radius").change(function(){
         current_radius = Number($("#radius").val());
@@ -111,13 +118,12 @@ function linkMapToSearchForm() {
         $("#map_radius").val(current_radius);
     });
 
+
     $("#map_radius").change(function(){
         current_radius = Number($("#map_radius").val());
         position_area.setRadius(current_radius);
         $("#radius").val(current_radius);
     });
-
-
 }
 
 
@@ -129,13 +135,16 @@ function loadPosition(){
         var ad_id = $(this)[0].getAttribute('data_pk');
         var lat = $(this).find('.lat')[0].innerHTML;
         var lng = $(this).find('.lng')[0].innerHTML;
+        var latLng = new google.maps.LatLng(lat, lng);
+
+        map_bounds.extend(latLng);
 
         ad_position_areas[ad_id] = new google.maps.Circle({
             content: "contenido",
             name: "este es el nombre",
             pk: ad_id,
             map: map,
-            center: new google.maps.LatLng(lat, lng),
+            center: latLng,
             radius: 500,
             strokeColor:"green",
             strokeOpacity:0.8,
@@ -176,7 +185,9 @@ function loadPosition(){
 
          });
 
-    }
+    map.fitBounds(map_bounds);
+}
+
 
 function getParameterByName(name) {
     name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
