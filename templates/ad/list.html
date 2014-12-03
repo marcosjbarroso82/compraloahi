@@ -125,7 +125,7 @@
                                 <a id="ad-anchor-{{ ad.pk }}"></a>
                                 <div class="pull-left col-md-2">
                                 {% with ad.image1 as image %}
-                                    {% thumbnail ad.image2 "100x100" crop="center" as im %}
+                                    {% thumbnail ad.image1 "100x100" crop="center" as im %}
                                         <img id="media-object img-thumbnail" class="img-rounded" src="{{ im.url }}" alt="post img">
                                     {% endthumbnail %}
                                 {% endwith %}
