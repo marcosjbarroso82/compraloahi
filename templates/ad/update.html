@@ -5,52 +5,57 @@
 
 {% block body_block %}
 
+    <div class="container">
+        <h1>{{ object.title }}</h1>
+        {% bootstrap_messages %}
+        <form action="" method="post" class="form" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.media }}
+            {% bootstrap_field form.title %}
+            {% bootstrap_field form.tags %}
+            {% bootstrap_field form.short_description %}
+            {% bootstrap_field form.price %}
+            {% bootstrap_field form.categories %}
+            {{ form.body }}
+            <!-- Images FormSet -->
+            {{ images_formset.management_form }}
+            {% for image_form in images_formset %}
+                {{ image_form.id }}
+                <div class="inline {{ images_formset.prefix }} form-inline">
+                    {{ image_form }}
+                </div>
+            {% endfor %}
+            <!-- End Images FormSet -->
 
-    <h1>{{ object.title }}</h1>
-    {% bootstrap_messages %}
-    <form action="" method="post" class="form" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.media }}
-        {{ form.as_p }}
-        <!-- Images FormSet -->
-        {{ images_formset.management_form }}
-        {% for image_form in images_formset %}
-            {{ image_form.id }}
-            <div class="inline {{ images_formset.prefix }} form-inline">
-                 {{ image_form }}
-            </div>
-        {% endfor %}
-        <!-- End Images FormSet -->
-
-        <!-- Locations FormSet -->
-        {{ locations_formset.management_form }}
-        {% for location_form in locations_formset %}
-            {{ location_form.id }}
-            <div class="inline {{ locations_formset.prefix }} form-inline">
-                 {{ location_form }}
-            </div>
-        {% endfor %}
-        <!-- End Locations FormSet -->
-        <!-- Locations Map -->
-        <div id="mapa" class="capas"></div>
-        <!-- End Locations Map -->
-
-
-        {% buttons %}
-            <button type="submit" class="btn btn-primary">
-                {% bootstrap_icon "save" %} Crear aviso
-            </button>
-        {% endbuttons %}
-    </form>
+            <!-- Locations FormSet -->
+            {{ locations_formset.management_form }}
+            {% for location_form in locations_formset %}
+                {{ location_form.id }}
+                <div class="inline {{ locations_formset.prefix }} form-inline">
+                    {{ location_form }}
+                </div>
+            {% endfor %}
+            <!-- End Locations FormSet -->
+            <!-- Locations Map -->
+            <div id="mapa" class="capas"></div>
+            <!-- End Locations Map -->
 
 
+            {% buttons %}
+                <button type="submit" class="btn btn-primary pull-right">
+                    {% bootstrap_icon "save" %} Crear aviso
+                </button>
+            {% endbuttons %}
+        </form>
+
+    </div>
     <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
     <script src="{{ STATIC_URL }}jquery-formset-12/jquery.formset.js"></script>
     <script type="text/javascript">
         $(function() {
             $(".inline.{{ images_formset.prefix }}").formset({
-                prefix: "{{ images_formset.prefix }}",
-            })
+                prefix: "{{ images_formset.prefix }}"
+            });
         })
 
     </script>

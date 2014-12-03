@@ -1,0 +1,130 @@
+
+{% load bootstrap3 %}
+
+
+
+<h2>Edit profile</h2>
+{% bootstrap_messages %}
+<form action="" method="post" class="form" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div class="form-group">
+        <label class="control-label" for="id_first_name">First Name</label>
+        <input class="form-control" id="id_first_name" name="first_name" placeholder="First name" required="required" title="" type="text" value="{{ user.first_name }}">
+    </div>
+
+    <div class="form-group">
+        <label class="control-label" for="id_last_name">Last Name</label>
+        <input class="form-control" id="id_last_name" name="last_name" placeholder="Last name" required="required" title="" type="text" value="{{ user.last_name }}">
+    </div>
+
+    {% bootstrap_field form.birth_date %}
+
+    {% bootstrap_field form.image  %}
+
+    {{ phones_form.management_form }}
+    {% for phone_form in phones_form %}
+        {{ phone_form.id }}
+        <div class="inline {{ phones_form.prefix }} form-inline">
+            {% bootstrap_field phone_form.type %}
+            {% bootstrap_field phone_form.number %}
+
+        </div>
+    {% endfor %}
+
+    <div id="locations">
+        <h3>Locations</h3>
+
+        {{ locations_form.management_form }}
+        {% for location_form in locations_form %}
+            {{ location_form.id }}
+            <div class="inline {{ locations_form.prefix }} form-inline">
+
+                {% bootstrap_field location_form.title %}
+                {% bootstrap_field location_form.lat %}
+                {% bootstrap_field location_form.lng %}
+            </div>
+        {% endfor %}
+    </div>
+    <!-- Locations Map -->
+    <div id="mapa" class="capas"></div>
+    <!-- End Locations Map -->
+
+    {% buttons %}
+        <button type="submit" class="btn btn-primary pull-right">
+            {% bootstrap_icon "save" %} Save Change
+        </button>
+    {% endbuttons %}
+</form>
+
+
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<script src="/static/jquery-formset-12/jquery.formset.js"></script>
+
+<script src="http://maps.googleapis.com/maps/api/js?sensor=TRUE"></script>
+<script src="/static/js/ad/forms.js"></script>
+
+<script type="text/javascript">
+    $(function() {
+        $(".inline.{{ phones_form.prefix }}").formset({
+            prefix: "{{ phones_form.prefix }}",
+        })
+        $(".inline.{{ locations_form.prefix }}").formset({
+            prefix: "{{ locations_form.prefix }}",
+        })
+    });
+
+    $("#btn-confirm").click(function(){
+
+        // TODO: Boton volver, revisar import js
+
+        var first_name = $("#id_first_name").val();
+        var last_name = $("#id_last_name").val();
+        var birth_date = $("#id_birth_date").val();
+
+        var image = $("#image_name").val();
+        csrf = "{{ csrf_token }}";
+
+        $.post("{% url 'account_change_password' %}", {first_name: first_name, last_name: last_name, birth_date: birth_date, csrfmiddlewaretoken: csrf},
+                function(data) {
+                    console.log("Change password Success");
+                }
+        )
+                .done(function(){
+                    //$('#modalMessage').class = 'modal';
+                });
+
+    });
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

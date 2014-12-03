@@ -1,202 +1,63 @@
-{% extends 'layout/base.html' %}
 {% load bootstrap3 %}
-{% block title %}{{ profile.first_name|capfirst }} {{ profile.last_name|capfirst }}{% endblock %}
 {% load thumbnail %}
-
-
-{% block body_block %}
-
-{% bootstrap_messages %}
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/profile.css" >
-
-<div id="container-profile">
-    <div class="col-md-3" >
-        <strong>Menu</strong>
-        <hr>
-        <ul id="tab-board" class="nav nav-pills nav-stacked" role="tablist">
-            <li role="presentation" class="active"><a href="#profile" title="The Bootstrap Playground" target="ext">Profile</a></li>
-            <li role="presentation"><a href="#message">Messages</a></li>
-            <li class="divider"></li>
-            <li role="presentation"><a href="#ads" title="Bootstrap 3 Panel">My ads</a></li>
-            <li role="presentation"><a href="#locations" title="Bootstrap 3 Icons">My locations</a></li>
-            <li role="presentation"><a href="#agenda" title="Bootstrap 3 ListGroup">My agenda</a></li>
-        </ul>
-  	</div><!-- /span-3 -->
-    <div class="col-md-9 tab-content" id="myTabContent">
-
-        <!-- ############## PROFILE ############### -->
-        <div class="panel panel-default tab-pane active" id="profile">
-            <div class="panel-heading">Datos personales</div>
-                <div class="panel-body body-content">
-                    <div class="row">
-                        <div class="col-md-3 col-lg-3 " align="center">
-                            {% thumbnail profile.image "400x400" crop="center" as im %}
-                                <img class="img-circle img-responsive" id="item-display" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
-                            {% endthumbnail %}
-                        </div>
-                        <div class=" col-md-9 col-lg-9 ">
-                            <h2 id="title-usernarme">{{ user.first_name|capfirst }}, {{ user.last_name|capfirst }}</h2>
-                            <table class="table table-user-information">
-                                <tbody>
-                                    <tr>
-                                        <td>Department:</td>
-                                        <td>Programming</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Date of Birth</td>
-                                        <td> <i class="glyphicon glyphicon-gift"></i>{{ profile.birth_date.year }} - {{ profile.birth_date.month }} - {{ profile.birth_date.day }}</td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>Gender</td>
-                                        <td>Male</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Home Address</td>
-                                        <td>
-                                            {% with profile.locations.all|first as location %}
-                                                <cite title="{{ location.title }}">
-                                                    {{ location.title }}
-                                                </cite>
-                                            {% endwith %}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Email</td>
-                                        <td><i class="glyphicon glyphicon-envelope"></i>{{ user.email }}</td>
-                                    </tr>
-                                        <td>Contact Number</td>
-                                        <td>
-                                            {% for phone in profile.phones.all %}
-                                                {% if phone.type == 'FAX' %}
-                                                    <i class="glyphicon glyphicon-phone-alt"></i>
-                                                {% elif phone.type == 'TEL' %}
-                                                    <i class="glyphicon glyphicon-earphone"></i>
-                                                {% else %}
-                                                    <i class="glyphicon glyphicon-earphone"></i>
-                                                {% endif %}
-                                                {{ phone.number }}
-                                                <br/>
-                                            {% endfor %}
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-
-                        </div>
-                    </div>
-                    <div class="btn-group pull-right pull-bottom">
-                            <a href="/accounts/profile/update" class="btn btn-warning">{% bootstrap_icon "edit" %}Edit</a>
-                            <a href="/accounts/password/change" class="btn btn-warning">{% bootstrap_icon "cog" %}Change password</a>
-                    </div>
-                </div>
-        </div>
-        <!-- ############## END PROFILE ############### -->
-
-        <!-- ############## MESSAGE ############### -->
-        <div class="panel panel-default tab-pane" id="message">
-            <div class="panel-heading">My messages</div>
-            <div id="message-panel" class="panel-body body-content">
-                {% include "userProfile/message_menu.html" %}
-            </div>
-
-        </div>
-        <!-- ############## END MESSAGE ############### -->
-
-        <!-- ############## ADS ############### -->
-        <div class="panel panel-default tab-pane" id="ads">
-            <div class="panel-heading">My ads</div>
-            <div class="panel-body body-content">
-
-                 <div class="table-responsive" style="max-height: 88%;" >
-                    <table class="table table-bordred table-striped">
-                    <thead>
-                            <th></th>
-                            <th></th>
-                            <th>Acciones</th>
-                        </thead>
-                        <tbody>
-                            {% for ad in user.ads.all %}
-                                <tr>
-                                        <td>
-                                            {% with ad.images.all|first as image %}
-                                                {% thumbnail image.image "100x100" crop="center" as im %}
-                                                    <img id="media-object" class="img-rounded" src="{{ im.url }}" width="90" height="90">
-                                                {% endthumbnail %}
-                                            {% endwith %}
-                                        </td>
-                                        <td>
-                                            <h3><strong>{{ ad.title }}</strong></h3>
-                                            <small>{{ ad.short_description }}</small>
-                                            <p>{{ ad.slug }}</p>
-                                        </td>
-                                        <td class="v-center">
-                                            <div class="row">
-                                                <a href="/ad/update/{{ ad.id }}" class="btn btn-warning">{% bootstrap_icon "edit" %}</a>
-                                                <a href="/ad/delete/{{ ad.id }}" class="btn btn-danger">{% bootstrap_icon "remove" %}</a>
-                                                <a href="/ad/{{ ad.id }}" class="btn btn-success">{% bootstrap_icon "eye-open" %}</a>
-                                            </div>
-                                        </td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-                <!-- PAGINATION -->
-                <nav class="pull-right">
-                    <ul class="pagination">
-                        <li><a href="#">&laquo;</a></li>
-                        <li><a href="#">1</a></li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">4</a></li>
-                        <li><a href="#">5</a></li>
-                        <li><a href="#">&raquo;</a></li>
-                    </ul>
-                </nav>
-            </div>
-        </div>
-        <!-- ############## END ADS ############### -->
-
-
-        <!-- ############## LOCATIONS ############### -->
-        <div class="panel panel-default tab-pane" id="locations">
-            <div class="panel-heading">My locations</div>
-            <div class="panel-body body-content">
-                <ul class="list-group">
-                    {% for location in profile.locations.all %}
-                        <li class="list-group-item">
-                            {{ location.title }}
-                            <a href="/accounts/profile/position/delete/{{ location.id }}" class="btn btn-danger pull-right">{% bootstrap_icon "remove" %}</a>
-                        </li>
-                    {% endfor %}
-                </ul>
-
-            </div>
-        </div>
-        <!-- ############## ENDLOCATIONS ############### -->
-
-
-        <!-- ############## AGENDA ############### -->
-        <div class="panel panel-default tab-pane" id="agenda">
-            <div class="panel-heading">My agenda</div>
-            <div class="panel-body body-content">
-                <p> AGENDA</p>
-            </div>
-        </div>
-        <!-- ############## END AGENDA ############### -->
-    </div>
+<div class="row">
+<div class="col-md-3 col-lg-3 " align="center">
+    {% thumbnail profile.image "400x400" crop="center" as im %}
+        <img class="img-circle img-responsive" id="item-display" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+    {% endthumbnail %}
 </div>
+<div class=" col-md-9 col-lg-9 ">
+    <h2 id="title-usernarme">{{ user.first_name|capfirst }}, {{ user.last_name|capfirst }}</h2>
+    <table class="table table-user-information">
+        <tbody>
+            <tr>
+                <td>Department:</td>
+                <td>Programming</td>
+            </tr>
+            <tr>
+                <td>Date of Birth</td>
+                <td> <i class="glyphicon glyphicon-gift"></i>{{ profile.birth_date.year }} - {{ profile.birth_date.month }} - {{ profile.birth_date.day }}</td>
+            </tr>
 
-{% endblock %}
+            <tr>
+                <td>Gender</td>
+                <td>Male</td>
+            </tr>
+            <tr>
+                <td>Home Address</td>
+                <td>
+                    {% with profile.locations.all|first as location %}
+                        <cite title="{{ location.title }}">
+                            {{ location.title }}
+                        </cite>
+                    {% endwith %}
+                </td>
+            </tr>
+            <tr>
+                <td>Email</td>
+                <td><i class="glyphicon glyphicon-envelope"></i>{{ user.email }}</td>
+            </tr>
+                <td>Contact Number</td>
+                <td>
+                    {% for phone in profile.phones.all %}
+                        {% if phone.type == 'FAX' %}
+                            <i class="glyphicon glyphicon-phone-alt"></i>
+                        {% elif phone.type == 'TEL' %}
+                            <i class="glyphicon glyphicon-earphone"></i>
+                        {% else %}
+                            <i class="glyphicon glyphicon-earphone"></i>
+                        {% endif %}
+                        {{ phone.number }}
+                        <br/>
+                    {% endfor %}
+                </td>
+            </tr>
+        </tbody>
+    </table>
 
-{% block js_footer_block %}
-    <script>
-        $('#tab-board a').click(function (e) {
-          e.preventDefault()
-          $(this).tab('show')
-        })
-
-
-    </script>
-{% endblock %}
+</div>
+</div>
+<div class="btn-group pull-right pull-bottom">
+    <a href="/accounts/profile/update" class="btn btn-warning">{% bootstrap_icon "edit" %}Edit</a>
+    <a id="btn-change-password" href="#accounts/profile/password/change" class="btn btn-warning">{% bootstrap_icon "cog" %}Change password</a>
+</div>
