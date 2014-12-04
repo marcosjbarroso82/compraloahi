@@ -9,7 +9,7 @@
     </thead>
     <tbody id="tab-all-message">
     {% for ad in user.ads.all %}
-        <tr>
+        <tr id="ad-row-{{ ad.id }}">
             <td>
                 {% with ad.images.all|first as image %}
                     {% thumbnail image.image "100x100" crop="center" as im %}
@@ -41,6 +41,7 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                    {% csrf_token %}
                                     <button type="submit" class="delete_message btn btn-default" value="{{ ad.id }}">Ok <i class="fa fa-arrow-circle-right fa-lg"></i></button>
                                 </div>
                             </div>
@@ -52,23 +53,6 @@
             </td>
         </tr>
     {% endfor %}
-    <script>
 
-        $("#tab-all-message").find(".delete_message").each(function(){
-            $( this ).click(function(){
-                var ad_id = this.getAttribute('value');
-
-                var url ="/ad/delete/" + ad_id;
-                console.log(url);
-                $.ajax({
-                    url: url,
-                    type: "get",
-                    success: function(data){
-                        console.log('SE BORRO CON EXITO!!!');
-                    }
-                });
-            });
-        });
-    </script>
     </tbody>
 </table>

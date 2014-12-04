@@ -19,6 +19,18 @@ class UserObjectsOnlyAuthorization(DjangoAuthorization):
         # Is the requested object owned by the user?
         return bundle.obj.author == bundle.request.user
 
+    def delete_detail(self, object_list, bundle):
+        # Is the requested object owned by the user?
+        print("delete_detail")
+        #return bundle.obj.author == bundle.request.user
+        return True
+
+    def delete_list(self, object_list, bundle):
+        print("delete_list")
+        # Is the requested object owned by the user?
+        #return bundle.obj.author == bundle.request.user
+        return True
+
 class AdResource(ModelResource):
 
     class Meta:
@@ -28,9 +40,9 @@ class AdResource(ModelResource):
         # user has to be logged in
         authentication = SessionAuthentication()
 
-        authorization = UserObjectsOnlyAuthorization()
+        authorization = Authorization()
 
-        allowed_methods = ['get', 'delete']
+        #allowed_methods = ['get', 'delete']
         fields = ['title']
         #throttle = BaseThrottle(throttle_at=50)
 

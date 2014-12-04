@@ -172,49 +172,66 @@
 
         // AJAX PARA LA VISTA DE AVISOS
         $("#my_ads").click(function() {
-
             $.ajax({
-                    url: "{% url 'ad:by-user-ajax' %}",
-                    type: "get",
-                    success: function(data){
-                        $("#table-ads").html(data);
+                url: "{% url 'ad:by-user-ajax' %}",
+                type: "get",
+                success: function(data){
+                    $("#table-ads").html(data);
 
-                    }
+                    // crear escuchas para todos los botones borrar que encuentre
+                    $(".delete_message").each(function( index ) {
+                        $(this).click(function() {
+                            var modal = $(this).closest(".modal");
+                            // creo que es un solo csrf... asique alcanzaria settearlo una sola vez
+                            var csrf = $(this).siblings("input[name=csrfmiddlewaretoken]").val();
+                            var ad_id = $(this).val();
+                            $.ajax({
+                                contentType: 'application/json',
+                                url: '/api/dashboard/ad/' + ad_id + '/?format=json',
+                                beforeSend: function(jqXHR, settings) {
+                                    // Pull the token out of the DOM.
+                                    jqXHR.setRequestHeader('X-CSRFToken', csrf );
+                                },
+                                type: 'DELETE',
+                                success: function(result) {
+                                    modal.hide();
+                                    $(".modal-backdrop").hide();
+                                    $('#ad-row-' + ad_id).remove();
+                                },
+                            });
+                        });
+                    });
+
+                }
             });
         });
 
         // AJAX PARA LA VISTA DE CAMBIAR LA CONTRASEÑA
         function OnClickChangePassword(){
             $("#btn-change-password").click(function(){
-                    $.ajax({
-                            url: "/accounts/password/change",
-                            type: "get",
-                            success: function(data){
-                                $("#content-profile").html(data);
+                $.ajax({
+                    url: "/accounts/password/change",
+                    type: "get",
+                    success: function(data){
+                        $("#content-profile").html(data);
 
-                            }
-                    });
+                        }
+                });
             });
         }
 
         // AJAX PARA LA VISTA DE VER EL PERFIL DE USUARIO
         $("#btn-profile").click(function(){
             $.ajax({
-                        url: "{% url 'profile:detail-ajax' %}",
-                        type: "get",
-                        success: function(data){
-                            $("#content-profile").html(data);
-                            OnClickChangePassword();
-                        }
-                });
+                url: "{% url 'profile:detail-ajax' %}",
+                type: "get",
+                success: function(data){
+                    $("#content-profile").html(data);
+                    OnClickChangePassword();
+                }
+            });
         });
 
         OnClickChangePassword();
-
-
-
-
-
-
     </script>
 {% endblock %}
