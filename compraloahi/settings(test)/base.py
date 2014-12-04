@@ -3,16 +3,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 SECRET_KEY = 'a#)y^h-f23l!*90%f+d8m(ld0rm-5)#c#9kit$bvocbrfen@l8'
 
-DEBUG = True
-
-TEMPLATE_DEBUG = True
 
 STATIC_URL = '/static/'
 
-ALLOWED_HOSTS = []
 
-
-INSTALLED_APPS = (
+DJANGO_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -20,6 +15,11 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    'django.contrib.comments',
+)
+
+
+THIRD_PARTY_APPS = (
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -27,20 +27,29 @@ INSTALLED_APPS = (
     'allauth.socialaccount.providers.google',
     'bootstrap3',
     'taggit',
-    'apps.ad',
-    'apps.adLocation',
     'sorl.thumbnail',
-    'apps.userProfile',
     'ckeditor',
     'postman',
     'pagination',
-    'django.contrib.comments',
     'django_comments_xtd',
     'haystack',
+)
+
+# Local aplication
+LOCAL_APPS = (
+    'apps.ad',
+    'apps.adLocation',
+    'apps.userProfile',
+    'apps.common_tags',
     'apps.user',
     'apps.message',
     'apps.common_tags'
 )
+
+# All aplication
+INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
+
+
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -80,14 +89,7 @@ LOGIN_URL = '/accounts/login'
 LOGIN_REDIRECT_URL = '/'
 
 
-
-STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"), )
-
 SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
-
-MEDIA_ROOT = os.path.join(SITE_ROOT, 'media')
-
-MEDIA_URL = "/media/"
 
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -118,7 +120,7 @@ AUTHENTICATION_BACKENDS = (
 
 
 TEMPLATE_DIRS = (
-    os.path.join(BASE_DIR, "apps/../templates"),
+    os.path.join(BASE_DIR, "templates"),
 )
 
 

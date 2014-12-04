@@ -1,5 +1,6 @@
 {% extends 'layout/base.html' %}
 {% load bootstrap3 %}
+
 {% block title %}Lista de avisos {% endblock %}
 
 {% block css_header_block %}
@@ -9,7 +10,7 @@
 {% block body_block %}
  
  <div class="container" id="container-home">
-    <a href="/ad/create" id="btnAddAd" class="btn btn-primary btn-lg pull-right"><span class="glyphicon glyphicon-bullhorn"></span> Agrega tu aviso</a>
+    <a href="{% url 'ad:create' %}" id="btnAddAd" class="btn btn-primary btn-lg pull-right"><span class="glyphicon glyphicon-bullhorn"></span> Agrega tu aviso</a>
     <div class="row col-lg-12" id="home-search">
 
 

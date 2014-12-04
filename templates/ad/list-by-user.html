@@ -1,10 +1,12 @@
 {% extends 'layout/base.html' %}
 {% load bootstrap3 %}
+
+{% load staticfiles %}
 {% block title %}Lista de avisos {% endblock %}
 {% load thumbnail %}
 
 {% block css_header_block %}
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/list.css" >
+    <link rel="stylesheet" href="{% static 'css/list.css' %}" >
 {% endblock %}
 
 {% block body_block %}
@@ -13,7 +15,7 @@
         {% bootstrap_messages %}
 
         {% if ad_list %}
-            <div class="table-responsive" style="max-height: 88%;" >
+            <div class="table-responsive" id="table-responsive"  >
                 <table class="table table-bordred table-striped">
                     <thead>
                         <th></th>
@@ -37,9 +39,9 @@
                                     </td>
                                     <td class="v-center">
                                         <div class="row">
-                                            <a href="/ad/update/{{ ad.slug }}" class="btn btn-warning">{% bootstrap_icon "edit" %}</a>
-                                            <a href="/ad/delete/{{ ad.slug }}" class="btn btn-danger">{% bootstrap_icon "remove" %}</a>
-                                            <a href="/ad/{{ ad.slug }}" class="btn btn-success">{% bootstrap_icon "eye-open" %}</a>
+                                            <a href="{% url 'ad:update' ad.slug %}" class="btn btn-warning">{% bootstrap_icon "edit" %}</a>
+                                            <a href="{% url 'ad:delete' ad.slug %}" class="btn btn-danger">{% bootstrap_icon "remove" %}</a>
+                                            <a href="{% url 'ad:detail' ad.slug %}" class="btn btn-success">{% bootstrap_icon "eye-open" %}</a>
                                         </div>
                                     </td>
                             </tr>

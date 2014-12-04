@@ -1,5 +1,6 @@
 {% extends 'layout/base.html' %}
 {% load bootstrap3 %}
+{% load staticfiles %}
 {% block title %}Editar Aviso{% endblock %}
 
 
@@ -50,7 +51,7 @@
 
     </div>
     <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-    <script src="{{ STATIC_URL }}jquery-formset-12/jquery.formset.js"></script>
+    <script src="{% static 'jquery-formset-12/jquery.formset.js' %}"></script>
     <script type="text/javascript">
         $(function() {
             $(".inline.{{ images_formset.prefix }}").formset({
@@ -60,5 +61,5 @@
 
     </script>
     <script src="http://maps.googleapis.com/maps/api/js?sensor=TRUE"></script>
-    <script src="{{ STATIC_URL }}js/ad/forms.js"></script>
+    <script src="{% static 'js/ad/forms.js' %}"></script>
 {% endblock %}

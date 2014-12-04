@@ -1,3 +1,4 @@
+
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" id="navigation-bar">
         <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -18,8 +19,8 @@
                 <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Avisos<span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="/ad/my-ads/">Mis avisos</a> </li>
-                        <li><a href="/ad/create/">Agregar aviso</a></li>
+                        <li><a href="{% url 'ad:by-user' %}">Mis avisos</a> </li>
+                        <li><a href="{% url 'ad:create' %}">Agregar aviso</a></li>
                     </ul>
                 </li>
             </ul>
@@ -43,7 +44,7 @@
                                             {{ user.email }}</p>
                                         <div class="divider">
                                         </div>
-                                        <a href="/accounts/profile" class="btn btn-primary btn-sm active">View Profile</a>
+                                        <a href="{% url 'profile:detail' %}" class="btn btn-primary btn-sm active">View Profile</a>
                                     </div>
                                 </div>
                             </div>
@@ -54,7 +55,7 @@
                                             <a href="/accounts/password/change" class="btn btn-default btn-sm">Change Passowrd</a>
                                         </div>
                                         <div class="col-md-6">
-                                            <a href="/users/logout" class="btn btn-default btn-sm pull-right">Sign Out</a>
+                                            <a href="{% url 'my-user:my-logout' %}" class="btn btn-default btn-sm pull-right">Sign Out</a>
                                         </div>
                                     </div>
                                 </div>

@@ -1,6 +1,9 @@
 # Python bytecode
 *.py[co]
 *.pyc
+
 .idea/
+.idea/*
+
 compraloahi/media/cache/
 compraloahi/media/cache/*

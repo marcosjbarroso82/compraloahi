@@ -86,7 +86,7 @@
                         </div>
                     </div>
                     <div class="btn-group pull-right pull-bottom">
-                            <a href="/accounts/profile/update" class="btn btn-warning">{% bootstrap_icon "edit" %}Edit</a>
+                            <a href="{% url 'profile:update' %}" class="btn btn-warning">{% bootstrap_icon "edit" %}Edit</a>
                             <a id="btn-change-password" href="#accounts/profile/password/change" class="btn btn-warning">{% bootstrap_icon "cog" %}Change password</a>
                     </div>
                 </div>
@@ -174,7 +174,7 @@
         $("#my_ads").click(function() {
 
             $.ajax({
-                    url: "/ad/ajax-table-ads-by-user/",
+                    url: "{% url 'ad:by-user-ajax' %}",
                     type: "get",
                     success: function(data){
                         $("#table-ads").html(data);
@@ -200,7 +200,7 @@
         // AJAX PARA LA VISTA DE VER EL PERFIL DE USUARIO
         $("#btn-profile").click(function(){
             $.ajax({
-                        url: "/accounts/ajax-profile",
+                        url: "{% url 'profile:detail-ajax' %}",
                         type: "get",
                         success: function(data){
                             $("#content-profile").html(data);
