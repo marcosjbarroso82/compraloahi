@@ -37,15 +37,16 @@ urlpatterns = patterns('',
                        url(r'^my-ads/$',
                            AdsByUser.as_view(),
                            name="by-user"),
+                       # List ads by user.
+                       url(r'^ajax-table-ads-by-user/$',
+                           AdsByUser.as_view(template_name='userProfile/table_ads_by_user.html'),
+                           name="by-user-ajax"),
 
                        # Detail Ad
                        url(r'^(?P<slug>[a-zA-Z0-9_.-]+)/$',
                            DetailAdView.as_view(),
                            name="detail"),
 
-                       # List ads by user.
-                       url(r'^ajax-table-ads-by-user/$',
-                           AdsByUser.as_view(template_name='userProfile/table_ads_by_user.html'),
-                           name="by-user-ajax"),
+
 
                         )
