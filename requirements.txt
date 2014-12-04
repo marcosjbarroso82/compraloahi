@@ -24,3 +24,6 @@ simplejson==3.6.5
 six==1.8.0
 sorl-thumbnail==11.12.1b
 urllib3==1.9.1
+django-tastypie=0.12.1
+python-dateutil=2.3
+python-mimeparse=0.1.4

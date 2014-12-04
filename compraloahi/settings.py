@@ -34,6 +34,7 @@ INSTALLED_APPS = (
     'ckeditor',
     'postman',
     'pagination',
+    'tastypie',
     'django.contrib.comments',
     'django_comments_xtd',
     'haystack',
