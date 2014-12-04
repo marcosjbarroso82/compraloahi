@@ -39,7 +39,8 @@
                         var body = $('#msg-body').val();
 
                         var msg_id = {{ message.id }};
-                        var url = "/message/ajax-reply/" + msg_id + "/?next=/accounts/profile/";
+                        var url = "{% url 'message:reply-ajax' message.id %}" + "/?next=/accounts/profile/";
+                        //var url = "/message/ajax-reply/" + msg_id + "/?next=/accounts/profile/";
 
                         var csrfmiddlewaretoken = $("input[name='csrfmiddlewaretoken']").val();
 
