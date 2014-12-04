@@ -40,7 +40,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='ad',
             name='categories',
-            field=models.ManyToManyField(to='apps.ad.Category'),
+            field=models.ManyToManyField(to='ad.Category'),
             preserve_default=True,
         ),
     ]

@@ -50,13 +50,13 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='userlocation',
             name='userProfile',
-            field=models.ForeignKey(to='apps.userProfile.UserProfile', related_name='locations'),
+            field=models.ForeignKey(to='userProfile.UserProfile', related_name='locations'),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='phone',
             name='userProfile',
-            field=models.ForeignKey(to='apps.userProfile.UserProfile', related_name='phones'),
+            field=models.ForeignKey(to='userProfile.UserProfile', related_name='phones'),
             preserve_default=True,
         ),
     ]

@@ -18,7 +18,7 @@ class Migration(migrations.Migration):
                 ('title', models.CharField(max_length=40)),
                 ('lat', models.FloatField(null=True)),
                 ('lng', models.FloatField(null=True)),
-                ('ad', models.ForeignKey(unique=True, to='apps.ad.Ad', related_name='locations')),
+                ('ad', models.ForeignKey(unique=True, to='ad.Ad', related_name='locations')),
             ],
             options={
             },

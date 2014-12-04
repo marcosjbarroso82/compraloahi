@@ -40,7 +40,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(primary_key=True, verbose_name='ID', auto_created=True, serialize=False)),
                 ('image', models.ImageField(upload_to='ad')),
-                ('ad_id', models.ForeignKey(to='apps.ad.Ad', related_name='images')),
+                ('ad_id', models.ForeignKey(to='ad.Ad', related_name='images')),
             ],
             options={
             },
@@ -64,7 +64,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(primary_key=True, verbose_name='ID', auto_created=True, serialize=False)),
                 ('object_id', models.IntegerField(verbose_name='Object id', db_index=True)),
                 ('content_type', models.ForeignKey(verbose_name='Content type', to='contenttypes.ContentType', related_name='ad_categorytaggeditem_tagged_items')),
-                ('tag', models.ForeignKey(to='apps.ad.CategoryTag')),
+                ('tag', models.ForeignKey(to='ad.CategoryTag')),
             ],
             options={
                 'abstract': False,
