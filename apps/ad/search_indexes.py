@@ -6,7 +6,7 @@ from .models import Ad
 
 
 class AdIndex(indexes.SearchIndex, indexes.Indexable):
-    text = indexes.CharField(document=True, use_template=True, template_name='search/indexes/ad/../templates/search/indexes/ad/ad_text.txt')
+    text = indexes.CharField(document=True, use_template=True, template_name='search/indexes/ad/ad_text.txt')
 
     #model fields
     title = indexes.CharField(model_attr='title')

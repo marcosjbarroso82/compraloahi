@@ -3,6 +3,12 @@ from django.contrib import admin
 from .views import HomeView
 from . import settings
 
+from apps.ad.api import AdResource
+from tastypie.api import Api
+
+dashboard_api = Api(api_name='dashboard')
+dashboard_api.register(AdResource())
+
 
 urlpatterns = patterns('',
                         url(r'^$', HomeView.as_view()),
@@ -38,5 +44,7 @@ urlpatterns = patterns('',
                         url(r'^media/(?P<path>.*)$',
                            "django.views.static.serve",
                            {'document_root': settings.MEDIA_ROOT}),
+
+                        (r'^api/', include(dashboard_api.urls)),
 
                         )
