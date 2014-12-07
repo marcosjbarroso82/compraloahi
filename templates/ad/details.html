@@ -121,12 +121,31 @@
                     <!-- ######## END CONTACT ############# -->
                 </div>
                 <hr>
-                <div class="row pull-right">
-                    <a href="https://www.facebook.com/bootsnipp"><i id="social" class="fa fa-facebook-square fa-3x social-fb"></i></a>
-                    <a href="https://twitter.com/bootsnipp"><i id="social" class="fa fa-twitter-square fa-3x social-tw"></i></a>
-                    <a href="https://plus.google.com/+Bootsnipp-page"><i id="social" class="fa fa-google-plus-square fa-3x social-gp"></i></a>
-                    <a href="mailto:bootsnipp@gmail.com"><i id="social" class="fa fa-envelope-square fa-3x social-em"></i></a>
+                <div class="row pull-right col-md-6">
+                    <p class="pull-left">Compartir en :</p>
+                    <br>
+                    <a class="popup" href="http://twitter.com/share"><i id="social" class="fa fa-twitter-square fa-3x social-tw"></i></a>
+
+                    <a class="popup" href="https://www.facebook.com/sharer/sharer.php?app_id=1507071816215188&amp;u={{ request.get_full_path|urlencode }}&amp;display=popup&amp;ref=plugin"><i id="social" class="fa fa-facebook-square fa-3x social-fb"></i></a>
+
+                    <script>
+                        $('.popup').click(function(event) {
+                            var width  = 50,
+                                    height = 400,
+                                    left   = ($(window).width()  - width)  / 2,
+                                    top    = ($(window).height() - height) / 2,
+                                    url    = this.href,
+                                    opts   = 'status=1' +
+                                            ',width='  + width  +
+                                            ',height=' + height +
+                                            ',top='    + top    +
+                                            ',left='   + left;
+                            window.open(url, 'twitter', opts);
+                            return false;
+                        });
+                    </script>
                 </div>
+
             </div>
             <hr>
         </div>
