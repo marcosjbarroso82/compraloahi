@@ -6,6 +6,21 @@ from django.contrib.auth import logout
 
 from django.views.generic import View
 
+from .serializers import UserSerializer
+from rest_framework.generics import RetrieveAPIView
+
+
+class UserViewSet(RetrieveAPIView):
+
+    serializer_class = UserSerializer
+
+    def get_object(self):
+        return self.request.user
+
+    def get_queryset(self):
+        return self.request.user
+
+
 
 class LogoutView(View):
 

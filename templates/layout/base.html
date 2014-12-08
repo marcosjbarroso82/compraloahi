@@ -6,12 +6,11 @@
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.js"></script>
     {% bootstrap_javascript %}
-    {% bootstrap_css %}
+
+    {% include 'layout/stylesheets.html' %}
 
     {% block js_header_block %}{% endblock %}
     {% block css_header_block %}{% endblock %}
-
-    <link rel="stylesheet" href="{% static 'css/main.css' %}" >
 
     <title>{% block title %}Compralo ahi{% endblock %}</title>
 </head>

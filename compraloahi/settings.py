@@ -40,7 +40,8 @@ INSTALLED_APPS = (
     'haystack',
     'apps.user',
     'apps.message',
-    'apps.common_tags'
+    'apps.common_tags',
+    'rest_framework',
 )
 
 MIDDLEWARE_CLASSES = (

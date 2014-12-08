@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
-from .views import HomeView
+from .views import HomeView, ApiDashBoardView
 from . import settings
 
 from apps.ad.api import AdResource
@@ -12,6 +12,8 @@ dashboard_api.register(AdResource())
 
 urlpatterns = patterns('',
                         url(r'^$', HomeView.as_view()),
+
+                        url(r'^dashboard/.*$', ApiDashBoardView.as_view(), name='dashboard' ),
 
                         # Admin django
                         url(r'^admin/', include(admin.site.urls)),
@@ -46,5 +48,7 @@ urlpatterns = patterns('',
                            {'document_root': settings.MEDIA_ROOT}),
 
                         (r'^api/', include(dashboard_api.urls)),
+
+                        url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 
                         )

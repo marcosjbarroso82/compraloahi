@@ -6,6 +6,10 @@ from django.views.generic import CreateView, UpdateView, DetailView
 from .models import UserProfile
 from .forms import UserProfileForm, Phone_inline_formset, Location_inline_formset
 
+from rest_framework.viewsets import ModelViewSet, ViewSet
+from rest_framework.generics import RetrieveAPIView
+
+from .serializers import UserProfileSerializer
 
 class UserProfileCreateView(CreateView):
     model = UserProfile
@@ -162,5 +166,13 @@ class UserProfileDetailView(DetailView):
             return None
 
 
+class UserProfileModelView(RetrieveAPIView):
+    serializer_class = UserProfileSerializer
+    queryset = UserProfile.objects.all()
 
+    def get_object(self):
+        return UserProfile.objects.get(user = self.request.user)
+
+    def get_queryset(self):
+        return UserProfile.objects.get(user = self.request.user)
 
