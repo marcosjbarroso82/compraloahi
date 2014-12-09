@@ -32,7 +32,7 @@
          * @memberOf dashboard.profile.services.Profile
          */
         function detail() {
-            return $http.get('/accounts/user-detail/');
+            return $http.get('/api/v1/profile/');
         }
 
         /**

@@ -9,12 +9,12 @@
         .module('dashboard.profile.controllers')
         .controller('ProfileDetailController', ProfileDetailController);
 
-    ProfileDetailController.$inject = ['Authentication', 'Profile'];
+    ProfileDetailController.$inject = ['Profile'];
 
     /**
      * @namespace ProfileDetailController
      */
-    function ProfileDetailController(Authentication, Profile) {
+    function ProfileDetailController(Profile) {
         var vm = this;
 
         vm.profile = undefined;
@@ -24,7 +24,7 @@
         /**
          * @name activate
          * @desc Get Profile detail data
-         * @memberOf app.authentication.controllers.ProfileDetailController
+         * @memberOf dashboard.authentication.controllers.ProfileDetailController
          */
         function activate() {
             Profile.detail().then(detailSuccess, detailError);
@@ -32,7 +32,7 @@
 
             function detailSuccess(data){
                 vm.profile = data.data;
-                vm.user = Authentication.getAuthenticatedAccount()
+
             }
 
             function detailError(data){

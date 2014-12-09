@@ -3,17 +3,34 @@ from django.contrib import admin
 from .views import HomeView, ApiDashBoardView
 from . import settings
 
+from rest_framework import routers
+
 from apps.ad.api import AdResource
 from tastypie.api import Api
 
+# Import views to api
+from apps.userProfile.views import UserProfileModelView
+from apps.user.views import UserRetrieveView
+
 dashboard_api = Api(api_name='dashboard')
 dashboard_api.register(AdResource())
+
+router = routers.SimpleRouter()
+
 
 
 urlpatterns = patterns('',
                         url(r'^$', HomeView.as_view()),
 
-                        url(r'^dashboard/.*$', ApiDashBoardView.as_view(), name='dashboard' ),
+                        #### URL API
+                        url(r'^api/v1/', include(router.urls, namespace="api", app_name="api-dashboard")),
+
+                        # Probando
+                        url(r'^api/v1/profile/$', UserProfileModelView.as_view({'get': 'retrieve'}), name='api-profile-detail' ),
+                        url(r'^api/v1/user/$', UserRetrieveView.as_view(), name='api-user-detail' ),
+
+                        url(r'^api/v1/.*$', ApiDashBoardView.as_view(), name='dashboard' ),
+                        #### END URL API
 
                         # Admin django
                         url(r'^admin/', include(admin.site.urls)),

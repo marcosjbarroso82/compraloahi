@@ -10,6 +10,28 @@ from rest_framework.viewsets import ModelViewSet, ViewSet
 from rest_framework.generics import RetrieveAPIView
 
 from .serializers import UserProfileSerializer
+from rest_framework.response import Response
+from django.shortcuts import get_object_or_404
+
+
+class UserProfileModelView(ModelViewSet):
+    serializer_class = UserProfileSerializer
+
+    def retrieve(self, request, *args, **kwargs):
+        queryset = UserProfile.objects.all()
+        profile = get_object_or_404(queryset, user=request.user)
+        serializer = UserProfileSerializer(profile)
+        return Response(serializer.data)
+
+# class UserProfileModelView(RetrieveAPIView):
+#     serializer_class = UserProfileSerializer
+#     queryset = UserProfile.objects.all()
+#
+#     def get_object(self):
+#         return UserProfile.objects.get(user = self.request.user)
+#
+#     def get_queryset(self):
+#         return UserProfile.objects.get(user = self.request.user)
 
 class UserProfileCreateView(CreateView):
     model = UserProfile
@@ -166,13 +188,5 @@ class UserProfileDetailView(DetailView):
             return None
 
 
-class UserProfileModelView(RetrieveAPIView):
-    serializer_class = UserProfileSerializer
-    queryset = UserProfile.objects.all()
 
-    def get_object(self):
-        return UserProfile.objects.get(user = self.request.user)
-
-    def get_queryset(self):
-        return UserProfile.objects.get(user = self.request.user)
 

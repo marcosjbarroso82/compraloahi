@@ -83,7 +83,7 @@
          * @memberOf dashboard.authentication.services.Authentication
          */
         function authenticate() {
-            return $http.get('/users/detail').then(loginSuccessFn, loginErrorFn);
+            return $http.get('/api/v1/user/').then(loginSuccessFn, loginErrorFn);
 
             /**
              * @name loginSuccessFn

@@ -12,10 +12,10 @@
      * @desc Define valid application routes
      */
     function config($routeProvider) {
-        $routeProvider.when('/dashboard/profile', {
+        $routeProvider.when('/api/v1/my-profile', {
             controller: 'ProfileDetailController',
             controllerAs: 'vm',
             templateUrl: '/static/api/tpl/profile/detail.html'
-        }).otherwise('/dashboard');
+        }).otherwise('/api/v1/');
     }
 })();

@@ -2,7 +2,7 @@
 <html ng-app="dashboard">
 <head>
     <title>Panel de administracion - {{ profile.first_name|capfirst }} {{ profile.last_name|capfirst }}</title>
-    <base href="/" />
+    <base href="/api/v1/" />
     {% include 'layout/stylesheets.html' %}
 </head>
 
@@ -24,7 +24,7 @@
                 <li role="presentation"><a href="/dashboard/profile" role="tab">DETALLE</a> </li>
             </ul>
             <nav class="nav navbar-nav">
-                <a href="/dashboard/profile" role="tab">DETALLE USUARIO</a>
+                <a href="/api/v1/my-profile" role="tab">DETALLE USUARIO</a>
             </nav>
         </div>
         <div class="col-md-10 tab-content" id="">

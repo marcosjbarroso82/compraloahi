@@ -21,7 +21,7 @@
         .module('dashboard')
         .run(run);
 
-    run.$inject = ['$http', 'Authentication'];
+    run.$inject = ['$http'];
 
     /**
      * @name run
@@ -31,6 +31,6 @@
         $http.defaults.xsrfHeaderName = 'X-CSRFToken';
         $http.defaults.xsrfCookieName = 'csrftoken';
 
-        Authentication.authenticate();
+        //Authentication.authenticate();
     }
 })();

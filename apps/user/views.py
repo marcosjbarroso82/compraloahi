@@ -10,7 +10,7 @@ from .serializers import UserSerializer
 from rest_framework.generics import RetrieveAPIView
 
 
-class UserViewSet(RetrieveAPIView):
+class UserRetrieveView(RetrieveAPIView):
 
     serializer_class = UserSerializer
 

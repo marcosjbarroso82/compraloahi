@@ -202,3 +202,12 @@ EMAIL_HOST_USER = 'testnubiquo@gmail.com'
 EMAIL_HOST_PASSWORD = 'nubiquo1234567890'
 EMAIL_USE_TLS = True
 
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication',
+    )
+}
+
+# Honor the 'X-Forwarded-Proto' header for request.is_secure()
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
