@@ -30,10 +30,13 @@ angular.module('dashBoardApp', [
         templateUrl: '/static/dashboard/ad/templates/ad-list.html',
         controller: 'AdCtrl',
       })
-      .state('users', {
-        url: '/users',
-        templateUrl: '/static/dashboard/user/templates/user-list.html',
-        controller: 'UserCtrl',
+      .state('profile-detail', {
+        url: '/profile-detail',
+        templateUrl: '/static/dashboard/profile/templates/profile-detail.html',
+      })
+      .state('default', {
+        url: '/',
+        templateUrl: '/static/dashboard/profile/templates/profile-detail.html',
       })
 
   });
