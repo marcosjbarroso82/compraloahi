@@ -1,12 +1,12 @@
 /**
  * Profile
- * @namespace dashboard.profile.services
+ * @namespace dashBoardApp.profile.services
  */
 (function () {
     'use strict';
 
     angular
-        .module('dashboard.profile.services')
+        .module('dashBoardApp.profile.services')
         .factory('Profile', Profile);
 
     Profile.$inject = ['$http'];
@@ -29,7 +29,7 @@
          * @name detail
          * @desc get Detail user profile
          * @returns {Promise}
-         * @memberOf dashboard.profile.services.Profile
+         * @memberOf dashBoardApp.profile.services.Profile
          */
         function detail() {
             return $http.get('/api/v1/profile/');
@@ -39,7 +39,7 @@
          * @name change_password
          * @Change password
          * @returns {Promise}
-         * @memberOf dashboard.profile.services.Profile
+         * @memberOf dashBoardApp.profile.services.Profile
          */
         function change_password(password, new_password) {
             return $http.post('/account/change-password', {

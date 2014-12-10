@@ -1,12 +1,12 @@
 /**
  * ProfileDetailController
- * @namespace dashboard.profile.controllers
+ * @namespace dashBoardApp.profile.controllers
  */
 (function () {
     'use strict';
 
     angular
-        .module('dashboard.profile.controllers')
+        .module('dashBoardApp.profile.controllers')
         .controller('ProfileDetailController', ProfileDetailController);
 
     ProfileDetailController.$inject = ['Profile'];
@@ -24,7 +24,7 @@
         /**
          * @name activate
          * @desc Get Profile detail data
-         * @memberOf dashboard.authentication.controllers.ProfileDetailController
+         * @memberOf dashBoardApp.authentication.controllers.ProfileDetailController
          */
         function activate() {
             Profile.detail().then(detailSuccess, detailError);

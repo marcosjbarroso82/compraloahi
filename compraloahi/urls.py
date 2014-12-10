@@ -5,6 +5,7 @@ from . import settings
 
 from apps.ad import views as adViews
 from apps.user import views as userViews
+from apps.userProfile.views import UserProfileModelView
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
@@ -14,9 +15,11 @@ router.register(r'users', userViews.UserViewSet)
 
 urlpatterns = patterns('',
                         url(r'^api/v1/', include(router.urls)),
+                        url(r'^api/v1/profile/$', UserProfileModelView.as_view({'get': 'retrieve'}), name='api-profile-detail' ),
                         url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
                         url(r'^dashboard-ajax/.*$', DashBoardAjaxView.as_view(), name='dashboard-ajax'),
                         url(r'^$', HomeView.as_view()),
+
                         url(r'^dashboard/.*$', ApiDashBoardView.as_view(), name='dashboard' ),
                         # Admin django
                         url(r'^admin/', include(admin.site.urls)),

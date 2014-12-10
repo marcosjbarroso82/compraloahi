@@ -1,9 +1,10 @@
 <!DOCTYPE html>
+{% load staticfiles %}
 <html ng-app="dashBoardApp">
 <head>
     <title>Panel de administracion - {{ profile.first_name|capfirst }} {{ profile.last_name|capfirst }}</title>
     {% include 'layout/stylesheets.html' %}
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/profile.css" >
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}" >
 </head>
 
 <body>
@@ -22,19 +23,27 @@
             <li role="presentation"><a href="#locations" aria-controls="locations" role="tab" data-toggle="tab">My locations</a></li>
             <li role="presentation"><a href="#agenda" aria-controls="agenda" role="tab" data-toggle="tab">My agenda</a></li>
         </ul>
-  	</div><!-- /span-3 -->
+    </div><!-- /span-3 -->
     <div ui-view class="col-md-10 tab-content" id="myTabContent">
     </div>
 </div>
 
 <footter>
-    <script type="text/javascript" src="{{ STATIC_URL }}jquery-formset-12/jquery-2.1.1.min.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}bower_components/angular/angular.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}bower_components/angular-resource/angular-resource.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}bower_components/angular-route/angular-route.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}bower_components/angular-ui-router/release/angular-ui-router.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}dashboard/services.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}dashboard/controllers.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}dashboard/app.js"></script>
+    <script type="text/javascript" src="{% static 'jquery-formset-12/jquery-2.1.1.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bower_components/angular/angular.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bower_components/angular-resource/angular-resource.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bower_components/angular-route/angular-route.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bower_components/angular-ui-router/release/angular-ui-router.js' %}"></script>
+    <script type="text/javascript" src="{% static 'dashboard/services.js' %}"></script>
+    <script type="text/javascript" src="{% static 'dashboard/controllers.js' %}"></script>
+    <script type="text/javascript" src="{% static 'dashboard/app.js' %}"></script>
+
+
+    <!-- ###################### DASHBOARD APP - MODULE PROFILE ###################### -->
+    <script type="text/javascript" src="{% static 'dashboard/profile/profile.module.js' %}"></script>
+    <script type="text/javascript" src="{% static 'dashboard/profile/services/profile.service.js' %}"></script>
+    <script type="text/javascript" src="{% static 'dashboard/profile/controllers/detail-profile.controller.js' %}"></script>
+    <!-- ###################### END DASHBOARD APP - MODULE PROFILE ###################### -->
 </footter>
+</body>
 </html>

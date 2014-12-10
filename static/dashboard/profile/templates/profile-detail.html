@@ -5,12 +5,12 @@
                 <div id="content-profile" class="panel-body body-content">
                     <div class="row">
                         <div class="col-md-3 col-lg-3 " align="center">
-                            {% thumbnail profile.image "400x400" crop="center" as im %}
-                                <img class="img-circle img-responsive" id="item-display" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
-                            {% endthumbnail %}
+
+                           <img class="img-circle img-responsive" id="item-display" src="[[ vm.profile.image ]]" height="200" width="200" >
+
                         </div>
                         <div class=" col-md-9 col-lg-9 ">
-                            <h2 id="title-usernarme">{{ user.first_name|capfirst }}, {{ user.last_name|capfirst }}</h2>
+                            <h2 id="title-usernarme"> [[ vm.profile.user.first_name ]], [[ vm.profile.user.last_name ]]</h2>
                             <table class="table table-user-information">
                                 <tbody>
                                     <tr>
@@ -19,7 +19,7 @@
                                     </tr>
                                     <tr>
                                         <td>Date of Birth</td>
-                                        <td> <i class="glyphicon glyphicon-gift"></i>{{ profile.birth_date.year }} - {{ profile.birth_date.month }} - {{ profile.birth_date.day }}</td>
+                                        <td> <i class="glyphicon glyphicon-gift"></i>[[ vm.profile.birth_date ]]</td>
                                     </tr>
 
                                     <tr>
@@ -38,7 +38,7 @@
                                     </tr>
                                     <tr>
                                         <td>Email</td>
-                                        <td><i class="glyphicon glyphicon-envelope"></i>{{ user.email }}</td>
+                                        <td><i class="glyphicon glyphicon-envelope"></i>[[ vm.profile.user.email ]]</td>
                                     </tr>
                                         <td>Contact Number</td>
                                         <td>
@@ -61,8 +61,8 @@
                         </div>
                     </div>
                     <div class="btn-group pull-right pull-bottom">
-                            <a href="{% url 'profile:update' %}" class="btn btn-warning">{% bootstrap_icon "edit" %}Edit</a>
-                            <a id="btn-change-password" href="#accounts/profile/password/change" class="btn btn-warning">{% bootstrap_icon "cog" %}Change password</a>
+                            <a href="{% url 'profile:update' %}" class="btn btn-warning">EDIT</a>
+                            <a id="btn-change-password" href="#accounts/profile/password/change" class="btn btn-warning">CHANGE PASSWORD</a>
                     </div>
                 </div>
         </div>
