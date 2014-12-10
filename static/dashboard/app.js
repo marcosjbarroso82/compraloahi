@@ -27,12 +27,12 @@ angular.module('dashBoardApp', [
     $stateProvider
       .state('my-ads', {
         url: '/my-ads',
-        templateUrl: '/static/dashboard/partials/ad-list.html',
+        templateUrl: '/static/dashboard/ad/templates/ad-list.html',
         controller: 'AdCtrl',
       })
       .state('users', {
         url: '/users',
-        templateUrl: '/static/dashboard/partials/user-list.html',
+        templateUrl: '/static/dashboard/user/templates/user-list.html',
         controller: 'UserCtrl',
       })
 

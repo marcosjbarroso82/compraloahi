@@ -1,0 +1,66 @@
+<table class="table table-bordred table-striped">
+    <thead>
+    <th></th>
+    <th></th>
+    <th>Acciones</th>
+    </thead>
+    <tbody id="tab-all-message">
+        <tr id="ad-row-[[ ad.id ]]" class="ad-container" ng-repeat="ad in ads">
+            <td>
+                <img id="media-object" class="img-rounded" src="/media/cache/d8/e0/d8e0bd677ae55ded067178c919640436.png" width="90" height="90">
+            </td>
+            <td>
+                <h3><strong>[[ ad.title ]]</strong></h3>
+                <small>[[ ad.short_description ]]</small>
+                <p>[[ ad.slug ]]</p>
+            </td>
+            <td class="v-center">
+                <div class="row">
+                    <a href="/ad/update/[[ ad.slug ]]" class="btn btn-warning"><span class="glyphicon glyphicon-edit"></span></a>
+                    <a href="/ad/[[ ad.slug ]]" class="btn btn-success"><span class="glyphicon glyphicon-eye-open"></span></a>
+
+                    <!-- BUTTON DELETE --->
+                    <button data-toggle="modal" class="btn btn-danger" data-target="#modalMessage{{ forloop.counter0 }}">
+                        <span class="glyphicon glyphicon-remove"></span>
+                    </button>
+                    <!-- MODAL CONFIRMATION DELETE -->
+                    <div class="modal" id="modalMessage{{ forloop.counter0 }}">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">Alerta</div>
+                                <div class="modal-body">
+                                    <h4>¿Seguro que desea borrar {{ ad.title }} ?</h4>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                    {% csrf_token %}
+                                    <button type="submit" class="delete_message btn btn-default" value="{{ ad.id }}">Ok <i class="fa fa-arrow-circle-right fa-lg"></i></button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </td>
+        </tr>
+
+    </tbody>
+</table>
+
+
+
+
+<!--
+<div class="ad-container">
+  <input placeholder="Say something . . ." type="text" class="new-ad-input" id="new-ad" ng-model="text">
+  <button id="ad" ng-click="submitAd(text)">Ad</button>
+</div>
+
+<div class="ads" id="ads-target">
+  <div class="ad-container" ng-repeat="ad in ads">
+
+      <div class="ad-title">[[ ad.title ]]<button ng-click="deleteAd(ad, $index)">X</button>
+  </div>
+</div>
+-->
