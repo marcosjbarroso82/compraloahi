@@ -10,6 +10,9 @@ from .models import Ad
 from .forms import CreateAdForm, AdModifyForm, \
     AdImage_inline_formset, AdLocation_inline_formset
 
+from rest_framework import viewsets
+from .serializers import AdSerializer
+from .permissions import IsOwnerOrReadOnly
 
 class AdFacetedSearchView(FacetedSearchView):
     pass
@@ -183,3 +186,15 @@ class AdsByUser(ListView):
 
     def get_queryset(self):
         return Ad.objects.filter(author= self.request.user)
+
+
+class AdViewSet(viewsets.ModelViewSet):
+
+
+    queryset = Ad.objects.all()
+    serializer_class = AdSerializer
+
+
+
+    def pre_save(self, obj):
+        obj.author = self.request.user

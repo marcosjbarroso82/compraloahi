@@ -9,6 +9,8 @@ from django.views.generic import View
 from .serializers import UserSerializer
 from rest_framework.generics import RetrieveAPIView
 
+from rest_framework import permissions, viewsets
+from django.contrib.auth.models import User
 
 class UserRetrieveView(RetrieveAPIView):
 
@@ -31,3 +33,11 @@ class LogoutView(View):
     def get(self, request):
         logout(request)
         return HttpResponseRedirect('/')
+
+
+
+class UserViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+

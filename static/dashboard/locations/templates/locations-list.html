@@ -1,0 +1,17 @@
+ <!-- ############## LOCATIONS ############### -->
+        <div role="tabpanel" class="tab-pane" id="locations">
+            <h2 class="text-center">My locations</h2>
+            <hr/>
+            <div class="panel-body body-content">
+                <ul class="list-group">
+                    {% for location in profile.locations.all %}
+                        <li class="list-group-item">
+                            {{ location.title }}
+                            <a href="/accounts/profile/position/delete/{{ location.id }}" class="btn btn-danger pull-right">{% bootstrap_icon "remove" %}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+
+            </div>
+        </div>
+        <!-- ############## ENDLOCATIONS ############### -->

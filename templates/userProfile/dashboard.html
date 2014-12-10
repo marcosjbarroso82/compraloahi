@@ -1,13 +1,15 @@
-{% extends 'layout/base.html' %}
-{% load bootstrap3 %}
-{% block title %}{{ profile.first_name|capfirst }} {{ profile.last_name|capfirst }}{% endblock %}
-{% load thumbnail %}
-
-
-{% block body_block %}
-
-{% bootstrap_messages %}
+<!DOCTYPE html>
+<html ng-app="dashBoardApp">
+<head>
+    <title>Panel de administracion - {{ profile.first_name|capfirst }} {{ profile.last_name|capfirst }}</title>
+    {% include 'layout/stylesheets.html' %}
     <link rel="stylesheet" href="{{ STATIC_URL }}css/profile.css" >
+</head>
+
+<body>
+
+{% include "layout/menu.html" %}
+
 
 <div id="container-profile">
     <div class="col-md-2" >
@@ -16,222 +18,23 @@
         <ul id="tab-board" class="nav nav-pills nav-stacked" role="tablist">
             <li role="presentation" class="active"><a id="btn-profile" href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a></li>
             <li role="presentation"><a id="message-home" href="#message" aria-controls="message" role="tab" data-toggle="tab">Messages</a></li>
-            <li role="presentation" id="my_ads"><a href="#ads" aria-controls="ads" role="tab" data-toggle="tab">My ads</a></li>
+            <li role="presentation" id="my_ads"><a ui-sref="my-ads" aria-controls="ads" role="tab" data-toggle="tab">My ads</a></li>
             <li role="presentation"><a href="#locations" aria-controls="locations" role="tab" data-toggle="tab">My locations</a></li>
             <li role="presentation"><a href="#agenda" aria-controls="agenda" role="tab" data-toggle="tab">My agenda</a></li>
         </ul>
   	</div><!-- /span-3 -->
-    <div class="col-md-10 tab-content" id="myTabContent">
-
-        <!-- ############## PROFILE ############### -->
-        <div role="tabpanel" class="tab-pane active" id="profile">
-            <h2 class="text-center">Datos personales</h2>
-            <hr/>
-                <div id="content-profile" class="panel-body body-content">
-                    <div class="row">
-                        <div class="col-md-3 col-lg-3 " align="center">
-                            {% thumbnail profile.image "400x400" crop="center" as im %}
-                                <img class="img-circle img-responsive" id="item-display" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
-                            {% endthumbnail %}
-                        </div>
-                        <div class=" col-md-9 col-lg-9 ">
-                            <h2 id="title-usernarme">{{ user.first_name|capfirst }}, {{ user.last_name|capfirst }}</h2>
-                            <table class="table table-user-information">
-                                <tbody>
-                                    <tr>
-                                        <td>Department:</td>
-                                        <td>Programming</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Date of Birth</td>
-                                        <td> <i class="glyphicon glyphicon-gift"></i>{{ profile.birth_date.year }} - {{ profile.birth_date.month }} - {{ profile.birth_date.day }}</td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>Gender</td>
-                                        <td>Male</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Home Address</td>
-                                        <td>
-                                            {% with profile.locations.all|first as location %}
-                                                <cite title="{{ location.title }}">
-                                                    {{ location.title }}
-                                                </cite>
-                                            {% endwith %}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Email</td>
-                                        <td><i class="glyphicon glyphicon-envelope"></i>{{ user.email }}</td>
-                                    </tr>
-                                        <td>Contact Number</td>
-                                        <td>
-                                            {% for phone in profile.phones.all %}
-                                                {% if phone.type == 'FAX' %}
-                                                    <i class="glyphicon glyphicon-phone-alt"></i>
-                                                {% elif phone.type == 'TEL' %}
-                                                    <i class="glyphicon glyphicon-earphone"></i>
-                                                {% else %}
-                                                    <i class="glyphicon glyphicon-earphone"></i>
-                                                {% endif %}
-                                                {{ phone.number }}
-                                                <br/>
-                                            {% endfor %}
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-
-                        </div>
-                    </div>
-                    <div class="btn-group pull-right pull-bottom">
-                            <a href="{% url 'profile:update' %}" class="btn btn-warning">{% bootstrap_icon "edit" %}Edit</a>
-                            <a id="btn-change-password" href="#accounts/profile/password/change" class="btn btn-warning">{% bootstrap_icon "cog" %}Change password</a>
-                    </div>
-                </div>
-        </div>
-        <!-- ############## END PROFILE ############### -->
-
-        <!-- ############## MESSAGE ############### -->
-        <div role="tabpanel" class="tab-pane" id="message">
-            <h2 class="text-center">My messages</h2>
-            <hr/>
-            <div id="message-panel" class="panel-body body-content">
-                {% include "userProfile/message_menu.html" %}
-            </div>
-
-        </div>
-        <!-- ############## END MESSAGE ############### -->
-
-        <!-- ############## ADS ############### -->
-        <div role="tabpanel" class="tab-pane" id="ads">
-            <h2 class="text-center">My ads</h2>
-            <hr/>
-            <div class="panel-body body-content">
-
-                 <div id="table-ads" class="table-responsive">
-                    <!-- CONTENT TABLE -->
-                </div>
-                <!-- PAGINATION -->
-                <nav class="pull-right">
-                    <ul class="pagination">
-                        <li><a href="#">&laquo;</a></li>
-                        <li><a href="#">1</a></li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">4</a></li>
-                        <li><a href="#">5</a></li>
-                        <li><a href="#">&raquo;</a></li>
-                    </ul>
-                </nav>
-            </div>
-        </div>
-        <!-- ############## END ADS ############### -->
-
-
-        <!-- ############## LOCATIONS ############### -->
-        <div role="tabpanel" class="tab-pane" id="locations">
-            <h2 class="text-center">My locations</h2>
-            <hr/>
-            <div class="panel-body body-content">
-                <ul class="list-group">
-                    {% for location in profile.locations.all %}
-                        <li class="list-group-item">
-                            {{ location.title }}
-                            <a href="/accounts/profile/position/delete/{{ location.id }}" class="btn btn-danger pull-right">{% bootstrap_icon "remove" %}</a>
-                        </li>
-                    {% endfor %}
-                </ul>
-
-            </div>
-        </div>
-        <!-- ############## ENDLOCATIONS ############### -->
-
-
-        <!-- ############## AGENDA ############### -->
-        <div role="tabpanel" class="tab-pane" id="agenda">
-            <h2 class="text-center">My agenda</h2>
-            <hr/>
-            <div class="panel-body body-content">
-                <p> AGENDA</p>
-            </div>
-        </div>
-        <!-- ############## END AGENDA ############### -->
+    <div ui-view class="col-md-10 tab-content" id="myTabContent">
     </div>
 </div>
 
-{% endblock %}
-
-{% block js_footer_block %}
-    <script>
-        $('#tab-board a').click(function (e) {
-          e.preventDefault()
-        });
-
-
-        // AJAX PARA LA VISTA DE AVISOS
-        $("#my_ads").click(function() {
-            $.ajax({
-                url: "{% url 'ad:by-user-ajax' %}",
-                type: "get",
-                success: function(data){
-                    $("#table-ads").html(data);
-
-                    // crear escuchas para todos los botones borrar que encuentre
-                    $(".delete_message").each(function( index ) {
-                        $(this).click(function() {
-                            var modal = $(this).closest(".modal");
-                            // creo que es un solo csrf... asique alcanzaria settearlo una sola vez
-                            var csrf = $(this).siblings("input[name=csrfmiddlewaretoken]").val();
-                            var ad_id = $(this).val();
-                            $.ajax({
-                                contentType: 'application/json',
-                                url: '/api/dashboard/ad/' + ad_id + '/?format=json',
-                                beforeSend: function(jqXHR, settings) {
-                                    // Pull the token out of the DOM.
-                                    jqXHR.setRequestHeader('X-CSRFToken', csrf );
-                                },
-                                type: 'DELETE',
-                                success: function(result) {
-                                    modal.hide();
-                                    $(".modal-backdrop").hide();
-                                    $('#ad-row-' + ad_id).remove();
-                                },
-                            });
-                        });
-                    });
-
-                }
-            });
-        });
-
-        // AJAX PARA LA VISTA DE CAMBIAR LA CONTRASEÑA
-        function OnClickChangePassword(){
-            $("#btn-change-password").click(function(){
-                $.ajax({
-                    url: "/accounts/password/change",
-                    type: "get",
-                    success: function(data){
-                        $("#content-profile").html(data);
-
-                        }
-                });
-            });
-        }
-
-        // AJAX PARA LA VISTA DE VER EL PERFIL DE USUARIO
-        $("#btn-profile").click(function(){
-            $.ajax({
-                url: "{% url 'profile:detail-ajax' %}",
-                type: "get",
-                success: function(data){
-                    $("#content-profile").html(data);
-                    OnClickChangePassword();
-                }
-            });
-        });
-
-        OnClickChangePassword();
-    </script>
-{% endblock %}
+<footter>
+    <script type="text/javascript" src="{{ STATIC_URL }}jquery-formset-12/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}bower_components/angular/angular.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}bower_components/angular-resource/angular-resource.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}bower_components/angular-route/angular-route.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}dashboard/services.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}dashboard/controllers.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}dashboard/app.js"></script>
+</footter>
+</html>

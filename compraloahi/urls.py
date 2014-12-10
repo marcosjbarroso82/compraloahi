@@ -1,37 +1,23 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
-from .views import HomeView, ApiDashBoardView
+from .views import HomeView, ApiDashBoardView, DashBoardAjaxView
 from . import settings
 
-from rest_framework import routers
+from apps.ad import views as adViews
+from apps.user import views as userViews
+from rest_framework.routers import DefaultRouter
 
-from apps.ad.api import AdResource
-from tastypie.api import Api
-
-# Import views to api
-from apps.userProfile.views import UserProfileModelView
-from apps.user.views import UserRetrieveView
-
-dashboard_api = Api(api_name='dashboard')
-dashboard_api.register(AdResource())
-
-router = routers.SimpleRouter()
-
+router = DefaultRouter()
+router.register(r'ads', adViews.AdViewSet)
+router.register(r'users', userViews.UserViewSet)
 
 
 urlpatterns = patterns('',
+                        url(r'^api/v1/', include(router.urls)),
+                        url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+                        url(r'^dashboard-ajax/.*$', DashBoardAjaxView.as_view(), name='dashboard-ajax'),
                         url(r'^$', HomeView.as_view()),
-
-                        #### URL API
-                        url(r'^api/v1/', include(router.urls, namespace="api", app_name="api-dashboard")),
-
-                        # Probando
-                        url(r'^api/v1/profile/$', UserProfileModelView.as_view({'get': 'retrieve'}), name='api-profile-detail' ),
-                        url(r'^api/v1/user/$', UserRetrieveView.as_view(), name='api-user-detail' ),
-
-                        url(r'^api/v1/.*$', ApiDashBoardView.as_view(), name='dashboard' ),
-                        #### END URL API
-
+                        url(r'^dashboard/.*$', ApiDashBoardView.as_view(), name='dashboard' ),
                         # Admin django
                         url(r'^admin/', include(admin.site.urls)),
 
@@ -64,8 +50,7 @@ urlpatterns = patterns('',
                            "django.views.static.serve",
                            {'document_root': settings.MEDIA_ROOT}),
 
-                        (r'^api/', include(dashboard_api.urls)),
-
-                        url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 
                         )
+
+

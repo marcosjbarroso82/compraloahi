@@ -1,0 +1,69 @@
+<!-- ############## PROFILE ############### -->
+        <div role="tabpanel" class="tab-pane active" id="profile">
+            <h2 class="text-center">Datos personales</h2>
+            <hr/>
+                <div id="content-profile" class="panel-body body-content">
+                    <div class="row">
+                        <div class="col-md-3 col-lg-3 " align="center">
+                            {% thumbnail profile.image "400x400" crop="center" as im %}
+                                <img class="img-circle img-responsive" id="item-display" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+                            {% endthumbnail %}
+                        </div>
+                        <div class=" col-md-9 col-lg-9 ">
+                            <h2 id="title-usernarme">{{ user.first_name|capfirst }}, {{ user.last_name|capfirst }}</h2>
+                            <table class="table table-user-information">
+                                <tbody>
+                                    <tr>
+                                        <td>Department:</td>
+                                        <td>Programming</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Date of Birth</td>
+                                        <td> <i class="glyphicon glyphicon-gift"></i>{{ profile.birth_date.year }} - {{ profile.birth_date.month }} - {{ profile.birth_date.day }}</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>Gender</td>
+                                        <td>Male</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Home Address</td>
+                                        <td>
+                                            {% with profile.locations.all|first as location %}
+                                                <cite title="{{ location.title }}">
+                                                    {{ location.title }}
+                                                </cite>
+                                            {% endwith %}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Email</td>
+                                        <td><i class="glyphicon glyphicon-envelope"></i>{{ user.email }}</td>
+                                    </tr>
+                                        <td>Contact Number</td>
+                                        <td>
+                                            {% for phone in profile.phones.all %}
+                                                {% if phone.type == 'FAX' %}
+                                                    <i class="glyphicon glyphicon-phone-alt"></i>
+                                                {% elif phone.type == 'TEL' %}
+                                                    <i class="glyphicon glyphicon-earphone"></i>
+                                                {% else %}
+                                                    <i class="glyphicon glyphicon-earphone"></i>
+                                                {% endif %}
+                                                {{ phone.number }}
+                                                <br/>
+                                            {% endfor %}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                    <div class="btn-group pull-right pull-bottom">
+                            <a href="{% url 'profile:update' %}" class="btn btn-warning">{% bootstrap_icon "edit" %}Edit</a>
+                            <a id="btn-change-password" href="#accounts/profile/password/change" class="btn btn-warning">{% bootstrap_icon "cog" %}Change password</a>
+                    </div>
+                </div>
+        </div>
+        <!-- ############## END PROFILE ############### -->
