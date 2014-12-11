@@ -1,22 +1,30 @@
 from rest_framework.serializers import ModelSerializer
+from rest_framework import serializers
 
 from .models import UserProfile, Phone, UserLocation
 
+from sorl.thumbnail import get_thumbnail
 
-class UserProfileSerializer(ModelSerializer):
-
-    class Meta:
-        model = UserProfile
-        depth = 2
-        fields = ('image', 'birth_date', 'user')
-        read_only_fields = ('user')
 
 class PhoneSerializer(ModelSerializer):
 
     class Meta:
         model = Phone
-        fields = ('number', 'type', 'userProfile')
-        read_only_fields = ('userProfile')
+        fields = ('number', 'type')
+
+
+class UserProfileSerializer(ModelSerializer):
+    thumbnail_200x200 = serializers.SerializerMethodField()
+    phones = PhoneSerializer(many=True)
+
+    class Meta:
+        model = UserProfile
+        depth = 2
+        fields = ('image', 'birth_date', 'user', 'phones', 'thumbnail_200x200')
+        read_only_fields = ('user')
+
+    def get_thumbnail_200x200(self, obj):
+        return get_thumbnail(obj.image, '200x200', crop='center', quality=99).url
 
 
 class UserLocationSeralizer(ModelSerializer):

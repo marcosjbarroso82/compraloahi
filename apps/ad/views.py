@@ -14,6 +14,7 @@ from rest_framework import viewsets
 from .serializers import AdSerializer
 from .permissions import IsOwnerOrReadOnly
 
+
 class AdFacetedSearchView(FacetedSearchView):
     pass
 
@@ -48,8 +49,6 @@ class AdDeleteView(DeleteView):
         messages.success(self.request, "Aviso "
                          + self.object.title + " removed success.")
         return HttpResponseRedirect(self.get_success_url())
-
-
 
 
 class CreateAdView(CreateView):
@@ -182,15 +181,13 @@ class AdsByUser(ListView):
     model = Ad
     template_name = 'ad/list-by-user.html'
     context_object_name = "ad_list"
-    #queryset = Ad.objects.order_by("created").reverse()[:3]
 
     def get_queryset(self):
         return Ad.objects.filter(author= self.request.user)
 
 
+
 class AdViewSet(viewsets.ModelViewSet):
-
-
     queryset = Ad.objects.all()
     serializer_class = AdSerializer
 

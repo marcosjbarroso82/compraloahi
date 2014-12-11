@@ -33,12 +33,26 @@ angular.module('dashBoardApp', [
             })
             .state('profile-detail', {
                 url: '/profile-detail',
-                templateUrl: '/static/dashboard/profile/templates/profile-detail.html'
+                templateUrl: '/static/dashboard/profile/templates/detail-profile.html',
+                controller: 'ProfileDetailController',
+                controllerAs: 'vm'
             })
             .state('default', {
                 url: '/',
-                templateUrl: '/static/dashboard/profile/templates/profile-detail.html',
+                templateUrl: '/static/dashboard/profile/templates/detail-profile.html',
                 controller: 'ProfileDetailController',
+                controllerAs: 'vm'
+            })
+            .state('profile-update', {
+                url: '/profile-update',
+                templateUrl: '/static/dashboard/profile/templates/update-profile.html',
+                controller: 'ProfileUpdateController',
+                controllerAs: 'vm'
+            })
+            .state('change-password', {
+                url: '/profile/change-password',
+                templateUrl: '/static/dashboard/profile/templates/change-password.html',
+                controller: 'ChangePasswordController',
                 controllerAs: 'vm'
             })
 

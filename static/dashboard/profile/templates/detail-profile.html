@@ -1,0 +1,49 @@
+<!-- ############## PROFILE ############### -->
+<div role="tabpanel" class="tab-pane active" id="profile">
+    <h2 class="text-center">Datos personales</h2>
+    <hr/>
+    <div id="content-profile" class="panel-body body-content">
+        <div class="row">
+            <div class="col-md-3 col-lg-3 " align="center">
+
+                <img class="img-circle img-responsive" id="item-display" src="[[ vm.profile.thumbnail_200x200 ]]" height="200" width="200" >
+
+            </div>
+            <div class=" col-md-9 col-lg-9 ">
+                <h2 id="title-usernarme"> [[ vm.profile.user.first_name ]], [[ vm.profile.user.last_name ]]</h2>
+                <table class="table table-user-information">
+                    <tbody>
+
+                    <tr>
+                        <td>Date of Birth</td>
+                        <td> <i class="glyphicon glyphicon-gift"></i>[[ vm.profile.birth_date ]]</td>
+                    </tr>
+
+                    <tr>
+                        <td>Email</td>
+                        <td><i class="glyphicon glyphicon-envelope"></i>[[ vm.profile.user.email ]]</td>
+                    </tr>
+                    <td>Contact Number</td>
+                    <td>
+                        <ul>
+                            <li ng-repeat="phone in vm.profile.phones">[[ phone.type ]] | [[ phone.number ]]</li>
+                        </ul>
+                        <!--
+                            <i class="glyphicon glyphicon-phone-alt"></i>s
+                            <i class="glyphicon glyphicon-earphone"></i>
+                            <i class="glyphicon glyphicon-earphone"></i>
+                      -->
+                    </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+        <div class="btn-group pull-right pull-bottom">
+            <a class="btn btn-warning" ui-sref="profile-update">EDIT</a>
+            <a id="btn-change-password" ui-sref="change-password" class="btn btn-warning">CHANGE PASSWORD</a>
+        </div>
+    </div>
+</div>
+<!-- ############## END PROFILE ############### -->

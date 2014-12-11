@@ -12,7 +12,7 @@ from rest_framework.generics import RetrieveAPIView
 from .serializers import UserProfileSerializer
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
-
+from rest_framework import status
 
 class UserProfileModelView(ModelViewSet):
     serializer_class = UserProfileSerializer
@@ -22,6 +22,26 @@ class UserProfileModelView(ModelViewSet):
         profile = get_object_or_404(queryset, user=request.user)
         serializer = UserProfileSerializer(profile)
         return Response(serializer.data)
+
+    def update(self, request, *args, **kwargs):
+        profile = self.get_queryset()
+
+        profile.birth_date = request.DATA['birth_date']
+
+        user = profile.user
+
+        user.first_name = request.DATA['first_name']
+        user.last_name = request.DATA['last_name']
+        user.email = request.DATA['email']
+
+        profile.save()
+        user.save()
+
+        return Response({'status': 'Ok request.', 'message': 'Los datos de usuario se modificaron con exito'}, status=status.HTTP_200_OK )
+
+
+    def get_queryset(self):
+        return UserProfile.objects.get(user=self.request.user)
 
 # class UserProfileModelView(RetrieveAPIView):
 #     serializer_class = UserProfileSerializer
