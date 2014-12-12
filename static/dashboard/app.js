@@ -3,7 +3,8 @@ angular.module('dashBoardApp', [
         'ngResource',
         'dashBoardApp.services',
         'dashBoardApp.controllers',
-        'dashBoardApp.profile'
+        'dashBoardApp.profile',
+        'ngSanitize'
     ])
     .config(function ($interpolateProvider, $httpProvider, $resourceProvider, $stateProvider, $urlRouterProvider) {
         // Force angular to use square brackets for template tag
@@ -40,6 +41,21 @@ angular.module('dashBoardApp', [
                 templateUrl: '/static/dashboard/profile/templates/profile-detail.html',
                 controller: 'ProfileDetailController',
                 controllerAs: 'vm'
+            })
+            .state('messages', {
+                url: 'messages',
+                templateUrl: '/static/dashboard/message/templates/messages-app.html',
+                controller: 'MessageCtrl'
+            })
+            .state('messages.inbox', {
+              url: '',
+              templateUrl: '/static/dashboard/message/templates/messages-app.inbox.html',
+              controller: 'MessageCtrl'
+            })
+            .state('messages.sent', {
+              url: '',
+              templateUrl: '/static/dashboard/message/templates/messages-app.sent.html',
+              controller: 'MessageCtrl'
             })
 
     });

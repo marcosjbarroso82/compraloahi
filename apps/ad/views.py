@@ -10,7 +10,7 @@ from .models import Ad
 from .forms import CreateAdForm, AdModifyForm, \
     AdImage_inline_formset, AdLocation_inline_formset
 
-from rest_framework import viewsets
+from rest_framework import viewsets, filters
 from .serializers import AdSerializer
 from .permissions import IsOwnerOrReadOnly
 
@@ -190,11 +190,10 @@ class AdsByUser(ListView):
 
 class AdViewSet(viewsets.ModelViewSet):
 
-
     queryset = Ad.objects.all()
     serializer_class = AdSerializer
-
-
+    #filter_backends = (filters.DjangoFilterBackend,)
+    filter_fields = ('title', 'slug', 'id')
 
     def pre_save(self, obj):
         obj.author = self.request.user

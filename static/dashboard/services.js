@@ -9,4 +9,7 @@ angular.module('dashBoardApp.services', ['ngResource'])
   })
   .factory('User', function($resource) {
     return $resource('/api/v1/users/:id/');
+  })
+  .factory('Message', function($resource) {
+    return $resource('/api/v1/messages/:id/');
   });

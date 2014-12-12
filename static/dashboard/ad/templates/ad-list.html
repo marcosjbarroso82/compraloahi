@@ -20,7 +20,7 @@
                     <a href="/ad/[[ ad.slug ]]" class="btn btn-success"><span class="glyphicon glyphicon-eye-open"></span></a>
 
                     <!-- BUTTON DELETE --->
-                    <button data-toggle="modal" class="btn btn-danger" data-target="#modalMessage{{ forloop.counter0 }}">
+                    <button data-toggle="modal" class="btn btn-danger" ng-click="deleteAd(ad, $index)">
                         <span class="glyphicon glyphicon-remove"></span>
                     </button>
                     <!-- MODAL CONFIRMATION DELETE -->

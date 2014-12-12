@@ -6,6 +6,8 @@ from . import settings
 from apps.ad import views as adViews
 from apps.user import views as userViews
 from apps.userProfile.views import UserProfileModelView
+from apps.message.views import MessageList
+
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
@@ -19,6 +21,8 @@ urlpatterns = patterns('',
                         url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
                         url(r'^dashboard-ajax/.*$', DashBoardAjaxView.as_view(), name='dashboard-ajax'),
                         url(r'^$', HomeView.as_view()),
+                        # API Message List
+                        url(r'^api/v1/messages/?P<folder>/$', MessageList.as_view(), name='api-message-list'),
 
                         url(r'^dashboard/.*$', ApiDashBoardView.as_view(), name='dashboard' ),
                         # Admin django

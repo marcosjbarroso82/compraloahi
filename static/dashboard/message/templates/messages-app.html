@@ -1,10 +1,24 @@
-<!-- ############## MESSAGE ############### -->
+<h3>Messages</h3><br/>
+
+<a ui-sref="messages.inbox">Inbox</a><br/>
+<a ui-sref="messages.sent">Sent</a><br/>
+
+<button ng-click="LoadInbox()">Inbox - Contenido</button><br/>
+<button ng-click="LoadSent()">Sent - Contenido</button><br/>
+
+<!--[[contenido]]-->
+<div ng-bind-html="contenido"></div>
+
+<div ui-view></div>
+
+
+<!--
         <div role="tabpanel" class="tab-pane" id="message">
             <h2 class="text-center">My messages</h2>
             <hr/>
             <div id="message-panel" class="panel-body body-content">
-                {% include "userProfile/message_menu.html" %}
             </div>
 
         </div>
+-->
         <!-- ############## END MESSAGE ############### -->
