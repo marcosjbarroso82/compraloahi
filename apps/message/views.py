@@ -5,7 +5,9 @@ from .forms import CustomWriteForm
 from rest_framework import viewsets, generics
 from .serializers import MessageSerializer
 
+from rest_framework_bulk import BulkCreateModelMixin, BulkUpdateModelMixin, BulkDestroyModelMixin, ListBulkCreateUpdateDestroyAPIView
 
+from postman.models import Message
 
 class CustomWriteView(WriteView):
     form_classes=(CustomWriteForm, CustomWriteForm)
@@ -35,3 +37,19 @@ class MessageList(generics.ListAPIView):
             msgs = Message.objects.trash(self.request.user)
 
         return msgs
+
+
+
+
+class MessageBulkViewSet(BulkCreateModelMixin,
+                  BulkUpdateModelMixin,
+                  BulkDestroyModelMixin,
+                  viewsets.ModelViewSet):
+    model = Message
+    queryset = Message.objects.all()
+    serializer_class = MessageSerializer
+
+
+
+
+
