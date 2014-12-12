@@ -6,6 +6,7 @@ from rest_framework import viewsets, generics
 from .serializers import MessageSerializer
 
 
+
 class CustomWriteView(WriteView):
     form_classes=(CustomWriteForm, CustomWriteForm)
     template_name= 'message/write_modal.html'
@@ -15,10 +16,22 @@ class MessageList(generics.ListAPIView):
 
     #queryset = Message.objects.all()
     serializer_class = MessageSerializer
+    folder = 'inbox'
+
 
     def get_queryset(self):
         """
         This view should return a list of all the purchases
         for the currently authenticated user.
         """
-        return Message.objects.all()
+
+        if self.kwargs['folder'] == 'inbox':
+            msgs = Message.objects.inbox(self.request.user)
+        elif self.kwargs['folder'] == 'sent':
+            msgs = Message.objects.sent(self.request.user)
+        elif self.kwargs['folder'] == 'trash':
+            msgs = Message.objects.trash(self.request.user)
+        elif self.kwargs['folder'] == 'archives':
+            msgs = Message.objects.trash(self.request.user)
+
+        return msgs

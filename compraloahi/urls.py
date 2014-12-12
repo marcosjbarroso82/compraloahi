@@ -34,7 +34,7 @@ urlpatterns = patterns('',
                         url(r'^dashboard-ajax/.*$', DashBoardAjaxView.as_view(), name='dashboard-ajax'),
                         url(r'^$', HomeView.as_view()),
                         # API Message List
-                        url(r'^api/v1/messages/?P<folder>/$', MessageList.as_view(), name='api-message-list'),
+                        url(r'^api/v1/messages/(?P<folder>\w+)/$', MessageList.as_view(), name='api-message-list'),
 
                         url(r'^dashboard/.*$', ApiDashBoardView.as_view(), name='dashboard' ),
                         # Admin django

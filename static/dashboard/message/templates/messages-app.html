@@ -1,24 +1,29 @@
-<h3>Messages</h3><br/>
+<div class="panel panel-default">
+  <div class="panel-heading">Mensajes</div>
 
-<a ui-sref="messages.inbox">Inbox</a><br/>
-<a ui-sref="messages.sent">Sent</a><br/>
+  <ul class="nav nav-tabs">
+  <li role="presentation" class="active"><a ng-click="loadMessages('inbox')" class="btn btn-default" role="button">Inbox</a></li>
+  <li role="presentation"><a ng-click="loadMessages('sent')" class="btn btn-default" role="button">Sent</a></li>
+  <li role="presentation"><a ng-click="loadMessages('trash')" class="btn btn-default" role="button">Trash</a></li>
+  <li role="presentation"><a ng-click="loadMessages('archives')" class="btn btn-default" role="button">Archives</a></li>
+</ul>
+  <table class="table">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Subject</th>
+      <th>sent_at</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="message in messages">
+      <td>[[ message.id ]]</td>
+      <td>[[ message.subject ]]</td>
+      <td>[[ message.sent_at ]]</td>
+    </tr>
+  </tbody>
+</table>
+    ...
+  </table>
+</div>
 
-<button ng-click="LoadInbox()">Inbox - Contenido</button><br/>
-<button ng-click="LoadSent()">Sent - Contenido</button><br/>
-
-<!--[[contenido]]-->
-<div ng-bind-html="contenido"></div>
-
-<div ui-view></div>
-
-
-<!--
-        <div role="tabpanel" class="tab-pane" id="message">
-            <h2 class="text-center">My messages</h2>
-            <hr/>
-            <div id="message-panel" class="panel-body body-content">
-            </div>
-
-        </div>
--->
-        <!-- ############## END MESSAGE ############### -->

@@ -28,35 +28,24 @@ dashBoardControllers.controller('UserCtrl', function UserCtrl($scope, User) {
   });
 });
 
-dashBoardControllers.controller('MessageCtrl', function MessageCtrl($scope, Message, $http, $sanitize) {
+dashBoardControllers.controller('MessageCtrl', function MessageCtrl($scope, Message) {
   $scope.messages = {};
-  $scope.unTexto = "este es un Texto";
-  $scope.contenido = "contenido original";
-
+  /*
   Message.query(function(response) {
     $scope.messages = response;
   });
+  */
 
-  $scope.LoadInbox = function(){
-      //$scope.contenido = "nuevo contenido del Inbox";
-      //console.log("load inbox3");
-      $http.get('/message/ajax-inbox/').
-        success(function(data, status, headers, config) {
-          $scope.contenido = data;
-        }).
-        error(function(data, status, headers, config) {
-          $scope.contenido = "Hubo un error al cargar el Inbox";
-      });
-  }
-  $scope.LoadSent = function(){
-      $http.get('/message/ajax-sent/').
-        success(function(data, status, headers, config) {
-          $scope.contenido = data;
-        }).
-        error(function(data, status, headers, config) {
-          $scope.contenido = "Hubo un error al cargar el Sent";
-      });
-  }
+    $scope.loadMessages = function(folder){
+        Message.getMsgs(folder).then(getSuccess, getError);
 
+        function getSuccess(data){
+            $scope.messages = data.data;
+        };
 
+        function getError(data){
+            console.log('Error al cargar el inbox');
+        }
+    }
+    $scope.messages = $scope.loadMessages('inbox');
 });

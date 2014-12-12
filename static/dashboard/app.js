@@ -42,21 +42,12 @@ angular.module('dashBoardApp', [
                 url: '/',
                 templateUrl: '/static/dashboard/profile/templates/detail-profile.html',
                 controller: 'ProfileDetailController',
-                controllerAs: '
+                controllerAs: 'vm'
+            })
             .state('messages', {
                 url: 'messages',
                 templateUrl: '/static/dashboard/message/templates/messages-app.html',
                 controller: 'MessageCtrl'
-            })
-            .state('messages.inbox', {
-              url: '',
-              templateUrl: '/static/dashboard/message/templates/messages-app.inbox.html',
-              controller: 'MessageCtrl'
-            })
-            .state('messages.sent', {
-              url: '',
-              templateUrl: '/static/dashboard/message/templates/messages-app.sent.html',
-              controller: '
             })
 			.state('profile-update', {
                 url: '/profile-update',
