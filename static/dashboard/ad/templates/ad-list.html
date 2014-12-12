@@ -5,19 +5,19 @@
     <th>Acciones</th>
     </thead>
     <tbody id="tab-all-message">
-        <tr id="ad-row-[[ ad.id ]]" class="ad-container" ng-repeat="ad in ads">
-            <td>
-                <img id="media-object" class="img-rounded" ng-src="[[ ad.images[0].thumbnail_90x90 ]]" width="90" height="90">
-            </td>
-            <td>
-                <h3><strong>[[ ad.title ]]</strong></h3>
-                <small>[[ ad.short_description ]]</small>
-                <p>[[ ad.slug ]]</p>
-            </td>
-            <td class="v-center">
-                <div class="row">
-                    <a href="/ad/update/[[ ad.slug ]]" class="btn btn-warning"><span class="glyphicon glyphicon-edit"></span></a>
-                    <a href="/ad/[[ ad.slug ]]" class="btn btn-success"><span class="glyphicon glyphicon-eye-open"></span></a>
+    <tr id="ad-row-[[ ad.id ]]" class="ad-container" ng-repeat="ad in ads">
+        <td>
+            <img id="media-object" class="img-rounded" ng-src="[[ ad.images[0].thumbnail_90x90 ]]" width="90" height="90">
+        </td>
+        <td>
+            <h3><strong>[[ ad.title ]]</strong></h3>
+            <small>[[ ad.short_description ]]</small>
+            <p>[[ ad.slug ]]</p>
+        </td>
+        <td class="v-center">
+            <div class="row">
+                <a href="/ad/update/[[ ad.slug ]]" class="btn btn-warning"><span class="glyphicon glyphicon-edit"></span></a>
+                <a href="/ad/[[ ad.slug ]]" class="btn btn-success"><span class="glyphicon glyphicon-eye-open"></span></a>
 
                     <!-- BUTTON DELETE --->
                     <button data-toggle="modal" class="btn btn-danger" ng-click="deleteAd(ad, $index)">
@@ -39,11 +39,13 @@
                             </div>
 
                         </div>
-                    </div>
 
+                    </div>
                 </div>
-            </td>
-        </tr>
+
+            </div>
+        </td>
+    </tr>
 
     </tbody>
 </table>

@@ -34,14 +34,15 @@ angular.module('dashBoardApp', [
             })
             .state('profile-detail', {
                 url: '/profile-detail',
-                templateUrl: '/static/dashboard/profile/templates/profile-detail.html'
-            })
-            .state('default', {
-                url: '/',
-                templateUrl: '/static/dashboard/profile/templates/profile-detail.html',
+                templateUrl: '/static/dashboard/profile/templates/detail-profile.html',
                 controller: 'ProfileDetailController',
                 controllerAs: 'vm'
             })
+            .state('default', {
+                url: '/',
+                templateUrl: '/static/dashboard/profile/templates/detail-profile.html',
+                controller: 'ProfileDetailController',
+                controllerAs: '
             .state('messages', {
                 url: 'messages',
                 templateUrl: '/static/dashboard/message/templates/messages-app.html',
@@ -55,7 +56,19 @@ angular.module('dashBoardApp', [
             .state('messages.sent', {
               url: '',
               templateUrl: '/static/dashboard/message/templates/messages-app.sent.html',
-              controller: 'MessageCtrl'
+              controller: '
+            })
+			.state('profile-update', {
+                url: '/profile-update',
+                templateUrl: '/static/dashboard/profile/templates/update-profile.html',
+                controller: 'ProfileUpdateController',
+                controllerAs: 'vm'
+            })
+            .state('change-password', {
+                url: '/profile/change-password',
+                templateUrl: '/static/dashboard/profile/templates/change-password.html',
+                controller: 'ChangePasswordController',
+                controllerAs: 'vm'
             })
 
     });

@@ -1,0 +1,53 @@
+<!-- ############## PROFILE ############### -->
+<div role="tabpanel" class="tab-pane active">
+    <h2 class="text-center">EDIT PROFILE</h2>
+    <hr/>
+    <form class="panel-body body-content" ng-submit="vm.submit()" >
+        <div class="row">
+            <div class="col-md-3 col-lg-3 " align="center">
+                <img class="img-circle img-responsive" src="[[ vm.profile.thumbnail_200x200 ]]" height="200" width="200" >
+            </div>
+            <div class=" col-md-9 col-lg-9 ">
+                <h2>
+                    <input class="form-inline" ng-model="vm.profile.user.first_name" type="text" required="true"/>
+                    <input class="form-inline" ng-model="vm.profile.user.last_name" type="text" required="true"/>
+                </h2>
+                <table class="table table-user-information">
+                    <tbody>
+
+                    <tr>
+                        <td>Date of Birth</td>
+                        <td> <i class="glyphicon glyphicon-gift"></i>
+                            <input type="date" ng-model="vm.profile.birth_date" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Email</td>
+                        <td><i class="glyphicon glyphicon-envelope"></i>
+                            <input type="email" ng-model="vm.profile.user.email" class="form-inline" required="true" width="100%"></td>
+                    </tr>
+                    <td>Contact Number</td>
+                    <td>
+                        <ul>
+                            <li ng-repeat="phone in vm.profile.phones">
+
+                                [[ phone.type ]] | [[ phone.number ]]
+                            </li>
+                        </ul>
+
+                    </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+
+        <div class="btn-group pull-right pull-bottom">
+            <a class="btn btn-warning" ui-sref="profile-detail">CANCEL</a>
+            <button type="submit" class="btn btn-success">OK</button>
+        </div>
+    </form>
+</div>
+<!-- ############## END PROFILE ############### -->

@@ -10,15 +10,27 @@ from apps.message.views import MessageList
 
 from rest_framework.routers import DefaultRouter
 
+from apps.user.views import ChangePasswordUpdateAPIView
+
 router = DefaultRouter()
 router.register(r'ads', adViews.AdViewSet)
-router.register(r'users', userViews.UserViewSet)
+#router.register(r'users', userViews.UserViewSet)
 
 
 urlpatterns = patterns('',
                         url(r'^api/v1/', include(router.urls)),
+
+                        # Detail Profile
                         url(r'^api/v1/profile/$', UserProfileModelView.as_view({'get': 'retrieve'}), name='api-profile-detail' ),
-                        url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+                        # Update Profile
+                        url(r'^api/v1/profile/$', UserProfileModelView.as_view({'put': 'update'}), name='api-profile-detail' ),
+
+                        # Change password
+                        url(r'^api/v1/change-password/$', ChangePasswordUpdateAPIView.as_view(), name='api-change-password' ),
+
+                        # Login and logout (DjangoRestFramework)
+                        url(r'^api/v1/', include('rest_framework.urls', namespace='rest_framework')),
+
                         url(r'^dashboard-ajax/.*$', DashBoardAjaxView.as_view(), name='dashboard-ajax'),
                         url(r'^$', HomeView.as_view()),
                         # API Message List
