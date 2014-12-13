@@ -52,11 +52,11 @@ dashBoardControllers.controller('MessageCtrl', function MessageCtrl($scope, Mess
     $scope.messages = $scope.loadMessages('inbox');
 });
 
-dashBoardControllers.controller('MessageDetailCtrl', function MessageDetailCtrl($scope, Message, $stateParams) {
+dashBoardControllers.controller('MessageThreadCtrl', function MessageThreadCtrl($scope, Message, $stateParams) {
   $scope.message = {};
 
-    $scope.loadMessageDetail = function(id){
-        Message.getMsg(id).then(getSuccess, getError);
+    $scope.loadMessageThread = function(id){
+        Message.getMsgThread(id).then(getSuccess, getError);
 
         function getSuccess(data){
             $scope.message = data.data;
@@ -67,5 +67,5 @@ dashBoardControllers.controller('MessageDetailCtrl', function MessageDetailCtrl(
         }
     }
     console.log($stateParams);
-    $scope.message = $scope.loadMessageDetail($stateParams.id);
+    $scope.message = $scope.loadMessageThread($stateParams.id);
 });

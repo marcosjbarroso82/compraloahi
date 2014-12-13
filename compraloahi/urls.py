@@ -6,7 +6,7 @@ from . import settings
 from apps.ad import views as adViews
 from apps.user import views as userViews
 from apps.userProfile.views import UserProfileModelView
-from apps.message.views import MessageList, MessageDetail
+from apps.message.views import MessageList, MessageDetail, MessageModelViewSet
 
 from rest_framework.routers import DefaultRouter
 
@@ -31,10 +31,14 @@ urlpatterns = patterns('',
 
                         url(r'^dashboard-ajax/.*$', DashBoardAjaxView.as_view(), name='dashboard-ajax'),
                         url(r'^$', HomeView.as_view()),
+
                         # API Message List
+                        url(r'^api/v1/messages/thread/(?P<pk>\d+)/$', MessageModelViewSet.as_view({'get': 'retrieve'})),
+
                         url(r'^api/v1/messages/(?P<pk>\d+)/$', MessageDetail.as_view()),
 
-                        url(r'^api/v1/messages/(?P<folder>\w+)/$', MessageList.as_view(), name='api-message-list'),
+                        url(r'^api/v1/messages/(?P<folder>\w+)/$', MessageModelViewSet.as_view({'get': 'list'}), name='api-message-list'),
+
 
                         url(r'^dashboard/.*$', ApiDashBoardView.as_view(), name='dashboard' ),
                         # Admin django

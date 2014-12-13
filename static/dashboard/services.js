@@ -16,10 +16,14 @@ angular.module('dashBoardApp.services', ['ngResource'])
   });
       */
   .factory('Message', function($resource, $http) {
-        var msgs = { getMsgs:getMsgs, getMsg:getMsg };
+        var msgs = { getMsgs:getMsgs, getMsgThread:getMsgThread, getMsg: getMsg };
 
         function getMsgs(folder){
             return $http.get('/api/v1/messages/' + folder);
+        }
+
+        function getMsgThread(id){
+            return $http.get('/api/v1/messages/thread/' + id);
         }
 
         function getMsg(id){
