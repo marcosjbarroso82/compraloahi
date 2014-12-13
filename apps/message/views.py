@@ -1,5 +1,5 @@
 from postman.views import WriteView
-from postman.models import Message
+from postman.models import Message, MessageManager
 from .forms import CustomWriteForm
 
 from rest_framework import viewsets, generics
@@ -38,6 +38,10 @@ class MessageList(generics.ListAPIView):
 
         return msgs
 
+    def to_representation(self, obj):
+        return {
+            'id': obj.id
+        }
 
 
 
@@ -48,6 +52,7 @@ class MessageBulkViewSet(BulkCreateModelMixin,
     model = Message
     queryset = Message.objects.all()
     serializer_class = MessageSerializer
+
 
 
 

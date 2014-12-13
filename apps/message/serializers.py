@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from postman.models import Message
-
+import json
+from django.core import serializers as core_serializers
 """
 class MessageSerializer(serializers.ModelSerializer):
 
@@ -12,15 +13,32 @@ class MessageSerializer(serializers.ModelSerializer):
 
 
 class MessageListSerializer(serializers.ListSerializer):
-    def update(self, instance, validated_data):
-        messages = [Message(**item) for item in validated_data]
-        return Message.objects.bulk_create(messages)
-
     class Meta:
         model = Message
+        fields = ("id")
+
+    def update(self, instance, validated_data):
+        ret = []
+        return ret
+
+
 
 class MessageSerializer(serializers.Serializer):
 
     class Meta:
         list_serializer_class = MessageListSerializer
-        model = Message
+
+    def to_representation(self, obj):
+        return {
+            'pk': obj.pk,
+            'body': obj.body,
+            'sent_at': obj.sent_at,
+            'sender_archived ': obj.sender_archived,
+            'recipient_archived': obj.recipient_archived,
+            'sender_deleted_at': obj.recipient_archived,
+            'recipient_deleted_at': obj.recipient_archived,
+            'read_at': obj.recipient_archived,
+            'subject': obj.subject
+        }
+
+
