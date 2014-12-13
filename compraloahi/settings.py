@@ -42,7 +42,6 @@ INSTALLED_APPS = (
     'apps.message',
     'apps.common_tags',
     'rest_framework',
-    'rest_framework_bulk',
 )
 
 MIDDLEWARE_CLASSES = (
