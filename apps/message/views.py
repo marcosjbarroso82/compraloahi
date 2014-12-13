@@ -5,6 +5,8 @@ from .forms import CustomWriteForm
 from rest_framework import viewsets, generics
 from .serializers import MessageSerializer
 
+from django.db.models import Q
+
 
 
 class CustomWriteView(WriteView):
@@ -35,3 +37,14 @@ class MessageList(generics.ListAPIView):
             msgs = Message.objects.trash(self.request.user)
 
         return msgs
+
+class MessageDetail(generics.RetrieveAPIView):
+    serializer_class = MessageSerializer
+
+    class Meta:
+        model = Message
+
+    def get_queryset(self):
+        qs = Message.objects.thread(self.request.user, Q(pk=self.kwargs['pk']))
+
+        return qs

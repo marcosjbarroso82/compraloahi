@@ -16,7 +16,8 @@
     </tr>
   </thead>
   <tbody>
-    <tr ng-repeat="message in messages">
+    <tr ng-repeat="message in messages" ng-click="">
+      <td><a ui-sref="message-detail({id:[[ message.id ]]})">detalle</a></td>
       <td>[[ message.id ]]</td>
       <td>[[ message.subject ]]</td>
       <td>[[ message.sent_at ]]</td>

@@ -6,7 +6,7 @@ from . import settings
 from apps.ad import views as adViews
 from apps.user import views as userViews
 from apps.userProfile.views import UserProfileModelView
-from apps.message.views import MessageList
+from apps.message.views import MessageList, MessageDetail
 
 from rest_framework.routers import DefaultRouter
 
@@ -15,8 +15,6 @@ from apps.user.views import ChangePasswordUpdateAPIView
 router = DefaultRouter()
 router.register(r'ads', adViews.AdViewSet)
 #router.register(r'users', userViews.UserViewSet)
-
-
 urlpatterns = patterns('',
                         url(r'^api/v1/', include(router.urls)),
 
@@ -34,6 +32,8 @@ urlpatterns = patterns('',
                         url(r'^dashboard-ajax/.*$', DashBoardAjaxView.as_view(), name='dashboard-ajax'),
                         url(r'^$', HomeView.as_view()),
                         # API Message List
+                        url(r'^api/v1/messages/(?P<pk>\d+)/$', MessageDetail.as_view()),
+
                         url(r'^api/v1/messages/(?P<folder>\w+)/$', MessageList.as_view(), name='api-message-list'),
 
                         url(r'^dashboard/.*$', ApiDashBoardView.as_view(), name='dashboard' ),
@@ -71,5 +71,7 @@ urlpatterns = patterns('',
 
 
                         )
+
+
 
 

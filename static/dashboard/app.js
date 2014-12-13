@@ -49,6 +49,11 @@ angular.module('dashBoardApp', [
                 templateUrl: '/static/dashboard/message/templates/messages-app.html',
                 controller: 'MessageCtrl'
             })
+            .state('message-detail', {
+                url: 'message-detail/:id',
+                templateUrl: '/static/dashboard/message/templates/messages-detail.html',
+                controller: 'MessageDetailCtrl'
+            })
 			.state('profile-update', {
                 url: '/profile-update',
                 templateUrl: '/static/dashboard/profile/templates/update-profile.html',

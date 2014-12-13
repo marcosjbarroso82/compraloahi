@@ -30,6 +30,7 @@ dashBoardControllers.controller('UserCtrl', function UserCtrl($scope, User) {
 
 dashBoardControllers.controller('MessageCtrl', function MessageCtrl($scope, Message) {
   $scope.messages = {};
+  $scope.message = {};
   /*
   Message.query(function(response) {
     $scope.messages = response;
@@ -47,5 +48,24 @@ dashBoardControllers.controller('MessageCtrl', function MessageCtrl($scope, Mess
             console.log('Error al cargar el inbox');
         }
     }
+
     $scope.messages = $scope.loadMessages('inbox');
+});
+
+dashBoardControllers.controller('MessageDetailCtrl', function MessageDetailCtrl($scope, Message, $stateParams) {
+  $scope.message = {};
+
+    $scope.loadMessageDetail = function(id){
+        Message.getMsg(id).then(getSuccess, getError);
+
+        function getSuccess(data){
+            $scope.message = data.data;
+        };
+
+        function getError(data){
+            console.log('Error al cargar el mensaje');
+        }
+    }
+    console.log($stateParams);
+    $scope.message = $scope.loadMessageDetail($stateParams.id);
 });
