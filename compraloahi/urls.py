@@ -6,7 +6,7 @@ from . import settings
 from apps.ad import views as adViews
 from apps.user import views as userViews
 from apps.userProfile.views import UserProfileModelView
-from apps.message.views import MessageList, MessageDetail, MessageModelViewSet
+from apps.message.views import  MessageDetail, MessageModelViewSet
 
 from rest_framework.routers import DefaultRouter
 
