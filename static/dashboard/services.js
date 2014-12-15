@@ -4,18 +4,18 @@
 //adServices.js
 
 angular.module('dashBoardApp.services', ['ngResource'])
-  .factory('Ad', function($resource) {
-    return $resource('/api/v1/ads/:id/')
-  })
-  .factory('User', function($resource) {
-    return $resource('/api/v1/users/:id/');
-  })
-  /*
-  .factory('Message', function($resource) {
-    return $resource('/api/v1/messages/:id/');
-  });
-      */
-  .factory('Message', function($resource, $http) {
+    .factory('Ad', function($resource) {
+        return $resource('/api/v1/ads/:id/')
+    })
+    .factory('User', function($resource) {
+        return $resource('/api/v1/users/:id/');
+    })
+    /*
+     .factory('Message', function($resource) {
+     return $resource('/api/v1/messages/:id/');
+     });
+     */
+    .factory('Message', function($resource, $http, $q) {
         var msgs = {
             getMsgs:getMsgs,
             getMsgThread:getMsgThread,
@@ -37,22 +37,30 @@ angular.module('dashBoardApp.services', ['ngResource'])
 
         function reply(id, msg){
             var url = '/message/ajax-reply/' + id + '/?next=/accounts/profile/';
-            $.post(url, {body: msg.body, csrfmiddlewaretoken: $.cookie('csrftoken')},
-                            function(data) {
-                                console.log('REPLY EXITOSO!!!!!!')
-                            }
-                        ).done(function(){});
-
-            /*
-            return $http({
-                url: '/message/ajax-reply/' + id + '/?next=/accounts/profile/',
-                dataType: 'application/x-www-form-urlencoded; charset=UTF-8',
-                method: 'POST',
-                data: 'body= +aaaaaaaaaaccccccccccccccccccccccccccsssssssss',
-                headers: {'Content-Type': undefined}
+            return $q(function(resolve, reject) {
+                $.post(url,
+                    {body: msg.body, csrfmiddlewaretoken: $.cookie('csrftoken')},
+                    function(data) {
+                        resolve('La respuesta se ha enviado con Exito');
+                    })
+                    .fail(function(){
+                        reject('Error al enviar la respuesta');
+                    });
             });
-            */
         }
 
+
+        /*
+         // We replaced this function with Reply() because aparently we have problems with the content type
+         // In the future, we'll try again
+         return $http({
+         url: '/message/ajax-reply/' + id + '/?next=/accounts/profile/',
+         dataType: 'application/x-www-form-urlencoded; charset=UTF-8',
+         method: 'POST',
+         data: 'body= +aaaaaaaaaaccccccccccccccccccccccccccsssssssss',
+         headers: {'Content-Type': undefined}
+         });
+         */
+
         return msgs;
-  });
+    });

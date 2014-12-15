@@ -23,19 +23,19 @@ dashBoardControllers.controller('AdCtrl', function AdCtrl($scope, Ad) {
 dashBoardControllers.controller('UserCtrl', function UserCtrl($scope, User) {
     $scope.users = {};
 
-  Users.query(function(response) {
-    $scope.users = response;
-  });
+    Users.query(function(response) {
+        $scope.users = response;
+    });
 });
 
 dashBoardControllers.controller('MessageCtrl', function MessageCtrl($scope, Message) {
-  $scope.messages = {};
-  $scope.message = {};
-  /*
-  Message.query(function(response) {
-    $scope.messages = response;
-  });
-  */
+    $scope.messages = {};
+    $scope.message = {};
+    /*
+     Message.query(function(response) {
+     $scope.messages = response;
+     });
+     */
 
     $scope.loadMessages = function(folder){
         Message.getMsgs(folder).then(getSuccess, getError);
@@ -52,9 +52,9 @@ dashBoardControllers.controller('MessageCtrl', function MessageCtrl($scope, Mess
     $scope.messages = $scope.loadMessages('inbox');
 });
 
-dashBoardControllers.controller('MessageThreadCtrl', function MessageThreadCtrl($scope, Message, $stateParams) {
-  $scope.message = {};
-  $scope.msgReply = {};
+dashBoardControllers.controller('MessageThreadCtrl', function MessageThreadCtrl($scope, Message, $stateParams, $q) {
+    $scope.message = {};
+    $scope.msgReply = {};
 
     $scope.loadMessageThread = function(id){
         Message.getMsgThread(id).then(getSuccess, getError);
@@ -69,13 +69,17 @@ dashBoardControllers.controller('MessageThreadCtrl', function MessageThreadCtrl(
     }
 
     $scope.reply = function(){
-        Message.reply($stateParams.id, $scope.msgReply).then(replySuccess, replyError);
+
+        Message.reply($stateParams.id, $scope.msgReply)
+            .then(replySuccess, replyError);
 
         function replySuccess(data){
+            console.log('replySuccess');
             console.log(data);
         }
 
         function replyError(data){
+            console.log('replyError');
             console.log("ERROR REPLY" + data);
         }
     }
