@@ -54,6 +54,7 @@ dashBoardControllers.controller('MessageCtrl', function MessageCtrl($scope, Mess
 
 dashBoardControllers.controller('MessageThreadCtrl', function MessageThreadCtrl($scope, Message, $stateParams) {
   $scope.message = {};
+  $scope.msgReply = {};
 
     $scope.loadMessageThread = function(id){
         Message.getMsgThread(id).then(getSuccess, getError);
@@ -68,10 +69,6 @@ dashBoardControllers.controller('MessageThreadCtrl', function MessageThreadCtrl(
     }
 
     $scope.reply = function(){
-        //var msg = {};
-        //msg.body = $scope.body;
-        //msg.csrf = $scope.csrfmiddlewaretoken;
-
         Message.reply($stateParams.id, $scope.msgReply).then(replySuccess, replyError);
 
         function replySuccess(data){
@@ -82,7 +79,6 @@ dashBoardControllers.controller('MessageThreadCtrl', function MessageThreadCtrl(
             console.log("ERROR REPLY" + data);
         }
     }
-
 
     console.log($stateParams);
     $scope.message = $scope.loadMessageThread($stateParams.id);

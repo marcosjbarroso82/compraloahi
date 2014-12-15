@@ -49,13 +49,10 @@
                         var csrfmiddlewaretoken = $("input[name='csrfmiddlewaretoken']").val();
 
                         $.post(url, {body: body, csrfmiddlewaretoken: csrfmiddlewaretoken},
-                                function(data) {
-                                    console.log('REPLY EXITOSO!!!!!!')
-                                }
-                        )
-                                .done(function(){
-
-                                });
+                            function(data) {
+                                console.log('REPLY EXITOSO!!!!!!')
+                            }
+                        ).done(function(){});
                     });
 
                 </script>

@@ -36,12 +36,14 @@ angular.module('dashBoardApp.services', ['ngResource'])
         }
 
         function reply(id, msg){
-//            return $http.post('/message/ajax-reply/' + id + '/?next=/accounts/profile/', {
-//                //csrfmiddlewaretoken: msg.csrf,
-//                headers: {'Content-Type': undefined},
-//                body: msg.body,
-//                data: msg
-//            });
+            var url = '/message/ajax-reply/' + id + '/?next=/accounts/profile/';
+            $.post(url, {body: msg.body, csrfmiddlewaretoken: $.cookie('csrftoken')},
+                            function(data) {
+                                console.log('REPLY EXITOSO!!!!!!')
+                            }
+                        ).done(function(){});
+
+            /*
             return $http({
                 url: '/message/ajax-reply/' + id + '/?next=/accounts/profile/',
                 dataType: 'application/x-www-form-urlencoded; charset=UTF-8',
@@ -49,6 +51,7 @@ angular.module('dashBoardApp.services', ['ngResource'])
                 data: 'body= +aaaaaaaaaaccccccccccccccccccccccccccsssssssss',
                 headers: {'Content-Type': undefined}
             });
+            */
         }
 
         return msgs;
