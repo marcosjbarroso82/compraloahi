@@ -33,6 +33,9 @@ class MessageModelViewSet(viewsets.ModelViewSet):
 
         return Response(msgs_serializer.data)
 
+    def create(self, request, *args, **kwargs):
+        pass
+
 
     def retrieve(self, request, *args, **kwargs):
         """
@@ -45,8 +48,7 @@ class MessageModelViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return Message.objects.all()
-        #qs = Message.objects.thread(self.request.user, Q(pk=self.kwargs['pk']))
-        #return qs
+
 
 
 class MessageDetail(generics.RetrieveAPIView):

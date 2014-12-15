@@ -66,6 +66,24 @@ dashBoardControllers.controller('MessageThreadCtrl', function MessageThreadCtrl(
             console.log('Error al cargar el mensaje');
         }
     }
+
+    $scope.reply = function(){
+        //var msg = {};
+        //msg.body = $scope.body;
+        //msg.csrf = $scope.csrfmiddlewaretoken;
+
+        Message.reply($stateParams.id, $scope.msgReply).then(replySuccess, replyError);
+
+        function replySuccess(data){
+            console.log(data);
+        }
+
+        function replyError(data){
+            console.log("ERROR REPLY" + data);
+        }
+    }
+
+
     console.log($stateParams);
     $scope.message = $scope.loadMessageThread($stateParams.id);
 });
