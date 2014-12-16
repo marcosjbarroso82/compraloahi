@@ -40,7 +40,7 @@ dashBoardControllers.controller('LocationCtrl', function LocationCtrl($scope, Us
         visible: true, // optional: defaults to true
         radius: 5000,
     }
-    
+/*
     $scope.locations = [
         {
             id: 1,
@@ -66,14 +66,12 @@ dashBoardControllers.controller('LocationCtrl', function LocationCtrl($scope, Us
         }
 
     ];
+*/
 
-
-/*
     UserLocations.query(function(response) {
         $scope.locations = response;
     });
 
-*/
 });
 
 dashBoardControllers.controller('UserCtrl', function UserCtrl($scope, User) {

@@ -33,3 +33,14 @@ class UserLocationSeralizer(ModelSerializer):
         model = UserLocation
         #fields = ('title', 'userProfile', 'lat', 'lng')
         read_only_fields = ('userProfile')
+
+    center = serializers.SerializerMethodField()
+    radius = serializers.SerializerMethodField()
+
+
+    def get_center(self, obj):
+        center = {'latitude': obj.lat, 'longitude': obj.lng}
+        return center
+
+    def get_radius(self, obj):
+        return 5000
