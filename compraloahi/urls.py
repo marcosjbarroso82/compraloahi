@@ -7,6 +7,7 @@ from apps.ad import views as adViews
 from apps.user import views as userViews
 from apps.userProfile.views import UserProfileModelView
 from apps.message.views import  MessageDetail, MessageModelViewSet
+from apps.userProfile.views import UserLocationViewSet
 
 from rest_framework.routers import DefaultRouter
 
@@ -14,7 +15,9 @@ from apps.user.views import ChangePasswordUpdateAPIView
 
 router = DefaultRouter()
 router.register(r'ads', adViews.AdViewSet)
+router.register(r'user-locations', UserLocationViewSet)
 #router.register(r'users', userViews.UserViewSet)
+
 urlpatterns = patterns('',
                         url(r'^api/v1/', include(router.urls)),
 

@@ -3,16 +3,18 @@ from django.utils.decorators import method_decorator
 from django.http import HttpResponseRedirect
 from django.views.generic import CreateView, UpdateView, DetailView
 
-from .models import UserProfile
+from .models import UserProfile, UserLocation
 from .forms import UserProfileForm, Phone_inline_formset, Location_inline_formset
 
 from rest_framework.viewsets import ModelViewSet, ViewSet
 from rest_framework.generics import RetrieveAPIView
 
-from .serializers import UserProfileSerializer
+from .serializers import UserProfileSerializer, UserLocationSeralizer
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from rest_framework import status
+
+from rest_framework import viewsets
 
 class UserProfileModelView(ModelViewSet):
     serializer_class = UserProfileSerializer
@@ -207,6 +209,15 @@ class UserProfileDetailView(DetailView):
         except:
             return None
 
+class UserLocationViewSet(viewsets.ModelViewSet):
+
+    queryset = UserLocation.objects.all()
+    serializer_class = UserLocationSeralizer
+    #filter_backends = (filters.DjangoFilterBackend,)
+    #filter_fields = ('title', 'slug', 'id')
+
+    def pre_save(self, obj):
+        obj.author = self.request.user
 
 
 

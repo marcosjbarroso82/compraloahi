@@ -20,7 +20,7 @@
             <li role="presentation" class="active"><a ui-sref="profile-detail" id="btn-profile" href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a></li>
             <li role="presentation"><a id="message-home" ui-sref="messages" aria-controls="message" role="tab" data-toggle="tab">Messages</a></li>
             <li role="presentation" id="my_ads"><a ui-sref="my-ads" aria-controls="ads" role="tab" data-toggle="tab">My ads</a></li>
-            <li role="presentation"><a href="#locations" aria-controls="locations" role="tab" data-toggle="tab">My locations</a></li>
+            <li role="presentation"><a ui-sref="my-locations" aria-controls="locations" role="tab" data-toggle="tab">My locations</a></li>
             <li role="presentation"><a href="#agenda" aria-controls="agenda" role="tab" data-toggle="tab">My agenda</a></li>
         </ul>
     </div><!-- /span-3 -->
@@ -36,6 +36,13 @@
     <script type="text/javascript" src="{% static 'bower_components/angular-route/angular-route.js' %}"></script>
     <script type="text/javascript" src="{% static 'bower_components/angular-ui-router/release/angular-ui-router.js' %}"></script>
     <script type="text/javascript" src="{% static 'bower_components/angular-sanitize/angular-sanitize.js' %}"></script>
+
+    <script src='//maps.googleapis.com/maps/api/js?sensor=true'></script>
+    <script type="text/javascript" src="{% static 'bower_components/lodash/dist/lodash.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bower_components/angular-google-maps/dist/angular-google-maps.js' %}"></script>
+
+
+
     <script type="text/javascript" src="{% static 'dashboard/services.js' %}"></script>
     <script type="text/javascript" src="{% static 'dashboard/controllers.js' %}"></script>
     <script type="text/javascript" src="{% static 'dashboard/app.js' %}"></script>

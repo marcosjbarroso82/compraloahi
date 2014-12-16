@@ -4,7 +4,8 @@ angular.module('dashBoardApp', [
         'dashBoardApp.services',
         'dashBoardApp.controllers',
         'dashBoardApp.profile',
-        'ngSanitize'
+        'ngSanitize',
+        'uiGmapgoogle-maps'
     ])
     .config(function ($interpolateProvider, $httpProvider, $resourceProvider, $stateProvider, $urlRouterProvider) {
         // Force angular to use square brackets for template tag
@@ -31,6 +32,11 @@ angular.module('dashBoardApp', [
                 url: '/my-ads',
                 templateUrl: '/static/dashboard/ad/templates/ad-list.html',
                 controller: 'AdCtrl'
+            })
+            .state('my-locations', {
+                url: '/my-locations',
+                templateUrl: '/static/dashboard/locations/templates/locations-list.html',
+                controller: 'LocationCtrl'
             })
             .state('profile-detail', {
                 url: '/profile-detail',

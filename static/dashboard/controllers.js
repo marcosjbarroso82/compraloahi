@@ -20,6 +20,37 @@ dashBoardControllers.controller('AdCtrl', function AdCtrl($scope, Ad) {
     }
 });
 
+dashBoardControllers.controller('LocationCtrl', function LocationCtrl($scope, UserLocations) {
+    $scope.map = {center: {latitude: -31.4179952, longitude: -64.1890513 }, zoom: 9 };
+    $scope.options = {scrollwheel: false};
+    $scope.location_options = {
+        stroke: {
+                color: '#08B21F',
+                weight: 2,
+                opacity: 1
+            },
+            fill: {
+                color: '#08B21F',
+                opacity: 0.5
+            },
+        geodesic: true, // optional: defaults to false
+        draggable: true, // optional: defaults to false
+        clickable: true, // optional: defaults to true
+        editable: true, // optional: defaults to false
+        visible: true, // optional: defaults to true
+        radius: 5000,
+    }
+    $scope.locations = [];
+
+
+
+    UserLocations.query(function(response) {
+        $scope.locations = response;
+    });
+
+
+});
+
 dashBoardControllers.controller('UserCtrl', function UserCtrl($scope, User) {
     $scope.users = {};
 

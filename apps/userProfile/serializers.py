@@ -31,5 +31,5 @@ class UserLocationSeralizer(ModelSerializer):
 
     class Meta:
         model = UserLocation
-        fields = ('title', 'userProfile', 'lat', 'lng')
+        #fields = ('title', 'userProfile', 'lat', 'lng')
         read_only_fields = ('userProfile')

@@ -15,6 +15,8 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User, unique=True)
     #phones = models.ManyToOneRel(Phone)
 
+    def __str__(self):
+        return 'profile ' + self.user.username
 
 class Phone(models.Model):
     number = models.IntegerField()

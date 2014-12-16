@@ -10,6 +10,9 @@ angular.module('dashBoardApp.services', ['ngResource'])
     .factory('User', function($resource) {
         return $resource('/api/v1/users/:id/');
     })
+    .factory('UserLocations', function($resource) {
+        return $resource('/api/v1/user-locations/:id/');
+    })
     /*
      .factory('Message', function($resource) {
      return $resource('/api/v1/messages/:id/');
@@ -46,7 +49,7 @@ angular.module('dashBoardApp.services', ['ngResource'])
                     .fail(function(){
                         reject('Error al enviar la respuesta');
                     });
-            });
+                });
         }
 
 
