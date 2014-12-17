@@ -1,6 +1,17 @@
 <div id="container-profile" ng-controller="LocationCtrl">
-    <div class="col-md-5 col-lg-5" >
+    <div class="col-md-7 col-lg-7" >
         <h3>Ubicaciones</h3>
+
+
+        <div>
+            <label>Nombre:</label><input type="text" ng-model="location.title"><br/>
+            <google-places location=location></google-places>
+            <button ng-click="doSearch()" class="btn btn-large btn-primary">Search</button>
+            <label>lat:[[ location.lat ]]</label><br/>
+            <label>lng:[[ location.lng ]]</label><br/>
+            <button ng-click="addLocation()">Agregar</button>
+        </div>
+
         <table class="table"
                style=" table-layout: fixed;
                 word-wrap: break-word;
@@ -8,7 +19,7 @@
                 border: 3px solid yellow; ">
 
             <thead>
-            <td>Nombre</td><td >Dirección</td><td>Latitud</td><td>Longitud</td><td>Radio</td>
+            <td>Nombre</td><td >Dirección</td><td>Latitud</td><td>Longitud</td><td>Radio</td><td>Acciones</td>
             </thead>
 
             <tbody>
@@ -18,37 +29,27 @@
                 <td><input type="number" ng-model="location.center.latitude" decimal></td>
                 <td><input type="number" ng-model="location.center.longitude" decimal></td>
                 <td><input type="number" ng-model="location.radius" decimal></td>
+                <td class="td-actions">
+                    <div class="btn-toolbar" role="toolbar">
+                        <div class="btn-group-xs">
+
+                            <button type="button" class="btn btn-xs pull-left" aria-label="Center Align">
+                                <span class="glyphicon glyphicon-ok" ng-click="update(location)" aria-hidden="true"></span></button>
+                            <button type="button" class="btn btn-xs pull-left" aria-label="Right Align"
+                                    ng-click="deleteLocation(location, $index)">
+                                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                        </div>
+                    </div>
+                </td>
             </tr>
             </tbody>
-
         </table>
 
-        <h3>Ubicaciones</h3>
-        <table class="table"
-               style=" table-layout: fixed;
-                word-wrap: break-word;
-                overflow: hidden;
-                border: 3px solid yellow; ">
 
-            <thead>
-            <td>Nombre</td><td >Dirección</td><td>Latitud</td><td>Longitud</td><td>Radio</td>
-            </thead>
-
-            <tbody>
-            <tr  ng-repeat="location in locations track by location.id">
-                <td ><input value="[[ location.title ]]"></td>
-                <td ><input value="[[ location.address ]]"></td>
-                <td><input value="[[ location.center.latitude ]]"></td>
-                <td><input value="[[ location.center.longitude ]]"></td>
-                <td><input value="[[ location.radius ]]"></td>
-            </tr>
-            </tbody>
-
-        </table>
 
 
     </div>
-    <div class="col-md-7 col-lg-7" >
+    <div class="col-md-5 col-lg-5" >
         <ui-gmap-google-map center="map.center" zoom="map.zoom" draggable="true" options="options">
             <ui-gmap-circle ng-repeat="location in locations track by location.id"
                             center="location.center"

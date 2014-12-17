@@ -216,8 +216,12 @@ class UserLocationViewSet(viewsets.ModelViewSet):
     #filter_backends = (filters.DjangoFilterBackend,)
     #filter_fields = ('title', 'slug', 'id')
 
-    def pre_save(self, obj):
-        obj.author = self.request.user
+    def create(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.DATA)
+        serializer.is_valid()
+        serializer.save(userProfile=UserProfile.objects.get(user=request.user))
+        return Response({'status': 'Ok request.', 'message': 'Los datos de usuario se modificaron con exito'}, status=status.HTTP_201_CREATED )
+
 
 
 

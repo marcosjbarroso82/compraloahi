@@ -5,7 +5,8 @@ angular.module('dashBoardApp', [
         'dashBoardApp.controllers',
         'dashBoardApp.profile',
         'ngSanitize',
-        'uiGmapgoogle-maps'
+        'uiGmapgoogle-maps',
+        'OtdDirectives'
     ])
     .config(function ($interpolateProvider, $httpProvider, $resourceProvider, $stateProvider, $urlRouterProvider) {
         // Force angular to use square brackets for template tag
