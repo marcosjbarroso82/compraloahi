@@ -1,6 +1,17 @@
 <div id="container-profile" ng-controller="LocationCtrl">
     <div class="col-md-7 col-lg-7" >
         <h3>Ubicaciones</h3>
+
+
+        <div>
+            <label>Nombre:</label><input type="text" ng-model="location.title"><br/>
+            <google-places location=location></google-places>
+            <button ng-click="doSearch()" class="btn btn-large btn-primary">Search</button>
+            <label>lat:[[ location.lat ]]</label><br/>
+            <label>lng:[[ location.lng ]]</label><br/>
+            <button ng-click="addLocation()">Agregar</button>
+        </div>
+
         <table class="table"
                style=" table-layout: fixed;
                 word-wrap: break-word;
@@ -21,10 +32,9 @@
                 <td class="td-actions">
                     <div class="btn-toolbar" role="toolbar">
                         <div class="btn-group-xs">
-                            <button type="button" class="btn btn-xs pull-left" aria-label="Left Align">
-                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
+
                             <button type="button" class="btn btn-xs pull-left" aria-label="Center Align">
-                                <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>
+                                <span class="glyphicon glyphicon-ok" ng-click="update(location)" aria-hidden="true"></span></button>
                             <button type="button" class="btn btn-xs pull-left" aria-label="Right Align"
                                     ng-click="deleteLocation(location, $index)">
                                 <span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
@@ -33,17 +43,8 @@
                 </td>
             </tr>
             </tbody>
-
-
-
         </table>
-        <div>
-            <label>Address:</label><input type="text" name="address"><br/>
-            <label>lat:[[ new_location.lat ]]</label><br/>
-            <label>lng:[[ new_location.lng ]]</label><br/>
-            <button>Buscar</button>
-            <button>Agregar</button>
-        </div>
+
 
 
 

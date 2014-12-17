@@ -33,6 +33,7 @@ class UserLocationSeralizer(ModelSerializer):
         model = UserLocation
         #fields = ('title', 'userProfile', 'lat', 'lng')
         read_only_fields = ('userProfile')
+        depth = 1
 
     center = serializers.SerializerMethodField()
     radius = serializers.SerializerMethodField()
