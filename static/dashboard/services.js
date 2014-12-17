@@ -5,7 +5,10 @@
 
 angular.module('dashBoardApp.services', ['ngResource'])
     .factory('Ad', function($resource) {
-        return $resource('/api/v1/ads/:id/')
+        $resource.my_query = function(url){
+            return $http.get(url);
+        };
+        return $resource('/api/v1/ads/:id/:page');
     })
     .factory('User', function($resource) {
         return $resource('/api/v1/users/:id/');

@@ -3,9 +3,27 @@ var dashBoardControllers = angular.module('dashBoardApp.controllers', []);
 dashBoardControllers.controller('AdCtrl', function AdCtrl($scope, Ad) {
     $scope.ads = {};
 
-    Ad.query(function(response) {
-        $scope.ads = response;
+    Ad.get(function(response) {
+        $scope.ads = response.results;
+        $scope.count_page = response.count;
+        $scope.next_url = response.next;
+        $scope.previous_url = response.previous;
+
     });
+
+    $scope.next = function(){
+        console.log("ENTROO AL NEXT");
+        console.log($scope.next_url);
+        /*
+        Ad.my_query($scope.next_url).then(getSuccess);
+        function getSucccess(data, headers, status){
+            console.log(data);
+            $scope.ads = data.results;
+        }*/
+        Ad.query(function(response) {
+            $scope.ads = response.results;
+        });
+    };
 
     $scope.submitAd= function(text) {
         var ad = new Ad({text: text});
@@ -77,9 +95,9 @@ dashBoardControllers.controller('LocationCtrl', function LocationCtrl($scope, Us
         location.lat = location.center.latitude;
         location.lng = location.center.longitude;
         console.log("UPDATE FUNCTION");
-      UserLocations.update(location, function(){
-          window.alert("CAMBIO!");
-      });
+        UserLocations.update(location, function(){
+            window.alert("CAMBIO!");
+        });
     };
 
 });
