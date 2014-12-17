@@ -73,4 +73,9 @@ angular.module('dashBoardApp', [
                 controllerAs: 'vm'
             })
 
+            .state('agenda', {
+                url: '/agenda',
+                templateUrl: '/static/dashboard/agenda/templates/agenda.html'
+            })
+
     });
