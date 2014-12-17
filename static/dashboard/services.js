@@ -27,7 +27,8 @@ angular.module('dashBoardApp.services', ['ngResource'])
             getMsgs:getMsgs,
             getMsgThread:getMsgThread,
             getMsg: getMsg,
-            reply: reply
+            reply: reply,
+            delete_bulk: delete_bulk
         };
 
         function getMsgs(folder){
@@ -56,6 +57,11 @@ angular.module('dashBoardApp.services', ['ngResource'])
                 });
         }
 
+        function delete_bulk(messages){
+            console.log("DELETE_BULK");
+            console.log(messages);
+            return $http.patch('/api/v1/messages/delete-bulk/', messages);
+        }
 
         /*
          // We replaced this function with Reply() because aparently we have problems with the content type

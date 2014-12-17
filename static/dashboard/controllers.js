@@ -113,6 +113,25 @@ dashBoardControllers.controller('MessageCtrl', function MessageCtrl($scope, Mess
         }
     }
 
+    $scope.delete_bulk = function(){
+        var messages = [];
+        for(var i=0; i < $scope.messages.length; i++){
+            if($scope.messages[i].selected){
+                messages.push($scope.messages[i]);
+            }
+        }
+
+        Message.delete_bulk(messages).then(deleteSuccess, deleteError);
+
+        function deleteSuccess(data, headers, status){
+            console.log(data.data);
+        }
+
+        function deleteError(data, headers, status){
+            console.log(data.data);
+        }
+    }
+
     $scope.messages = $scope.loadMessages('inbox');
 });
 

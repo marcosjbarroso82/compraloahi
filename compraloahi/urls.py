@@ -43,6 +43,8 @@ urlpatterns = patterns('',
                         url(r'^api/v1/messages/(?P<folder>\w+)/$', MessageModelViewSet.as_view({'get': 'list'}), name='api-message-list'),
 
 
+                        url(r'^api/v1/messages/delete-bulk/$', 'apps.message.views.message_bulk_delete', name='api-message-delete-bulk'),
+
                         url(r'^dashboard/.*$', ApiDashBoardView.as_view(), name='dashboard' ),
                         # Admin django
                         url(r'^admin/', include(admin.site.urls)),
