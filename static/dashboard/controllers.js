@@ -40,37 +40,17 @@ dashBoardControllers.controller('LocationCtrl', function LocationCtrl($scope, Us
         visible: true, // optional: defaults to true
         radius: 5000,
     }
-/*
-    $scope.locations = [
-        {
-            id: 1,
-            title: "pos1",
-            lat: -31.4179952,
-            lng: -64.1890513,
-            radius: 5000,
-            center:{
-                latitude: -31.4179952,
-                longitude: -64.1890513,
-            },
-        },
-        {
-            id: 2,
-            title: "pos2",
-            lat: -31.5179952,
-            lng: -64.1890513,
-            radius: 5000,
-            center:{
-                latitude: -31.5179952,
-                longitude: -64.1890513,
-            },
-        }
-
-    ];
-*/
+    $scope.locations = {};
 
     UserLocations.query(function(response) {
         $scope.locations = response;
     });
+
+    $scope.deleteLocation = function(location, index) {
+        $scope.locations[index].$delete(function() {
+            $scope.locations.splice(index, 1);
+        });
+    }
 
 });
 

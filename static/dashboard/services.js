@@ -11,7 +11,7 @@ angular.module('dashBoardApp.services', ['ngResource'])
         return $resource('/api/v1/users/:id/');
     })
     .factory('UserLocations', function($resource) {
-        return $resource('/api/v1/user-locations/:id/');
+        return $resource('/api/v1/user-locations/:id', { id: '@id' });
     })
     /*
      .factory('Message', function($resource) {
