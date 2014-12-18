@@ -4,30 +4,6 @@
 //adServices.js
 
 angular.module('dashBoardApp.services', ['ngResource'])
-    .factory('Ad', function($resource) {
-        $resource.my_query = function(url){
-            return $http.get(url);
-        };
-        //return $resource('/api/v1/ads/:id/:page');
-        return $resource(
-            '/api/v1/ads/:id/', {}, {
-                get: {
-                    method: 'GET',
-                    id: '@id',
-                    transformResponse: function(data, headers){
-                        data = angular.fromJson(data);
-
-                        // Rewrite Next and Previous
-                        data.next = data.next ? getPageFromUrl(data.next) : "";
-                        data.previous = data.previous ? getPageFromUrl(data.previous) : "";
-
-                        return data;
-                    }
-                }
-            }
-
-        );
-    })
     .factory('User', function($resource) {
         return $resource('/api/v1/users/:id/');
     })
@@ -38,11 +14,6 @@ angular.module('dashBoardApp.services', ['ngResource'])
             }
         });
     })
-    /*
-     .factory('Message', function($resource) {
-     return $resource('/api/v1/messages/:id/');
-     });
-     */
     .factory('Message', function($resource, $http, $q) {
         var msgs = {
             getMsgs:getMsgs,
@@ -98,22 +69,3 @@ angular.module('dashBoardApp.services', ['ngResource'])
 
         return msgs;
     });
-
-function getPageFromUrl(url) {
-    console.log("getPageFromUrl " + url);
-    url = url.split(/\?|\&/);
-    //previous = previous.split(/\?|\&/);
-    var params = [];
-    var page = "";
-    url.forEach( function(str_param) {
-        if (str_param) {
-            console.log(str_param);
-            var param = str_param.split("=");
-            if (param[0] == 'page') {
-                console.log("found page: " + param[1]);
-                page = param[1];
-            }
-        }
-    });
-    return page;
-}

@@ -1,5 +1,6 @@
 var dashBoardControllers = angular.module('dashBoardApp.controllers', []);
 
+/*
 dashBoardControllers.controller('AdCtrl', function AdCtrl($scope, Ad) {
     $scope.ads = {};
     $scope.next_page = null;
@@ -37,7 +38,7 @@ dashBoardControllers.controller('AdCtrl', function AdCtrl($scope, Ad) {
     }
 
 });
-
+*/
 dashBoardControllers.controller('LocationCtrl', function LocationCtrl($scope, UserLocations) {
     $scope.map = {center: {latitude: -31.4179952, longitude: -64.1890513 }, zoom: 9 };
     $scope.options = {scrollwheel: false};

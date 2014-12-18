@@ -4,6 +4,7 @@ angular.module('dashBoardApp', [
         'dashBoardApp.services',
         'dashBoardApp.controllers',
         'dashBoardApp.profile',
+        'dashBoardApp.ad',
         'ngSanitize',
         'uiGmapgoogle-maps',
         'OtdDirectives'
@@ -73,5 +74,4 @@ angular.module('dashBoardApp', [
                 controller: 'ChangePasswordController',
                 controllerAs: 'vm'
             })
-
     });
