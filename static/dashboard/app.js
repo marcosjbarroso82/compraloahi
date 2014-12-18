@@ -5,6 +5,7 @@ angular.module('dashBoardApp', [
         'dashBoardApp.controllers',
         'dashBoardApp.profile',
         'dashBoardApp.ad',
+        'dashBoardApp.message',
         'ngSanitize',
         'uiGmapgoogle-maps',
         'OtdDirectives'
