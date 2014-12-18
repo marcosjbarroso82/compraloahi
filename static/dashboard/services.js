@@ -8,17 +8,35 @@ angular.module('dashBoardApp.services', ['ngResource'])
         $resource.my_query = function(url){
             return $http.get(url);
         };
-        return $resource('/api/v1/ads/:id/:page');
+        //return $resource('/api/v1/ads/:id/:page');
+        return $resource(
+            '/api/v1/ads/:id/', {}, {
+                get: {
+                    method: 'GET',
+                    id: '@id',
+                    transformResponse: function(data, headers){
+                        data = angular.fromJson(data);
+
+                        // Rewrite Next and Previous
+                        data.next = data.next ? getPageFromUrl(data.next) : "";
+                        data.previous = data.previous ? getPageFromUrl(data.previous) : "";
+
+                        return data;
+                    }
+                }
+            }
+
+        );
     })
     .factory('User', function($resource) {
         return $resource('/api/v1/users/:id/');
     })
     .factory('UserLocations', function($resource) {
         return $resource('/api/v1/user-locations/:id', { id: '@id' }, {
-    update: {
-      method: 'PUT' // this method issues a PUT request
-    }
-  });
+            update: {
+                method: 'PUT' // this method issues a PUT request
+            }
+        });
     })
     /*
      .factory('Message', function($resource) {
@@ -57,7 +75,7 @@ angular.module('dashBoardApp.services', ['ngResource'])
                     .fail(function(){
                         reject('Error al enviar la respuesta');
                     });
-                });
+            });
         }
 
         function delete_bulk(messages){
@@ -80,3 +98,22 @@ angular.module('dashBoardApp.services', ['ngResource'])
 
         return msgs;
     });
+
+function getPageFromUrl(url) {
+    console.log("getPageFromUrl " + url);
+    url = url.split(/\?|\&/);
+    //previous = previous.split(/\?|\&/);
+    var params = [];
+    var page = "";
+    url.forEach( function(str_param) {
+        if (str_param) {
+            console.log(str_param);
+            var param = str_param.split("=");
+            if (param[0] == 'page') {
+                console.log("found page: " + param[1]);
+                page = param[1];
+            }
+        }
+    });
+    return page;
+}

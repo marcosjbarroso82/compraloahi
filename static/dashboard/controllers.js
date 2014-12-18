@@ -2,26 +2,25 @@ var dashBoardControllers = angular.module('dashBoardApp.controllers', []);
 
 dashBoardControllers.controller('AdCtrl', function AdCtrl($scope, Ad) {
     $scope.ads = {};
+    $scope.next_page = null;
+    $scope.prev_page = null;
 
     Ad.get(function(response) {
+        console.log(response);
         $scope.ads = response.results;
         $scope.count_page = response.count;
-        $scope.next_url = response.next;
-        $scope.previous_url = response.previous;
+        $scope.next_page = response.next;
+        $scope.prev_page = response.previous;
 
     });
 
-    $scope.next = function(){
-        console.log("ENTROO AL NEXT");
-        console.log($scope.next_url);
-        /*
-        Ad.my_query($scope.next_url).then(getSuccess);
-        function getSucccess(data, headers, status){
-            console.log(data);
-            $scope.ads = data.results;
-        }*/
-        Ad.query(function(response) {
+
+    $scope.get_ads_page = function(page){
+        Ad.get({"page":page},function(response) {
             $scope.ads = response.results;
+            $scope.count_page = response.count;
+            $scope.next_page = response.next;
+            $scope.prev_page = response.previous;
         });
     };
 
@@ -36,6 +35,7 @@ dashBoardControllers.controller('AdCtrl', function AdCtrl($scope, Ad) {
             $scope.ads.splice(index,1);
         });
     }
+
 });
 
 dashBoardControllers.controller('LocationCtrl', function LocationCtrl($scope, UserLocations) {
