@@ -1,6 +1,6 @@
 var dashBoardControllers = angular.module('dashBoardApp.controllers', []);
 
-
+/*
 dashBoardControllers.controller('LocationCtrl', function LocationCtrl($scope, UserLocations) {
     $scope.map = {center: {latitude: -31.4179952, longitude: -64.1890513 }, zoom: 9 };
     $scope.options = {scrollwheel: false};
@@ -64,7 +64,7 @@ dashBoardControllers.controller('LocationCtrl', function LocationCtrl($scope, Us
     };
 
 });
-
+*/
 dashBoardControllers.controller('UserCtrl', function UserCtrl($scope, User) {
     $scope.users = {};
 
