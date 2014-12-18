@@ -1,20 +1,20 @@
 /**
- * LocationCtrl
+ * UserLocationCtrl
  * @namespace dashBoardApp.location.controllers
  */
 (function () {
     'use strict';
 
     angular
-        .module('dashBoardApp.location.controllers')
-        .controller('LocationCtrl', LocationCtrl);
+        .module('dashBoardApp.userLocation.controllers')
+        .controller('UserLocationCtrl', UserLocationCtrl);
 
-    LocationCtrl.$inject = ['$scope', 'UserLocations'];
+    UserLocationCtrl.$inject = ['$scope', 'UserLocations'];
 
     /**
-     * @namespace LocationCtrl
+     * @namespace UserLocationCtrl
      */
-    function LocationCtrl($scope, UserLocations) {
+    function UserLocationCtrl($scope, UserLocations) {
         $scope.map = {center: {latitude: -31.4179952, longitude: -64.1890513 }, zoom: 9 };
         $scope.options = {scrollwheel: false};
         $scope.locations = {};

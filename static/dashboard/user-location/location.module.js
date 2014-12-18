@@ -2,14 +2,14 @@
     'use strict';
 
     angular
-        .module('dashBoardApp.location', [
-            'dashBoardApp.location.controllers',
-            'dashBoardApp.location.services'
+        .module('dashBoardApp.userLocation', [
+            'dashBoardApp.userLocation.controllers',
+            'dashBoardApp.userLocation.services'
         ]);
 
     angular
-        .module('dashBoardApp.location.controllers', []);
+        .module('dashBoardApp.userLocation.controllers', []);
 
     angular
-        .module('dashBoardApp.location.services', ['ngResource']);
+        .module('dashBoardApp.userLocation.services', ['ngResource']);
 })();

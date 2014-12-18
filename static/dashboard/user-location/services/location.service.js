@@ -6,13 +6,13 @@
     'use strict';
 
     angular
-        .module('dashBoardApp.location.services')
+        .module('dashBoardApp.userLocation.services')
         .factory('UserLocations', UserLocations);
 
     UserLocations.$inject = ['$resource'];
 
     /**
-     * @namespace Location
+     * @namespace UserLocation
      * @returns {Factory}
      */
     function UserLocations($resource) {

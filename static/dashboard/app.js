@@ -6,7 +6,7 @@ angular.module('dashBoardApp', [
         'dashBoardApp.profile',
         'dashBoardApp.ad',
         'dashBoardApp.message',
-        'dashBoardApp.location',
+        'dashBoardApp.userLocation',
         'ngSanitize',
         'uiGmapgoogle-maps',
         'OtdDirectives'
@@ -39,8 +39,8 @@ angular.module('dashBoardApp', [
             })
             .state('my-locations', {
                 url: '/my-locations',
-                templateUrl: '/static/dashboard/user-location/templates/locations-list.html',
-                controller: 'LocationCtrl'
+                templateUrl: '/static/dashboard/user-location/templates/user-locations-list.html',
+                controller: 'UserLocationCtrl'
             })
             .state('profile-detail', {
                 url: '/profile-detail',
