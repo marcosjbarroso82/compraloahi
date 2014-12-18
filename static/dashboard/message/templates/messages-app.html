@@ -1,30 +1,33 @@
 <div class="panel panel-default">
-  <div class="panel-heading">Mensajes</div>
+    <div class="panel-heading">Mensajes</div>
 
-  <ul class="nav nav-tabs">
-  <li role="presentation" class="active"><a ng-click="loadMessages('inbox')" class="btn btn-default" role="button">Inbox</a></li>
-  <li role="presentation"><a ng-click="loadMessages('sent')" class="btn btn-default" role="button">Sent</a></li>
-  <li role="presentation"><a ng-click="loadMessages('trash')" class="btn btn-default" role="button">Trash</a></li>
-  <li role="presentation"><a ng-click="loadMessages('archives')" class="btn btn-default" role="button">Archives</a></li>
-</ul>
-  <table class="table">
-  <thead>
-    <tr>
-      <th>Id</th>
-      <th>Subject</th>
-      <th>sent_at</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr ng-repeat="message in messages" ng-click="">
-      <td><a ui-sref="message-thread({id:[[ message.id ]]})">detalle</a></td>
-      <td>[[ message.id ]]</td>
-      <td>[[ message.subject ]]</td>
-      <td>[[ message.sent_at ]]</td>
-    </tr>
-  </tbody>
-</table>
+    <ul class="nav nav-tabs">
+        <li role="presentation" class="active"><a ng-click="loadMessages('inbox')" class="btn btn-default" role="button">Inbox</a></li>
+        <li role="presentation"><a ng-click="loadMessages('sent')" class="btn btn-default" role="button">Sent</a></li>
+        <li role="presentation"><a ng-click="loadMessages('trash')" class="btn btn-default" role="button">Trash</a></li>
+        <li role="presentation"><a ng-click="loadMessages('archives')" class="btn btn-default" role="button">Archives</a></li>
+    </ul>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Subject</th>
+            <th>sent_at</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="message in messages" ng-click="">
+            <td><input type="checkbox" value="message.id" ng-model="message.selected"></td>
+            <td><a ui-sref="message-thread({id:[[ message.id ]]})">detalle</a></td>
+            <td>[[ message.id ]]</td>
+            <td>[[ message.subject ]]</td>
+            <td>[[ message.sent_at ]]</td>
+
+        </tr>
+        </tbody>
+    </table>
     ...
-  </table>
+    </table>
+    <button ng-click="delete_bulk()">DELETE</button>
 </div>
 
