@@ -77,3 +77,6 @@ angular.module('dashBoardApp', [
                 controllerAs: 'vm'
             })
     });
+
+var dashBoardControllers = angular.module('dashBoardApp.controllers', []);
+angular.module('dashBoardApp.services', ['ngResource']);
