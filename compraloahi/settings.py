@@ -105,8 +105,12 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 )
 
 # Dinamic theme change
+MY_VAR = "ESTA ES MI VARIABLE"
+THEME_PATH = "/static/themes/default/"
 TEMPLATE_CONTEXT_PROCESSORS = TEMPLATE_CONTEXT_PROCESSORS + (
     "apps.theme_manager.theme_manager.css_folder",
+    "apps.theme_manager.theme_manager.my_var",
+    "apps.theme_manager.theme_manager.theme_path",
 )
 
 
@@ -190,7 +194,7 @@ HAYSTACK_CONNECTIONS = {
 }
 
 #HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
-HAYSTACK_SEARCH_RESULTS_PER_PAGE = 3
+HAYSTACK_SEARCH_RESULTS_PER_PAGE = 15
 
 COMMENTS_XTD_MAX_THREAD_LEVEL = 2
 COMMENTS_APP = "django_comments_xtd"
@@ -216,3 +220,4 @@ REST_FRAMEWORK = {
 
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+

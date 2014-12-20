@@ -1,0 +1,24 @@
+.prod-img-thumbnail {
+    height: 100%;
+    width: 100%;
+}
+
+.search-form {
+    padding-bottom: 10px;
+}
+
+.list-group-item {
+    padding: 10px;
+}
+
+.list-action
+{
+    display: inline-block;
+    width: 100%;
+}
+
+.price {
+    font-size: 1.7em;
+    color: red;
+    padding-bottom: 10px;
+}
