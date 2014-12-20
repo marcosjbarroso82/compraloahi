@@ -156,15 +156,14 @@ function loadPosition(){
 
         // escucha a las posiciones
         google.maps.event.addListener(ad_position_areas[ad_id],'mouseover',function(pk){
-            $('li[data_pk="'+ this.pk +'"]').css('background-color', '#8686DE');
+            $('li[data_pk="'+ this.pk +'"]').addClass("list-group-item-hover");
         });
         google.maps.event.addListener(ad_position_areas[ad_id],'mouseout',function(pk){
-            $('li[data_pk="'+ this.pk +'"]').css('background-color', '#fff');
+            $('li[data_pk="'+ this.pk +'"]').removeClass("list-group-item-hover")
 
         });
 
         google.maps.event.addListener(ad_position_areas[ad_id], 'click', function(event) {
-            $('li[data_pk="'+ ad_id +'"]').css('background-color', '#8686DE');
 
               $('html, body').animate({
                 scrollTop: $("#ad-anchor-" + ad_id).offset().top - 70
@@ -178,12 +177,16 @@ function loadPosition(){
          function(){
          ad_position_areas[ad_id].setMap(map);
          ad_position_areas[ad_id].setOptions({strokeWeight: 2.0, fillColor: 'red'});
+             $(this).addClass("list-group-item-hover");
          },
          function(){
          ad_position_areas[ad_id].setOptions({strokeWeight: 2.0, fillColor: 'green'});
+             $(this).removeClass("list-group-item-hover")
          })
 
          });
+        // $(this).addClass("list-group-item-hover");
+
 
     map.fitBounds(map_bounds);
 }

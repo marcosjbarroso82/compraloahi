@@ -165,7 +165,7 @@
                         <div class="media-body col-lg-8">
                             <h4 class="media-heading">{{ ad.title }}</h4>
                             <small> publish: {{ ad.pub_date }} </small>
-                            <p> {{ ad.short_description }} </p>
+                            <p> {{ ad.short_description | truncatechars:100}} </p>
 
                             {% with ad.locations.all|first as location %}
                                 <span class="lat" hidden="true"> {{ ad.location.y }}</span>
@@ -178,14 +178,11 @@
                             </div>
                             <div>
 
-                                <div class="list-action">
                                     <a class="btn btn-default btn-sm pull-right"  href="/ad/{{ ad.slug }}"><span class="glyphicon glyphicon-heart-empty"></span></a>
-                                </div>
-                                <div class="list-action">
-                                    <a class="btn btn-default btn-sm pull-right"  href="/ad/{{ ad.slug }}"><span class="glyphicon glyphicon-map-marker"></span></a>
-                                </div>
+                                   <a class="btn btn-default btn-sm pull-right"  href="/ad/{{ ad.slug }}"><span class="glyphicon glyphicon-map-marker"></span></a>
                             </div>
                         </div>
+
                     </li>
                 {% endfor %}
 
