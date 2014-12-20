@@ -7,10 +7,6 @@
     padding-bottom: 10px;
 }
 
-.list-group-item {
-    padding: 10px;
-}
-
 .list-group-item-hover {
 -webkit-box-shadow: 0 0 4px 2px rgb(238, 7, 63);
 -moz-box-shadow: 0 0 4px 2px rgb(238, 7, 63);
@@ -19,14 +15,61 @@ box-shadow: 0 0 4px 2px rgb(238, 7, 63);
 
 .list-action
 {
-    display: inline-block;
-    width: 100%;
+display: inline-block;
+width: 100%;
 }
 
 .price {
-    font-size: 1.5em;
-    color: red;
-    padding-bottom: 10px;
-    font-weight: 600;
-    font-style: italic;
+font-size: 1.5em;
+color: red;
+padding-bottom: 10px;
+font-weight: 600;
+font-style: italic;
+}
+
+#ad-list .list-group-item {
+    padding: 10px;
+}
+
+span.list-group-item {
+    font-weight: 900;
+}
+
+a.list-group-item {
+    padding-left: 30px;
+}
+
+.mini-submenu{
+  display:none;
+  background-color: rgba(0, 0, 0, 0);
+  border: 1px solid rgba(0, 0, 0, 0.9);
+  border-radius: 4px;
+  padding: 9px;
+  /*position: relative;*/
+  width: 42px;
+
+}
+
+.mini-submenu:hover{
+  cursor: pointer;
+}
+
+.mini-submenu .icon-bar {
+  border-radius: 1px;
+  display: block;
+  height: 2px;
+  width: 22px;
+  margin-top: 3px;
+}
+
+.mini-submenu .icon-bar {
+  background-color: #000;
+}
+
+#slide-submenu{
+  background: rgba(0, 0, 0, 0.45);
+  display: inline-block;
+  padding: 0 8px;
+  border-radius: 4px;
+  cursor: pointer;
 }
