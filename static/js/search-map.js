@@ -154,13 +154,19 @@ function loadPosition(){
             zIndex: 11
         });
 
+        locate_btn = $(this).find("a.locate-it")[0];
+        $(locate_btn).click(function(e){
+            e.preventDefault();
+            map.panTo(latLng);
+        });
+
+
         // escucha a las posiciones
         google.maps.event.addListener(ad_position_areas[ad_id],'mouseover',function(pk){
             $('li[data_pk="'+ this.pk +'"]').addClass("list-group-item-hover");
         });
         google.maps.event.addListener(ad_position_areas[ad_id],'mouseout',function(pk){
             $('li[data_pk="'+ this.pk +'"]').removeClass("list-group-item-hover")
-
         });
 
         google.maps.event.addListener(ad_position_areas[ad_id], 'click', function(event) {

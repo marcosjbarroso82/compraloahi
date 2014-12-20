@@ -1,3 +1,7 @@
+.container.ad-list {
+    padding-top: 20px;
+}
+
 .prod-img-thumbnail {
     height: 100%;
     width: 100%;
@@ -21,7 +25,7 @@ width: 100%;
 
 .price {
 font-size: 1.5em;
-color: red;
+color: rgb(0, 152, 22);
 padding-bottom: 10px;
 font-weight: 600;
 font-style: italic;

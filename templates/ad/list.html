@@ -170,8 +170,8 @@
                                 </div>
                                 <div>
 
-                                    <a class="btn btn-default btn-sm pull-right"  href="/ad/{{ ad.slug }}"><span class="glyphicon glyphicon-heart-empty"></span></a>
-                                    <a class="btn btn-default btn-sm pull-right"  href="/ad/{{ ad.slug }}"><span class="glyphicon glyphicon-map-marker"></span></a>
+                                    <a class="set-favourite btn btn-default btn-sm pull-right"  href="/ad/{{ ad.slug }}"><span class="glyphicon glyphicon-heart-empty"></span></a>
+                                    <a class="locate-it btn btn-default btn-sm pull-right"  href="/ad/{{ ad.slug }}"><span class="glyphicon glyphicon-map-marker"></span></a>
                                 </div>
                             </div>
 
@@ -234,7 +234,7 @@
             $("#collapseTwo").collapse('hide');
             $("#collapseOne").collapse("show");
         });
-        $("#ads-list").mouseenter(function() {
+        $("#ads-list .list-group-item").mouseenter(function() {
             $("#collapseTwo").collapse('hide');
             $("#collapseOne").collapse("show");
         });
