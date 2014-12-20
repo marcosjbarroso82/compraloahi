@@ -33,20 +33,21 @@
                         </span>
 
                             </div>
+                            <!-- Radius -->
+                            <div class="">
+                                <div class="range range-success">
+                                    <input id="map_radius" type="range" name="map_radius" min="1" max="6000" value="1000" onchange="range.value= value">
+                                    <output id="range">1000</output>
+                                </div>
+                                <div class="help">Radius</div>
+                            </div>
                             <br>
                             <!-- Map -->
                             <div class="">
                                 <div id="mapa" class="capas img-thumbnail"></div>
                             </div>
 
-                            <!-- Radius -->
-                            <div class="">
-                                <div class="range range-success">
-                                    <input id="map_radius" type="range" name="map_radius" min="1" max="6000" value="1000" onchange="range.value=value">
-                                    <output id="range">1000</output>
-                                </div>
-                                <div class="help">Radius</div>
-                            </div>
+
 
                         </div>
                     </div>
@@ -101,6 +102,8 @@
         </div>
         <div class="col-lg-7 content pull-right">
             <!-- FORM SEARCH -->
+        <div>
+
             <form method="get" action="/ad/ad-list/" class="search-form">
                 <div class="">
                     <!-- TAG -->
@@ -139,6 +142,8 @@
 
                 </div>
             </form>
+        </div>
+<div>
 
             {% bootstrap_messages %}
             <div id="ad-list" class="">
@@ -155,7 +160,7 @@
                                 {% endwith %}
                             </div>
                             <div class="media-body col-lg-8">
-                                <h4 class="media-heading">{{ ad.title }}</h4>
+                                <a href="/ad/{{ ad.slug }}"><h4 class="media-heading">{{ ad.title }}</h4></a>
                                 <small> publish: {{ ad.pub_date }} </small>
                                 <p> {{ ad.short_description | truncatechars:100}} </p>
 
@@ -170,7 +175,7 @@
                                 </div>
                                 <div>
 
-                                    <a class="set-favourite btn btn-default btn-sm pull-right"  href="/ad/{{ ad.slug }}"><span class="glyphicon glyphicon-heart-empty"></span></a>
+                                    <a class="set-favourite btn btn-default btn-sm pull-right"><span class="glyphicon glyphicon-heart-empty"></span></a>
                                     <a class="locate-it btn btn-default btn-sm pull-right"  href="/ad/{{ ad.slug }}"><span class="glyphicon glyphicon-map-marker"></span></a>
                                 </div>
                             </div>
@@ -204,6 +209,8 @@
 
 
             </div>
+</div>
+
         </div>
     </div>
 {% endblock %}
@@ -235,14 +242,46 @@
             $("#collapseOne").collapse("show");
         });
         $("#ads-list .list-group-item").mouseenter(function() {
-            $("#collapseTwo").collapse('hide');
             $("#collapseOne").collapse("show");
+            $("#collapseTwo").collapse('hide');
         });
 
         $("#collapseTwoWrapper").mouseenter(function() {
             $("#collapseTwo").collapse('show');
             $("#collapseOne").collapse("hide");
         });
+
+        $(".glyphicon-heart").click(function(){
+            addToFavourites(this);
+        });
+        $(".glyphicon-heart-empty").click(function(){
+            removeFromFavourites(this);
+        });
+
+        function addToFavourites(element){
+            console.log("like it");
+            console.log(element);
+
+            $(element).removeClass("glyphicon-heart-empty");
+            $(element).addClass("glyphicon-heart");
+            $(element).unbind( "click" );
+            $(element).click(function(){
+            removeFromFavourites(this);
+            });
+
+        }
+
+        function removeFromFavourites(element){
+            console.log("Dislike it");
+            console.log(element);
+
+            $(element).addClass("glyphicon-heart-empty");
+            $(element).removeClass("glyphicon-heart");
+            $(element).unbind( "click" );
+            $(element).click(function(){
+            addToFavourites(this);
+            });
+        }
 
 
     </script>
