@@ -1,3 +1,7 @@
+#ad-list .list-group-item{
+    height: 120px;
+}
+
 .container.ad-list {
     padding-top: 20px;
 }
