@@ -10,137 +10,168 @@
 {% block body_block %}
 
     <div class="container" >
-        <div class="col-lg-5 sidebar" id="siderbar">
-            <div class="">
-                <div class="">
-                    <!-- Address -->
-                    <div class="input-group stylish-input-group">
-                        <input id="address"  class="form-control form-inline col-md-10" type="text" placeholder="Ingrese la Dirección"/>
+        <div class="col-lg-5 sidebar pull-left" id="siderbar">
+            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                <div id="collapseOneWrapper" class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="headingOne">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                Mapa
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                        <div class="">
+                            <!-- Address -->
+                            <div class="input-group stylish-input-group">
+                                <input id="address"  class="form-control form-inline col-md-10" type="text" placeholder="Ingrese la Dirección"/>
                         <span class="input-group-addon">
                             <button id="search_address_btn" type="submit" >
                                 <i class="glyphicon glyphicon-search"></i>
                             </button>
                         </span>
 
-                    </div>
-                    <br>
-                    <!-- Map -->
-                    <div class="">
-                        <div id="mapa" class="capas img-thumbnail"></div>
-                    </div>
+                            </div>
+                            <br>
+                            <!-- Map -->
+                            <div class="">
+                                <div id="mapa" class="capas img-thumbnail"></div>
+                            </div>
 
-                    <!-- Radius -->
-                    <div class="">
-                        <div class="range range-success">
-                            <input id="map_radius" type="range" name="map_radius" min="1" max="6000" value="1000" onchange="range.value=value">
-                            <output id="range">1000</output>
+                            <!-- Radius -->
+                            <div class="">
+                                <div class="range range-success">
+                                    <input id="map_radius" type="range" name="map_radius" min="1" max="6000" value="1000" onchange="range.value=value">
+                                    <output id="range">1000</output>
+                                </div>
+                                <div class="help">Radius</div>
+                            </div>
+
                         </div>
-                        <div class="help">Radius</div>
                     </div>
+                </div>
+                <div  id="collapseTwoWrapper" class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="headingTwo">
+                        <h4 class="panel-title">
+                            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                Filtros
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                        <div class="panel-body list-group">
+                            <!-- Categorias -->
+                            {% if facets.fields.categories %}
+                                <li href="#" class="list-group-item">
+                                    <h4 class="list-group-item-heading">Categorias</h4>
 
+                                    <ul class="list-group">
+                                        {% for category in facets.fields.categories %}
+                                            <li class="list-group-item"><a href="{{ request.get_full_path }}&amp;selected_facets=categories_exact:{{ category.0|urlencode }}">{{ category.0 }}<span class="badge">{{ category.1 }}</span></a></li>
+                                        {% endfor %}
+                                    </ul>
+                                </li>
+                            {% endif %}
+                            <!-- End Categorias -->
+
+                            <!-- Provinces -->
+                            {% if facets.fields.provinces %}
+                                <li href="#" class="list-group-item">
+                                    <h4 class="list-group-item-heading">Provincias</h4>
+
+                                    <ul class="list-group">
+                                        {% for locality in facets.fields.provinces %}
+                                            <li class="list-group-item"><a href="{{ request.get_full_path }}&amp;selected_facets=provinces_exact:{{ locality.0|urlencode }}">{{ locality.0 }}<span class="badge">{{ locality.1 }}</span></a></li>
+                                        {% endfor %}
+                                    </ul>
+                                </li>
+                            {% endif %}
+                            <!-- End Provinces -->
+
+                            <!-- Provinces -->
+                            {% if facets.fields.localities %}
+                                <li href="#" class="list-group-item">
+                                    <h4 class="list-group-item-heading">Localidades</h4>
+
+                                    <ul class="list-group">
+                                        {% for locality in facets.fields.localities %}
+                                            <li class="list-group-item"><a href="{{ request.get_full_path }}&amp;selected_facets=localities_exact:{{ locality.0|urlencode }}">{{ locality.0 }}<span class="badge">{{ locality.1 }}</span></a></li>
+                                        {% endfor %}
+                                    </ul>
+                                </li>
+                            {% endif %}
+                            <!-- End Provinces -->
+                        </div>
+                    </div>
                 </div>
             </div>
-
-            <div class="panel panel-default">
-                <div class="panel-heading text-center">Categorias</div>
-                <ul class="list-group panel-body">
-                    {% if facets.fields.categories %}
-                        {% for category in facets.fields.categories %}
-                            <li class="list-group-item"><a href="{{ request.get_full_path }}&amp;selected_facets=categories_exact:{{ category.0|urlencode }}">{{ category.0 }}<span class="badge">{{ category.1 }}</span></a></li>
-                        {% endfor %}
-                    {% else %}
-                        <li>No categories facets.</li>
-                    {% endif %}
-
-                </ul>
-            </div>
-            <div class="panel panel-default">
-                <div class="panel-heading text-center">Provinces</div>
-                <ul class="list-group panel-body">
-                    {% if facets.fields.provinces %}
-                        {% for locality in facets.fields.provinces %}
-                            <li class="list-group-item"><a href="{{ request.get_full_path }}&amp;selected_facets=provinces_exact:{{ locality.0|urlencode }}">{{ locality.0 }}<span class="badge">{{ locality.1 }}</span></a></li>
-                        {% endfor %}
-                    {% else %}
-                        <li>No localities facets.</li>
-                    {% endif %}
-
-                </ul>
-            </div>
-            <div class="panel panel-default">
-                <div class="panel-heading text-center">Localidades</div>
-                <ul class="list-group panel-body">
-                    {% if facets.fields.localities %}
-                        {% for locality in facets.fields.localities %}
-                            <li class="list-group-item"><a href="{{ request.get_full_path }}&amp;selected_facets=localities_exact:{{ locality.0|urlencode }}">{{ locality.0 }}<span class="badge">{{ locality.1 }}</span></a></li>
-                        {% endfor %}
-                    {% else %}
-                        <li>No localities facets.</li>
-                    {% endif %}
-
-                </ul>
-            </div>
-
         </div>
-
-        <div class="col-lg-7 content col-lg-offset-5">
+        <div class="col-lg-7 content pull-right">
             <!-- FORM SEARCH -->
             <form method="get" action="/ad/ad-list/">
-
                 <div class="">
+                    <!-- TAG -->
+                    <div class="input-group stylish-input-group">
+                        <input id="q" class="form-control" name="q" type="text" placeholder="Search"/>
+                        <span class="input-group-addon">
+                            <!-- SUBMIT -->
+                            <button type="submit" style="border: none; width: 100%; ">
+                                <i class="glyphicon glyphicon-search"></i>
+                            </button>
+                        </span>
+                    </div>
                     <!-- LATITUD -->
+                    <!--
                     <div>
                         <label for="q">q</label>
                         <input id="q" type="text" name="q" value="{{ form.data.q }}"/>
                     </div>
+-->
                     <!-- LATITUD -->
-                    <div>
+                    <div  hidden="true" style="display: none;">
                         <label for="lat">lat</label>
                         <input id="lat" type="text" name="lat" value="{{ form.data.lat }}"/>
                     </div>
                     <!-- LONGITUD -->
-                    <div >
+                    <div  hidden="true" style="display: none;">
                         <label for="lng">lng</label>
                         <input id="lng" type="text" name="lng" value="{{ form.data.lng }}"/>
                     </div>
 
                     <!-- RADIO -->
-                    <div >
+                    <div  hidden="true" style="display: none;">
                         <label for="radius">Radius</label>
                         <input id="radius" type="text" name="radius" value="{{ form.data.radius }}"/>
                     </div>
-                    <button type="submit" style="border: none; width: 100%; ">
-                        <i class="glyphicon glyphicon-search"></i>
-                    </button>
+
                 </div>
             </form>
 
             {% bootstrap_messages %}
             <div id="result" class="">
-                <h1>All Ads list</h1>
                 <!-- LIST -->
                 <ul id="ads-list" class="media-list">
                     {% for ad in page.object_list %}
                         <li class="media list-group-item" id="li-ad-{{ ad.id }}" data_pk="{{ ad.pk }}">
-                                <a id="ad-anchor-{{ ad.pk }}"></a>
-                                <div class="pull-left col-md-2">
+                            <a id="ad-anchor-{{ ad.pk }}"></a>
+                            <div class="pull-left col-md-2">
                                 {% with ad.image1 as image %}
                                     {% thumbnail ad.image1 "100x100" crop="center" as im %}
                                         <img id="media-object img-thumbnail" class="img-rounded" src="{{ im.url }}" alt="post img">
                                     {% endthumbnail %}
                                 {% endwith %}
-                                </div>
-                                <div class="media-body col-md-offset-3">
-                                    <h3 class="media-heading">{{ ad.title }}</h3>
-                                    <small> publish: {{ ad.pub_date }} </small>
-                                    <p class="pull-right">${{ ad.price }}</p>
-                                    <p> {{ ad.short_description }} </p>
-                                    <a class="btn btn-default pull-right"  href="/ad/{{ ad.slug }}"><span class="glyphicon glyphicon-eye-open"></span></a>
-                                    {% with ad.locations.all|first as location %}
-                                        <span class="lat" hidden="true"> {{ ad.location.y }}</span>
-                                        <span class="lng" hidden="true">{{ ad.location.x }}</span>
-                                    {% endwith %}
-                                </div>
+                            </div>
+                            <div class="media-body col-md-offset-3">
+                                <h3 class="media-heading">{{ ad.title }}</h3>
+                                <small> publish: {{ ad.pub_date }} </small>
+                                <p class="pull-right">${{ ad.price }}</p>
+                                <p> {{ ad.short_description }} </p>
+                                <a class="btn btn-default pull-right"  href="/ad/{{ ad.slug }}"><span class="glyphicon glyphicon-eye-open"></span></a>
+                                {% with ad.locations.all|first as location %}
+                                    <span class="lat" hidden="true"> {{ ad.location.y }}</span>
+                                    <span class="lng" hidden="true">{{ ad.location.x }}</span>
+                                {% endwith %}
+                            </div>
                         </li>
                     {% endfor %}
 
@@ -184,9 +215,9 @@
         $("#address").geocomplete().bind("geocode:result", function(event, result){
             position_area.setCenter(new google.maps.LatLng(result.geometry.location.lat(), result.geometry.location.lng()));
             map.setCenter(new google.maps.LatLng(result.geometry.location.lat(), result.geometry.location.lng()));
-          });
-          $("#search_address_btn").click(function(){
-          $("#address").trigger("geocode");
+        });
+        $("#search_address_btn").click(function(){
+            $("#address").trigger("geocode");
         });
 
 
@@ -194,5 +225,20 @@
     <!-- Fin - Formulario buscar direccion  -->
 
     <script src="{{ STATIC_URL }}js/search-map.js"></script>
+
+    <script>
+        $("#collapseTwoWrapper").mouseleave(function() {
+            $("#collapseTwo").collapse('hide');
+            $("#collapseOne").collapse("show");
+        });
+
+
+        $("#collapseTwoWrapper").mouseenter(function() {
+            $("#collapseTwo").collapse('show');
+            $("#collapseOne").collapse("hide");
+        });
+
+
+    </script>
 
 {% endblock %}

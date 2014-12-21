@@ -1,17 +1,23 @@
 angular.module('dashBoardApp', [
+        // Third lib
         'ui.router',
         'ngResource',
-        'dashBoardApp.services',
-        'dashBoardApp.controllers',
-        'dashBoardApp.profile',
         'ngSanitize',
         'uiGmapgoogle-maps',
-        'OtdDirectives'
+        'ui.bootstrap',
+
+        // My lib
+        'dashBoardApp.profile',
+        'dashBoardApp.ad',
+        'dashBoardApp.message',
+        'dashBoardApp.userLocation',
+        'dashBoardApp.util'
+
     ])
     .config(function ($interpolateProvider, $httpProvider, $resourceProvider, $stateProvider, $urlRouterProvider) {
         // Force angular to use square brackets for template tag
         // The alternative is using {% verbatim %}
-        $interpolateProvider.startSymbol('[[').endSymbol(']]');
+        $interpolateProvider.startSymbol('{{').endSymbol('}}');
 
         // CSRF Support
         $httpProvider.defaults.xsrfCookieName = 'csrftoken';
@@ -29,39 +35,21 @@ angular.module('dashBoardApp', [
         $urlRouterProvider.otherwise('/');
 
         $stateProvider
-            .state('my-ads', {
-                url: '/my-ads',
-                templateUrl: '/static/dashboard/ad/templates/ad-list.html',
-                controller: 'AdCtrl'
-            })
-            .state('my-locations', {
-                url: '/my-locations',
-                templateUrl: '/static/dashboard/locations/templates/locations-list.html',
-                controller: 'LocationCtrl'
-            })
-            .state('profile-detail', {
-                url: '/profile-detail',
-                templateUrl: '/static/dashboard/profile/templates/detail-profile.html',
-                controller: 'ProfileDetailController',
-                controllerAs: 'vm'
-            })
             .state('default', {
                 url: '/',
                 templateUrl: '/static/dashboard/profile/templates/detail-profile.html',
                 controller: 'ProfileDetailController',
                 controllerAs: 'vm'
             })
-            .state('messages', {
-                url: 'messages',
-                templateUrl: '/static/dashboard/message/templates/messages-app.html',
-                controller: 'MessageCtrl'
+
+            // PROFILE
+            .state('profile-detail', {
+                url: '/profile-detail',
+                templateUrl: '/static/dashboard/profile/templates/detail-profile.html',
+                controller: 'ProfileDetailController',
+                controllerAs: 'vm'
             })
-            .state('message-thread', {
-                url: 'message-thread/:id',
-                templateUrl: '/static/dashboard/message/templates/messages-thread.html',
-                controller: 'MessageThreadCtrl'
-            })
-			.state('profile-update', {
+            .state('profile-update', {
                 url: '/profile-update',
                 templateUrl: '/static/dashboard/profile/templates/update-profile.html',
                 controller: 'ProfileUpdateController',
@@ -74,9 +62,36 @@ angular.module('dashBoardApp', [
                 controllerAs: 'vm'
             })
 
+            // MESSAGE
+            .state('messages', {
+                url: 'messages',
+                templateUrl: '/static/dashboard/message/templates/messages-app.html',
+                controller: 'MessageCtrl'
+            })
+            .state('message-thread', {
+                url: 'message-thread/:id',
+                templateUrl: '/static/dashboard/message/templates/messages-thread.html',
+                controller: 'MessageThreadCtrl'
+            })
+
+            // ADS
+            .state('my-ads', {
+                url: '/my-ads',
+                templateUrl: '/static/dashboard/ad/templates/ad-list.html',
+                controller: 'AdCtrl'
+            })
+
+            // LOCATIONS
+            .state('my-locations', {
+                url: '/my-locations',
+                templateUrl: '/static/dashboard/user-location/templates/user-locations-list.html',
+                controller: 'UserLocationCtrl'
+            })
+
+            // AGENDA
             .state('agenda', {
                 url: '/agenda',
                 templateUrl: '/static/dashboard/agenda/templates/agenda.html'
             })
-
     });
+

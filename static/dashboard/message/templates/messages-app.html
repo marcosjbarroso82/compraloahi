@@ -1,5 +1,7 @@
-<div class="panel panel-default">
-    <div class="panel-heading">Mensajes</div>
+
+<div class="jumbotron">
+    <h3 class="text-center">Mensajes</h3>
+    <hr/>
 
     <ul class="nav nav-tabs">
         <li role="presentation" class="active"><a ng-click="loadMessages('inbox')" class="btn btn-default" role="button">Inbox</a></li>
@@ -7,27 +9,25 @@
         <li role="presentation"><a ng-click="loadMessages('trash')" class="btn btn-default" role="button">Trash</a></li>
         <li role="presentation"><a ng-click="loadMessages('archives')" class="btn btn-default" role="button">Archives</a></li>
     </ul>
+    <button class="btn btn-danger pull-right" ng-really-message="Are you sure ?" ng-really-click="delete_bulk()">Delete select</button>
     <table class="table">
         <thead>
         <tr>
-            <th>Id</th>
+            <th></th>
             <th>Subject</th>
             <th>sent_at</th>
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="message in messages" ng-click="">
+        <tr ng-class-odd="'odd'" ng-class-even="'even'" ng-repeat="message in messages" ng-click="">
             <td><input type="checkbox" value="message.id" ng-model="message.selected"></td>
-            <td><a ui-sref="message-thread({id:[[ message.id ]]})">detalle</a></td>
-            <td>[[ message.id ]]</td>
-            <td>[[ message.subject ]]</td>
-            <td>[[ message.sent_at ]]</td>
-
+            <td><a ui-sref="message-thread({id:{{ message.id }}})">{{ message.subject }}</a></td>
+            <td>{{ message.sent_at }}</td>
         </tr>
         </tbody>
     </table>
-    ...
+
     </table>
-    <button ng-click="delete_bulk()">DELETE</button>
+<div class="row"><hr/></div>
 </div>
 

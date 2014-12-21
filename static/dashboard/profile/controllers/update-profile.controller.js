@@ -9,12 +9,12 @@
         .module('dashBoardApp.profile.controllers')
         .controller('ProfileUpdateController', ProfileUpdateController);
 
-    ProfileUpdateController.$inject = ['Profile', '$location'];
+    ProfileUpdateController.$inject = ['Profile', '$state', 'Snackbar'];
 
     /**
      * @namespace ProfileUpdateController
      */
-    function ProfileUpdateController(Profile, $location) {
+    function ProfileUpdateController(Profile, $state, Snackbar) {
         var vm = this;
 
         vm.profile = undefined;
@@ -37,7 +37,7 @@
             }
 
             function detailError(data){
-                console.log(data);
+                Snackbar.error("Error al cargar los datos de su perfil. Intente cargar de nuevo la pagina");
             }
 
         }
@@ -47,11 +47,12 @@
             Profile.update(vm.profile).then(updateSuccess, updateError);
 
             function updateSuccess(data){
-                $location.url('/');
+                Snackbar.show("Los datos se cambiaron con exito!");
+                $state.go('profile-detail');
             }
 
             function updateError(data){
-                console.log("ERror al editar el perfil");
+                Snackbar.error("Error al intentar cambiar los datos");
             }
         }
     }

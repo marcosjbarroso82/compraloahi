@@ -9,12 +9,12 @@
         .module('dashBoardApp.profile.controllers')
         .controller('ChangePasswordController', ChangePasswordController);
 
-    ChangePasswordController.$inject = ['Profile', '$location'];
+    ChangePasswordController.$inject = ['Profile', '$state', 'Snackbar'];
 
     /**
      * @namespace ProfileUpdateController
      */
-    function ChangePasswordController(Profile, $location) {
+    function ChangePasswordController(Profile, $state, Snackbar) {
         var vm = this;
 
         vm.submit = submit;
@@ -24,11 +24,12 @@
             Profile.change_password(vm.user).then(updateSuccess, updateError);
 
             function updateSuccess(data){
-                $location.url('/');
+                $state.go('profile-detail');
+                Snackbar.show("La contraseña ha sido cambiada con exito");
             }
 
             function updateError(data){
-                console.log("Error al editar el perfil");
+                Snackbar.show("Error al cambiar la contraseña");
             }
         }
     }

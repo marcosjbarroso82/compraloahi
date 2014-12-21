@@ -1,17 +1,18 @@
 <!-- ############## PROFILE ############### -->
-<div role="tabpanel" class="tab-pane active">
-    <h2 class="text-center">EDIT PROFILE</h2>
+<div class="jumbotron">
+    <h2 class="text-center">Edit profile</h2>
     <hr/>
     <form class="panel-body body-content" ng-submit="vm.submit()" >
         <div class="row">
             <div class="col-md-3 col-lg-3 " align="center">
-                <img class="img-circle img-responsive" src="[[ vm.profile.thumbnail_200x200 ]]" height="200" width="200" >
+                <img class="img-circle img-responsive" src="{{ vm.profile.thumbnail_200x200 }}" height="200" width="200" >
+                <input type="file" accept="*/images">
             </div>
             <div class=" col-md-9 col-lg-9 ">
-                <h2>
+                <h3>
                     <input class="form-inline" ng-model="vm.profile.user.first_name" type="text" required="true"/>
                     <input class="form-inline" ng-model="vm.profile.user.last_name" type="text" required="true"/>
-                </h2>
+                </h3>
                 <table class="table table-user-information">
                     <tbody>
 
@@ -31,8 +32,7 @@
                     <td>
                         <ul>
                             <li ng-repeat="phone in vm.profile.phones">
-
-                                [[ phone.type ]] | [[ phone.number ]]
+                                {{ phone.type }} | {{ phone.number }}
                             </li>
                         </ul>
 
@@ -49,5 +49,6 @@
             <button type="submit" class="btn btn-success">OK</button>
         </div>
     </form>
+    <div class="row"><hr/></div>
 </div>
 <!-- ############## END PROFILE ############### -->

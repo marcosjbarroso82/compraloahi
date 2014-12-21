@@ -1,7 +1,15 @@
-<h3>Detalle de Mensaje</h3>
-[[ message ]]
+<div class="jumbotron">
+    <h3 class="text-center">Detalle de Mensaje</h3>
+    <hr/>
+    <div ng-repeat="msg in message">
+        <h4>{{ msg.subject }}</h4>
+        <p>{{ msg.body }}</p>
+        <hr/>
+    </div>
 
-<textarea ng-model="msgReply.body"></textarea>
-<button ng-click="reply()">RESPONDER</button>
-
-<p>fin de detalle</p>
+    <div class="row">
+        <textarea ng-model="msgReply.body" class="form-control"></textarea>
+        <button class="btn btn-info pull-right" ng-click="reply()">RESPONDER</button>
+    </div>
+    <div class="row"><hr/></div>
+</div>

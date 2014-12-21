@@ -186,7 +186,7 @@ class AdsByUser(ListView):
 
 
 class AdViewSet(viewsets.ModelViewSet):
-    paginate_by = 2
+    paginate_by = 5
     queryset = Ad.objects.all()
     serializer_class = AdSerializer
     #filter_backends = (filters.DjangoFilterBackend,)

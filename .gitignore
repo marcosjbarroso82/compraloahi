@@ -5,5 +5,8 @@
 .idea/
 .idea/*
 
+.codeintel/
+.codeintel/*
+
 compraloahi/media/cache/
 compraloahi/media/cache/*

@@ -3,8 +3,7 @@
 }
 
 #siderbar{
-    position: fixed;
-    width: 24%; /* con position fixed no toma el ancho seteado por bootstrap */
+    /* position: fixed; */
 }
 
 /* ++++++++++++ RANGE OF RADIOS +++++++++++++++ */

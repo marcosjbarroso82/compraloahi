@@ -1,68 +1,53 @@
-<table class="table table-bordred table-striped">
-    <thead>
-    <th></th>
-    <th></th>
-    <th>Acciones</th>
-    </thead>
-    <tbody id="tab-all-message">
-    <tr id="ad-row-[[ ad.id ]]" class="ad-container" ng-repeat="ad in ads">
-        <td>
-            <img id="media-object" class="img-rounded" ng-src="[[ ad.images[0].thumbnail_90x90 ]]" width="90" height="90">
-        </td>
-        <td>
-            <h3><strong>[[ ad.title ]]</strong></h3>
-            <small>[[ ad.short_description ]]</small>
-            <p>[[ ad.slug ]]</p>
-        </td>
-        <td class="v-center">
-            <div class="row">
-                <a href="/ad/update/[[ ad.slug ]]" class="btn btn-warning"><span class="glyphicon glyphicon-edit"></span></a>
-                <a href="/ad/[[ ad.slug ]]" class="btn btn-success"><span class="glyphicon glyphicon-eye-open"></span></a>
+<div class="jumbotron">
+    <h3 class="text-center">My Ads</h3>
+    <hr/>
 
-                    <!-- BUTTON DELETE --->
-                    <button data-toggle="modal" class="btn btn-danger" ng-click="deleteAd(ad, $index)">
-                        <span class="glyphicon glyphicon-remove"></span>
-                    </button>
-                    <!-- MODAL CONFIRMATION DELETE -->
-                    <div class="modal" id="modalMessage{{ forloop.counter0 }}">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">Alerta</div>
-                                <div class="modal-body">
-                                    <h4>¿Seguro que desea borrar {{ ad.title }} ?</h4>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                                    {% csrf_token %}
-                                    <button type="submit" class="delete_message btn btn-default" value="{{ ad.id }}">Ok <i class="fa fa-arrow-circle-right fa-lg"></i></button>
-                                </div>
-                            </div>
-
-                        </div>
-
-                    </div>
+    <table class="table table-bordred table-striped">
+        <thead>
+        <th></th>
+        <th></th>
+        <th>Acciones</th>
+        </thead>
+        <tbody id="tab-all-message">
+        <tr id="ad-row-{{ ad.id }}" ng-class-odd="'odd'" ng-class-even="'even'" ng-repeat="ad in ads">
+            <td>
+                <img id="media-object" class="img-rounded" ng-src="{{ ad.images[0].thumbnail_90x90 }}" width="90" height="90">
+            </td>
+            <td>
+                <h4><strong>{{ ad.title }}</strong></h4>
+                <p>{{ ad.short_description }}</p>
+                <small><strong>Slug : </strong>{{ ad.slug }} || <strong>Price : </strong> $ {{ ad.price }}</small>
+            </td>
+            <td class="v-center">
+                <div class="row">
+                    <!-- update -->
+                    <a href="/ad/update/{{ ad.slug }}" class="btn btn-warning"><span class="glyphicon glyphicon-edit"></span></a>
+                    <!-- view detail -->
+                    <a href="/ad/{{ ad.slug }}" class="btn btn-success"><span class="glyphicon glyphicon-eye-open"></span></a>
+                    <!-- delete -->
+                    <a class="btn btn-danger" ng-really-message="Are you sure ?" ng-really-click="deleteAd(ad)" item="ad"><span class="glyphicon glyphicon-remove"></span></a>
                 </div>
+            </td>
+        </tr>
 
-            </div>
-        </td>
-    </tr>
-
-    </tbody>
-</table>
-
-<button ng-click="next()">NEXT</button>
+        </tbody>
+    </table>
 
 
-<!--
-<div class="ad-container">
-  <input placeholder="Say something . . ." type="text" class="new-ad-input" id="new-ad" ng-model="text">
-  <button id="ad" ng-click="submitAd(text)">Ad</button>
+    <!-- PAGINATION -->
+    <nav class="pull-right">
+        <ul class="pagination">
+            <li ng-class="{disabled: prev }"><a ng-click="get_ads_page(prev_page)"><span aria-hidden="true">&laquo; Prev</span><span class="sr-only">Previous</span></a></li>
+            <li  ng-repeat="nroPag in pages track by $index"><a ng-click="get_ads_page($index+1)">{{$index+1}}<span class="sr-only">Go on pages N°{{$index+1}}</span></a></li>
+            <li ng-class="{disabled: next }"><a ng-click="get_ads_page(next_page)"><span aria-hidden="true">Next &raquo;</span><span class="sr-only">Previous</span></a></li>
+        </ul>
+    </nav>
+
+
+    <div ng-if="count_page != 0">
+        <pagination total-items="count_page" ng-model="current_page" ng-change="changePage()" ></pagination>
+    </div>
+
+
+    <div class="row"><hr/></div>
 </div>
-
-<div class="ads" id="ads-target">
-  <div class="ad-container" ng-repeat="ad in ads">
-
-      <div class="ad-title">[[ ad.title ]]<button ng-click="deleteAd(ad, $index)">X</button>
-  </div>
-</div>
--->

@@ -8,129 +8,131 @@
 {% endblock %}
 
 {% block body_block %}
- 
- <div class="container" id="container-home">
-    <a href="{% url 'ad:create' %}" id="btnAddAd" class="btn btn-primary btn-lg pull-right"><span class="glyphicon glyphicon-bullhorn"></span> Agrega tu aviso</a>
-    <div class="row col-lg-12" id="home-search">
+
+    <div class="container" id="container-home">
+        <a href="{% url 'ad:create' %}" id="btnAddAd" class="btn btn-primary btn-lg pull-right"><span class="glyphicon glyphicon-bullhorn"></span> Agrega tu aviso</a>
+        <div class="row col-lg-12" id="home-search">
 
 
-        <div class="col-lg-6 col-lg-offset-3 pull-center">
-            <h1 id="title-search" class="text-center"> ¡ Encontra tu aviso !</h1>
-            <form action="/ad/ad-list/" method="get" id="search" class="input-group custom-search-form">
-              <input type="text" class="form-control" name="tags">
-              <span class="input-group-btn">
-              <button class="btn btn-default" type="submit" >
-              <span class="glyphicon glyphicon-search"></span>
-             </button>
-             </span>
-            </form>
+            <div class="col-lg-6 col-lg-offset-3 pull-center">
+                <h1 id="title-search" class="text-center"> ¡ Encontra tu aviso !</h1>
+                <form action="/ad/ad-list/" method="get" id="search">
+                    <div class="col-md-10">
+                        <input type="text" class="form-control" name="tags">
+                    </div>
+                    <div class="col-md-2">
+                        <button class="btn btn-info pull-right" type="submit" >
+                            <span class="glyphicon glyphicon-search"></span>
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
-    </div>
 
 
-    <div class="col-md-12">
-        <div class="col-md-6">
-            <h3> Compralo ahi:</h3>
-            <br>
-            <div class="timeline-centered">
-                <article class="timeline-entry">
-                    <div class="timeline-entry-inner">
-                        <div class="timeline-icon bg-success">
-                            <i class="entypo-feather"></i>
+        <div class="col-md-12">
+            <div class="col-md-6">
+                <h3> Compralo ahi:</h3>
+                <br>
+                <div class="timeline-centered">
+                    <article class="timeline-entry">
+                        <div class="timeline-entry-inner">
+                            <div class="timeline-icon bg-success">
+                                <i class="entypo-feather"></i>
+                            </div>
+                            <div class="timeline-label">
+                                <h2><a href="#">Compralo ahi! a la vuelta de tus pies</a></h2>
+                                <p>Compralo ahi! a la vuelta de tus pies</p>
+                            </div>
                         </div>
-                        <div class="timeline-label">
-                            <h2><a href="#">Compralo ahi! a la vuelta de tus pies</a></h2>
-                            <p>Compralo ahi! a la vuelta de tus pies</p>
-                        </div>
-                    </div>
 
-                </article>
-                <article class="timeline-entry">
-                    <div class="timeline-entry-inner">
-                        <div class="timeline-icon bg-info">
-                            <i class="entypo-feather"></i>
+                    </article>
+                    <article class="timeline-entry">
+                        <div class="timeline-entry-inner">
+                            <div class="timeline-icon bg-info">
+                                <i class="entypo-feather"></i>
+                            </div>
+                            <div class="timeline-label">
+                                <h2><a href="#">Busca lo que queres para cuando podes</a></h2>
+                                <p>Busca lo que queres para cuando podes</p>
+                            </div>
                         </div>
-                        <div class="timeline-label">
-                            <h2><a href="#">Busca lo que queres para cuando podes</a></h2>
-                            <p>Busca lo que queres para cuando podes</p>
-                        </div>
-                    </div>
 
-                </article>
-                <article class="timeline-entry">
-                    <div class="timeline-entry-inner">
-                        <div class="timeline-icon bg-success">
-                            <i class="entypo-feather"></i>
+                    </article>
+                    <article class="timeline-entry">
+                        <div class="timeline-entry-inner">
+                            <div class="timeline-icon bg-success">
+                                <i class="entypo-feather"></i>
+                            </div>
+                            <div class="timeline-label">
+                                <h2><a href="#">¿Sos perezoso para moverte por largas distancia? </a></h2>
+                                <p>Esta es tu solucion. Compralo ahi! a la vuelta de tus pies</p>
+                            </div>
                         </div>
-                        <div class="timeline-label">
-                            <h2><a href="#">¿Sos perezoso para moverte por largas distancia? </a></h2>
-                            <p>Esta es tu solucion. Compralo ahi! a la vuelta de tus pies</p>
-                        </div>
-                    </div>
 
-                </article>
-                <article class="timeline-entry">
-                    <div class="timeline-entry-inner">
-                        <div class="timeline-icon bg-info">
-                            <i class="entypo-feather"></i>
+                    </article>
+                    <article class="timeline-entry">
+                        <div class="timeline-entry-inner">
+                            <div class="timeline-icon bg-info">
+                                <i class="entypo-feather"></i>
+                            </div>
+                            <div class="timeline-label">
+                                <h2><a href="#">Oportunidades</a></h2>
+                                <p>En la vida, el tiempo y las oportunidades son de las pocas cosas que una vez perdidas no puedes recuperar... <br/>
+                                    No te pierdas ninguna, configura tu perfil para saber todas las oportunidades que tenes cerca</p>
+                            </div>
                         </div>
-                        <div class="timeline-label">
-                            <h2><a href="#">Oportunidades</a></h2>
-                            <p>En la vida, el tiempo y las oportunidades son de las pocas cosas que una vez perdidas no puedes recuperar... <br/>
-                               No te pierdas ninguna, configura tu perfil para saber todas las oportunidades que tenes cerca</p>
-                        </div>
-                    </div>
 
-                </article>
+                    </article>
+                </div>
+
+
+            </div>
+            <div class="col-md-6 text-center">
+                <div id="mapaArg">
+                    <img id="mapaArgentina" src="/static/image/mapa-argentina-provincias-plenos.jpg" width="297" height="650" border="0" usemap="#Map" />
+                </div>
+                <map name="Map" id="Map">
+                    <area shape="poly" name="misiones" data-key="Misiones" coords="257,107,263,114,262,116,266,121,279,113,284,113,292,107,295,90,292,77,282,77,280,80,279,90,271,98,264,101,257,107" href="#misiones" />
+                    <area shape="poly" name="corrientes" data-key="Corrientes" coords="265,121,258,126,241,145,228,158,221,172,213,165,189,166,189,158,197,138,199,122,204,116,205,110,208,107,250,110,257,107,263,113,263,118,265,121" href="#corrientes" />
+                    <area shape="poly" name="chaco" data-key="Chaco" coords="199,122,204,117,205,109,214,98,195,86,190,79,175,64,162,56,158,51,146,47,146,48,124,76,155,76,155,122,199,122" href="#chaco" />
+                    <area shape="poly" name="formosa" data-key="Formosa" coords="214,98,217,86,228,73,227,68,218,63,211,63,210,59,189,45,181,44,152,18,147,16,147,47,157,50,162,56,165,56,170,61,174,63,192,80,193,84,196,87,202,91,213,98" href="#formosa" />
+                    <area shape="poly" name="salta" data-key="Salta" coords="147,14,146,48,122,78,112,78,107,88,88,84,85,88,74,88,69,80,72,77,72,70,36,67,34,62,37,55,54,46,57,42,63,44,66,47,72,42,72,33,80,35,79,42,88,52,94,55,100,55,104,54,112,49,112,35,107,31,97,32,97,28,95,22,92,22,92,7,97,7,101,7,108,15,111,9,114,3,136,3,147,15,146,14" href="#salta" />
+                    <area shape="poly" name="jujuy" data-key="Jujuy" coords="57,41,60,42,66,46,72,43,72,32,80,35,80,43,88,52,90,54,95,55,102,55,105,54,111,49,112,35,107,32,98,32,97,30,97,27,95,23,92,22,92,6,85,7,76,1,71,3,71,8,66,10,58,19,59,23,59,30,58,31,57,40" href="#jujuy" />
+                    <area shape="poly" name="tucuman" data-key="Tucuman" coords="107,87,102,87,97,85,94,85,88,84,85,88,78,88,78,94,81,98,79,106,82,109,83,115,88,120,99,117,99,107,107,96,107,90" href="#tucuman" />
+                    <area shape="poly" name="catamarca" data-key="Catamarca" coords="36,66,72,70,72,78,68,80,74,88,78,89,77,93,81,97,81,101,80,104,79,106,82,108,82,115,88,120,96,119,96,139,103,146,103,157,99,163,93,163,88,150,75,139,74,133,66,128,62,130,51,129,40,122,27,119,30,104,37,103,38,98,33,92,36,86,36,66" href="#catamarca" />
+                    <area shape="poly" name="cordoba" data-key="Cordoba" coords="127,258,126,245,132,240,137,233,140,229,147,221,152,216,151,212,149,207,147,202,145,198,148,181,151,177,150,173,145,167,140,166,140,166,136,156,132,154,127,153,123,152,118,151,115,151,112,149,110,149,108,151,104,151,104,157,100,163,93,163,92,167,90,169,88,172,85,171,85,197,87,198,89,198,93,200,97,204,101,206,102,211,101,213,98,219,99,257,127,258,127,256" href="#cordoba" />
+                    <area shape="poly" name="larioja" data-key="La Rioja" coords="93,164,89,155,88,149,82,145,80,142,75,139,74,133,66,129,63,130,57,130,49,128,40,122,36,121,27,120,22,128,25,131,30,134,35,139,35,142,36,153,48,157,52,162,57,168,63,175,64,182,65,188,69,196,69,199,85,198,84,172,88,171,92,164" href="#larioja" />
+                    <area shape="poly" name="sanjuan" data-key="San Juan" coords="69,198,68,194,65,190,65,185,64,180,64,176,57,169,57,166,53,164,48,158,42,156,36,154,36,143,36,139,32,136,31,133,22,130,19,137,18,143,12,148,14,156,15,163,16,167,9,185,9,200,14,202,13,203,12,208,13,212,24,211,26,205,35,204,36,209,40,209,47,203,61,206,62,198,69,198" href="#sanjuan" />
+                    <area shape="poly" name="mendoza" data-key="Mendoza" coords="61,207,47,203,42,209,35,210,36,204,26,204,24,211,13,212,15,219,18,224,22,228,21,245,16,258,14,263,11,266,15,270,14,286,18,293,23,294,28,301,34,302,39,304,45,307,53,310,54,273,76,273,77,251,73,244,73,240,71,235,64,228,63,222,62,216,61,208" href="#mendoza" />
+                    <area shape="poly" name="neuquen" data-key="Neuquen" coords="56,339,54,336,54,310,49,307,44,306,36,303,31,302,27,300,24,295,18,294,14,287,10,287,6,302,5,318,13,333,5,340,4,355,6,360,2,366,5,370,2,376,3,382,13,382,14,375,17,372,27,367,27,360,31,357,37,351,43,346,48,344,54,339" href="#neuquen" />
+                    <area shape="poly" name="sanluis" data-key="San Luis" coords="63,198,68,198,84,198,88,199,97,205,101,205,101,214,98,220,98,273,76,273,77,256,77,251,75,247,73,244,73,239,65,229,63,222,62,216,62,208,62,199" href="#sanluis" />
+                    <area shape="poly" name="santafe" data-key="Santa Fe Province" coords="146,166,156,122,199,122,198,137,195,146,192,154,190,158,190,167,185,178,177,187,172,198,171,211,175,216,178,225,175,230,167,230,155,245,127,245,152,216,151,210,149,204,146,198,147,192,148,186,149,181,151,176,151,175,145,166" href="#santafe" />
+                    <area shape="poly" name="santiagodelestero" data-key="Santiago del Estero" coords="104,151,103,146,97,139,96,118,99,118,100,106,107,96,107,87,112,79,122,78,124,76,155,76,155,122,146,166,140,165,136,154,110,149,104,151" href="#santiagodelestero" />
+                    <area shape="poly" name="entrerios" data-key="Entre Rios" coords="178,225,176,219,175,215,172,211,172,198,176,192,177,186,180,183,186,177,188,170,190,167,213,165,221,173,220,178,213,195,213,218,208,223,208,240,203,240,199,238,193,233,189,230,177,225" href="#entrerios" />
+                    <area shape="poly" name="buenosaires" data-key="Buenos Aires" coords="127,245,155,245,166,230,175,230,179,226,192,233,199,239,208,240,208,248,223,263,224,268,223,274,223,279,225,284,232,284,231,297,217,317,214,316,212,320,191,330,178,333,179,333,152,332,144,329,142,331,143,337,148,347,144,350,141,361,145,367,138,376,127,366,128,259,127,257,127,246" href="#buenosaires" />
+                    <area shape="poly" name="lapampa" data-key="La Pampa" coords="99,258,127,258,127,344,112,336,90,334,82,333,75,329,69,326,63,325,61,319,57,311,54,310,54,273,99,273,99,258" href="#lapampa" />
+                    <area shape="poly" name="rionegro" data-key="Rio Negro" coords="3,382,13,382,14,377,15,373,27,367,27,359,38,351,45,345,48,343,56,339,54,335,54,310,57,313,61,319,62,326,69,325,74,329,80,332,86,334,109,335,112,336,126,344,126,366,136,376,124,379,118,373,110,371,105,370,100,379,104,392,10,400,9,396,5,394,4,389,3,382" href="#rionegro" />
+                    <area shape="poly" name="chubut" data-key="Chubut" coords="104,393,104,397,114,402,117,402,118,398,122,396,126,400,124,412,120,411,116,408,108,407,107,415,101,427,104,439,99,446,98,454,87,454,84,458,77,458,70,474,16,479,15,475,14,471,20,466,13,457,20,453,20,446,11,446,11,438,10,434,9,426,2,419,8,414,1,407,9,407,10,401,103,393" href="#chubut" />
+                    <area shape="poly" name="santacruz" data-key="Santa Cruz" coords="16,479,71,474,74,485,85,493,97,495,97,514,82,525,74,537,77,547,73,551,64,549,67,555,60,559,60,566,62,577,63,584,74,597,50,592,40,593,33,594,23,588,21,570,17,569,11,574,4,569,5,545,8,538,14,544,17,544,17,536,12,530,15,523,12,514,11,510,19,503,16,497,20,491,16,486,16,482,16,479,71,474" href="#santacruz" />
+                    <area shape="poly" name="tierradelfuego" data-key="Tierra del Fuego" coords="72,600,74,648,80,644,100,644,103,646,115,640,111,635,103,635,98,633,96,633,94,631,90,630,86,624,83,620,82,618,77,617,76,615,77,613,81,613,72,599" href="#tierradelfuego" />
+                    <area shape="poly" name="malvinas" data-key="Malvinas" coords="160,587,167,594,178,583,178,573,168,569,167,576,170,581,161,586,178,593,190,593,190,586,200,585,200,576,193,570,188,574,182,574,183,583,178,587,179,594" href="#malvinas" />
+                </map>
+
+                <div id="selections"></div>
+
             </div>
 
-
         </div>
-        <div class="col-md-6 text-center">
-            <div id="mapaArg">
-                <img id="mapaArgentina" src="/static/image/mapa-argentina-provincias-plenos.jpg" width="297" height="650" border="0" usemap="#Map" />
-            </div>
-            <map name="Map" id="Map">
-                <area shape="poly" name="misiones" data-key="Misiones" coords="257,107,263,114,262,116,266,121,279,113,284,113,292,107,295,90,292,77,282,77,280,80,279,90,271,98,264,101,257,107" href="#misiones" />
-                <area shape="poly" name="corrientes" data-key="Corrientes" coords="265,121,258,126,241,145,228,158,221,172,213,165,189,166,189,158,197,138,199,122,204,116,205,110,208,107,250,110,257,107,263,113,263,118,265,121" href="#corrientes" />
-                <area shape="poly" name="chaco" data-key="Chaco" coords="199,122,204,117,205,109,214,98,195,86,190,79,175,64,162,56,158,51,146,47,146,48,124,76,155,76,155,122,199,122" href="#chaco" />
-                <area shape="poly" name="formosa" data-key="Formosa" coords="214,98,217,86,228,73,227,68,218,63,211,63,210,59,189,45,181,44,152,18,147,16,147,47,157,50,162,56,165,56,170,61,174,63,192,80,193,84,196,87,202,91,213,98" href="#formosa" />
-                <area shape="poly" name="salta" data-key="Salta" coords="147,14,146,48,122,78,112,78,107,88,88,84,85,88,74,88,69,80,72,77,72,70,36,67,34,62,37,55,54,46,57,42,63,44,66,47,72,42,72,33,80,35,79,42,88,52,94,55,100,55,104,54,112,49,112,35,107,31,97,32,97,28,95,22,92,22,92,7,97,7,101,7,108,15,111,9,114,3,136,3,147,15,146,14" href="#salta" />
-                <area shape="poly" name="jujuy" data-key="Jujuy" coords="57,41,60,42,66,46,72,43,72,32,80,35,80,43,88,52,90,54,95,55,102,55,105,54,111,49,112,35,107,32,98,32,97,30,97,27,95,23,92,22,92,6,85,7,76,1,71,3,71,8,66,10,58,19,59,23,59,30,58,31,57,40" href="#jujuy" />
-                <area shape="poly" name="tucuman" data-key="Tucuman" coords="107,87,102,87,97,85,94,85,88,84,85,88,78,88,78,94,81,98,79,106,82,109,83,115,88,120,99,117,99,107,107,96,107,90" href="#tucuman" />
-                <area shape="poly" name="catamarca" data-key="Catamarca" coords="36,66,72,70,72,78,68,80,74,88,78,89,77,93,81,97,81,101,80,104,79,106,82,108,82,115,88,120,96,119,96,139,103,146,103,157,99,163,93,163,88,150,75,139,74,133,66,128,62,130,51,129,40,122,27,119,30,104,37,103,38,98,33,92,36,86,36,66" href="#catamarca" />
-                <area shape="poly" name="cordoba" data-key="Cordoba" coords="127,258,126,245,132,240,137,233,140,229,147,221,152,216,151,212,149,207,147,202,145,198,148,181,151,177,150,173,145,167,140,166,140,166,136,156,132,154,127,153,123,152,118,151,115,151,112,149,110,149,108,151,104,151,104,157,100,163,93,163,92,167,90,169,88,172,85,171,85,197,87,198,89,198,93,200,97,204,101,206,102,211,101,213,98,219,99,257,127,258,127,256" href="#cordoba" />
-                <area shape="poly" name="larioja" data-key="La Rioja" coords="93,164,89,155,88,149,82,145,80,142,75,139,74,133,66,129,63,130,57,130,49,128,40,122,36,121,27,120,22,128,25,131,30,134,35,139,35,142,36,153,48,157,52,162,57,168,63,175,64,182,65,188,69,196,69,199,85,198,84,172,88,171,92,164" href="#larioja" />
-                <area shape="poly" name="sanjuan" data-key="San Juan" coords="69,198,68,194,65,190,65,185,64,180,64,176,57,169,57,166,53,164,48,158,42,156,36,154,36,143,36,139,32,136,31,133,22,130,19,137,18,143,12,148,14,156,15,163,16,167,9,185,9,200,14,202,13,203,12,208,13,212,24,211,26,205,35,204,36,209,40,209,47,203,61,206,62,198,69,198" href="#sanjuan" />
-                <area shape="poly" name="mendoza" data-key="Mendoza" coords="61,207,47,203,42,209,35,210,36,204,26,204,24,211,13,212,15,219,18,224,22,228,21,245,16,258,14,263,11,266,15,270,14,286,18,293,23,294,28,301,34,302,39,304,45,307,53,310,54,273,76,273,77,251,73,244,73,240,71,235,64,228,63,222,62,216,61,208" href="#mendoza" />
-                <area shape="poly" name="neuquen" data-key="Neuquen" coords="56,339,54,336,54,310,49,307,44,306,36,303,31,302,27,300,24,295,18,294,14,287,10,287,6,302,5,318,13,333,5,340,4,355,6,360,2,366,5,370,2,376,3,382,13,382,14,375,17,372,27,367,27,360,31,357,37,351,43,346,48,344,54,339" href="#neuquen" />
-                <area shape="poly" name="sanluis" data-key="San Luis" coords="63,198,68,198,84,198,88,199,97,205,101,205,101,214,98,220,98,273,76,273,77,256,77,251,75,247,73,244,73,239,65,229,63,222,62,216,62,208,62,199" href="#sanluis" />
-                <area shape="poly" name="santafe" data-key="Santa Fe Province" coords="146,166,156,122,199,122,198,137,195,146,192,154,190,158,190,167,185,178,177,187,172,198,171,211,175,216,178,225,175,230,167,230,155,245,127,245,152,216,151,210,149,204,146,198,147,192,148,186,149,181,151,176,151,175,145,166" href="#santafe" />
-                <area shape="poly" name="santiagodelestero" data-key="Santiago del Estero" coords="104,151,103,146,97,139,96,118,99,118,100,106,107,96,107,87,112,79,122,78,124,76,155,76,155,122,146,166,140,165,136,154,110,149,104,151" href="#santiagodelestero" />
-                <area shape="poly" name="entrerios" data-key="Entre Rios" coords="178,225,176,219,175,215,172,211,172,198,176,192,177,186,180,183,186,177,188,170,190,167,213,165,221,173,220,178,213,195,213,218,208,223,208,240,203,240,199,238,193,233,189,230,177,225" href="#entrerios" />
-                <area shape="poly" name="buenosaires" data-key="Buenos Aires" coords="127,245,155,245,166,230,175,230,179,226,192,233,199,239,208,240,208,248,223,263,224,268,223,274,223,279,225,284,232,284,231,297,217,317,214,316,212,320,191,330,178,333,179,333,152,332,144,329,142,331,143,337,148,347,144,350,141,361,145,367,138,376,127,366,128,259,127,257,127,246" href="#buenosaires" />
-                <area shape="poly" name="lapampa" data-key="La Pampa" coords="99,258,127,258,127,344,112,336,90,334,82,333,75,329,69,326,63,325,61,319,57,311,54,310,54,273,99,273,99,258" href="#lapampa" />
-                <area shape="poly" name="rionegro" data-key="Rio Negro" coords="3,382,13,382,14,377,15,373,27,367,27,359,38,351,45,345,48,343,56,339,54,335,54,310,57,313,61,319,62,326,69,325,74,329,80,332,86,334,109,335,112,336,126,344,126,366,136,376,124,379,118,373,110,371,105,370,100,379,104,392,10,400,9,396,5,394,4,389,3,382" href="#rionegro" />
-                <area shape="poly" name="chubut" data-key="Chubut" coords="104,393,104,397,114,402,117,402,118,398,122,396,126,400,124,412,120,411,116,408,108,407,107,415,101,427,104,439,99,446,98,454,87,454,84,458,77,458,70,474,16,479,15,475,14,471,20,466,13,457,20,453,20,446,11,446,11,438,10,434,9,426,2,419,8,414,1,407,9,407,10,401,103,393" href="#chubut" />
-                <area shape="poly" name="santacruz" data-key="Santa Cruz" coords="16,479,71,474,74,485,85,493,97,495,97,514,82,525,74,537,77,547,73,551,64,549,67,555,60,559,60,566,62,577,63,584,74,597,50,592,40,593,33,594,23,588,21,570,17,569,11,574,4,569,5,545,8,538,14,544,17,544,17,536,12,530,15,523,12,514,11,510,19,503,16,497,20,491,16,486,16,482,16,479,71,474" href="#santacruz" />
-                <area shape="poly" name="tierradelfuego" data-key="Tierra del Fuego" coords="72,600,74,648,80,644,100,644,103,646,115,640,111,635,103,635,98,633,96,633,94,631,90,630,86,624,83,620,82,618,77,617,76,615,77,613,81,613,72,599" href="#tierradelfuego" />
-                <area shape="poly" name="malvinas" data-key="Malvinas" coords="160,587,167,594,178,583,178,573,168,569,167,576,170,581,161,586,178,593,190,593,190,586,200,585,200,576,193,570,188,574,182,574,183,583,178,587,179,594" href="#malvinas" />
-            </map>
-
-            <div id="selections"></div>
-
-        </div>
-        
     </div>
- </div>
 {% endblock %}
 {% block js_footer_block %}
     <script src="{{ STATIC_URL }}js/jquery.imagemapster.min.js"></script>
 
     <script type="text/javascript">
         $('#mapaArgentina').mapster({
-             mapKey: 'data-key',
-             singleSelect: true
+            mapKey: 'data-key',
+            singleSelect: true
         });
     </script>
 
@@ -178,7 +180,7 @@
             mapKey: 'name',
             listKey: 'name',
             onClick: function (e) {
-            $('#selections').html(xref[e.key]);
+                $('#selections').html(xref[e.key]);
             },
             showToolTip: true,
             toolTipClose: ["tooltip-click", "area-click"],
