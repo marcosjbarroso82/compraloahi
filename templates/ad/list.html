@@ -2,16 +2,17 @@
 {% load bootstrap3 %}
 {% block title %}Lista de avisos {% endblock %}
 {% load thumbnail %}
+{% load common_tags %}
 
 {% block css_header_block %}
     <link rel="stylesheet" href="{{ STATIC_URL }}css/list.css" >
+    <link rel="stylesheet" href="{{ THEME_PATH }}css/ad-list.css">
 {% endblock %}
 
 {% block body_block %}
-
-    <div class="container" >
-        <div class="col-lg-5 sidebar pull-left" id="siderbar">
-            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+    <div class="container ad-list" >
+        <div class="col-lg-4 sidebar pull-left affix" id="sidebar">
+            <div class="panel-group " id="accordion" role="tablist" aria-multiselectable="true">
                 <div id="collapseOneWrapper" class="panel panel-default">
                     <div class="panel-heading" role="tab" id="headingOne">
                         <h4 class="panel-title">
@@ -26,11 +27,18 @@
                             <div class="input-group stylish-input-group">
                                 <input id="address"  class="form-control form-inline col-md-10" type="text" placeholder="Ingrese la Dirección"/>
                         <span class="input-group-addon">
-                            <button id="search_address_btn" type="submit" >
+                            <button id="search_address_btn" type="submit" style="border: none; width: 100%; ">
                                 <i class="glyphicon glyphicon-search"></i>
                             </button>
                         </span>
 
+                            </div>
+                            <!-- Radius -->
+                            <div class="">
+                                <div class="range range-success">
+                                    <input id="map_radius" type="range" name="map_radius" min="1" max="6000" value="1000" onchange="range.value= value">
+                                    <output id="range">1000</output>
+                                </div>
                             </div>
                             <br>
                             <!-- Map -->
@@ -38,14 +46,7 @@
                                 <div id="mapa" class="capas img-thumbnail"></div>
                             </div>
 
-                            <!-- Radius -->
-                            <div class="">
-                                <div class="range range-success">
-                                    <input id="map_radius" type="range" name="map_radius" min="1" max="6000" value="1000" onchange="range.value=value">
-                                    <output id="range">1000</output>
-                                </div>
-                                <div class="help">Radius</div>
-                            </div>
+
 
                         </div>
                     </div>
@@ -58,49 +59,41 @@
                             </a>
                         </h4>
                     </div>
-                    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
-                        <div class="panel-body list-group">
-                            <!-- Categorias -->
+                    <div id="collapseTwo" class="panel-collapse collapse sidebar" role="tabpanel" aria-labelledby="headingTwo">
+                        <div class="list-group">
+
+                            <!-- Categories -->
                             {% if facets.fields.categories %}
-                                <li href="#" class="list-group-item">
-                                    <h4 class="list-group-item-heading">Categorias</h4>
-
-                                    <ul class="list-group">
-                                        {% for category in facets.fields.categories %}
-                                            <li class="list-group-item"><a href="{{ request.get_full_path }}&amp;selected_facets=categories_exact:{{ category.0|urlencode }}">{{ category.0 }}<span class="badge">{{ category.1 }}</span></a></li>
-                                        {% endfor %}
-                                    </ul>
-                                </li>
+                                <span class="list-group-item">Categorias</span>
+                                {% for category in facets.fields.categories %}
+                                    <a class="list-group-item" href="{{ request.get_full_path }}&amp;selected_facets=categories_exact:{{ category.0|urlencode }}">
+                                            {{ category.0 }}<span class="badge">{{ category.1 }}</span></a>
+                                {% endfor %}
                             {% endif %}
-                            <!-- End Categorias -->
-
+                            <!-- End Categories -->
                             <!-- Provinces -->
                             {% if facets.fields.provinces %}
-                                <li href="#" class="list-group-item">
-                                    <h4 class="list-group-item-heading">Provincias</h4>
-
-                                    <ul class="list-group">
-                                        {% for locality in facets.fields.provinces %}
-                                            <li class="list-group-item"><a href="{{ request.get_full_path }}&amp;selected_facets=provinces_exact:{{ locality.0|urlencode }}">{{ locality.0 }}<span class="badge">{{ locality.1 }}</span></a></li>
-                                        {% endfor %}
-                                    </ul>
-                                </li>
+                                <span class="list-group-item">Provincias</span>
+                                {% for locality in facets.fields.provinces %}
+                                        <a class="list-group-item" href="{{ request.get_full_path }}&amp;selected_facets=provinces_exact:{{ locality.0|urlencode }}">{{ locality.0 }}<span class="badge">{{ locality.1 }}</span></a>
+                                    {% endfor %}
                             {% endif %}
                             <!-- End Provinces -->
-
-                            <!-- Provinces -->
+                             <!-- Localities -->
                             {% if facets.fields.localities %}
-                                <li href="#" class="list-group-item">
-                                    <h4 class="list-group-item-heading">Localidades</h4>
-
-                                    <ul class="list-group">
-                                        {% for locality in facets.fields.localities %}
-                                            <li class="list-group-item"><a href="{{ request.get_full_path }}&amp;selected_facets=localities_exact:{{ locality.0|urlencode }}">{{ locality.0 }}<span class="badge">{{ locality.1 }}</span></a></li>
-                                        {% endfor %}
-                                    </ul>
-                                </li>
+                                <span class="list-group-item">Localidades</span>
+                                {% for locality in facets.fields.localities %}
+                                        <a class="list-group-item" href="{{ request.get_full_path }}&amp;selected_facets=localities_exact:{{ locality.0|urlencode }}">{{ locality.0 }}<span class="badge">{{ locality.1 }}</span></a>
+                                    {% endfor %}
                             {% endif %}
-                            <!-- End Provinces -->
+                            <!-- End Localities -->
+
+
+
+
+                            <a href="#" class="list-group-item">
+                                <i class="fa fa-comment-o"></i> Lorem ipsum
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -108,7 +101,9 @@
         </div>
         <div class="col-lg-7 content pull-right">
             <!-- FORM SEARCH -->
-            <form method="get" action="/ad/ad-list/">
+        <div>
+
+            <form method="get" action="/ad/ad-list/" class="search-form">
                 <div class="">
                     <!-- TAG -->
                     <div class="input-group stylish-input-group">
@@ -146,32 +141,44 @@
 
                 </div>
             </form>
+        </div>
+<div>
 
             {% bootstrap_messages %}
-            <div id="result" class="">
+            <div id="ad-list" class="">
                 <!-- LIST -->
                 <ul id="ads-list" class="media-list">
                     {% for ad in page.object_list %}
-                        <li class="media list-group-item" id="li-ad-{{ ad.id }}" data_pk="{{ ad.pk }}">
+                        <li class="container-fluid media list-group-item" id="li-ad-{{ ad.id }}" data_pk="{{ ad.pk }}">
                             <a id="ad-anchor-{{ ad.pk }}"></a>
-                            <div class="pull-left col-md-2">
+                            <div class="pull-left col-lg-2">
                                 {% with ad.image1 as image %}
                                     {% thumbnail ad.image1 "100x100" crop="center" as im %}
-                                        <img id="media-object img-thumbnail" class="img-rounded" src="{{ im.url }}" alt="post img">
+                                        <img  class="prod-img-thumbnail img-thumbnail img-rounded media-object" src="{{ im.url }}" alt="post img">
                                     {% endthumbnail %}
                                 {% endwith %}
                             </div>
-                            <div class="media-body col-md-offset-3">
-                                <h3 class="media-heading">{{ ad.title }}</h3>
+                            <div class="media-body col-lg-8">
+                                <a href="/ad/{{ ad.slug }}"><h4 class="media-heading">{{ ad.title }}</h4></a>
                                 <small> publish: {{ ad.pub_date }} </small>
-                                <p class="pull-right">${{ ad.price }}</p>
-                                <p> {{ ad.short_description }} </p>
-                                <a class="btn btn-default pull-right"  href="/ad/{{ ad.slug }}"><span class="glyphicon glyphicon-eye-open"></span></a>
+                                <p> {{ ad.short_description | truncatechars:100}} </p>
+
                                 {% with ad.locations.all|first as location %}
                                     <span class="lat" hidden="true"> {{ ad.location.y }}</span>
                                     <span class="lng" hidden="true">{{ ad.location.x }}</span>
                                 {% endwith %}
                             </div>
+                            <div class="col-lg-2">
+                                <div class="list-action price">
+                                    <div>${{ ad.price|floatformat:"0" }}<sup>{{ ad.price|float_decimal_part}}</sup></div>
+                                </div>
+                                <div>
+
+                                    <a class="set-favourite btn btn-default btn-sm pull-right"><span class="glyphicon glyphicon-heart-empty"></span></a>
+                                    <a class="locate-it btn btn-default btn-sm pull-right"  href="/ad/{{ ad.slug }}"><span class="glyphicon glyphicon-map-marker"></span></a>
+                                </div>
+                            </div>
+
                         </li>
                     {% endfor %}
 
@@ -201,6 +208,8 @@
 
 
             </div>
+</div>
+
         </div>
     </div>
 {% endblock %}
@@ -231,12 +240,47 @@
             $("#collapseTwo").collapse('hide');
             $("#collapseOne").collapse("show");
         });
-
+        $("#ads-list .list-group-item").mouseenter(function() {
+            $("#collapseOne").collapse("show");
+            $("#collapseTwo").collapse('hide');
+        });
 
         $("#collapseTwoWrapper").mouseenter(function() {
             $("#collapseTwo").collapse('show');
             $("#collapseOne").collapse("hide");
         });
+
+        $(".glyphicon-heart").click(function(){
+            addToFavourites(this);
+        });
+        $(".glyphicon-heart-empty").click(function(){
+            removeFromFavourites(this);
+        });
+
+        function addToFavourites(element){
+            console.log("like it");
+            console.log(element);
+
+            $(element).removeClass("glyphicon-heart-empty");
+            $(element).addClass("glyphicon-heart");
+            $(element).unbind( "click" );
+            $(element).click(function(){
+            removeFromFavourites(this);
+            });
+
+        }
+
+        function removeFromFavourites(element){
+            console.log("Dislike it");
+            console.log(element);
+
+            $(element).addClass("glyphicon-heart-empty");
+            $(element).removeClass("glyphicon-heart");
+            $(element).unbind( "click" );
+            $(element).click(function(){
+            addToFavourites(this);
+            });
+        }
 
 
     </script>

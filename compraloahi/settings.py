@@ -105,8 +105,9 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 )
 
 # Dinamic theme change
+THEME_NAME = "material" # material
 TEMPLATE_CONTEXT_PROCESSORS = TEMPLATE_CONTEXT_PROCESSORS + (
-    "apps.theme_manager.theme_manager.css_folder",
+    "apps.theme_manager.theme_manager.theme_name",
 )
 
 
@@ -190,7 +191,7 @@ HAYSTACK_CONNECTIONS = {
 }
 
 #HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
-HAYSTACK_SEARCH_RESULTS_PER_PAGE = 3
+HAYSTACK_SEARCH_RESULTS_PER_PAGE = 10
 
 COMMENTS_XTD_MAX_THREAD_LEVEL = 2
 COMMENTS_APP = "django_comments_xtd"

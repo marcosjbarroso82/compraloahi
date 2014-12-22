@@ -1,3 +1,5 @@
+from django.conf import settings
+
 def css_folder(request):
     #print(request.GET)
     if 'css_folder' in request.GET:
@@ -9,3 +11,9 @@ def css_folder(request):
         css_folder = 'css'
 
     return {'css_folder': css_folder + "/"}
+
+
+
+
+def theme_name(request):
+    return {'THEME_NAME': settings.THEME_NAME}
