@@ -1,9 +1,14 @@
 {% load comments i18n %}
 {% load common_tags %}
-<div class="container">
+<div class="comment-form container">
 	<div class="row">
-      <div>
-        <div class="well well-sm">
+      <div class="panel panel-default widget">
+      <div class="panel-heading">
+                <h2 class="panel-title">
+                    Ingresa tu Pregunta al Anunciante</h2>
+
+            </div>
+        <div class="panel-body">
           <form class="form-horizontal" action="{% comment_form_target %}" method="post">{% csrf_token %}
           <fieldset>
             {% if next %}<div><input type="hidden" name="next" value="{{ next }}" /></div>{% endif %}
@@ -29,7 +34,6 @@
                   </p>
                 {% endif %}
             {% endfor %}
-            <legend class="text-center">Enter a Comment</legend>
 
             <!-- Message body -->
           <!--

@@ -32,12 +32,14 @@
 	/* margin-bottom: 25px; */
 }
 .product-rating .rating-block {
-    display: inline-block;
+    display: block;
     text-align: center;
 }
 
 .product-title{
-	font-size: 20px;
+	font-size: 40px;
+    line-height: 2em;
+    font-style: italic;
 }
 
 .product-desc{
@@ -48,6 +50,7 @@
 .product-price{
 	font-size: 50px;
     color: red;
+    font-style: italic;
 }
 .product-price sup{
     top: -0.85em;
@@ -91,6 +94,23 @@
 	padding-left: 0px;
 	padding-right: 0px;
 	max-width: 100%;
+}
+.ad-description-section {
+    padding-top: 30px;
+    background-color: #f5f5f6;
+
+}
+
+.ad-description-heading {
+    font-size: 30px;
+    text-align: center;
+    margin: 0;
+    color: white;
+}
+
+.comments-section .panel-heading .panel-title{
+    font-size: 20px;
+    display: inline-block;
 }
 
 /*********************************************
@@ -147,5 +167,23 @@
 }
 
 /*+++ Comments +++ */
+.ad-detail-page #more-comments-btn {
+    background-color: #6D6D75;
+    border: none;
 
+
+}
 /*--- Comments --- */
+.ad-detail-page .panel-heading {
+    background-color: #337AB7;
+    color: white;
+}
+.ad-detail-page .container {
+    background-color: #F5F5F6;
+}
+
+.ad-detail-page .comment-form .panel-title {
+    text-align: center;
+    font-size: 20px;
+}
+
