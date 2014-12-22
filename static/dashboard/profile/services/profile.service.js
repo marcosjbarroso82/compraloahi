@@ -58,11 +58,19 @@
          * @memberOf dashBoardApp.profile.services.Profile
          */
         function update(profile){
-            return $http.put('/api/v1/profile/',{
-                birth_date: profile.birth_date,
-                last_name: profile.user.last_name,
-                first_name: profile.user.fist_name,
-                email: profile.user.email
+            var fd = new FormData();
+
+            fd.append('birth_date', profile.birth_date);
+            fd.append('last_name', profile.user.last_name);
+            fd.append('first_name', profile.user.first_name);
+            fd.append('email', profile.user.email);
+
+            fd.append('image', profile.image);
+
+            return $http.put('/api/v1/profile/', fd, {
+                headers: {'Content-Type': undefined},
+                withCredentials: true,
+                transformRequest: angular.identity
             })
         }
 

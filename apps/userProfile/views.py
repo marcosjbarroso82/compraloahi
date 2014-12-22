@@ -30,6 +30,8 @@ class UserProfileModelView(ModelViewSet):
 
         profile.birth_date = request.DATA['birth_date']
 
+        profile.image = request.FILES['image']
+
         user = profile.user
 
         user.first_name = request.DATA['first_name']

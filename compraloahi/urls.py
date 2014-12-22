@@ -24,7 +24,7 @@ urlpatterns = patterns('',
                         # Detail Profile
                         url(r'^api/v1/profile/$', UserProfileModelView.as_view({'get': 'retrieve'}), name='api-profile-detail' ),
                         # Update Profile
-                        url(r'^api/v1/profile/$', UserProfileModelView.as_view({'put': 'update'}), name='api-profile-detail' ),
+                        url(r'^api/v1/profile/$', UserProfileModelView.as_view({'put': 'update'}), name='api-profile-update' ),
 
                         # Change password
                         url(r'^api/v1/change-password/$', ChangePasswordUpdateAPIView.as_view(), name='api-change-password' ),

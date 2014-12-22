@@ -8,9 +8,9 @@
 {% endblock %}
 
 {% block body_block %}
+<a href="{% url 'ad:create' %}" id="btnAddAd" class="btn btn-success btn-lg pull-left"><span class="glyphicon glyphicon-bullhorn"></span> Agrega tu aviso</a>
+    <div class="container jumbotron" id="container-home">
 
-    <div class="container" id="container-home">
-        <a href="{% url 'ad:create' %}" id="btnAddAd" class="btn btn-primary btn-lg pull-right"><span class="glyphicon glyphicon-bullhorn"></span> Agrega tu aviso</a>
         <div class="row col-lg-12" id="home-search">
 
 

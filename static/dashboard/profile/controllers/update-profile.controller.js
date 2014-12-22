@@ -9,16 +9,17 @@
         .module('dashBoardApp.profile.controllers')
         .controller('ProfileUpdateController', ProfileUpdateController);
 
-    ProfileUpdateController.$inject = ['Profile', '$state', 'Snackbar'];
+    ProfileUpdateController.$inject = ['Profile', '$state', 'Snackbar', '$scope'];
 
     /**
      * @namespace ProfileUpdateController
      */
-    function ProfileUpdateController(Profile, $state, Snackbar) {
+    function ProfileUpdateController(Profile, $state, Snackbar, $scope) {
         var vm = this;
 
         vm.profile = undefined;
         vm.submit = submit;
+        vm.open = open;
 
         activate();
 
@@ -42,12 +43,19 @@
 
         }
 
+        function open($event) {
+          $event.preventDefault();
+          $event.stopPropagation();
+
+          vm.opened = true;
+        };
 
         function submit(){
+            vm.profile.img = $scope.img_profile;
             Profile.update(vm.profile).then(updateSuccess, updateError);
 
             function updateSuccess(data){
-                Snackbar.show("Los datos se cambiaron con exito!");
+                Snackbar.show(data.data.message);
                 $state.go('profile-detail');
             }
 

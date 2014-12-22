@@ -22,28 +22,32 @@
         $scope.current_page = 1;
         $scope.pages = [];
 
+        getAds();
 
-        Ad.get(function(data) {
-            $scope.ads = data.results;
-            $scope.count_page = parseInt(data.count/5) + 1;
-            for(var i=1; i <= $scope.count_page; i++){
-                $scope.pages.push(i);
-            }
-            $scope.next_page = data.next;
-            $scope.prev_page = data.previous;
+        function getAds(){
+            Ad.get(function(data) {
+                $scope.ads = data.results;
+                $scope.count_page = parseInt(data.count/5) + 1;
+                for(var i=1; i <= $scope.count_page; i++){
+                    $scope.pages.push(i);
+                }
+                $scope.next_page = data.next;
+                $scope.prev_page = data.previous;
 
-            if($scope.next_page){
-                $scope.next = false;
-            }else{
-                $scope.next = true;
-            }
+                if($scope.next_page){
+                    $scope.next = false;
+                }else{
+                    $scope.next = true;
+                }
 
-            if($scope.prev_page){
-                $scope.prev = false;
-            }else{
-               $scope.prev = true;
-            }
-        });
+                if($scope.prev_page){
+                    $scope.prev = false;
+                }else{
+                   $scope.prev = true;
+                }
+            });
+        }
+
         $scope.get_ads_page = function(page){
             Ad.get({"page":page},function(response) {
                 $scope.current_page = page;
@@ -70,7 +74,8 @@
             Ad.delete({id:ad.id}, deleteSuccess, deleteError);
 
             function deleteSuccess(data, headers, status){
-                $scope.ads.splice($scope.ads.indexOf(ad),1);
+                getAds();
+                //$scope.ads.splice($scope.ads.indexOf(ad),1);
                 Snackbar.show("El aviso fue eliminado con exito!");
             }
 
