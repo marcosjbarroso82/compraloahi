@@ -5,284 +5,291 @@
 {% load common_tags %}
 
 {% block css_header_block %}
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/list.css" >
-    <link rel="stylesheet" href="{{ THEME_PATH }}css/ad-list.css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/ad-list.css" >
+<!--<link rel="stylesheet" href="{{ THEME_PATH }}css/ad-list.css">-->
 {% endblock %}
 
 {% block body_block %}
-    <div class="container ad-list" >
-        <div class="col-lg-4 sidebar pull-left affix" id="sidebar">
-            <div class="panel-group " id="accordion" role="tablist" aria-multiselectable="true">
-                <div id="collapseOneWrapper" class="panel panel-default">
-                    <div class="panel-heading" role="tab" id="headingOne">
-                        <h4 class="panel-title">
-                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                Mapa
-                            </a>
-                        </h4>
-                    </div>
-                    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
-                        <div class="">
-                            <!-- Address -->
-                            <div class="input-group stylish-input-group">
-                                <input id="address"  class="form-control form-inline col-md-10" type="text" placeholder="Ingrese la Dirección"/>
-                        <span class="input-group-addon">
-                            <button id="search_address_btn" type="submit" style="border: none; width: 100%; ">
-                                <i class="glyphicon glyphicon-search"></i>
-                            </button>
-                        </span>
-
-                            </div>
-                            <!-- Radius -->
-                            <div class="">
-                                <div class="range range-success">
-                                    <input id="map_radius" type="range" name="map_radius" min="1" max="6000" value="1000" onchange="range.value= value">
-                                    <output id="range">1000</output>
-                                </div>
-                            </div>
-                            <br>
-                            <!-- Map -->
-                            <div class="">
-                                <div id="mapa" class="capas img-thumbnail"></div>
-                            </div>
-
-
+<div class="ad-list" >
+    <div class="col-lg-4 sidebar pull-left affix well" id="sidebar">
+        <div class="" id="accordion" role="tablist" aria-multiselectable="true">
+            <div id="collapseOneWrapper" class="well">
+                <div class="" role="tab" id="headingOne">
+                    --
+                </div>
+                <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                    <div class="">
+                        <!-- Address -->
+                        <div class="input-group stylish-input-group">
+                            <input id="address"  class="form-control form-inline col-md-10" type="text" placeholder="Ingrese la Dirección"/>
+                            <span class="input-group-addon">
+                                <button id="search_address_btn" type="submit" style="border: none; width: 100%; ">
+                                    <i class="glyphicon glyphicon-search"></i>
+                                </button>
+                            </span>
 
                         </div>
+                        <br/>
+                        <!-- Radius -->
+                        <div class="">
+                            <div class="range range-success">
+                                <input id="map_radius" type="range" name="map_radius" min="1" max="6000" value="1000" onchange="range.value= value">
+                                <output id="range">1000</output>
+                            </div>
+                        </div>
+                        <br>
+                        <!-- Map -->
+                        <div class="">
+                            <div id="mapa" class="capas img-thumbnail"></div>
+                        </div>
+
+
+
                     </div>
                 </div>
-                <div  id="collapseTwoWrapper" class="panel panel-default">
-                    <div class="panel-heading" role="tab" id="headingTwo">
-                        <h4 class="panel-title">
-                            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                Filtros
-                            </a>
-                        </h4>
-                    </div>
-                    <div id="collapseTwo" class="panel-collapse collapse sidebar" role="tabpanel" aria-labelledby="headingTwo">
-                        <div class="list-group">
+            </div>
+            <div  id="collapseTwoWrapper" class="well">
+                <div class="panel-heading" role="tab" id="headingTwo">
+                    <h4 class="panel-title">
+                        <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            Filtros
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseTwo" class="panel-collapse collapse sidebar" role="tabpanel" aria-labelledby="headingTwo">
+                    <div class="list-group">
 
-                            <!-- Categories -->
-                            {% if facets.fields.categories %}
-                                <span class="list-group-item">Categorias</span>
-                                {% for category in facets.fields.categories %}
-                                    <a class="list-group-item" href="{{ request.get_full_path }}&amp;selected_facets=categories_exact:{{ category.0|urlencode }}">
-                                            {{ category.0 }}<span class="badge">{{ category.1 }}</span></a>
+                        <!-- Categories -->
+                        {% if facets.fields.categories %}
+                        <hr/>
+                        <span class="list-group-item">Categorias</span>
+                        <hr/>
+                        <ul>
+                            {% for category in facets.fields.categories %}
+                            <li>
+                            <a class="list-group-item" href="{{ request.get_full_path }}&amp;selected_facets=categories_exact:{{ category.0|urlencode }}">
+                                {{ category.0 }}<span class="badge">{{ category.1 }}</span></a></li>
                                 {% endfor %}
+                            </ul>
                             {% endif %}
                             <!-- End Categories -->
+                            <br/>
                             <!-- Provinces -->
                             {% if facets.fields.provinces %}
-                                <span class="list-group-item">Provincias</span>
+                            <hr/>
+                            <span class="list-group-item">Provincias</span>
+                            <hr/>
+                            <ul>
                                 {% for locality in facets.fields.provinces %}
-                                        <a class="list-group-item" href="{{ request.get_full_path }}&amp;selected_facets=provinces_exact:{{ locality.0|urlencode }}">{{ locality.0 }}<span class="badge">{{ locality.1 }}</span></a>
-                                    {% endfor %}
+                                <li>
+                                <a class="list-group-item" href="{{ request.get_full_path }}&amp;selected_facets=provinces_exact:{{ locality.0|urlencode }}">{{ locality.0 }}<span class="badge">{{ locality.1 }}</span></a></li>
+                                {% endfor %}
+                            </ul>
                             {% endif %}
                             <!-- End Provinces -->
-                             <!-- Localities -->
+                            <br/>
+                            <!-- Localities -->
                             {% if facets.fields.localities %}
-                                <span class="list-group-item">Localidades</span>
+                            <hr/>
+                            <span class="list-group-item">Localidades</span>
+                            <hr/>
+                            <ul>
                                 {% for locality in facets.fields.localities %}
-                                        <a class="list-group-item" href="{{ request.get_full_path }}&amp;selected_facets=localities_exact:{{ locality.0|urlencode }}">{{ locality.0 }}<span class="badge">{{ locality.1 }}</span></a>
-                                    {% endfor %}
+                                <li>
+                                <a class="list-group-item" href="{{ request.get_full_path }}&amp;selected_facets=localities_exact:{{ locality.0|urlencode }}">{{ locality.0 }}<span class="badge">{{ locality.1 }}</span></a></li>
+                                {% endfor %}
+                            </ul>
                             {% endif %}
                             <!-- End Localities -->
-
-
-
-
-                            <a href="#" class="list-group-item">
-                                <i class="fa fa-comment-o"></i> Lorem ipsum
-                            </a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-lg-7 content pull-right">
+        <div class="col-lg-8 col-md-offset-4 content pull-right">
             <!-- FORM SEARCH -->
-        <div>
+            <div>
 
-            <form method="get" action="/ad/ad-list/" class="search-form">
-                <div class="">
-                    <!-- TAG -->
-                    <div class="input-group stylish-input-group">
-                        <input id="q" class="form-control" name="q" type="text" placeholder="Search"/>
-                        <span class="input-group-addon">
-                            <!-- SUBMIT -->
-                            <button type="submit" style="border: none; width: 100%; ">
-                                <i class="glyphicon glyphicon-search"></i>
-                            </button>
-                        </span>
-                    </div>
-                    <!-- LATITUD -->
+                <form method="get" action="/ad/ad-list/" class="search-form">
+                    <div class="">
+                        <!-- TAG -->
+                        <div class="input-group stylish-input-group">
+                            <input id="q" class="form-control" name="q" type="text" placeholder="Search"/>
+                            <span class="input-group-addon">
+                                <!-- SUBMIT -->
+                                <button type="submit" style="border: none; width: 100%; ">
+                                    <i class="glyphicon glyphicon-search"></i>
+                                </button>
+                            </span>
+                        </div>
+                        <!-- LATITUD -->
                     <!--
                     <div>
                         <label for="q">q</label>
                         <input id="q" type="text" name="q" value="{{ form.data.q }}"/>
                     </div>
--->
-                    <!-- LATITUD -->
-                    <div  hidden="true" style="display: none;">
-                        <label for="lat">lat</label>
-                        <input id="lat" type="text" name="lat" value="{{ form.data.lat }}"/>
-                    </div>
-                    <!-- LONGITUD -->
-                    <div  hidden="true" style="display: none;">
-                        <label for="lng">lng</label>
-                        <input id="lng" type="text" name="lng" value="{{ form.data.lng }}"/>
-                    </div>
-
-                    <!-- RADIO -->
-                    <div  hidden="true" style="display: none;">
-                        <label for="radius">Radius</label>
-                        <input id="radius" type="text" name="radius" value="{{ form.data.radius }}"/>
-                    </div>
-
+                -->
+                <!-- LATITUD -->
+                <div  hidden="true" style="display: none;">
+                    <label for="lat">lat</label>
+                    <input id="lat" type="text" name="lat" value="{{ form.data.lat }}"/>
                 </div>
-            </form>
-        </div>
-<div>
+                <!-- LONGITUD -->
+                <div  hidden="true" style="display: none;">
+                    <label for="lng">lng</label>
+                    <input id="lng" type="text" name="lng" value="{{ form.data.lng }}"/>
+                </div>
 
-            {% bootstrap_messages %}
-            <div id="ad-list" class="">
-                <!-- LIST -->
-                <ul id="ads-list" class="media-list">
-                    {% for ad in page.object_list %}
-                        <li class="container-fluid media list-group-item" id="li-ad-{{ ad.id }}" data_pk="{{ ad.pk }}">
-                            <a id="ad-anchor-{{ ad.pk }}"></a>
-                            <div class="pull-left col-lg-2">
-                                {% with ad.image1 as image %}
-                                    {% thumbnail ad.image1 "100x100" crop="center" as im %}
-                                        <img  class="prod-img-thumbnail img-thumbnail img-rounded media-object" src="{{ im.url }}" alt="post img">
-                                    {% endthumbnail %}
-                                {% endwith %}
-                            </div>
-                            <div class="media-body col-lg-8">
-                                <a href="/ad/{{ ad.slug }}"><h4 class="media-heading">{{ ad.title }}</h4></a>
-                                <small> publish: {{ ad.pub_date }} </small>
-                                <p> {{ ad.short_description | truncatechars:100}} </p>
+                <!-- RADIO -->
+                <div  hidden="true" style="display: none;">
+                    <label for="radius">Radius</label>
+                    <input id="radius" type="text" name="radius" value="{{ form.data.radius }}"/>
+                </div>
 
-                                {% with ad.locations.all|first as location %}
-                                    <span class="lat" hidden="true"> {{ ad.location.y }}</span>
-                                    <span class="lng" hidden="true">{{ ad.location.x }}</span>
-                                {% endwith %}
-                            </div>
-                            <div class="col-lg-2">
-                                <div class="list-action price">
-                                    <div>${{ ad.price|floatformat:"0" }}<sup>{{ ad.price|float_decimal_part}}</sup></div>
-                                </div>
-                                <div>
-
-                                    <a class="set-favourite btn btn-default btn-sm pull-right"><span class="glyphicon glyphicon-heart-empty"></span></a>
-                                    <a class="locate-it btn btn-default btn-sm pull-right"  href="/ad/{{ ad.slug }}"><span class="glyphicon glyphicon-map-marker"></span></a>
-                                </div>
-                            </div>
-
-                        </li>
-                    {% endfor %}
-
-                </ul>
             </div>
+        </form>
+    </div>
+    <div>
 
-            <!-- PAGINATION -->
-            <div class="pagination pull-right" id="pagination">
-
-                {% if paginator %}
-                    {% load i18n %}
-                    <div class="pagination">
-                        {% if page.has_previous %}
-                            <a href="?page={{ page.previous_page_number }}{{ getvars }}" class="prev">&lsaquo;&lsaquo; {% trans "previous" %}</a>
-                        {% else %}
-                            <span class="disabled prev">&lsaquo;&lsaquo; {% trans "previous" %}</span>
-                        {% endif %}
-                        <span> Page {{ page.number }} of {{ paginator.num_pages }}</span>
-
-                        {% if page.has_next %}
-                            <a href="?page={{ page.next_page_number }}{{ getvars }}" class="next">{% trans "next" %} &rsaquo;&rsaquo;</a>
-                        {% else %}
-                            <span class="disabled next">{% trans "next" %} &rsaquo;&rsaquo;</span>
-                        {% endif %}
+        {% bootstrap_messages %}
+        <div id="ad-list" class="">
+            <!-- LIST -->
+            <ul id="ads-list" class="media-list">
+                {% for ad in page.object_list %}
+                <li class="container-fluid media list-group-item" id="li-ad-{{ ad.id }}" data_pk="{{ ad.pk }}">
+                    <a id="ad-anchor-{{ ad.pk }}"></a>
+                    <div class="pull-left col-md-2 col-lg-1">
+                        {% with ad.image1 as image %}
+                        {% thumbnail ad.image1 "100x100" crop="center" as im %}
+                        <img  class="prod-img-thumbnail img-responsive img-thumbnail img-rounded media-object" src="{{ im.url }}" alt="post img" >
+                        {% endthumbnail %}
+                        {% endwith %}
                     </div>
+                    <div class="media-body col-md-8 col-lg-9">
+                        <a href="/ad/{{ ad.slug }}"><h4 class="media-heading">{{ ad.title }}</h4></a>
+                        <small> publish: {{ ad.pub_date }} </small>
+                        <p> {{ ad.short_description | truncatechars:100}} </p>
+
+                        {% with ad.locations.all|first as location %}
+                        <span class="lat" hidden="true"> {{ ad.location.y }}</span>
+                        <span class="lng" hidden="true">{{ ad.location.x }}</span>
+                        {% endwith %}
+                    </div>
+                    <div class="col-lg-2">
+                        <div class="list-action price">
+                            <div>${{ ad.price|floatformat:"0" }}<sup>{{ ad.price|float_decimal_part}}</sup></div>
+                        </div>
+                        <div>
+
+                            <a class="set-favourite btn btn-default btn-sm pull-right"><span class="glyphicon glyphicon-heart-empty"></span></a>
+                            <a class="locate-it btn btn-default btn-sm pull-right"  href="/ad/{{ ad.slug }}"><span class="glyphicon glyphicon-map-marker"></span></a>
+                        </div>
+                    </div>
+
+                </li>
+                {% endfor %}
+
+            </ul>
+        </div>
+
+        <!-- PAGINATION -->
+        <div class="pagination pull-right" id="pagination">
+
+            {% if paginator %}
+            {% load i18n %}
+            <div class="pagination">
+                {% if page.has_previous %}
+                <a href="?page={{ page.previous_page_number }}{{ getvars }}" class="prev">&lsaquo;&lsaquo; {% trans "previous" %}</a>
+                {% else %}
+                <span class="disabled prev">&lsaquo;&lsaquo; {% trans "previous" %}</span>
                 {% endif %}
+                <span> Page {{ page.number }} of {{ paginator.num_pages }}</span>
 
-
+                {% if page.has_next %}
+                <a href="?page={{ page.next_page_number }}{{ getvars }}" class="next">{% trans "next" %} &rsaquo;&rsaquo;</a>
+                {% else %}
+                <span class="disabled next">{% trans "next" %} &rsaquo;&rsaquo;</span>
+                {% endif %}
             </div>
-</div>
+            {% endif %}
+
 
         </div>
     </div>
+
+</div>
+</div>
 {% endblock %}
 
 {% block js_footer_block %}
 
-    <script src="http://maps.googleapis.com/maps/api/js?sensor=TRUE&libraries=places"></script>
-    <script src="{{ STATIC_URL }}js/jquery.geocomplete.js"></script>
+<script src="http://maps.googleapis.com/maps/api/js?sensor=TRUE&libraries=places"></script>
+<script src="{{ STATIC_URL }}js/jquery.geocomplete.js"></script>
 
-    <!-- Formulario buscar direccion  -->
-    <script>
-        $("#address").geocomplete().bind("geocode:result", function(event, result){
-            position_area.setCenter(new google.maps.LatLng(result.geometry.location.lat(), result.geometry.location.lng()));
-            map.setCenter(new google.maps.LatLng(result.geometry.location.lat(), result.geometry.location.lng()));
-        });
-        $("#search_address_btn").click(function(){
-            $("#address").trigger("geocode");
-        });
+<!-- Formulario buscar direccion  -->
+<script>
+    $("#address").geocomplete().bind("geocode:result", function(event, result){
+        position_area.setCenter(new google.maps.LatLng(result.geometry.location.lat(), result.geometry.location.lng()));
+        map.setCenter(new google.maps.LatLng(result.geometry.location.lat(), result.geometry.location.lng()));
+    });
+    $("#search_address_btn").click(function(){
+        $("#address").trigger("geocode");
+    });
 
 
-    </script>
-    <!-- Fin - Formulario buscar direccion  -->
+</script>
+<!-- Fin - Formulario buscar direccion  -->
 
-    <script src="{{ STATIC_URL }}js/search-map.js"></script>
+<script src="{{ STATIC_URL }}js/search-map.js"></script>
 
-    <script>
-        $("#collapseTwoWrapper").mouseleave(function() {
-            $("#collapseTwo").collapse('hide');
-            $("#collapseOne").collapse("show");
-        });
-        $("#ads-list .list-group-item").mouseenter(function() {
-            $("#collapseOne").collapse("show");
-            $("#collapseTwo").collapse('hide');
-        });
+<script>
+    $("#collapseTwoWrapper").mouseleave(function() {
+        $("#collapseTwo").collapse('hide');
+        $("#collapseOne").collapse("show");
+    });
+    $("#ads-list .list-group-item").mouseenter(function() {
+        $("#collapseOne").collapse("show");
+        $("#collapseTwo").collapse('hide');
+    });
 
-        $("#collapseTwoWrapper").mouseenter(function() {
-            $("#collapseTwo").collapse('show');
-            $("#collapseOne").collapse("hide");
-        });
+    $("#collapseTwoWrapper").mouseenter(function() {
+        $("#collapseTwo").collapse('show');
+        $("#collapseOne").collapse("hide");
+    });
 
-        $(".glyphicon-heart").click(function(){
-            addToFavourites(this);
-        });
-        $(".glyphicon-heart-empty").click(function(){
+    $(".glyphicon-heart").click(function(){
+        addToFavourites(this);
+    });
+    $(".glyphicon-heart-empty").click(function(){
+        removeFromFavourites(this);
+    });
+
+    function addToFavourites(element){
+        console.log("like it");
+        console.log(element);
+
+        $(element).removeClass("glyphicon-heart-empty");
+        $(element).addClass("glyphicon-heart");
+        $(element).unbind( "click" );
+        $(element).click(function(){
             removeFromFavourites(this);
         });
 
-        function addToFavourites(element){
-            console.log("like it");
-            console.log(element);
+    }
 
-            $(element).removeClass("glyphicon-heart-empty");
-            $(element).addClass("glyphicon-heart");
-            $(element).unbind( "click" );
-            $(element).click(function(){
-            removeFromFavourites(this);
-            });
+    function removeFromFavourites(element){
+        console.log("Dislike it");
+        console.log(element);
 
-        }
-
-        function removeFromFavourites(element){
-            console.log("Dislike it");
-            console.log(element);
-
-            $(element).addClass("glyphicon-heart-empty");
-            $(element).removeClass("glyphicon-heart");
-            $(element).unbind( "click" );
-            $(element).click(function(){
+        $(element).addClass("glyphicon-heart-empty");
+        $(element).removeClass("glyphicon-heart");
+        $(element).unbind( "click" );
+        $(element).click(function(){
             addToFavourites(this);
-            });
-        }
+        });
+    }
 
 
-    </script>
+</script>
 
 {% endblock %}

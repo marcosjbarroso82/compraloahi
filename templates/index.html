@@ -4,82 +4,83 @@
 {% block title %}Lista de avisos {% endblock %}
 
 {% block css_header_block %}
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/home.css" >
+<link rel="stylesheet" href="{{ STATIC_URL }}css/home.css" >
 {% endblock %}
 
 {% block body_block %}
 <a href="{% url 'ad:create' %}" id="btnAddAd" class="btn btn-success btn-lg pull-left"><span class="glyphicon glyphicon-bullhorn"></span> Agrega tu aviso</a>
-    <div class="container jumbotron" id="container-home">
+<div class="container jumbotron" id="container-home">
 
-        <div class="row col-lg-12" id="home-search">
+    <div class="row col-lg-12" id="home-search">
 
 
-            <div class="col-lg-6 col-lg-offset-3 pull-center">
-                <h1 id="title-search" class="text-center"> ¡ Encontra tu aviso !</h1>
-                <form action="/ad/ad-list/" method="get" id="search">
-                    <div class="col-md-10">
-                        <input type="text" class="form-control" name="tags">
-                    </div>
-                    <div class="col-md-2">
-                        <button class="btn btn-info pull-right" type="submit" >
-                            <span class="glyphicon glyphicon-search"></span>
+        <div class="col-lg-6 col-lg-offset-3 pull-center">
+            <h3 id="title-search" class="text-center"> ¡ Encontra tu aviso !</h3>
+            <form action="/ad/ad-list/" method="get" id="search">
+                <div class="input-group stylish-input-group">
+                    <input id="q" class="form-control" name="q" type="text" placeholder="Search"/>
+                    <span class="input-group-addon">
+                        <!-- SUBMIT -->
+                        <button type="submit" style="border: none; width: 100%; ">
+                            <i class="glyphicon glyphicon-search"></i>
                         </button>
-                    </div>
-                </form>
-            </div>
+                    </span>
+                </div>
+            </form>
         </div>
+    </div>
 
 
-        <div class="col-md-12">
-            <div class="col-md-6">
-                <h3> Compralo ahi:</h3>
-                <br>
-                <div class="timeline-centered">
-                    <article class="timeline-entry">
-                        <div class="timeline-entry-inner">
-                            <div class="timeline-icon bg-success">
-                                <i class="entypo-feather"></i>
-                            </div>
-                            <div class="timeline-label">
-                                <h2><a href="#">Compralo ahi! a la vuelta de tus pies</a></h2>
-                                <p>Compralo ahi! a la vuelta de tus pies</p>
-                            </div>
+    <div class="col-md-12">
+        <div class="col-md-6">
+            <h3> Compralo ahi:</h3>
+            <br>
+            <div class="timeline-centered">
+                <article class="timeline-entry">
+                    <div class="timeline-entry-inner">
+                        <div class="timeline-icon bg-success">
+                            <i class="entypo-feather"></i>
                         </div>
-
-                    </article>
-                    <article class="timeline-entry">
-                        <div class="timeline-entry-inner">
-                            <div class="timeline-icon bg-info">
-                                <i class="entypo-feather"></i>
-                            </div>
-                            <div class="timeline-label">
-                                <h2><a href="#">Busca lo que queres para cuando podes</a></h2>
-                                <p>Busca lo que queres para cuando podes</p>
-                            </div>
+                        <div class="timeline-label">
+                            <h2><a href="#">Compralo ahi! a la vuelta de tus pies</a></h2>
+                            <p>Compralo ahi! a la vuelta de tus pies</p>
                         </div>
+                    </div>
 
-                    </article>
-                    <article class="timeline-entry">
-                        <div class="timeline-entry-inner">
-                            <div class="timeline-icon bg-success">
-                                <i class="entypo-feather"></i>
-                            </div>
-                            <div class="timeline-label">
-                                <h2><a href="#">¿Sos perezoso para moverte por largas distancia? </a></h2>
-                                <p>Esta es tu solucion. Compralo ahi! a la vuelta de tus pies</p>
-                            </div>
+                </article>
+                <article class="timeline-entry">
+                    <div class="timeline-entry-inner">
+                        <div class="timeline-icon bg-info">
+                            <i class="entypo-feather"></i>
                         </div>
+                        <div class="timeline-label">
+                            <h2><a href="#">Busca lo que queres para cuando podes</a></h2>
+                            <p>Busca lo que queres para cuando podes</p>
+                        </div>
+                    </div>
 
-                    </article>
-                    <article class="timeline-entry">
-                        <div class="timeline-entry-inner">
-                            <div class="timeline-icon bg-info">
-                                <i class="entypo-feather"></i>
-                            </div>
-                            <div class="timeline-label">
-                                <h2><a href="#">Oportunidades</a></h2>
-                                <p>En la vida, el tiempo y las oportunidades son de las pocas cosas que una vez perdidas no puedes recuperar... <br/>
-                                    No te pierdas ninguna, configura tu perfil para saber todas las oportunidades que tenes cerca</p>
+                </article>
+                <article class="timeline-entry">
+                    <div class="timeline-entry-inner">
+                        <div class="timeline-icon bg-success">
+                            <i class="entypo-feather"></i>
+                        </div>
+                        <div class="timeline-label">
+                            <h2><a href="#">¿Sos perezoso para moverte por largas distancia? </a></h2>
+                            <p>Esta es tu solucion. Compralo ahi! a la vuelta de tus pies</p>
+                        </div>
+                    </div>
+
+                </article>
+                <article class="timeline-entry">
+                    <div class="timeline-entry-inner">
+                        <div class="timeline-icon bg-info">
+                            <i class="entypo-feather"></i>
+                        </div>
+                        <div class="timeline-label">
+                            <h2><a href="#">Oportunidades</a></h2>
+                            <p>En la vida, el tiempo y las oportunidades son de las pocas cosas que una vez perdidas no puedes recuperar... <br/>
+                                No te pierdas ninguna, configura tu perfil para saber todas las oportunidades que tenes cerca</p>
                             </div>
                         </div>
 
@@ -125,8 +126,8 @@
 
         </div>
     </div>
-{% endblock %}
-{% block js_footer_block %}
+    {% endblock %}
+    {% block js_footer_block %}
     <script src="{{ STATIC_URL }}js/jquery.imagemapster.min.js"></script>
 
     <script type="text/javascript">
@@ -186,106 +187,106 @@
             toolTipClose: ["tooltip-click", "area-click"],
 
             areas: [
-                {
-                    key: "entrerios",
-                    toolTip: "Entre Rios"
-                },
-                {
-                    key: "misiones",
-                    toolTip: "Misiones"
-                },
-                {
-                    key: "cordoba",
-                    toolTip: "Córdoba"
-                },
-                {
-                    key: "buenosaires",
-                    toolTip: "Buenos Aires"
-                },
-                {
-                    key: "chubut",
-                    toolTip: "Chubut"
-                },
-                {
-                    key: "malvinas",
-                    toolTip: "Malvinas"
-                },
-                {
-                    key: "corrientes",
-                    toolTip: "Corrientes"
-                },
-                {
-                    key: "chaco",
-                    toolTip: "Chaco"
-                },
-                {
-                    key: "formosa",
-                    toolTip: "Formosa"
-                },
-                {
-                    key: "salta",
-                    toolTip: "Salta"
-                },
-                {
-                    key: "jujuy",
-                    toolTip: "Jujuy"
-                },
-                {
-                    key: "tucuman",
-                    toolTip: "Tucuman"
-                },
-                {
-                    key: "catamarca",
-                    toolTip: "Catamarca"
-                },
-                {
-                    key: "larioja",
-                    toolTip: "La Rioja"
-                },
-                {
-                    key: "sanjuan",
-                    toolTip: "San Juan"
-                },
-                {
-                    key: "mendoza",
-                    toolTip: "Mendoza"
-                },
-                {
-                    key: "neuquen",
-                    toolTip: "Neuquen"
-                },
-                {
-                    key: "sanluis",
-                    toolTip: "San Luis"
-                },
-                {
-                    key: "santafe",
-                    toolTip: "Santa Fe"
-                },
-                {
-                    key: "santiagodelestero",
-                    toolTip: "Santiado del Estero"
-                },
-                {
-                    key: "lapampa",
-                    toolTip: "La Pampa"
-                },
-                {
-                    key: "rionegro",
-                    toolTip: "Rio Negro"
-                },
-                {
-                    key: "santacruz",
-                    toolTip: "Santa Cruz"
-                },
-                {
-                    key: "tierradelfuego",
-                    toolTip: "Tierra del Fuego"
-                }
+            {
+                key: "entrerios",
+                toolTip: "Entre Rios"
+            },
+            {
+                key: "misiones",
+                toolTip: "Misiones"
+            },
+            {
+                key: "cordoba",
+                toolTip: "Córdoba"
+            },
+            {
+                key: "buenosaires",
+                toolTip: "Buenos Aires"
+            },
+            {
+                key: "chubut",
+                toolTip: "Chubut"
+            },
+            {
+                key: "malvinas",
+                toolTip: "Malvinas"
+            },
+            {
+                key: "corrientes",
+                toolTip: "Corrientes"
+            },
+            {
+                key: "chaco",
+                toolTip: "Chaco"
+            },
+            {
+                key: "formosa",
+                toolTip: "Formosa"
+            },
+            {
+                key: "salta",
+                toolTip: "Salta"
+            },
+            {
+                key: "jujuy",
+                toolTip: "Jujuy"
+            },
+            {
+                key: "tucuman",
+                toolTip: "Tucuman"
+            },
+            {
+                key: "catamarca",
+                toolTip: "Catamarca"
+            },
+            {
+                key: "larioja",
+                toolTip: "La Rioja"
+            },
+            {
+                key: "sanjuan",
+                toolTip: "San Juan"
+            },
+            {
+                key: "mendoza",
+                toolTip: "Mendoza"
+            },
+            {
+                key: "neuquen",
+                toolTip: "Neuquen"
+            },
+            {
+                key: "sanluis",
+                toolTip: "San Luis"
+            },
+            {
+                key: "santafe",
+                toolTip: "Santa Fe"
+            },
+            {
+                key: "santiagodelestero",
+                toolTip: "Santiado del Estero"
+            },
+            {
+                key: "lapampa",
+                toolTip: "La Pampa"
+            },
+            {
+                key: "rionegro",
+                toolTip: "Rio Negro"
+            },
+            {
+                key: "santacruz",
+                toolTip: "Santa Cruz"
+            },
+            {
+                key: "tierradelfuego",
+                toolTip: "Tierra del Fuego"
+            }
 
             ]
         });
-    </script>
+</script>
 
 
 
