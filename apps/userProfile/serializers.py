@@ -5,23 +5,25 @@ from .models import UserProfile, Phone, UserLocation
 
 from sorl.thumbnail import get_thumbnail
 
+from apps.user.serializers import UserSerializer
 
 class PhoneSerializer(ModelSerializer):
 
     class Meta:
         model = Phone
-        fields = ('number', 'type')
+        fields = ('number', 'type', 'id')
 
 
 class UserProfileSerializer(ModelSerializer):
     thumbnail_200x200 = serializers.SerializerMethodField()
     phones = PhoneSerializer(many=True)
+    user = UserSerializer()
 
     class Meta:
         model = UserProfile
         depth = 2
-        fields = ('image', 'birth_date', 'user', 'phones', 'thumbnail_200x200')
-        read_only_fields = ('user')
+        fields = ('image', 'birth_date', 'user', 'phones', 'thumbnail_200x200', 'id')
+        read_only_fields = ('user', 'id')
 
     def get_thumbnail_200x200(self, obj):
         return get_thumbnail(obj.image, '200x200', crop='center', quality=99).url

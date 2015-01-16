@@ -3,59 +3,65 @@ from django.utils.decorators import method_decorator
 from django.http import HttpResponseRedirect
 from django.views.generic import CreateView, UpdateView, DetailView
 
-from .models import UserProfile, UserLocation
+from .models import UserProfile, UserLocation, Phone
 from .forms import UserProfileForm, Phone_inline_formset, Location_inline_formset
 
-from rest_framework.viewsets import ModelViewSet, ViewSet
-from rest_framework.generics import RetrieveAPIView
+from rest_framework.viewsets import ModelViewSet
 
 from .serializers import UserProfileSerializer, UserLocationSeralizer
 from rest_framework.response import Response
-from django.shortcuts import get_object_or_404
 from rest_framework import status
 
 from rest_framework import viewsets
+import ast
 
 class UserProfileModelView(ModelViewSet):
     serializer_class = UserProfileSerializer
 
     def retrieve(self, request, *args, **kwargs):
-        queryset = UserProfile.objects.all()
-        profile = get_object_or_404(queryset, user=request.user)
-        serializer = UserProfileSerializer(profile)
+        serializer = UserProfileSerializer(self.get_queryset())
         return Response(serializer.data)
 
     def update(self, request, *args, **kwargs):
-        profile = self.get_queryset()
+        try:
+            profile = self.get_queryset()
+            profile.birth_date = request.DATA['birth_date']
 
-        profile.birth_date = request.DATA['birth_date']
+            if request.FILES.get('image', None):
+                profile.image = request.FILES['image']
 
-        profile.image = request.FILES['image']
+            print(request.DATA)
+            user_data = ast.literal_eval(request.DATA['user'])
 
-        user = profile.user
+            user = profile.user
+            print("FIRST NAME")
+            print(user_data)
+            user.first_name = user_data['first_name']
+            user.last_name = user_data['last_name']
+            user.email = user_data['email']
 
-        user.first_name = request.DATA['first_name']
-        user.last_name = request.DATA['last_name']
-        user.email = request.DATA['email']
+            #Delete all phones to user
+            Phone.objects.filter(userProfile=profile).delete()
 
-        profile.save()
-        user.save()
+            phones_data = ast.literal_eval(request.DATA['phones'])
+            #Add new phone
+            for phone in phones_data:
+                p = Phone()
+                p.userProfile = profile
+                p.number= int(phone['number'])
+                p.type = phone['type']
+                p.save()
 
-        return Response({'status': 'Ok request.', 'message': 'Los datos de usuario se modificaron con exito'}, status=status.HTTP_200_OK )
+            profile.save()
+            user.save()
 
+            return Response({'status': 'Ok request.', 'message': 'Los datos de usuario se modificaron con exito'}, status=status.HTTP_200_OK )
+        except KeyError:
+            return Response({'status': 'Bad request.', 'message': "ERROR: You need Complete all fields"}, status=status.HTTP_400_BAD_REQUEST)
 
     def get_queryset(self):
         return UserProfile.objects.get(user=self.request.user)
 
-# class UserProfileModelView(RetrieveAPIView):
-#     serializer_class = UserProfileSerializer
-#     queryset = UserProfile.objects.all()
-#
-#     def get_object(self):
-#         return UserProfile.objects.get(user = self.request.user)
-#
-#     def get_queryset(self):
-#         return UserProfile.objects.get(user = self.request.user)
 
 class UserProfileCreateView(CreateView):
     model = UserProfile
@@ -83,7 +89,6 @@ class UserProfileCreateView(CreateView):
         self.object = None
         form_class = self.get_form_class()
         form = self.get_form(form_class)
-
 
         # Phones
         phones_form = Phone_inline_formset(

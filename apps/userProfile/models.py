@@ -3,9 +3,9 @@ from django.contrib.auth.models import User
 
 
 TYPE_PHONE = (
-    ('TEL', 'Telefono'),
-    ('CEL', 'Celular'),
-    ('FAX', 'Fax'),
+    ('Telelefono', 'Telefono'),
+    ('Celular', 'Celular'),
+    ('Fax', 'Fax'),
 )
 
 
