@@ -10,7 +10,7 @@ TYPE_PHONE = (
 
 
 class UserProfile(models.Model):
-    image = models.ImageField(upload_to='profile', null=False, blank=False)
+    image = models.ImageField(upload_to='profile', null=False, blank=False, default="profile/images.jpg")
     birth_date = models.DateField()
     user = models.OneToOneField(User, unique=True)
     #phones = models.ManyToOneRel(Phone)
