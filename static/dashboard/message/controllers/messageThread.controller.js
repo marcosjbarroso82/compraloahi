@@ -38,6 +38,8 @@
             function replySuccess(data){
                 console.log('replySuccess');
                 console.log(data);
+                $scope.loadMessageThread($stateParams.id);
+                $scope.msgReply = {};
             }
 
             function replyError(data){
