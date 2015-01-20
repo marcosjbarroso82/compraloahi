@@ -1,0 +1,29 @@
+<div id="ad-list" class="">
+    <!-- LIST -->
+    <ul id="ads-list" class="media-list">
+        <li class="container-fluid media list-group-item" ng-repeat="ad in ads"
+                ng-mouseenter="selectAd(ad)"  ng-mouseleave="deselectAd(ad)"
+                ng-class="{'list-group-item-hover': ad.selected == true}"
+                >
+            <a id="ad-anchor-{{ ad.pk }}"></a> <!-- This tag is used for animation, It could be replaced -->
+            <div class="pull-left col-md-2 col-lg-1">
+                <img  class="prod-img-thumbnail img-responsive img-thumbnail img-rounded media-object" src="{{ ad.image }}" alt="post img" >
+            </div>
+            <div class="media-body col-md-8 col-lg-9">
+                <a href="/ad/{{ ad.slug }}"><h4 class="media-heading">{{ ad.title }}</h4></a>
+                <small> publish: {{ ad.pub_date }} </small>
+                <p> {{ ad.short_description }} </p>
+            </div>
+            <div class="col-lg-2">
+                <div class="list-action price">
+                    <div>${{ ad.price }}<sup>99</sup></div>
+                </div>
+                <div>
+                    <a class="set-favourite btn btn-default btn-sm pull-right" ng-click="AddToFavourites(ad)"><span class="glyphicon glyphicon-heart-empty"></span></a>
+                    <a class="locate-it btn btn-default btn-sm pull-right" ng-click="callControl()" ><span class="glyphicon glyphicon-map-marker"></span></a>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>
+

@@ -1,3 +1,9 @@
+/* TODO: find a place for this. Ad list Map */
+.angular-google-map-container{
+    height: 350px;
+    width: 100%;
+}
+
 .btn {
   padding-left: 7px;
   padding-right: 7px;
