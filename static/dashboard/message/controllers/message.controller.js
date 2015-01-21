@@ -21,15 +21,37 @@
         $scope.loadMessages = function(folder){
             Message.getMsgs(folder).then(getSuccess, getError);
             $scope.folder = folder;
-            function getSuccess(data){
-                $scope.messages = data.data;
 
+            function getSuccess(data){
+                //$scope.messages = data.data;
+                data = angular.fromJson(data.data);
+
+                // Rewrite Next and Previous
+                data.next = data.next ? getPageFromUrl(data.next) : "";
+                data.previous = data.previous ? getPageFromUrl(data.previous) : "";
+
+                $scope.messages = data.results;
+
+                $scope.next_page = data.next;
+                $scope.prev_page = data.previous;
             };
 
             function getError(data){
                 console.log('Error al cargar el inbox');
             }
         }
+
+        $scope.get_msgs_page = function(page){
+            Ad.get({"page":page},function(response) {
+                $scope.current_page = page;
+                $scope.messages = response.results;
+                $scope.next_page = response.next;
+                $scope.prev_page = response.previous;
+            });
+        };
+
+
+
 
         $scope.delete_bulk = function(){
             var messages = [];
@@ -53,7 +75,32 @@
         }
 
         $scope.messages = $scope.loadMessages('inbox');
+
+
+        /**
+         * Gets a page parameter from url
+         * @param {String} url
+         * @return {String} page
+         */
+        function getPageFromUrl(url) {
+            url = url.split(/\?|\&/);
+            //previous = previous.split(/\?|\&/);
+            var params = [];
+            var page = "";
+            url.forEach( function(str_param) {
+                if (str_param) {
+                    var param = str_param.split("=");
+                    if (param[0] == 'page') {
+                        page = param[1];
+                   }
+                }
+            });
+            return page;
+        }
+
+
     }
+
 
 
 })();

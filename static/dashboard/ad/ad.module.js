@@ -11,5 +11,5 @@
         .module('dashBoardApp.ad.controllers', []);
 
     angular
-        .module('dashBoardApp.ad.services', ['ngResource']);
+        .module('dashBoardApp.ad.services', ['ngResource', 'djangoRESTResources']);
 })();

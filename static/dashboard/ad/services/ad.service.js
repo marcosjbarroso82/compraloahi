@@ -9,14 +9,17 @@
         .module('dashBoardApp.ad.services')
         .factory('Ad', Ad);
 
-    Ad.$inject = ['$resource'];
+    Ad.$inject = ['$resource', 'djResource'];
 
     /**
      * @namespace Ad
      * @returns {Factory}
      */
-    function Ad($resource) {
+    function Ad($resource, djResource) {
         //return $resource('/api/v1/ads/:id/:page');
+
+        //var Ad = djResource('/api/v1/ads/:adId/', {adId: '@id'});
+
         return $resource(
             '/api/v1/ads/:id/', {}, {
                 get: {
@@ -34,6 +37,7 @@
                 }
             }
         );
+        //return Ad;
     }
 
     /**
@@ -51,7 +55,7 @@
                 var param = str_param.split("=");
                 if (param[0] == 'page') {
                     page = param[1];
-                }
+               }
             }
         });
         return page;

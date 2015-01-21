@@ -13,6 +13,10 @@ from django.db.models import Q
 from rest_framework.decorators import api_view
 from django.utils.timezone import now as datetime_now
 
+from rest_framework.pagination import PaginationSerializer
+from django.core.paginator import Paginator
+
+
 class CustomWriteView(WriteView):
     form_classes=(CustomWriteForm, CustomWriteForm)
     template_name= 'message/write_modal.html'
@@ -20,21 +24,14 @@ class CustomWriteView(WriteView):
 
 
 class MessageModelViewSet(viewsets.ModelViewSet):
+    paginate_by = 5
     serializer_class = MessageSerializer
 
     def list(self, request, *args, **kwargs):
-        if kwargs['folder'] == 'inbox':
-            msgs = Message.objects.inbox(self.request.user)
-        elif kwargs['folder'] == 'sent':
-            msgs = Message.objects.sent(self.request.user)
-        elif kwargs['folder'] == 'trash':
-            msgs = Message.objects.trash(self.request.user)
-        elif kwargs['folder'] == 'archives':
-            msgs = Message.objects.trash(self.request.user)
+        self.folder = kwargs.get('folder', None)
 
-        msgs_serializer = MessageSerializer(msgs, many=True)
+        return super(MessageModelViewSet, self).list(request, *args, **kwargs)
 
-        return Response(msgs_serializer.data)
 
     def create(self, request, *args, **kwargs):
         pass
@@ -50,7 +47,19 @@ class MessageModelViewSet(viewsets.ModelViewSet):
 
 
     def get_queryset(self):
-        return Message.objects.all()
+        if self.folder:
+            if self.folder == 'inbox':
+                msgs = Message.objects.inbox(self.request.user)
+            elif self.folder == 'sent':
+                msgs = Message.objects.sent(self.request.user)
+            elif self.folder == 'trash':
+                msgs = Message.objects.trash(self.request.user)
+            elif self.folder == 'archives':
+                msgs = Message.objects.trash(self.request.user)
+
+            return msgs
+        else:
+            return Message.objects.all()
 
 
 

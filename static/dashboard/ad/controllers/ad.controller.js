@@ -24,27 +24,12 @@
 
         getAds();
 
+
         function getAds(){
             Ad.get(function(data) {
                 $scope.ads = data.results;
-                $scope.count_page = parseInt(data.count/5) + 1;
-                for(var i=1; i <= $scope.count_page; i++){
-                    $scope.pages.push(i);
-                }
                 $scope.next_page = data.next;
                 $scope.prev_page = data.previous;
-
-                if($scope.next_page){
-                    $scope.next = false;
-                }else{
-                    $scope.next = true;
-                }
-
-                if($scope.prev_page){
-                    $scope.prev = false;
-                }else{
-                   $scope.prev = true;
-                }
             });
         }
 
@@ -56,11 +41,6 @@
                 $scope.prev_page = response.previous;
             });
         };
-
-        $scope.changePage = function(){
-            console.log("CAMBIO DE PAGINA! ");
-        };
-
 
 
         $scope.submitAd= function(text) {
