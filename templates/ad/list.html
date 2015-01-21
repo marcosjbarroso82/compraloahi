@@ -3,6 +3,8 @@
 {% block title %}Lista de avisos {% endblock %}
 {% load thumbnail %}
 {% load common_tags %}
+{% load staticfiles %}
+
 
 {% block css_header_block %}
 <link rel="stylesheet" href="{{ STATIC_URL }}css/ad-list.css" >
@@ -10,12 +12,12 @@
 {% endblock %}
 
 {% block body_block %}
-<div class="ad-list" >
+<div class="ad-list" ng-app="App">
     <div class="col-lg-4 sidebar pull-left affix well" id="sidebar">
         <div class="" id="accordion" role="tablist" aria-multiselectable="true">
             <div id="collapseOneWrapper" class="well">
                 <div class="" role="tab" id="headingOne">
-                    --
+                    Mapa
                 </div>
                 <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
                     <div class="">
@@ -38,13 +40,10 @@
                             </div>
                         </div>
                         <br>
+                        <div ui-view="ad-map">
                         <!-- Map -->
-                        <div class="">
-                            <div id="mapa" class="capas img-thumbnail"></div>
+
                         </div>
-
-
-
                     </div>
                 </div>
             </div>
@@ -106,7 +105,8 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-8 col-md-offset-4 content pull-right">
+
+    <div class="col-lg-8 col-md-offset-4 content pull-right">
             <!-- FORM SEARCH -->
             <div>
 
@@ -152,44 +152,8 @@
     <div>
 
         {% bootstrap_messages %}
-        <div id="ad-list" class="">
-            <!-- LIST -->
-            <ul id="ads-list" class="media-list">
-                {% for ad in page.object_list %}
-                <li class="container-fluid media list-group-item" id="li-ad-{{ ad.id }}" data_pk="{{ ad.pk }}">
-                    <a id="ad-anchor-{{ ad.pk }}"></a>
-                    <div class="pull-left col-md-2 col-lg-1">
-                        {% with ad.image1 as image %}
-                        {% thumbnail ad.image1 "100x100" crop="center" as im %}
-                        <img  class="prod-img-thumbnail img-responsive img-thumbnail img-rounded media-object" src="{{ im.url }}" alt="post img" >
-                        {% endthumbnail %}
-                        {% endwith %}
-                    </div>
-                    <div class="media-body col-md-8 col-lg-9">
-                        <a href="/ad/{{ ad.slug }}"><h4 class="media-heading">{{ ad.title }}</h4></a>
-                        <small> publish: {{ ad.pub_date }} </small>
-                        <p> {{ ad.short_description | truncatechars:100}} </p>
+        <div ui-view="ad-list" id="ad-list" class="">
 
-                        {% with ad.locations.all|first as location %}
-                        <span class="lat" hidden="true"> {{ ad.location.y }}</span>
-                        <span class="lng" hidden="true">{{ ad.location.x }}</span>
-                        {% endwith %}
-                    </div>
-                    <div class="col-lg-2">
-                        <div class="list-action price">
-                            <div>${{ ad.price|floatformat:"0" }}<sup>{{ ad.price|float_decimal_part}}</sup></div>
-                        </div>
-                        <div>
-
-                            <a class="set-favourite btn btn-default btn-sm pull-right"><span class="glyphicon glyphicon-heart-empty"></span></a>
-                            <a class="locate-it btn btn-default btn-sm pull-right"  href="/ad/{{ ad.slug }}"><span class="glyphicon glyphicon-map-marker"></span></a>
-                        </div>
-                    </div>
-
-                </li>
-                {% endfor %}
-
-            </ul>
         </div>
 
         <!-- PAGINATION -->
@@ -222,74 +186,114 @@
 {% endblock %}
 
 {% block js_footer_block %}
+<!--  LOAD ADS DATA -->
+    <script>
+        var json_data = {
+        "count": 9,
+        "next": "http://127.0.0.1:8000/api/v1/ads/?page=2",
+        "previous": null,
+        'results':[
+            {% for ad in page.object_list %}
+                {% if not forloop.first %},{% endif %}
+                {
+                    selected: false,
+                    title: "{{ ad.title }}",
+                    slug: "{{ ad.slug }}",
+                    id: "{{ ad.id }}",
+                    pk: "{{ ad.pk }}",
+                    pub_date: "{{ ad.pub_date }}",
+                    lat: "{{ ad.location.x }}",
+                    lng: "{{ ad.location.x }}",
+                    price: "{{ ad.price }}",
+                    radius: 2000,
+                    short_description: "{{ ad.short_description }}",
+                    center:{
+                        latitude: {{ ad.location.y }},
+                        longitude: {{ ad.location.x }}
+                    },
+                    {% with ad.image1 as image %}
+                    {% thumbnail ad.image1 "100x100" crop="center" as im %}
+                    image: "{{ im.url }}"
+                    {% endthumbnail %}
+                    {% endwith %}
 
-<script src="http://maps.googleapis.com/maps/api/js?sensor=TRUE&libraries=places"></script>
-<script src="{{ STATIC_URL }}js/jquery.geocomplete.js"></script>
+                }
+            {% endfor %}
+        ]}
+    </script>
+    <!--  END - LOAD ADS DATA -->
+    <!-- ###################### IMPORT THIRD LIB ###################### -->
 
-<!-- Formulario buscar direccion  -->
-<script>
-    $("#address").geocomplete().bind("geocode:result", function(event, result){
-        position_area.setCenter(new google.maps.LatLng(result.geometry.location.lat(), result.geometry.location.lng()));
-        map.setCenter(new google.maps.LatLng(result.geometry.location.lat(), result.geometry.location.lng()));
-    });
-    $("#search_address_btn").click(function(){
-        $("#address").trigger("geocode");
-    });
+    <!-- jquery resources -->
+    <script type="text/javascript" src="{% static 'jquery-formset-12/jquery-2.1.1.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bower_components/jquery-cookie/jquery.cookie.js' %}"></script>
 
+    <!-- angular resources -->
+    <script type="text/javascript" src="{% static 'bower_components/angular/angular.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bower_components/angular-resource/angular-resource.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bower_components/angular-route/angular-route.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bower_components/angular-ui-router/release/angular-ui-router.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bower_components/angular-sanitize/angular-sanitize.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bower_components/angular-google-maps/dist/angular-google-maps.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bower_components/angular-bootstrap/ui-bootstrap.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bower_components/angular-bootstrap/ui-bootstrap-tpls.js' %}"></script>
+    <!-- google mapp -->
+    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true&libraries=places&language=en-US"></script>
 
-</script>
-<!-- Fin - Formulario buscar direccion  -->
-
-<script src="{{ STATIC_URL }}js/search-map.js"></script>
-
-<script>
-    $("#collapseTwoWrapper").mouseleave(function() {
-        $("#collapseTwo").collapse('hide');
-        $("#collapseOne").collapse("show");
-    });
-    $("#ads-list .list-group-item").mouseenter(function() {
-        $("#collapseOne").collapse("show");
-        $("#collapseTwo").collapse('hide');
-    });
-
-    $("#collapseTwoWrapper").mouseenter(function() {
-        $("#collapseTwo").collapse('show');
-        $("#collapseOne").collapse("hide");
-    });
-
-    $(".glyphicon-heart").click(function(){
-        addToFavourites(this);
-    });
-    $(".glyphicon-heart-empty").click(function(){
-        removeFromFavourites(this);
-    });
-
-    function addToFavourites(element){
-        console.log("like it");
-        console.log(element);
-
-        $(element).removeClass("glyphicon-heart-empty");
-        $(element).addClass("glyphicon-heart");
-        $(element).unbind( "click" );
-        $(element).click(function(){
-            removeFromFavourites(this);
-        });
-
-    }
-
-    function removeFromFavourites(element){
-        console.log("Dislike it");
-        console.log(element);
-
-        $(element).addClass("glyphicon-heart-empty");
-        $(element).removeClass("glyphicon-heart");
-        $(element).unbind( "click" );
-        $(element).click(function(){
-            addToFavourites(this);
-        });
-    }
+    <!-- Nose -->
+    <script type="text/javascript" src="{% static 'bower_components/lodash/dist/lodash.js' %}"></script>
 
 
-</script>
+    <!-- SnackBar -->
+    <script type="text/javascript" src="{% static 'lib/snackbarjs/snackbar.min.js' %}"></script>
+
+    <!-- ###################### END IMPORT ###################### -->
+
+
+
+
+    <!-- ###################### angular-resources APP ###################### -->
+    <script type="text/javascript" src="{% static 'app.js' %}"></script>
+
+    <!-- ###################### END angular-resources APP ###################### -->
+
+    <!-- ###################### angular-resources APP - MODULE UTILS ###################### -->
+    <script type="text/javascript" src="{% static 'angular-resources/utils/util.module.js' %}"></script>
+    <script type="text/javascript" src="{% static 'angular-resources/utils/directives/google-places.directive.js' %}"></script>
+    <script type="text/javascript" src="{% static 'angular-resources/utils/directives/really-click.directive.js' %}"></script>
+    <script type="text/javascript" src="{% static 'angular-resources/utils/services/snackbar.service.js' %}"></script>
+
+    <script type="text/javascript" src="{% static 'angular-resources/utils/directives/upload-file-model.directive.js' %}"></script>
+    <!-- ###################### END angular-resources APP - MODULE UTILS ###################### -->
+
+    <!-- ###################### angular-resources APP - MODULE PROFILE ###################### -->
+    <script type="text/javascript" src="{% static 'angular-resources/profile/profile.module.js' %}"></script>
+    <script type="text/javascript" src="{% static 'angular-resources/profile/services/profile.service.js' %}"></script>
+    <script type="text/javascript" src="{% static 'angular-resources/profile/controllers/detail-profile.controller.js' %}"></script>
+    <script type="text/javascript" src="{% static 'angular-resources/profile/controllers/update-profile.controller.js' %}"></script>
+    <script type="text/javascript" src="{% static 'angular-resources/profile/controllers/change-password.controller.js' %}"></script>
+    <!-- ###################### END angular-resources APP - MODULE PROFILE ###################### -->
+
+
+    <!-- ###################### angular-resources APP - MODULE AD ###################### -->
+    <script type="text/javascript" src="{% static 'angular-resources/ad/ad.module.js' %}"></script>
+    <script type="text/javascript" src="{% static 'angular-resources/ad/services/ad.json-service.js' %}"></script>
+    <script type="text/javascript" src="{% static 'angular-resources/ad/controllers/ad.controller.js' %}"></script>
+    <!-- ###################### END angular-resources APP - MODULE AD ###################### -->
+
+
+    <!-- ###################### angular-resources APP - MODULE MESSAGE ###################### -->
+    <script type="text/javascript" src="{% static 'angular-resources/message/message.module.js' %}"></script>
+    <script type="text/javascript" src="{% static 'angular-resources/message/services/message.service.js' %}"></script>
+    <script type="text/javascript" src="{% static 'angular-resources/message/controllers/message.controller.js' %}"></script>
+    <script type="text/javascript" src="{% static 'angular-resources/message/controllers/messageThread.controller.js' %}"></script>
+    <!-- ###################### END angular-resources APP - MODULE MESSAGE ###################### -->
+
+
+    <!-- ###################### angular-resources APP - MODULE USER LOCATION ###################### -->
+    <script type="text/javascript" src="{% static 'angular-resources/user-location/location.module.js' %}"></script>
+    <script type="text/javascript" src="{% static 'angular-resources/user-location/services/location.service.js' %}"></script>
+    <script type="text/javascript" src="{% static 'angular-resources/user-location/controllers/location.controller.js' %}"></script>
+    <!-- ###################### END angular-resources APP - MODULE USER LOCATION ###################### -->
 
 {% endblock %}

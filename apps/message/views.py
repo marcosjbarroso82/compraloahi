@@ -41,8 +41,16 @@ class MessageModelViewSet(viewsets.ModelViewSet):
         """
             Devuelve un thread
         """
-        msg = Message.objects.thread(self.request.user, Q(pk=self.kwargs['pk']))
-        msg_serializer = MessageSerializer(msg, many=True)
+
+        msg = Message.objects.get(pk=self.kwargs['pk'])
+        Message.objects.set_read(self.request.user, Q(pk=msg.id))
+
+        if msg.thread:
+            thread = Message.objects.thread(self.request.user, Q(thread=msg.thread))
+            msg_serializer = MessageSerializer(thread, many=True)
+        else:
+            msg_serializer = MessageSerializer([msg], many=True)
+
         return Response(msg_serializer.data)
 
 

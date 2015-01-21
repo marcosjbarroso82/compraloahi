@@ -1,12 +1,12 @@
 /**
  * MessageThreadCtrl
- * @namespace dashBoardApp.MessageThreadCtrl.controllers
+ * @namespace App.MessageThreadCtrl.controllers
  */
 (function () {
     'use strict';
 
     angular
-        .module('dashBoardApp.message.controllers')
+        .module('App.message.controllers')
         .controller('MessageThreadCtrl', MessageThreadCtrl);
 
     MessageThreadCtrl.$inject = ['$scope', 'Message', '$stateParams', '$q'];
@@ -38,8 +38,6 @@
             function replySuccess(data){
                 console.log('replySuccess');
                 console.log(data);
-                $scope.loadMessageThread($stateParams.id);
-                $scope.msgReply = {};
             }
 
             function replyError(data){
