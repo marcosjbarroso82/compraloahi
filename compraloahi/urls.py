@@ -18,13 +18,17 @@ router.register(r'ads', adViews.AdViewSet)
 router.register(r'user-locations', UserLocationViewSet)
 #router.register(r'users', userViews.UserViewSet)
 
+
 urlpatterns = patterns('',
                         url(r'^api/v1/', include(router.urls)),
 
                         # Detail Profile
                         url(r'^api/v1/profile/$', UserProfileModelView.as_view({'get': 'retrieve'}), name='api-profile-detail' ),
+
                         # Update Profile
-                        url(r'^api/v1/profile/$', UserProfileModelView.as_view({'put': 'update'}), name='api-profile-update' ),
+                        url(r'^api/v1/profile/(?P<pk>\d+)/$', UserProfileModelView.as_view({'put': 'update'}), name='api-profile-update' ),
+
+
 
                         # Change password
                         url(r'^api/v1/change-password/$', ChangePasswordUpdateAPIView.as_view(), name='api-change-password' ),
@@ -77,7 +81,6 @@ urlpatterns = patterns('',
                         url(r'^media/(?P<path>.*)$',
                            "django.views.static.serve",
                            {'document_root': settings.MEDIA_ROOT}),
-
 
                         )
 

@@ -19,17 +19,34 @@
         $scope.message = {};
 
         $scope.loadMessages = function(folder){
-            Message.getMsgs(folder).then(getSuccess, getError);
+            Message.getMsgs(folder, 0).then(getMessagesByFolderSuccess, getMessagesByFolderError);
             $scope.folder = folder;
-            function getSuccess(data){
-                $scope.messages = data.data;
-
-            };
-
-            function getError(data){
-                console.log('Error al cargar el inbox');
-            }
         }
+
+        $scope.get_msgs_page = function(page){
+            Message.getMsgs($scope.folder, page).then(getMessagesByFolderSuccess, getMessagesByFolderError);
+        };
+
+
+        function getMessagesByFolderSuccess(data){
+            //$scope.messages = data.data;
+            data = angular.fromJson(data.data);
+
+            // Rewrite Next and Previous
+            data.next = data.next ? getPageFromUrl(data.next) : "";
+            data.previous = data.previous ? getPageFromUrl(data.previous) : "";
+
+            $scope.messages = data.results;
+
+            $scope.next_page = data.next;
+            $scope.prev_page = data.previous;
+        };
+
+        function getMessagesByFolderError(data){
+            console.log('Error al cargar el inbox');
+        }
+
+
 
         $scope.delete_bulk = function(){
             var messages = [];
@@ -53,7 +70,32 @@
         }
 
         $scope.messages = $scope.loadMessages('inbox');
+
+
+        /**
+         * Gets a page parameter from url
+         * @param {String} url
+         * @return {String} page
+         */
+        function getPageFromUrl(url) {
+            url = url.split(/\?|\&/);
+            //previous = previous.split(/\?|\&/);
+            var params = [];
+            var page = "";
+            url.forEach( function(str_param) {
+                if (str_param) {
+                    var param = str_param.split("=");
+                    if (param[0] == 'page') {
+                        page = param[1];
+                   }
+                }
+            });
+            return page;
+        }
+
+
     }
+
 
 
 })();

@@ -3,9 +3,9 @@ from django.contrib.auth.models import User
 
 
 TYPE_PHONE = (
-    ('TEL', 'Telefono'),
-    ('CEL', 'Celular'),
-    ('FAX', 'Fax'),
+    ('Telelefono', 'Telefono'),
+    ('Celular', 'Celular'),
+    ('Fax', 'Fax'),
 )
 
 
@@ -20,7 +20,7 @@ class UserProfile(models.Model):
 
 class Phone(models.Model):
     number = models.IntegerField()
-    type = models.CharField(choices=TYPE_PHONE, max_length=200)
+    type = models.CharField(max_length=200)
     userProfile = models.ForeignKey(UserProfile, related_name='phones')
 
 

@@ -61,13 +61,11 @@
             var fd = new FormData();
 
             fd.append('birth_date', profile.birth_date);
-            fd.append('last_name', profile.user.last_name);
-            fd.append('first_name', profile.user.first_name);
-            fd.append('email', profile.user.email);
-
+            fd.append('user', angular.toJson(profile.user));
+            fd.append('phones', angular.toJson(profile.phones));
             fd.append('image', profile.image);
 
-            return $http.put('/api/v1/profile/', fd, {
+            return $http.put('/api/v1/profile/'+ profile.id + '/', fd, {
                 headers: {'Content-Type': undefined},
                 withCredentials: true,
                 transformRequest: angular.identity

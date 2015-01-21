@@ -24,8 +24,13 @@
             delete_bulk: delete_bulk
         };
 
-        function getMsgs(folder){
-            return $http.get('/api/v1/messages/' + folder);
+        function getMsgs(folder, page){
+            if(page == 0){
+                return $http.get('/api/v1/messages/' + folder);
+            }else{
+                return $http.get('/api/v1/messages/' + folder + "/?page=" + page);
+            }
+
         }
 
         function getMsgThread(id){
