@@ -19,37 +19,32 @@
         $scope.message = {};
 
         $scope.loadMessages = function(folder){
-            Message.getMsgs(folder).then(getSuccess, getError);
+            Message.getMsgs(folder, 0).then(getMessagesByFolderSuccess, getMessagesByFolderError);
             $scope.folder = folder;
-
-            function getSuccess(data){
-                //$scope.messages = data.data;
-                data = angular.fromJson(data.data);
-
-                // Rewrite Next and Previous
-                data.next = data.next ? getPageFromUrl(data.next) : "";
-                data.previous = data.previous ? getPageFromUrl(data.previous) : "";
-
-                $scope.messages = data.results;
-
-                $scope.next_page = data.next;
-                $scope.prev_page = data.previous;
-            };
-
-            function getError(data){
-                console.log('Error al cargar el inbox');
-            }
         }
 
         $scope.get_msgs_page = function(page){
-            Ad.get({"page":page},function(response) {
-                $scope.current_page = page;
-                $scope.messages = response.results;
-                $scope.next_page = response.next;
-                $scope.prev_page = response.previous;
-            });
+            Message.getMsgs($scope.folder, page).then(getMessagesByFolderSuccess, getMessagesByFolderError);
         };
 
+
+        function getMessagesByFolderSuccess(data){
+            //$scope.messages = data.data;
+            data = angular.fromJson(data.data);
+
+            // Rewrite Next and Previous
+            data.next = data.next ? getPageFromUrl(data.next) : "";
+            data.previous = data.previous ? getPageFromUrl(data.previous) : "";
+
+            $scope.messages = data.results;
+
+            $scope.next_page = data.next;
+            $scope.prev_page = data.previous;
+        };
+
+        function getMessagesByFolderError(data){
+            console.log('Error al cargar el inbox');
+        }
 
 
 
