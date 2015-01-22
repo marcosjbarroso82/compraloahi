@@ -70,11 +70,16 @@
 
                             <!-- ######## CONTACT ############# -->
                             <div class="pull-right col-md-3">
-
-                                <!-- BUTTON OPEN --->
-                                <button data-toggle="modal" class="btn btn-lg btn-success pull-right" id="btn-contact" data-target="#modalMessage">
-                                    <i class=""></i> Contact
-                                </button>
+                                {% if user.is_authenticated %}
+                                    <!-- BUTTON OPEN --->
+                                    <button data-toggle="modal" class="btn btn-lg btn-success pull-right" id="btn-contact" data-target="#modalMessage">
+                                        <i class=""></i> Contact
+                                    </button>
+                                {% else %}
+                                    <a class="btn btn-lg btn-success pull-right" href="/accounts/login/?next=/ad/{{ ad.slug }}">
+                                        <i class=""></i> Contact
+                                    </a>
+                                {% endif %}
                                 <!-- /.modal compose message -->
                                 <div class="modal" id="modalMessage">
                                 </div>
@@ -86,7 +91,7 @@
 
                                         $.get("/message/ajax-can-write/{{ ad.id }}/", function(data){
                                             console.log(data);
-                                            if(data.message == 'ANDA'){
+                                            if(data.message == 'OK'){
                                                 console.log("Entro");
                                                 $.get("/message/ajax-write", function(data){
 

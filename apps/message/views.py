@@ -108,7 +108,6 @@ def get_valid_message_write(request, *args, **kwargs):
     """
         Valida si un usuario puede contactar al anunciante.
     """
-    print(kwargs.get('ad_id', 'NO ANDA'))
     if kwargs.get('ad_id', None):
         ad = Ad.objects.get(pk=kwargs['ad_id'])
 
@@ -117,8 +116,10 @@ def get_valid_message_write(request, *args, **kwargs):
 
         if mc.already_exist():
             print("no existe")
-            return Response({'message': 'ANDA'}, status=status.HTTP_200_OK)
+            return Response({'message': 'OK'}, status=status.HTTP_200_OK)
         else:
-            return Response({'message': 'NO ANDA'}, status=status.HTTP_200_OK)
+            return Response({'message': 'CANAL BLOQUEADO'}, status=status.HTTP_200_OK)
     else:
-        return Response({'message': 'NO ANDA'}, status=status.HTTP_200_OK)
+        return Response({'message': 'CANAL BLOQUEADO'}, status=status.HTTP_200_OK)
+    #else:
+    #    return Response({'message': 'NEEDLOGIN'}, status=status.HTTP_200_OK)
