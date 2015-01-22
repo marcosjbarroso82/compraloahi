@@ -7,28 +7,24 @@
 
 
 {% block css_header_block %}
-<link rel="stylesheet" href="{{ STATIC_URL }}css/ad-list.css" >
-<!--<link rel="stylesheet" href="{{ THEME_PATH }}css/ad-list.css">-->
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/ad-list.css" >
+    <!--<link rel="stylesheet" href="{{ THEME_PATH }}css/ad-list.css">-->
 {% endblock %}
 
 {% block body_block %}
-<div class="ad-list" ng-app="App">
+    <div class="ad-list" ng-app="App" ng-controller="AdCtrl">
     <div class="col-lg-4 sidebar pull-left affix well" id="sidebar">
         <div class="" id="accordion" role="tablist" aria-multiselectable="true">
-            <div id="collapseOneWrapper" class="well">
-                <div class="" role="tab" id="headingOne">
-                    Mapa
-                </div>
-                <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+            <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
                     <div class="">
                         <!-- Address -->
                         <div class="input-group stylish-input-group">
                             <input id="address"  class="form-control form-inline col-md-10" type="text" placeholder="Ingrese la Dirección"/>
-                            <span class="input-group-addon">
-                                <button id="search_address_btn" type="submit" style="border: none; width: 100%; ">
-                                    <i class="glyphicon glyphicon-search"></i>
-                                </button>
-                            </span>
+                                <span class="input-group-addon">
+                                    <button id="search_address_btn" type="submit" style="border: none; width: 100%; ">
+                                        <i class="glyphicon glyphicon-search"></i>
+                                    </button>
+                                </span>
 
                         </div>
                         <br/>
@@ -40,119 +36,187 @@
                             </div>
                         </div>
                         <br>
-                        <div ui-view="ad-map">
-                        <!-- Map -->
+                        {% verbatim %}
+                        <div class="angular-google-map-container">
+                            <ui-gmap-google-map id="mapa" class="capas img-thumbnail" center="map.center" zoom="map.zoom" draggable="true" options="map.options" control="map.control"
+                                                panControl="true"
+                                                zoomControl="true">
+                                <ui-gmap-circle ng-repeat="ad in ads track by ad.pk"
+                                                center="ad.center"
+                                                stroke="ad.stroke"
+                                                fill="ad.fill"
+                                                radius="ad.radius"
+                                                visible="true"
+                                                geodesic="location_options.geodesic"
+                                                editable="location_options.editable"
+                                                draggable="location_options.draggable"
+                                                clickable="location_options.clickable"
+                                                events="circle_events"
+                                        >
+                                </ui-gmap-circle>
+                            </ui-gmap-google-map>
 
                         </div>
+                        {% endverbatim %}
+                        <!-- Map -->
+
                     </div>
                 </div>
-            </div>
+
             <div  id="collapseTwoWrapper" class="well">
                 <div class="panel-heading" role="tab" id="headingTwo">
                     <h4 class="panel-title">
                         <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                             Filtros
                         </a>
+                        <a class="pull-right" href="{% add_get page='1' selected_facets=""%}">
+                                            <span class="badge">borrar filtros</span></a>
                     </h4>
                 </div>
                 <div id="collapseTwo" class="panel-collapse collapse sidebar" role="tabpanel" aria-labelledby="headingTwo">
                     <div class="list-group">
 
+
+
+
                         <!-- Categories -->
                         {% if facets.fields.categories %}
-                        <hr/>
-                        <span class="list-group-item">Categorias</span>
-                        <hr/>
-                        <ul>
-                            {% for category in facets.fields.categories %}
-                            <li>
-                            <a class="list-group-item" href="{{ request.get_full_path }}&amp;selected_facets=categories_exact:{{ category.0|urlencode }}">
-                                {{ category.0 }}<span class="badge">{{ category.1 }}</span></a></li>
+                            <hr/>
+                            <span class="list-group-item">Categorias</span>
+                            <hr/>
+                            <ul>
+                                {% for category in facets.fields.categories %}
+                                    <li>
+                                    {% with "categories_exact:"|add:category.0 as facet_value %}
+                                         <a class="list-group-item" href="{% add_get page='1' %}&selected_facets={{ facet_value }}">
+                                            {{ category.0 }}<span class="badge">{{ category.1 }}</span></a>
+                                    {% endwith %}
+                                    </li>
                                 {% endfor %}
                             </ul>
-                            {% endif %}
-                            <!-- End Categories -->
-                            <br/>
-                            <!-- Provinces -->
-                            {% if facets.fields.provinces %}
+                        {% endif %}
+                        <!-- End Categories -->
+                        <br/>
+                        <!-- Provinces -->
+                        {% if facets.fields.provinces %}
+                            <p>{{ request.GET.selected_facets }}</p>
                             <hr/>
                             <span class="list-group-item">Provincias</span>
                             <hr/>
                             <ul>
-                                {% for locality in facets.fields.provinces %}
-                                <li>
-                                <a class="list-group-item" href="{{ request.get_full_path }}&amp;selected_facets=provinces_exact:{{ locality.0|urlencode }}">{{ locality.0 }}<span class="badge">{{ locality.1 }}</span></a></li>
+                                {% for province in facets.fields.provinces %}
+                                    <li>
+                                    {% with "provinces_exact:"|add:province.0 as facet_value %}
+                                        <a class="list-group-item" href="{% add_get page='1' %}&selected_facets={{ facet_value }}">
+                                            {{ province.0 }}<span class="badge">{{ province.1 }}</span></a>
+                                    {% endwith %}
+                                    </li>
                                 {% endfor %}
                             </ul>
-                            {% endif %}
-                            <!-- End Provinces -->
-                            <br/>
-                            <!-- Localities -->
-                            {% if facets.fields.localities %}
+                        {% endif %}
+                        <!-- End Provinces -->
+                        <br/>
+                        <!-- Localities -->
+                        {% if facets.fields.localities %}
                             <hr/>
                             <span class="list-group-item">Localidades</span>
                             <hr/>
                             <ul>
                                 {% for locality in facets.fields.localities %}
-                                <li>
-                                <a class="list-group-item" href="{{ request.get_full_path }}&amp;selected_facets=localities_exact:{{ locality.0|urlencode }}">{{ locality.0 }}<span class="badge">{{ locality.1 }}</span></a></li>
+                                    <li>
+                                    {% with "localities_exact:"|add:locality.0 as facet_value %}
+                                        <a class="list-group-item" href="{% add_get page='1'%}&selected_facets={{ facet_value }}">
+                                            {{ locality.0 }}<span class="badge">{{ locality.1 }}</span></a>
+                                    {% endwith %}
+                                    </li>
                                 {% endfor %}
                             </ul>
-                            {% endif %}
-                            <!-- End Localities -->
-                        </div>
+                        {% endif %}
+                        <!-- End Localities -->
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
     <div class="col-lg-8 col-md-offset-4 content pull-right">
-            <!-- FORM SEARCH -->
-            <div>
+        <!-- FORM SEARCH -->
+        <div>
 
-                <form method="get" action="/ad/ad-list/" class="search-form">
-                    <div class="">
-                        <!-- TAG -->
-                        <div class="input-group stylish-input-group">
-                            <input id="q" class="form-control" name="q" type="text" placeholder="Search"/>
-                            <span class="input-group-addon">
-                                <!-- SUBMIT -->
-                                <button type="submit" style="border: none; width: 100%; ">
-                                    <i class="glyphicon glyphicon-search"></i>
-                                </button>
-                            </span>
-                        </div>
-                        <!-- LATITUD -->
-                    <!--
-                    <div>
-                        <label for="q">q</label>
-                        <input id="q" type="text" name="q" value="{{ form.data.q }}"/>
+            <form method="get" action="/ad/ad-list/" class="search-form">
+                <div class="">
+                    <!-- TAG -->
+                    <div class="input-group stylish-input-group">
+                        <input id="q" class="form-control" name="q" type="text" placeholder="Search"/>
+                                <span class="input-group-addon">
+                                    <!-- SUBMIT -->
+                                    <button type="submit" style="border: none; width: 100%; ">
+                                        <i class="glyphicon glyphicon-search"></i>
+                                    </button>
+                                </span>
                     </div>
-                -->
-                <!-- LATITUD -->
-                <div  hidden="true" style="display: none;">
-                    <label for="lat">lat</label>
-                    <input id="lat" type="text" name="lat" value="{{ form.data.lat }}"/>
-                </div>
-                <!-- LONGITUD -->
-                <div  hidden="true" style="display: none;">
-                    <label for="lng">lng</label>
-                    <input id="lng" type="text" name="lng" value="{{ form.data.lng }}"/>
-                </div>
+                    <!-- LATITUD -->
+                    <!--
+                        <div>
+                            <label for="q">q</label>
+                            <input id="q" type="text" name="q" value="{{ form.data.q }}"/>
+                        </div>
+                    -->
+                    <!-- LATITUD -->
+                    <div  hidden="true" style="display: none;">
+                        <label for="lat">lat</label>
+                        <input id="lat" type="text" name="lat" value="{{ form.data.lat }}"/>
+                    </div>
+                    <!-- LONGITUD -->
+                    <div  hidden="true" style="display: none;">
+                        <label for="lng">lng</label>
+                        <input id="lng" type="text" name="lng" value="{{ form.data.lng }}"/>
+                    </div>
 
-                <!-- RADIO -->
-                <div  hidden="true" style="display: none;">
-                    <label for="radius">Radius</label>
-                    <input id="radius" type="text" name="radius" value="{{ form.data.radius }}"/>
-                </div>
+                    <!-- RADIO -->
+                    <div  hidden="true" style="display: none;">
+                        <label for="radius">Radius</label>
+                        <input id="radius" type="text" name="radius" value="{{ form.data.radius }}"/>
+                    </div>
 
+                </div>
+            </form>
+        </div>
+        <div>
+
+            {% bootstrap_messages %}
+            {% verbatim %}
+            <div id="ad-list" class="">
+                <!-- LIST -->
+                <ul id="ads-list" class="media-list">
+                    <li class="container-fluid media list-group-item" ng-repeat="ad in ads"
+                        ng-mouseenter="selectAd(ad)"  ng-mouseleave="deselectAd(ad)"
+                        ng-class="{'list-group-item-hover': ad.selected == true}"
+                            >
+                        <a id="ad-anchor-{{ ad.pk }}"></a> <!-- This tag is used for animation, It could be replaced -->
+                        <div class="pull-left col-md-2 col-lg-1">
+                            <img  class="prod-img-thumbnail img-responsive img-thumbnail img-rounded media-object" src="{{ ad.image }}" alt="post img" >
+                        </div>
+                        <div class="media-body col-md-8 col-lg-9">
+                            <a href="/ad/{{ ad.slug }}"><h4 class="media-heading">{{ ad.title }}</h4></a>
+                            <small> publish: {{ ad.pub_date }} </small>
+                            <p> {{ ad.short_description }} </p>
+                        </div>
+                        <div class="col-lg-2">
+                            <div class="list-action price">
+                                <div>${{ ad.price }}<sup>99</sup></div>
+                            </div>
+                            <div>
+                                <a class="set-favourite btn btn-default btn-sm pull-right" ng-click="AddToFavourites(ad)"><span class="glyphicon glyphicon-heart-empty"></span></a>
+                                <a class="locate-it btn btn-default btn-sm pull-right" ng-click="centerMap(ad.center)" ><span class="glyphicon glyphicon-map-marker"></span></a>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
             </div>
-        </form>
-    </div>
-    <div>
 
-        {% bootstrap_messages %}
-        <div ui-view="ad-list" id="ad-list" class="">
+
+            {% endverbatim %}
 
         </div>
 
@@ -160,73 +224,69 @@
         <div class="pagination pull-right" id="pagination">
 
             {% if paginator %}
-            {% load i18n %}
-            <div class="pagination">
-                {% if page.has_previous %}
-                <a href="?page={{ page.previous_page_number }}{{ getvars }}" class="prev">&lsaquo;&lsaquo; {% trans "previous" %}</a>
-                {% else %}
-                <span class="disabled prev">&lsaquo;&lsaquo; {% trans "previous" %}</span>
-                {% endif %}
-                <span> Page {{ page.number }} of {{ paginator.num_pages }}</span>
+                {% load i18n %}
+                <div class="pagination">
+                    {% if page.has_previous %}
+                        <a href="{% add_get page=page.previous_page_number %}" class="prev">&lsaquo;&lsaquo; {% trans "previous" %}</a>
+                    {% else %}
+                        <span class="disabled prev">&lsaquo;&lsaquo; {% trans "previous" %}</span>
+                    {% endif %}
+                    <span> Page {{ page.number }} of {{ paginator.num_pages }}</span>
 
-                {% if page.has_next %}
-                <a href="?page={{ page.next_page_number }}{{ getvars }}" class="next">{% trans "next" %} &rsaquo;&rsaquo;</a>
-                {% else %}
-                <span class="disabled next">{% trans "next" %} &rsaquo;&rsaquo;</span>
-                {% endif %}
-            </div>
+                    {% if page.has_next %}
+                        <a href="{% add_get page=page.next_page_number %}" class="next">{% trans "next" %} &rsaquo;&rsaquo;</a>
+                    {% else %}
+                        <span class="disabled next">{% trans "next" %} &rsaquo;&rsaquo;</span>
+                    {% endif %}
+                </div>
             {% endif %}
 
 
         </div>
     </div>
 
-</div>
-</div>
+    </div>
 {% endblock %}
 
 {% block js_footer_block %}
-<!--  LOAD ADS DATA -->
+    <!--  LOAD ADS DATA -->
     <script>
         var json_data = {
-        "count": 9,
-        "next": "http://127.0.0.1:8000/api/v1/ads/?page=2",
-        "previous": null,
-        'results':[
-            {% for ad in page.object_list %}
-                {% if not forloop.first %},{% endif %}
-                {
-                    selected: false,
-                    title: "{{ ad.title }}",
-                    slug: "{{ ad.slug }}",
-                    id: "{{ ad.id }}",
-                    pk: "{{ ad.pk }}",
-                    pub_date: "{{ ad.pub_date }}",
-                    lat: "{{ ad.location.x }}",
-                    lng: "{{ ad.location.x }}",
-                    price: "{{ ad.price }}",
-                    radius: 2000,
-                    short_description: "{{ ad.short_description }}",
-                    center:{
-                        latitude: {{ ad.location.y }},
-                        longitude: {{ ad.location.x }}
-                    },
-                    {% with ad.image1 as image %}
-                    {% thumbnail ad.image1 "100x100" crop="center" as im %}
-                    image: "{{ im.url }}"
-                    {% endthumbnail %}
-                    {% endwith %}
+            "count": 9,
+            "next": "http://127.0.0.1:8000/api/v1/ads/?page=2",
+            "previous": null,
+            'results':[
+                {% for ad in page.object_list %}
+                    {% if not forloop.first %},{% endif %}
+                    {
+                        selected: false,
+                        title: "{{ ad.title }}",
+                        slug: "{{ ad.slug }}",
+                        id: "{{ ad.id }}",
+                        pk: "{{ ad.pk }}",
+                        pub_date: "{{ ad.pub_date }}",
+                        lat: "{{ ad.location.x }}",
+                        lng: "{{ ad.location.x }}",
+                        price: "{{ ad.price }}",
+                        radius: 2000,
+                        short_description: "{{ ad.short_description }}",
+                        center:{
+                            latitude: {{ ad.location.y }},
+                            longitude: {{ ad.location.x }}
+                        },
+                        {% with ad.image1 as image %}
+                            {% thumbnail ad.image1 "100x100" crop="center" as im %}
+                                image: "{{ im.url }}"
+                            {% endthumbnail %}
+                        {% endwith %}
 
-                }
-            {% endfor %}
-        ]}
+                    }
+                {% endfor %}
+            ]}
     </script>
     <!--  END - LOAD ADS DATA -->
     <!-- ###################### IMPORT THIRD LIB ###################### -->
 
-    <!-- jquery resources -->
-    <script type="text/javascript" src="{% static 'jquery-formset-12/jquery-2.1.1.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'bower_components/jquery-cookie/jquery.cookie.js' %}"></script>
 
     <!-- angular resources -->
     <script type="text/javascript" src="{% static 'bower_components/angular/angular.js' %}"></script>
@@ -244,8 +304,6 @@
     <script type="text/javascript" src="{% static 'bower_components/lodash/dist/lodash.js' %}"></script>
 
 
-    <!-- SnackBar -->
-    <script type="text/javascript" src="{% static 'lib/snackbarjs/snackbar.min.js' %}"></script>
 
     <!-- ###################### END IMPORT ###################### -->
 
@@ -266,34 +324,28 @@
     <script type="text/javascript" src="{% static 'angular-resources/utils/directives/upload-file-model.directive.js' %}"></script>
     <!-- ###################### END angular-resources APP - MODULE UTILS ###################### -->
 
-    <!-- ###################### angular-resources APP - MODULE PROFILE ###################### -->
-    <script type="text/javascript" src="{% static 'angular-resources/profile/profile.module.js' %}"></script>
-    <script type="text/javascript" src="{% static 'angular-resources/profile/services/profile.service.js' %}"></script>
-    <script type="text/javascript" src="{% static 'angular-resources/profile/controllers/detail-profile.controller.js' %}"></script>
-    <script type="text/javascript" src="{% static 'angular-resources/profile/controllers/update-profile.controller.js' %}"></script>
-    <script type="text/javascript" src="{% static 'angular-resources/profile/controllers/change-password.controller.js' %}"></script>
-    <!-- ###################### END angular-resources APP - MODULE PROFILE ###################### -->
-
-
     <!-- ###################### angular-resources APP - MODULE AD ###################### -->
     <script type="text/javascript" src="{% static 'angular-resources/ad/ad.module.js' %}"></script>
     <script type="text/javascript" src="{% static 'angular-resources/ad/services/ad.json-service.js' %}"></script>
     <script type="text/javascript" src="{% static 'angular-resources/ad/controllers/ad.controller.js' %}"></script>
     <!-- ###################### END angular-resources APP - MODULE AD ###################### -->
 
+<script>
+    $("#collapseTwoWrapper").mouseleave(function() {
+        $("#collapseTwo").collapse('hide');
+        $("#collapseOne").collapse("show");
+    });
+    $("#ads-list").mouseenter(function() {
+        console.log("haz tu magia");
+        $("#collapseOne").collapse("show");
+        $("#collapseTwo").collapse('hide');
+    });
 
-    <!-- ###################### angular-resources APP - MODULE MESSAGE ###################### -->
-    <script type="text/javascript" src="{% static 'angular-resources/message/message.module.js' %}"></script>
-    <script type="text/javascript" src="{% static 'angular-resources/message/services/message.service.js' %}"></script>
-    <script type="text/javascript" src="{% static 'angular-resources/message/controllers/message.controller.js' %}"></script>
-    <script type="text/javascript" src="{% static 'angular-resources/message/controllers/messageThread.controller.js' %}"></script>
-    <!-- ###################### END angular-resources APP - MODULE MESSAGE ###################### -->
+    $("#collapseTwoWrapper").mouseenter(function() {
+        $("#collapseTwo").collapse('show');
+        $("#collapseOne").collapse("hide");
+    });
 
 
-    <!-- ###################### angular-resources APP - MODULE USER LOCATION ###################### -->
-    <script type="text/javascript" src="{% static 'angular-resources/user-location/location.module.js' %}"></script>
-    <script type="text/javascript" src="{% static 'angular-resources/user-location/services/location.service.js' %}"></script>
-    <script type="text/javascript" src="{% static 'angular-resources/user-location/controllers/location.controller.js' %}"></script>
-    <!-- ###################### END angular-resources APP - MODULE USER LOCATION ###################### -->
-
+</script>
 {% endblock %}

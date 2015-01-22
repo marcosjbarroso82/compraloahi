@@ -11,5 +11,5 @@
         .module('App.ad.controllers', []);
 
     angular
-        .module('App.ad.services', ['ngResource']);
+        .module('App.ad.services', []);
 })();
