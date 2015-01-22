@@ -15,11 +15,7 @@
     <div class="ad-list" ng-app="App" ng-controller="AdCtrl">
     <div class="col-lg-4 sidebar pull-left affix well" id="sidebar">
         <div class="" id="accordion" role="tablist" aria-multiselectable="true">
-            <div id="collapseOneWrapper" class="well">
-                <div class="" role="tab" id="headingOne">
-                    Mapa
-                </div>
-                <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+            <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
                     <div class="">
                         <!-- Address -->
                         <div class="input-group stylish-input-group">
@@ -66,61 +62,78 @@
 
                     </div>
                 </div>
-            </div>
-        </div>
-        <div  id="collapseTwoWrapper" class="well">
-            <div class="panel-heading" role="tab" id="headingTwo">
-                <h4 class="panel-title">
-                    <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                        Filtros
-                    </a>
-                </h4>
-            </div>
-            <div id="collapseTwo" class="panel-collapse collapse sidebar" role="tabpanel" aria-labelledby="headingTwo">
-                <div class="list-group">
 
-                    <!-- Categories -->
-                    {% if facets.fields.categories %}
-                        <hr/>
-                        <span class="list-group-item">Categorias</span>
-                        <hr/>
-                        <ul>
-                            {% for category in facets.fields.categories %}
-                                <li>
-                                    <a class="list-group-item" href="{{ request.get_full_path }}&amp;selected_facets=categories_exact:{{ category.0|urlencode }}">
-                                        {{ category.0 }}<span class="badge">{{ category.1 }}</span></a></li>
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
-                    <!-- End Categories -->
-                    <br/>
-                    <!-- Provinces -->
-                    {% if facets.fields.provinces %}
-                        <hr/>
-                        <span class="list-group-item">Provincias</span>
-                        <hr/>
-                        <ul>
-                            {% for locality in facets.fields.provinces %}
-                                <li>
-                                    <a class="list-group-item" href="{{ request.get_full_path }}&amp;selected_facets=provinces_exact:{{ locality.0|urlencode }}">{{ locality.0 }}<span class="badge">{{ locality.1 }}</span></a></li>
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
-                    <!-- End Provinces -->
-                    <br/>
-                    <!-- Localities -->
-                    {% if facets.fields.localities %}
-                        <hr/>
-                        <span class="list-group-item">Localidades</span>
-                        <hr/>
-                        <ul>
-                            {% for locality in facets.fields.localities %}
-                                <li>
-                                    <a class="list-group-item" href="{{ request.get_full_path }}&amp;selected_facets=localities_exact:{{ locality.0|urlencode }}">{{ locality.0 }}<span class="badge">{{ locality.1 }}</span></a></li>
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
-                    <!-- End Localities -->
+            <div  id="collapseTwoWrapper" class="well">
+                <div class="panel-heading" role="tab" id="headingTwo">
+                    <h4 class="panel-title">
+                        <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            Filtros
+                        </a>
+                        <a class="pull-right" href="{% add_get page='1' selected_facets=""%}">
+                                            <span class="badge">borrar filtros</span></a>
+                    </h4>
+                </div>
+                <div id="collapseTwo" class="panel-collapse collapse sidebar" role="tabpanel" aria-labelledby="headingTwo">
+                    <div class="list-group">
+
+
+
+
+                        <!-- Categories -->
+                        {% if facets.fields.categories %}
+                            <hr/>
+                            <span class="list-group-item">Categorias</span>
+                            <hr/>
+                            <ul>
+                                {% for category in facets.fields.categories %}
+                                    <li>
+                                    {% with "categories_exact:"|add:category.0 as facet_value %}
+                                         <a class="list-group-item" href="{% add_get page='1' %}&selected_facets={{ facet_value }}">
+                                            {{ category.0 }}<span class="badge">{{ category.1 }}</span></a>
+                                    {% endwith %}
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                        <!-- End Categories -->
+                        <br/>
+                        <!-- Provinces -->
+                        {% if facets.fields.provinces %}
+                            <p>{{ request.GET.selected_facets }}</p>
+                            <hr/>
+                            <span class="list-group-item">Provincias</span>
+                            <hr/>
+                            <ul>
+                                {% for province in facets.fields.provinces %}
+                                    <li>
+                                    {% with "provinces_exact:"|add:province.0 as facet_value %}
+                                        <a class="list-group-item" href="{% add_get page='1' %}&selected_facets={{ facet_value }}">
+                                            {{ province.0 }}<span class="badge">{{ province.1 }}</span></a>
+                                    {% endwith %}
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                        <!-- End Provinces -->
+                        <br/>
+                        <!-- Localities -->
+                        {% if facets.fields.localities %}
+                            <hr/>
+                            <span class="list-group-item">Localidades</span>
+                            <hr/>
+                            <ul>
+                                {% for locality in facets.fields.localities %}
+                                    <li>
+                                    {% with "localities_exact:"|add:locality.0 as facet_value %}
+                                        <a class="list-group-item" href="{% add_get page='1'%}&selected_facets={{ facet_value }}">
+                                            {{ locality.0 }}<span class="badge">{{ locality.1 }}</span></a>
+                                    {% endwith %}
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                        <!-- End Localities -->
+                    </div>
                 </div>
             </div>
         </div>
@@ -214,14 +227,14 @@
                 {% load i18n %}
                 <div class="pagination">
                     {% if page.has_previous %}
-                        <a href="?page={{ page.previous_page_number }}{{ getvars }}" class="prev">&lsaquo;&lsaquo; {% trans "previous" %}</a>
+                        <a href="{% add_get page=page.previous_page_number %}" class="prev">&lsaquo;&lsaquo; {% trans "previous" %}</a>
                     {% else %}
                         <span class="disabled prev">&lsaquo;&lsaquo; {% trans "previous" %}</span>
                     {% endif %}
                     <span> Page {{ page.number }} of {{ paginator.num_pages }}</span>
 
                     {% if page.has_next %}
-                        <a href="?page={{ page.next_page_number }}{{ getvars }}" class="next">{% trans "next" %} &rsaquo;&rsaquo;</a>
+                        <a href="{% add_get page=page.next_page_number %}" class="next">{% trans "next" %} &rsaquo;&rsaquo;</a>
                     {% else %}
                         <span class="disabled next">{% trans "next" %} &rsaquo;&rsaquo;</span>
                     {% endif %}
@@ -322,7 +335,8 @@
         $("#collapseTwo").collapse('hide');
         $("#collapseOne").collapse("show");
     });
-    $("#ads-list .list-group-item").mouseenter(function() {
+    $("#ads-list").mouseenter(function() {
+        console.log("haz tu magia");
         $("#collapseOne").collapse("show");
         $("#collapseTwo").collapse('hide');
     });
@@ -331,11 +345,6 @@
         $("#collapseTwo").collapse('show');
         $("#collapseOne").collapse("hide");
     });
-
-
-
-
-
 
 
 </script>
