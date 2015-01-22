@@ -45,6 +45,9 @@ urlpatterns = patterns('',
                             CustomWriteView.as_view(),
                             name='write-ajax'),
 
+                        url(r'^ajax-can-write/(?P<ad_id>[\d]+)/$',
+                            'apps.message.views.get_valid_message_write',
+                            name='valid-message-write'),
 
                         #### VISTAS QUE FALTAN POR IMPLEMENTAR
                         url(r'^archive/$', ArchiveView.as_view(), name='postman_archive'),
