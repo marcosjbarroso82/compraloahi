@@ -274,9 +274,6 @@
     <!--  END - LOAD ADS DATA -->
     <!-- ###################### IMPORT THIRD LIB ###################### -->
 
-    <!-- jquery resources -->
-    <script type="text/javascript" src="{% static 'jquery-formset-12/jquery-2.1.1.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'bower_components/jquery-cookie/jquery.cookie.js' %}"></script>
 
     <!-- angular resources -->
     <script type="text/javascript" src="{% static 'bower_components/angular/angular.js' %}"></script>
@@ -320,5 +317,26 @@
     <script type="text/javascript" src="{% static 'angular-resources/ad/controllers/ad.controller.js' %}"></script>
     <!-- ###################### END angular-resources APP - MODULE AD ###################### -->
 
+<script>
+    $("#collapseTwoWrapper").mouseleave(function() {
+        $("#collapseTwo").collapse('hide');
+        $("#collapseOne").collapse("show");
+    });
+    $("#ads-list .list-group-item").mouseenter(function() {
+        $("#collapseOne").collapse("show");
+        $("#collapseTwo").collapse('hide');
+    });
 
+    $("#collapseTwoWrapper").mouseenter(function() {
+        $("#collapseTwo").collapse('show');
+        $("#collapseOne").collapse("hide");
+    });
+
+
+
+
+
+
+
+</script>
 {% endblock %}
