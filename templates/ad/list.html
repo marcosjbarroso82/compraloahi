@@ -17,6 +17,12 @@
         <div class="" id="accordion" role="tablist" aria-multiselectable="true">
             <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
                 <div class="">
+                    {% verbatim %}
+                    <select ng-model="user_location_selected" ng-options="user_location.title for user_location in user_locations">
+                        <option selected value="">Elije un Ubicacion</option>
+                    </select>
+                    <a ng-show="search_location.changed" class="ng-show">Guardar ubicacion </a>
+                    {% endverbatim %}
                     <!-- Address -->
                     <div class="input-group stylish-input-group">
                         <input id="address"  class="form-control form-inline col-md-10" type="text" placeholder="Ingrese la Dirección"/>
@@ -238,6 +244,26 @@
 {% endblock %}
 
 {% block js_footer_block %}
+    <!-- LOAD USER LOCATIONS -->
+    <script>
+        var user_locations = [
+            {% for user_location in user_locations %}
+                {% if not forloop.first %},{% endif %}
+                {
+                    pk:{{ user_location.pk }},
+                    title:"{{ user_location.title }}",
+                    latitude:{{ user_location.lat }},
+                    longitude:{{ user_location.lng }},
+                    radius:{{ user_location.radius }}
+                }
+
+
+            {% endfor %}
+
+        ];
+
+    </script>
+    <!-- END - LOAD USER LOCATIONS -->
     <!--  LOAD ADS DATA -->
     <script>
         // TODO: define a proper initialization

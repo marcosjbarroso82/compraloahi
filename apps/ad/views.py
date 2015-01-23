@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+
 from django.utils.decorators import method_decorator
 from django.views.generic import ListView, DetailView, \
     CreateView, UpdateView, DeleteView
@@ -10,12 +11,22 @@ from .models import Ad
 from .forms import CreateAdForm, AdModifyForm, \
     AdImage_inline_formset, AdLocation_inline_formset
 
+from apps.userProfile.models import UserProfile, UserLocation
+
 from rest_framework import viewsets, filters
 from .serializers import AdSerializer
 from .permissions import IsOwnerOrReadOnly
 
 class AdFacetedSearchView(FacetedSearchView):
-    pass
+    def extra_context(self, **kwargs):
+        context = super(AdFacetedSearchView, self).extra_context(**kwargs)
+        context['extra'] = "extra contenido"
+
+        profile = UserProfile.objects.get(user=self.request.user)
+        userLocations = UserLocation.objects.filter(userProfile=profile)
+        context['user_locations'] = userLocations
+
+        return context
 
 
 class LatestAdView(ListView):
