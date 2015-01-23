@@ -13,6 +13,10 @@ from django.db.models import Q
 from rest_framework.decorators import api_view
 from django.utils.timezone import now as datetime_now
 
+from apps.ad.models import Ad
+from .models import MessageChannel
+
+
 from rest_framework.pagination import PaginationSerializer
 from django.core.paginator import Paginator
 
@@ -93,6 +97,29 @@ def message_bulk_delete(request):
             m.recipient_deleted_at = datetime_now()
             m.save()
 
-        return Response({'menssage': 'ANDA'}, status=status.HTTP_200_OK)
+        return Response({'message': 'ANDA'}, status=status.HTTP_200_OK)
     except:
-        return Response({'menssage': 'NO ANDA'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        return Response({'message': 'NO ANDA'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+
+@api_view(['GET'])
+def get_valid_message_write(request, *args, **kwargs):
+    """
+        Valida si un usuario puede contactar al anunciante.
+    """
+    if kwargs.get('ad_id', None):
+        ad = Ad.objects.get(pk=kwargs['ad_id'])
+
+        mc = MessageChannel(sender=request.user, recipient=ad.author, ad= ad,
+                                 date=datetime_now())
+
+        if mc.already_exist():
+            print("no existe")
+            return Response({'message': 'OK'}, status=status.HTTP_200_OK)
+        else:
+            return Response({'message': 'CANAL BLOQUEADO'}, status=status.HTTP_200_OK)
+    else:
+        return Response({'message': 'CANAL BLOQUEADO'}, status=status.HTTP_200_OK)
+    #else:
+    #    return Response({'message': 'NEEDLOGIN'}, status=status.HTTP_200_OK)

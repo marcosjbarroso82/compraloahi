@@ -15,163 +15,193 @@
 {% endblock %}
 
 {% block body_block %}
-<div class="ad-detail-page">
-    {% bootstrap_messages %}
+    <div class="ad-detail-page">
+        {% bootstrap_messages %}
 
-    <div class="container" style="background-color: #f5f5f6">
+        <div class="container" style="background-color: #f5f5f6">
 
-        <div style="background-color: #f5f5f6">
-            <h1 class="product-title text-center">{{ ad.title }}</h1>
-        </div>
-        <hr>
-        <div class="col-md-6" >
-            <div class="container col-md-1 pull-left" style="background-color: #f5f5f6">
-                {% for images in ad.images.all %}
-                    {% thumbnail images.image "800x800" crop="center" as im %}
-                        <a id="{{ images.pk }}" class="ad-image-gallery" data-image="{{ im.url }}">
-                    {% endthumbnail %}
-                {% thumbnail images.image "100x100" crop="center" as im %}
-                    <img class="img-thumbnail" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
-                {% endthumbnail %}
-                </a>
-                {% endfor %}
+            <div style="background-color: #f5f5f6">
+                <h1 class="product-title text-center">{{ ad.title }}</h1>
             </div>
-            <div class="col-md-11">
-                {% with ad.images.all|first as image %}
-                    {% thumbnail image.image "800x800" crop="center" as im %}
-                        <!-- <img id="item-display" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}"> -->
-                        <a id="main-image-link" href="{{ im.url }}" class="cloud-zoom" rel=" adjustY:0, adjustX:60">
-                            <img id="main-image" class="img-thumbnail" src="{{ im.url }}">
-                        </a>
+            <hr>
+            <div class="col-md-6" >
+                <div class="container col-md-1 pull-left" style="background-color: #f5f5f6">
+                    {% for images in ad.images.all %}
+                        {% thumbnail images.image "800x800" crop="center" as im %}
+                            <a id="{{ images.pk }}" class="ad-image-gallery" data-image="{{ im.url }}">
+                        {% endthumbnail %}
+                    {% thumbnail images.image "100x100" crop="center" as im %}
+                        <img class="img-thumbnail" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
                     {% endthumbnail %}
-                {% endwith %}
-            </div>
-
-
-        </div>
-
-        <div class="col-md-6" style="background-color: #f5f5f6">
-            <div class="col-md-12">
+                    </a>
+                    {% endfor %}
+                </div>
                 <div class="col-md-11">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="product-price">${{ ad.price|floatformat:"0" }}<sup>{{ ad.price|float_decimal_part}}</sup></div>
-                            <div class="product-desc">{{ ad.short_description }}</div>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <div class="product-rating pull-left col-md-9">
-                            <div class="rating-block">
-                                <div >Puntaje de este Anunciante</div>
-                                <div ><i class="fa fa-star gold"></i> <i class="fa fa-star gold"></i> <i class="fa fa-star gold"></i> <i class="fa fa-star gold"></i> <i class="fa fa-star-o"></i> </div>
+                    {% with ad.images.all|first as image %}
+                        {% thumbnail image.image "800x800" crop="center" as im %}
+                            <!-- <img id="item-display" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}"> -->
+                            <a id="main-image-link" href="{{ im.url }}" class="cloud-zoom" rel=" adjustY:0, adjustX:60">
+                                <img id="main-image" class="img-thumbnail" src="{{ im.url }}">
+                            </a>
+                        {% endthumbnail %}
+                    {% endwith %}
+                </div>
+
+
+            </div>
+
+            <div class="col-md-6" style="background-color: #f5f5f6">
+                <div class="col-md-12">
+                    <div class="col-md-11">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="product-price">${{ ad.price|floatformat:"0" }}<sup>{{ ad.price|float_decimal_part}}</sup></div>
+                                <div class="product-desc">{{ ad.short_description }}</div>
                             </div>
                         </div>
-
-                        <!-- ######## CONTACT ############# -->
-                        <div class="pull-right col-md-3">
-
-                            <!-- BUTTON OPEN --->
-                            <button data-toggle="modal" class="btn btn-lg btn-success pull-right" id="btn-contact" data-target="#modalMessage">
-                                <i class=""></i> Contact
-                            </button>
-                            <!-- /.modal compose message -->
-                            <div class="modal" id="modalMessage">
+                        <hr>
+                        <div class="row">
+                            <div class="product-rating pull-left col-md-9">
+                                <div class="rating-block">
+                                    <div >Puntaje de este Anunciante</div>
+                                    <div ><i class="fa fa-star gold"></i> <i class="fa fa-star gold"></i> <i class="fa fa-star gold"></i> <i class="fa fa-star gold"></i> <i class="fa fa-star-o"></i> </div>
+                                </div>
                             </div>
-                            <!-- /.modal compose message -->
+
+                            <!-- ######## CONTACT ############# -->
+                            <div class="pull-right col-md-3">
+                                {% if user.is_authenticated %}
+                                    <!-- BUTTON OPEN --->
+                                    <button data-toggle="modal" class="btn btn-lg btn-success pull-right" id="btn-contact" data-target="#modalMessage">
+                                        <i class=""></i> Contact
+                                    </button>
+                                {% else %}
+                                    <a class="btn btn-lg btn-success pull-right" href="/accounts/login/?next=/ad/{{ ad.slug }}">
+                                        <i class=""></i> Contact
+                                    </a>
+                                {% endif %}
+                                <!-- /.modal compose message -->
+                                <div class="modal" id="modalMessage">
+                                </div>
+                                <!-- /.modal compose message -->
+
+                                <script>
+
+                                    $('#btn-contact').click(function(){
+
+                                        $.get("/message/ajax-can-write/{{ ad.id }}/", function(data){
+                                            console.log(data);
+                                            if(data.message == 'OK'){
+                                                console.log("Entro");
+                                                $.get("/message/ajax-write", function(data){
+
+                                                    $('#modalMessage').html(data);
+
+
+                                                    $('#submitMessage').click(function() {
+
+                                                        recipient = $('#id_recipient').val();
+
+                                                        subject = $('#id_subject').val();
+
+                                                        body = $('#id_body').val();
+
+                                                        ad_id = {{ ad.id }};
+
+                                                        csrfmiddlewaretoken = $("input[name='csrfmiddlewaretoken']").val();
+
+                                                        $.post("/message/ajax-write/", {body: body, subject: subject, recipient: recipient, ad_id: ad_id, csrfmiddlewaretoken: csrfmiddlewaretoken},
+                                                                function(data) {
+                                                                    //$('#modalMessage').class = 'modal';
+                                                                    $('#modalMessage').html(data);
+                                                                }
+                                                        )
+                                                                .done(function(){
+                                                                    //$('#modalMessage').class = 'modal';
+                                                                });
+                                                    });
+
+
+                                                });
+                                            }else{
+                                                var content_modal = '<div class="modal-dialog">' +
+                                                                        '<div class="modal-content">' +
+                                                                              '<div class="modal-header">' +
+                                                                                '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>' +
+                                                                                '<h4 class="modal-title">Contactar al anunciante</h4>' +
+                                                                              '</div>' +
+                                                                              '<div class="modal-body">' +
+                                                                                '<p> El canal de comunicacion se encuentra bloqueado, <a href="#">PAGA </a></p>' +
+                                                                              '</div></div></div>';
+                                                $('#modalMessage').html(content_modal);
+                                            }
+
+
+                                        })
+
+
+                                    });
+
+
+                                </script>
+
+
+                            </div>
+                            <!-- ######## END CONTACT ############# -->
+                        </div>
+                        <hr>
+                        <div class="row pull-right col-md-6">
+                            <div class="pull-right">
+
+                                <a class="popup" href="http://twitter.com/share"><i id="social" class="fa fa-twitter-square fa-4x social-tw"></i></a>
+                                <a class="popup" href="https://www.facebook.com/sharer/sharer.php?app_id=1507071816215188&amp;u={{ request.get_full_path|urlencode }}&amp;display=popup&amp;ref=plugin"><i id="social" class="fa fa-facebook-square fa-4x social-fb"></i></a>
+                            </div>
+
 
                             <script>
-                                $('#btn-contact').click(function(){
-                                    $.get("/message/ajax-write", function(data){
-
-                                        $('#modalMessage').html(data);
-
-
-                                        $('#submitMessage').click(function() {
-
-                                            recipient = $('#id_recipient').val();
-
-                                            subject = $('#id_subject').val();
-
-                                            body = $('#id_body').val();
-
-                                            ad_id = {{ ad.id }};
-
-                                            csrfmiddlewaretoken = $("input[name='csrfmiddlewaretoken']").val();
-
-                                            $.post("/message/ajax-write/", {body: body, subject: subject, recipient: recipient, ad_id: ad_id, csrfmiddlewaretoken: csrfmiddlewaretoken},
-                                                    function(data) {
-                                                        //$('#modalMessage').class = 'modal';
-                                                        $('#modalMessage').html(data);
-                                                    }
-                                            )
-                                                    .done(function(){
-                                                        //$('#modalMessage').class = 'modal';
-                                                    });
-                                        });
-
-
-                                    })
+                                $('.popup').click(function(event) {
+                                    var width  = 50,
+                                            height = 400,
+                                            left   = ($(window).width()  - width)  / 2,
+                                            top    = ($(window).height() - height) / 2,
+                                            url    = this.href,
+                                            opts   = 'status=1' +
+                                                    ',width='  + width  +
+                                                    ',height=' + height +
+                                                    ',top='    + top    +
+                                                    ',left='   + left;
+                                    window.open(url, 'twitter', opts);
+                                    return false;
                                 });
-
-
                             </script>
-
-
                         </div>
-                        <!-- ######## END CONTACT ############# -->
+
                     </div>
                     <hr>
-                    <div class="row pull-right col-md-6">
-                        <div class="pull-right">
-
-                            <a class="popup" href="http://twitter.com/share"><i id="social" class="fa fa-twitter-square fa-4x social-tw"></i></a>
-                            <a class="popup" href="https://www.facebook.com/sharer/sharer.php?app_id=1507071816215188&amp;u={{ request.get_full_path|urlencode }}&amp;display=popup&amp;ref=plugin"><i id="social" class="fa fa-facebook-square fa-4x social-fb"></i></a>
-                        </div>
-
-
-                        <script>
-                            $('.popup').click(function(event) {
-                                var width  = 50,
-                                        height = 400,
-                                        left   = ($(window).width()  - width)  / 2,
-                                        top    = ($(window).height() - height) / 2,
-                                        url    = this.href,
-                                        opts   = 'status=1' +
-                                                ',width='  + width  +
-                                                ',height=' + height +
-                                                ',top='    + top    +
-                                                ',left='   + left;
-                                window.open(url, 'twitter', opts);
-                                return false;
-                            });
-                        </script>
-                    </div>
-
                 </div>
-                <hr>
             </div>
-        </div>
-        <hr>
-        <div class=" ad-description-section container col-lg-12">
-            <div class="row">
-                <div class="panel panel-default widget">
-                    <div class="panel-heading">
-                        <h2 class="ad-description-heading">
-                            Descripcion del Anuncio</h2>
-                    </div>
-                    <div class="panel-body" >
+            <hr>
+            <div class=" ad-description-section container col-lg-12">
+                <div class="row">
+                    <div class="panel panel-default widget">
+                        <div class="panel-heading">
+                            <h2 class="ad-description-heading">
+                                Descripcion del Anuncio</h2>
+                        </div>
+                        <div class="panel-body" >
                             {{ ad.body|safe }}
-                    </div>
+                        </div>
 
-                    <hr>
+                        <hr>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    {% get_comment_count for object as comment_count %}
-    {% render_comment_list for object %}
-    {% render_comment_form for ad %}
+
+        {% get_comment_count for object as comment_count %}
+        {% render_comment_list for object %}
+        {% render_comment_form for ad %}
+
     </div>
     </div>
 {% endblock %}
