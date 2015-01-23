@@ -24,8 +24,8 @@
         $scope.pages = [];
 
         $scope.search_location = search_location;
-        $scope.search_location.stroke = {color: '#009900', weight: 2, opacity: 0.3 };
-        $scope.search_location.fill = {color: '#009900', weight: 2, opacity: 0.3 };
+        $scope.search_location.stroke = {color: '#009900', weight: 2, opacity: 0.1 };
+        $scope.search_location.fill = {color: '#009900', weight: 2, opacity: 0.1 };
 
         // This watch is for range input which returns text instead of number
          $scope.$watch('search_location.radius',function(val,old){

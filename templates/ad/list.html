@@ -240,11 +240,12 @@
 {% block js_footer_block %}
     <!--  LOAD ADS DATA -->
     <script>
+        // TODO: define a proper initialization
         var search_location = {
-            radius: {{ form.data.radius }},
+            radius: {{ form.data.radius | default:20000}},
             location: {
-                latitude: {{ form.data.lat }},
-                longitude: {{ form.data.lng }}
+                latitude: {{ form.data.lat | default:"-31.4179952" }},
+                longitude: {{ form.data.lng | default:"-64.1890513" }}
             }
         };
 
