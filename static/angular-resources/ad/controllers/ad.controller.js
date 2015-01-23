@@ -23,7 +23,17 @@
         $scope.current_page = 1;
         $scope.pages = [];
 
+        $scope.search_location = search_location;
+        $scope.search_location.stroke = {color: '#009900', weight: 2, opacity: 0.3 };
+        $scope.search_location.fill = {color: '#009900', weight: 2, opacity: 0.3 };
+
+        // This watch is for range input which returns text instead of number
+         $scope.$watch('search_location.radius',function(val,old){
+            $scope.search_location.radius = parseInt(val);
+        });
+
         $scope.map = {
+            // TODO: define a proper location initialization
             center: {latitude: -31.4179952,
             longitude: -64.1890513 }, zoom: 9,
             options: {},
@@ -77,6 +87,7 @@
             setCircleStyle(ad);
         }
 
+        // TODO: Implement this functionality
         $scope.AddToFavourites = function(ad) {
             window.alert("NOT IMLPEMENTED YET! ad" + ad.pk + " should be added to favourites")
         }
