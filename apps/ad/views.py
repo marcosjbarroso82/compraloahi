@@ -17,14 +17,18 @@ from rest_framework import viewsets, filters
 from .serializers import AdSerializer
 from .permissions import IsOwnerOrReadOnly
 
+from django.core.context_processors import csrf
+
 class AdFacetedSearchView(FacetedSearchView):
     def extra_context(self, **kwargs):
         context = super(AdFacetedSearchView, self).extra_context(**kwargs)
-        context['extra'] = "extra contenido"
 
-        profile = UserProfile.objects.get(user=self.request.user)
-        userLocations = UserLocation.objects.filter(userProfile=profile)
-        context['user_locations'] = userLocations
+        if (self.request.user.is_authenticated()):
+            profile = UserProfile.objects.get(user=self.request.user)
+            userLocations = UserLocation.objects.filter(userProfile=profile)
+            context['user_locations'] = userLocations
+        else:
+            context['user_locations'] = {}
 
         return context
 
