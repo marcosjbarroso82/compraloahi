@@ -2,7 +2,7 @@ from django.conf.urls import patterns, url
 from haystack.query import SearchQuerySet
 
 from .views import LatestAdView, DetailAdView, CreateAdView, \
-    UpdateAdView, AdDeleteView, AdsByUser, AdFacetedSearchView
+    UpdateAdView, AdDeleteView, AdsByUser, AdFacetedSearchView, ReloadCommentsThread
 from .forms import AdSearchForm
 
 sqs = SearchQuerySet().facet('categories').facet('localities').facet('provinces')
@@ -47,6 +47,8 @@ urlpatterns = patterns('',
                            DetailAdView.as_view(),
                            name="detail"),
 
-
+                       # url(r'^ajax-reload-comments/(?P<ad_id>[\d]+)/$',
+                       #      ReloadCommentsThread.as_view(),
+                       #      name='valid-message-write'),
 
                         )

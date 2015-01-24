@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.views.generic import ListView, DetailView, \
-    CreateView, UpdateView, DeleteView
+    CreateView, UpdateView, DeleteView, TemplateView
 from django.http import HttpResponseRedirect
 from haystack.views import FacetedSearchView
 
@@ -13,6 +13,7 @@ from .forms import CreateAdForm, AdModifyForm, \
 from rest_framework import viewsets, filters
 from .serializers import AdSerializer
 from .permissions import IsOwnerOrReadOnly
+
 
 class AdFacetedSearchView(FacetedSearchView):
     pass
@@ -28,6 +29,23 @@ class DetailAdView(DetailView):
     template_name = "ad/details.html"
     excluded = ('created', '')
     model = Ad
+
+
+# class ReloadCommentsThread(DetailView):
+#     template_name = 'ad/reload-comments.html'
+#     model = Ad
+#
+#     def get(self, request, *args, **kwargs):
+#         if kwargs.get('ad_id', None):
+#             self.object = Ad.objects.get(pk=kwargs['ad_id'])
+#         else:
+#             print("ERROR EN LA CLAVE")
+#
+#         return self.render_to_response(self.get_context_data())
+
+
+
+
 
 
 

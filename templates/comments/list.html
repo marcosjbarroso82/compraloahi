@@ -15,33 +15,37 @@
             <div class="panel-body">
                 <ul class="list-group">
                     {% for comment in comment_list %}
-                    <li class="list-group-item" >
-                        <div class="row" style="margin-left:{{ comment.level }}00px;">
-                            <div class="col-xs-2 col-md-1">
-                                <img src="http://placehold.it/80" class="img-circle img-responsive" alt="" /></div>
-                            <div class="col-xs-10 col-md-11">
-                                <div>
-                                    {{ comment.submit_date }}&nbsp;-&nbsp;{% if comment.url %}<a href="{{ comment.url }}" target="_new">{% endif %}{{ comment.name }}{% if comment.url %}</a>{% endif %}{% if comment.allow_thread %}&nbsp;-&nbsp;<a href="{{ comment.get_reply_url }}">{% trans "Reply" %}</a>{% endif %}
+                        <li class="list-group-item" >
+                            <div class="row" style="margin-left:{{ comment.level }}00px;">
+                                <div class="col-xs-2 col-md-1">
+                                    <img src="http://placehold.it/80" class="img-circle img-responsive" alt="" /></div>
+                                <div class="col-xs-10 col-md-11">
+                                    <div>
+                                        {{ comment.submit_date }}&nbsp;-&nbsp;{% if comment.url %}<a href="{{ comment.url }}" target="_new">{% endif %}{{ comment.name }}{% if comment.url %}</a>{% endif %}{% if comment.allow_thread %}&nbsp;-&nbsp;<a href="{{ comment.get_reply_url }}">{% trans "Reply" %}</a>{% endif %}
+                                        <!-- BUTTON REPLY -->
+                                        <button data-toggle="modal" class="btn btn-lg btn-success pull-right btn-reply-comment" id="btn-reply" data-target="#modalReplyComment" data-comment-id="{{ comment.id }}">
+                                            REPLY
+                                        </button>
+                                    </div>
+                                    <div class="comment-text">
+                                        {{ comment.comment|render_markup_comment }}
+                                    </div>
+                                    <!--
+                                    <div class="action">
+                                        <button type="button" class="btn btn-primary btn-xs" title="Edit">
+                                            <span class="glyphicon glyphicon-pencil"></span>
+                                        </button>
+                                        <button type="button" class="btn btn-success btn-xs" title="Approved">
+                                            <span class="glyphicon glyphicon-ok"></span>
+                                        </button>
+                                        <button type="button" class="btn btn-danger btn-xs" title="Delete">
+                                            <span class="glyphicon glyphicon-trash"></span>
+                                        </button>
+                                    </div>
+                                    -->
                                 </div>
-                                <div class="comment-text">
-                                    {{ comment.comment|render_markup_comment }}
-                                </div>
-                                <!--
-                                <div class="action">
-                                    <button type="button" class="btn btn-primary btn-xs" title="Edit">
-                                        <span class="glyphicon glyphicon-pencil"></span>
-                                    </button>
-                                    <button type="button" class="btn btn-success btn-xs" title="Approved">
-                                        <span class="glyphicon glyphicon-ok"></span>
-                                    </button>
-                                    <button type="button" class="btn btn-danger btn-xs" title="Delete">
-                                        <span class="glyphicon glyphicon-trash"></span>
-                                    </button>
-                                </div>
-                                -->
                             </div>
-                        </div>
-                    </li>
+                        </li>
                     {% endfor %}
                 </ul>
                 <a id="more-comments-btn" href="#" class="btn btn-primary btn-sm btn-block" role="button"><span class="glyphicon glyphicon-refresh"></span> More</a>
@@ -49,3 +53,45 @@
         </div>
     </div>
 </div>
+
+
+
+
+
+<!-- MODAL REPLY COMMENT -->
+<div class="modal" id="modalReplyComment">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">Reply Comment</h4>
+            </div>
+            <div class="modal-body" id="content">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    // Script Reply Comment Ajax
+
+    // Add event to reply buttons
+    $('.btn-reply-comment').click(function() {
+
+        var comment_id_to_reply = $(this).data('comment-id');
+
+        // Get form to reply
+        $.get("/comments/reply/" + comment_id_to_reply,
+                function(data){
+                    //var span_id_comment = "<span hidden='True' data-comment-id='" + comment_id_to_reply + "' id='comment-id-reply'></span>";
+                    var modal_container_reply = $("#modalReplyComment");
+                    modal_container_reply.find("#content").html(data);
+                    submit_comment_ajax(modal_container_reply);
+                    //$("#modalReplyComment").find("#content").html(span_id_comment);
+                });
+    });
+</script>
+
+

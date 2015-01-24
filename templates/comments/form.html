@@ -1,62 +1,62 @@
 {% load comments i18n %}
 {% load common_tags %}
 <div class="comment-form container">
-	<div class="row">
-      <div class="panel panel-default widget">
-      <div class="panel-heading">
+    <div class="row">
+        <div class="panel panel-default widget">
+            <div class="panel-heading">
                 <h2 class="panel-title">
-                    Ingresa tu Pregunta al Anunciante</h2>
+                    Ingresa tu Pregunta</h2>
 
             </div>
-        <div class="panel-body">
-          <form class="form-horizontal" action="{% comment_form_target %}" method="post">{% csrf_token %}
-          <fieldset>
-            {% if next %}<div><input type="hidden" name="next" value="{{ next }}" /></div>{% endif %}
-            {% for field in form %}
-                {% if field.is_hidden %}
-                  <div>{{ field }}</div>
-                {% else %}
-                {% if field.errors %}{{ field.errors }}{% endif %}
+            <div class="panel-body">
+                <form class="form-horizontal" id="frm-post-comment" action="{% comment_form_target %}" method="post">{% csrf_token %}
+                    <fieldset>
+                        {% if next %}<div><input type="hidden" name="next" value="{{ next }}" /></div>{% endif %}
+                        {% for field in form %}
+                            {% if field.is_hidden %}
+                                <div>{{ field }}</div>
+                            {% else %}
+                                {% if field.errors %}{{ field.errors }}{% endif %}
 
-                  <p
-                    {% if field.errors %} class="error"{% endif %}
-                    <!-- TODO: This is a bad way of hidding unnecesary fields -->
-                    {% if field.name == "comment" %}
-                        <div class="form-group">
-                        <div class="col-md-12">
-                            <!--
+                                <p {% if field.errors %} class="error"{% endif %}>
+                                    <!-- TODO: This is a bad way of hidding unnecesary fields -->
+                                    {% if field.name == "comment" %}
+                                        <div class="form-group">
+                                            <div class="col-md-12">
+                                                <!--
                             {{ field.label_tag }}
                             -->
-                            {{field|addcss:"form-control"}}
+                                                {{field|addcss:"form-control"}}
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                </p>
+                            {% endif %}
+                        {% endfor %}
+
+                        <!-- Message body -->
+                        <!--
+                          <div class="form-group">
+                            <div class="col-md-12">
+                              <textarea class="form-control" id="message" name="message" placeholder="Please enter your message here..." rows="5"></textarea>
+                            </div>
+                          </div>
+                          -->
+
+                        <!-- Form actions -->
+                        <div class="form-group">
+                            <div class="col-md-12 text-right">
+                                <button type="button" id="btn-post-comment" name="post" class="btn btn-primary btn-lg" >POST AJAX</button>
+                                <!--<input type="submit" name="post" class="btn btn-primary btn-lg" value="{% trans "Post" %}" />-->
+                                <!--<input type="submit" name="preview" class="btn btn-primary btn-lg" value="{% trans "Preview" %}" />-->
+                            </div>
                         </div>
-                        </div>
-                    {% endif %}
-                  </p>
-                {% endif %}
-            {% endfor %}
+                    </fieldset>
 
-            <!-- Message body -->
-          <!--
-            <div class="form-group">
-              <div class="col-md-12">
-                <textarea class="form-control" id="message" name="message" placeholder="Please enter your message here..." rows="5"></textarea>
-              </div>
+                </form>
             </div>
-            -->
-
-            <!-- Form actions -->
-            <div class="form-group">
-              <div class="col-md-12 text-right">
-                <input type="submit" name="post" class="btn btn-primary btn-lg" value="{% trans "Post" %}" />
-                <input type="submit" name="preview" class="btn btn-primary btn-lg" value="{% trans "Preview" %}" />
-              </div>
-            </div>
-          </fieldset>
-
-          </form>
         </div>
-      </div>
-	</div>
+    </div>
 </div>
 
 <!--
@@ -80,3 +80,76 @@
   </p>
 </form>
 -->
+
+
+<div class="modal" id="modalMsg">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">AVISO :</h4>
+            </div>
+            <div class="modal-body" id="content">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="close btn btn-success" data-dismiss="modal" aria-hidden="true">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    //Submit form ajax
+    //Parameter Object to container search component
+    function submit_comment_ajax(container_to_search){
+
+        container_to_search.find('#btn-post-comment').click(function() {
+            // Script Post Comment Ajax
+            var obj = {};
+
+            obj.reply_to = container_to_search.find("#frm-post-comment").find("#id_reply_to").val();
+
+            obj.csrfmiddlewaretoken = container_to_search.find("#frm-post-comment").find("input[name='csrfmiddlewaretoken']").val();
+            obj.content_type = container_to_search.find("#frm-post-comment").find("#id_content_type").val();
+            obj.object_pk = container_to_search.find("#frm-post-comment").find("#id_object_pk").val();
+            obj.timestamp = container_to_search.find("#frm-post-comment").find("#id_timestamp").val();
+            obj.security_hash = container_to_search.find("#frm-post-comment").find("#id_security_hash").val();
+            obj.comment = container_to_search.find("#frm-post-comment").find("#id_comment").val();
+
+            obj.post = "Post";
+
+            if(obj.comment != ""){
+
+                $.post("/comments/post/", obj,
+                        function(data) {
+                            container_to_search.find("#frm-post-comment").find("#id_comment").val("");
+                            var msg = "<p>El comentario se creo correctamente, en breve sera publicado</p>";
+                            $('#modalMsg').find("#content").html(msg);
+                            $('#modalMsg').modal('show');
+
+
+                            if(container_to_search.attr("id") == 'modalReplyComment'){
+                                container_to_search.modal('close');
+                            }
+
+                            // Call to comment reload
+                            //$.get("/ad/ajax-reload-comments/{{ ad.id }}/", function(data){
+                            //    $('#content-comments').html(data);
+                            //});
+                        }).fail(function(){
+                            var msg = "<p>ERROR AL PUBLICAR EL COMENTARIO</p>";
+                            $('#modalMsg').find("#content").html(msg);
+                            $('#modalMsg').modal('show');
+
+                        });
+            }else{
+                var msg = "<p>You need complete comment body.</p>";
+                $('#modalMsg').find("#content").html(msg);
+                $('#modalMsg').modal('show');
+
+            }
+        });
+    }
+</script>
