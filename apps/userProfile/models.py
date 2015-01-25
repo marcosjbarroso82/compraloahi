@@ -29,6 +29,7 @@ class UserLocation(models.Model):
     userProfile = models.ForeignKey(UserProfile, related_name='locations')
     lat = models.FloatField(null=True)
     lng = models.FloatField(null=True)
+    radius = models.IntegerField(default=5000)
 
     def __str__(self):
         return self.title

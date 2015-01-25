@@ -17,13 +17,56 @@
      */
     function AdCtrl($scope, Ad) {
         $scope.ads = {};
-        $scope.next_page = null;
-        $scope.prev_page = null;
-        $scope.count_page = 0;
-        $scope.current_page = 1;
-        $scope.pages = [];
+
+        $scope.search_location = search_location;
+        $scope.search_location.changed = false;
+        $scope.search_location.stroke = {color: '#009900', weight: 2, opacity: 0.1 };
+        $scope.search_location.fill = {color: '#009900', weight: 2, opacity: 0.1 };
+
+        $scope.user_locations = user_locations;
+        $scope.user_location_selected = {};
+
+         $scope.$watch('user_location_selected',function(val,old){
+             //  this IF makes sure the code is no executed right when its loaded
+             if ($scope.user_location_selected.latitude
+                 && $scope.user_location_selected.longitude
+                 && $scope.user_location_selected.radius) {
+                    $scope.search_location.location.latitude = $scope.user_location_selected.latitude;
+                    $scope.search_location.location.longitude = $scope.user_location_selected.longitude;
+                    $scope.search_location.radius = $scope.user_location_selected.radius;
+                    $scope.search_location.changed = false;
+             }
+         });
+
+        // This watch is for range input which returns text instead of number
+         $scope.$watch('search_location.radius',function(val,old){
+            $scope.search_location.radius = parseInt(val);
+             if ($scope.search_location.radius != $scope.user_location_selected.radius
+                && $scope.search_location.changed!=true) {
+                 // TODO: este evento se esta llamando dos veces por problemas de formato de entero y flotante
+                 console.log("cambio radio");
+                 console.log(val);
+                 console.log(old);
+                searchLocationChanged();
+            }
+        });
+
+         $scope.$watch('search_location.location.latitude',function(val,old){
+         if ($scope.search_location.location.latitude != $scope.user_location_selected.latitude
+             && $scope.search_location.changed!=true) {
+                searchLocationChanged();
+            }
+        });
+        $scope.$watch('search_location.location.longitude',function(val,old){
+            if ($scope.search_location.location.longitude != $scope.user_location_selected.longitude
+                && $scope.search_location.changed!=true) {
+                searchLocationChanged();
+            }
+
+        });
 
         $scope.map = {
+            // TODO: define a proper location initialization
             center: {latitude: -31.4179952,
             longitude: -64.1890513 }, zoom: 9,
             options: {},
@@ -68,6 +111,16 @@
             });
         }
 
+        function searchLocationChanged() {
+            console.log("searchLocationChanged");
+            if (typeof $scope.user_location_selected.latitude !== search_location.location.latitude
+                && typeof $scope.user_location_selected.longitude !== search_location.location.longitude
+                && typeof $scope.user_location_selected.radius !== search_location.location.radius ){
+                $scope.search_location.changed = true;
+                $scope.user_location_selected = {};
+            }
+        }
+
         $scope.selectAd = function (ad) {
             ad.selected = true;
             setCircleStyle(ad);
@@ -77,6 +130,7 @@
             setCircleStyle(ad);
         }
 
+        // TODO: Implement this functionality
         $scope.AddToFavourites = function(ad) {
             window.alert("NOT IMLPEMENTED YET! ad" + ad.pk + " should be added to favourites")
         }

@@ -16,52 +16,70 @@
     <div class="col-lg-4 sidebar pull-left affix well" id="sidebar">
         <div class="" id="accordion" role="tablist" aria-multiselectable="true">
             <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
-                    <div class="">
-                        <!-- Address -->
-                        <div class="input-group stylish-input-group">
-                            <input id="address"  class="form-control form-inline col-md-10" type="text" placeholder="Ingrese la Dirección"/>
+                <div class="">
+                    {% if user.is_authenticated %}
+                    {% verbatim %}
+                    <select ng-model="user_location_selected" ng-options="user_location.title for user_location in user_locations">
+                        <option selected value="">Elije un Ubicacion</option>
+                    </select>
+                    <a ng-show="search_location.changed" class="ng-show">Guardar ubicacion </a>
+                    {% endverbatim %}
+                    {% endif %}
+                    <!-- Address -->
+                    <div class="input-group stylish-input-group">
+                        <input id="address"  class="form-control form-inline col-md-10" type="text" placeholder="Ingrese la Dirección"/>
                                 <span class="input-group-addon">
                                     <button id="search_address_btn" type="submit" style="border: none; width: 100%; ">
                                         <i class="glyphicon glyphicon-search"></i>
                                     </button>
                                 </span>
-
+                    </div>
+                    <br/>
+                    <!-- Radius -->
+                    <div class="">
+                        <div class="range range-success">
+                            {% verbatim %}
+                            <input id="map_radius" type="range" name="map_radius" min="1" max="60000" ng-model="search_location.radius" >
+                            <output id="range">{{ search_location.radius }}</output>
+                            {% endverbatim %}
                         </div>
-                        <br/>
-                        <!-- Radius -->
-                        <div class="">
-                            <div class="range range-success">
-                                <input id="map_radius" type="range" name="map_radius" min="1" max="6000" value="1000" onchange="range.value= value">
-                                <output id="range">1000</output>
-                            </div>
-                        </div>
-                        <br>
-                        {% verbatim %}
-                        <div class="angular-google-map-container">
-                            <ui-gmap-google-map id="mapa" class="capas img-thumbnail" center="map.center" zoom="map.zoom" draggable="true" options="map.options" control="map.control"
-                                                panControl="true"
-                                                zoomControl="true">
-                                <ui-gmap-circle ng-repeat="ad in ads track by ad.pk"
-                                                center="ad.center"
-                                                stroke="ad.stroke"
-                                                fill="ad.fill"
-                                                radius="ad.radius"
-                                                visible="true"
-                                                geodesic="location_options.geodesic"
-                                                editable="location_options.editable"
-                                                draggable="location_options.draggable"
-                                                clickable="location_options.clickable"
-                                                events="circle_events"
-                                        >
-                                </ui-gmap-circle>
-                            </ui-gmap-google-map>
-
-                        </div>
-                        {% endverbatim %}
-                        <!-- Map -->
+                    </div>
+                    <br>
+                    {% verbatim %}
+                    <div class="angular-google-map-container">
+                        <ui-gmap-google-map id="mapa" class="capas img-thumbnail" center="map.center" zoom="map.zoom" draggable="true" options="map.options" control="map.control" panControl="true" zoomControl="true">
+                            <!-- Search Location -->
+                            <ui-gmap-circle ng-repeat="ad in ads track by ad.pk"
+                                            center="search_location.location"
+                                            stroke="search_location.stroke"
+                                            fill="search_location.fill"
+                                            radius="search_location.radius"
+                                            visible="true"
+                                            geodesic="location_options.geodesic"
+                                            editable="true"
+                                            draggable="true"
+                                            clickable="false">
+                            </ui-gmap-circle>
+                            <!-- Ad Locations -->
+                            <ui-gmap-circle ng-repeat="ad in ads track by ad.pk"
+                                            center="ad.center"
+                                            stroke="ad.stroke"
+                                            fill="ad.fill"
+                                            radius="ad.radius"
+                                            visible="true"
+                                            geodesic="location_options.geodesic"
+                                            editable="location_options.editable"
+                                            draggable="location_options.draggable"
+                                            clickable="location_options.clickable"
+                                            events="circle_events">
+                            </ui-gmap-circle>
+                        </ui-gmap-google-map>
 
                     </div>
+                    {% endverbatim %}
+                    <!-- Map -->
                 </div>
+            </div>
 
             <div  id="collapseTwoWrapper" class="well">
                 <div class="panel-heading" role="tab" id="headingTwo">
@@ -70,27 +88,21 @@
                             Filtros
                         </a>
                         <a class="pull-right" href="{% add_get page='1' selected_facets=""%}">
-                                            <span class="badge">borrar filtros</span></a>
+                            <span class="badge">borrar filtros</span></a>
                     </h4>
                 </div>
                 <div id="collapseTwo" class="panel-collapse collapse sidebar" role="tabpanel" aria-labelledby="headingTwo">
                     <div class="list-group">
-
-
-
-
                         <!-- Categories -->
                         {% if facets.fields.categories %}
-                            <hr/>
-                            <span class="list-group-item">Categorias</span>
-                            <hr/>
+                            <hr/><span class="list-group-item">Categorias</span><hr/>
                             <ul>
                                 {% for category in facets.fields.categories %}
                                     <li>
-                                    {% with "categories_exact:"|add:category.0 as facet_value %}
-                                         <a class="list-group-item" href="{% add_get page='1' %}&selected_facets={{ facet_value }}">
-                                            {{ category.0 }}<span class="badge">{{ category.1 }}</span></a>
-                                    {% endwith %}
+                                        {% with "categories_exact:"|add:category.0 as facet_value %}
+                                            <a class="list-group-item" href="{% add_get page='1' %}&selected_facets={{ facet_value }}">
+                                                {{ category.0 }}<span class="badge">{{ category.1 }}</span></a>
+                                        {% endwith %}
                                     </li>
                                 {% endfor %}
                             </ul>
@@ -99,17 +111,14 @@
                         <br/>
                         <!-- Provinces -->
                         {% if facets.fields.provinces %}
-                            <p>{{ request.GET.selected_facets }}</p>
-                            <hr/>
-                            <span class="list-group-item">Provincias</span>
-                            <hr/>
+                            <hr/><span class="list-group-item">Provincias</span><hr/>
                             <ul>
                                 {% for province in facets.fields.provinces %}
                                     <li>
-                                    {% with "provinces_exact:"|add:province.0 as facet_value %}
-                                        <a class="list-group-item" href="{% add_get page='1' %}&selected_facets={{ facet_value }}">
-                                            {{ province.0 }}<span class="badge">{{ province.1 }}</span></a>
-                                    {% endwith %}
+                                        {% with "provinces_exact:"|add:province.0 as facet_value %}
+                                            <a class="list-group-item" href="{% add_get page='1' %}&selected_facets={{ facet_value }}">
+                                                {{ province.0 }}<span class="badge">{{ province.1 }}</span></a>
+                                        {% endwith %}
                                     </li>
                                 {% endfor %}
                             </ul>
@@ -118,16 +127,14 @@
                         <br/>
                         <!-- Localities -->
                         {% if facets.fields.localities %}
-                            <hr/>
-                            <span class="list-group-item">Localidades</span>
-                            <hr/>
+                            <hr/><span class="list-group-item">Localidades</span><hr/>
                             <ul>
                                 {% for locality in facets.fields.localities %}
                                     <li>
-                                    {% with "localities_exact:"|add:locality.0 as facet_value %}
-                                        <a class="list-group-item" href="{% add_get page='1'%}&selected_facets={{ facet_value }}">
-                                            {{ locality.0 }}<span class="badge">{{ locality.1 }}</span></a>
-                                    {% endwith %}
+                                        {% with "localities_exact:"|add:locality.0 as facet_value %}
+                                            <a class="list-group-item" href="{% add_get page='1'%}&selected_facets={{ facet_value }}">
+                                                {{ locality.0 }}<span class="badge">{{ locality.1 }}</span></a>
+                                        {% endwith %}
                                     </li>
                                 {% endfor %}
                             </ul>
@@ -142,12 +149,11 @@
     <div class="col-lg-8 col-md-offset-4 content pull-right">
         <!-- FORM SEARCH -->
         <div>
-
             <form method="get" action="/ad/ad-list/" class="search-form">
                 <div class="">
                     <!-- TAG -->
                     <div class="input-group stylish-input-group">
-                        <input id="q" class="form-control" name="q" type="text" placeholder="Search"/>
+                        <input id="q" class="form-control" name="q" type="text" placeholder="Search" value="{{ form.data.q }}"/>
                                 <span class="input-group-addon">
                                     <!-- SUBMIT -->
                                     <button type="submit" style="border: none; width: 100%; ">
@@ -155,30 +161,30 @@
                                     </button>
                                 </span>
                     </div>
-                    <!-- LATITUD -->
-                    <!--
+
+                    <div id="hidden-fields" class="hidden">
+                        {% verbatim %}
+                        <!-- LATITUDE -->
                         <div>
-                            <label for="q">q</label>
-                            <input id="q" type="text" name="q" value="{{ form.data.q }}"/>
+                            <label for="lat">lat</label>
+                            <input id="lat" type="text" name="lat" ng-model="search_location.location.latitude"/>
                         </div>
-                    -->
-                    <!-- LATITUD -->
-                    <div  hidden="true" style="display: none;">
-                        <label for="lat">lat</label>
-                        <input id="lat" type="text" name="lat" value="{{ form.data.lat }}"/>
+                        <!-- LONGITUD -->
+                        <div  >
+                            <label for="lng">lng</label>
+                            <input id="lng" type="text" name="lng" ng-model="search_location.location.longitude"/>
+                        </div>
+                        <!-- RADIO -->
+                        <div>
+                            <label for="radius">Radius</label>
+                            <input id="radius" type="number" name="radius" ng-model="search_location.radius"/>
+                        </div>
+                        <div>
+                            <label for="color">Color</label>
+                            <input id="color" type="text"  ng-model="search_location.fill.color"/>
+                        </div>
+                        {% endverbatim %}
                     </div>
-                    <!-- LONGITUD -->
-                    <div  hidden="true" style="display: none;">
-                        <label for="lng">lng</label>
-                        <input id="lng" type="text" name="lng" value="{{ form.data.lng }}"/>
-                    </div>
-
-                    <!-- RADIO -->
-                    <div  hidden="true" style="display: none;">
-                        <label for="radius">Radius</label>
-                        <input id="radius" type="text" name="radius" value="{{ form.data.radius }}"/>
-                    </div>
-
                 </div>
             </form>
         </div>
@@ -214,15 +220,10 @@
                     </li>
                 </ul>
             </div>
-
-
             {% endverbatim %}
-
         </div>
-
         <!-- PAGINATION -->
         <div class="pagination pull-right" id="pagination">
-
             {% if paginator %}
                 {% load i18n %}
                 <div class="pagination">
@@ -232,7 +233,6 @@
                         <span class="disabled prev">&lsaquo;&lsaquo; {% trans "previous" %}</span>
                     {% endif %}
                     <span> Page {{ page.number }} of {{ paginator.num_pages }}</span>
-
                     {% if page.has_next %}
                         <a href="{% add_get page=page.next_page_number %}" class="next">{% trans "next" %} &rsaquo;&rsaquo;</a>
                     {% else %}
@@ -240,17 +240,43 @@
                     {% endif %}
                 </div>
             {% endif %}
-
-
         </div>
     </div>
-
     </div>
 {% endblock %}
 
 {% block js_footer_block %}
+    <!-- LOAD USER LOCATIONS -->
+    <script>
+        var user_locations = [
+            {% for user_location in user_locations %}
+                {% if not forloop.first %},{% endif %}
+                {
+                    pk:{{ user_location.pk }},
+                    title:"{{ user_location.title }}",
+                    latitude:{{ user_location.lat }},
+                    longitude:{{ user_location.lng }},
+                    radius:{{ user_location.radius }}
+                }
+
+
+            {% endfor %}
+
+        ];
+
+    </script>
+    <!-- END - LOAD USER LOCATIONS -->
     <!--  LOAD ADS DATA -->
     <script>
+        // TODO: define a proper initialization
+        var search_location = {
+            radius: {{ form.data.radius | default:20000}},
+            location: {
+                latitude: {{ form.data.lat | default:"-31.4179952" }},
+                longitude: {{ form.data.lng | default:"-64.1890513" }}
+            }
+        };
+
         var json_data = {
             "count": 9,
             "next": "http://127.0.0.1:8000/api/v1/ads/?page=2",
@@ -279,15 +305,13 @@
                                 image: "{{ im.url }}"
                             {% endthumbnail %}
                         {% endwith %}
-
                     }
                 {% endfor %}
             ]}
     </script>
     <!--  END - LOAD ADS DATA -->
+
     <!-- ###################### IMPORT THIRD LIB ###################### -->
-
-
     <!-- angular resources -->
     <script type="text/javascript" src="{% static 'bower_components/angular/angular.js' %}"></script>
     <script type="text/javascript" src="{% static 'bower_components/angular-resource/angular-resource.js' %}"></script>
@@ -299,20 +323,12 @@
     <script type="text/javascript" src="{% static 'bower_components/angular-bootstrap/ui-bootstrap-tpls.js' %}"></script>
     <!-- google mapp -->
     <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true&libraries=places&language=en-US"></script>
-
     <!-- Nose -->
     <script type="text/javascript" src="{% static 'bower_components/lodash/dist/lodash.js' %}"></script>
-
-
-
     <!-- ###################### END IMPORT ###################### -->
-
-
-
 
     <!-- ###################### angular-resources APP ###################### -->
     <script type="text/javascript" src="{% static 'app.js' %}"></script>
-
     <!-- ###################### END angular-resources APP ###################### -->
 
     <!-- ###################### angular-resources APP - MODULE UTILS ###################### -->
@@ -330,22 +346,26 @@
     <script type="text/javascript" src="{% static 'angular-resources/ad/controllers/ad.controller.js' %}"></script>
     <!-- ###################### END angular-resources APP - MODULE AD ###################### -->
 
-<script>
-    $("#collapseTwoWrapper").mouseleave(function() {
-        $("#collapseTwo").collapse('hide');
-        $("#collapseOne").collapse("show");
-    });
-    $("#ads-list").mouseenter(function() {
-        console.log("haz tu magia");
-        $("#collapseOne").collapse("show");
-        $("#collapseTwo").collapse('hide');
-    });
+    <!-- SIDEBAR SCRIPT -->
+    <script>
+        // toggle: false is necessary to prevent a bug that show the tab you want to hide the first time
+        $('#collapseOne').collapse({'toggle': false});
+        $('#collapseTwo').collapse({'toggle': false});
 
-    $("#collapseTwoWrapper").mouseenter(function() {
-        $("#collapseTwo").collapse('show');
-        $("#collapseOne").collapse("hide");
-    });
+        $("#collapseTwoWrapper").mouseleave(function() {
+            $("#collapseTwo").collapse('hide');
+            $("#collapseOne").collapse("show");
+        });
+        $("#ads-list").mouseenter(function() {
+            $("#collapseTwo").collapse('hide');
+            $("#collapseOne").collapse("show");
+            $("#collapseTwo").collapse('hide');
+        });
 
-
-</script>
+        $("#collapseTwoWrapper").mouseenter(function() {
+            $("#collapseTwo").collapse('show');
+            $("#collapseOne").collapse("hide");
+        });
+    </script>
+    <!-- END - SIDEBAT SCRIPT -->
 {% endblock %}
