@@ -26,34 +26,87 @@
         $scope.user_locations = user_locations;
         $scope.user_location_selected = {};
 
-         $scope.$watch('user_location_selected',function(val,old){
-             //  this IF makes sure the code is no executed right when its loaded
-             if ($scope.user_location_selected.latitude
-                 && $scope.user_location_selected.longitude
-                 && $scope.user_location_selected.radius) {
-                    $scope.search_location.location.latitude = $scope.user_location_selected.latitude;
-                    $scope.search_location.location.longitude = $scope.user_location_selected.longitude;
-                    $scope.search_location.radius = $scope.user_location_selected.radius;
-                    $scope.search_location.changed = false;
-             }
-         });
+        $scope.existsLocationTitle = function (title) {
+            for (var i=0; i < $scope.user_locations.length; i++) {
+                if ($scope.user_locations[i].title === $scope.search_location.title) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        $scope.submitNewLocation= function () {
+            // TODO: How about validating the others fields?
+            if ($scope.search_location.title && !$scope.existsLocationTitle($scope.search_location.title) ) {
+                $.post("/api/v1/user-locations/",
+                    {
+                        title: $scope.search_location.title,
+                        lat: $scope.search_location.location.latitude,
+                        lng: $scope.search_location.location.longitude,
+                        radius: $scope.search_location.radius,
+                        csrfmiddlewaretoken: csrf
+                    },
+                    function(data) {
+                        $scope.user_locations.push({
+                            latitude: data.lat,
+                            longitude: data.lng,
+                            radius: data.radius,
+                            pk: data.id,
+                            title: data.title
+                        });
+                        $('#modalNewLocation').modal('hide');
+
+                        $scope.user_location_selected = {};
+
+                        // TODO: this should select the option in the html selct. Bu it's not working
+                        $scope.$apply(function(){
+                            // TODO: It would be better to use some kind of id
+                            $('#user-locations-select option[label="'+ data.title +'"]').attr("selected", "selected");
+                        });
+
+                        $scope.search_location.changed = false;
+                        $scope.search_location.title= "";
+                        $("#search_location_name").val("");
+
+
+                    })
+                    .fail(function(){
+                        $('#modalNewLocation .modal-body').html("Ocurrio un error al guardar su ubicación");
+                    });
+            } else {
+                // TODO: manage this in a better way
+                window.alert("Ingrese un nombre que no exista ya");
+            }
+
+
+        }
+
+        $scope.$watch('user_location_selected',function(val,old){
+            //  this IF makes sure the code is no executed right when its loaded
+            if ($scope.user_location_selected.latitude
+                && $scope.user_location_selected.longitude
+                && $scope.user_location_selected.radius) {
+
+                $scope.search_location.location.latitude = $scope.user_location_selected.latitude;
+                $scope.search_location.location.longitude = $scope.user_location_selected.longitude;
+                $scope.search_location.radius = $scope.user_location_selected.radius;
+                $scope.search_location.changed = false;
+            }
+        });
 
         // This watch is for range input which returns text instead of number
-         $scope.$watch('search_location.radius',function(val,old){
+        $scope.$watch('search_location.radius',function(val,old){
             $scope.search_location.radius = parseInt(val);
-             if ($scope.search_location.radius != $scope.user_location_selected.radius
-                && $scope.search_location.changed!=true) {
-                 // TODO: este evento se esta llamando dos veces por problemas de formato de entero y flotante
-                 console.log("cambio radio");
-                 console.log(val);
-                 console.log(old);
+            if ($scope.search_location.radius != $scope.user_location_selected.radius
+                && $scope.search_location.changed != true) {
+                // TODO: este evento se esta llamando dos veces por problemas de formato de entero y flotante en el radio
                 searchLocationChanged();
             }
         });
 
-         $scope.$watch('search_location.location.latitude',function(val,old){
-         if ($scope.search_location.location.latitude != $scope.user_location_selected.latitude
-             && $scope.search_location.changed!=true) {
+        $scope.$watch('search_location.location.latitude',function(val,old){
+            if ($scope.search_location.location.latitude != $scope.user_location_selected.latitude
+                && $scope.search_location.changed!=true) {
                 searchLocationChanged();
             }
         });
@@ -62,13 +115,12 @@
                 && $scope.search_location.changed!=true) {
                 searchLocationChanged();
             }
-
         });
 
         $scope.map = {
             // TODO: define a proper location initialization
             center: {latitude: -31.4179952,
-            longitude: -64.1890513 }, zoom: 9,
+                longitude: -64.1890513 }, zoom: 9,
             options: {},
             control: {},
             circle_events: {
@@ -97,7 +149,6 @@
 
         function getAds(){
             Ad.get(function(data) {
-                console.log("cargando datos");
                 $scope.ads = data.results;
 
                 $scope.next_page = data.next;
@@ -112,7 +163,6 @@
         }
 
         function searchLocationChanged() {
-            console.log("searchLocationChanged");
             if (typeof $scope.user_location_selected.latitude !== search_location.location.latitude
                 && typeof $scope.user_location_selected.longitude !== search_location.location.longitude
                 && typeof $scope.user_location_selected.radius !== search_location.location.radius ){

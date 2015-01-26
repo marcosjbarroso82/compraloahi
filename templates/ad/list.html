@@ -13,17 +13,55 @@
 
 {% block body_block %}
     <div class="ad-list" ng-app="App" ng-controller="AdCtrl">
+
+        <!-- /.modal New Location -->
+    <div class="modal" id="modalNewLocation">
+        {% verbatim %}
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title">Guardar Ubicacion</h4>
+                </div>
+                <div class="modal-body">
+                    <!-- Address -->
+                    <div class="input-group stylish-input-group">
+                        <input id="search_location_name"  class="form-control col-md-10" type="text"
+                               placeholder="Nombre de la ubicación"
+                               ng-model="search_location.title" />
+                        <p>{{ search_location.title }}</p>
+                        <button ng-click="submitNewLocation()" type="submit" class="form-control btn btn-md  pull-right">
+                            Guardar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endverbatim %}
+    </div>
+    <!-- /.modal New Location -->
+
     <div class="col-lg-4 sidebar pull-left affix well" id="sidebar">
         <div class="" id="accordion" role="tablist" aria-multiselectable="true">
             <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
                 <div class="">
                     {% if user.is_authenticated %}
-                    {% verbatim %}
-                    <select ng-model="user_location_selected" ng-options="user_location.title for user_location in user_locations">
-                        <option selected value="">Elije un Ubicacion</option>
-                    </select>
-                    <a ng-show="search_location.changed" class="ng-show">Guardar ubicacion </a>
-                    {% endverbatim %}
+                        {% verbatim %}
+                        <select id="user-locations-select" ng-model="user_location_selected" ng-options="user_location.title for user_location in user_locations">
+                            <option selected value="">Elije un Ubicacion</option>
+                        </select>
+                        {% endverbatim %}
+
+                        <!-- ######## CONTACT ############# -->
+                        <div class="pull-right col-md-3">
+                            {% if user.is_authenticated %}
+                                <!-- BUTTON OPEN --->
+                                <button data-toggle="modal" class="btn btn-xs btn-success pull-right" id="btn-contact" data-target="#modalNewLocation">
+                                    <i class=""></i> Guarda ubicacion
+                                </button>
+                            {% endif %}
+                        </div>
+                        <!-- ######## END CONTACT ############# -->
                     {% endif %}
                     <!-- Address -->
                     <div class="input-group stylish-input-group">
@@ -246,6 +284,10 @@
 {% endblock %}
 
 {% block js_footer_block %}
+    <script>
+        var csrf = "{{ csrf_token }}";
+    </script>
+
     <!-- LOAD USER LOCATIONS -->
     <script>
         var user_locations = [

@@ -226,8 +226,15 @@ class UserLocationViewSet(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.DATA)
         serializer.is_valid()
-        serializer.save(userProfile=UserProfile.objects.get(user=request.user))
-        return Response({'status': 'Ok request.', 'message': 'Los datos de usuario se modificaron con exito'}, status=status.HTTP_201_CREATED )
+        obj = serializer.save(userProfile=UserProfile.objects.get(user=request.user))
+        # TODO: For this to be a TRUE Rest Full Service API, It should return the same object that has just created
+        #return Response({'status': 'Ok request.', 'message': 'Los datos de usuario se modificaron con exito'}, status=status.HTTP_201_CREATED )
+        return Response({'id': obj.id,
+                         'lat': obj.lat,
+                         'lng': obj.lng,
+                         'radius': obj.radius,
+                         'title': obj.title,
+                         'status': 'Ok request.', 'message': 'Los datos de usuario se modificaron con exito'}, status=status.HTTP_201_CREATED )
 
 
 
