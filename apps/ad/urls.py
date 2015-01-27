@@ -2,7 +2,7 @@ from django.conf.urls import patterns, url
 from haystack.query import SearchQuerySet
 
 from .views import LatestAdView, DetailAdView, CreateAdView, \
-    UpdateAdView, AdDeleteView, AdsByUser, AdFacetedSearchView, ReloadCommentsThread
+    UpdateAdView, AdDeleteView, AdsByUser, AdFacetedSearchView
 from .forms import AdSearchForm
 
 sqs = SearchQuerySet().facet('categories').facet('localities').facet('provinces')
