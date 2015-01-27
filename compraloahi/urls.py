@@ -74,6 +74,9 @@ urlpatterns = patterns('',
                         # Packages ckeditor
                         (r'^ckeditor/', include('ckeditor.urls')),
 
+                        # Parche comments
+                        (r'^comments/post/$', 'compraloahi.views.comment_post_wrapper'),
+
                         # Package comments
                         (r'^comments/', include('django_comments_xtd.urls')),
 
