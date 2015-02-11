@@ -1,20 +1,11 @@
 
 {% load staticfiles %}
 
-<link rel="stylesheet" type="text/css" href="{% static 'bower_components/bootstrap/dist/css/bootstrap.css' %}" />
+<!--<link rel="stylesheet" type="text/css" href="{% static 'bower_components/bootstrap/dist/css/bootstrap.css' %}" />-->
+<link rel="stylesheet" type="text/css" href="{% static 'css/less/main.css' %}">
 
 <link rel="stylesheet" type="text/css" href="{% static 'bower_components/ngDialog/css/ngDialog.css' %}" />
 <link rel="stylesheet" type="text/css" href="{% static 'bower_components/ngDialog/css/ngDialog-theme-default.css' %}" />
 <!--<link rel="stylesheet" type="text/css" href="{# static 'lib/snackbarjs/snackbar.min.css' #}" />-->
 
-
-{% ifequal THEME_NAME "default" %}
-<link rel="stylesheet" href="/static/themes/default/css/main.css">
-{% endifequal %}
-
-{% ifequal THEME_NAME "material" %}
-<link rel="stylesheet" type="text/css" href="{% static 'bower_components/bootstrap-material-design/dist/css/material.css' %}" />
-<link rel="stylesheet" type="text/css" href="{% static 'bower_components/bootstrap-material-design/dist/css/ripples.min.css' %}" />
-<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}" />
-{% endifequal %}
 

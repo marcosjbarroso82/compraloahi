@@ -105,7 +105,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 )
 
 # Dinamic theme change
-THEME_NAME = "material" # material
+THEME_NAME = "default" # material
 TEMPLATE_CONTEXT_PROCESSORS = TEMPLATE_CONTEXT_PROCESSORS + (
     "apps.theme_manager.theme_manager.theme_name",
 )

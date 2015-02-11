@@ -2,28 +2,46 @@
 <nav class="navbar navbar-default navbar-fixed-top" role="navigation" id="navigation-bar">
         <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
+        <div class="navbar-header col-md-4">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/">Compralo ahi ! y cuando puedas...</a>
+            <a href="/">
+                <img id="logo" src="/static/image/compraloahi-logo.png"/>
+            </a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        
+        <form action="/ad/ad-list/" method="get" class="col-md-4">
+                <div class="input-group stylish-input-group">
+                    <input id="q" class="form-control" name="q" type="text" placeholder="Encontra lo que queres!"/>
+                    <span class="input-group-addon">
+                        <!-- SUBMIT -->
+                        <button type="submit" style="border: none; width: 100%; ">
+                            <i class="glyphicon glyphicon-search"></i>
+                        </button>
+                    </span>
+                </div>
+            </form>
+
         {% if user.is_authenticated %}
-            <ul class="nav navbar-nav">
+            <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown"> Avisos<span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="{% url 'ad:create' %}">Agregar aviso</a></li>
-                        <li><a href="{% url 'ad:by-user' %}">Mis avisos</a> </li>
+                        <li><a href="{% url 'profile:detail' %}">View Profile</a></li>
+                        <li><a href="/accounts/password/change">Change Passowrd</a> </li>
+                        <li><a href="{% url 'my-user:my-logout' %}">Sign Out</a></li>
                     </ul>
                 </li>
             </ul>
+
+            <!--
 
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Account
@@ -63,7 +81,7 @@
                         </li>
                     </ul>
                 </li>
-            </ul>
+            </ul>-->
       {% else %}
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="/accounts/login">Sign In</a></li>
