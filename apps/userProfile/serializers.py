@@ -38,12 +38,10 @@ class UserLocationSeralizer(ModelSerializer):
         depth = 1
 
     center = serializers.SerializerMethodField()
-    radius = serializers.SerializerMethodField()
 
 
     def get_center(self, obj):
         center = {'latitude': obj.lat, 'longitude': obj.lng}
         return center
 
-    def get_radius(self, obj):
-        return 5000
+

@@ -15,12 +15,14 @@
      * @namespace UserLocationCtrl
      */
     function UserLocationCtrl($scope, UserLocations, Snackbar) {
+        // TODO: provide a proper map center location
         $scope.map = {center: {latitude: -31.4179952, longitude: -64.1890513 }, zoom: 9 };
         $scope.options = {scrollwheel: false};
         $scope.locations = {};
         $scope.location = {};
 
         $scope.flag_update = false;
+        $scope.flag_create = false;
 
         $scope.location_options = {
             stroke: {
@@ -37,12 +39,25 @@
             clickable: true, // optional: defaults to true
             editable: true, // optional: defaults to false
             visible: true, // optional: defaults to true
-            radius: 5000
         }
 
+        $scope.hideLocations = function () {
+            for (var i=0; i < $scope.locations.length; i++) {
+                $scope.locations[i].visible = false;
+            }
+        }
+
+        $scope.resetLocations = function () {
+            for (var i=0; i < $scope.locations.length; i++) {
+                $scope.locations[i].visible = true;
+                $scope.locations[i].dragable = false;
+                $scope.locations[i].editable = false;
+            }
+        }
 
         UserLocations.query(function(data) {
             $scope.locations = data;
+            $scope.resetLocations();
         });
 
         $scope.deleteLocation = function(location) {
@@ -62,42 +77,51 @@
         };
 
         $scope.newLocation = function(){
+            $scope.flag_create = true;
+            $scope.hideLocations();
             $scope.location = {};
         }
 
         $scope.cancelLocation = function(){
             $scope.flag_update = false;
+            $scope.flag_create = false;
             $scope.location = {};
+            $scope.resetLocations();
+
         }
 
         $scope.addLocation = function() {
             if($scope.flag_update){
+                $scope.location.lat = $scope.location.center.latitude;
+                $scope.location.lng = $scope.location.center.longitude;
                 UserLocations.update($scope.location, updateSuccess, updateError);
-                $scope.flag_update = false;
-            }else{
+            }else if($scope.flag_create){
                 UserLocations.save($scope.location, saveSuccess, saveError);
-
-
             }
 
             function saveSuccess(data, headers, status){
                 Snackbar.show("Se ha agregado una ubicacion nueva");
                 $scope.locations.push($scope.location);
                 $scope.location = {};
+                $scope.resetLocations();
+                $scope.flag_create = false;
             }
 
             function saveError(data, headers, status){
                 Snackbar.show("Error al intentar agregar una nueva ubicacion");
+                $scope.flag_create = false;
+                $scope.resetLocations();
             }
 
             function updateSuccess(data, headers, status){
                 Snackbar.show("La ubicacion seleccionada se edito con exito");
+                $scope.resetLocations();
             }
 
             function updateError(data, headers, status){
                 Snackbar.show("Error al intentar editar la ubicacion seleccionada");
+                $scope.resetLocations();
             }
-
         };
 
         /**
@@ -106,8 +130,11 @@
          */
         $scope.update = function(location){
             if(!$scope.flag_update){
+                $scope.hideLocations();
+                location.draggable = true;
+                location.editable = true;
+                location.visible = true;
                 $scope.flag_update = true;
-                $scope.location = location;
             }
         };
 
