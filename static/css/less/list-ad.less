@@ -1,0 +1,92 @@
+/* LESS PARA LISTA DE AVISOS */
+@import 'base.less';
+
+@map-width: 100%;
+@map-heigth: 900px;
+
+#map-container{
+	position: fixed;
+	top: 50px;
+	left: 0px;
+	width: @map-width;
+	height: @map-heigth;
+	z-index: -10;
+	#mapa {
+	    width: @map-width;
+		height: @map-heigth;
+
+	}
+}
+
+.angular-google-map-container{
+  width: @map-width;
+	height: @map-heigth;
+}
+
+#data-position-form{
+	.mixin-shadow-bottom(2px, 2px, 4px, 5px, #ccc);
+	background: white;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+
+
+#data-position-form{
+	position: fixed;
+	top: 60px;
+	left: 10px;
+    float: left;
+}
+
+#container-ad-list{
+  float: right;
+  .mixin-shadow-bottom(-2px, 0px, 5px, 6px, #ccc);
+  background-color:rgba(255,255,255,0.8);
+}
+
+#btn-filter-facet, #btn-my-locations, #btn-new-location{
+  float: left;
+  position: fixed;
+}
+
+#btn-filter-facet{
+  right: 43%;
+  top: 60px;
+}
+
+#btn-my-locations{
+  left: 28%;
+  top: 60px;
+}
+
+#btn-new-location{
+  left: 28%;
+  top: 100px;
+}
+
+.footer{
+  display: none;
+}
+
+
+//--------------------------
+
+
+.item-ads-list{
+  .mixin-shadow-bottom(0.5px, 0.5px, 1px, 1px, #ccc);
+  background-color: white;
+  margin-bottom: 10px;
+
+  .price-ads-list {
+    font-size: 1.5em;
+    color: #aa000;
+    padding-bottom: 10px;
+    font-weight: 500;
+  }
+}
+.ads-list-item-hover {
+  .mixin-shadow-bottom(1px, 1px, 3px, 4px, #1e617d);
+}
+
+

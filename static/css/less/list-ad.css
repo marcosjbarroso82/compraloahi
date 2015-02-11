@@ -1,3 +1,4 @@
+/* LESS PARA LISTA DE AVISOS */
 /*! normalize.css v3.0.2 | MIT License | git.io/normalize */
 html {
   font-family: sans-serif;
@@ -6300,7 +6301,121 @@ button.close {
   margin-top: 8px;
   margin-bottom: 8px;
 }
-body input[type="text"] {
+body {
+  margin-top: 50px;
+}
+body input {
   height: 30px;
   border-radius: 0px;
+}
+body .icon-addon {
+  position: relative;
+  color: #aa4400;
+}
+body .icon-addon:after {
+  clear: both;
+}
+body .icon-addon.addon-md .glyphicon,
+body .icon-addon .glyphicon,
+body .icon-addon.addon-md .fa,
+body .icon-addon .fa {
+  position: absolute;
+  height: 24px;
+  top: 0px;
+  width: 30px;
+  padding: 0px;
+  margin-top: 3px;
+  border-left: 1px solid #aa4400;
+  font-size: 18px;
+}
+body .icon-addon.addon-sm .fa,
+body .icon-addon.addon-sm .glyphicon {
+  margin-right: 0;
+  right: 5px;
+}
+body .icon-addon .form-control:focus + .glyphicon,
+body .icon-addon:hover .glyphicon,
+body .icon-addon .form-control:focus + .fa,
+body .icon-addon:hover .fa {
+  color: #aa4400 !important;
+}
+body .btn-search {
+  border: none;
+  background: none;
+}
+#map-container {
+  position: fixed;
+  top: 50px;
+  left: 0px;
+  width: 100%;
+  height: 900px;
+  z-index: -10;
+}
+#map-container #mapa {
+  width: 100%;
+  height: 900px;
+}
+.angular-google-map-container {
+  width: 100%;
+  height: 900px;
+}
+#data-position-form {
+  -webkit-box-shadow: 2px 2px 4px 5px #cccccc;
+  -moz-box-shadow: 2px 2px 4px 5px #cccccc;
+  box-shadow: 2px 2px 4px 5px #cccccc;
+  background: white;
+  padding-left: 0px;
+  padding-right: 0px;
+}
+#data-position-form {
+  position: fixed;
+  top: 60px;
+  left: 10px;
+  float: left;
+}
+#container-ad-list {
+  float: right;
+  -webkit-box-shadow: -2px 0px 5px 6px #cccccc;
+  -moz-box-shadow: -2px 0px 5px 6px #cccccc;
+  box-shadow: -2px 0px 5px 6px #cccccc;
+  background-color: rgba(255, 255, 255, 0.8);
+}
+#btn-filter-facet,
+#btn-my-locations,
+#btn-new-location {
+  float: left;
+  position: fixed;
+}
+#btn-filter-facet {
+  right: 43%;
+  top: 60px;
+}
+#btn-my-locations {
+  left: 28%;
+  top: 60px;
+}
+#btn-new-location {
+  left: 28%;
+  top: 100px;
+}
+.footer {
+  display: none;
+}
+.item-ads-list {
+  -webkit-box-shadow: 0.5px 0.5px 1px 1px #cccccc;
+  -moz-box-shadow: 0.5px 0.5px 1px 1px #cccccc;
+  box-shadow: 0.5px 0.5px 1px 1px #cccccc;
+  background-color: white;
+  margin-bottom: 10px;
+}
+.item-ads-list .price-ads-list {
+  font-size: 1.5em;
+  color: #aa000;
+  padding-bottom: 10px;
+  font-weight: 500;
+}
+.ads-list-item-hover {
+  -webkit-box-shadow: 1px 1px 3px 4px #1e617d;
+  -moz-box-shadow: 1px 1px 3px 4px #1e617d;
+  box-shadow: 1px 1px 3px 4px #1e617d;
 }

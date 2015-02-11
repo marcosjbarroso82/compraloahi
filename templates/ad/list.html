@@ -6,130 +6,183 @@
 {% load staticfiles %}
 
 
+
 {% block css_header_block %}
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/ad-list.css" >
-    <!--<link rel="stylesheet" href="{{ THEME_PATH }}css/ad-list.css">-->
+<link rel="stylesheet" type="text/css" href="{% static 'css/less/list-ad.css' %}">
 {% endblock %}
 
-{% block body_block %}
-    <div class="ad-list" ng-app="App" ng-controller="AdCtrl">
 
-        <!-- /.modal New Location -->
-    <div class="modal" id="modalNewLocation">
-        {% verbatim %}
+
+
+{% block body_block %}
+
+<div id="page-ads-list" class="ad-list" ng-app="App" ng-controller="AdCtrl">
+    
+    <!-- ########################## MAP ########################## -->
+    {% verbatim %}
+        <div class="angular-google-map-container" id="map-container">
+            <ui-gmap-google-map id="mapa"
+                                center="map.center"
+                                zoom="map.zoom"
+                                draggable="true"
+                                options="map.options"
+                                control="map.control"
+                                panControl="true"
+                                zoomControl="true">
+                <!-- Search Location -->
+                <ui-gmap-circle ng-repeat="ad in ads track by ad.pk"
+                                center="search_location.location"
+                                stroke="search_location.stroke"
+                                fill="search_location.fill"
+                                radius="search_location.radius"
+                                visible="true"
+                                geodesic="location_options.geodesic"
+                                editable="true"
+                                draggable="true"
+                                clickable="false">
+                </ui-gmap-circle>
+                <!-- Ad Locations -->
+                <ui-gmap-circle ng-repeat="ad in ads track by ad.pk"
+                                center="ad.center"
+                                stroke="ad.stroke"
+                                fill="ad.fill"
+                                radius="ad.radius"
+                                visible="true"
+                                geodesic="location_options.geodesic"
+                                editable="location_options.editable"
+                                draggable="location_options.draggable"
+                                clickable="location_options.clickable"
+                                events="circle_events">
+                </ui-gmap-circle>
+            </ui-gmap-google-map>
+
+        </div>
+    <!-- ########################## END MAP ########################## -->
+    {% endverbatim %}
+
+
+    <!-- ########################## FORM LOCATION INF ########################## -->
+    <div id="data-position-form" class="col-md-3">
+        <!-- Address -->
+        <div class="input-group col-md-12">
+
+            <div class="icon-addon addon-sm">
+                    <input type="text" placeholder="Ingresa tu ubicacion" class="form-control" id="search_address_btn">
+                    <button id="search_address_btn" class="glyphicon glyphicon-search btn-search" rel="tooltip" title="search" type="submit"></button>
+            </div>
+        </div>
+
+        <!-- Radius -->
+        <div class="">
+            <div class="range range-success">
+                {% verbatim %}
+                    <input id="map_radius" class="col-md-8" type="range" name="map_radius" min="1000" max="10000" ng-model="search_location.radius" >
+                    <output id="range" class="col-md-4 pull-right">{{ search_location.radius }}</output>
+                {% endverbatim %}
+            </div>
+        </div>
+    <!-- ########################## END FORM LOCATION INF ########################## -->
+    </div>
+
+
+    {% if user.is_authenticated %}
+        
+        <!-- ########################## SAVE NEW LOCATION ########################## -->
+        <button data-toggle="modal" class="btn btn-success" id="btn-new-location" data-target="#modalNewLocation">
+            <i class=""></i> Guarda ubicacion
+        </button>
+
+        <!-- MODAL SAVE NEW LOCATION -->
+        <div class="modal" id="modalNewLocation">
+        
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h4 class="modal-title">Guardar Ubicacion</h4>
+                    </div>
+                    <div class="modal-body">
+                        {% verbatim %}
+                            <!-- Address -->
+                            <div class="input-group ">
+                                <input id="search_location_name"  class="form-control" type="text"
+                                placeholder="Nombre de la ubicación"
+                                ng-model="search_location.title" />
+                                <p hidden="true">{{ search_location.title }}</p>
+
+                            </div>
+
+                        {% endverbatim %}
+                    </div>
+                    <div class="modal-footer">
+                        <button ng-click="submitNewLocation()" type="submit" class="btn btn-success pull-right">
+                                Guardar
+                            </button>
+                    </div>
+                </div>
+            </div>
+        <!-- END MODAL SAVE NEW LOCATION -->     
+        </div>
+        <!-- ########################## END SAVE NEW LOCATION ########################## -->
+
+
+        <!-- ########################## MY LOCATIONS ########################## -->
+        <button data-toggle="modal" class="btn btn-success" id="btn-my-locations" data-target="#modalSelectLocation" style="z-index: 99999;">
+            <i class=""></i> Mis Ubicaciones
+        </button>
+
+        <!-- MODAL SELECT MY LOCATION -->
+        <div class="modal" id="modalSelectLocation">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h4 class="modal-title">Elije una ubicacion</h4>
+                    </div>
+                    <div class="modal-body">
+                        {% verbatim %}    
+                            <ul>
+                                <li ng-repeat="user_location in user_locations">
+                                    <input type="checkbox" > {{ user_location.title }}
+                                </li>
+                            </ul>
+                            <!--
+                                <select id="user-locations-select" ng-model="user_location_selected" ng-options="user_location.title for user_location in user_locations">
+                                                <option selected value="">Elije un Ubicacion</option>
+                                            </select>
+                            -->
+
+                        {% endverbatim %}
+                    </div>
+                    <div class="modal-footer">
+                        <button ng-click="submitNewLocation()" type="submit" class="btn btn-success pull-right">
+                                OK
+                            </button>
+                    </div>
+                </div>
+            </div>
+        <!-- END MODAL SELECT MY LOCATION -->
+        </div>
+        
+        <!-- ########################## END MY LOCATIONS ########################## -->
+
+    {% endif %}
+
+
+    <!-- ########################## FILTER FACET ########################## -->
+    <button data-toggle="modal" class="btn btn-success" id="btn-filter-facet" data-target="#modalFilterFacet">
+        <i class=""></i> Filtros
+    </button>
+
+    <!-- MODAL FILTER FACET -->
+    <div class="modal" id="modalFilterFacet">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h4 class="modal-title">Guardar Ubicacion</h4>
+                    <h4 class="modal-title">Filtros</h4>
                 </div>
                 <div class="modal-body">
-                    <!-- Address -->
-                    <div class="input-group stylish-input-group">
-                        <input id="search_location_name"  class="form-control col-md-10" type="text"
-                               placeholder="Nombre de la ubicación"
-                               ng-model="search_location.title" />
-                        <p>{{ search_location.title }}</p>
-                        <button ng-click="submitNewLocation()" type="submit" class="form-control btn btn-md  pull-right">
-                            Guardar
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        {% endverbatim %}
-    </div>
-    <!-- /.modal New Location -->
-
-    <div class="col-lg-4 sidebar pull-left affix well" id="sidebar">
-        <div class="" id="accordion" role="tablist" aria-multiselectable="true">
-            <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
-                <div class="">
-                    {% if user.is_authenticated %}
-                        {% verbatim %}
-                        <select id="user-locations-select" ng-model="user_location_selected" ng-options="user_location.title for user_location in user_locations">
-                            <option selected value="">Elije un Ubicacion</option>
-                        </select>
-                        {% endverbatim %}
-
-                        <!-- ######## CONTACT ############# -->
-                        <div class="pull-right col-md-3">
-                            {% if user.is_authenticated %}
-                                <!-- BUTTON OPEN --->
-                                <button data-toggle="modal" class="btn btn-xs btn-success pull-right" id="btn-contact" data-target="#modalNewLocation">
-                                    <i class=""></i> Guarda ubicacion
-                                </button>
-                            {% endif %}
-                        </div>
-                        <!-- ######## END CONTACT ############# -->
-                    {% endif %}
-                    <!-- Address -->
-                    <div class="input-group stylish-input-group">
-                        <input id="address"  class="form-control form-inline col-md-10" type="text" placeholder="Ingrese la Dirección"/>
-                                <span class="input-group-addon">
-                                    <button id="search_address_btn" type="submit" style="border: none; width: 100%; ">
-                                        <i class="glyphicon glyphicon-search"></i>
-                                    </button>
-                                </span>
-                    </div>
-                    <br/>
-                    <!-- Radius -->
-                    <div class="">
-                        <div class="range range-success">
-                            {% verbatim %}
-                            <input id="map_radius" type="range" name="map_radius" min="1" max="60000" ng-model="search_location.radius" >
-                            <output id="range">{{ search_location.radius }}</output>
-                            {% endverbatim %}
-                        </div>
-                    </div>
-                    <br>
-                    {% verbatim %}
-                    <div class="angular-google-map-container">
-                        <ui-gmap-google-map id="mapa" class="capas img-thumbnail" center="map.center" zoom="map.zoom" draggable="true" options="map.options" control="map.control" panControl="true" zoomControl="true">
-                            <!-- Search Location -->
-                            <ui-gmap-circle ng-repeat="ad in ads track by ad.pk"
-                                            center="search_location.location"
-                                            stroke="search_location.stroke"
-                                            fill="search_location.fill"
-                                            radius="search_location.radius"
-                                            visible="true"
-                                            geodesic="location_options.geodesic"
-                                            editable="true"
-                                            draggable="true"
-                                            clickable="false">
-                            </ui-gmap-circle>
-                            <!-- Ad Locations -->
-                            <ui-gmap-circle ng-repeat="ad in ads track by ad.pk"
-                                            center="ad.center"
-                                            stroke="ad.stroke"
-                                            fill="ad.fill"
-                                            radius="ad.radius"
-                                            visible="true"
-                                            geodesic="location_options.geodesic"
-                                            editable="location_options.editable"
-                                            draggable="location_options.draggable"
-                                            clickable="location_options.clickable"
-                                            events="circle_events">
-                            </ui-gmap-circle>
-                        </ui-gmap-google-map>
-
-                    </div>
-                    {% endverbatim %}
-                    <!-- Map -->
-                </div>
-            </div>
-
-            <div  id="collapseTwoWrapper" class="well">
-                <div class="panel-heading" role="tab" id="headingTwo">
-                    <h4 class="panel-title">
-                        <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                            Filtros
-                        </a>
-                        <a class="pull-right" href="{% add_get page='1' selected_facets=""%}">
-                            <span class="badge">borrar filtros</span></a>
-                    </h4>
-                </div>
-                <div id="collapseTwo" class="panel-collapse collapse sidebar" role="tabpanel" aria-labelledby="headingTwo">
                     <div class="list-group">
                         <!-- Categories -->
                         {% if facets.fields.categories %}
@@ -139,14 +192,15 @@
                                     <li>
                                         {% with "categories_exact:"|add:category.0 as facet_value %}
                                             <a class="list-group-item" href="{% add_get page='1' %}&selected_facets={{ facet_value }}">
-                                                {{ category.0 }}<span class="badge">{{ category.1 }}</span></a>
+                                            {{ category.0 }}<span class="badge">{{ category.1 }}</span></a>
                                         {% endwith %}
                                     </li>
                                 {% endfor %}
                             </ul>
                         {% endif %}
                         <!-- End Categories -->
-                        <br/>
+
+
                         <!-- Provinces -->
                         {% if facets.fields.provinces %}
                             <hr/><span class="list-group-item">Provincias</span><hr/>
@@ -155,14 +209,14 @@
                                     <li>
                                         {% with "provinces_exact:"|add:province.0 as facet_value %}
                                             <a class="list-group-item" href="{% add_get page='1' %}&selected_facets={{ facet_value }}">
-                                                {{ province.0 }}<span class="badge">{{ province.1 }}</span></a>
+                                            {{ province.0 }}<span class="badge">{{ province.1 }}</span></a>
                                         {% endwith %}
                                     </li>
                                 {% endfor %}
                             </ul>
                         {% endif %}
                         <!-- End Provinces -->
-                        <br/>
+
                         <!-- Localities -->
                         {% if facets.fields.localities %}
                             <hr/><span class="list-group-item">Localidades</span><hr/>
@@ -171,7 +225,7 @@
                                     <li>
                                         {% with "localities_exact:"|add:locality.0 as facet_value %}
                                             <a class="list-group-item" href="{% add_get page='1'%}&selected_facets={{ facet_value }}">
-                                                {{ locality.0 }}<span class="badge">{{ locality.1 }}</span></a>
+                                            {{ locality.0 }}<span class="badge">{{ locality.1 }}</span></a>
                                         {% endwith %}
                                     </li>
                                 {% endfor %}
@@ -182,106 +236,124 @@
                 </div>
             </div>
         </div>
+    <!-- END MODAL FILTER FACET -->
     </div>
+    <!-- ########################## END FILTER FACET ########################## -->
+       
 
-    <div class="col-lg-8 col-md-offset-4 content pull-right">
-        <!-- FORM SEARCH -->
-        <div>
-            <form method="get" action="/ad/ad-list/" class="search-form">
-                <div class="">
-                    <!-- TAG -->
-                    <div class="input-group stylish-input-group">
-                        <input id="q" class="form-control" name="q" type="text" placeholder="Search" value="{{ form.data.q }}"/>
-                                <span class="input-group-addon">
-                                    <!-- SUBMIT -->
-                                    <button type="submit" style="border: none; width: 100%; ">
-                                        <i class="glyphicon glyphicon-search"></i>
-                                    </button>
-                                </span>
-                    </div>
 
-                    <div id="hidden-fields" class="hidden">
-                        {% verbatim %}
-                        <!-- LATITUDE -->
-                        <div>
-                            <label for="lat">lat</label>
-                            <input id="lat" type="text" name="lat" ng-model="search_location.location.latitude"/>
-                        </div>
-                        <!-- LONGITUD -->
-                        <div  >
-                            <label for="lng">lng</label>
-                            <input id="lng" type="text" name="lng" ng-model="search_location.location.longitude"/>
-                        </div>
-                        <!-- RADIO -->
-                        <div>
-                            <label for="radius">Radius</label>
-                            <input id="radius" type="number" name="radius" ng-model="search_location.radius"/>
-                        </div>
-                        <div>
-                            <label for="color">Color</label>
-                            <input id="color" type="text"  ng-model="search_location.fill.color"/>
-                        </div>
-                        {% endverbatim %}
-                    </div>
+    <!-- ########################## CONTAINER ADs LIST ########################## -->
+    <div id="container-ad-list" class="col-md-5">
+        {% bootstrap_messages %}
+
+
+        <!-- ##### FORMUARIO QUE VA EN EL HEADER -->
+        <form method="get" action="/ad/ad-list/" class="search-form">
+            <div class="">
+                <!-- TAG -->
+                <div class="input-group stylish-input-group">
+                    <input id="q" class="form-control" name="q" type="text" placeholder="Search" value="{{ form.data.q }}"/>
+                            <span class="input-group-addon">
+                                <!-- SUBMIT -->
+                                <button type="submit" style="border: none; width: 100%; ">
+                                    <i class="glyphicon glyphicon-search"></i>
+                                </button>
+                            </span>
                 </div>
-            </form>
-        </div>
-        <div>
 
-            {% bootstrap_messages %}
-            {% verbatim %}
-            <div id="ad-list" class="">
-                <!-- LIST -->
-                <ul id="ads-list" class="media-list">
-                    <li class="container-fluid media list-group-item" ng-repeat="ad in ads"
-                        ng-mouseenter="selectAd(ad)"  ng-mouseleave="deselectAd(ad)"
-                        ng-class="{'list-group-item-hover': ad.selected == true}"
-                            >
-                        <a id="ad-anchor-{{ ad.pk }}"></a> <!-- This tag is used for animation, It could be replaced -->
-                        <div class="pull-left col-md-2 col-lg-1">
-                            <img  class="prod-img-thumbnail img-responsive img-thumbnail img-rounded media-object" src="{{ ad.image }}" alt="post img" >
-                        </div>
-                        <div class="media-body col-md-8 col-lg-9">
-                            <a href="/ad/{{ ad.slug }}"><h4 class="media-heading">{{ ad.title }}</h4></a>
-                            <small> publish: {{ ad.pub_date }} </small>
-                            <p> {{ ad.short_description }} </p>
-                        </div>
-                        <div class="col-lg-2">
-                            <div class="list-action price">
-                                <div>${{ ad.price }}<sup>99</sup></div>
-                            </div>
-                            <div>
-                                <a class="set-favourite btn btn-default btn-sm pull-right" ng-click="AddToFavourites(ad)"><span class="glyphicon glyphicon-heart-empty"></span></a>
-                                <a class="locate-it btn btn-default btn-sm pull-right" ng-click="centerMap(ad.center)" ><span class="glyphicon glyphicon-map-marker"></span></a>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
+                <div id="hidden-fields" class="hidden">
+                    {% verbatim %}
+                    <!-- LATITUDE -->
+                    <div>
+                        <label for="lat">lat</label>
+                        <input id="lat" type="text" name="lat" ng-model="search_location.location.latitude"/>
+                    </div>
+                    <!-- LONGITUD -->
+                    <div  >
+                        <label for="lng">lng</label>
+                        <input id="lng" type="text" name="lng" ng-model="search_location.location.longitude"/>
+                    </div>
+                    <!-- RADIO -->
+                    <div>
+                        <label for="radius">Radius</label>
+                        <input id="radius" type="number" name="radius" ng-model="search_location.radius"/>
+                    </div>
+                    <div>
+                        <label for="color">Color</label>
+                        <input id="color" type="text"  ng-model="search_location.fill.color"/>
+                    </div>
+                    {% endverbatim %}
+                </div>
             </div>
-            {% endverbatim %}
-        </div>
-        <!-- PAGINATION -->
+        </form>
+        <!--## FORMULARIO QUE VA EN EL HEADER-->
+
+
+        {% verbatim %}
+            <div id="ad-list" class="">
+                <!-- ADs LIST -->
+                <div class="col-md-12 item-ads-list"
+                     ng-repeat="ad in ads"
+                     ng-mouseenter="selectAd(ad)"
+                     ng-mouseleave="deselectAd(ad)"
+                     ng-class="{'ads-list-item-hover': ad.selected == true}">
+
+                    <div class="col-md-2 col-lg-1">
+                            <img src="{{ ad.image }}" height="110px">
+                     </div>
+
+                     <div class="col-md-8 col-lg-9 col-md-offset-2 col-lg-offset-1">
+                         <a id="ad-anchor-{{ ad.pk }}"></a> <!-- This tag is used for animation, It could be replaced -->
+                        <a href="/ad/{{ ad.slug }}"><h4>{{ ad.title }}</h4></a>
+                        <small> Publicado el {{ ad.pub_date }} </small>
+                        <p> {{ ad.short_description }} </p>
+                        <span class="price-ads-list pull-right">${{ ad.price }}<sup>99</sup></span>
+                         <a class="locate-it btn btn-default btn-sm pull-right" ng-click="centerMap(ad.center)" ><span class="glyphicon glyphicon-map-marker"></span></a>
+                     </div>
+                </div>
+
+            </div>
+        {% endverbatim %}
+
+
+        <!-- PAGINATION ADs LIST -->
         <div class="pagination pull-right" id="pagination">
             {% if paginator %}
-                {% load i18n %}
-                <div class="pagination">
-                    {% if page.has_previous %}
-                        <a href="{% add_get page=page.previous_page_number %}" class="prev">&lsaquo;&lsaquo; {% trans "previous" %}</a>
-                    {% else %}
-                        <span class="disabled prev">&lsaquo;&lsaquo; {% trans "previous" %}</span>
-                    {% endif %}
-                    <span> Page {{ page.number }} of {{ paginator.num_pages }}</span>
-                    {% if page.has_next %}
-                        <a href="{% add_get page=page.next_page_number %}" class="next">{% trans "next" %} &rsaquo;&rsaquo;</a>
-                    {% else %}
-                        <span class="disabled next">{% trans "next" %} &rsaquo;&rsaquo;</span>
-                    {% endif %}
-                </div>
+            {% load i18n %}
+            <div class="pagination">
+                {% if page.has_previous %}
+                <a href="{% add_get page=page.previous_page_number %}" class="prev">&lsaquo;&lsaquo; {% trans "previous" %}</a>
+                {% else %}
+                <span class="disabled prev">&lsaquo;&lsaquo; {% trans "previous" %}</span>
+                {% endif %}
+                <span> Page {{ page.number }} of {{ paginator.num_pages }}</span>
+                {% if page.has_next %}
+                <a href="{% add_get page=page.next_page_number %}" class="next">{% trans "next" %} &rsaquo;&rsaquo;</a>
+                {% else %}
+                <span class="disabled next">{% trans "next" %} &rsaquo;&rsaquo;</span>
+                {% endif %}
+            </div>
             {% endif %}
+        <!-- PAGINATION ADs LIST -->
         </div>
+
+
+    <!-- ########################## END CONTAINER ADs LIST ########################## -->
     </div>
-    </div>
+
+<!-- END content -->
+</div>
+
+
+
+
+<!-- END BLOCK BODY -->
 {% endblock %}
+
+
+
+
+
 
 {% block js_footer_block %}
     <script>
@@ -305,7 +377,7 @@
             {% endfor %}
 
         ];
-
+        console.log(user_locations);
     </script>
     <!-- END - LOAD USER LOCATIONS -->
     <!--  LOAD ADS DATA -->
@@ -350,6 +422,7 @@
                     }
                 {% endfor %}
             ]}
+            console.log(json_data);
     </script>
     <!--  END - LOAD ADS DATA -->
 
@@ -388,26 +461,31 @@
     <script type="text/javascript" src="{% static 'angular-resources/ad/controllers/ad.controller.js' %}"></script>
     <!-- ###################### END angular-resources APP - MODULE AD ###################### -->
 
-    <!-- SIDEBAR SCRIPT -->
-    <script>
-        // toggle: false is necessary to prevent a bug that show the tab you want to hide the first time
-        $('#collapseOne').collapse({'toggle': false});
-        $('#collapseTwo').collapse({'toggle': false});
-
-        $("#collapseTwoWrapper").mouseleave(function() {
-            $("#collapseTwo").collapse('hide');
-            $("#collapseOne").collapse("show");
-        });
-        $("#ads-list").mouseenter(function() {
-            $("#collapseTwo").collapse('hide');
-            $("#collapseOne").collapse("show");
-            $("#collapseTwo").collapse('hide');
-        });
-
-        $("#collapseTwoWrapper").mouseenter(function() {
-            $("#collapseTwo").collapse('show');
-            $("#collapseOne").collapse("hide");
-        });
-    </script>
-    <!-- END - SIDEBAT SCRIPT -->
+    
 {% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

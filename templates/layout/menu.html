@@ -1,6 +1,6 @@
 
 <nav class="navbar navbar-default navbar-fixed-top" role="navigation" id="navigation-bar">
-        <div class="container-fluid">
+    <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header col-md-4">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
@@ -16,78 +16,32 @@
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-        
-        <form action="/ad/ad-list/" method="get" class="col-md-4">
-                <div class="input-group stylish-input-group">
-                    <input id="q" class="form-control" name="q" type="text" placeholder="Encontra lo que queres!"/>
-                    <span class="input-group-addon">
-                        <!-- SUBMIT -->
-                        <button type="submit" style="border: none; width: 100%; ">
-                            <i class="glyphicon glyphicon-search"></i>
-                        </button>
-                    </span>
+            <form action="/ad/ad-list/" method="get" class="col-md-4">
+                <div class="icon-addon addon-sm">
+                    <input type="text" placeholder="Encontra lo que buscas" class="form-control" id="q">
+                    <button class="glyphicon glyphicon-search btn-search" rel="tooltip" title="search" type="submit"></button>
                 </div>
             </form>
 
-        {% if user.is_authenticated %}
+            {% if user.is_authenticated %}
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown"> Avisos<span class="caret"></span></a>
+                    <a class="dropdown-toggle" data-toggle="dropdown"> Avisos<span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="{% url 'profile:detail' %}">View Profile</a></li>
-                        <li><a href="/accounts/password/change">Change Passowrd</a> </li>
-                        <li><a href="{% url 'my-user:my-logout' %}">Sign Out</a></li>
+                        <li><a href="{% url 'profile:detail' %}">Mi panel</a></li>
+                        <li><a href="/accounts/password/change">Cambiar contraseña</a> </li>
+                        <li><a href="{% url 'my-user:my-logout' %}">Salir</a></li>
                     </ul>
                 </li>
             </ul>
-
-            <!--
-
+            {% else %}
             <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Account
-                    <b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <div class="navbar-content">
-                                <div class="row">
-                                    <div class="col-md-5">
-                                        <img src="http://placehold.it/120x120"
-                                            alt="Alternate Text" class="img-responsive" />
-                                        <p class="text-center small">
-                                            <a href="#">Change Photo</a></p>
-                                    </div>
-                                    <div class="col-md-7">
-                                        <span>{{ user.first_name|capfirst }} {{ user.last_name|capfirst }}</span>
-                                        <p class="text-muted small">
-                                            {{ user.email }}</p>
-                                        <div class="divider">
-                                        </div>
-                                        <a href="{% url 'profile:detail' %}" class="btn btn-primary btn-sm active">View Profile</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="navbar-footer">
-                                <div class="navbar-footer-content">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <a href="/accounts/password/change" class="btn btn-default btn-sm">Change Passowrd</a>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <a href="{% url 'my-user:my-logout' %}" class="btn btn-default btn-sm pull-right">Sign Out</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </li>
-            </ul>-->
-      {% else %}
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="/accounts/login">Sign In</a></li>
-                <li><a href="/accounts/signup/">Sing Up</a></li>
+                <li><a href="/accounts/signup/">Registrate  </a> </li>
+                <li><a href="/accounts/login">Entra</a></li>
             </ul>
-      {% endif %}
+            {% endif %}
+        </div>
     </div>
-  </div>
 </nav>
+
+
