@@ -6,10 +6,10 @@
     <ul class="nav nav-tabs">
         <li role="presentation" class="active"><a ng-click="loadMessages('inbox')" class="btn btn-default" role="button">Inbox</a></li>
         <li role="presentation"><a ng-click="loadMessages('sent')" class="btn btn-default" role="button">Sent</a></li>
-        <li role="presentation"><a ng-click="loadMessages('trash')" class="btn btn-default" role="button">Trash</a></li>
-        <li role="presentation"><a ng-click="loadMessages('archives')" class="btn btn-default" role="button">Archives</a></li>
+        <!--<li role="presentation"><a ng-click="loadMessages('trash')" class="btn btn-default" role="button">Trash</a></li>-->
+        <!--<li role="presentation"><a ng-click="loadMessages('archives')" class="btn btn-default" role="button">Archives</a></li>-->
     </ul>
-    <button class="btn btn-danger pull-right" ng-really-message="Are you sure ?" ng-really-click="delete_bulk()">Delete select</button>
+    <button ng-if="folder == 'inbox'" class="btn btn-danger pull-right" ng-really-message="Are you sure ?" ng-really-click="delete_bulk()">Delete select</button>
 
     <!-- PAGINATION -->
     <ul class="pagination pull-left">

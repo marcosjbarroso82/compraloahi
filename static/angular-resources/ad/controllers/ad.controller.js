@@ -20,8 +20,8 @@
 
         $scope.search_location = search_location;
         $scope.search_location.changed = false;
-        $scope.search_location.stroke = {color: '#009900', weight: 2, opacity: 0.1 };
-        $scope.search_location.fill = {color: '#009900', weight: 2, opacity: 0.1 };
+        $scope.search_location.stroke = {color: '#1e617d', weight: 1, opacity: 0.4 };
+        $scope.search_location.fill = {color: '#ececec', weight: 2, opacity: 0.08 };
 
         $scope.user_locations = user_locations;
         $scope.user_location_selected = {};
@@ -144,7 +144,6 @@
             editable: false, // optional: defaults to false
             visible: true // optional: defaults to true
         }
-
         getAds();
 
         function getAds(){
@@ -191,11 +190,11 @@
 
         function setCircleStyle(ad){
             if (ad.selected) {
-                ad.stroke = {color: '#00FF00', weight: 2, opacity: 1 };
-                ad.fill = {color: '#00AA00', weight: 2, opacity: 1 };
+                ad.stroke = {color: '#1e617d', weight: 0, opacity: 0.9 };
+                ad.fill = {color: '#1e617d', weight: 2, opacity: 0.9 };
             } else {
-                ad.stroke = {color: '#FF0000', weight: 2, opacity: 1 };
-                ad.fill = {color: '#AA0000', weight: 2, opacity: 1 };
+                ad.stroke = {color: '#ff6600', weight: 0, opacity:0.6 };
+                ad.fill = {color: '#ff6600', weight: 2, opacity: 0.6 };
             }
         }
 
@@ -212,5 +211,9 @@
                 args.$parent.ad.selected = false;
             }
         };
+
+        $scope.change_select_location = function(location){
+            $scope.user_location_selected = location;
+        }
     }
 })();

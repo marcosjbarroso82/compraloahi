@@ -14,6 +14,11 @@
 	form{
 		height: @header-form-height;
 		.navbar-vertical-align(@header-form-height);
+        #q{
+            border: .5px solid #C3C3C3;
+        }
+
+
 	}
 	#logo{
 		.navbar-vertical-align(34);
@@ -27,54 +32,69 @@
 body{
 	margin-top: 50px;
 
-	input[type="text"]{
-		height: 30px;
-		border-radius: 0px;
-	}
+    input, .btn, .form-control{
+        border-radius: 0px;
+        height: 30px;
+        border: none;
+    }
 
+    .modal-content{
+        border-radius: 0px;
 
+        .modal-header{
+            padding: 5px;
+            text-align: center;
+            height: 30px;
 
+            .close{
+              font-size: 1.3em;
+              font-weight: 600;
+            }
+        }
+        .modal-body{
+          overflow: auto;
+          overflow-x: hidden;
+        }
+    }
 
 }
 
 
-.icon-addon {
+
+
+.input-group-custom-addon.icon-addon.addon-sm{
+
     position: relative;
     color: #aa4400;
-}
-.icon-addon:after {
-    clear: both;
+
+    &:after {
+        clear: both;
+    }
+
+    .fa,
+    .glyphicon {
+        position: absolute;
+        height: 24px;
+        top: 0px;
+        width: 30px;
+        padding: 0px;
+        margin-top: 3px;
+        border: none;
+        border-left: 1px solid #aa4400;
+        font-size: 18px;
+        margin-right: 0;
+        right: 5px;
+        margin-right: 0;
+        right: 5px;
+        background: none;
+        z-index: 99;
+    }
+
+    &:focus{
+      color: #000 !important;
+    }
 }
 
-.icon-addon.addon-md .glyphicon,
-.icon-addon .glyphicon,
-.icon-addon.addon-md .fa,
-.icon-addon .fa {
-    position: absolute;
-    height: 24px;
-    top: 0px;
-    width: 30px;
-    padding: 0px;
-    margin-top: 3px;
-    border-left: 1px solid #aa4400;
-    font-size: 18px;
-}
 
-.icon-addon.addon-sm .fa,
-.icon-addon.addon-sm .glyphicon {
-    margin-right: 0;
-    right: 5px;
-}
 
-.icon-addon .form-control:focus + .glyphicon,
-.icon-addon:hover .glyphicon,
-.icon-addon .form-control:focus + .fa,
-.icon-addon:hover .fa {
-    color: #aa4400 !important;
-}
 
-.btn-search{
-    border: none;
-    background: none;
-    z-index: 99;
-}

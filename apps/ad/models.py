@@ -36,7 +36,7 @@ class Ad(models.Model):
     author = models.ForeignKey(User, related_name='ads')
     categories = models.ManyToManyField(Category)
 
-    short_description = models.CharField(max_length=120, blank=False)
+    short_description = models.CharField(max_length=100, blank=False)
     price = models.DecimalField(default='0.00', decimal_places=2, max_digits=10)
 
     objects = AdQuerySet.as_manager()
