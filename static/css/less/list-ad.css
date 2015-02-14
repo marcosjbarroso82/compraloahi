@@ -6313,8 +6313,7 @@ body .form-control {
   height: 30px;
   border: 1px solid #c3c3c3;
 }
-body .btn,
-body output {
+body .btn {
   border-radius: 0px;
   height: 30px;
   border: none;
@@ -6512,6 +6511,12 @@ input-group-custom-addon examples:
   padding-right: 0px;
   float: left;
 }
+#data-filter-map #data-position-form .input-group-custom-addon.icon-addon.addon-sm {
+  color: #065378;
+}
+#data-filter-map #data-position-form .input-group-custom-addon.icon-addon.addon-sm .glyphicon {
+  border-color: #065378;
+}
 #data-filter-map #data-position-form input[type="text"] {
   border-bottom: 1px solid #c3c3c3;
 }
@@ -6547,6 +6552,9 @@ input-group-custom-addon examples:
 #data-filter-map #data-position-form .range {
   margin-top: 10px;
 }
+#data-filter-map #data-position-form #range {
+  border: none;
+}
 #data-filter-map #data-position-form .form-inline {
   margin-right: 5px;
 }
@@ -6561,7 +6569,7 @@ input-group-custom-addon examples:
 }
 #data-filter-map #data-position-form #btn-new-location {
   background: none;
-  color: #065378;
+  color: #aa4400;
 }
 #data-filter-map #btn-my-locations {
   margin-left: 10px;

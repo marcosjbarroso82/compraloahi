@@ -6312,8 +6312,7 @@ body .form-control {
   height: 30px;
   border: 1px solid #c3c3c3;
 }
-body .btn,
-body output {
+body .btn {
   border-radius: 0px;
   height: 30px;
   border: none;
