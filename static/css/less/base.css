@@ -2347,7 +2347,7 @@ output {
   color: #555555;
   background-color: #ffffff;
   background-image: none;
-  border: 1px solid #cccccc;
+  border: 1px solid #c3c3c3;
   border-radius: 4px;
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
@@ -3549,7 +3549,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   color: #555555;
   text-align: center;
   background-color: #eeeeee;
-  border: 1px solid #cccccc;
+  border: 1px solid #c3c3c3;
   border-radius: 4px;
 }
 .input-group-addon.input-sm {
@@ -6297,7 +6297,7 @@ button.close {
   margin-bottom: 10px;
 }
 .navbar-default form #q {
-  border: .5px solid #C3C3C3;
+  border: 1px solid #c3c3c3;
 }
 .navbar-default #logo {
   margin-top: 8px;
@@ -6307,11 +6307,16 @@ body {
   margin-top: 50px;
 }
 body input,
-body .btn,
 body .form-control {
   border-radius: 0px;
   height: 30px;
-  border: .5px #c3c3c3;
+  border: 1px #c3c3c3;
+}
+body .btn,
+body output {
+  border-radius: 0px;
+  height: 30px;
+  border: none;
 }
 body .modal-content {
   border-radius: 0px;
@@ -6363,17 +6368,17 @@ body .i-checks input[type="radio"] + i:before {
 }
 body .i-checks input[disabled] + i,
 fieldset[disabled] body .i-checks input + i {
-  border-color: #d9d9d9;
+  border-color: #d0d0d0;
 }
 body .i-checks input[disabled] + i:before,
 fieldset[disabled] body .i-checks input + i:before {
-  background-color: #d9d9d9;
+  background-color: #d0d0d0;
 }
 body .i-checks > i {
   width: 20px;
   height: 20px;
   line-height: 1;
-  border: 1px solid #cccccc;
+  border: 1px solid #c3c3c3;
   background-color: #fff;
   margin-left: -20px;
   margin-top: -2px;
