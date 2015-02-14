@@ -1,6 +1,21 @@
 @import '../../bower_components/bootstrap/less/bootstrap.less';
 @import 'mixin.less';
 
+
+
+
+
+// ----- COLOR VAR -----
+
+@brand-primary: darken(#254992, 6.5%); // #337ab7
+@brand-success: #2b7929;
+@brand-info: #488dbd;
+@brand-warning: #d89b47;
+@brand-danger: #8d101d;
+
+// ----- END COLOR VAR ---
+
+
 @header-height: 50px;
 @header-form-height: 30px;
 
@@ -35,7 +50,7 @@ body{
     input, .btn, .form-control{
         border-radius: 0px;
         height: 30px;
-        border: none;
+        border: .5px #c3c3c3;
     }
 
     .modal-content{
@@ -55,7 +70,86 @@ body{
           overflow: auto;
           overflow-x: hidden;
         }
+        .modal-footer{
+          border: none;
+          .btn{
+            margin-left: 10px;
+          }
+        }
     }
+
+    .i-checks{
+          padding-left: 20px;
+          cursor: pointer;
+          input{
+              opacity: 0;
+              position: absolute;
+              margin-left: -20px;
+              &:checked + i{
+                  border-color: #aa4400;
+                  &:before{
+                      left: 4px;
+                      top: 4px;
+                      width: 10px;
+                      height: 10px;
+                      background-color: #aa4400;
+                  }
+            }
+            &:checked + span .active{
+                display: inherit;
+            }
+            &[type="radio"] + i{
+                &,
+                &:before{
+                    border-radius: 50%;
+                }
+            }
+            &[type="checkbox"]:checked + i:before{
+
+            }
+            &[type="radio"]:checked + i:before{
+
+            }
+            &[disabled],
+            fieldset[disabled] & {
+              & + i{
+                    border-color: lighten(@input-border, 5%);
+                    &:before{
+                        background-color: lighten(@input-border, 5%);
+                    }
+              }
+            }
+          }
+          > i{
+            width: 20px;
+            height: 20px;
+            line-height: 1;
+            border: 1px solid @input-border;
+            background-color: #fff;
+            margin-left: -20px;
+            margin-top: -2px;
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 4px;
+            position: relative;
+            &:before{
+              content:"";
+              position: absolute;
+              left: 10px;
+              top: 10px;
+              width: 0px;
+              height: 0px;
+              background-color: transparent;
+              .transition(all 0.2s);
+            }
+          }
+          > span{
+            margin-left: -20px;
+            .active{
+              display: none;
+            }
+          }
+        }
 
 }
 
@@ -63,7 +157,6 @@ body{
 
 
 .input-group-custom-addon.icon-addon.addon-sm{
-
     position: relative;
     color: #aa4400;
 
@@ -97,4 +190,39 @@ body{
 
 
 
+/*
 
+____________________________________________________________________________________
+i-check examples:
+-----------------
+  1 -
+    <div class="checkbox">
+      <label class="i-checks">
+        <input checked="" value="" type="checkbox">
+        <i></i>
+        Label checked
+      </label>
+    </div>
+
+  2 -
+    <div class="radio">
+      <label class="i-checks">
+        <input name="test" value="value" type="radio">
+        <i></i>
+        Label radio
+      </label>
+    </div>
+
+____________________________________________________________________________________
+input-group-custom-addon examples:
+-----------------
+  1 -
+    <div class="input-group-custom-addon icon-addon addon-sm">
+        <input type="text" class="form-control">
+        <button class="glyphicon"></button>
+    </div>
+
+
+
+
+*/

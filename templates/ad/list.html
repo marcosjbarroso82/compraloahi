@@ -1,5 +1,4 @@
 {% extends 'layout/base.html' %}
-{% load bootstrap3 %}
 {% block title %}Lista de avisos {% endblock %}
 {% load thumbnail %}
 {% load common_tags %}
@@ -121,9 +120,12 @@
                                 {% endverbatim %}
                             </div>
                             <div class="modal-footer">
-                                <button ng-click="submitNewLocation()" type="submit" class="btn btn-success pull-right">
+                                <button ng-click="submitNewLocation()" type="submit" class="btn btn-primary pull-right">
                                         Guardar
-                                    </button>
+                                </button>
+                                <button data-dismiss="modal" class="btn btn-warning pull-right">
+                                    Cancelar
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -157,8 +159,14 @@
                             {% verbatim %}
                                 <ul>
                                     <li ng-repeat="user_location in user_locations">
-                                        <input type="checkbox">
-                                        <label>{{ user_location.title }}</label>
+                                        <div class="radio">
+                                          <label class="i-checks">
+                                            <input name="selte" value="{{ user_location.title }}" type="radio">
+
+                                            <i></i>
+                                            {{ user_location.title }}
+                                          </label>
+                                        </div>
                                     </li>
                                 </ul>
                                 <!--
@@ -170,9 +178,12 @@
                             {% endverbatim %}
                         </div>
                         <div class="modal-footer">
-                            <button ng-click="submitNewLocation()" type="submit" class="btn btn-success pull-right">
-                                    OK
-                                </button>
+                            <button ng-click="submitNewLocation()" type="submit" class="btn btn-primary pull-right">
+                                    Aceptar
+                            </button>
+                            <button data-dismiss="modal" class="btn btn-warning pull-right">
+                                    Cancelar
+                            </button>
                         </div>
                     </div>
                 </div>
