@@ -6432,6 +6432,20 @@ body .i-checks > span .active {
 .input-group-custom-addon.icon-addon.addon-sm:focus {
   color: #000 !important;
 }
+::-webkit-scrollbar {
+  width: 12px;
+  border: 1px solid #424242;
+}
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(6, 83, 120, 0.3);
+}
+::-webkit-scrollbar-thumb {
+  background-color: #2f6ca6;
+  -webkit-box-shadow: inset 0 0 6px rgba(6, 83, 120, 0.5);
+}
+::-webkit-scrollbar-track-piece:start {
+  background-color: #e4e1de;
+}
 /*
 
 ____________________________________________________________________________________
@@ -6654,20 +6668,25 @@ input-group-custom-addon examples:
   -moz-box-shadow: 1px 1px 3px 4px #1e617d;
   box-shadow: 1px 1px 3px 4px #1e617d;
 }
-#modalNewLocation .modal-content,
-#modalSelectLocation .modal-content,
-#modalFilterFacet .modal-content {
+#modalNewLocation .modal-dialog,
+#modalSelectLocation .modal-dialog,
+#modalFilterFacet .modal-dialog {
+  margin-bottom: 0px;
+}
+#modalNewLocation .modal-dialog .modal-content,
+#modalSelectLocation .modal-dialog .modal-content,
+#modalFilterFacet .modal-dialog .modal-content {
   margin-right: 34%;
   margin-top: 100px;
 }
-#modalNewLocation .modal-content .modal-header,
-#modalSelectLocation .modal-content .modal-header,
-#modalFilterFacet .modal-content .modal-header {
+#modalNewLocation .modal-dialog .modal-content .modal-header,
+#modalSelectLocation .modal-dialog .modal-content .modal-header,
+#modalFilterFacet .modal-dialog .modal-content .modal-header {
   border: none;
 }
-#modalNewLocation .modal-content .modal-header h4,
-#modalSelectLocation .modal-content .modal-header h4,
-#modalFilterFacet .modal-content .modal-header h4 {
+#modalNewLocation .modal-dialog .modal-content .modal-header h4,
+#modalSelectLocation .modal-dialog .modal-content .modal-header h4,
+#modalFilterFacet .modal-dialog .modal-content .modal-header h4 {
   color: #aa4400;
 }
 #modalSelectLocation .modal-content .modal-body ul {
@@ -6697,18 +6716,4 @@ input-group-custom-addon examples:
 }
 .footer {
   display: none;
-}
-::-webkit-scrollbar {
-  width: 12px;
-  border: .6px solid #424242;
-}
-::-webkit-scrollbar-track {
-  -webkit-box-shadow: inset 0 0 6px rgba(6, 83, 120, 0.3);
-}
-::-webkit-scrollbar-thumb {
-  background-color: #c94c00;
-  -webkit-box-shadow: inset 0 0 6px rgba(6, 83, 120, 0.5);
-}
-::-webkit-scrollbar-track-piece:start {
-  background-color: #c9963c;
 }

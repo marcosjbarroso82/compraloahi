@@ -219,17 +219,23 @@
 }
 
 
-#modalNewLocation .modal-content, #modalSelectLocation .modal-content, #modalFilterFacet .modal-content{
-    margin-right: 34%;
-    margin-top: 100px;
+#modalNewLocation .modal-dialog, #modalSelectLocation .modal-dialog, #modalFilterFacet .modal-dialog{
+    margin-bottom: 0px;
 
-    .modal-header{
-        border: none;
+    .modal-content{
+        margin-right: 34%;
+        margin-top: 100px;
 
-        h4{
-          color: #aa4400;
+        .modal-header{
+            border: none;
+
+            h4{
+              color: #aa4400;
+            }
         }
     }
+
+
 
 }
 
@@ -278,20 +284,3 @@
 }
 
 
-::-webkit-scrollbar {
-    width: 12px;
-    border: .6px solid #424242;
-}
-
-::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 6px rgba(6,83,120,0.3);
-}
-
-::-webkit-scrollbar-thumb {
-    background-color: #c94c00;
-    -webkit-box-shadow: inset 0 0 6px rgba(6,83,120,0.5);
-}
-
-::-webkit-scrollbar-track-piece:start {
-    background-color: #c9963c;
-}

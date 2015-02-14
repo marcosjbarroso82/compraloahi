@@ -108,13 +108,10 @@
                                     <!-- Address -->
                                     <div class="form-inline">
                                         <label>Nombre de la ubicacion :</label>
-                                        <div class="input-group ">
-                                            <input id="search_location_name"  class="form-control" type="text"
-                                            placeholder="Nombre de la ubicación"
-                                            ng-model="search_location.title" />
-                                            <p hidden="true">{{ search_location.title }}</p>
+                                        <input id="search_location_name"  class="form-control" type="text"
+                                        placeholder="Nombre de la ubicación"
+                                        ng-model="search_location.title" />
 
-                                        </div>
                                     </div>
                                         
                                 {% endverbatim %}
@@ -210,6 +207,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                        <h4 class="modal-title">Active filtros de busqueda</h4>
                     </div>
                     <div class="modal-body">
                             <!-- Categories -->
@@ -539,7 +537,6 @@
             {% endfor %}
 
         ];
-        console.log(user_locations);
     </script>
     <!-- END - LOAD USER LOCATIONS -->
     <!--  LOAD ADS DATA -->
@@ -628,7 +625,7 @@
         /* Calcula el alto de la pagina y se lo setea al mapa, restandole el alto del header) */
         $("#map-container").height(screen.height - 50);
 
-        $(".modal-content").find(".modal-body").css('max-height', screen.height - 270 );
+        $(".modal-content").find(".modal-body").css('max-height', screen.height - 280 );
 
     </script>
 
