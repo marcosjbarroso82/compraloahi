@@ -6311,7 +6311,7 @@ body input,
 body .form-control {
   border-radius: 0px;
   height: 30px;
-  border: 1px #c3c3c3;
+  border: 1px solid #c3c3c3;
 }
 body .btn,
 body output {
@@ -6323,6 +6323,7 @@ body .modal-content {
   border-radius: 0px;
 }
 body .modal-content .modal-header {
+  border: none;
   padding: 5px;
   text-align: center;
   height: 30px;
@@ -6330,6 +6331,10 @@ body .modal-content .modal-header {
 body .modal-content .modal-header .close {
   font-size: 1.3em;
   font-weight: 600;
+}
+body .modal-content .modal-header h4 {
+  color: #2b5b91;
+  font-weight: bold;
 }
 body .modal-content .modal-body {
   overflow: auto;
@@ -6679,32 +6684,23 @@ input-group-custom-addon examples:
   margin-right: 34%;
   margin-top: 100px;
 }
-#modalNewLocation .modal-dialog .modal-content .modal-header,
-#modalSelectLocation .modal-dialog .modal-content .modal-header,
-#modalFilterFacet .modal-dialog .modal-content .modal-header {
-  border: none;
-}
-#modalNewLocation .modal-dialog .modal-content .modal-header h4,
-#modalSelectLocation .modal-dialog .modal-content .modal-header h4,
-#modalFilterFacet .modal-dialog .modal-content .modal-header h4 {
-  color: #aa4400;
-}
 #modalSelectLocation .modal-content .modal-body ul {
   list-style: none;
+  margin-top: 20px;
 }
 #modalFilterFacet .modal-content .modal-body {
   padding-bottom: 0px;
 }
 #modalFilterFacet .modal-content .modal-body h5 {
-  color: #aa4400;
-  border-bottom: .5px solid #afafaf;
+  color: #787476;
+  border-bottom: 1px solid #6C6C6C;
   margin-top: 20px;
   padding-bottom: 5px;
 }
 #modalFilterFacet .modal-content .modal-body ul li {
   height: 30px;
   padding-top: 4px;
-  border-bottom: .3px solid #c3c3c3;
+  border-bottom: 1px solid #c3c3c3;
 }
 #modalFilterFacet .modal-content .modal-body ul li a {
   color: #000;

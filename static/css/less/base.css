@@ -6310,7 +6310,7 @@ body input,
 body .form-control {
   border-radius: 0px;
   height: 30px;
-  border: 1px #c3c3c3;
+  border: 1px solid #c3c3c3;
 }
 body .btn,
 body output {
@@ -6322,6 +6322,7 @@ body .modal-content {
   border-radius: 0px;
 }
 body .modal-content .modal-header {
+  border: none;
   padding: 5px;
   text-align: center;
   height: 30px;
@@ -6329,6 +6330,10 @@ body .modal-content .modal-header {
 body .modal-content .modal-header .close {
   font-size: 1.3em;
   font-weight: 600;
+}
+body .modal-content .modal-header h4 {
+  color: #2b5b91;
+  font-weight: bold;
 }
 body .modal-content .modal-body {
   overflow: auto;

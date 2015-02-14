@@ -106,10 +106,10 @@
                             <div class="modal-body">
                                 {% verbatim %}
                                     <!-- Address -->
-                                    <div class="form-inline">
-                                        <label>Nombre de la ubicacion :</label>
+                                    <div class="form-group">
+                                        <label>Nombre :</label>
                                         <input id="search_location_name"  class="form-control" type="text"
-                                        placeholder="Nombre de la ubicación"
+                                        placeholder="Ingrese el nombre de la ubicación"
                                         ng-model="search_location.title" />
 
                                     </div>
@@ -537,6 +537,7 @@
             {% endfor %}
 
         ];
+        console.log(user_locations);
     </script>
     <!-- END - LOAD USER LOCATIONS -->
     <!--  LOAD ADS DATA -->
@@ -581,7 +582,6 @@
                     }
                 {% endfor %}
             ]}
-            console.log(json_data);
     </script>
     <!--  END - LOAD ADS DATA -->
 
