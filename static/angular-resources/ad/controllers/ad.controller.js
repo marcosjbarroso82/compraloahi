@@ -120,7 +120,7 @@
         $scope.map = {
             // TODO: define a proper location initialization
             center: {latitude: -31.4179952,
-                longitude: -64.1890513 }, zoom: 9,
+                longitude: -64.1890513 }, zoom: 13,
             options: {},
             control: {},
             circle_events: {

@@ -1,92 +1,92 @@
-<div class="jumbotron">
-    <h3 class="text-center">My Location</h3>
-    <hr/>
+<div id="container-user-location-data">
+    <h3 class="title-data">Mis Ubicaciones</h3>
 
-    <div class="col-md-6 col-lg-6" >
-        <div class="row" ng-show="flag_update || flag_create">
-            <google-places location=location></google-places>
-            <div class="row">
+    <div class="content-data col-md-12">
+        <div class="col-md-6" >
+            <google-places location=location ng-show="flag_update || flag_create"></google-places>
+            <ui-gmap-google-map class="col-md-12" center="map.center" zoom="map.zoom" draggable="true" options="options">
+                <ui-gmap-circle ng-repeat="location in locations track by location.id"
+                                center="location.center"
+
+                                stroke="location_options.stroke"
+                                fill="location_options.fill"
+                                radius="location.radius"
+                                visible="location.visible"
+                                geodesic="location_options.geodesic"
+                                editable="location.editable"
+                                draggable="location.draggable"
+                                clickable="location_options.clickable">
+
+                </ui-gmap-circle>
+            </ui-gmap-google-map>
+
+
+            <div ng-show="flag_update || flag_create">
                 <label>Latitude : {{ location.center.latitude }}</label> ||
                 <label>Logitude : {{ location.center.longitude }}</label>
 
-                <div class="form-group">
+                <div class="form-inline">
                     <label>Nombre :</label><input class="form-control" type="text" ng-model="location.title"><br/>
                 </div>
-                <div class="form-group">
+                <div class="form-inline">
                     <label>Radio :</label><input class="form-control" type="number" ng-model="location.radius"><br/>
                 </div>
                 <div class="pull-right">
                     <button class="btn btn-success" ng-click="addLocation()">
                         <i class="glyphicon glyphicon-ok"></i>
-                        <span ng-if="flag_update">MODIFICAR</span>
-                        <span ng-if="flag_update == false">CREAR</span>
+                        <span ng-if="flag_update">Modificar</span>
+                        <span ng-if="flag_update == false">Crear</span>
                     </button>
                     <button class="btn btn-danger" ng-click="cancelLocation()">
-                        <i class="glyphicon glyphicon-minus">CANCELAR</i>
+                        <i class="glyphicon glyphicon-minus">Cancelar</i>
                     </button>
                 </div>
             </div>
 
         </div>
 
-        <ui-gmap-google-map class="col-md-12" center="map.center" zoom="map.zoom" draggable="true" options="options">
-            <ui-gmap-circle ng-repeat="location in locations track by location.id"
-                            center="location.center"
+        <div class="col-md-6">
+            <button class="btn btn-success pull-right" ng-click="newLocation()">Agregar <i class="glyphicon glyphicon-plus"></i></button>
+            <div class="table-responsive col-md-12">
+                <table class="table table-bordred table-striped">
+                    <thead>
+                    <td class="col-md-9">Nombre</td>
+                    <!-- <td>Dirección</td>
+                    <td>Lat</td>
+                    <td>Lng</td>
+                    <td>Radio</td>-->
+                    <td class="col-md-3">Acciones</td>
+                    </thead>
+                    <tbody>
+                    <tr ng-class-odd="'odd'" ng-class-even="'even'" ng-repeat="loc in locations" ng-click="select(loc)">
+                        <td class="col-md-9">{{ loc.title }}</td>
+                        <!--<td>{{ loc.address }}</td>
+                        <td><input type="number" ng-model="loc.center.latitude" size="10"/></td>
+                        <td><input type="number" ng-model="loc.center.longitude" size="10"/></td>
+                        <td><input type="number" ng-model="loc.radius" size="10"/></td>-->
+                        <td class="col-md-3">
+                            <button type="button" class="btn btn-warning" ng-click="update(loc)">
+                                <i class="glyphicon glyphicon-edit"></i>
+                            </button>
+                            <button type="button" class="btn btn-danger"
+                                    ng-really-click="deleteLocation(loc)"
+                                    ng-really-message="Are you sure ?" >
+                                <i class="glyphicon glyphicon-remove"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
 
-                            stroke="location_options.stroke"
-                            fill="location_options.fill"
-                            radius="location.radius"
-                            visible="location.visible"
-                            geodesic="location_options.geodesic"
-                            editable="location.editable"
-                            draggable="location.draggable"
-                            clickable="location_options.clickable">
-
-            </ui-gmap-circle>
-        </ui-gmap-google-map>
-
+        </div>
 
 
     </div>
-
-    <div class="col-md-6 col-lg-6">
-        <button class="btn btn-success pull-right" ng-click="newLocation()">AGREGAR <i class="glyphicon glyphicon-plus"></i></button>
-        <table class="table">
-            <thead>
-            <td>Nombre</td>
-            <!-- <td>Dirección</td> -->
-            <td>Lat</td>
-            <td>Lng</td>
-            <td>Radio</td>
-            <td>Acciones</td>
-            </thead>
-            <tbody>
-            <tr ng-class-odd="'odd'" ng-class-even="'even'" ng-repeat="loc in locations" ng-click="select(loc)">
-                <td><input type="text" ng-model="loc.title" size="4"/></td>
-                <!--<td>{{ loc.address }}</td> -->
-                <td><input type="number" ng-model="loc.center.latitude" size="10"/></td>
-                <td><input type="number" ng-model="loc.center.longitude" size="10"/></td>
-                <td><input type="number" ng-model="loc.radius" size="10"/></td>
-                <td>
-                    <div class="row">
-                        <button type="button" class="btn btn-warning" ng-click="update(loc)">
-                            <i class="glyphicon glyphicon-edit"></i>
-                        </button>
-                        <button type="button" class="btn btn-danger"
-                                ng-really-click="deleteLocation(loc)"
-                                ng-really-message="Are you sure ?" >
-                            <i class="glyphicon glyphicon-remove"></i>
-                        </button>
-                    </div>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+    <div class="container-footer col-md-12">
     </div>
-    <div class="row"><hr/></div>
-
-
-
 </div>
+
+
 
 

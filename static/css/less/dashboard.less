@@ -1,0 +1,121 @@
+@import 'base.less';
+
+
+#dashboard-body{
+    background: #efefef;
+    height: 100%;
+    padding-top: 50px;
+
+    #dashboard-menu{
+        position: fixed;
+        background-color: #1C2B36;
+        height: 100%;
+        .navbar-header{
+            margin-top: 20px;
+            height: 40px;
+            border-bottom: 1px solid #000;
+            color: #787878;
+            float: none;
+            margin-bottom: 10px;
+        }
+
+        .divider{
+          width: 100%;
+          border-bottom: 1px solid #7c958f;
+        }
+        a{
+            color: #c3c3c3;
+            i{
+                margin-right: 5px;
+            }
+        }
+
+        #btn-add-ad{
+            position: fixed;
+            bottom: 10px;
+        }
+
+    }
+
+    .dashboard-content{
+        float: right;
+        right: 0px;
+
+        height: 100%;
+
+        .title-data{
+          width: 100%;
+          border-bottom: 1px solid #545454;
+          text-align: center;
+          color: #065378;
+          padding-bottom: 5px;
+          height: 40px;
+        }
+
+        .content-data{
+          margin-top: 20px;
+        }
+
+        .container-footer{
+          .btn{
+            float: right;
+            margin-right: 10px;
+          }
+        }
+
+        //---- PROFILE -----
+        #container-profile-data{
+          h4{
+            color: #aa4400;
+            margin-bottom: 20px;
+          }
+
+          p i, li i{
+            margin-right: 10px;
+          }
+          #contact-number-list{
+              list-style: none;
+          }
+        }
+        //---- END PROFILE -----
+
+
+        //---- MESSAGE -----
+        #container-message-data{
+            .nav{
+                margin-bottom: 10px;
+                li{
+                    border: none;
+                    border-radius: 0px;
+                }
+
+            }
+            .content-data{
+              .active{
+                      background-color: #9fffa0;
+              }
+              td{
+                background: none;
+              }
+            }
+
+        }
+        //---- END MESSAGE -----
+
+        //---- MESSAGE TRHEAD -----
+        #container-message-thread-data{
+            .message{
+              border-bottom: 1px solid #c3c3c3;
+            }
+        }
+        //---- END MESSAGE THREAD -----
+
+    }
+}
+
+
+
+.angular-google-map-container{
+    height: 400px;
+    width: 100%;
+}

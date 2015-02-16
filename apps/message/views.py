@@ -16,7 +16,7 @@ from django.utils.timezone import now as datetime_now
 from apps.ad.models import Ad
 from .models import MessageChannel
 
-
+from django.utils.timezone import now as datetime_now
 from rest_framework.pagination import PaginationSerializer
 from django.core.paginator import Paginator
 
@@ -28,7 +28,7 @@ class CustomWriteView(WriteView):
 
 
 class MessageModelViewSet(viewsets.ModelViewSet):
-    paginate_by = 5
+    paginate_by = 8
     serializer_class = MessageSerializer
 
     def list(self, request, *args, **kwargs):
@@ -47,6 +47,10 @@ class MessageModelViewSet(viewsets.ModelViewSet):
         """
 
         msg = Message.objects.get(pk=self.kwargs['pk'])
+        if msg.read_at is None:
+            msg.read_at = datetime_now()
+            msg.save()
+
         Message.objects.set_read(self.request.user, Q(pk=msg.id))
 
         if msg.thread:

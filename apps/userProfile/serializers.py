@@ -26,7 +26,7 @@ class UserProfileSerializer(ModelSerializer):
         read_only_fields = ('user', 'id')
 
     def get_thumbnail_200x200(self, obj):
-        return get_thumbnail(obj.image, '200x200', crop='center', quality=99).url
+        return get_thumbnail(obj.image, '400x400', crop='center', quality=99).url
 
 
 class UserLocationSeralizer(ModelSerializer):

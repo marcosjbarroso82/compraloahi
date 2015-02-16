@@ -1,4 +1,3 @@
-/* LESS PARA LISTA DE AVISOS */
 /*! normalize.css v3.0.2 | MIT License | git.io/normalize */
 html {
   font-family: sans-serif;
@@ -6528,240 +6527,86 @@ input-group-custom-addon examples:
 
 
 */
-#map-container {
+#dashboard-body {
+  background: #efefef;
+  height: 100%;
+  padding-top: 50px;
+}
+#dashboard-body #dashboard-menu {
   position: fixed;
-  top: 50px;
-  left: 0px;
-  width: 100%;
+  background-color: #1C2B36;
   height: 100%;
 }
-#map-container #mapa,
-#map-container .angular-google-map,
-#map-container .angular-google-map-container {
+#dashboard-body #dashboard-menu .navbar-header {
+  margin-top: 20px;
+  height: 40px;
+  border-bottom: 1px solid #000;
+  color: #787878;
+  float: none;
+  margin-bottom: 10px;
+}
+#dashboard-body #dashboard-menu .divider {
   width: 100%;
-  height: 100%;
+  border-bottom: 1px solid #7c958f;
 }
-#data-filter-map {
-  position: fixed;
-  margin-top: 10px;
+#dashboard-body #dashboard-menu a {
+  color: #c3c3c3;
 }
-#data-filter-map #data-position-form {
-  -webkit-box-shadow: 1px 1px 2px 0.5px #626060;
-  -moz-box-shadow: 1px 1px 2px 0.5px #626060;
-  box-shadow: 1px 1px 2px 0.5px #626060;
-  background-color: rgba(255, 255, 255, 0.8);
-  padding-left: 0px;
-  padding-right: 0px;
-  float: left;
-}
-#data-filter-map #data-position-form .input-group-custom-addon.icon-addon.addon-sm {
-  color: #065378;
-}
-#data-filter-map #data-position-form .input-group-custom-addon.icon-addon.addon-sm .glyphicon {
-  border-color: #065378;
-}
-#data-filter-map #data-position-form input[type="text"] {
-  border: none;
-  border-bottom: 1px solid #c3c3c3;
-}
-#data-filter-map #data-position-form input[type='range'] {
-  -webkit-appearance: none;
-  border-radius: 2px;
-  background-color: #cccccc;
-  height: 6px;
-  vertical-align: middle;
-}
-#data-filter-map #data-position-form input[type='range']::-moz-range-track {
-  -moz-appearance: none;
-  border-radius: 2px;
-  background-color: #cccccc;
-  height: 6px;
-}
-#data-filter-map #data-position-form input[type='range']::-webkit-slider-thumb {
-  -webkit-appearance: none !important;
-  border-radius: 20px;
-  background-color: #065378;
-  border: 1px solid #bab5ba;
-  height: 20px;
-  width: 20px;
-}
-#data-filter-map #data-position-form input[type='range']::-moz-range-thumb {
-  -moz-appearance: none;
-  border-radius: 20px;
-  background-color: #065378;
-  border: 1px solid #bab5ba;
-  height: 20px;
-  width: 20px;
-}
-#data-filter-map #data-position-form .range {
-  margin-top: 10px;
-}
-#data-filter-map #data-position-form #range {
-  border: none;
-}
-#data-filter-map #data-position-form .form-inline {
+#dashboard-body #dashboard-menu a i {
   margin-right: 5px;
 }
-#data-filter-map #data-position-form .form-inline #range {
-  font-weight: bold;
+#dashboard-body #dashboard-menu #btn-add-ad {
+  position: fixed;
+  bottom: 10px;
+}
+#dashboard-body .dashboard-content {
+  float: right;
+  right: 0px;
+  height: 100%;
+}
+#dashboard-body .dashboard-content .title-data {
+  width: 100%;
+  border-bottom: 1px solid #545454;
+  text-align: center;
   color: #065378;
-  padding: 6px 4px;
-}
-#data-filter-map #data-position-form .form-inline .label-dist {
-  font-size: .8em;
-  vertical-align: bottom;
-}
-#data-filter-map #data-position-form #btn-new-location {
-  background: none;
-  color: #aa4400;
-}
-#data-filter-map #btn-my-locations {
-  margin-left: 10px;
-  background-color: #065378;
-  -webkit-box-shadow: 1px 1px 2px 1px #434343;
-  -moz-box-shadow: 1px 1px 2px 1px #434343;
-  box-shadow: 1px 1px 2px 1px #434343;
-}
-#data-filter-map #btn-filter-facet {
-  float: right;
-  background-color: #577aba;
-  width: 120px;
-  margin-bottom: 10px;
-  font-size: 1.1em;
-  -webkit-box-shadow: 1px 1px 2px 1px #434343;
-  -moz-box-shadow: 1px 1px 2px 1px #434343;
-  box-shadow: 1px 1px 2px 1px #434343;
-}
-#data-filter-map #list-filters-active {
-  float: right;
-  clear: right;
-  list-style: none;
-}
-#data-filter-map #list-filters-active .active-filter {
-  -webkit-box-shadow: 1px 1px 2px 1px #434343;
-  -moz-box-shadow: 1px 1px 2px 1px #434343;
-  box-shadow: 1px 1px 2px 1px #434343;
-  background-color: #577aba;
-  margin-top: 10px;
-  color: white;
-  font-size: .9em;
-  height: 20px;
-}
-#data-filter-map #list-filters-active .active-filter span {
-  margin: 5px 5px;
-}
-#container-ad-list {
-  float: right;
-  -webkit-box-shadow: -1px 0px 1px 1px #cccccc;
-  -moz-box-shadow: -1px 0px 1px 1px #cccccc;
-  box-shadow: -1px 0px 1px 1px #cccccc;
-  background-color: rgba(255, 255, 255, 0.8);
-  padding: 0px;
-  border-left: 0.1px solid #c3c3c3;
-}
-#container-ad-list #header-list {
-  background-color: #C5C5C5;
-  margin-bottom: 20px;
-  height: 45px;
-  padding: 5px 0px;
-}
-#container-ad-list #header-list p {
-  float: left;
-  vertical-align: bottom;
-  margin-left: 15px;
-  padding: 0px;
-  bottom: 0px;
-  position: absolute;
-}
-#container-ad-list #header-list .order-by-container {
-  float: right;
-  margin-right: 15px;
-}
-#container-ad-list .item-ads-list {
-  -webkit-box-shadow: 0.5px 0.5px 0px 0.5px #cccccc;
-  -moz-box-shadow: 0.5px 0.5px 0px 0.5px #cccccc;
-  box-shadow: 0.5px 0.5px 0px 0.5px #cccccc;
-  background-color: white;
-  margin-bottom: 10px;
-  padding: 10px;
-  height: 130px;
-}
-#container-ad-list .item-ads-list .container-img {
-  padding: 0px;
-}
-#container-ad-list .item-ads-list .container-text {
-  padding: 0px;
-}
-#container-ad-list .item-ads-list .container-text h4 {
-  font-size: 1.3em;
-  font-weight: 600;
-  margin: 0px;
-  padding: 0px;
-  max-height: 35px;
-}
-#container-ad-list .item-ads-list .container-text small {
-  font-size: .8em;
-  color: #8C8C8C;
-}
-#container-ad-list .item-ads-list .container-text p {
-  font-size: .9em;
-}
-#container-ad-list .item-ads-list .locate-it {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-}
-#container-ad-list .item-ads-list .price-ads-list {
-  font-size: 1.3em;
-  color: #aa0000;
-  padding-bottom: 10px;
-  font-weight: 500;
-  position: absolute;
-  right: 20px;
-  bottom: 0px;
-}
-#container-ad-list .ads-list-item-hover {
-  -webkit-box-shadow: 1px 1px 3px 4px #1e617d;
-  -moz-box-shadow: 1px 1px 3px 4px #1e617d;
-  box-shadow: 1px 1px 3px 4px #1e617d;
-}
-#modalNewLocation .modal-dialog,
-#modalSelectLocation .modal-dialog,
-#modalFilterFacet .modal-dialog {
-  margin-bottom: 0px;
-}
-#modalNewLocation .modal-dialog .modal-content,
-#modalSelectLocation .modal-dialog .modal-content,
-#modalFilterFacet .modal-dialog .modal-content {
-  margin-right: 34%;
-  margin-top: 100px;
-}
-#modalSelectLocation .modal-content .modal-body ul {
-  list-style: none;
-  margin-top: 20px;
-}
-#modalFilterFacet .modal-content .modal-body {
-  padding-bottom: 0px;
-}
-#modalFilterFacet .modal-content .modal-body h5 {
-  color: #787476;
-  border-bottom: 1px solid #6C6C6C;
-  margin-top: 20px;
   padding-bottom: 5px;
+  height: 40px;
 }
-#modalFilterFacet .modal-content .modal-body ul li {
-  height: 30px;
-  padding-top: 4px;
+#dashboard-body .dashboard-content .content-data {
+  margin-top: 20px;
+}
+#dashboard-body .dashboard-content .container-footer .btn {
+  float: right;
+  margin-right: 10px;
+}
+#dashboard-body .dashboard-content #container-profile-data h4 {
+  color: #aa4400;
+  margin-bottom: 20px;
+}
+#dashboard-body .dashboard-content #container-profile-data p i,
+#dashboard-body .dashboard-content #container-profile-data li i {
+  margin-right: 10px;
+}
+#dashboard-body .dashboard-content #container-profile-data #contact-number-list {
+  list-style: none;
+}
+#dashboard-body .dashboard-content #container-message-data .nav {
+  margin-bottom: 10px;
+}
+#dashboard-body .dashboard-content #container-message-data .nav li {
+  border: none;
+  border-radius: 0px;
+}
+#dashboard-body .dashboard-content #container-message-data .content-data .active {
+  background-color: #9fffa0;
+}
+#dashboard-body .dashboard-content #container-message-data .content-data td {
+  background: none;
+}
+#dashboard-body .dashboard-content #container-message-thread-data .message {
   border-bottom: 1px solid #c3c3c3;
 }
-#modalFilterFacet .modal-content .modal-body ul li a {
-  color: #000;
-}
-#modalFilterFacet .modal-content .modal-body ul li .badge {
-  background-color: #aa4400;
-  float: right;
-  position: relative;
-}
-.footer {
-  display: none;
+.angular-google-map-container {
+  height: 400px;
+  width: 100%;
 }

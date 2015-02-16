@@ -1,16 +1,21 @@
 <!DOCTYPE html>
-{% load bootstrap3 %}
 {% load staticfiles %}
 <html>
 <head>
 
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.js"></script>
-    {% bootstrap_javascript %}
-
     {% include 'layout/stylesheets.html' %}
+    {% block css_header_block %}
 
-    {% block js_header_block %}{% endblock %}
-    {% block css_header_block %}{% endblock %}
+    {% endblock %}
+
+
+    <script type="text/javascript" src="{% static 'bower_components/jquery/dist/jquery.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bower_components/bootstrap/dist/js/bootstrap.js' %}"></script>
+    {% block js_header_block %}
+
+    {% endblock %}
+
+
 
     <title>{% block title %}Compralo ahi{% endblock %}</title>
 </head>
@@ -19,7 +24,7 @@
 
 {% include "layout/menu.html" %}
 
-    <div class="container-body">
+    <div id="container-body">
     {% block body_block %}
         This is body_block's default content.
     {% endblock %}

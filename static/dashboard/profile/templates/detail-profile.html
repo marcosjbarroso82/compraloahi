@@ -1,50 +1,39 @@
-<!-- ############## PROFILE ############### -->
-<div class="jumbotron">
-    <h3 class="text-center">Datos personales</h3>
-    <hr/>
-    <div class="panel-body body-content">
-        <div class="row">
-            <div class="col-md-3 col-lg-3 " align="center">
+<div id="container-profile-data">
+    <h3 class="title-data">Datos personales</h3>
 
-                <img class="img-circle img-responsive" id="item-display" src="{{ vm.profile.thumbnail_200x200 }}" height="200" width="200" >
-
-            </div>
-            <div class=" col-md-9 col-lg-9 ">
-                <h2 id="title-usernarme"> {{ vm.profile.user.first_name }}, {{ vm.profile.user.last_name }}</h2>
-                <table class="table table-user-information">
-                    <tbody>
-
-                    <tr>
-                        <td>Date of Birth</td>
-                        <td> <i class="glyphicon glyphicon-gift"></i>{{ vm.profile.birth_date }}</td>
-                    </tr>
-
-                    <tr>
-                        <td>Email</td>
-                        <td><i class="glyphicon glyphicon-envelope"></i>{{ vm.profile.user.email }}</td>
-                    </tr>
-                    <td>Contact Number</td>
-                    <td>
-                        <ul>
-                            <li ng-repeat="phone in vm.profile.phones">{{ phone.type }} | {{ phone.number }}</li>
-                        </ul>
-                        <!--
-                            <i class="glyphicon glyphicon-phone-alt"></i>s
-                            <i class="glyphicon glyphicon-earphone"></i>
-                            <i class="glyphicon glyphicon-earphone"></i>
-                      -->
-                    </td>
-                    </tr>
-                    </tbody>
-                </table>
-
-            </div>
+    <div class="content-data col-md-12">
+        <div class="col-md-5">
+            <img class="img-responsive" id="item-display" src="{{ vm.profile.thumbnail_200x200 }}">
         </div>
-        <div class="btn-group pull-right pull-bottom">
-            <a ui-sref="profile-update" class="btn btn-warning">EDIT</a>
-            <a ui-sref="change-password" class="btn btn-warning">CHANGE PASSWORD</a>
+        <div class="col-md-7">
+            <h4>{{ vm.profile.user.first_name }}, {{ vm.profile.user.last_name }}</h4>
+            <div class="">
+                <p><i class="glyphicon glyphicon-gift"></i>{{ vm.profile.birth_date }}</p>
+            </div>
+            <div class="">
+                <p><i class="glyphicon glyphicon-envelope"></i>{{ vm.profile.user.email }}</p>
+            </div>
+            <div>
+                <label>Number Contact : </label>
+                <ul id="contact-number-list">
+                    <li ng-repeat="phone in vm.profile.phones">
+                        <i ng-if="phone.type == 'Telefono'">
+                            <i class="glyphicon glyphicon-earphone"></i>
+                        </i>
+                        <i ng-if="phone.type == 'Celular'">
+                            <i class="glyphicon glyphicon-phone"></i>
+                        </i>
+                        <i ng-if="phone.type == 'Fax'">
+                           <i class="glyphicon glyphicon-phone-alt"></i>
+                        </i>
+                        {{ phone.number }}
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
-    <div class="row"><hr/></div>
+    <div class="container-footer">
+        <a ui-sref="profile-update" class="btn btn-warning">EDIT</a>
+        <a ui-sref="change-password" class="btn btn-info">CHANGE PASSWORD</a>
+    </div>
 </div>
-<!-- ############## END PROFILE ############### -->

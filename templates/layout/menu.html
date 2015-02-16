@@ -26,11 +26,12 @@
             {% if user.is_authenticated %}
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown"> Avisos<span class="caret"></span></a>
+                    <a class="dropdown-toggle" data-toggle="dropdown"> Hola! {{ user.first_name }}<span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="{% url 'profile:detail' %}">Mi panel</a></li>
-                        <li><a href="/accounts/password/change">Cambiar contraseña</a> </li>
-                        <li><a href="{% url 'my-user:my-logout' %}">Salir</a></li>
+                        <li> <a href="{% url 'profile:detail' %}"><span class="glyphicon glyphicon-wrench"></span> Mi panel</a></li>
+                        <li><a href="/accounts/password/change"><span class="glyphicon glyphicon-adjust"></span> Cambiar contraseña </a> </li>
+                        <li class="divider"></li>
+                        <li><a href="{% url 'my-user:my-logout' %}"><span class="glyphicon glyphicon-off"></span> Salir</a></li>
                     </ul>
                 </li>
             </ul>

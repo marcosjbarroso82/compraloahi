@@ -4,7 +4,7 @@
 <head>
     <title>Panel de administracion - {{ profile.first_name|capfirst }} {{ profile.last_name|capfirst }}</title>
     {% include 'layout/stylesheets.html' %}
-    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}" >
+    <link rel="stylesheet" href="{% static 'css/less/dashboard.css' %}" >
 
     <link rel="stylesheet" type="text/css" href="{% static 'lib/snackbarjs/snackbar.min.css' %}" />
 </head>
@@ -14,30 +14,32 @@
 {% include "layout/menu.html" %}
 
 
-<div id="body-dashboard">
-    <div id="dashboard-menu" class="col-md-2 jumbotron" >
+<div id="dashboard-body">
+    <div id="dashboard-menu" class="col-md-2" >
         <ul class="nav nav-list" role="tablist">
             <li class="navbar-header">Menu</li>
-            <hr/>
             <li role="presentation" >
                 <a ui-sref="profile-detail" id="btn-profile" href="#profile" aria-controls="profile" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-user"></i> Profile</a>
             </li>
             <li role="presentation">
-                <a id="message-home" ui-sref="messages" aria-controls="message" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-user"></i> Messages</a>
+                <a id="message-home" ui-sref="messages" aria-controls="message" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-envelope"></i> Messages</a>
             </li>
             <li role="presentation">
                 <a ui-sref="my-ads" aria-controls="ads" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-bullhorn"></i> My ads</a>
             </li>
             <li role="presentation">
-                <a ui-sref="my-locations" aria-controls="locations" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-user"></i> My locations</a>
+                <a ui-sref="my-locations" aria-controls="locations" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-map-marker"></i> My locations</a>
             </li>
             <li role="presentation">
                 <a ui-sref="agenda" aria-controls="agenda" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-calendar"></i> My agenda</a>
             </li>
+            <li class="divider"></li>
+            <li><a href="{% url 'my-user:my-logout' %}"><i class="glyphicon glyphicon-off"></i> Salir</a></li>
         </ul>
+        <a href="/ad/create/" id="btn-add-ad" class="btn btn-success"><span class="glyphicon glyphicon-bullhorn"></span> Agrega tu aviso</a>
     </div>
 
-    <div ui-view class="col-md-10 col-md-offset-2">
+    <div ui-view class="col-md-10 dashboard-content">
     </div>
 </div>
 
@@ -45,7 +47,11 @@
     <!-- ###################### IMPORT THIRD LIB ###################### -->
 
     <!-- jquery resources -->
-    <script type="text/javascript" src="{% static 'jquery-formset-12/jquery-2.1.1.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bower_components/jquery/dist/jquery.js' %}"></script>
+
+
+    <script type="text/javascript" src="{% static 'bower_components/bootstrap/dist/js/bootstrap.js' %}"></script>
+
     <script type="text/javascript" src="{% static 'bower_components/jquery-cookie/jquery.cookie.js' %}"></script>
 
     <!-- angular resources -->
@@ -118,6 +124,8 @@
     <script type="text/javascript" src="{% static 'dashboard/user-location/services/location.service.js' %}"></script>
     <script type="text/javascript" src="{% static 'dashboard/user-location/controllers/location.controller.js' %}"></script>
     <!-- ###################### END DASHBOARD APP - MODULE USER LOCATION ###################### -->
+
+
 </footter>
 </body>
 </html>

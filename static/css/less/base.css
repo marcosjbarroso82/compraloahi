@@ -6285,77 +6285,134 @@ button.close {
     display: none !important;
   }
 }
-.navbar-default {
+html,
+body {
+  height: 100%;
+}
+html .navbar-default,
+body .navbar-default {
   -webkit-box-shadow: 0px 8px 6px -10px black;
   -moz-box-shadow: 0px 8px 6px -10px black;
   box-shadow: 0px 8px 6px -10px black;
   height: 50px;
+  margin-bottom: 0px;
 }
-.navbar-default form {
-  height: 30px;
-  margin-top: 10px;
-  margin-bottom: 10px;
+html .navbar-default form,
+body .navbar-default form {
+  margin-top: 7.5px;
+  margin-bottom: 7.5px;
 }
-.navbar-default form #q {
+html .navbar-default form #q,
+body .navbar-default form #q {
   border: 1px solid #c3c3c3;
 }
-.navbar-default #logo {
+html .navbar-default #logo,
+body .navbar-default #logo {
   margin-top: 8px;
   margin-bottom: 8px;
 }
-body {
-  margin-top: 50px;
+html .navbar-default .dropdown-menu,
+body .navbar-default .dropdown-menu {
+  transition: top 0.2s ease 0s, opacity 0.2s ease-in 0s;
 }
+html #container-body,
+body #container-body {
+  margin-top: 50px;
+  height: 100%;
+}
+html input,
 body input,
+html .form-control,
 body .form-control {
   border-radius: 0px;
-  height: 30px;
   border: 1px solid #c3c3c3;
 }
+html .btn,
 body .btn {
   border-radius: 0px;
-  height: 30px;
   border: none;
 }
+html .input-group-custom-addon.icon-addon.addon-sm,
+body .input-group-custom-addon.icon-addon.addon-sm {
+  position: relative;
+  color: #aa4400;
+}
+html .input-group-custom-addon.icon-addon.addon-sm:after,
+body .input-group-custom-addon.icon-addon.addon-sm:after {
+  clear: both;
+}
+html .input-group-custom-addon.icon-addon.addon-sm .fa,
+body .input-group-custom-addon.icon-addon.addon-sm .fa,
+html .input-group-custom-addon.icon-addon.addon-sm .glyphicon,
+body .input-group-custom-addon.icon-addon.addon-sm .glyphicon {
+  position: absolute;
+  height: 29px;
+  top: 0px;
+  width: 30px;
+  padding: 0px;
+  margin-top: 3px;
+  border: none;
+  border-left: 1px solid #aa4400;
+  font-size: 18px;
+  margin-right: 0;
+  right: 5px;
+  background: none;
+  z-index: 99;
+}
+html .input-group-custom-addon.icon-addon.addon-sm:focus,
+body .input-group-custom-addon.icon-addon.addon-sm:focus {
+  color: #000 !important;
+}
+html .modal-content,
 body .modal-content {
   border-radius: 0px;
 }
+html .modal-content .modal-header,
 body .modal-content .modal-header {
   border: none;
   padding: 5px;
   text-align: center;
   height: 30px;
 }
+html .modal-content .modal-header .close,
 body .modal-content .modal-header .close {
   font-size: 1.3em;
   font-weight: 600;
 }
+html .modal-content .modal-header h4,
 body .modal-content .modal-header h4 {
   color: #2b5b91;
   font-weight: bold;
 }
+html .modal-content .modal-body,
 body .modal-content .modal-body {
   overflow: auto;
   overflow-x: hidden;
 }
+html .modal-content .modal-footer,
 body .modal-content .modal-footer {
   border: none;
 }
+html .modal-content .modal-footer .btn,
 body .modal-content .modal-footer .btn {
   margin-left: 10px;
 }
+html .i-checks,
 body .i-checks {
   padding-left: 20px;
   cursor: pointer;
 }
+html .i-checks input,
 body .i-checks input {
   opacity: 0;
   position: absolute;
   margin-left: -20px;
 }
+html .i-checks input:checked + i,
 body .i-checks input:checked + i {
   border-color: #aa4400;
 }
+html .i-checks input:checked + i:before,
 body .i-checks input:checked + i:before {
   left: 4px;
   top: 4px;
@@ -6363,21 +6420,29 @@ body .i-checks input:checked + i:before {
   height: 10px;
   background-color: #aa4400;
 }
+html .i-checks input:checked + span .active,
 body .i-checks input:checked + span .active {
   display: inherit;
 }
+html .i-checks input[type="radio"] + i,
 body .i-checks input[type="radio"] + i,
+html .i-checks input[type="radio"] + i:before,
 body .i-checks input[type="radio"] + i:before {
   border-radius: 50%;
 }
+html .i-checks input[disabled] + i,
 body .i-checks input[disabled] + i,
+fieldset[disabled] html .i-checks input + i,
 fieldset[disabled] body .i-checks input + i {
   border-color: #d0d0d0;
 }
+html .i-checks input[disabled] + i:before,
 body .i-checks input[disabled] + i:before,
+fieldset[disabled] html .i-checks input + i:before,
 fieldset[disabled] body .i-checks input + i:before {
   background-color: #d0d0d0;
 }
+html .i-checks > i,
 body .i-checks > i {
   width: 20px;
   height: 20px;
@@ -6391,6 +6456,7 @@ body .i-checks > i {
   margin-right: 4px;
   position: relative;
 }
+html .i-checks > i:before,
 body .i-checks > i:before {
   content: "";
   position: absolute;
@@ -6403,37 +6469,13 @@ body .i-checks > i:before {
   -o-transition: all 0.2s;
   transition: all 0.2s;
 }
+html .i-checks > span,
 body .i-checks > span {
   margin-left: -20px;
 }
+html .i-checks > span .active,
 body .i-checks > span .active {
   display: none;
-}
-.input-group-custom-addon.icon-addon.addon-sm {
-  position: relative;
-  color: #aa4400;
-}
-.input-group-custom-addon.icon-addon.addon-sm:after {
-  clear: both;
-}
-.input-group-custom-addon.icon-addon.addon-sm .fa,
-.input-group-custom-addon.icon-addon.addon-sm .glyphicon {
-  position: absolute;
-  height: 24px;
-  top: 0px;
-  width: 30px;
-  padding: 0px;
-  margin-top: 3px;
-  border: none;
-  border-left: 1px solid #aa4400;
-  font-size: 18px;
-  margin-right: 0;
-  right: 5px;
-  background: none;
-  z-index: 99;
-}
-.input-group-custom-addon.icon-addon.addon-sm:focus {
-  color: #000 !important;
 }
 ::-webkit-scrollbar {
   width: 12px;

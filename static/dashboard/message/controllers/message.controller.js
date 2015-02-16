@@ -18,10 +18,30 @@
         $scope.messages = {};
         $scope.message = {};
 
+        $scope.title = "Inbox";
+
         $scope.loadMessages = function(folder){
             Message.getMsgs(folder, 0).then(getMessagesByFolderSuccess, getMessagesByFolderError);
             $scope.folder = folder;
+            if($scope.folder == 'inbox'){
+                $scope.title = "Inbox";
+                $scope.active_inbox = "active";
+                $scope.active_sent = "";
+            }else{
+                $scope.title = "Sent";
+                $scope.active_inbox = "";
+                $scope.active_sent = "active";
+
+            }
+
         }
+
+        $scope.select_messages = function(){
+            angular.forEach($scope.messages, function(message){
+               message.selected = $scope.messages_select;
+            });
+        }
+
 
         $scope.get_msgs_page = function(page){
             Message.getMsgs($scope.folder, page).then(getMessagesByFolderSuccess, getMessagesByFolderError);
