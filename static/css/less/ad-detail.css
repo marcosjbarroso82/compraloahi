@@ -1,3 +1,4 @@
+/* LESS PARA LISTA DE AVISOS */
 /*! normalize.css v3.0.2 | MIT License | git.io/normalize */
 html {
   font-family: sans-serif;
@@ -6537,3 +6538,79 @@ input-group-custom-addon examples:
 
 
 */
+.product {
+  font-family: Ubuntu, Arial, sans-serif;
+}
+h1.product.title {
+  color: #265280;
+  font-size: 30px;
+  display: block;
+  margin-bottom: 0px;
+}
+.product.price {
+  padding-top: 10px;
+  font-style: bold;
+  font-family: sans-serif;
+  text-align: right;
+  width: 100%;
+  font-size: 39px;
+  color: #ff7f2a;
+  display: block;
+}
+.product.price sup {
+  font-size: 18px;
+  vertical-align: top;
+  position: relative;
+  top: 0.5em;
+}
+.product.desc {
+  margin-top: 80px;
+  display: block;
+  font-size: 17px;
+}
+.contact.btn {
+  font-family: Ubuntu, Arial, sans-serif;
+  background-color: #1a206d;
+  color: white;
+}
+.social {
+  margin-top: 25px;
+}
+.social .facebook:before {
+  content: url(../../image/icons/facebook.png);
+  margin-left: 8px;
+}
+.social .twitter:before {
+  content: url(../../image/icons/twitter.png);
+  margin-left: 8px;
+}
+.summery {
+  padding-top: 25px;
+  overflow: hidden;
+  margin-bottom: 30px;
+}
+.summery .publisher {
+  margin-top: 30px;
+}
+.summery .publisher .ratting {
+  display: inline-block;
+  font-size: 16px;
+}
+.summery .publisher .ratting .score {
+  margin-left: auto;
+  margin-right: auto;
+  width: 75%;
+}
+.summery .publisher .ratting .rate-bar-orange:before {
+  content: url(../../image/icons/rate-bar-orange.png);
+}
+.summery .publisher .ratting .rate-bar-light-orange:before {
+  content: url(../../image/icons/rate-bar-light-orange.png);
+}
+.summery .publisher .ratting .rate-bar-green:before {
+  content: url(../../image/icons/rate-bar-green.png);
+}
+.comment-form form .btn {
+  background-color: #ff6600;
+  color: white;
+}
