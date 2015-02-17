@@ -10,244 +10,137 @@
 {% endblock %}
 
 {% block css_header_block %}
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/ad_detail.css" >
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/less/ad-detail.css" >
     <link rel="stylesheet" href="{{ STATIC_URL }}css/cloud-zoom.css" type="text/css">
 {% endblock %}
 
 {% block body_block %}
     <div class="ad-detail-page">
     {% bootstrap_messages %}
-
-    <div class="container" style="background-color: #f5f5f6">
-
-        <div style="background-color: #f5f5f6">
-            <h1 class="product-title text-center">{{ ad.title }}</h1>
-        </div>
-        <hr>
-        <div class="col-md-6" >
-            <div class="container col-md-1 pull-left" style="background-color: #f5f5f6">
-                {% for images in ad.images.all %}
-                    {% thumbnail images.image "800x800" crop="center" as im %}
-                        <a id="{{ images.pk }}" class="ad-image-gallery" data-image="{{ im.url }}">
-                    {% endthumbnail %}
-                {% thumbnail images.image "100x100" crop="center" as im %}
-                    <img class="img-thumbnail" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+    <div class="section summery">
+        <!-- Thumnails -->
+        <div class="col-md-1 col-md-offset-1">
+            {% for images in ad.images.all %}
+                {% thumbnail images.image "800x800" crop="center" as im %}
+                    <a id="{{ images.pk }}" class="ad-image-gallery" data-image="{{ im.url }}">
                 {% endthumbnail %}
-                </a>
-                {% endfor %}
-            </div>
-            <div class="col-md-11">
-                {% with ad.images.all|first as image %}
-                    {% thumbnail image.image "800x800" crop="center" as im %}
-                        <!-- <img id="item-display" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}"> -->
-                        <a id="main-image-link" href="{{ im.url }}" class="cloud-zoom" rel=" adjustY:0, adjustX:60">
-                            <img id="main-image" class="img-thumbnail" src="{{ im.url }}">
-                        </a>
-                    {% endthumbnail %}
-                {% endwith %}
-            </div>
-
-
+            {% thumbnail images.image "100x100" crop="center" as im %}
+                <img class="img-thumbnail" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+            {% endthumbnail %}
+            </a>
+            {% endfor %}
         </div>
+        <!-- Main Image -->
+        <div class="col-md-4" >
+            {% with ad.images.all|first as image %}
+                {% thumbnail image.image "800x800" crop="center" as im %}
+                    <!-- TODO: make cloud zoom responsive -->
+                    <a id="main-image-link" href="{{ im.url }}" class="cloud-zoom" rel=" adjustY:0, adjustX:30, zoomWidth:535 ">
+                        <img id="main-image" class="img-thumbnail" src="{{ im.url }}">
+                    </a>
+                {% endthumbnail %}
+            {% endwith %}
+        </div>
+        <!-- Ad Summery -->
+        <div class="col-md-5">
+            <h1 class=" product title">{{  ad.title }}</h1 >
+            <div class="product price pull-right">${{ ad.price|floatformat:"0" }}<sup>{{ ad.price|float_decimal_part}}</sup></div>
+            <div class="product desc">{{ ad.short_description }}</div>
 
-        <div class="col-md-6" style="background-color: #f5f5f6">
-            <div class="col-md-12">
-                <div class="col-md-11">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="product-price">${{ ad.price|floatformat:"0" }}<sup>{{ ad.price|float_decimal_part}}</sup></div>
-                            <div class="product-desc">{{ ad.short_description }}</div>
-                        </div>
+            <div class="publisher">
+                <div class="ratting">
+                    <div >Puntaje de este Anunciante</div>
+                    <div class="score">
+                        <i class="rate-bar-green"></i>
+                        <i class="rate-bar-green"></i>
+                        <i class="rate-bar-green"></i>
+                        <i class="rate-bar-light-orange"></i>
+                        <i class="rate-bar-orange"></i>
                     </div>
-                    <hr>
-                    <div class="row">
-                        <div class="product-rating pull-left col-md-9">
-                            <div class="rating-block">
-                                <div >Puntaje de este Anunciante</div>
-                                <div ><i class="fa fa-star gold"></i> <i class="fa fa-star gold"></i> <i class="fa fa-star gold"></i> <i class="fa fa-star gold"></i> <i class="fa fa-star-o"></i> </div>
-                            </div>
-                        </div>
-
-                        <!-- ######## CONTACT ############# -->
-                        <div class="pull-right col-md-3">
-                            {% if user.is_authenticated %}
-                                <!-- BUTTON OPEN --->
-                                <button data-toggle="modal" class="btn btn-lg btn-success pull-right" id="btn-contact" data-target="#modalMessage">
-                                    <i class=""></i> Contact
-                                </button>
-                            {% else %}
-                                <a class="btn btn-lg btn-success pull-right" href="/accounts/login/?next=/ad/{{ ad.slug }}">
-                                    <i class=""></i> Contact
-                                </a>
-                            {% endif %}
-                            <!-- /.modal compose message -->
-                            <div class="modal" id="modalMessage">
-                            </div>
-                            <!-- /.modal compose message -->
-
-                            <script>
-                                // Script to modal contact
-
-                                $('#btn-contact').click(function(){
-
-                                    $.get("/message/ajax-can-write/{{ ad.id }}/", function(data){
-                                        console.log(data);
-                                        if(data.message == 'OK'){
-                                            console.log("Entro");
-                                            $.get("/message/ajax-write", function(data){
-
-                                                $('#modalMessage').html(data);
-
-
-                                                $('#submitMessage').click(function() {
-
-                                                    recipient = $('#id_recipient').val();
-
-                                                    subject = $('#id_subject').val();
-
-                                                    body = $('#id_body').val();
-
-                                                    ad_id = {{ ad.id }};
-
-                                                    csrfmiddlewaretoken = $("input[name='csrfmiddlewaretoken']").val();
-
-                                                    $.post("/message/ajax-write/", {body: body, subject: subject, recipient: recipient, ad_id: ad_id, csrfmiddlewaretoken: csrfmiddlewaretoken},
-                                                            function(data) {
-
-                                                                var content_modal = '<div class="modal-dialog">' +
-                                                                        '<div class="modal-content">' +
-                                                                        '<div class="modal-header">' +
-                                                                        '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>' +
-                                                                        '<h4 class="modal-title">Contactar al anunciante</h4>' +
-                                                                        '</div>' +
-                                                                        '<div class="modal-body">' +
-                                                                        '<p> El mensaje fue enviado con exito</p>' +
-                                                                        '</div></div></div>';
-                                                                $('#modalMessage').html(content_modal);
-                                                            }
-                                                    )
-                                                            .done(function(){
-                                                                //$('#modalMessage').class = 'modal';
-                                                            });
-                                                });
-
-
-                                            });
-                                        }else{
-                                            var content_modal = '<div class="modal-dialog">' +
-                                                    '<div class="modal-content">' +
-                                                    '<div class="modal-header">' +
-                                                    '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>' +
-                                                    '<h4 class="modal-title">Contactar al anunciante</h4>' +
-                                                    '</div>' +
-                                                    '<div class="modal-body">' +
-                                                    '<p> El canal de comunicacion se encuentra bloqueado, <a href="#">PAGA </a></p>' +
-                                                    '</div></div></div>';
-                                            $('#modalMessage').html(content_modal);
-                                        }
-
-
-                                    })
-
-
-                                });
-
-
-                            </script>
-
-
-                        </div>
-                        <!-- ######## END CONTACT ############# -->
-                    </div>
-                    <hr>
-                    <div class="row pull-right col-md-6">
-                        <div class="pull-right">
-
-                            <a class="popup" href="http://twitter.com/share"><i id="social" class="fa fa-twitter-square fa-4x social-tw"></i></a>
-                            <a class="popup" href="https://www.facebook.com/sharer/sharer.php?app_id=1507071816215188&amp;u={{ request.get_full_path|urlencode }}&amp;display=popup&amp;ref=plugin"><i id="social" class="fa fa-facebook-square fa-4x social-fb"></i></a>
-                        </div>
-
-
-                        <script>
-                            // SCRIPT TO SHARE SOCIAL
-                            $('.popup').click(function(event) {
-                                var width  = 50,
-                                        height = 400,
-                                        left   = ($(window).width()  - width)  / 2,
-                                        top    = ($(window).height() - height) / 2,
-                                        url    = this.href,
-                                        opts   = 'status=1' +
-                                                ',width='  + width  +
-                                                ',height=' + height +
-                                                ',top='    + top    +
-                                                ',left='   + left;
-                                window.open(url, 'twitter', opts);
-                                return false;
-                            });
-                        </script>
-                    </div>
-
                 </div>
-                <hr>
-            </div>
-        </div>
-        <hr>
-        <div class=" ad-description-section container col-lg-12">
-            <div class="row">
-                <div class="panel panel-default widget">
-                    <div class="panel-heading">
-                        <h2 class="ad-description-heading">
-                            Descripcion del Anuncio</h2>
-                    </div>
-                    <div class="panel-body" >
-                        {{ ad.body|safe }}
-                    </div>
 
-                    <hr>
+                <!-- ######## CONTACT ############# -->
+                {% if user.is_authenticated %}
+                    <!-- BUTTON OPEN --->
+                    <button data-toggle="modal" class="btn btn-lg pull-right contact" id="btn-contact" data-target="#modalMessage">
+                        <i class=""></i> Contactar
+                    </button>
+                {% else %}
+                    <a class="contact btn btn-lg btn-success pull-right" href="/accounts/login/?next=/ad/{{ ad.slug }}">
+                        <i class=""></i> Contactar
+                    </a>
+                {% endif %}
+                <!-- /.modal compose message -->
+                <div class="modal" id="modalMessage">
+                </div>
+                <!-- ######## END CONTACT ############# -->
+                <div class="social">
+                    <a class="popup" href="http://twitter.com/share"><i class="twitter pull-right"></i></a>
+                    <a class="popup" href="https://www.facebook.com/sharer/sharer.php?app_id=1507071816215188&amp;u={{ request.get_full_path|urlencode }}&amp;display=popup&amp;ref=plugin"><i id="social" class="facebook pull-right"></i></a>
                 </div>
             </div>
         </div>
     </div>
 
-    <span id="content-comments">
-        {% get_comment_count for object as comment_count %}
-        {% render_comment_list for object %}
+    <!-- Ad Details -->
+    <div class="section">
+        <div class="container col-md-10 col-md-offset-1">
+            <div class="panel panel-default widget">
+                <div class="panel-heading">
+                    Descripcion del Anuncio
+                </div>
+                <div class="panel-body" >
+                    {{ ad.body|safe }}
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <!-- Listado de Comentarios / Preguntas -->
+    {% get_comment_count for object as comment_count %}
+    <!-- Comments  List -->
+    <div class="section">
+    <div class="container col-md-10 col-md-offset-1">
+    {% render_comment_list for object %}
+    </div>
+    </div>
+
+    <!-- Comment Form -->
+    <div class="section">
         {% if user.is_authenticated %}
             <span id="form-comment-list">
-            {% render_comment_form for ad %}
-        </span>
+            <div class="comment-form container col-md-10 col-md-offset-1">
+                <div class="panel panel-default widget">
+        <div class="panel-heading">
+            Ingresa tu Pregunta
+        </div>
+        <div class="panel-body">
+
+                {% render_comment_form for ad %}
+            </div>
+                    </div>
+                </div>
+            </span>
             <script>
                 var content_comment_form = $("#form-comment-list");
                 submit_comment_ajax(content_comment_form);
             </script>
         {% else %}
-            <a class="btn btn-success container" href="/accounts/login/?next=/ad/{{ ad.slug }}">
-                <i class=""></i> REGISTER TO COMMENT
-            </a>
+            <div class="container col-md-10 col-md-offset-1">
+                <a class="btn btn-success pull-right" href="/accounts/login/?next=/ad/{{ ad.slug }}">
+                    <i class=""></i> Ingresar para Preguntar
+                </a>
+
+            </div>
         {% endif %}
-
-    </span>
-
-
-
-
-
     </div>
 {% endblock %}
 
-
-
 {% block js_footer_block %}
     <script>
-        // TODO: Im not so sure of this. Check de docs for a proper implementation: http://www.starplugins.com/cloudzoom/quickstart
-        // TODO: Apply better effects
-        $(".ad-image-gallery").click(function(){ $(".cloud-zoom").data("zoom").destroy();
-            $("#main-image").attr("src", $(this).data().image);
-            $("#main-image-link").attr("href", $(this).data().image);
-            $("#main-image-link").CloudZoom();
-        });
+        var ad = {id: {{ad.id}} };
     </script>
+
+    <script type="text/javascript" src="{{ STATIC_URL }}js/ad/detail.js"></script>
 {% endblock %}
-
-
+</div>

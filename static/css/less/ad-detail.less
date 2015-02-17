@@ -1,0 +1,107 @@
+/* LESS PARA LISTA DE AVISOS */
+@import 'base.less';
+
+.product.price {
+
+}
+h1.product.title {
+
+}
+
+.product {
+  font-family: @main-font-family;
+  h1&.title  {
+    color: @blue-dark;
+    font-size: 30px;
+    display: block;
+    margin-bottom: 0px;
+  }
+  &.price {
+    sup {
+      font-size: 18px;
+      vertical-align: top;
+      position: relative;
+      top: 0.5em;
+    }
+    padding-top: 10px;
+    font-style: bold;
+    font-family: sans-serif;
+    text-align: right;
+    width: 100%;
+    font-size: 39px;
+    color: #ff7f2a;
+    display: block;
+  }
+  &.desc {
+    margin-top: 80px;
+    display: block;
+    font-size: 17px;
+  }
+}
+
+.contact.btn {
+  font-family: @main-font-family;
+  background-color: #1a206d;
+  color: white;
+}
+
+
+.social {
+  margin-top: 25px;
+  .facebook {
+    &:before {
+      content: url(../../image/icons/facebook.png);
+      margin-left: 8px;
+    }
+  }
+  .twitter {
+    &:before {
+      content: url(../../image/icons/twitter.png);
+      margin-left: 8px;
+    }
+  }
+}
+
+.summery {
+  padding-top: 25px;
+  overflow: hidden;
+  margin-bottom: 30px;
+
+  .publisher {
+    margin-top: 30px;
+
+    .ratting {
+      display: inline-block;
+      font-size: 16px;
+      .score {
+        margin-left: auto;
+        margin-right: auto;
+        width: 75%;
+      }
+      .rate-bar-orange {
+        &:before {
+          content: url(../../image/icons/rate-bar-orange.png);
+        }
+      }
+      .rate-bar-light-orange {
+        &:before {
+          content: url(../../image/icons/rate-bar-light-orange.png);
+        }
+      }
+      .rate-bar-green {
+        &:before {
+          content: url(../../image/icons/rate-bar-green.png);
+        }
+      }
+    }
+  }
+}
+
+.comment-form {
+  form {
+    .btn {
+      background-color: @orange;
+      color: white;
+    }
+  }
+}
