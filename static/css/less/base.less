@@ -15,6 +15,8 @@
 
 @input-border: #c3c3c3;
 
+@color-input-custom-addon: #aa4400;
+
 // ----- END COLOR VAR ---
 
 
@@ -69,7 +71,7 @@ html, body{
 
     .input-group-custom-addon.icon-addon.addon-sm{
         position: relative;
-        color: #aa4400;
+        color: @color-input-custom-addon;
 
         &:after {
             clear: both;
@@ -84,7 +86,7 @@ html, body{
             padding: 0px;
             margin-top: 3px;
             border: none;
-            border-left: 1px solid #aa4400;
+            border-left: 1px solid @color-input-custom-addon;
             font-size: 18px;
             margin-right: 0;
             right: 5px;

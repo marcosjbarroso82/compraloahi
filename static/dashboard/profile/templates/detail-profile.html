@@ -1,36 +1,37 @@
 <div id="container-profile-data">
-    <h3 class="title-data">Datos personales</h3>
+    <h3 class="title-data">Mi perfil</h3>
 
     <div class="content-data col-md-12">
-        <div class="col-md-5">
-            <img class="img-responsive" id="item-display" src="{{ vm.profile.thumbnail_200x200 }}">
-        </div>
-        <div class="col-md-7">
-            <h4>{{ vm.profile.user.first_name }}, {{ vm.profile.user.last_name }}</h4>
-            <div class="">
-                <p><i class="glyphicon glyphicon-gift"></i>{{ vm.profile.birth_date }}</p>
+        <div class="col-md-6">
+            <div class="col-md-4">
+                <img class="img-responsive" id="item-display" src="{{ vm.profile.thumbnail_200x200 }}">
             </div>
-            <div class="">
-                <p><i class="glyphicon glyphicon-envelope"></i>{{ vm.profile.user.email }}</p>
-            </div>
-            <div>
-                <label>Number Contact : </label>
-                <ul id="contact-number-list">
-                    <li ng-repeat="phone in vm.profile.phones">
-                        <i ng-if="phone.type == 'Telefono'">
-                            <i class="glyphicon glyphicon-earphone"></i>
-                        </i>
-                        <i ng-if="phone.type == 'Celular'">
-                            <i class="glyphicon glyphicon-phone"></i>
-                        </i>
-                        <i ng-if="phone.type == 'Fax'">
-                           <i class="glyphicon glyphicon-phone-alt"></i>
-                        </i>
-                        {{ phone.number }}
-                    </li>
-                </ul>
+            <div class="col-md-8">
+                <h4>{{ vm.profile.user.first_name }}, {{ vm.profile.user.last_name }}</h4>
+                <div class="">
+                    <p><i class="glyphicon glyphicon-gift"></i>{{ vm.profile.birth_date }}</p>
+                </div>
+                <div class="">
+                    <p><i class="glyphicon glyphicon-envelope"></i>{{ vm.profile.user.email }}</p>
+                </div>
+                <div>
+                    <label>Number Contact : </label>
+                    <ul id="contact-number-list">
+                        <li ng-repeat="phone in vm.profile.phones">
+                            <i ng-if="phone.type == 'Telefono'" class="glyphicon glyphicon-earphone"></i>
+                            <i ng-if="phone.type == 'Celular'" class="glyphicon glyphicon-phone"></i>
+                            <i ng-if="phone.type == 'Fax'" class="glyphicon glyphicon-phone-alt"></i>
+                            {{ phone.number }}
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
+
+        <div class="col-md-6">
+
+        </div>
+
     </div>
     <div class="container-footer">
         <a ui-sref="profile-update" class="btn btn-warning">EDIT</a>

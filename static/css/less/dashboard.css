@@ -6605,6 +6605,14 @@ input-group-custom-addon examples:
 }
 #dashboard-body .dashboard-content #container-message-thread-data .message {
   border-bottom: 1px solid #c3c3c3;
+  padding: 10px;
+}
+#dashboard-body .dashboard-content #container-message-thread-data .message h4 {
+  color: #065378;
+}
+#dashboard-body .dashboard-content #container-message-thread-data .message small {
+  color: #434343;
+  font-size: .8em;
 }
 .angular-google-map-container {
   height: 400px;

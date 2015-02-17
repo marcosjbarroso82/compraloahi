@@ -18,21 +18,11 @@
         $scope.messages = {};
         $scope.message = {};
 
-        $scope.title = "Inbox";
 
         $scope.loadMessages = function(folder){
             Message.getMsgs(folder, 0).then(getMessagesByFolderSuccess, getMessagesByFolderError);
             $scope.folder = folder;
-            if($scope.folder == 'inbox'){
-                $scope.title = "Inbox";
-                $scope.active_inbox = "active";
-                $scope.active_sent = "";
-            }else{
-                $scope.title = "Sent";
-                $scope.active_inbox = "";
-                $scope.active_sent = "active";
 
-            }
 
         }
 

@@ -6336,7 +6336,7 @@ body .btn {
 html .input-group-custom-addon.icon-addon.addon-sm,
 body .input-group-custom-addon.icon-addon.addon-sm {
   position: relative;
-  color: #aa4400;
+  color: #065378;
 }
 html .input-group-custom-addon.icon-addon.addon-sm:after,
 body .input-group-custom-addon.icon-addon.addon-sm:after {
@@ -6353,7 +6353,7 @@ body .input-group-custom-addon.icon-addon.addon-sm .glyphicon {
   padding: 0px;
   margin-top: 3px;
   border: none;
-  border-left: 1px solid #aa4400;
+  border-left: 1px solid #065378;
   font-size: 18px;
   margin-right: 0;
   right: 5px;

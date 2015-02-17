@@ -1,10 +1,10 @@
 <div id="container-message-data">
-    <h3 class="title-data">Mensajes - ({{ title }})</h3>
+    <h3 class="title-data">Mensajes - ({{ folder }})</h3>
 
     <div class="content-data col-md-12">
         <ul class="nav nav-pills">
-            <li role="presentation" ng-class="active_inbox"><a ng-click="loadMessages('inbox')" class="btn btn-default" role="button">Inbox</a></li>
-            <li role="presentation" ng-class="active_sent"><a ng-click="loadMessages('sent')" class="btn btn-default" role="button">Sent</a></li>
+            <li role="presentation" ng-class="{'active': folder == 'inbox'}"><a ng-click="loadMessages('inbox')" class="btn btn-default" role="button">Inbox</a></li>
+            <li role="presentation" ng-class="{'active': folder == 'sent'}"><a ng-click="loadMessages('sent')" class="btn btn-default" role="button">Sent</a></li>
             <li ng-if="folder == 'inbox'" role="presentation" class="dropdown pull-right">
                 <a class="dropdown-toggle" data-toggle="dropdown">
                     Actions <span class="caret"></span>
