@@ -18,23 +18,23 @@
     <div id="dashboard-menu" class="col-md-2" >
         <ul class="nav nav-list" role="tablist">
             <li class="navbar-header">Menu</li>
-            <li role="presentation" >
-                <a ui-sref="profile-detail" id="btn-profile" href="#profile" aria-controls="profile" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-user"></i> Profile</a>
+            <li role="presentation" class="item-menu" ui-sref="profile-detail" ui-sref-active="active">
+                <i class="glyphicon glyphicon-user"></i> Profile
             </li>
-            <li role="presentation">
-                <a id="message-home" ui-sref="messages" aria-controls="message" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-envelope"></i> Messages</a>
+            <li role="presentation" class="item-menu" ui-sref="messages" ui-sref-active="active">
+                <i class="glyphicon glyphicon-envelope"></i> Messages
             </li>
-            <li role="presentation">
-                <a ui-sref="my-ads" aria-controls="ads" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-bullhorn"></i> My ads</a>
+            <li role="presentation" class="item-menu" ui-sref="my-ads" ui-sref-active="active" >
+                <i class="glyphicon glyphicon-bullhorn"></i> My ad
             </li>
-            <li role="presentation">
-                <a ui-sref="my-locations" aria-controls="locations" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-map-marker"></i> My locations</a>
+            <li role="presentation" class="item-menu" ui-sref="my-locations" ui-sref-active="active">
+                <i class="glyphicon glyphicon-map-marker"></i> My locations
             </li>
-            <li role="presentation">
-                <a ui-sref="agenda" aria-controls="agenda" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-calendar"></i> My agenda</a>
+            <li role="presentation" class="item-menu" ui-sref="agenda" ui-sref-active="active">
+                <i class="glyphicon glyphicon-calendar"></i> My agenda
             </li>
             <li class="divider"></li>
-            <li><a href="{% url 'my-user:my-logout' %}"><i class="glyphicon glyphicon-off"></i> Salir</a></li>
+            <li><a class="item-menu" href="{% url 'my-user:my-logout' %}"><i class="glyphicon glyphicon-off"></i> Salir</a></li>
         </ul>
         <a href="/ad/create/" id="btn-add-ad" class="btn btn-success"><span class="glyphicon glyphicon-bullhorn"></span> Agrega tu aviso</a>
     </div>
