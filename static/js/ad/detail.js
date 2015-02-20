@@ -69,3 +69,25 @@ $('.popup').click(function(event) {
     window.open(url, 'twitter', opts);
     return false;
 });
+
+
+function setImageZoom() {
+    var zoom_width;
+    if ($(window).width() < 800) {
+      // change Image Zoome Attributes
+      $("#main-image-link").attr("rel", "adjustY:0, adjustX:0, position:'inside'");
+      $('.cloud-zoom, .cloud-zoom-gallery').CloudZoom();
+  } else {
+      zoom_width = $("#summery-section").width();
+      $("#main-image-link").attr("rel", " adjustY:0, adjustX:30, zoomWidth:" + zoom_width);
+      $('.cloud-zoom, .cloud-zoom-gallery').CloudZoom();
+  }
+}
+
+// Make Image Zoom Responsive
+$(window).resize(function() {
+  // TODO: This should be static, since screen doesn't change dinamically
+  setImageZoom();
+
+});
+setImageZoom();
