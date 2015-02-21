@@ -6601,7 +6601,8 @@ input-group-custom-addon examples:
 }
 #dashboard-body .dashboard-content .container-footer .btn {
   float: right;
-  margin-right: 10px;
+  margin-top: 20px;
+  margin-left: 10px;
 }
 #dashboard-body .dashboard-content #container-profile-data h4 {
   color: #aa4400;
