@@ -42,7 +42,7 @@
             {% endwith %}
         </div>
         <!-- Ad Summery -->
-        <div class="col-md-5">
+        <div id="summery-section" class="col-md-5">
             <h1 class=" product title">{{  ad.title }}</h1 >
             <div class="product price pull-right">${{ ad.price|floatformat:"0" }}<sup>{{ ad.price|float_decimal_part}}</sup></div>
             <div class="product desc">{{ ad.short_description }}</div>

@@ -7,7 +7,7 @@
 
 
 {% block css_header_block %}
-<link rel="stylesheet" type="text/css" href="{% static 'css/less/list-ad.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/less/list-ad.css' %}">
 {% endblock %}
 
 
@@ -15,134 +15,136 @@
 
 {% block body_block %}
 
-<div id="page-ads-list" class="ad-list" ng-app="App" ng-controller="AdCtrl">
-    
+    <div id="page-ads-list" class="ad-list" ng-app="App" ng-controller="AdCtrl">
+
     <!-- ########################## MAP ########################## -->
     {% verbatim %}
-        <div class="angular-google-map-container" id="map-container">
-            <ui-gmap-google-map id="mapa"
-                                center="map.center"
-                                zoom="map.zoom"
-                                draggable="true"
-                                options="map.options"
-                                control="map.control"
-                                panControl="true"
-                                zoomControl="true">
-                <!-- Search Location -->
-                <ui-gmap-circle ng-repeat="ad in ads track by ad.pk"
-                                center="search_location.location"
-                                stroke="search_location.stroke"
-                                fill="search_location.fill"
-                                radius="search_location.radius"
-                                visible="true"
-                                geodesic="location_options.geodesic"
-                                editable="true"
-                                draggable="true"
-                                clickable="false">
-                </ui-gmap-circle>
+    <div class="angular-google-map-container" id="map-container">
+        <ui-gmap-google-map id="mapa"
+                            center="map.center"
+                            zoom="map.zoom"
+                            draggable="true"
+                            options="map.options"
+                            control="map.control"
+                            panControl="true"
+                            zoomControl="true">
+            <!-- Search Location -->
+            <ui-gmap-circle ng-repeat="ad in ads track by ad.pk"
+                            center="search_location.location"
+                            stroke="search_location.stroke"
+                            fill="search_location.fill"
+                            radius="search_location.radius"
+                            visible="true"
+                            geodesic="location_options.geodesic"
+                            editable="true"
+                            draggable="true"
+                            clickable="false">
+            </ui-gmap-circle>
 
-                <!-- Ad Locations -->
-                <ui-gmap-circle ng-repeat="ad in ads track by ad.pk"
-                                center="ad.center"
-                                stroke="ad.stroke"
-                                fill="ad.fill"
-                                radius="300"
-                                visible="true"
-                                geodesic="location_options.geodesic"
-                                editable="location_options.editable"
-                                draggable="location_options.draggable"
-                                clickable="location_options.clickable"
-                                events="circle_events">
-                </ui-gmap-circle>
-            </ui-gmap-google-map>
+            <!-- Ad Locations -->
+            <ui-gmap-circle ng-repeat="ad in ads track by ad.pk"
+                            center="ad.center"
+                            stroke="ad.stroke"
+                            fill="ad.fill"
+                            radius="300"
+                            visible="true"
+                            geodesic="location_options.geodesic"
+                            editable="location_options.editable"
+                            draggable="location_options.draggable"
+                            clickable="location_options.clickable"
+                            events="circle_events">
+            </ui-gmap-circle>
+        </ui-gmap-google-map>
 
-        </div>
+    </div>
     <!-- ########################## END MAP ########################## -->
     {% endverbatim %}
 
     <!-- ########################## SECTION DATA FILTER MAP ########################## -->
     <section id="data-filter-map" class="col-md-7">
-             <!-- ########################## FORM LOCATION INF ########################## -->
-        <div id="data-position-form" class="col-md-5">
-            <!-- Address -->
-            <div class="input-group col-md-12">
-                <div class="input-group-custom-addon icon-addon addon-sm">
-                    <input type="text" placeholder="Ingresa tu ubicacion" class="form-control" id="search_address_btn">
-                    <button id="search_address_btn" class="glyphicon glyphicon-search" rel="tooltip" title="Busca en tu ubicacion" type="submit"></button>
-                </div>
+    <!-- ########################## FORM LOCATION INF ########################## -->
+    <div id="data-position-form" class="col-md-5">
+        <!-- Address -->
+        <div class="input-group col-md-12">
+            <div class="input-group-custom-addon icon-addon addon-sm">
+                <input type="text" placeholder="Ingresa tu ubicacion" class="form-control" id="search_address_btn">
+                <button id="search_address_btn" class="glyphicon glyphicon-search" rel="tooltip" title="Busca en tu ubicacion" type="submit"></button>
             </div>
-
-            <!-- Radius -->
-            <div class="">
-                {% verbatim %}
-
-                <div class="range range-success">
-                    <input id="map_radius" class="col-md-8" type="range" name="map_radius" min="1000" max="10000" ng-model="search_location.radius" >
-                </div>
-                <div class="form-inline pull-right">
-                    <label class="label-dist" for="range">Distancia :</label>
-
-                    <output id="range" class="form-control">{{ search_location.radius }}</output>
-                    <label class="label-dist">Mtrs</label>
-                </div>
-                {% endverbatim %}
-            </div>
-
-            {% if user.is_authenticated %}
-
-                <!-- ########################## SAVE NEW LOCATION ########################## -->
-                <button data-toggle="modal" class="btn" id="btn-new-location" data-target="#modalNewLocation" rel="tooltip" title="Guarda la ubicacion">
-                    <i class="glyphicon glyphicon-floppy-disk"></i>
-                </button>
-
-                <!-- MODAL SAVE NEW LOCATION -->
-                <div class="modal" id="modalNewLocation">
-
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
-                                <h4 class="modal-title">Guardar Ubicacion</h4>
-                            </div>
-                            <div class="modal-body">
-                                {% verbatim %}
-                                    <!-- Address -->
-                                    <div class="form-group">
-                                        <label>Nombre :</label>
-                                        <input id="search_location_name"  class="form-control" type="text"
-                                        placeholder="Ingrese el nombre de la ubicación"
-                                        ng-model="search_location.title" />
-
-                                    </div>
-                                        
-                                {% endverbatim %}
-                            </div>
-                            <div class="modal-footer">
-                                <button ng-click="submitNewLocation()" type="submit" class="btn btn-primary pull-right">
-                                        Guardar
-                                </button>
-                                <button data-dismiss="modal" class="btn btn-warning pull-right">
-                                    Cancelar
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                <!-- END MODAL SAVE NEW LOCATION -->
-                </div>
-                <!-- ########################## END SAVE NEW LOCATION ########################## -->
-
-
-
-
-        <!-- ########################## END FORM LOCATION INF (IN ELSE TOO CLOSE) ########################## -->
         </div>
 
+        <!-- Radius -->
+        <div class="">
+            {% verbatim %}
+            <div class="range range-success">
+                <input id="map_radius" class="col-md-8" type="range" name="map_radius" min="1000" max="10000" ng-model="search_location.radius" >
+            </div>
+            <div class="form-inline pull-right">
+                <label class="label-dist" for="range">Distancia :</label>
 
-        
+                <output id="range" class="form-control">{{ search_location.radius }}</output>
+                <label class="label-dist">Mtrs</label>
+            </div>
+            {% endverbatim %}
+        </div>
 
-             <!-- ########################## MY LOCATIONS ########################## -->
-            <button data-toggle="modal" class="btn btn-success" id="btn-my-locations" data-target="#modalSelectLocation" style="z-index: 99999;">
+        {% if user.is_authenticated %}
+            <!-- ########################## SAVE NEW LOCATION ########################## -->
+            <button data-toggle="modal" class="btn" id="btn-new-location" data-target="#modalNewLocation" rel="tooltip" title="Guarda la ubicacion">
+                <i class="glyphicon glyphicon-floppy-disk"></i>
+            </button>
+
+            <!-- MODAL SAVE NEW LOCATION -->
+            <div class="modal" id="modalNewLocation">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                            <h4 class="modal-title">Guardar Ubicacion</h4>
+                        </div>
+                        <div class="modal-body">
+                            {% verbatim %}
+                            <!-- Address -->
+                            <div class="form-group">
+                                <label>Nombre :</label>
+                                <input id="search_location_name"  class="form-control" type="text"
+                                       placeholder="Ingrese el nombre de la ubicación"
+                                       ng-model="search_location.title" />
+
+                            </div>
+                            {% endverbatim %}
+                        </div>
+                        <div class="modal-footer">
+                            <button ng-click="submitNewLocation()" type="submit" class="btn btn-primary pull-right">
+                                Guardar
+                            </button>
+                            <button data-dismiss="modal" class="btn btn-warning pull-right">
+                                Cancelar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- END MODAL SAVE NEW LOCATION -->
+            </div>
+            <!-- ########################## END SAVE NEW LOCATION ########################## -->
+
+            </div>
+
+            <!-- ########################## MY LOCATIONS ########################## -->
+            <button data-toggle="modal"
+                    class="btn btn-success"
+                    id="btn-my-locations"
+                    data-target="#modalSelectLocation"
+                    style="z-index: 99999;">
                 <i class=""></i> Mis Ubicaciones
+            </button>
+
+            <button data-toggle="modal"
+                    ng-show="search_location.changed"
+                    id="btn-save-location"
+                    class="btn btn-success"
+                    data-target="#modalNewLocation"
+                    style="z-index: 99999;">
+                <i class=""></i> Guardar Ubicación
             </button>
 
             <!-- MODAL SELECT MY LOCATION -->
@@ -155,242 +157,219 @@
                         </div>
                         <div class="modal-body">
                             {% verbatim %}
-                                <ul>
-                                    <li ng-repeat="user_location in user_locations">
-                                        <div class="radio">
-                                          <label class="i-checks">
-                                            <input name="selte" value="{{ user_location.title }}" type="radio">
-
+                            <p>user_location_selected: {{ user_location_selected }}</p>
+                            <ul>
+                                <li ng-repeat="user_location in user_locations" for="{{user_location}}">
+                                    <div class="radio">
+                                        <label class="i-checks">
+                                            <input type="radio"
+                                                   name="selte"
+                                                   ng-model="$parent.user_location_selected"
+                                                   ng-value="user_location"
+                                                   id="{{user_location}}"
+                                                    >
                                             <i></i>
                                             {{ user_location.title }}
-                                          </label>
-                                        </div>
-                                    </li>
-                                </ul>
-                                <!--
-                                    <select id="user-locations-select" ng-model="user_location_selected" ng-options="user_location.title for user_location in user_locations">
-                                                    <option selected value="">Elije un Ubicacion</option>
-                                                </select>
-                                -->
-
+                                        </label>
+                                    </div>
+                                </li>
+                            </ul>
                             {% endverbatim %}
                         </div>
                         <div class="modal-footer">
-                            <button ng-click="submitNewLocation()" type="submit" class="btn btn-primary pull-right">
-                                    Aceptar
-                            </button>
-                            <button data-dismiss="modal" class="btn btn-warning pull-right">
-                                    Cancelar
+                            <button data-dismiss="modal" class="btn btn-primary pull-right">
+                                Aceptar
                             </button>
                         </div>
                     </div>
                 </div>
-            <!-- END MODAL SELECT MY LOCATION -->
+                <!-- END MODAL SELECT MY LOCATION -->
             </div>
 
             <!-- ########################## END MY LOCATIONS ########################## -->
 
-        
+
         {% else %}
             <!-- ########################## END FORM LOCATION INF (IN IF TOO CLOSE) ########################## -->
-            </div>
         {% endif %}
 
 
-        <!-- ########################## BTN FILTER FACET ########################## -->
-        <button data-toggle="modal" class="btn btn-success" id="btn-filter-facet" data-target="#modalFilterFacet">
-            <i class=""></i> Filtros
-        </button>
+    <!-- ########################## BTN FILTER FACET ########################## -->
+    <button data-toggle="modal" class="btn btn-success" id="btn-filter-facet" data-target="#modalFilterFacet">
+        <i class=""></i> Filtros
+    </button>
 
-        <!-- ########################## MODAL FILTER FACET ########################## -->
-        <div class="modal" id="modalFilterFacet">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
-                        <h4 class="modal-title">Active filtros de busqueda</h4>
-                    </div>
-                    <div class="modal-body">
-                            <!-- Categories -->
-                            {% if facets.fields.categories %}
-                                <h5>Categorias</h5>
-                                <ul>
-                                    {% for category in facets.fields.categories %}
-                                        <li>
-                                            {% with "categories_exact:"|add:category.0 as facet_value %}
-                                                <a href="{% add_get page='1' %}&selected_facets={{ facet_value }}">
-                                                {{ category.0 }}<span class="badge">{{ category.1 }}</span></a>
-                                            {% endwith %}
-                                        </li>
-                                    {% endfor %}
-                                </ul>
-                            {% endif %}
-                            <!-- End Categories -->
+    <!-- ########################## MODAL FILTER FACET ########################## -->
+    <div class="modal" id="modalFilterFacet">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                    <h4 class="modal-title">Active filtros de busqueda</h4>
+                </div>
+                <div class="modal-body">
+                    <!-- Categories -->
+                    {% if facets.fields.categories %}
+                        <h5>Categorias</h5>
+                        <ul>
+                            {% for category in facets.fields.categories %}
+                                <li>
+                                    {% with "categories_exact:"|add:category.0 as facet_value %}
+                                        <a href="{% add_get page='1' %}&selected_facets={{ facet_value }}">
+                                            {{ category.0 }}<span class="badge">{{ category.1 }}</span></a>
+                                    {% endwith %}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                    <!-- End Categories -->
 
+                    <!-- Provinces -->
+                    {% if facets.fields.provinces %}
+                        <h5>Provincias</h5>
+                        <ul>
+                            {% for province in facets.fields.provinces %}
+                                <li>
+                                    {% with "provinces_exact:"|add:province.0 as facet_value %}
+                                        <a href="{% add_get page='1' %}&selected_facets={{ facet_value }}">
+                                            {{ province.0 }}<span class="badge">{{ province.1 }}</span></a>
+                                    {% endwith %}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                    <!-- End Provinces -->
 
-                            <!-- Provinces -->
-                            {% if facets.fields.provinces %}
-                                <h5>Provincias</h5>
-                                <ul>
-                                    {% for province in facets.fields.provinces %}
-                                        <li>
-                                            {% with "provinces_exact:"|add:province.0 as facet_value %}
-                                                <a href="{% add_get page='1' %}&selected_facets={{ facet_value }}">
-                                                {{ province.0 }}<span class="badge">{{ province.1 }}</span></a>
-                                            {% endwith %}
-                                        </li>
-                                    {% endfor %}
-                                </ul>
-                            {% endif %}
-                            <!-- End Provinces -->
-
-                            <!-- Localities -->
-                            {% if facets.fields.localities %}
-                                <h5>Localidades</h5>
-                                <ul>
-                                    {% for locality in facets.fields.localities %}
-                                        <li>
-                                            {% with "localities_exact:"|add:locality.0 as facet_value %}
-                                                <a href="{% add_get page='1'%}&selected_facets={{ facet_value }}">
-                                                {{ locality.0 }}<span class="badge">{{ locality.1 }}</span></a>
-                                            {% endwith %}
-                                        </li>
-                                    {% endfor %}
-                                </ul>
-                            {% endif %}
-                            <!-- End Localities -->
+                    <!-- Localities -->
+                    {% if facets.fields.localities %}
+                        <h5>Localidades</h5>
+                        <ul>
+                            {% for locality in facets.fields.localities %}
+                                <li>
+                                    {% with "localities_exact:"|add:locality.0 as facet_value %}
+                                        <a href="{% add_get page='1'%}&selected_facets={{ facet_value }}">
+                                            {{ locality.0 }}<span class="badge">{{ locality.1 }}</span></a>
+                                    {% endwith %}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                    <!-- End Localities -->
 
 
                     <!-- EMILINAR --->
 
                     <!-- Provinces -->
-                            {% if facets.fields.provinces %}
-                                <h5>Provincias</h5>
-                                <ul>
-                                    {% for province in facets.fields.provinces %}
-                                        <li>
-                                            {% with "provinces_exact:"|add:province.0 as facet_value %}
-                                                <a href="{% add_get page='1' %}&selected_facets={{ facet_value }}">
-                                                {{ province.0 }}<span class="badge">{{ province.1 }}</span></a>
-                                            {% endwith %}
-                                        </li>
-                                    {% endfor %}
-                                </ul>
-                            {% endif %}
-                            <!-- End Provinces -->
+                    {% if facets.fields.provinces %}
+                        <h5>Provincias</h5>
+                        <ul>
+                            {% for province in facets.fields.provinces %}
+                                <li>
+                                    {% with "provinces_exact:"|add:province.0 as facet_value %}
+                                        <a href="{% add_get page='1' %}&selected_facets={{ facet_value }}">
+                                            {{ province.0 }}<span class="badge">{{ province.1 }}</span></a>
+                                    {% endwith %}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                    <!-- End Provinces -->
 
                     <!-- Provinces -->
-                            {% if facets.fields.provinces %}
-                                <h5>Provincias</h5>
-                                <ul>
-                                    {% for province in facets.fields.provinces %}
-                                        <li>
-                                            {% with "provinces_exact:"|add:province.0 as facet_value %}
-                                                <a href="{% add_get page='1' %}&selected_facets={{ facet_value }}">
-                                                {{ province.0 }}<span class="badge">{{ province.1 }}</span></a>
-                                            {% endwith %}
-                                        </li>
-                                    {% endfor %}
-                                </ul>
-                            {% endif %}
-                            <!-- End Provinces -->
+                    {% if facets.fields.provinces %}
+                        <h5>Provincias</h5>
+                        <ul>
+                            {% for province in facets.fields.provinces %}
+                                <li>
+                                    {% with "provinces_exact:"|add:province.0 as facet_value %}
+                                        <a href="{% add_get page='1' %}&selected_facets={{ facet_value }}">
+                                            {{ province.0 }}<span class="badge">{{ province.1 }}</span></a>
+                                    {% endwith %}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                    <!-- End Provinces -->
 
                     <!-- Provinces -->
-                            {% if facets.fields.provinces %}
-                                <h5>Provincias</h5>
-                                <ul>
-                                    {% for province in facets.fields.provinces %}
-                                        <li>
-                                            {% with "provinces_exact:"|add:province.0 as facet_value %}
-                                                <a href="{% add_get page='1' %}&selected_facets={{ facet_value }}">
-                                                {{ province.0 }}<span class="badge">{{ province.1 }}</span></a>
-                                            {% endwith %}
-                                        </li>
-                                    {% endfor %}
-                                </ul>
-                            {% endif %}
-                            <!-- End Provinces -->
+                    {% if facets.fields.provinces %}
+                        <h5>Provincias</h5>
+                        <ul>
+                            {% for province in facets.fields.provinces %}
+                                <li>
+                                    {% with "provinces_exact:"|add:province.0 as facet_value %}
+                                        <a href="{% add_get page='1' %}&selected_facets={{ facet_value }}">
+                                            {{ province.0 }}<span class="badge">{{ province.1 }}</span></a>
+                                    {% endwith %}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                    <!-- End Provinces -->
 
                     <!-- Provinces -->
-                            {% if facets.fields.provinces %}
-                                <h5>Provincias</h5>
-                                <ul>
-                                    {% for province in facets.fields.provinces %}
-                                        <li>
-                                            {% with "provinces_exact:"|add:province.0 as facet_value %}
-                                                <a href="{% add_get page='1' %}&selected_facets={{ facet_value }}">
-                                                {{ province.0 }}<span class="badge">{{ province.1 }}</span></a>
-                                            {% endwith %}
-                                        </li>
-                                    {% endfor %}
-                                </ul>
-                            {% endif %}
-                            <!-- End Provinces -->
+                    {% if facets.fields.provinces %}
+                        <h5>Provincias</h5>
+                        <ul>
+                            {% for province in facets.fields.provinces %}
+                                <li>
+                                    {% with "provinces_exact:"|add:province.0 as facet_value %}
+                                        <a href="{% add_get page='1' %}&selected_facets={{ facet_value }}">
+                                            {{ province.0 }}<span class="badge">{{ province.1 }}</span></a>
+                                    {% endwith %}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                    <!-- End Provinces -->
 
                     <!-- Provinces -->
-                            {% if facets.fields.provinces %}
-                                <h5>Provincias</h5>
-                                <ul>
-                                    {% for province in facets.fields.provinces %}
-                                        <li>
-                                            {% with "provinces_exact:"|add:province.0 as facet_value %}
-                                                <a href="{% add_get page='1' %}&selected_facets={{ facet_value }}">
-                                                {{ province.0 }}<span class="badge">{{ province.1 }}</span></a>
-                                            {% endwith %}
-                                        </li>
-                                    {% endfor %}
-                                </ul>
-                            {% endif %}
-                            <!-- End Provinces -->
+                    {% if facets.fields.provinces %}
+                        <h5>Provincias</h5>
+                        <ul>
+                            {% for province in facets.fields.provinces %}
+                                <li>
+                                    {% with "provinces_exact:"|add:province.0 as facet_value %}
+                                        <a href="{% add_get page='1' %}&selected_facets={{ facet_value }}">
+                                            {{ province.0 }}<span class="badge">{{ province.1 }}</span></a>
+                                    {% endwith %}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                    <!-- End Provinces -->
 
                     <!-- Provinces -->
-                            {% if facets.fields.provinces %}
-                                <h5>Provincias</h5>
-                                <ul>
-                                    {% for province in facets.fields.provinces %}
-                                        <li>
-                                            {% with "provinces_exact:"|add:province.0 as facet_value %}
-                                                <a href="{% add_get page='1' %}&selected_facets={{ facet_value }}">
-                                                {{ province.0 }}<span class="badge">{{ province.1 }}</span></a>
-                                            {% endwith %}
-                                        </li>
-                                    {% endfor %}
-                                </ul>
-                            {% endif %}
-                            <!-- End Provinces -->
-
-
-
-
+                    {% if facets.fields.provinces %}
+                        <h5>Provincias</h5>
+                        <ul>
+                            {% for province in facets.fields.provinces %}
+                                <li>
+                                    {% with "provinces_exact:"|add:province.0 as facet_value %}
+                                        <a href="{% add_get page='1' %}&selected_facets={{ facet_value }}">
+                                            {{ province.0 }}<span class="badge">{{ province.1 }}</span></a>
+                                    {% endwith %}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                    <!-- End Provinces -->
 
                     <!-- END ELIMINAR -->
-
-
-
-
-
-
-
-
-                        </div>
                 </div>
             </div>
-        <!-- ########################## END MODAL FILTER FACET ########################## -->
         </div>
+        <!-- ########################## END MODAL FILTER FACET ########################## -->
+    </div>
 
-        <!-- ########################## BTN FILTER FACET ########################## -->
-        <ul id="list-filters-active">
-            <li class="active-filter"><span>Cordoba </span> <span href="*"> x</span></li>
-            <li class="active-filter"><span>Cordoba </span> <span href="*"> x</span></li>
-        </ul>
-
-
-
+    <!-- ########################## BTN FILTER FACET ########################## -->
+    <ul id="list-filters-active">
+        <li class="active-filter"><span>Cordoba </span> <span href="*"> x</span></li>
+        <li class="active-filter"><span>Cordoba </span> <span href="*"> x</span></li>
+    </ul>
 
     <!-- ########################## END SECTION DATA FILTER MAP ########################## -->
     </section>
-
-
 
     <!-- ########################## CONTAINER ADs LIST ########################## -->
     <div id="container-ad-list" class="col-md-5">
@@ -450,63 +429,60 @@
 
 
         {% verbatim %}
-            <div id="ad-list" class="col-md-12">
-                <!-- ADs LIST -->
-                <div class="col-md-12 item-ads-list"
-                     ng-repeat="ad in ads"
-                     ng-mouseenter="selectAd(ad)"
-                     ng-mouseleave="deselectAd(ad)"
-                     ng-class="{'ads-list-item-hover': ad.selected == true}">
+        <div id="ad-list" class="col-md-12">
+            <!-- ADs LIST -->
+            <div class="col-md-12 item-ads-list"
+                 ng-repeat="ad in ads"
+                 ng-mouseenter="selectAd(ad)"
+                 ng-mouseleave="deselectAd(ad)"
+                 ng-class="{'ads-list-item-hover': ad.selected == true}">
 
-                    <div class="col-md-3 container-img">
-                            <img class="img-responsive" src="{{ ad.image }}">
-                     </div>
-
-                     <div class="col-md-8 container-text">
-                         <a id="ad-anchor-{{ ad.pk }}"></a> <!-- This tag is used for animation, It could be replaced -->
-                        <a href="/ad/{{ ad.slug }}" ><h4 >{{ ad.title }}</h4></a>
-                        <small> Publicado el {{ ad.pub_date }} </small>
-                        <p> {{ ad.short_description }} </p>
-                        
-                     </div>
-                      <span class="price-ads-list pull-right">${{ ad.price }}<sup>99</sup></span>  
-                     <a class="locate-it btn" ng-click="centerMap(ad.center)" ><img src="/static/image/icon-location-it.png"></a>
+                <div class="col-md-3 container-img">
+                    <img class="img-responsive" src="{{ ad.image }}">
                 </div>
 
+                <div class="col-md-8 container-text">
+                    <a id="ad-anchor-{{ ad.pk }}"></a> <!-- This tag is used for animation, It could be replaced -->
+                    <a href="/ad/{{ ad.slug }}" ><h4 >{{ ad.title }}</h4></a>
+                    <small> Publicado el {{ ad.pub_date }} </small>
+                    <p> {{ ad.short_description }} </p>
+
+                </div>
+                <span class="price-ads-list pull-right">${{ ad.price }}<sup>99</sup></span>
+                <a class="locate-it btn" ng-click="centerMap(ad.center)" ><img src="/static/image/icon-location-it.png"></a>
             </div>
+
+        </div>
         {% endverbatim %}
 
 
         <!-- PAGINATION ADs LIST -->
         <div class="pagination pull-right" id="pagination">
             {% if paginator %}
-            {% load i18n %}
-            <div class="pagination">
-                {% if page.has_previous %}
-                <a href="{% add_get page=page.previous_page_number %}" class="prev">&lsaquo;&lsaquo; {% trans "previous" %}</a>
-                {% else %}
-                <span class="disabled prev">&lsaquo;&lsaquo; {% trans "previous" %}</span>
-                {% endif %}
-                <span> Page {{ page.number }} of {{ paginator.num_pages }}</span>
-                {% if page.has_next %}
-                <a href="{% add_get page=page.next_page_number %}" class="next">{% trans "next" %} &rsaquo;&rsaquo;</a>
-                {% else %}
-                <span class="disabled next">{% trans "next" %} &rsaquo;&rsaquo;</span>
-                {% endif %}
-            </div>
+                {% load i18n %}
+                <div class="pagination">
+                    {% if page.has_previous %}
+                        <a href="{% add_get page=page.previous_page_number %}" class="prev">&lsaquo;&lsaquo; {% trans "previous" %}</a>
+                    {% else %}
+                        <span class="disabled prev">&lsaquo;&lsaquo; {% trans "previous" %}</span>
+                    {% endif %}
+                    <span> Page {{ page.number }} of {{ paginator.num_pages }}</span>
+                    {% if page.has_next %}
+                        <a href="{% add_get page=page.next_page_number %}" class="next">{% trans "next" %} &rsaquo;&rsaquo;</a>
+                    {% else %}
+                        <span class="disabled next">{% trans "next" %} &rsaquo;&rsaquo;</span>
+                    {% endif %}
+                </div>
             {% endif %}
-        <!-- PAGINATION ADs LIST -->
+            <!-- PAGINATION ADs LIST -->
         </div>
 
 
-    <!-- ########################## END CONTAINER ADs LIST ########################## -->
+        <!-- ########################## END CONTAINER ADs LIST ########################## -->
     </div>
 
-<!-- END content -->
-</div>
-
-
-
+    <!-- END content -->
+    </div>
 
 <!-- END BLOCK BODY -->
 {% endblock %}
@@ -533,10 +509,7 @@
                     longitude:{{ user_location.lng }},
                     radius:{{ user_location.radius }}
                 }
-
-
             {% endfor %}
-
         ];
         console.log(user_locations);
     </script>
@@ -629,29 +602,3 @@
 
 
 {% endblock %}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
