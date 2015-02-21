@@ -6,6 +6,8 @@ from django.views.generic import ListView, DetailView, \
 from django.http import HttpResponseRedirect
 from haystack.views import FacetedSearchView
 
+from apps.userProfile.models import UserProfile, UserLocation
+
 from .models import Ad
 from .forms import CreateAdForm, AdModifyForm, \
     AdImage_inline_formset, AdLocation_inline_formset
@@ -16,7 +18,17 @@ from .permissions import IsOwnerOrReadOnly
 
 
 class AdFacetedSearchView(FacetedSearchView):
-    pass
+    def extra_context(self, **kwargs):
+        context = super(AdFacetedSearchView, self).extra_context(**kwargs)
+
+        if (self.request.user.is_authenticated()):
+            profile = UserProfile.objects.get(user=self.request.user)
+            userLocations = UserLocation.objects.filter(userProfile=profile)
+            context['user_locations'] = userLocations
+        else:
+            context['user_locations'] = {}
+
+        return context
 
 
 class LatestAdView(ListView):

@@ -6632,6 +6632,12 @@ input-group-custom-addon examples:
   -moz-box-shadow: 1px 1px 2px 1px #434343;
   box-shadow: 1px 1px 2px 1px #434343;
 }
+#data-filter-map #btn-save-location {
+  margin-left: 10px;
+  -webkit-box-shadow: 1px 1px 2px 1px #434343;
+  -moz-box-shadow: 1px 1px 2px 1px #434343;
+  box-shadow: 1px 1px 2px 1px #434343;
+}
 #data-filter-map #btn-filter-facet {
   float: right;
   background-color: #577aba;
