@@ -64,7 +64,7 @@ angular.module('dashBoardApp', [
 
             // MESSAGE
             .state('messages', {
-                url: 'messages',
+                url: 'messages/?:folder',
                 templateUrl: '/static/dashboard/message/templates/messages-app.html',
                 controller: 'MessageCtrl'
             })

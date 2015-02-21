@@ -9,32 +9,48 @@
         .module('dashBoardApp.message.controllers')
         .controller('MessageCtrl', MessageCtrl);
 
-    MessageCtrl.$inject = ['$scope', 'Message', 'Snackbar'];
+    MessageCtrl.$inject = ['$scope', 'Message', 'Snackbar', '$stateParams'];
 
     /**
      * @namespace MessageCtrl
      */
-    function MessageCtrl($scope, Message, Snackbar) {
+    function MessageCtrl($scope, Message, Snackbar, $stateParams) {
         $scope.messages = {};
         $scope.message = {};
-
+        $scope.messages_selected = [];
+        $scope.page = 1;
 
         $scope.loadMessages = function(folder){
             Message.getMsgs(folder, 0).then(getMessagesByFolderSuccess, getMessagesByFolderError);
             $scope.folder = folder;
-
-
+            
         }
 
-        $scope.select_messages = function(){
+        $scope.select_all_messages = function(){
             angular.forEach($scope.messages, function(message){
                message.selected = $scope.messages_select;
             });
-        }
 
+            if($scope.messages_select){
+                $scope.messages_selected = $scope.messages;
+            }else{
+                $scope.messages_selected = [];
+            }
+        }
+        
+        $scope.select_message = function(message){
+            // If message has state selected add to array messages_selected, else, remove.
+            if(message.selected){
+                $scope.messages_selected.push(message);
+            }else{
+                $scope.messages_selected.splice($scope.messages_selected.indexOf(message), 1);
+            }
+            console.log($scope.messages_selected);
+        }
 
         $scope.get_msgs_page = function(page){
             Message.getMsgs($scope.folder, page).then(getMessagesByFolderSuccess, getMessagesByFolderError);
+            $scope.page = page;
         };
 
 
@@ -50,6 +66,10 @@
 
             $scope.next_page = data.next;
             $scope.prev_page = data.previous;
+
+            $scope.messages_selected = [];
+            $scope.messages_select = false;
+
         };
 
         function getMessagesByFolderError(data){
@@ -59,27 +79,39 @@
 
 
         $scope.delete_bulk = function(){
-            var messages = [];
-            for(var i=0; i < $scope.messages.length; i++){
-                if($scope.messages[i].selected){
-                    messages.push($scope.messages[i]);
-                }
-            }
 
-            Message.delete_bulk(messages).then(deleteSuccess, deleteError);
+            Message.delete_bulk($scope.messages_selected).then(deleteSuccess, deleteError);
 
             function deleteSuccess(data, headers, status){
                 Snackbar.show("Los mensajes seleccionados se eliminaron con exito");
                 console.log(data.data);
-                $scope.loadMessages($scope.folder);
+                $scope.get_msgs_page($scope.page);
             }
 
             function deleteError(data, headers, status){
                 Snackbar.error("Error al intentar eliminar mensajes seleccionados");
             }
         }
+        
+        $scope.set_read_bulk = function(){
+            Message.set_read_bulk($scope.messages_selected).then(setReadSuccess);
 
-        $scope.messages = $scope.loadMessages('inbox');
+            function setReadSuccess(data, headers, status){
+                $scope.get_msgs_page($scope.page);
+            }
+        }
+        
+
+        init();
+
+        function init(){
+            if($stateParams.folder != '' && $stateParams.folder != undefined){
+                $scope.messages = $scope.loadMessages($stateParams.folder);
+            }else{
+                $scope.messages = $scope.loadMessages('inbox');
+            }
+        }
+
 
 
         /**

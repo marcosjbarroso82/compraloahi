@@ -22,9 +22,8 @@ from django.core.paginator import Paginator
 
 
 class CustomWriteView(WriteView):
-    form_classes=(CustomWriteForm, CustomWriteForm)
-    template_name= 'message/write_modal.html'
-
+    form_classes = (CustomWriteForm, CustomWriteForm)
+    template_name = 'message/write_modal.html'
 
 
 class MessageModelViewSet(viewsets.ModelViewSet):
@@ -36,10 +35,8 @@ class MessageModelViewSet(viewsets.ModelViewSet):
 
         return super(MessageModelViewSet, self).list(request, *args, **kwargs)
 
-
     def create(self, request, *args, **kwargs):
         pass
-
 
     def retrieve(self, request, *args, **kwargs):
         """
@@ -54,13 +51,14 @@ class MessageModelViewSet(viewsets.ModelViewSet):
         Message.objects.set_read(self.request.user, Q(pk=msg.id))
 
         if msg.thread:
-            thread = Message.objects.thread(self.request.user, Q(thread=msg.thread))
+            thread = Message.objects.thread(
+                self.request.user, Q(
+                    thread=msg.thread))
             msg_serializer = MessageSerializer(thread, many=True)
         else:
             msg_serializer = MessageSerializer([msg], many=True)
 
         return Response(msg_serializer.data)
-
 
     def get_queryset(self):
         if self.folder:
@@ -78,7 +76,6 @@ class MessageModelViewSet(viewsets.ModelViewSet):
             return Message.objects.all()
 
 
-
 class MessageDetail(generics.RetrieveAPIView):
 
     serializer_class = MessageSerializer
@@ -92,19 +89,35 @@ class MessageDetail(generics.RetrieveAPIView):
         return qs
 
 
-
 @api_view(['PATCH'])
 def message_bulk_delete(request):
     try:
         for msg in list(request.DATA):
-            m = Message.objects.get(pk = msg['id'])
+            m = Message.objects.get(pk=msg['id'])
             m.recipient_deleted_at = datetime_now()
             m.save()
 
         return Response({'message': 'ANDA'}, status=status.HTTP_200_OK)
     except:
-        return Response({'message': 'NO ANDA'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        return Response(
+            {'message': 'NO ANDA'},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+
+@api_view(['PATCH'])
+def message_bulk_set_read(request):
+    try:
+        for msg in list(request.DATA):
+            m = Message.objects.get(pk=msg['id'])
+            if m.read_at is None:
+                m.read_at = datetime_now()
+                m.save()
+
+        return Response({'message': 'ANDA'}, status=status.HTTP_200_OK)
+    except:
+        return Response(
+            {'message': 'NO ANDA'},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 @api_view(['GET'])
@@ -115,15 +128,17 @@ def get_valid_message_write(request, *args, **kwargs):
     if kwargs.get('ad_id', None):
         ad = Ad.objects.get(pk=kwargs['ad_id'])
 
-        mc = MessageChannel(sender=request.user, recipient=ad.author, ad= ad,
-                                 date=datetime_now())
+        mc = MessageChannel(sender=request.user, recipient=ad.author, ad=ad,
+                            date=datetime_now())
 
         if mc.already_exist():
             print("no existe")
             return Response({'message': 'OK'}, status=status.HTTP_200_OK)
         else:
-            return Response({'message': 'CANAL BLOQUEADO'}, status=status.HTTP_200_OK)
+            return Response(
+                {'message': 'CANAL BLOQUEADO'}, status=status.HTTP_200_OK)
     else:
-        return Response({'message': 'CANAL BLOQUEADO'}, status=status.HTTP_200_OK)
-    #else:
+        return Response(
+            {'message': 'CANAL BLOQUEADO'}, status=status.HTTP_200_OK)
+    # else:
     #    return Response({'message': 'NEEDLOGIN'}, status=status.HTTP_200_OK)
