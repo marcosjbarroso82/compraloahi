@@ -18,6 +18,10 @@
     function AdCtrl($scope, Ad) {
         $scope.ads = {};
 
+        $scope.selected_facets = [];
+        $scope.selected_facets['facets'] = selected_facets;
+        $scope.selected_facets['changed'] = false;
+
         $scope.search_location = search_location;
         $scope.search_location.changed = false;
         $scope.search_location.stroke = {color: '#1e617d', weight: 1, opacity: 0.4 };
@@ -215,5 +219,41 @@
         $scope.change_select_location = function(location){
             $scope.user_location_selected = location;
         }
+
+        // FACETS
+        $scope.disableFacet = function(facet) {
+            facet.enabled = false;
+            $scope.selected_facets['changed'] = true;
+        }
+
+        // reset facets to the original ones ( all enabled )
+        $scope.resetFacets =function() {
+            $scope.selected_facets['changed'] = false   ;
+
+            if ($scope.selected_facets['facets']) {
+                $scope.selected_facets['facets'].forEach(function(facet, index, array) {
+                        facet.enabled = true;
+                    }
+                );
+            }
+        };
+
+        // navigate page to url based on facets and location
+        $scope.refreshFacets =function() {
+            var url = window.location.pathname + '?' +
+                'lat=' + search_location.location.latitude +
+                '&lng=' + search_location.location.longitude +
+                '&radius=' + search_location.radius;
+
+            if ($scope.selected_facets['facets']) {
+                $scope.selected_facets['facets'].forEach(function(facet, index, array) {
+                        if (facet.enabled) {
+                            url += '&selected_facets=' + facet['filter'] + ":" + facet['value'];
+                        }
+                    }
+                );
+            }
+            window.location.href = url;
+        };
     }
 })();

@@ -364,8 +364,22 @@
 
     <!-- ########################## BTN FILTER FACET ########################## -->
     <ul id="list-filters-active">
-        <li class="active-filter"><span>Cordoba </span> <span href="*"> x</span></li>
-        <li class="active-filter"><span>Cordoba </span> <span href="*"> x</span></li>
+        {% verbatim %}
+        <li class="active-filter"
+            ng-repeat="facet in selected_facets.facets"
+            ng-show="facet.enabled"    ><span>{{ facet.value }}</span>
+            <a ng-click="disableFacet(facet)"> x</a></li>
+
+        <li class="active-filter"
+            ng-show="selected_facets.changed">
+            <a ng-click="resetFacets()"> Deshacer</a></li>
+        <li class="active-filter"
+                ng-show="selected_facets.changed">
+            <a ng-click="refreshFacets()"> Actualizar</a></li>
+
+
+
+        {% endverbatim %}
     </ul>
 
     <!-- ########################## END SECTION DATA FILTER MAP ########################## -->
@@ -493,6 +507,23 @@
 
 
 {% block js_footer_block %}
+    <!-- Parse facets to be used in AdCtrl -->
+    <script>
+        url = decodeURIComponent(window.location.href);
+        var selected_facets = [];
+        url.match(/(selected_facets=)([^&]+)/gi).forEach(function(element, index, array) {
+            //console.log(element);
+            var re = /selected_facets=(.*):(.*)/;
+            aux = element.match(re);
+            facet = {};
+            facet['filter'] = aux[1];
+            facet['value'] = aux[2];
+            facet['enabled'] = true;
+            selected_facets.push(facet);
+        });
+    </script>
+
+
     <script>
         var csrf = "{{ csrf_token }}";
     </script>
