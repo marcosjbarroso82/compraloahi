@@ -86,112 +86,112 @@
             </div>
             {% endverbatim %}
         </div>
+    </div>
+    {% if user.is_authenticated %}
+        <!-- ########################## SAVE NEW LOCATION ########################## -->
+        <button data-toggle="modal" class="btn" id="btn-new-location" data-target="#modalNewLocation" rel="tooltip" title="Guarda la ubicacion">
+            <i class="glyphicon glyphicon-floppy-disk"></i>
+        </button>
 
-        {% if user.is_authenticated %}
-            <!-- ########################## SAVE NEW LOCATION ########################## -->
-            <button data-toggle="modal" class="btn" id="btn-new-location" data-target="#modalNewLocation" rel="tooltip" title="Guarda la ubicacion">
-                <i class="glyphicon glyphicon-floppy-disk"></i>
-            </button>
+        <!-- MODAL SAVE NEW LOCATION -->
+        <div class="modal" id="modalNewLocation">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                        <h4 class="modal-title">Guardar Ubicacion</h4>
+                    </div>
+                    <div class="modal-body">
+                        {% verbatim %}
+                        <!-- Address -->
+                        <div class="form-group">
+                            <label>Nombre :</label>
+                            <input id="search_location_name"  class="form-control" type="text"
+                                   placeholder="Ingrese el nombre de la ubicación"
+                                   ng-model="search_location.title" />
 
-            <!-- MODAL SAVE NEW LOCATION -->
-            <div class="modal" id="modalNewLocation">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
-                            <h4 class="modal-title">Guardar Ubicacion</h4>
                         </div>
-                        <div class="modal-body">
-                            {% verbatim %}
-                            <!-- Address -->
-                            <div class="form-group">
-                                <label>Nombre :</label>
-                                <input id="search_location_name"  class="form-control" type="text"
-                                       placeholder="Ingrese el nombre de la ubicación"
-                                       ng-model="search_location.title" />
-
-                            </div>
-                            {% endverbatim %}
-                        </div>
-                        <div class="modal-footer">
-                            <button ng-click="submitNewLocation()" type="submit" class="btn btn-primary pull-right">
-                                Guardar
-                            </button>
-                            <button data-dismiss="modal" class="btn btn-warning pull-right">
-                                Cancelar
-                            </button>
-                        </div>
+                        {% endverbatim %}
+                    </div>
+                    <div class="modal-footer">
+                        <button ng-click="submitNewLocation()" type="submit" class="btn btn-primary pull-right">
+                            Guardar
+                        </button>
+                        <button data-dismiss="modal" class="btn btn-warning pull-right">
+                            Cancelar
+                        </button>
                     </div>
                 </div>
-                <!-- END MODAL SAVE NEW LOCATION -->
             </div>
-            <!-- ########################## END SAVE NEW LOCATION ########################## -->
+            <!-- END MODAL SAVE NEW LOCATION -->
+        </div>
+        <!-- ########################## END SAVE NEW LOCATION ########################## -->
 
-            </div>
 
-            <!-- ########################## MY LOCATIONS ########################## -->
-            <button data-toggle="modal"
-                    class="btn btn-success"
-                    id="btn-my-locations"
-                    data-target="#modalSelectLocation"
-                    style="z-index: 99999;">
-                <i class=""></i> Mis Ubicaciones
-            </button>
 
-            <button data-toggle="modal"
-                    ng-show="search_location.changed"
-                    id="btn-save-location"
-                    class="btn btn-success"
-                    data-target="#modalNewLocation"
-                    style="z-index: 99999;">
-                <i class=""></i> Guardar Ubicación
-            </button>
+        <!-- ########################## MY LOCATIONS ########################## -->
+        <button data-toggle="modal"
+                class="btn btn-success"
+                id="btn-my-locations"
+                data-target="#modalSelectLocation"
+                style="z-index: 99999;">
+            <i class=""></i> Mis Ubicaciones
+        </button>
 
-            <!-- MODAL SELECT MY LOCATION -->
-            <div class="modal" id="modalSelectLocation">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
-                            <h4 class="modal-title">Elije una ubicacion</h4>
-                        </div>
-                        <div class="modal-body">
-                            {% verbatim %}
-                            <p>user_location_selected: {{ user_location_selected }}</p>
-                            <ul>
-                                <li ng-repeat="user_location in user_locations" for="{{user_location}}">
-                                    <div class="radio">
-                                        <label class="i-checks">
-                                            <input type="radio"
-                                                   name="selte"
-                                                   ng-model="$parent.user_location_selected"
-                                                   ng-value="user_location"
-                                                   id="{{user_location}}"
-                                                    >
-                                            <i></i>
-                                            {{ user_location.title }}
-                                        </label>
-                                    </div>
-                                </li>
-                            </ul>
-                            {% endverbatim %}
-                        </div>
-                        <div class="modal-footer">
-                            <button data-dismiss="modal" class="btn btn-primary pull-right">
-                                Aceptar
-                            </button>
-                        </div>
+        <button data-toggle="modal"
+                ng-show="search_location.changed"
+                id="btn-save-location"
+                class="btn btn-success"
+                data-target="#modalNewLocation"
+                style="z-index: 99999;">
+            <i class=""></i> Guardar Ubicación
+        </button>
+
+        <!-- MODAL SELECT MY LOCATION -->
+        <div class="modal" id="modalSelectLocation">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                        <h4 class="modal-title">Elije una ubicacion</h4>
+                    </div>
+                    <div class="modal-body">
+                        {% verbatim %}
+                        <p>user_location_selected: {{ user_location_selected }}</p>
+                        <ul>
+                            <li ng-repeat="user_location in user_locations" for="{{user_location}}">
+                                <div class="radio">
+                                    <label class="i-checks">
+                                        <input type="radio"
+                                               name="selte"
+                                               ng-model="$parent.user_location_selected"
+                                               ng-value="user_location"
+                                               id="{{user_location}}"
+                                                >
+                                        <i></i>
+                                        {{ user_location.title }}
+                                    </label>
+                                </div>
+                            </li>
+                        </ul>
+                        {% endverbatim %}
+                    </div>
+                    <div class="modal-footer">
+                        <button data-dismiss="modal" class="btn btn-primary pull-right">
+                            Aceptar
+                        </button>
                     </div>
                 </div>
-                <!-- END MODAL SELECT MY LOCATION -->
             </div>
+            <!-- END MODAL SELECT MY LOCATION -->
+        </div>
 
-            <!-- ########################## END MY LOCATIONS ########################## -->
+        <!-- ########################## END MY LOCATIONS ########################## -->
 
 
-        {% else %}
-            <!-- ########################## END FORM LOCATION INF (IN IF TOO CLOSE) ########################## -->
-        {% endif %}
+    {% else %}
+        <!-- ########################## END FORM LOCATION INF (IN IF TOO CLOSE) ########################## -->
+    {% endif %}
 
 
     <!-- ########################## BTN FILTER FACET ########################## -->
@@ -374,7 +374,7 @@
             ng-show="selected_facets.changed">
             <a ng-click="resetFacets()"> Deshacer</a></li>
         <li class="active-filter"
-                ng-show="selected_facets.changed">
+            ng-show="selected_facets.changed">
             <a ng-click="refreshFacets()"> Actualizar</a></li>
 
 
@@ -498,7 +498,7 @@
     <!-- END content -->
     </div>
 
-<!-- END BLOCK BODY -->
+    <!-- END BLOCK BODY -->
 {% endblock %}
 
 

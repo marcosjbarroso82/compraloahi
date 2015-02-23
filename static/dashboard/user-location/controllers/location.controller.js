@@ -38,7 +38,7 @@
             draggable: true, // optional: defaults to false
             clickable: true, // optional: defaults to true
             editable: true, // optional: defaults to false
-            visible: true, // optional: defaults to true
+            visible: true // optional: defaults to true
         }
 
         $scope.hideLocations = function () {
@@ -48,9 +48,21 @@
         }
 
         $scope.resetLocations = function () {
+            // clean search places text box
+            $('#google_places_ac').val('');
+            // if a location wa being updated, set to original values
+            if ($scope.flag_update) {
+                console.log($scope.location);
+                $scope.location.center.latitude = $scope.location.lat_original;
+                $scope.location.center.longitude = $scope.location.lng_original;
+                $scope.location.radius = $scope.location.radius_original;
+            }
+            $scope.location = {};
+            $scope.flag_create = false;
+            $scope.flag_update = false;
             for (var i=0; i < $scope.locations.length; i++) {
                 $scope.locations[i].visible = true;
-                $scope.locations[i].dragable = false;
+                $scope.locations[i].draggable = false;
                 $scope.locations[i].editable = false;
             }
         }
@@ -61,10 +73,14 @@
         });
 
         $scope.deleteLocation = function(location) {
-            UserLocations.delete(location, deleteSuccess);
+            $scope.resetLocations();
+            UserLocations.delete(location, deleteSuccess, deleteError);
 
             function deleteSuccess(data, headers, status) {
                 $scope.locations.splice($scope.locations.indexOf(location), 1);
+            }
+            function deleteError(data, headers, status){
+                Snackbar.show("Error al intentar borrar la ubicacion seleccionada");
             }
         }
 
@@ -83,9 +99,6 @@
         }
 
         $scope.cancelLocation = function(){
-            $scope.flag_update = false;
-            $scope.flag_create = false;
-            $scope.location = {};
             $scope.resetLocations();
 
         }
@@ -101,15 +114,14 @@
 
             function saveSuccess(data, headers, status){
                 Snackbar.show("Se ha agregado una ubicacion nueva");
+                $scope.location.id = data.id;
                 $scope.locations.push($scope.location);
                 $scope.location = {};
                 $scope.resetLocations();
-                $scope.flag_create = false;
             }
 
             function saveError(data, headers, status){
                 Snackbar.show("Error al intentar agregar una nueva ubicacion");
-                $scope.flag_create = false;
                 $scope.resetLocations();
             }
 
@@ -129,13 +141,17 @@
          *
          */
         $scope.update = function(location){
-            if(!$scope.flag_update){
-                $scope.hideLocations();
-                location.draggable = true;
-                location.editable = true;
-                location.visible = true;
-                $scope.flag_update = true;
-            }
+            $scope.resetLocations();
+            $scope.hideLocations();
+            console.log(location);
+            location.lat_original = location.lat;
+            location.lng_original = location.lng;
+            location.radius_original = location.radius;
+            $scope.location = location;
+            location.draggable = true;
+            location.editable = true;
+            location.visible = true;
+            $scope.flag_update = true;
         };
 
         $scope.select = function(location){
