@@ -75,8 +75,11 @@
         <!-- Address -->
         <div class="input-group col-md-12">
             <div class="input-group-custom-addon icon-addon addon-sm">
+                <google-places location=search_location></google-places>
+                <!--
                 <input type="text" placeholder="Ingresa tu ubicacion" class="form-control" id="search_address_btn">
                 <button id="search_address_btn" class="glyphicon glyphicon-search" rel="tooltip" title="Busca en tu ubicacion" type="submit"></button>
+                -->
             </div>
         </div>
 
@@ -377,16 +380,14 @@
             ng-repeat="facet in selected_facets.facets"
             ng-show="facet.enabled"    ><span>{{ facet.value }}</span>
             <a ng-click="disableFacet(facet)"> x</a></li>
-
+        <!-- DO NOT delete. This code will be usefull when ajax gets implemeted
         <li class="active-filter"
             ng-show="selected_facets.changed">
             <a ng-click="resetFacets()"> Deshacer</a></li>
         <li class="active-filter"
             ng-show="selected_facets.changed">
             <a ng-click="refreshFacets()"> Actualizar</a></li>
-
-
-
+        -->
         {% endverbatim %}
     </ul>
 

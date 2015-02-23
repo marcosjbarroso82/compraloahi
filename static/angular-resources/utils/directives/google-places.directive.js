@@ -1,6 +1,8 @@
 /**
  * Google Places
  * @namespace App.util.directives
+ *
+ * Example: <google-places location=location></google-places>
  */
 (function () {
     'use strict';
@@ -34,8 +36,11 @@
                     $scope.location.lat = place.geometry.location.lat();
                     $scope.location.lng = place.geometry.location.lng();
                     $scope.location.center = {};
+                    $scope.location.location = {};
                     $scope.location.center.latitude = place.geometry.location.lat();
+                    $scope.location.location.latitude = place.geometry.location.lat();
                     $scope.location.center.longitude = place.geometry.location.lng();
+                    $scope.location.location.longitude = place.geometry.location.lng();
 
                     $scope.$apply();
                 });

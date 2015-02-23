@@ -14,6 +14,7 @@ class AdSearchForm(FacetedSearchForm):
     radius = forms.FloatField(required=False, label="radius")
 
     selected_facets = forms.CharField(required=False, widget=forms.HiddenInput)
+    order_by = forms.CharField(required=False, widget=forms.HiddenInput)
 
     def no_query_found(self):
         return self.searchqueryset.all()
@@ -26,6 +27,12 @@ class AdSearchForm(FacetedSearchForm):
                 location = Point(self.cleaned_data.get('lng'), self.cleaned_data.get('lat'))
                 max_dist = D(km=self.cleaned_data.get('radius')) # Un bug en haystack demanda que se multiplique por 1000. asique ahi lo esta tomando en metros
                 sqs = sqs.dwithin('location', location, max_dist)
+            if self.cleaned_data.get('order_by'):
+                # TODO: Add support for multiple order fields
+                # TODO: Add support for non-numeric field ordering ( so far only "pride" and pub_date" are working)
+                order_by = self.cleaned_data.get('order_by')
+                sqs = sqs.order_by(order_by )
+
         except:
             pass
         # if something goes wrong

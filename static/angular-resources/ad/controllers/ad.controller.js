@@ -224,6 +224,8 @@
         $scope.disableFacet = function(facet) {
             facet.enabled = false;
             $scope.selected_facets['changed'] = true;
+            // We currently navigate inmediatly. Will see in the future when ajax gets implemented
+            $scope.refreshFacets();
         }
 
         // reset facets to the original ones ( all enabled )
