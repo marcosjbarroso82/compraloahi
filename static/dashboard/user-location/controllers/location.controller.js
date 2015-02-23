@@ -127,6 +127,7 @@
 
             function updateSuccess(data, headers, status){
                 Snackbar.show("La ubicacion seleccionada se edito con exito");
+                $scope.flag_update = false;
                 $scope.resetLocations();
             }
 

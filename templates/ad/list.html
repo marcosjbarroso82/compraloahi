@@ -9,13 +9,21 @@
 {% block css_header_block %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/less/list-ad.css' %}">
 {% endblock %}
+{% block angular_app_declare_block %}
+    ng-app="App" ng-controller="AdCtrl"
+{% endblock %}
 
+{% block menu_extra_fields_form_block  %}
+    <input type="hidden" name="radius" ng-value="search_location.radius"/>
+    <input type="hidden" name="lat" ng-value="search_location.location.latitude"/>
+    <input type="hidden" name="lng" ng-value="search_location.location.longitude"/>
+{% endblock %}
 
 
 
 {% block body_block %}
 
-    <div id="page-ads-list" class="ad-list" ng-app="App" ng-controller="AdCtrl">
+    <div id="page-ads-list" class="ad-list" >
 
     <!-- ########################## MAP ########################## -->
     {% verbatim %}
@@ -633,3 +641,4 @@
 
 
 {% endblock %}
+
