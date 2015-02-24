@@ -400,12 +400,15 @@
             <p>Mostrando 20 de 300 resultados.</p>
             <div class="form-inline order-by-container">
                 <label for="order_by">Ordenar por</label>
-                <select class="form-control">
-                    <option></option>
-                    <option>Precio</option>
-                    <option>Titulo</option>
-
+                {% verbatim %}
+                <select
+                        ng-change="refreshResults()"
+                        ng-model="selected_ordering"
+                        ng-options="ordering.name for ordering in orderings"
+                        ng-selected="ordering.selected">
+                    <option value=""> -- </option>
                 </select>
+                    {% endverbatim %}
             </div>
         </div>
 
@@ -516,22 +519,6 @@
 
 
 {% block js_footer_block %}
-    <!-- Parse facets to be used in AdCtrl -->
-    <script>
-        url = decodeURIComponent(window.location.href);
-        var selected_facets = [];
-        url.match(/(selected_facets=)([^&]+)/gi).forEach(function(element, index, array) {
-            //console.log(element);
-            var re = /selected_facets=(.*):(.*)/;
-            aux = element.match(re);
-            facet = {};
-            facet['filter'] = aux[1];
-            facet['value'] = aux[2];
-            facet['enabled'] = true;
-            selected_facets.push(facet);
-        });
-    </script>
-
 
     <script>
         var csrf = "{{ csrf_token }}";
