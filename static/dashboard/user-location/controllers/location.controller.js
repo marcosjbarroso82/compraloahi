@@ -95,7 +95,12 @@
         $scope.newLocation = function(){
             $scope.flag_create = true;
             $scope.hideLocations();
-            $scope.location = {};
+            $scope.location = {radius: 10000, center: {}};
+            $scope.location.center.latitude = $scope.map.center.latitude;
+            $scope.location.center.longitude = $scope.map.center.longitude;
+            $scope.location.visible = true;
+            $scope.location.draggable = true;
+            $scope.location.editable = true;
         }
 
         $scope.cancelLocation = function(){
@@ -149,6 +154,8 @@
             location.lng_original = location.lng;
             location.radius_original = location.radius;
             $scope.location = location;
+            $scope.map.center.latitude = $scope.location.center.latitude;
+            $scope.map.center.longitude = $scope.location.center.longitude;
             location.draggable = true;
             location.editable = true;
             location.visible = true;

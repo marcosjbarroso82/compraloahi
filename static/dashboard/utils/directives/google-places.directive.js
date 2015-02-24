@@ -24,7 +24,7 @@
             restrict:'E',
             replace:true,
             // transclude:true,
-            scope: {location:'='},
+            scope: {location:'=', map: '='},
             template: '<div class="input-group"><input id="google_places_ac" name="google_places_ac" type="text" class="input-block-level form-control"/><span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>',
             link: function($scope, elm, attrs){
                 var autocomplete = new google.maps.places.Autocomplete($("#google_places_ac")[0], {});
@@ -36,6 +36,9 @@
                     $scope.location.center = {};
                     $scope.location.center.latitude = place.geometry.location.lat();
                     $scope.location.center.longitude = place.geometry.location.lng();
+
+                    $scope.map.center.latitude = $scope.location.center.latitude;
+                    $scope.map.center.longitude = $scope.location.center.longitude;
 
                     $scope.$apply();
                 });
