@@ -13,7 +13,7 @@
                     <button class="btn btn-danger pull-left" ng-click="cancelLocation()">
                         <i class="glyphicon glyphicon-minus">Cancelar</i>
                     </button>
-                    <input class="form-control pull-left" type="text" ng-model="location.title">
+                    <input class="form-control pull-left" type="text" placeholder="Ingresa tu ubicacion" ng-model="location.title">
                 </div>
             </div>
             <div class="col-md-6">
@@ -25,7 +25,7 @@
             <div id="data-position-form" ng-show="flag_update || flag_create" class="col-md-10">
                 <!-- Address -->
                 <div class="input-group col-md-12">
-                    <google-places location=location ng-show="flag_update || flag_create"></google-places>
+                    <google-places location=location map=map ng-show="flag_update || flag_create"></google-places>
                 </div>
                 <!-- Radius -->
                 <div class="col-md-12" >

@@ -9,13 +9,21 @@
 {% block css_header_block %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/less/list-ad.css' %}">
 {% endblock %}
+{% block angular_app_declare_block %}
+    ng-app="App" ng-controller="AdCtrl"
+{% endblock %}
 
+{% block menu_extra_fields_form_block  %}
+    <input type="hidden" name="radius" ng-value="search_location.radius"/>
+    <input type="hidden" name="lat" ng-value="search_location.location.latitude"/>
+    <input type="hidden" name="lng" ng-value="search_location.location.longitude"/>
+{% endblock %}
 
 
 
 {% block body_block %}
 
-    <div id="page-ads-list" class="ad-list" ng-app="App" ng-controller="AdCtrl">
+    <div id="page-ads-list" class="ad-list" >
 
     <!-- ########################## MAP ########################## -->
     {% verbatim %}
@@ -66,11 +74,16 @@
     <div id="data-position-form" class="col-md-5">
         <!-- Address -->
         <div class="input-group col-md-12">
-            <div class="input-group-custom-addon icon-addon addon-sm">
+                    <google-places location=search_location></google-places>
+                </div>
+        <!--<div class="input-group col-md-12">
+            <google-places location=search_location></google-places>
+                
                 <input type="text" placeholder="Ingresa tu ubicacion" class="form-control" id="search_address_btn">
                 <button id="search_address_btn" class="glyphicon glyphicon-search" rel="tooltip" title="Busca en tu ubicacion" type="submit"></button>
-            </div>
-        </div>
+                
+       
+        </div>-->
 
         <!-- Radius -->
         <div class="">
@@ -89,11 +102,11 @@
     
     {% if user.is_authenticated %}
         <!-- ########################## SAVE NEW LOCATION ########################## -->
-        <button data-toggle="modal" class="btn btn-warning btn-data-position" data-target="#modalNewLocation" rel="tooltip" title="Guarda tu ubicacion">
+        <button data-toggle="modal" class="btn btn-default btn-data-position" data-target="#modalNewLocation" rel="tooltip" title="Guarda tu ubicacion">
             <i class="glyphicon glyphicon-floppy-disk"></i>
         </button>
         <button data-toggle="modal"
-                class="btn btn-success btn-data-position"
+                class="btn btn-default btn-data-position"
                 data-target="#modalSelectLocation"
                 rel="tooltip" title="Elegi una de tus ubicaciones guardadas">
             <i class="glyphicon glyphicon-th-list"></i>
@@ -163,7 +176,6 @@
                     </div>
                     <div class="modal-body">
                         {% verbatim %}
-                        <p>user_location_selected: {{ user_location_selected }}</p>
                         <ul>
                             <li ng-repeat="user_location in user_locations" for="{{user_location}}">
                                 <div class="radio">
@@ -262,107 +274,6 @@
                         </ul>
                     {% endif %}
                     <!-- End Localities -->
-
-
-                    <!-- EMILINAR --->
-
-                    <!-- Provinces -->
-                    {% if facets.fields.provinces %}
-                        <h5>Provincias</h5>
-                        <ul>
-                            {% for province in facets.fields.provinces %}
-                                <li>
-                                    {% with "provinces_exact:"|add:province.0 as facet_value %}
-                                        <a href="{% add_get page='1' %}&selected_facets={{ facet_value }}">
-                                            {{ province.0 }}<span class="badge">{{ province.1 }}</span></a>
-                                    {% endwith %}
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
-                    <!-- End Provinces -->
-
-                    <!-- Provinces -->
-                    {% if facets.fields.provinces %}
-                        <h5>Provincias</h5>
-                        <ul>
-                            {% for province in facets.fields.provinces %}
-                                <li>
-                                    {% with "provinces_exact:"|add:province.0 as facet_value %}
-                                        <a href="{% add_get page='1' %}&selected_facets={{ facet_value }}">
-                                            {{ province.0 }}<span class="badge">{{ province.1 }}</span></a>
-                                    {% endwith %}
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
-                    <!-- End Provinces -->
-
-                    <!-- Provinces -->
-                    {% if facets.fields.provinces %}
-                        <h5>Provincias</h5>
-                        <ul>
-                            {% for province in facets.fields.provinces %}
-                                <li>
-                                    {% with "provinces_exact:"|add:province.0 as facet_value %}
-                                        <a href="{% add_get page='1' %}&selected_facets={{ facet_value }}">
-                                            {{ province.0 }}<span class="badge">{{ province.1 }}</span></a>
-                                    {% endwith %}
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
-                    <!-- End Provinces -->
-
-                    <!-- Provinces -->
-                    {% if facets.fields.provinces %}
-                        <h5>Provincias</h5>
-                        <ul>
-                            {% for province in facets.fields.provinces %}
-                                <li>
-                                    {% with "provinces_exact:"|add:province.0 as facet_value %}
-                                        <a href="{% add_get page='1' %}&selected_facets={{ facet_value }}">
-                                            {{ province.0 }}<span class="badge">{{ province.1 }}</span></a>
-                                    {% endwith %}
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
-                    <!-- End Provinces -->
-
-                    <!-- Provinces -->
-                    {% if facets.fields.provinces %}
-                        <h5>Provincias</h5>
-                        <ul>
-                            {% for province in facets.fields.provinces %}
-                                <li>
-                                    {% with "provinces_exact:"|add:province.0 as facet_value %}
-                                        <a href="{% add_get page='1' %}&selected_facets={{ facet_value }}">
-                                            {{ province.0 }}<span class="badge">{{ province.1 }}</span></a>
-                                    {% endwith %}
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
-                    <!-- End Provinces -->
-
-                    <!-- Provinces -->
-                    {% if facets.fields.provinces %}
-                        <h5>Provincias</h5>
-                        <ul>
-                            {% for province in facets.fields.provinces %}
-                                <li>
-                                    {% with "provinces_exact:"|add:province.0 as facet_value %}
-                                        <a href="{% add_get page='1' %}&selected_facets={{ facet_value }}">
-                                            {{ province.0 }}<span class="badge">{{ province.1 }}</span></a>
-                                    {% endwith %}
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
-                    <!-- End Provinces -->
-
-                    <!-- END ELIMINAR -->
                 </div>
             </div>
         </div>
@@ -376,16 +287,14 @@
             ng-repeat="facet in selected_facets.facets"
             ng-show="facet.enabled"    ><span>{{ facet.value }}</span>
             <a ng-click="disableFacet(facet)"> x</a></li>
-
+        <!-- DO NOT delete. This code will be usefull when ajax gets implemeted
         <li class="active-filter"
             ng-show="selected_facets.changed">
             <a ng-click="resetFacets()"> Deshacer</a></li>
         <li class="active-filter"
             ng-show="selected_facets.changed">
             <a ng-click="refreshFacets()"> Actualizar</a></li>
-
-
-
+        -->
         {% endverbatim %}
     </ul>
 
@@ -398,12 +307,16 @@
             <p>Mostrando 20 de 300 resultados.</p>
             <div class="form-inline order-by-container">
                 <label for="order_by">Ordenar por</label>
-                <select class="form-control">
-                    <option></option>
-                    <option>Precio</option>
-                    <option>Titulo</option>
-
+                {% verbatim %}
+                <select
+                        ng-change="refreshResults()"
+                        ng-model="selected_ordering"
+                        ng-options="ordering.name for ordering in orderings"
+                        ng-selected="ordering.selected"
+                        class="form-control">
+                    <option value=""> -- </option>
                 </select>
+                    {% endverbatim %}
             </div>
         </div>
 
@@ -476,7 +389,7 @@
         </div>
         {% endverbatim %}
 
-
+>
         <!-- PAGINATION ADs LIST -->
         <div class="pagination pull-right" id="pagination">
             {% if paginator %}
@@ -514,22 +427,6 @@
 
 
 {% block js_footer_block %}
-    <!-- Parse facets to be used in AdCtrl -->
-    <script>
-        url = decodeURIComponent(window.location.href);
-        var selected_facets = [];
-        url.match(/(selected_facets=)([^&]+)/gi).forEach(function(element, index, array) {
-            //console.log(element);
-            var re = /selected_facets=(.*):(.*)/;
-            aux = element.match(re);
-            facet = {};
-            facet['filter'] = aux[1];
-            facet['value'] = aux[2];
-            facet['enabled'] = true;
-            selected_facets.push(facet);
-        });
-    </script>
-
 
     <script>
         var csrf = "{{ csrf_token }}";
@@ -640,3 +537,4 @@
 
 
 {% endblock %}
+

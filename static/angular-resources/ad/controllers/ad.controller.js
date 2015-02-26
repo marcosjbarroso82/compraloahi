@@ -18,8 +18,11 @@
     function AdCtrl($scope, Ad) {
         $scope.ads = {};
 
+        $scope.orderings = [{'name': 'price', selected: false}, {'name': 'distance', selected: false}];
+        $scope.selected_ordering = {};
+
         $scope.selected_facets = [];
-        $scope.selected_facets['facets'] = selected_facets;
+        //$scope.selected_facets['facets'] = selected_facets;
         $scope.selected_facets['changed'] = false;
 
         $scope.search_location = search_location;
@@ -148,7 +151,7 @@
             editable: false, // optional: defaults to false
             visible: true // optional: defaults to true
         }
-        getAds();
+
 
         function getAds(){
             Ad.get(function(data) {
@@ -224,6 +227,8 @@
         $scope.disableFacet = function(facet) {
             facet.enabled = false;
             $scope.selected_facets['changed'] = true;
+            // We currently navigate inmediatly. Will see in the future when ajax gets implemented
+            $scope.refreshResults();
         }
 
         // reset facets to the original ones ( all enabled )
@@ -238,13 +243,13 @@
             }
         };
 
-        // navigate page to url based on facets and location
-        $scope.refreshFacets =function() {
+
+        $scope.refreshResults = function(){
             var url = window.location.pathname + '?' +
                 'lat=' + search_location.location.latitude +
                 '&lng=' + search_location.location.longitude +
                 '&radius=' + search_location.radius;
-
+            // Add Selected Facets to the URL
             if ($scope.selected_facets['facets']) {
                 $scope.selected_facets['facets'].forEach(function(facet, index, array) {
                         if (facet.enabled) {
@@ -253,7 +258,43 @@
                     }
                 );
             }
+            // Ad Seleceted Ordering Parameter to the URL
+            if ($scope.selected_ordering && $scope.selected_ordering['name']) {
+                url += '&order_by=' + $scope.selected_ordering['name'];
+            }
             window.location.href = url;
         };
+
+        // Process Current URL to get the selected Facets and Ordering Parameter
+        function processCurrentURL() {
+            var url = decodeURIComponent(window.location.href);
+
+            // Get Selected Facets
+            var facet_re_process = url.match(/(selected_facets=)([^&]+)/gi);
+            $scope.selected_facets['facets'] = [];
+            if (facet_re_process) {
+                facet_re_process.forEach(function(element, index, array) {
+                    var re = /selected_facets=(.*):(.*)/;
+                    var aux = element.match(re);
+                    var facet = {};
+                    facet['filter'] = aux[1];
+                    facet['value'] = aux[2];
+                    facet['enabled'] = true;
+                    $scope.selected_facets['facets'].push(facet);
+                });
+            }
+            // Get Ordering Parameter
+            var ordering_process = url.match(/(order_by=)([^&]+)/i);
+            if (ordering_process && ordering_process[2]) {
+                $scope.selected_ordering = $scope.orderings.filter(function( obj ) {
+                    return obj.name == ordering_process[2];
+                })[0];
+                $scope.selected_ordering.selected = true;
+            }
+        };
+
+        // Initialize Controller
+        getAds();
+        processCurrentURL();
     }
 })();
