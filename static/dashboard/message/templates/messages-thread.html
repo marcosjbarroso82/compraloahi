@@ -3,12 +3,7 @@
     <h3 class="title-data">Detalle de Mensaje</h3>
 
     <div class="content-data col-md-12">
-        <ul class="nav nav-pills">
-            <li role="presentation" ><a ui-sref="messages({'folder': 'inbox'})" class="btn btn-default" role="button">Inbox</a></li>
-            <li role="presentation" ><a ui-sref="messages({'folder': 'sent'})" class="btn btn-default" role="button">Sent</a></li>            
-            <li role="presentation" ><a ui-sref="messages({'folder': 'trash'})" class="btn btn-default" role="button">Tash</a></li>
-        </ul>
-
+        
         <div ng-repeat="msg in message" class="message">
             <h4>{{ msg.subject }}</h4>
             <small>{{ msg.sent_at }}</small>

@@ -1,13 +1,20 @@
 <div id="container-ad-list-data">
-    <h3 class="title-data">Mis avisos</h3>
-
+    <h4 class="title-data">Mis avisos 
+    <ul class="pull-right nav" style="height: 30px;">
+            <li class="pull-right" style="height: 30px;"><a ng-click="get_ads_page(next_page)" ng-disabled="!next_page" class="btn btn-default"> >> </a></li>
+            <li class="pull-right" style="height: 30px;"><a ng-click="get_ads_page(prev_page)" ng-disable="!prev_page" class="btn btn-default"> << </span></a></li>
+        </ul>
+    </h4>
+    
     <div class="content-data col-md-12">
+        
+        <!-- <a href="/ad/create/" id="btn-add-ad" class="btn btn-success"><span class="glyphicon glyphicon-bullhorn"></span> Agrega tu aviso</a>-->
         <table class="table table-bordred table-striped">
-            <thead>
+            <!--<thead>
             <th></th>
             <th></th>
             <th>Acciones</th>
-            </thead>
+            </thead>-->
             <tbody id="tab-all-message">
             <tr id="ad-row-{{ ad.id }}" ng-class-odd="'odd'" ng-class-even="'even'" ng-repeat="ad in ads">
                 <td>
@@ -34,12 +41,5 @@
         </table>
     </div>
     <div class="container-footer col-md-12">
-        <!-- PAGINATION -->
-        <nav class="pull-right">
-            <ul class="pagination">
-                <li ng-if="prev_page"><a ng-click="get_ads_page(prev_page)"><span aria-hidden="true">&laquo; Prev</span><span class="sr-only">Previous</span></a></li>
-                <li ng-if="next_page"><a ng-click="get_ads_page(next_page)"><span aria-hidden="true">Next &raquo;</span><span class="sr-only">Previous</span></a></li>
-            </ul>
-        </nav>
     </div>
 </div>

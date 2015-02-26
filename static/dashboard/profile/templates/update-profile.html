@@ -1,30 +1,21 @@
-<!-- ############## PROFILE ############### -->
-<div class="jumbotron">
-    <h2 class="text-center">Edit profile</h2>
-    <hr/>
-    <form class="panel-body body-content" ng-submit="vm.submit()" >
-        <div class="row">
-            <div class="col-md-3 col-lg-3 " align="center">
-                <img class="img-circle img-responsive" src="{{ vm.profile.thumbnail_200x200 }}" height="200" width="200" >
+<div >
+    <h4 class="title-data">Datos personales (Edit)</h4>
+
+    <div class="content-data col-md-12 container-profile-data" id="container-profile-data-update">
+        <div class="col-md-12">
+            <div class="col-md-2">
+                <img class="img-responsive" id="item-display" src="{{ vm.profile.thumbnail_200x200 }}">
                 <input type='file' file-model='img_profile' accept="image/*">
             </div>
-            <div class=" col-md-9 col-lg-9 ">
-
-                <div class="form-inline">
-                    <h3>
-                        <input class="form-control col-md-6" ng-model="vm.profile.user.first_name" type="text" ng-required="true"/>
-                        <input class="form-control col-md-6" ng-model="vm.profile.user.last_name" type="text" ng-required="true"/>
-                    </h3>
-                </div>
-
-
-                <table class="table table-user-information">
-                    <tbody>
-                    <tr>
-                        <td>Date of Birth</td>
-                        <td>
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="glyphicon glyphicon-gift"></i></span>
+            <div class="col-md-8">
+                <h5 class="form-inline">
+                    <input class="form-control col-md-6" ng-model="vm.profile.user.first_name" type="text" ng-required="true"/>
+                    <input class="form-control col-md-6" ng-model="vm.profile.user.last_name" type="text" ng-required="true"/>
+                </h5>
+                <div class="col-md-6">    
+                    <div class="form-group">
+                        <label> Fecha Nac : </label>
+                        <div class="form-inline">
                                 <input type="text" datepicker-popup="yyyy-MM-dd"
                                        class="form-control"
                                        ng-required="true"
@@ -34,55 +25,41 @@
                                        autoclose="true"
                                        date-type="date"
                                        is-open="vm.opened" />
-                                <span class="input-group-addon">
                                   <button type="button" class="btn btn-default" ng-click="vm.open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-                              </span>
                             </div>
-
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>Email</td>
-                        <td>
-                            <div class="input-group">
-                            <span class="input-group-addon">
-                                <i class="glyphicon glyphicon-envelope"></i>
-                            </span>
-                                <input type="email" ng-model="vm.profile.user.email" class="form-control" ng-required="true" width="100%">
-                            </div>
-                        </td>
-                    </tr>
-                    <td>Contact Number</td>
-                    <td>
-                        <ul>
+                    </div>
+                    <div class="form-group">
+                        <label>Email : </label>
+                        <input type="email" ng-model="vm.profile.user.email" class="form-control" ng-required="true" width="100%">
+                    </div>
+                </div>    
+                <div class="col-md-6">
+                    <label>Number Contact : </label>
+                    <ul id="contact-number-list">
                             <li ng-repeat="phone in vm.profile.phones">
                                 <div class="form-inline">
                                     <select ng-model="phone.type" class="form-control" ng-required="true">
                                         <option></option>
-                                        <option id="TEL">Telefono</option>
-                                        <option id="CEL">Celular</option>
-                                        <option id="FAX">Fax</option>
+                                        <option id="TEL">TEL</option>
+                                        <option id="CEL">CEL</option>
+                                        <option id="FAX">FAX</option>
                                     </select>
-                                    <input class="form-control" type="number" ng-model="phone.number" ng-required="true"/>
+                                    <input class="form-control input-contact-number" type="number" ng-model="phone.number" ng-required="true"/>
                                     <button type="button" ng-click="vm.removePhone(phone)" class="btn btn-danger">X</button>
                                 </div>
                             </li>
-                        </ul>
-                        <button type="button" ng-click="vm.addPhone()" class="btn btn-success">+</button>
-                    </td>
-                    </tr>
-                    </tbody>
-                </table>
-
+                    </ul>
+                    <button type="button" ng-if="vm.profile.phones.length < 3" ng-click="vm.addPhone()" class="btn btn-success">+</button>
+                </div>
+            </div>
+            <div class="col-md-2 btn-actions">
+                <button class="btn btn-warning pull-right" ui-sref="profile-detail"><i class="glyphicon glyphicon-remove"></i>Cancelar</button>
+                <button type="button" ng-click="vm.submit()" class="btn btn-success pull-right"><i class="glyphicon glyphicon-ok"></i>Aceptar</button>
             </div>
         </div>
 
-        <div class="btn-group pull-right pull-bottom">
-            <a class="btn btn-warning" ui-sref="profile-detail">CANCEL</a>
-            <button type="submit" class="btn btn-success">OK</button>
-        </div>
-    </form>
-    <div class="row"><hr/></div>
+    </div>
+    <div class="container-footer">
+    </div>
 </div>
-<!-- ############## END PROFILE ############### -->
+

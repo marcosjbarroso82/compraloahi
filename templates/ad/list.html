@@ -86,13 +86,19 @@
             </div>
             {% endverbatim %}
         </div>
-    </div>
+    
     {% if user.is_authenticated %}
         <!-- ########################## SAVE NEW LOCATION ########################## -->
-        <button data-toggle="modal" class="btn" id="btn-new-location" data-target="#modalNewLocation" rel="tooltip" title="Guarda la ubicacion">
+        <button data-toggle="modal" class="btn btn-warning btn-data-position" data-target="#modalNewLocation" rel="tooltip" title="Guarda tu ubicacion">
             <i class="glyphicon glyphicon-floppy-disk"></i>
         </button>
-
+        <button data-toggle="modal"
+                class="btn btn-success btn-data-position"
+                data-target="#modalSelectLocation"
+                rel="tooltip" title="Elegi una de tus ubicaciones guardadas">
+            <i class="glyphicon glyphicon-th-list"></i>
+        </button>
+     </div>   
         <!-- MODAL SAVE NEW LOCATION -->
         <div class="modal" id="modalNewLocation">
             <div class="modal-dialog">
@@ -190,6 +196,7 @@
 
 
     {% else %}
+        </div>
         <!-- ########################## END FORM LOCATION INF (IN IF TOO CLOSE) ########################## -->
     {% endif %}
 

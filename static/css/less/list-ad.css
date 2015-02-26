@@ -6621,9 +6621,8 @@ input-group-custom-addon examples:
   font-size: .8em;
   vertical-align: bottom;
 }
-#data-filter-map #data-position-form #btn-new-location {
-  background: none;
-  color: #aa4400;
+#data-filter-map #data-position-form .btn-data-position {
+  border-radius: 50%;
 }
 #data-filter-map #btn-my-locations {
   margin-left: 10px;
