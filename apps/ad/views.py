@@ -16,6 +16,8 @@ from rest_framework import viewsets, filters
 from .serializers import AdSerializer
 from .permissions import IsOwnerOrReadOnly
 
+from apps.comment_notification.models import CommentNotification
+
 
 class AdFacetedSearchView(FacetedSearchView):
     def extra_context(self, **kwargs):
@@ -41,6 +43,11 @@ class DetailAdView(DetailView):
     template_name = "ad/details.html"
     excluded = ('created', '')
     model = Ad
+
+    def get(self, request, *args, **kwargs):
+        # We delete all Unread Comment Notification for this Ad
+        CommentNotification.objects.filter(ad=self.get_object()).delete()
+        return super(DetailAdView, self).get(request)
 
 
 # class ReloadCommentsThread(DetailView):

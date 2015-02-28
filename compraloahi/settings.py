@@ -41,6 +41,7 @@ INSTALLED_APPS = (
     'apps.user',
     'apps.message',
     'apps.common_tags',
+    'apps.comment_notification',
     'rest_framework',
 )
 

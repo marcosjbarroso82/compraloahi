@@ -5,6 +5,8 @@ from .views import LatestAdView, DetailAdView, CreateAdView, \
     UpdateAdView, AdDeleteView, AdsByUser, AdFacetedSearchView
 from .forms import AdSearchForm
 
+from apps.comment_notification import receivers
+
 sqs = SearchQuerySet().facet('categories').facet('localities').facet('provinces')
 
 urlpatterns = patterns('',
