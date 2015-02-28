@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 {% load staticfiles %}
+{% load comment_notification_tags %}
+
+
 <html>
 <head>
 
@@ -50,6 +53,22 @@
             </form>
 
             {% if user.is_authenticated %}
+            <!-- listado de noficaciones -->
+            {% get_user_comment_unreplied_notification %}
+            {% if not_replied_notifications %}
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown">  {% get_user_comment_unreplied_notification_count %} Mensajes Nuevos<span class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu">
+                    {% for notification in not_replied_notifications %}
+                        <li><a href="ad/{{ notification.ad.slug }}">{{ notification.ad.title | truncatechars:15 }}</a> </li>
+                        {% endfor %}
+                    </ul>
+                </li>
+            </ul>
+                {% endif %}
+            <!-- FIN - listado de noficaciones -->
+
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown"> Hola! {{ user.first_name }}<span class="caret"></span></a>

@@ -12,6 +12,9 @@ from rest_framework.routers import DefaultRouter
 
 from apps.user.views import ChangePasswordUpdateAPIView
 
+from apps.comment_notification import receivers
+
+
 router = DefaultRouter()
 router.register(r'ads', adViews.AdViewSet)
 router.register(r'user-locations', UserLocationViewSet)
