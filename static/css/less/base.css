@@ -6477,6 +6477,39 @@ html .i-checks > span .active,
 body .i-checks > span .active {
   display: none;
 }
+html input[type='range'],
+body input[type='range'] {
+  -webkit-appearance: none;
+  border-radius: 2px;
+  background-color: #cccccc;
+  height: 6px;
+  vertical-align: middle;
+}
+html input[type='range']::-moz-range-track,
+body input[type='range']::-moz-range-track {
+  -moz-appearance: none;
+  border-radius: 2px;
+  background-color: #cccccc;
+  height: 6px;
+}
+html input[type='range']::-webkit-slider-thumb,
+body input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none !important;
+  border-radius: 20px;
+  background-color: #065378;
+  border: 1px solid #bab5ba;
+  height: 20px;
+  width: 20px;
+}
+html input[type='range']::-moz-range-thumb,
+body input[type='range']::-moz-range-thumb {
+  -moz-appearance: none;
+  border-radius: 20px;
+  background-color: #065378;
+  border: 1px solid #bab5ba;
+  height: 20px;
+  width: 20px;
+}
 ::-webkit-scrollbar {
   width: 12px;
   border: 1px solid #424242;

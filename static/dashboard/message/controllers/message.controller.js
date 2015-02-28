@@ -19,6 +19,7 @@
         $scope.message = {};
         $scope.messages_selected = [];
         $scope.page = 1;
+        $scope.count = 0;
 
         $scope.loadMessages = function(folder){
             Message.getMsgs(folder, 0).then(getMessagesByFolderSuccess, getMessagesByFolderError);
@@ -66,6 +67,7 @@
 
             $scope.next_page = data.next;
             $scope.prev_page = data.previous;
+            $scope.count = data.count;
 
             $scope.messages_selected = [];
             $scope.messages_select = false;

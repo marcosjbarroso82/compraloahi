@@ -7,7 +7,7 @@
     </h4>
     
     <div class="content-data col-md-12">
-        
+
         <!-- <a href="/ad/create/" id="btn-add-ad" class="btn btn-success"><span class="glyphicon glyphicon-bullhorn"></span> Agrega tu aviso</a>-->
         <table class="table table-bordred table-striped">
             <!--<thead>
@@ -17,23 +17,23 @@
             </thead>-->
             <tbody id="tab-all-message">
             <tr id="ad-row-{{ ad.id }}" ng-class-odd="'odd'" ng-class-even="'even'" ng-repeat="ad in ads">
-                <td>
+                <td class="col-md-1">
                     <img id="media-object" class="img-rounded" ng-src="{{ ad.images[0].thumbnail_90x90 }}" width="90" height="90">
                 </td>
-                <td>
+                <td class="col-md-9">
                     <h4><strong>{{ ad.title }}</strong></h4>
                     <p>{{ ad.short_description }}</p>
-                    <small><strong>Slug : </strong>{{ ad.slug }} || <strong>Price : </strong> $ {{ ad.price }}</small>
+                    <small><strong>Fecha de publicacion : </strong>{{ ad.pub_date }} || <strong>Price : </strong> $ {{ ad.price }}</small>
                 </td>
-                <td class="v-center">
-                    <div class="row">
-                        <!-- update -->
-                        <a href="/ad/update/{{ ad.slug }}" class="btn btn-warning"><span class="glyphicon glyphicon-edit"></span></a>
-                        <!-- view detail -->
-                        <a href="/ad/{{ ad.slug }}" class="btn btn-success"><span class="glyphicon glyphicon-eye-open"></span></a>
-                        <!-- delete -->
-                        <a class="btn btn-danger" ng-really-message="Are you sure ?" ng-really-click="deleteAd(ad)" item="ad"><span class="glyphicon glyphicon-remove"></span></a>
-                    </div>
+                <td class="col-md-2">
+
+                    <!-- update -->
+                    <a href="/ad/update/{{ ad.slug }}" class="btn btn-sm btn-warning btn-actions" tooltip="Edita [ {{ ad.title }} ]"><span class="glyphicon glyphicon-edit"></span></a>
+                    <!-- view detail -->
+                    <a href="/ad/{{ ad.slug }}" class="btn btn-sm btn-success btn-actions" tooltip="Entra [ {{ ad.title }} ]" ><span class="glyphicon glyphicon-eye-open"></span></a>
+                    <!-- delete -->
+                    <a class="btn btn-sm btn-danger btn-actions" ng-really-message="Are you sure ?" ng-really-click="deleteAd(ad)" item="ad" tooltip="Elimina [ {{ ad.title }} ]"><span class="glyphicon glyphicon-remove"></span></a>
+
                 </td>
             </tr>
 
@@ -41,5 +41,6 @@
         </table>
     </div>
     <div class="container-footer col-md-12">
+        <a href="/ad/create/" id="btn-add-ad" class="btn btn-success btn-lg"><span class="glyphicon glyphicon-bullhorn"></span> Agrega tu aviso</a>-
     </div>
 </div>

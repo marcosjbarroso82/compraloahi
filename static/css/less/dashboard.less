@@ -149,11 +149,17 @@
           }
         }
 
+        #container-profile-data-update{
+          #input-upload-photo{
+            width: 100%;
+          }
+        }
+
         #container-change-password{
             .form-inline{
                 margin-bottom: 10px;
                 label{
-                  width: 200px;
+                  width: 50%;
                   text-align: right;
                 }
             }
@@ -205,6 +211,7 @@
         }
         //---- END MESSAGE THREAD -----
 
+        //----  USER LOCATIONS -------
         #container-locations-data{
           #location-map{
             width: 100%;
@@ -213,6 +220,28 @@
             position: absolute;
 
           }
+
+          #form-location{
+            padding: 0px;
+
+            #form-location-btn{
+              padding-left: 0px;
+
+              .btn{
+                margin-left: 5px;
+              }
+            }
+
+            #form-location-input{
+              padding: 0px;
+              input{
+                width: 100%;
+              }
+            }
+
+          }
+
+
           #data-position-form{
               .mixin-shadow-bottom(1px, 1px, 2px, .5px, #626060);
               background-color: rgba(255,255,255,0.8);
@@ -243,6 +272,9 @@
                   #range{
                       border: none;
                   }
+                  #map-radius{
+                    z-index: 10;
+                  }
                   .form-inline{
                       margin-right : 5px;
                       #range{
@@ -254,13 +286,38 @@
                       .label-dist{
                         font-size: .8em;
                         vertical-align: bottom;
+                        margin-top: 13px;
                       }
                       .data-point{
                         font-size: .8em;
+                        margin: 13px 5px 0px 0px;
                       }
                   }
             }
         }
+      //---- END USER LOCATIONS -------
+
+
+      //------ LIST ADS ------------
+
+      #container-ad-list-data{
+
+        .content-data{
+          .btn-actions{
+            margin-left: 10px;
+            float: right;
+            margin-top: 30px;
+          }
+        }
+
+        .container-footer{
+          #btn-add-ad{
+              position: fixed;
+              left: 0px;
+              bottom: 10px;
+          }
+        }
+      }
 
     }
 }

@@ -18,11 +18,13 @@
     <div id="dashboard-menu" class="col-md-2" >
         <ul class="nav nav-pills nav-stacked" >
             <li role="presentation" class="navbar-header">Menu</li>
-            <li role="presentation"  ui-sref="profile-detail" ui-sref-active="active">
+            <li role="presentation"
+                ui-sref="profile-detail"
+                ng-class="{active: ('default' | includedByState) || ('profile-detail' | includedByState) || ('profile-update' | includedByState) || ('change-password' | includedByState )}">
                 <a class="item-menu"><i class="glyphicon glyphicon-user"></i> Profile </a>
             </li>
             <li role="presentation"
-                ng-class="{active: ('messages' | includedByState)}">
+                ng-class="{active: ('messages' | includedByState) || ('message-thread' | includedByState)}">
                 <!--<div class="navbar-inner">-->
                     <!--<div class="container-fluid">-->
                         <a class="collapsed item-menu" data-target="#nav-collapse-message"

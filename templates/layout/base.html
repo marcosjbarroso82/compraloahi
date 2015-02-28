@@ -55,7 +55,7 @@
                     <a class="dropdown-toggle" data-toggle="dropdown"> Hola! {{ user.first_name }}<span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
                         <li> <a href="{% url 'profile:detail' %}"><span class="glyphicon glyphicon-wrench"></span> Mi panel</a></li>
-                        <li><a href="/accounts/password/change"><span class="glyphicon glyphicon-adjust"></span> Cambiar contraseña </a> </li>
+                        <li><a href="/accounts/profile/#/profile/change-password"><span class="glyphicon glyphicon-adjust"></span> Cambiar contraseña </a> </li>
                         <li class="divider"></li>
                         <li><a href="{% url 'my-user:my-logout' %}"><span class="glyphicon glyphicon-off"></span> Salir</a></li>
                     </ul>

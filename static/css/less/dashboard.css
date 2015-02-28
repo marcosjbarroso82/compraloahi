@@ -6685,11 +6685,14 @@ input-group-custom-addon examples:
   margin-bottom: 10px;
   clear: right;
 }
+#dashboard-body .dashboard-content #container-profile-data-update #input-upload-photo {
+  width: 100%;
+}
 #dashboard-body .dashboard-content #container-change-password .form-inline {
   margin-bottom: 10px;
 }
 #dashboard-body .dashboard-content #container-change-password .form-inline label {
-  width: 200px;
+  width: 50%;
   text-align: right;
 }
 #dashboard-body .dashboard-content #container-message-data .nav {
@@ -6726,6 +6729,21 @@ input-group-custom-addon examples:
   left: 0px;
   position: absolute;
 }
+#dashboard-body .dashboard-content #container-locations-data #form-location {
+  padding: 0px;
+}
+#dashboard-body .dashboard-content #container-locations-data #form-location #form-location-btn {
+  padding-left: 0px;
+}
+#dashboard-body .dashboard-content #container-locations-data #form-location #form-location-btn .btn {
+  margin-left: 5px;
+}
+#dashboard-body .dashboard-content #container-locations-data #form-location #form-location-input {
+  padding: 0px;
+}
+#dashboard-body .dashboard-content #container-locations-data #form-location #form-location-input input {
+  width: 100%;
+}
 #dashboard-body .dashboard-content #container-locations-data #data-position-form {
   -webkit-box-shadow: 1px 1px 2px 0.5px #626060;
   -moz-box-shadow: 1px 1px 2px 0.5px #626060;
@@ -6753,6 +6771,9 @@ input-group-custom-addon examples:
 #dashboard-body .dashboard-content #container-locations-data #data-position-form #range {
   border: none;
 }
+#dashboard-body .dashboard-content #container-locations-data #data-position-form #map-radius {
+  z-index: 10;
+}
 #dashboard-body .dashboard-content #container-locations-data #data-position-form .form-inline {
   margin-right: 5px;
 }
@@ -6764,9 +6785,21 @@ input-group-custom-addon examples:
 #dashboard-body .dashboard-content #container-locations-data #data-position-form .form-inline .label-dist {
   font-size: .8em;
   vertical-align: bottom;
+  margin-top: 13px;
 }
 #dashboard-body .dashboard-content #container-locations-data #data-position-form .form-inline .data-point {
   font-size: .8em;
+  margin: 13px 5px 0px 0px;
+}
+#dashboard-body .dashboard-content #container-ad-list-data .content-data .btn-actions {
+  margin-left: 10px;
+  float: right;
+  margin-top: 30px;
+}
+#dashboard-body .dashboard-content #container-ad-list-data .container-footer #btn-add-ad {
+  position: fixed;
+  left: 0px;
+  bottom: 10px;
 }
 .angular-google-map-container {
   height: 400px;

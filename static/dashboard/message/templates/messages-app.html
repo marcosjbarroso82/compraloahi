@@ -24,6 +24,7 @@
                 <i class="glyphicon glyphicon-ok"></i>
             </li>
             <div class="pull-right">
+                <li class="pull-left">{{ page }} - {{ 10 }}  de  {{ count }}</li>
                 <li class="pull-right"><a ng-disabled="!next_page" ng-click="get_msgs_page(next_page)" class="btn btn-default"> >> </a></li>
                 <li  class="pull-right"><a ng-disabled="!prev_page" ng-click="get_msgs_page(prev_page)" class="btn btn-default"> << </a></li>
                 

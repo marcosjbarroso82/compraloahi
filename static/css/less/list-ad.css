@@ -6659,7 +6659,11 @@ input-group-custom-addon examples:
   vertical-align: bottom;
 }
 #data-filter-map #data-position-form .btn-data-position {
-  border-radius: 50%;
+  margin-top: 8px;
+  margin-left: 5px;
+}
+#data-filter-map #data-position-form #btn-data-position-ads-list {
+  background-color: #065378;
 }
 #data-filter-map #btn-my-locations {
   margin-left: 10px;

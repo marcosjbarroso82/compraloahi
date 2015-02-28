@@ -27,7 +27,7 @@ class CustomWriteView(WriteView):
 
 
 class MessageModelViewSet(viewsets.ModelViewSet):
-    paginate_by = 8
+    paginate_by = 10
     serializer_class = MessageSerializer
 
     def list(self, request, *args, **kwargs):

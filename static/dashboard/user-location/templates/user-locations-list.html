@@ -3,17 +3,21 @@
 
     <div class="content-data col-md-12">
         <div class="col-md-12">
-            <div class="col-md-6 form-inline" >
+            <div class="col-md-6 " id="form-location">
                 <div ng-show="flag_update || flag_create">
-                    <button class="btn btn-success pull-left" ng-click="addLocation()">
-                        <i class="glyphicon glyphicon-ok"></i>
-                        <span ng-if="flag_update">Modificar</span>
-                        <span ng-if="flag_update == false">Crear</span>
-                    </button>
-                    <button class="btn btn-danger pull-left" ng-click="cancelLocation()">
-                        <i class="glyphicon glyphicon-minus">Cancelar</i>
-                    </button>
-                    <input class="form-control pull-left" type="text" placeholder="Ingresa tu ubicacion" ng-model="location.title">
+                    <div class="col-md-5" id="form-location-btn">
+                        <button class="btn btn-success pull-left" ng-click="addLocation()">
+                            <i class="glyphicon glyphicon-ok"></i>
+                            <span ng-if="flag_update">Modificar</span>
+                            <span ng-if="flag_update == false">Crear</span>
+                        </button>
+                        <button class="btn btn-danger pull-left" ng-click="cancelLocation()">
+                            <i class="glyphicon glyphicon-minus">Cancelar</i>
+                        </button>
+                    </div>
+                    <div class="col-md-7 form-location-input">
+                        <input class="form-control" type="text" placeholder="Ingresa el nombre de tu ubicacion.." ng-model="location.title">
+                    </div>
                 </div>
             </div>
             <div class="col-md-6">
@@ -30,15 +34,14 @@
                 <!-- Radius -->
                 <div class="col-md-12" >
                     <div class="range range-success">
-                        <input id="map_radius" class="col-md-8" type="range" name="map_radius" min="1000" max="10000" ng-model="location.radius" >
+                        <input id="map-radius" class="col-md-8" type="range" name="map_radius" min="1000" max="10000" ng-model="location.radius" >
                     </div>
-                    <div class="form-inline pull-right">
-                        <label class="data-point">Lat : {{ location.center.latitude }}</label> ||
-                        <label class="data-point">Log : {{ location.center.longitude }}</label>   
-                        <label class="label-dist" for="range">Distancia :</label>
+                    <div class="form-inline pull-right col-md-12">
+                        <p class="data-point pull-left"><strong>Lat :</strong> {{ location.center.latitude | number : 4}} || <strong>Log :</strong> {{ location.center.longitude | number : 4}}</p>
 
-                        <output id="range" class="form-control">{{ location.radius }}</output>
-                        <label class="label-dist">Mtrs</label>
+                        <label class="label-dist pull-right">Mtrs</label>
+                        <output id="range" class="form-control pull-right">{{ location.radius }}</output>
+                        <label class="label-dist pull-right" for="range">Distancia :</label>
                     </div>
                 </div>
             </div>
@@ -71,10 +74,10 @@
                     <tr ng-class-odd="'odd'" ng-class-even="'even'" ng-repeat="loc in locations" ng-click="select(loc)">
                         <td class="col-md-9">{{ loc.title }}</td>
                         <td class="col-md-3">
-                            <button type="button" class="btn btn-warning" ng-click="update(loc)">
+                            <button type="button" class="btn btn-sm btn-warning" ng-click="update(loc)">
                                 <i class="glyphicon glyphicon-edit"></i>
                             </button>
-                            <button type="button" class="btn btn-danger"
+                            <button type="button" class="btn btn-sm btn-danger"
                                     ng-really-click="deleteLocation(loc)"
                                     ng-really-message="Are you sure ?" >
                                 <i class="glyphicon glyphicon-remove"></i>
