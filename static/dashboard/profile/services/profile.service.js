@@ -20,7 +20,8 @@
         var Profile = {
             detail: detail,
             change_password: change_password,
-            update: update
+            update: update,
+            create: create
         };
 
         return Profile;
@@ -66,6 +67,28 @@
             fd.append('image', profile.image);
 
             return $http.put('/api/v1/profile/'+ profile.id + '/', fd, {
+                headers: {'Content-Type': undefined},
+                withCredentials: true,
+                transformRequest: angular.identity
+            })
+        }
+
+        /**
+         * @name create
+         * @desc create profile and user data
+         * @param {Object} Object profile
+         * @returns {Promise}
+         * @memberOf dashBoardApp.profile.services.Profile
+         */
+        function create(profile){
+            var fd = new FormData();
+
+            fd.append('birth_date', profile.birth_date);
+            fd.append('user', angular.toJson(profile.user));
+            fd.append('phones', angular.toJson(profile.phones));
+            fd.append('image', profile.image);
+            console.log(profile);
+            return $http.post('/api/v1/profile/create/', fd, {
                 headers: {'Content-Type': undefined},
                 withCredentials: true,
                 transformRequest: angular.identity

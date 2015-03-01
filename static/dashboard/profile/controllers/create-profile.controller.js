@@ -1,5 +1,5 @@
 /**
- * ProfileUpdateController
+ * ProfileCreateController
  * @namespace dashBoardApp.profile.controllers
  */
 (function () {
@@ -7,41 +7,32 @@
 
     angular
         .module('dashBoardApp.profile.controllers')
-        .controller('ProfileUpdateController', ProfileUpdateController);
+        .controller('ProfileCreateController', ProfileCreateController);
 
-    ProfileUpdateController.$inject = ['Profile', '$state', 'Snackbar', '$filter'];
+    ProfileCreateController.$inject = ['Profile', '$state', 'Snackbar', '$filter'];
 
     /**
-     * @namespace ProfileUpdateController
+     * @namespace ProfileCreateController
      */
-    function ProfileUpdateController(Profile, $state, Snackbar, $filter) {
+    function ProfileCreateController(Profile, $state, Snackbar, $filter) {
         var vm = this;
 
-        vm.profile = undefined;
+        vm.profile = {};
         vm.submit = submit;
         vm.open = open;
         vm.removePhone = removePhone;
         vm.addPhone = addPhone;
+        vm.profile.phones = [];
 
         init();
 
         /**
          * @name init
          * @desc function inizialize
-         * @memberOf dashBoardApp.profile.controllers.ProfileUpdateController
+         * @memberOf dashBoardApp.profile.controllers.ProfileCreateController
          */
         function init() {
-
-            Profile.detail().then(detailSuccess, detailError);
-
-            function detailSuccess(data){
-                vm.profile = data.data;
-            }
-
-            function detailError(data){
-                Snackbar.error("Error al cargar los datos de su perfil. Intente cargar de nuevo la pagina");
-            }
-
+            addPhone();
             vm.dateOptions = {
                 formatYear: 'yy',
                 startingDay: 1
@@ -51,7 +42,7 @@
         /**
          * @name activate
          * @desc Get Profile detail data
-         * @memberOf dashBoardApp.profile.controllers.ProfileUpdateController
+         * @memberOf dashBoardApp.profile.controllers.ProfileCreateController
          */
         function open($event) {
             $event.preventDefault();
@@ -63,14 +54,14 @@
         /**
          * @name submit
          * @desc submit form to update profile
-         * @memberOf dashBoardApp.profile.controllers.ProfileUpdateController
+         * @memberOf dashBoardApp.profile.controllers.ProfileCreateController
          */
         function submit(){
             vm.profile.image = vm.img_profile;
 
             //Cast datetime to date.
             vm.profile.birth_date = $filter('date')(vm.profile.birth_date,'yyyy-MM-dd');
-            Profile.update(vm.profile).then(updateSuccess, updateError);
+            Profile.create(vm.profile).then(updateSuccess, updateError);
 
             function updateSuccess(data){
                 Snackbar.show(data.data.message);
@@ -86,7 +77,7 @@
          * @name removePhone
          * @desc Delete phone to arrays phones
          * @param {Integer} Id to phone
-         * @memberOf dashBoardApp.profile.controllers.ProfileUpdateController
+         * @memberOf dashBoardApp.profile.controllers.ProfileCreateController
          */
         function removePhone(phone){
             vm.profile.phones.splice(vm.profile.phones.indexOf(phone), 1);
@@ -95,13 +86,16 @@
         /**
          * @name addPhone
          * @desc add new row to array phones.
-         * @memberOf dashBoardApp.profile.controllers.ProfileUpdateController
+         * @memberOf dashBoardApp.profile.controllers.ProfileCreateController
          */
         function addPhone(){
             var phone = {};
             phone.id = vm.profile.phones[(vm.profile.phones.length -1)] + 1;
+            if(!phone.id) phone.id = '';
+
             phone.type = "";
             phone.number = 0;
+
             //Add new obj phone to array phones
             vm.profile.phones.push(phone);
         }

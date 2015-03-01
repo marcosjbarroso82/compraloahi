@@ -1,10 +1,9 @@
 <div >
-    <h4 class="title-data">Datos personales (Edit)</h4>
+    <h4 class="title-data">Profile Create</h4>
 
     <div class="content-data col-md-12 container-profile-data" id="container-profile-data-update">
         <div class="col-md-12">
             <div class="col-md-2">
-                <!--<img class="img-responsive" id="item-display" src="{{ vm.profile.thumbnail_200x200 }}">-->
                 <img ng-if="vm.profile.thumbnail_200x200" class="img-responsive" id="item-display" src="{{ vm.profile.thumbnail_200x200 }}">
                 <img ng-if="!vm.profile.thumbnail_200x200" class="img-responsive" id="item-display" src="/static/image/img-default-profile.jpg">
                 <input type='file' id="input-upload-photo" file-model='img_profile' accept="image/*">
