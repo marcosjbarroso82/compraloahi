@@ -5,7 +5,7 @@ from .models import UserProfile, Phone, UserLocation
 
 from sorl.thumbnail import get_thumbnail
 
-from apps.user.serializers import UserSerializer
+from apps.user.serializers import UserByProfileSerializer
 
 class PhoneSerializer(ModelSerializer):
 
@@ -17,7 +17,7 @@ class PhoneSerializer(ModelSerializer):
 class UserProfileSerializer(ModelSerializer):
     thumbnail_200x200 = serializers.SerializerMethodField()
     phones = PhoneSerializer(many=True)
-    user = UserSerializer()
+    user = UserByProfileSerializer()
 
     class Meta:
         model = UserProfile

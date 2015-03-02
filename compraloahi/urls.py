@@ -28,6 +28,11 @@ urlpatterns = patterns('',
                            UserProfileModelView.as_view({'get': 'retrieve'}),
                            name='api-profile-detail'),
 
+                        # Create Profile by API
+                       #url(r'^api/v1/profile/create/$',
+                       #    UserProfileModelView.as_view({'post': 'create'}),
+                       #    name='api-profile-detail'),
+
                        # Update Profile
                        url(r'^api/v1/profile/(?P<pk>\d+)/$',
                            UserProfileModelView.as_view({'put': 'update'}),

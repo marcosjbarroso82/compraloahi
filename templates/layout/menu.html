@@ -1,4 +1,4 @@
-
+{% load comment_notification_tags %}
 <nav class="navbar navbar-default navbar-fixed-top" role="navigation" id="navigation-bar">
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -24,22 +24,39 @@
             </form>
 
             {% if user.is_authenticated %}
-            <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown"> Hola! {{ user.first_name }}<span class="caret"></span></a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li> <a href="{% url 'profile:detail' %}"><span class="glyphicon glyphicon-wrench"></span> Mi panel</a></li>
-                        <li><a href="/accounts/password/change"><span class="glyphicon glyphicon-adjust"></span> Cambiar contraseña </a> </li>
-                        <li class="divider"></li>
-                        <li><a href="{% url 'my-user:my-logout' %}"><span class="glyphicon glyphicon-off"></span> Salir</a></li>
+                <!-- MENU -->
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown"> Hola! {{ user.first_name }}<span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li> <a href="{% url 'profile:detail' %}"><span class="glyphicon glyphicon-wrench"></span> Mi panel</a></li>
+                            <li><a href="/accounts/profile/#/profile/change-password"><span class="glyphicon glyphicon-adjust"></span> Cambiar contraseña </a> </li>
+                            <li class="divider"></li>
+                            <li><a href="{% url 'my-user:my-logout' %}"><span class="glyphicon glyphicon-off"></span> Salir</a></li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <!-- listado de noficaciones -->
+                {% get_user_comment_unreplied_notification %}
+                {% if not_replied_notifications %}
+                    <ul class="nav navbar-nav navbar-right" rel="tooltip" title="Se han hecho nuevos comentarios sobre sus avisos">
+                        <li class="dropdown">
+                            <a class="dropdown-toggle btn"  data-toggle="dropdown" id="notification-menu">  {% get_user_comment_unreplied_notification_count %}<span class="caret"></span></a>
+                            <ul class="dropdown-menu list-notification" role="menu">
+                                {% for notification in not_replied_notifications %}
+                                    <li><a href="ad/{{ notification.ad.slug }}">{{ notification.ad.title | truncatechars:100 }}</a> </li>
+                                {% endfor %}
+                            </ul>
+                        </li>
                     </ul>
-                </li>
-            </ul>
+                {% endif %}
+                <!-- FIN - listado de noficaciones -->
             {% else %}
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="/accounts/signup/">Registrate  </a> </li>
-                <li><a href="/accounts/login">Entra</a></li>
-            </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/accounts/signup/">Registrate  </a> </li>
+                    <li><a href="/accounts/login">Entra</a></li>
+                </ul>
             {% endif %}
         </div>
     </div>

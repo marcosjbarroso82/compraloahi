@@ -3,13 +3,16 @@
 {% load staticfiles %}
 {% block title %}Crear Aviso {% endblock %}
 
+{% block css_header_block %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/less/ad-forms.css" >
+{% endblock %}
 
 {% block body_block %}
-    <div class="container jumbotron">
+    <div class="container container-form-ad">
     {% bootstrap_messages %}
-    <h2 class="text-center">Create Ad</h2>
+    <h2>Crear aviso</h2>
     <hr/>
-    <form action="" method="post" class="form" enctype="multipart/form-data">
+    <form action="" method="post" class="form form-horizontal" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.media }}
         {% bootstrap_field form.title %}

@@ -6315,6 +6315,24 @@ html .navbar-default .dropdown-menu,
 body .navbar-default .dropdown-menu {
   transition: top 0.2s ease 0s, opacity 0.2s ease-in 0s;
 }
+html .navbar-default #notification-menu,
+body .navbar-default #notification-menu {
+  height: 30px;
+  padding: 6px;
+  margin: 10px 0px;
+  color: white;
+  background-color: #aa4400;
+  font-size: .9em;
+  font-weight: bold;
+}
+html .navbar-default .list-notification li,
+body .navbar-default .list-notification li {
+  font-size: .8em;
+}
+html .navbar-default .list-notification li:hover,
+body .navbar-default .list-notification li:hover {
+  background-color: #c3c3c3;
+}
 html #container-body,
 body #container-body {
   margin-top: 50px;

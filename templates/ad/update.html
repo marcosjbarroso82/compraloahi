@@ -2,12 +2,15 @@
 {% load bootstrap3 %}
 {% load staticfiles %}
 {% block title %}Editar Aviso{% endblock %}
-
+{% block css_header_block %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/less/ad-forms.css" >
+{% endblock %}
 
 {% block body_block %}
 
-    <div class="container">
-        <h1>{{ object.title }}</h1>
+    <div class="container container-form-ad">
+        <h2>Editando aviso <small>({{ object.title }})</small></h2>
+        <hr/>
         {% bootstrap_messages %}
         <form action="" method="post" class="form" enctype="multipart/form-data">
             {% csrf_token %}

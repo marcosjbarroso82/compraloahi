@@ -83,7 +83,7 @@ class CreateAdForm(forms.ModelForm):
         model = Ad
         fields = ('title', 'short_description', 'price', 'body', 'tags', 'pub_date', 'categories')
         excluded = ('author', 'modified', 'created', 'published')
-        widgets = {'body': CKEditorWidget(config_name='awesome_ckeditor'), 'pub_date': forms.TextInput(attrs={'type': 'date'}) }
+        widgets = {'body': CKEditorWidget(config_name='awesome_ckeditor'), 'pub_date': forms.TextInput(attrs={'type': 'date', 'class': 'form-control'}) }
 
 
 class AdModifyForm(forms.ModelForm):
@@ -93,7 +93,7 @@ class AdModifyForm(forms.ModelForm):
         model = Ad
         fields = ('title','short_description','price', 'body', 'tags', 'categories')
         excluded = ('author', 'modified', 'pub_date', 'created', 'published')
-        widgets = {'body': CKEditorWidget(config_name='awesome_ckeditor'), 'pub_date': forms.TextInput(attrs={'type': 'date'}) }
+        widgets = {'body': CKEditorWidget(config_name='awesome_ckeditor'), 'pub_date': forms.TextInput(attrs={'type': 'date', 'class': 'form-control'}) }
 
 
 AdImage_inline_formset = inlineformset_factory(

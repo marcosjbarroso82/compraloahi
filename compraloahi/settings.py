@@ -46,6 +46,7 @@ INSTALLED_APPS = (
 )
 
 MIDDLEWARE_CLASSES = (
+
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -53,6 +54,8 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'apps.userProfile.middleware.ValidProfileCreatedMiddleware',
+
 )
 
 ROOT_URLCONF = 'compraloahi.urls'
@@ -180,6 +183,7 @@ CKEDITOR_CONFIGS = {
                 ],
         "removePlugins": "stylesheetparser",
         'uiColor' : '#f5f5f6',
+        'with': '100%'
     },
 }
 
