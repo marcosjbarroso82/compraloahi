@@ -2,6 +2,7 @@
 {% load bootstrap3 %}
 {% load thumbnail %}
 {% load comments %}
+{% load comments_xtd %}
 {% load common_tags %}
 {% block title %}Aviso {{ ad.title }}{% endblock %}
 
@@ -101,7 +102,12 @@
     <!-- Comments  List -->
     <div class="section">
     <div class="container col-md-10 col-md-offset-1">
-    {% render_comment_list for object %}
+        {% if request.GET.all_comments and request.GET.all_comments == "true" %}
+            {% get_comment_list for object as comment_list%}
+        {% else %}
+            {% get_last_xtdcomments 2 as comment_list for ad.ad %}
+        {% endif %}
+        {% include "comments/list.html" %}
     </div>
     </div>
 
