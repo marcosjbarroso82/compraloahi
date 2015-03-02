@@ -158,8 +158,8 @@
     $.fn.formset.defaults = {
         prefix: 'form',                  // The form prefix for your django formset
         formTemplate: null,              // The jQuery selection cloned to generate new form instances
-        addText: '<span class="glyphicon glyphicon-plus"></span>',          // Text for the add link
-        deleteText: '<span class="glyphicon glyphicon-remove"></span>',            // Text for the delete link
+        addText: '<button class="btn btn-sm btn-info pull-righ"><span class="glyphicon glyphicon-plus"></span></button>',          // Text for the add link
+        deleteText: '<button class="btn btn-sm btn-danger pull-righ"><span class="glyphicon glyphicon-remove"></span></button>',            // Text for the delete link
         addCssClass: 'add-row',          // CSS class applied to the add link
         deleteCssClass: 'delete-row',    // CSS class applied to the delete link
         formCssClass: 'dynamic-form',    // CSS class applied to each form in a formset

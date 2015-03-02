@@ -183,6 +183,7 @@ CKEDITOR_CONFIGS = {
                 ],
         "removePlugins": "stylesheetparser",
         'uiColor' : '#f5f5f6',
+        'with': '100%'
     },
 }
 

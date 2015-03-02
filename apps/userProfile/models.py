@@ -3,9 +3,9 @@ from django.contrib.auth.models import User
 
 
 TYPE_PHONE = (
-    ('Telelefono', 'Telefono'),
-    ('Celular', 'Celular'),
-    ('Fax', 'Fax'),
+    ('TEL', 'Telefono'),
+    ('CEL', 'Celular'),
+    ('FAX', 'Fax'),
 )
 
 
@@ -13,14 +13,13 @@ class UserProfile(models.Model):
     image = models.ImageField(upload_to='profile', null=False, blank=False, default="profile/images.jpg")
     birth_date = models.DateField()
     user = models.OneToOneField(User, unique=True)
-    #phones = models.ManyToOneRel(Phone)
 
     def __str__(self):
         return 'profile ' + self.user.username
 
 class Phone(models.Model):
     number = models.IntegerField()
-    type = models.CharField(max_length=200)
+    type = models.CharField(max_length=200, choices=TYPE_PHONE)
     userProfile = models.ForeignKey(UserProfile, related_name='phones')
 
 
