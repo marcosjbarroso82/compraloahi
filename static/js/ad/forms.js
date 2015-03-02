@@ -1,3 +1,8 @@
+// We make them global for laziness
+var places;
+var map;
+var marker;
+
 $(function() {
 
     if (navigator.geolocation) {
@@ -13,9 +18,9 @@ $(function() {
         var lng = position.coords.longitude;
 
         if ($("#id_locations-0-lat").val() != "") {
-            lat = $("#id_locations-0-lat").val();            
+            lat = $("#id_locations-0-lat").val();
         }
-        if ($("#id_locations-0-lng").val() != "") {            
+        if ($("#id_locations-0-lng").val() != "") {
             lng = $("#id_locations-0-lng").val();
         }
 
@@ -37,7 +42,7 @@ $(function() {
         }
         map = new google.maps.Map($("#mapa").get(0), mapSettings);
 
-        var marker = new google.maps.Marker({
+        marker = new google.maps.Marker({
             position: latlng,
             map: map,
             draggable: true,
@@ -51,6 +56,24 @@ $(function() {
             console.log(marker.title + ": " + coords.lat() + ";" + coords.lng() );
             $("#id_locations-0-lat").val(coords.lat());
             $("#id_locations-0-lng").val(coords.lng());
+        });
+
+        var input = /** @type {HTMLInputElement} */(
+            document.getElementById('search-places'));
+        map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+        //autocomplete = new google.maps.places.Autocomplete(input, options);
+
+        var searchBox = new google.maps.places.SearchBox(
+            /** @type {HTMLInputElement} */(input));
+
+        google.maps.event.addListener(searchBox, 'places_changed', function() {
+            places = searchBox.getPlaces();
+            if (places.length == 0) {
+                return;
+            } else {
+                marker.setPosition(places[0].geometry.location)
+            }
         });
     }
 

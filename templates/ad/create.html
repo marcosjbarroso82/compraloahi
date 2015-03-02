@@ -8,6 +8,7 @@
 {% endblock %}
 
 {% block body_block %}
+    <input id="search-places" class="controls" type="text" placeholder="Buscar Dirreción">
     <div class="container container-form-ad">
     {% bootstrap_messages %}
     <h2>Crear aviso</h2>
@@ -64,7 +65,7 @@
 
     <script src="{% static 'jquery-formset-12/jquery.formset.js' %}"></script>
 
-    <script src="http://maps.googleapis.com/maps/api/js?sensor=TRUE"></script>
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=TRUE"></script>
     <script src="{% static 'js/ad/forms.js' %}"></script>
 
     <script type="text/javascript">
