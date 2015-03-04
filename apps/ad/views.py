@@ -231,3 +231,6 @@ class AdViewSet(viewsets.ModelViewSet):
 
     def pre_save(self, obj):
         obj.author = self.request.user
+
+    def get_queryset(self):
+        return Ad.objects.filter(author= self.request.user)
