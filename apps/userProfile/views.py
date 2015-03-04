@@ -196,12 +196,8 @@ class UserLocationViewSet(viewsets.ModelViewSet):
                          'title': obj.title,
                          'status': 'Ok request.', 'message': 'Los datos de usuario se modificaron con exito'}, status=status.HTTP_201_CREATED )
 
-    #def get_queryset(self):
-    #    user_profile = UserProfile.objects.get(user= self.request.user)
-    #    print(user_profile)
-    #    return UserLocation.objects.filter(userProfile = user_profile)
-
-        #return UserLocation.objects.filter(userProfile__user = self.request.user)
+    def get_queryset(self):
+        return UserLocation.objects.filter(userProfile__user= self.request.user)
 
 
 
