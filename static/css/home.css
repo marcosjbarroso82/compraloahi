@@ -1,15 +1,20 @@
 #container-home{
+
+}
+
+
+
+
+#btnAddAd{
     margin-top: 40px;
+    margin-right: 30px;
 }
 
-#search{
-    margin-bottom: 60px;
+#container-arrow{
+    width: 60px;
+    margin: auto;
+    margin-top: 10px;
 }
-
-
-
-
-
 
 
 /** ++++++++++++++ CARACTERISTICAS ++++++++++++++++ */

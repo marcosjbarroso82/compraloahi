@@ -8,9 +8,9 @@
 {% endblock %}
 
 {% block body_block %}
-<a href="{% url 'ad:create' %}" id="btnAddAd" class="btn btn-success btn-lg pull-left"><span class="glyphicon glyphicon-bullhorn"></span> Agrega tu aviso</a>
-<div class="container jumbotron" id="container-home">
-
+<a href="{% url 'ad:create' %}" id="btnAddAd" class="btn btn-success btn-lg pull-right"><span class="glyphicon glyphicon-bullhorn"></span> Agrega tu aviso</a>
+<div class="container" id="container-home">
+<!--
     <div class="row col-lg-12" id="home-search">
 
 
@@ -20,7 +20,7 @@
                 <div class="input-group stylish-input-group">
                     <input id="q" class="form-control" name="q" type="text" placeholder="Search"/>
                     <span class="input-group-addon">
-                        <!-- SUBMIT -->
+
                         <button type="submit" style="border: none; width: 100%; ">
                             <i class="glyphicon glyphicon-search"></i>
                         </button>
@@ -29,8 +29,13 @@
             </form>
         </div>
     </div>
+-->
+    <div id="container-arrow">
+        <img src="/static/image/arrow-up.png" id="arrow"/>
+    </div>
 
-
+    <h1 class="text-center">Encontra tu aviso en donde quieras </h1>
+    <hr/>
     <div class="col-md-12">
         <div class="col-md-6">
             <h3> Compralo ahi:</h3>
