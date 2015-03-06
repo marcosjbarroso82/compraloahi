@@ -1,6 +1,7 @@
 {% extends 'layout/base.html' %}
 {% load bootstrap3 %}
 {% load staticfiles %}
+{% load thumbnail %}
 {% block title %}Editar Aviso{% endblock %}
 {% block css_header_block %}
     <link rel="stylesheet" href="{{ STATIC_URL }}css/less/ad-forms.css" >
@@ -24,8 +25,12 @@
             <!-- Images FormSet -->
             {{ images_formset.management_form }}
             {% for image_form in images_formset %}
+
                 {{ image_form.id }}
                 <div class="inline {{ images_formset.prefix }} form-inline">
+                {% thumbnail image_form.instance.image "100x100" crop="center" as im %}
+                    <img class="img-thumbnail" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+                {% endthumbnail %}
                     {{ image_form }}
                 </div>
             {% endfor %}

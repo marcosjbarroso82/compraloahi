@@ -8,7 +8,7 @@ from django.conf import settings
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('ad', '0007_auto_20150225_2018'),
+        ('ad', '0007_auto_20150302_2021'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
         ('django_comments_xtd', '__first__'),
     ]
@@ -17,13 +17,13 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='CommentNotification',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True, serialize=False)),
+                ('id', models.AutoField(serialize=False, primary_key=True, verbose_name='ID', auto_created=True)),
                 ('type', models.TextField(max_length=20)),
                 ('message', models.TextField()),
                 ('created', models.DateTimeField(auto_now_add=True)),
                 ('ad', models.ForeignKey(to='ad.Ad')),
                 ('receiver', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
-                ('xtd_comment', models.ForeignKey(blank=True, null=True, to='django_comments_xtd.XtdComment', related_name='xtd_comment_notifications')),
+                ('xtd_comment', models.ForeignKey(to='django_comments_xtd.XtdComment', related_name='xtd_comment_notifications', blank=True, null=True)),
             ],
             options={
             },

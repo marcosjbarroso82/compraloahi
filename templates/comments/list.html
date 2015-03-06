@@ -48,7 +48,12 @@
                 </li>
             {% endfor %}
     </ul>
-    <a id="more-comments-btn" href="#" class="btn btn-primary btn-sm btn-block" role="button"><span class="glyphicon glyphicon-refresh"></span> More</a>
+        {% if not request.GET.all_comments or request.GET.all_comments != "true" %}
+            <a id="more-comments-btn" class="btn btn-primary btn-sm btn-block" role="button"
+               href="/ad/{{ object.slug }}/?all_comments=true"
+                    ><span class="glyphicon glyphicon-refresh"></span> More</a>
+        {% endif %}
+
 </div>
 </div>
 
