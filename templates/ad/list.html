@@ -102,14 +102,19 @@
     
     {% if user.is_authenticated %}
         <!-- ########################## SAVE NEW LOCATION ########################## -->
-        <button data-toggle="modal" class="btn btn-xs btn-success btn-data-position" data-target="#modalNewLocation" tooltip="Guarda tu ubicacion">
+        <button data-toggle="modal"
+                class="btn btn-xs btn-success btn-data-position"
+                data-target="#modalNewLocation"
+                tooltip="Guarda tu ubicacion"
+                data-placement="right">
             <i class="glyphicon glyphicon-floppy-disk"></i>
         </button>
         <button data-toggle="modal"
                 class="btn btn-xs btn-info btn-data-position"
                 id="btn-data-position-ads-list"
                 data-target="#modalSelectLocation"
-                tooltip="Elegi una de tus ubicaciones guardadas">
+                tooltip="Elegi una de tus ubicaciones guardadas"
+                data-placement="rigth">
             <i class="glyphicon glyphicon-th-list"></i>
         </button>
      </div>   
