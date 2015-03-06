@@ -12,51 +12,60 @@ from rest_framework.response import Response
 from rest_framework import status
 
 from rest_framework import viewsets
+from rest_framework.parsers import MultiPartParser, JSONParser, FormParser, FileUploadParser
 import ast
+from rest_framework import status
+from django.contrib.auth.models import User
 
 
 class UserProfileModelView(ModelViewSet):
     serializer_class = UserProfileSerializer
+    #parser_classes = (MultiPartParser, FormParser)
 
     def retrieve(self, request, *args, **kwargs):
         serializer = UserProfileSerializer(self.get_queryset())
         return Response(serializer.data)
 
     def update(self, request, *args, **kwargs):
-        try:
-            profile = self.get_queryset()
-            profile.birth_date = request.DATA['birth_date']
+        #TODO: Implement with FileUploadParser
+        user_data = ast.literal_eval(request.DATA['user'])
 
-            if request.FILES.get('image', None):
-                profile.image = request.FILES['image']
+        if user_data.get('username', None) and \
+            User.objects.filter(username= user_data['username']).exclude(id=request.user.pk).count() == 0 :
+            try:
+                profile = self.get_queryset()
+                profile.birth_date = request.DATA['birth_date']
 
-            print(request.DATA)
-            user_data = ast.literal_eval(request.DATA['user'])
+                if request.FILES.get('image', None):
+                    profile.image = request.FILES['image']
 
-            user = profile.user
-            user.first_name = user_data['first_name']
-            user.last_name = user_data['last_name']
-            user.email = user_data['email']
+                #user_data = ast.literal_eval(request.DATA['user'])
 
-            #Delete all phones to user
-            Phone.objects.filter(userProfile=profile).delete()
+                user = profile.user
+                user.first_name = user_data['first_name']
+                user.last_name = user_data['last_name']
+                user.email = user_data['email']
 
-            phones_data = ast.literal_eval(request.DATA['phones'])
-            #Add new phone
-            for phone in phones_data:
-                p = Phone()
-                p.userProfile = profile
-                p.number= int(phone['number'])
-                p.type = phone['type']
-                p.save()
+                #Delete all phones to user
+                Phone.objects.filter(userProfile=profile).delete()
 
-            profile.save()
-            user.save()
+                phones_data = ast.literal_eval(request.DATA['phones'])
+                #Add new phone
+                for phone in phones_data:
+                    p = Phone()
+                    p.userProfile = profile
+                    p.number= int(phone['number'])
+                    p.type = phone['type']
+                    p.save()
 
-            return Response({'status': 'Ok request.', 'message': 'Los datos de usuario se modificaron con exito'}, status=status.HTTP_200_OK )
-        except KeyError:
-            return Response({'status': 'Bad request.', 'message': "ERROR: You need Complete all fields"}, status=status.HTTP_400_BAD_REQUEST)
+                profile.save()
+                user.save()
 
+                return Response({'status': 'Ok request.', 'message': 'Los datos de usuario se modificaron con exito'}, status=status.HTTP_200_OK )
+            except KeyError:
+                return Response({'status': 'Bad request.', 'message': "ERROR: You need Complete all fields"}, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response({'message': 'Invalid username.'}, status=status.HTTP_400_BAD_REQUEST)
     # Code to found create profile by API
     # def create(self, request, *args, **kwargs):
     #     try:
@@ -198,6 +207,7 @@ class UserLocationViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return UserLocation.objects.filter(userProfile__user= self.request.user)
+
 
 
 

@@ -14,7 +14,7 @@ from .forms import CreateAdForm, AdModifyForm, \
 
 from rest_framework import viewsets, filters
 from .serializers import AdSerializer
-from .permissions import IsOwnerOrReadOnly
+
 
 from apps.comment_notification.models import CommentNotification
 
@@ -51,6 +51,7 @@ class DetailAdView(DetailView):
 
 
 # class ReloadCommentsThread(DetailView):
+# Vista que genera un template de la lista de comentarios de un aviso, para poder actualizarla mediante ajax
 #     template_name = 'ad/reload-comments.html'
 #     model = Ad
 #
@@ -61,11 +62,6 @@ class DetailAdView(DetailView):
 #             print("ERROR EN LA CLAVE")
 #
 #         return self.render_to_response(self.get_context_data())
-
-
-
-
-
 
 
 class AdDeleteView(DeleteView):
