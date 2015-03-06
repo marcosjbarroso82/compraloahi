@@ -69,7 +69,7 @@
     {% endverbatim %}
 
         <!-- ########################## SECTION DATA FILTER MAP ########################## -->
-        <section id="data-filter-map" class="col-md-7">
+        <section id="data-filter-map" class="col-md-7" style="height: 0px;">
             <!-- ########################## FORM LOCATION INF ########################## -->
             <div id="data-position-form" class="col-md-5">
                 <!-- Address -->
@@ -94,57 +94,7 @@
             {% endverbatim %}
         </div>
     
-    {% if user.is_authenticated %}
-        <!-- ########################## SAVE NEW LOCATION ########################## -->
-        <button data-toggle="modal"
-                class="btn btn-xs btn-success btn-data-position"
-                data-target="#modalNewLocation"
-                tooltip="Guarda tu ubicacion"
-                data-placement="right">
-            <i class="glyphicon glyphicon-floppy-disk"></i>
-        </button>
-        <button data-toggle="modal"
-                class="btn btn-xs btn-info btn-data-position"
-                id="btn-data-position-ads-list"
-                data-target="#modalSelectLocation"
-                tooltip="Elegi una de tus ubicaciones guardadas"
-                data-placement="rigth">
-            <i class="glyphicon glyphicon-th-list"></i>
-        </button>
-     </div>   
-        <!-- MODAL SAVE NEW LOCATION -->
-        <div class="modal" id="modalNewLocation">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
-                        <h4 class="modal-title">Guardar Ubicacion</h4>
-                    </div>
-                    <div class="modal-body">
-                        {% verbatim %}
-                        <!-- Address -->
-                        <div class="form-group">
-                            <label>Nombre :</label>
-                            <input id="search_location_name"  class="form-control" type="text"
-                                   placeholder="Ingrese el nombre de la ubicación"
-                                   ng-model="search_location.title" />
 
-                        </div>
-                        {% endverbatim %}
-                    </div>
-                    <div class="modal-footer">
-                        <button ng-click="submitNewLocation()" type="submit" class="btn btn-primary pull-right">
-                            Guardar
-                        </button>
-                        <button data-dismiss="modal" class="btn btn-warning pull-right">
-                            Cancelar
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <!-- END MODAL SAVE NEW LOCATION -->
-        </div>
-        <!-- ########################## END SAVE NEW LOCATION ########################## -->
 
                 {% if user.is_authenticated %}
                     <!-- ########################## SAVE NEW LOCATION ########################## -->
@@ -193,23 +143,6 @@
                     </div>
                     <!-- ########################## END SAVE NEW LOCATION ########################## -->
 
-        <!-- ########################## MY LOCATIONS ########################## -->
-        <button data-toggle="modal"
-                class="btn btn-success"
-                id="btn-my-locations"
-                data-target="#modalSelectLocation"
-                style="z-index: 99999;">
-            <i class=""></i> Mis Ubicaciones
-        </button>
-
-        <button data-toggle="modal"
-                ng-show="search_location.changed"
-                id="btn-save-location"
-                class="btn btn-success"
-                data-target="#modalNewLocation"
-                style="z-index: 99999;">
-            <i class=""></i> Guardar Ubicación
-        </button>
 
                     <!-- ########################## MY LOCATIONS ########################## -->
                     <button data-toggle="modal"
