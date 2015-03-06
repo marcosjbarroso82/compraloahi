@@ -66,10 +66,13 @@
             fd.append('phones', angular.toJson(profile.phones));
             fd.append('image', profile.image);
 
+
             return $http.put('/api/v1/profile/'+ profile.id + '/', fd, {
+                //headers: {'Content-Type': undefined},
                 headers: {'Content-Type': undefined},
-                withCredentials: true,
+                //withCredentials: true,
                 transformRequest: angular.identity
+
             })
         }
 

@@ -78,7 +78,8 @@
             }
 
             function updateError(data){
-                Snackbar.error("Error al intentar cambiar los datos");
+                Snackbar.error(data.data.message);
+
             }
         }
 
