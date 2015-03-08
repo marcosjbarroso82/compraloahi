@@ -18,6 +18,9 @@ from .serializers import AdSerializer
 
 from apps.comment_notification.models import CommentNotification
 
+import logging
+
+logger = logging.getLogger('debug')
 
 class AdFacetedSearchView(FacetedSearchView):
     def extra_context(self, **kwargs):
@@ -29,6 +32,7 @@ class AdFacetedSearchView(FacetedSearchView):
             context['user_locations'] = userLocations
         else:
             context['user_locations'] = {}
+        logger.debug("testing debug algo")
 
         return context
 
