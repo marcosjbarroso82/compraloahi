@@ -1,8 +1,8 @@
 from django.conf.urls import patterns, url
 from haystack.query import SearchQuerySet
 
-from .views import LatestAdView, DetailAdView, CreateAdView, \
-    UpdateAdView, AdDeleteView, AdsByUser, AdFacetedSearchView
+from .views import DetailAdView, CreateAdView, \
+    UpdateAdView, AdDeleteView, AdFacetedSearchView
 from .forms import AdSearchForm
 
 from apps.comment_notification import receivers
@@ -17,11 +17,6 @@ urlpatterns = patterns('',
                                                template='ad/list.html'),
                            name='search-facet'),
 
-                       # Latest ads
-                       url(r'^latest/$',
-                           LatestAdView.as_view(),
-                           name="ad-latest"),
-
                        # Create Ad
                        url(r'^create/$',
                            CreateAdView.as_view(),
@@ -34,15 +29,6 @@ urlpatterns = patterns('',
                        url(r'^delete/(?P<slug>[a-zA-Z0-9_.-]+)/$',
                            AdDeleteView.as_view(),
                            name="delete"),
-
-                       # List ads by user.
-                       url(r'^my-ads/$',
-                           AdsByUser.as_view(),
-                           name="by-user"),
-                       # List ads by user.
-                       url(r'^ajax-table-ads-by-user/$',
-                           AdsByUser.as_view(template_name='userProfile/table_ads_by_user.html'),
-                           name="by-user-ajax"),
 
                        # Detail Ad
                        url(r'^(?P<slug>[a-zA-Z0-9_.-]+)/$',

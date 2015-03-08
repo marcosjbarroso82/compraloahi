@@ -39,8 +39,6 @@ class UserProfileModelView(ModelViewSet):
                 if request.FILES.get('image', None):
                     profile.image = request.FILES['image']
 
-                #user_data = ast.literal_eval(request.DATA['user'])
-
                 user = profile.user
                 user.first_name = user_data['first_name']
                 user.last_name = user_data['last_name']
@@ -188,7 +186,6 @@ class UserProfileDetailView(DetailView):
 
 
 class UserLocationViewSet(viewsets.ModelViewSet):
-    # TODO : Falta filtrar ubicaciones por usuario
     queryset = UserLocation.objects.all()
     serializer_class = UserLocationSeralizer
 

@@ -11,7 +11,7 @@ urlpatterns = patterns('',
                        url(r'^profile/$',
                            UserProfileDetailView.as_view(),
                            name="detail"),
-                       url(r'^ajax-profile/$',
-                           UserProfileDetailView.as_view(template_name="userProfile/detail.html"),
-                           name="detail-ajax")
+                       # url(r'^ajax-profile/$',
+                       #     UserProfileDetailView.as_view(template_name="userProfile/detail.html"),
+                       #     name="detail-ajax")
                        )

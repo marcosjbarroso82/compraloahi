@@ -4,21 +4,17 @@ from .forms import CustomWriteForm
 
 from rest_framework import viewsets, generics, status
 from .serializers import MessageSerializer
-from rest_framework.views import APIView
 
 from rest_framework.response import Response
 
 from django.db.models import Q
 
 from rest_framework.decorators import api_view
-from django.utils.timezone import now as datetime_now
 
 from apps.ad.models import Ad
 from .models import MessageChannel
 
 from django.utils.timezone import now as datetime_now
-from rest_framework.pagination import PaginationSerializer
-from django.core.paginator import Paginator
 
 
 class CustomWriteView(WriteView):
