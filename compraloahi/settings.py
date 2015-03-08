@@ -20,6 +20,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    'django_extensions',                        # for Ipython Notebook
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -43,6 +44,7 @@ INSTALLED_APPS = (
     'apps.common_tags',
     'apps.comment_notification',
     'rest_framework',
+    'debug_toolbar',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -225,3 +227,46 @@ REST_FRAMEWORK = {
 
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+
+# settings.py
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format' : "[%(asctime)s] %(levelname)s [%(filename)s][%(funcName)s][%(lineno)d][%(name)s] %(message)s",
+            'datefmt' : "%d/%b/%Y %H:%M:%S"
+        },
+        'simple': {
+            'format': '%(levelname)s %(message)s'
+        },
+    },
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': 'compraloahi.log',
+            'formatter': 'verbose'
+        },
+        'debug': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': 'logs/compraloahi-debug.log',
+            'formatter': 'verbose'
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers':['file'],
+            'propagate': True,
+            'level':'DEBUG',
+        },
+        'debug': {
+            'handlers': ['debug'],
+            'level': 'DEBUG',
+        },
+    }
+}
+
+INTERNAL_IPS = ('127.0.0.1',)

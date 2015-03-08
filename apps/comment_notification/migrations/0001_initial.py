@@ -8,7 +8,7 @@ from django.conf import settings
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('ad', '0007_auto_20150302_2021'),
+        ('ad', '0007_auto_20150306_1836'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
         ('django_comments_xtd', '__first__'),
     ]
