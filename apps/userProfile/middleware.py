@@ -9,7 +9,9 @@ def hasnt_profile(next_url=""):
     return HttpResponseRedirect('/accounts/profile/create/' + url)
 
 class ValidProfileCreatedMiddleware(object):
-
+    """
+        Valida si el usuario tiene un perfil creado, sino lo redirecciona a la vista para crearlo.
+    """
     def process_request(self, request):
         if hasattr(request, 'user') and request.user.is_authenticated() \
                 and hasattr(request, 'path') and request.path != '/accounts/profile/create/':

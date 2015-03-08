@@ -34,6 +34,7 @@
 {% endblock %}
 
 {% block js_footer_block %}
+    <!-- TODO: change url jquery ui -->
     <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
    <script src="{% static 'jquery-formset-12/jquery.formset.js' %}"></script>
 
@@ -44,9 +45,6 @@
             $(function() {
                 $(".inline.{{ phones_form.prefix }}").formset({
                     prefix: "{{ phones_form.prefix }}"
-                })
-                $(".inline.{{ locations_form.prefix }}").formset({
-                    prefix: "{{ locations_form.prefix }}"
                 })
             })
     </script>

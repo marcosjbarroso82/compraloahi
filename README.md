@@ -1,29 +1,16 @@
-# README #
+# Deploy Compraloahi
 
-This README would normally document whatever steps are necessary to get your application up and running.
+    # Download project
+        git clone git@bitbucket.org:conmarcos/compraloahi.git
+        cd compraloahi
+        pip install -r requirements.txt
 
-### What is this repository for? ###
+    # Install package Postman
+	    hg clone http://bitbucket.org/psam/django-postman/ ~/.virtualenvs/env_compraloahi/lib/python3.4/site-packages/postman
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
 
-### How do I get set up? ###
-
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
-
-### Contribution guidelines ###
-
-* Writing tests
-* Code review
-* Other guidelines
-
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
+Packages requeriments:
+    # Added Support manipulation image with python
+        sudo apt-get install libpng12-dev zlib1g-dev libfreetype6-dev libjpeg-dev
+    # Requerments to haystack used spatial search
+	    sudo apt-get install libgeos-dev
