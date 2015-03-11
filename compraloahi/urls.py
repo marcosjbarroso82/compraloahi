@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from .views import HomeView, ApiDashBoardView, DashBoardAjaxView
-from . import settings
+from . import settings_old
 
 from apps.ad import views as adViews
 from apps.userProfile.views import UserProfileModelView
@@ -116,6 +116,6 @@ urlpatterns = patterns('',
                        # Files Media
                        url(r'^media/(?P<path>.*)$',
                            "django.views.static.serve",
-                           {'document_root': settings.MEDIA_ROOT}),
+                           {'document_root': settings_old.MEDIA_ROOT}),
 
                        )
