@@ -1,0 +1,292 @@
+####### DIRECTORIES CONFIG ######################################################################
+
+/webapps/   				# Folder for webapps
+    compraloahi/			# For project compraloahi
+	environment/			# Virtualenv for compraloahi
+	    bin/
+	      gunicorn_start		# Script bash to start environment, and gunicorn with project
+	compraloahi/			# Root of project
+	    run/			# sock of gunicorn
+	logs/		
+	    gunicorn_supervisor.log	# Logs by supervisor and gunicorn 	
+	    nginx-access.log		# Logs nginx access
+	    nginx-error.log		# Logs nginx error
+/etc/
+    supervisor/
+	conf.d/	
+	    compraloahi.conf		# Config to run script bash gunicorn_start
+    nginx/
+	sites-availables/
+	    compraloahi			# Config server for compraloahi
+	 
+
+#########END DIRECTORIES CONFIG ################################################################
+
+
+# Update system
+  sudo apt-get update
+  sudo apt-get upgrade
+
+# Install pip to python3
+  sudo apt-get install python3-pip 
+
+# Install git
+  sudo apt-get install git
+
+# Added Support manipulation image with python
+  sudo apt-get install libpng12-dev zlib1g-dev libfreetype6-dev libjpeg-dev
+
+# Install virtualenv
+  sudo pip3 install virtualenv
+
+# Check Available Space on the Hard Drive Partition
+  df -h
+
+# Create and apply swap partitions 
+  cd /
+  sudo fallocate -l 4G /swapfile
+  when ls -lh /swapfile   ->    -rw-r--r-- 1 root root 4.0G Apr 28 17:19 /swapfile
+
+# change permissions
+sudo chmod 600 /swapfile
+  when ls -lh /swapfile   ->    -rw------- 1 root root 4.0G Apr 28 17:19 /swapfile
+# Now that our file is more secure, we can tell our system to set up the swap space by typing:
+  sudo mkswap /swapfile
+# Our file is now ready to be used as a swap space. We can enable this by typing:
+  sudo swapon /swapfile
+
+# Make the swap file permanent
+Edit the file fstab, at the bottom of the file you need to add the next line.
+/swapfile	none	swap	sw	0	0
+
+
+# Install java, need to run elasticsearch
+  sudo apt-get install openjdk-7-jre 
+
+
+# Add repository and install elasticsearch
+  sudo add-apt-repository "deb http://packages.elasticsearch.org/elasticsearch/1.4/debian stable main"
+  sudo apt-get update && sudo apt-get install elasticsearch
+# Configure Elasticsearch to automatically start during bootup
+  sudo update-rc.d elasticsearch defaults 95 10
+
+  
+# Create group with name "webapps"
+  sudo groupadd --system webapps
+# Create user "compraloahi" and assign group previous created, and folder in /webapps/compraloahi
+  sudo useradd --system --gid webapps --shell /bin/bash --home /webapps/compraloahi compraloahi
+# Create directory to store web application
+  sudo mkdir -p /webapps/compraloahi/
+# Change the owner of that directory to your application user "compraloahi"
+  sudo chown compraloahi /webapps/compraloahi/
+  
+# Add password user
+  passwrd compraloahi
+  
+# Install postgress
+sudo aptitude install postgresql postgresql-contrib
+#Create user
+  sudo su - postgres
+  createuser --interactive -P
+    Enter name of role to add: compraloahi
+    Enter password for new role: 
+    Enter it again: 
+    Shall the new role be a superuser? (y/n) n
+    Shall the new role be allowed to create databases? (y/n) n
+    Shall the new role be allowed to create more new roles? (y/n) n
+
+# Create db with user previous created
+  createdb --owner compraloahi db_compraloahi
+  logout
+  
+  
+# Create virtualenv
+  cd /webapps/compraloahi
+  virtualenv environment
+
+# Clone project of repository
+  git clone git@bitbucket.org:conmarcos/compraloahi.git
+
+# Activate virtualenv and install packages to requeriments project
+  source environment/bin/activate
+  pip install -r compraloahi/requeriments.txt
+
+
+# Install libs to Support postgress and python
+  # On system
+    sudo apt-get install libpq-dev python3-all-dev 
+  # On environment
+    pip install psycopg2
+
+# Install Postman on environment with mercurial
+  sudo apt-get install mercurial
+  hg clone http://bitbucket.org/psam/django-postman/ /webapps/compraloahi/evironment/lib/python3.4/site-packages/postman_repository
+  mv /webapps/compraloahi/evironment/lib/python3.4/site-packages/postman_repository/postman /webapps/compraloahi/evironment/lib/python3.4/site-packages/postman
+
+    
+ # Requerments to haystack used spatial search
+  sudo apt-get install libgeos-dev
+
+  
+  
+# With environment activated and on root dir project
+python manage.py makemigrations --setttings=compraloahi.settings.production
+python manage.py migrate --setttings=compraloahi.settings.production
+
+
+# Install gunicorn
+  pip install gunicorn
+
+  # run gunicorn
+  gunicorn --workers=3 --name=Compraloahi --user=compraloahi --bind 104.236.42.46:8001 --env DJANGO_SETTINGS_MODULE=compraloahi.settings.production compraloahi.wsgi
+  Params
+    workers: As a rule-of-thumb set the --workers (NUM_WORKERS) according to the following formula: 2 * CPUs + 1. 
+    name: argument specifies how your application will identify itself in programs such as top or ps
+  
+# Create file bash on environment/bin/ with name "gunicorn_start" to automatize start environment and gunicorn. 
+ sudo vim /webapps/django/environment/bin/gunicorn_start
+ # add file:
+    ################################START FILE GUNICORN_START ########################################################################
+    #!/bin/bash
+    NAME="Compraloahi"                                                              # Name of the application
+    ENVNAME=environment                                                             # Name of virtualenv
+    DJANGODIR=/webapps/compraloahi/compraloahi                                      # Django project directory
+    SOCKFILE=/webapps/compraloahi/compraloahi/run/gunicorn.sock                     # we will communicte using this unix socket
+    USER=compraloahi                                                                # the user to run as
+    GROUP=webapps                                                                   # the group to run as
+    NUM_WORKERS=3                                                                   # how many worker processes should Gunicorn spawn
+    DJANGO_SETTINGS_MODULE=compraloahi.settings.production                          # which settings file should Django use
+    DJANGO_WSGI_MODULE=compraloahi.wsgi                                             # WSGI module name
+    
+    # Activate the virtual environment
+    cd $DJANGODIR
+    source ../$ENVNAME/bin/activate
+    export DJANGO_SETTINGS_MODULE=$DJANGO_SETTINGS_MODULE
+    export PYTHONPATH=$DJANGODIR:$PYTHONPATH
+    
+    # Create the run directory if it doesn't exist
+    RUNDIR=$(dirname $SOCKFILE)
+    test -d $RUNDIR || mkdir -p $RUNDIR
+    
+    # Start your Django Unicorn
+    # Programs meant to be run under supervisor should not daemonize themselves (do not use --daemon)
+    exec ../$ENVNAME/bin/gunicorn ${DJANGO_WSGI_MODULE}:application \
+      --name $NAME \
+      --workers $NUM_WORKERS \
+      --user=$USER --group=$GROUP \
+      --bind=unix:$SOCKFILE \
+      --log-level=debug \
+      --log-file=-
+    ######################################END FILE GUNICORN_START##########################################################################
+
+# For the --name argument to have an effect you need to install a Python module called setproctitle
+  sudo pip3 install setproctitle
+
+# Install Supervisord 
+sudo apt-get install supervisor
+# Create file Configure
+  sudo nano /etc/supervisor/conf.d/compraloahi.conf
+  ################################################ START FILE COMPRALOAHI.CONF ############################################################
+  [program:compraloahi]
+  command = /webapps/compraloahi/environment/bin/gunicorn_start        ; Command to start app
+  user = compraloahi                                                   ; User to run as
+  stdout_logfile = /webapps/compraloahi/logs/gunicorn_supervisor.log   ; Where to write log messages
+  redirect_stderr = true                                               ; Save stderr in the same log
+  environment=LANG=en_US.UTF-8,LC_ALL=en_US.UTF-8                      ; Set UTF-8 as default encoding
+  ################################################ END FILE COMPRALOAHI.CONF ##############################################################
+
+# Create forlder to logs supervisor and gunicorn
+  mkdir -p /webapps/compraloahi/logs/
+  touch /webapps/compraloahi/logs/gunicorn_supervisor.log
+
+#Reload config supervisor
+  sudo supervisorctl reread
+  sudo supervisorctl update
+
+Now!
+  sudo supervisorctl status compraloahi
+  sudo supervisorctl stop compraloahi
+  sudo supervisorctl start compraloahi
+
+
+# Install nginx
+  sudo apt-get install nginx
+
+# create file to config 
+  sudo nano /etc/nginx/sites-available/compraloahi
+  ################################################ START FILE SITES-AVAILABLE/COMPRALOAHI ############################################################
+  pstream compraloahi_app_server {
+    # fail_timeout=0 means we always retry an upstream even if it failed
+    # to return a good HTTP response (in case the Unicorn master nukes a
+    # single worker for timing out).
+
+    server unix:/webapps/compraloahi/compraloahi/run/gunicorn.sock fail_timeout=0;
+  }
+
+  server {
+
+      listen   80;
+      server_name example.com;
+
+      client_max_body_size 4G;
+
+      access_log /webapps/compraloahi/logs/nginx-access.log;
+      error_log /webapps/compraloahi/logs/nginx-error.log;
+
+      location /static/ {
+	  alias   /webapps/compraloahi/compraloahi/static/;
+      }
+
+      location /media/ {
+	  alias   /webapps/compraloahi/compraloahi/compraloahi/media/;
+      }
+
+      location / {
+	  # an HTTP header important enough to have its own Wikipedia entry:
+	  #   http://en.wikipedia.org/wiki/X-Forwarded-For
+	  proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+
+	  # enable this if and only if you use HTTPS, this helps Rack
+	  # set the proper protocol for doing redirects:
+	  # proxy_set_header X-Forwarded-Proto https;
+
+	  # pass the Host: header from the client right along so redirects
+	  # can be set properly within the Rack application
+	  proxy_set_header Host $http_host;
+
+	  # we don't want nginx trying to do something clever with
+	  # redirects, we set the Host: header above already.
+	  proxy_redirect off;
+
+	  # set "proxy_buffering off" *only* for Rainbows! when doing
+	  # Comet/long-poll stuff.  It's also safe to set if you're
+	  # using only serving fast clients with Unicorn + nginx.
+	  # Otherwise you _want_ nginx to buffer responses to slow
+	  # clients, really.
+	  # proxy_buffering off;
+
+	  # Try to serve static files from nginx, no point in making an
+	  # *application* server like Unicorn/Rainbows! serve static files.
+	  if (!-f $request_filename) {
+	      proxy_pass http://compraloahi_app_server;
+	      break;
+	  }
+      }
+
+      # Error pages
+      #error_page 500 502 503 504 /500.html;
+      #location = /500.html {
+      #    root /webapps/compraloahi/compraloahi/static/;
+      #}
+  }
+ 
+  ################################################ END FILE SITES-AVAILABLE/COMPRALOAHI ############################################################
+
+# Remove default configuration 
+  sudo rm /etc/nginx/sites-enabled/default
+
+# Enabled new configuration
+  sudo ln -s /etc/nginx/sites-available/compraloahi /etc/nginx/sites-enabled/compraloahi
+
+# Restart nginx
+  sudo service nginx restart
