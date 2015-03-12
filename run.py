@@ -5,6 +5,12 @@ import sys
 
 print(len(sys.argv))
 if len(sys.argv) > 1:
-    os.system("python manage.py "+ sys.argv[1] +" --settings=compraloahi.settings.local")
+    arguments = sys.argv[1]
+    if len(sys.argv) > 2:
+        arguments = ''
+        for arg in sys.argv[1:]:
+            arguments = arguments + " " + arg
+
+    os.system("python manage.py "+ arguments +" --settings=compraloahi.settings.local")
 else:
     print("Need parameter. Ex. runserver, shell, shell_plus, ")

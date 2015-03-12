@@ -3,8 +3,7 @@ from .base import *
 
 ALLOWED_HOSTS = []
 
-
-#STATIC_ROOT = '/opt/compraloahi/static/'
+STATIC_ROOT =  os.path.join(os.path.dirname(BASE_DIR), "static")
 
 DATABASES = {
     'default': {

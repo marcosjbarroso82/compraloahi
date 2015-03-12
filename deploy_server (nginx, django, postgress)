@@ -1,23 +1,24 @@
 ####### DIRECTORIES CONFIG ######################################################################
 
-/webapps/   				# Folder for webapps
-    compraloahi/			# For project compraloahi
-	environment/			# Virtualenv for compraloahi
+/webapps/   				                  # Folder for webapps
+    compraloahi/			                # For project compraloahi
+	environment/			                  # Virtualenv for compraloahi
 	    bin/
-	      gunicorn_start		# Script bash to start environment, and gunicorn with project
-	compraloahi/			# Root of project
-	    run/			# sock of gunicorn
+	      gunicorn_start		            # Script bash to start environment, and gunicorn with project
+	compraloahi/			                  # Root of project
+	    run/			                      # sock of gunicorn
 	logs/		
-	    gunicorn_supervisor.log	# Logs by supervisor and gunicorn 	
-	    nginx-access.log		# Logs nginx access
-	    nginx-error.log		# Logs nginx error
+	    gunicorn_supervisor.log	        # Logs by supervisor and gunicorn 	
+	    nginx-access.log		            # Logs nginx access
+	    nginx-error.log		              # Logs nginx error
+  static/                             # All static files
 /etc/
     supervisor/
 	conf.d/	
-	    compraloahi.conf		# Config to run script bash gunicorn_start
+	    compraloahi.conf		            # Config to run script bash gunicorn_start
     nginx/
 	sites-availables/
-	    compraloahi			# Config server for compraloahi
+	    compraloahi			                # Config server for compraloahi
 	 
 
 #########END DIRECTORIES CONFIG ################################################################
