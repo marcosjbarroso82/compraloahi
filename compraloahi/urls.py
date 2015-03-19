@@ -7,20 +7,20 @@ from apps.ad import views as adViews
 from apps.userProfile.views import UserProfileModelView
 from apps.message.views import MessageDetail, MessageModelViewSet
 from apps.userProfile.views import UserLocationViewSet
+from apps.favorite.views import FavoriteAdViewSet
 
 from rest_framework.routers import DefaultRouter
 
 from apps.user.views import ChangePasswordUpdateAPIView
 
-from apps.comment_notification import receivers
-
 
 router = DefaultRouter()
 router.register(r'ads', adViews.AdViewSet)
 router.register(r'user-locations', UserLocationViewSet)
-
+router.register(r'favorites', FavoriteAdViewSet)
 
 urlpatterns = patterns('',
+                       url(r'^favit/' , include('favit.urls')),
                        url(r'^api/v1/', include(router.urls)),
 
                        # Detail Profile

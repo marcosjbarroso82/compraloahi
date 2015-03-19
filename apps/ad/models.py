@@ -8,6 +8,9 @@ from taggit.managers import TaggableManager
 # Receive the pre_delete signal and delete the file associated with the model instance.
 from django.db.models.signals import pre_delete
 from django.dispatch.dispatcher import receiver
+from django.contrib.contenttypes.fields import GenericRelation
+
+from favit.models import Favorite
 
 
 class AdQuerySet(models.QuerySet):
@@ -37,7 +40,14 @@ class Ad(models.Model):
     categories = models.ManyToManyField(Category)
 
     short_description = models.CharField(max_length=100, blank=False)
-    price = models.DecimalField(default='0.00', decimal_places=2, max_digits=10)
+    price = models.DecimalField(default='0.00',
+                                decimal_places=2,
+                                max_digits=10)
+
+    # Instance of manager to Favorite Objects
+    #favorites = GenericRelation(Favorite,
+    #                            content_type_field='target_content_type',
+    #                            object_id_field='target_object_id')
 
     objects = AdQuerySet.as_manager()
 
@@ -61,12 +71,19 @@ class Ad(models.Model):
         super(Ad, self).save(*args, **kwargs)
 
 
+    def is_favorite(self, user):
+        if Favorite.objects.get_favorite(user, self):
+            return True
+        else:
+            return False
+
+
 class AdImage(models.Model):
     ad_id = models.ForeignKey(Ad, related_name='images')
     image = models.ImageField(upload_to='ad', null=False, blank=False, )
+
 
 @receiver(pre_delete, sender=AdImage)
 def adImage_delete(sender, instance, **kwargs):
     # Pass false so FileField doesn't save the model.
     instance.image.delete(False)
-

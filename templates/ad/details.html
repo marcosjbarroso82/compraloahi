@@ -2,17 +2,21 @@
 {% load bootstrap3 %}
 {% load thumbnail %}
 {% load comments %}
+{% load favit_tags %}
 {% load comments_xtd %}
 {% load common_tags %}
 {% block title %}Aviso {{ ad.title }}{% endblock %}
 
 {% block js_header_block %}
+    <script type="text/javascript" src="{{ STATIC_URL }}bower_components/jquery-cookie/jquery.cookie.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/cloud-zoom.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/favit/favorite.js"></script>
 {% endblock %}
 
 {% block css_header_block %}
     <link rel="stylesheet" href="{{ STATIC_URL }}css/less/ad-detail.css" >
     <link rel="stylesheet" href="{{ STATIC_URL }}css/cloud-zoom.css" type="text/css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/favit/favorite.css">
 {% endblock %}
 
 {% block body_block %}
@@ -75,7 +79,9 @@
                 <div class="modal" id="modalMessage">
                 </div>
                 <!-- ######## END CONTACT ############# -->
-                <div class="social">
+                <div class="social"> 
+                   {% favorite_button ad %}
+                    
                     <a class="popup" href="http://twitter.com/share"><i class="twitter pull-right"></i></a>
                     <a class="popup" href="https://www.facebook.com/sharer/sharer.php?app_id=1507071816215188&amp;u={{ request.get_full_path|urlencode }}&amp;display=popup&amp;ref=plugin"><i id="social" class="facebook pull-right"></i></a>
                 </div>

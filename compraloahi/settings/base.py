@@ -5,7 +5,7 @@ SECRET_KEY = 'a#)y^h-f23l!*90%f+d8m(ld0rm-5)#c#9kit$bvocbrfen@l8'
 
 STATIC_URL = '/static/'
 
-
+# Defined django applications
 DJANGO_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',
@@ -17,7 +17,7 @@ DJANGO_APPS = (
     'django.contrib.comments',
 )
 
-
+# Defined third party applications
 THIRD_PARTY_APPS = (
     'allauth',
     'allauth.account',
@@ -32,9 +32,10 @@ THIRD_PARTY_APPS = (
     'ckeditor',
     'postman',
     'rest_framework',
+    'favit',
 )
 
-# Local aplication
+# Defined own applications
 LOCAL_APPS = (
     'apps.ad',
     'apps.adLocation',
@@ -84,11 +85,13 @@ LOGIN_URL = '/accounts/login'
 LOGIN_REDIRECT_URL = '/'
 
 
-
+# Defined folder of static files to projects
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"), )
 
+# Nose
 SITE_ROOT = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 
+# Defined folder of media files to project
 MEDIA_ROOT = os.path.join(SITE_ROOT, 'media')
 
 MEDIA_URL = "/media/"
@@ -163,7 +166,7 @@ POSTMAN_MAILER_APP = None  # default is 'mailer'
 CKEDITOR_UPLOAD_PATH = "uploads/"
 CKEDITOR_JQUERY_URL = '//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js'
 
-
+# Defined custom functionality to ckeditor
 CKEDITOR_CONFIGS = {
     'awesome_ckeditor': {
         'toolbar': [
@@ -194,7 +197,7 @@ COMMENTS_XTD_MAX_THREAD_LEVEL = 2
 COMMENTS_APP = "django_comments_xtd"
 COMMENTS_XTD_CONFIRM_EMAIL = False
 
-
+# Config email
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'testnubiquo@gmail.com'
@@ -213,9 +216,5 @@ REST_FRAMEWORK = {
 
 }
 
-
-
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-
-

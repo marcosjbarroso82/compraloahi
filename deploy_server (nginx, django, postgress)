@@ -235,7 +235,7 @@ Now!
       error_log /webapps/compraloahi/logs/nginx-error.log;
 
       location /static/ {
-	  alias   /webapps/compraloahi/compraloahi/static/;
+	  alias   /webapps/compraloahi/static/;
       }
 
       location /media/ {
@@ -291,3 +291,8 @@ Now!
 
 # Restart nginx
   sudo service nginx restart
+
+############################################# COLLECT STATIC ##########################################
+
+# In root to projects and activated virtualenv
+python manage.py collectstatic --settings=compraloahi.settings.production

@@ -1,6 +1,5 @@
 from .base import *
 
-
 DEBUG = True
 
 TEMPLATE_DEBUG = True
@@ -20,7 +19,7 @@ DATABASES = {
     }
 }
 
-# settings.py
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
