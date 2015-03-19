@@ -222,3 +222,4 @@ class AdViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return Ad.objects.filter(author= self.request.user)
+        #return Ad.objects.all()
