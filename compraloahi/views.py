@@ -5,6 +5,11 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 from django.contrib.comments.views.comments import post_comment
 from django.http import HttpResponse
 
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework.authtoken.models import Token
+from django.contrib.auth.models import User
+
 
 class HomeView(TemplateView):
     template_name = 'index.html'
@@ -42,3 +47,15 @@ def comment_post_wrapper(request):
         #     return HttpResponse("You registered user...trying to spoof a form...eh?")
         return post_comment(request) # VER SI ESTE ES EL POST, o EL DE COMMENT XTD
     return HttpResponse("You anonymous cheater...trying to spoof a form?")
+
+# Generates Auth Tokens for all Users
+class GenerateAllAuthToken(APIView):
+    def get(self, request):
+        response = "{"
+        for user in User.objects.all():
+            token, created = Token.objects.get_or_create(user=user)
+            response += "{" + "username:" + user.username + ",pk: " + str(user.pk) + ",token:" + token.key + "},"
+        response += "}"
+        return Response(response)
+
+generate_all_auth_token = GenerateAllAuthToken.as_view()

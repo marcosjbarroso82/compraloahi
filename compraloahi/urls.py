@@ -16,6 +16,7 @@ from rest_framework.authtoken import views
 
 from apps.comment_notification import receivers
 from compraloahi import receivers
+from compraloahi.views import generate_all_auth_token
 
 
 router = DefaultRouter()
@@ -24,6 +25,7 @@ router.register(r'user-locations', UserLocationViewSet)
 
 
 urlpatterns = patterns('',
+                       url(r'^api-generate-all-token-auth/', generate_all_auth_token),
                        url(r'^api-token-auth/', views.obtain_auth_token),
                        url(r'^api/v1/', include(router.urls)),
 
