@@ -1,10 +1,10 @@
 from .base import *
 
+ALLOWED_HOSTS = ['*']
 DEBUG = True
 
 TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = []
 
 INSTALLED_APPS = INSTALLED_APPS + (
     'django_extensions',   # for Ipython Notebook
