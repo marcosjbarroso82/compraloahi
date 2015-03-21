@@ -1,26 +1,74 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from django.views.generic import ListView, DetailView, \
-    CreateView, UpdateView, DeleteView, TemplateView
+from django.views.generic import DetailView, \
+    CreateView, UpdateView, DeleteView
 from django.http import HttpResponseRedirect
 from haystack.views import FacetedSearchView
+from haystack.query import SearchQuerySet
+from haystack.forms import ModelSearchForm
+from rest_framework import viewsets
+from rest_framework import mixins
+from django.contrib.gis.measure import *
+from django.contrib.gis.geos import Point
 
 from apps.userProfile.models import UserProfile, UserLocation
 
 from .models import Ad
+from apps.ad.serializers import SearchResultSerializer, AdSerializer
 from .forms import CreateAdForm, AdModifyForm, \
     AdImage_inline_formset, AdLocation_inline_formset
-
-from rest_framework import viewsets, filters
-from .serializers import AdSerializer
-
-
 from apps.comment_notification.models import CommentNotification
 
 import logging
 
 logger = logging.getLogger('debug')
+
+class SearchViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
+    #permission_classes = (permissions.IsAuthenticated,)
+    serializer_class = SearchResultSerializer
+
+    def get_queryset(self, *args, **kwargs):
+        # This will return a dict of the first known
+        # unit of distance found in the query
+        request = self.request
+        #results = EmptySearchQuerySet()
+        results = SearchQuerySet().all()
+
+        if request.GET.get('q'):
+            form = ModelSearchForm(request.QUERY_PARAMS, searchqueryset=None, load_all=True)
+
+            if form.is_valid():
+                query = form.cleaned_data['q']
+                results = form.search()
+        else:
+            form = ModelSearchForm(searchqueryset=None, load_all=True)
+
+        distance = None
+        unit = None
+        try:
+            for k,v in request.QUERY_PARAMS.items():
+                if k in D.UNITS.keys():
+                    distance = {k:v}
+                    unit = k
+
+        except Exception as e:
+            logging.error(e)
+        point = None
+
+        try:
+            point = Point(float(request.QUERY_PARAMS['longitude']), float(request.QUERY_PARAMS['latitude']))
+        except Exception as e:
+            logging.error(e)
+
+        if distance and point:
+            results = results or SearchQuerySet()
+            results = results.dwithin('location', point, D(**distance)).distance('location', point)
+
+        return results
+        #return Response(SearchResultSerializer(sqs, many=True, unit=unit).data)
+
+
 
 class AdFacetedSearchView(FacetedSearchView):
     def extra_context(self, **kwargs):

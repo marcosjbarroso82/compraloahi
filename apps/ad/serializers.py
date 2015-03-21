@@ -20,3 +20,43 @@ class AdSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ad
         #fields = ('title',)
+
+
+class DistanceSerializer(serializers.Serializer):
+    km = serializers.FloatField()
+    m = serializers.FloatField()
+    mi = serializers.FloatField()
+    ft = serializers.FloatField()
+
+
+class SearchResultSerializer(serializers.Serializer):
+
+    title = serializers.CharField()
+    pub_date = serializers.CharField()
+    distance = serializers.SerializerMethodField('_distance')
+    content_type = serializers.CharField(source='model_name')
+    #content_object = serializers.SerializerMethodField('_content_object')
+    content_object = serializers.SerializerMethodField('_content_object')
+
+    def _content_object(self, obj):
+        #assert False, obj.model_name
+        if obj.model_name == 'ad':
+            return AdSerializer(obj.object, many=False, context=self.context).data
+            #return FoSerializer(obj.object, many=False, context=self.context).data
+        if obj.model_name == 'Ad':
+            return AdSerializer(obj.object, many=False, context=self.context).data
+            #return BarSerializer(obj.object, many=False, context=self.context).data
+        return {}
+
+    def __init__(self,  *args, **kwargs):
+        self.unit = kwargs.pop('unit', None)
+        return super(SearchResultSerializer, self).__init__(*args, **kwargs)
+
+    def _distance(self, obj):
+        if self.unit:
+            return {self.unit: getattr(obj.distance, self.unit)}
+        try:
+            return DistanceSerializer(obj.distance, many=False).data
+        except Exception as e:
+            ## Log this
+            return {}
