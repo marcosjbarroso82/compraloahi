@@ -21,7 +21,8 @@ from compraloahi.views import generate_all_auth_token
 
 
 router = DefaultRouter()
-router.register(r'ads', adViews.AdViewSet)
+router.register(r'my-ads', adViews.AdUserViewSet)
+router.register(r'ads', adViews.AdPublicViewSet)
 router.register(r'user-locations', UserLocationViewSet)
 router.register(r'favorites', FavoriteAdViewSet)
 

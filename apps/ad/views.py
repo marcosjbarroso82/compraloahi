@@ -15,7 +15,7 @@ from django.contrib.gis.geos import Point
 from apps.userProfile.models import UserProfile, UserLocation
 
 from .models import Ad
-from apps.ad.serializers import SearchResultSerializer, AdSerializer
+from apps.ad.serializers import SearchResultSerializer, AdSerializer, AdPublicSerializer
 from .forms import CreateAdForm, AdModifyForm, \
     AdImage_inline_formset, AdLocation_inline_formset
 from apps.comment_notification.models import CommentNotification
@@ -258,7 +258,7 @@ class UpdateAdView(UpdateView):
 
 
 
-class AdViewSet(viewsets.ModelViewSet):
+class AdUserViewSet(viewsets.ModelViewSet):
     paginate_by = 5
     queryset = Ad.objects.all()
     serializer_class = AdSerializer
@@ -271,3 +271,9 @@ class AdViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         return Ad.objects.filter(author= self.request.user)
         #return Ad.objects.all()
+
+
+class AdPublicViewSet(viewsets.ModelViewSet):
+    queryset = Ad.objects.all()
+    serializer_class = AdPublicSerializer
+

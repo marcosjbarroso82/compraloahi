@@ -15,11 +15,30 @@ class AdImageSerializer(serializers.ModelSerializer):
 
 
 class AdSerializer(serializers.ModelSerializer):
-    #images = serializers.
     images = AdImageSerializer(many=True, read_only=True)
     class Meta:
         model = Ad
         #fields = ('title',)
+
+
+class AdPublicSerializer(serializers.ModelSerializer):
+    is_favorite = serializers.SerializerMethodField()
+    images = AdImageSerializer(many=True, read_only=True)
+
+    class Meta:
+        model= Ad
+        fields = ('title', 'body', 'pub_date', 'categories', 'short_description', 'price', 'is_favorite', 'images')
+
+    def get_is_favorite(self, obj):
+        #request = self.context.get('request', None)
+        #return obj.is_favorite(request.user)
+        request = self.context.get('request', None)
+        if request is not None:
+           if request.user.is_authenticated():
+               return obj.is_favorite(request.user)
+           else:
+               return False
+
 
 
 class DistanceSerializer(serializers.Serializer):

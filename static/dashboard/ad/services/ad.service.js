@@ -21,7 +21,7 @@
         //var Ad = djResource('/api/v1/ads/:adId/', {adId: '@id'});
 
         return $resource(
-            '/api/v1/ads/:id/', {}, {
+            '/api/v1/my-ads/:id/', {}, {
                 get: {
                     method: 'GET',
                     id: '@id',

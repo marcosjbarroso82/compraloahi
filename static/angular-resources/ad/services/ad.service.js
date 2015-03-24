@@ -18,7 +18,7 @@
     function Ad($resource) {
         //return $resource('/api/v1/ads/:id/:page');
         return $resource(
-            '/api/v1/ads/:id/', {}, {
+            '/api/v1/my-ads/:id/', {}, {
                 get: {
                     method: 'GET',
                     id: '@id',
