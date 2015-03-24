@@ -27,7 +27,7 @@ class AdPublicSerializer(serializers.ModelSerializer):
 
     class Meta:
         model= Ad
-        fields = ('title', 'body', 'pub_date', 'categories', 'short_description', 'price', 'is_favorite', 'images')
+        fields = ('id','title', 'body', 'pub_date', 'categories', 'short_description', 'price', 'is_favorite', 'images')
 
     def get_is_favorite(self, obj):
         #request = self.context.get('request', None)
@@ -60,10 +60,10 @@ class SearchResultSerializer(serializers.Serializer):
     def _content_object(self, obj):
         #assert False, obj.model_name
         if obj.model_name == 'ad':
-            return AdSerializer(obj.object, many=False, context=self.context).data
+            return AdPublicSerializer(obj.object, many=False, context=self.context).data
             #return FoSerializer(obj.object, many=False, context=self.context).data
         if obj.model_name == 'Ad':
-            return AdSerializer(obj.object, many=False, context=self.context).data
+            return AdPublicSerializer(obj.object, many=False, context=self.context).data
             #return BarSerializer(obj.object, many=False, context=self.context).data
         return {}
 
