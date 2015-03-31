@@ -7,11 +7,17 @@
     <link rel="stylesheet" href="{{ STATIC_URL }}css/less/ad-forms.css" >
 {% endblock %}
 
+
+
+
 {% block body_block %}
-    <input id="search-places" class="controls" type="text" placeholder="Buscar Dirreción">
-    <div class="container container-form-ad">
+
+
+    {% include 'layout/dashboard-menu.html' %}
+
+    <div class="container col-md-10 col-md-offset-2 container-form-ad">
     {% bootstrap_messages %}
-    <h2>Crear aviso</h2>
+    <h3 class="text-center">Creando un aviso</h3>
     <hr/>
     <form action="" method="post" class="form form-horizontal" enctype="multipart/form-data">
         {% csrf_token %}
@@ -33,7 +39,7 @@
         {% endfor %}
         <div id="locations">
             <h3>Locations</h3>
-
+            <input id="search-places" class="controls" type="text" placeholder="Buscar Dirreción">
         {{ locations_form.management_form }}
         {% for location_form in locations_form %}
             {{ location_form.id }}
@@ -51,7 +57,7 @@
 
         {% buttons %}
             <button type="submit" class="btn btn-primary pull-right">
-                {% bootstrap_icon "save" %} Create
+                <i class="glyphicon glyphicon-floppy-disk"></i> Crear
             </button>
         {% endbuttons %}
     </form>

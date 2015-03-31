@@ -42,7 +42,7 @@
                 {% if not_replied_notifications %}
                     <ul class="nav navbar-nav navbar-right" rel="tooltip" title="Se han hecho nuevos comentarios sobre sus avisos">
                         <li class="dropdown">
-                            <a class="dropdown-toggle btn"  data-toggle="dropdown" id="notification-menu">  {% get_user_comment_unreplied_notification_count %}<span class="caret"></span></a>
+                            <a class="btn dropdown-toggle "  data-toggle="dropdown" id="notification-menu">  <i class="glyphicon glyphicon-globe"></i> <span class="notification-count">{% get_user_comment_unreplied_notification_count %}</span></a>
                             <ul class="dropdown-menu list-notification" role="menu">
                                 {% for notification in not_replied_notifications %}
                                     <li><a href="ad/{{ notification.ad.slug }}">{{ notification.ad.title | truncatechars:100 }}</a> </li>

@@ -1,0 +1,26 @@
+<div id="dashboard-menu" class="col-md-2" >
+        <ul class="nav nav-pills nav-stacked" >
+            <li role="presentation" class="navbar-header">Menu</li>
+            <li role="presentation">
+                <a class="item-menu" href="/accounts/profile/"><i class="glyphicon glyphicon-user"></i> Profile </a>
+            </li>
+            <li role="presentation">
+                <a class="item-menu" href="/accounts/profile/#/messages/?folder=inbox"><i class="glyphicon glyphicon-bullhorn"></i>Messages</a>
+            </li>
+            <li role="presentation" class="active">
+                <a class="item-menu" href="/accounts/profile/#/my-ads"><i class="glyphicon glyphicon-bullhorn"></i> My ads</a>
+            </li>
+            <li role="presentation">
+                <a class="item-menu" href="/accounts/profile/#/my-locations"><i class="glyphicon glyphicon-map-marker"></i> My locations</a>
+            </li>
+            <li role="presentation">
+                <a class="item-menu" href="/accounts/profile/#/my-favorites"><i class="glyphicon glyphicon-heart"></i> My favorites</a>
+            </li>
+            <li role="presentation">
+                <a class="item-menu" href="/accounts/profile/#/agenda"><i class="glyphicon glyphicon-calendar"></i> My agenda</a>
+            </li>
+            <li class="divider"></li>
+            <li><a class="item-menu" href="{% url 'my-user:my-logout' %}"><i class="glyphicon glyphicon-off"></i> Salir</a></li>
+        </ul>
+        
+</div>

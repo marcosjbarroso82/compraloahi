@@ -6317,13 +6317,25 @@ body .navbar-default .dropdown-menu {
 }
 html .navbar-default #notification-menu,
 body .navbar-default #notification-menu {
-  height: 30px;
-  padding: 6px;
-  margin: 10px 0px;
-  color: white;
-  background-color: #aa4400;
-  font-size: .9em;
+  padding-bottom: 9px;
+}
+html .navbar-default #notification-menu i,
+body .navbar-default #notification-menu i {
+  font-size: 22px;
+}
+html .navbar-default #notification-menu span,
+body .navbar-default #notification-menu span {
+  color: #FFF;
+  border-radius: 50%;
+  background-color: #A40;
   font-weight: bold;
+  font-size: 0.8em;
+  position: absolute;
+  right: 4px;
+  top: 6px;
+  height: 20px;
+  width: 20px;
+  opacity: 0.8;
 }
 html .navbar-default .list-notification li,
 body .navbar-default .list-notification li {
@@ -6589,7 +6601,8 @@ input-group-custom-addon examples:
 
 */
 .container-form-ad {
-  padding: 20px;
+  padding: 20px 40px 40px 40px;
+  background-color: #EFEFEF;
 }
 .container-form-ad .django-ckeditor-widget {
   width: 100%;
@@ -6600,4 +6613,50 @@ input-group-custom-addon examples:
 .container-form-ad #mapa {
   height: 500px;
   margin: 20px;
+  width: 95%;
+}
+#dashboard-menu {
+  position: fixed;
+  background-color: #1C2B36;
+  height: 100%;
+  padding-left: 0px;
+  padding-right: 0px;
+}
+#dashboard-menu .navbar-header {
+  margin-top: 20px;
+  height: 40px;
+  color: #787878;
+  float: none;
+  margin-bottom: 10px;
+}
+#dashboard-menu .divider {
+  width: 100%;
+  border-bottom: 1px solid #7c958f;
+}
+#dashboard-menu ul .navbar-header {
+  margin-left: 30px;
+}
+#dashboard-menu ul li.active {
+  background-color: #1E3C78;
+}
+#dashboard-menu ul li:hover,
+#dashboard-menu ul li:focus {
+  background-color: none;
+  font-size: bold;
+  color: black;
+}
+#dashboard-menu ul .item-menu {
+  color: #c3c3c3;
+  min-height: 30px;
+  padding: 10px 0px;
+  width: 100%;
+  margin-right: 15px;
+  background-color: none;
+}
+#dashboard-menu ul .item-menu i {
+  margin-right: 5px;
+  margin-left: 15px;
+}
+#dashboard-menu ul .item-menu .badge {
+  margin-right: 15px;
 }

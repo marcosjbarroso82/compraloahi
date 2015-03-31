@@ -9,7 +9,7 @@
             <div class="pull-left col-md-2 col-lg-1">
                 <img  class="prod-img-thumbnail img-responsive img-thumbnail img-rounded media-object" src="{{ ad.image }}" alt="post img" >
             </div>
-            <div class="media-body col-md-8 col-lg-9">
+            <div class="media-body col-md-8 col-lg-9" ng-show="!collapsabled">
                 <a href="/ad/{{ ad.slug }}"><h4 class="media-heading">{{ ad.title }}</h4></a>
                 <small> publish: {{ ad.pub_date }} </small>
                 <p> {{ ad.short_description }} </p>

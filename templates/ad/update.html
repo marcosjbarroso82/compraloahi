@@ -9,9 +9,13 @@
 
 {% block body_block %}
 
-    <div class="container container-form-ad">
-        <h2>Editando aviso <small>({{ object.title }})</small></h2>
-        <hr/>
+    {% include 'layout/dashboard-menu.html' %}
+
+    <div class="container col-md-10 col-md-offset-2 container-form-ad">
+    {% bootstrap_messages %}
+    <h3 class="text-center">Editando aviso <small>({{ object.title }})</small></h3>
+    <hr/>
+
         {% bootstrap_messages %}
         <form action="" method="post" class="form" enctype="multipart/form-data">
             {% csrf_token %}
@@ -52,7 +56,7 @@
 
             {% buttons %}
                 <button type="submit" class="btn btn-primary pull-right">
-                    {% bootstrap_icon "save" %} Crear aviso
+                    <i class="glyphicon glyphicon-floppy-disk"></i> Guardar
                 </button>
             {% endbuttons %}
         </form>

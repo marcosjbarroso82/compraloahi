@@ -50,6 +50,9 @@
             <li role="presentation" ui-sref="my-locations" ui-sref-active="active">
                 <a class="item-menu"><i class="glyphicon glyphicon-map-marker"></i> My locations</a>
             </li>
+            <li role="presentation" ui-sref="favorite" ui-sref-active="active">
+                <a class="item-menu"><i class="glyphicon glyphicon-heart"></i> My favorites</a>
+            </li>
             <li role="presentation" ui-sref="agenda" ui-sref-active="active">
                 <a class="item-menu"><i class="glyphicon glyphicon-calendar"></i> My agenda</a>
             </li>
@@ -144,7 +147,11 @@
     <script type="text/javascript" src="{% static 'dashboard/user-location/controllers/location.controller.js' %}"></script>
     <!-- ###################### END DASHBOARD APP - MODULE USER LOCATION ###################### -->
 
-
+    <!-- ###################### DASHBOARD APP - MODULE FAVORITES ###################### -->
+    <script type="text/javascript" src="{% static 'dashboard/favorite/favorite.module.js' %}"></script>
+    <script type="text/javascript" src="{% static 'dashboard/favorite/services/favorite.service.js' %}"></script>
+    <script type="text/javascript" src="{% static 'dashboard/favorite/controllers/favorite.controller.js' %}"></script>
+    <!-- ###################### END DASHBOARD APP - MODULE FAVORITES ###################### -->
 </footter>
 </body>
 </html>

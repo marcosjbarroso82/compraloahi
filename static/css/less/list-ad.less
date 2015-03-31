@@ -35,7 +35,7 @@
 		padding-left: 0px;
 		padding-right: 0px;
 		float: left;
-
+        width: 410px;
 
         .input-group-custom-addon.icon-addon.addon-sm{
             color: @color-location;
@@ -94,7 +94,8 @@
             #range{
               font-weight: bold;
               color: @color-location;
-              padding: 6px 4px;
+              padding: 3px;
+              padding-top: 10px;
             }
 
             .label-dist{
@@ -104,12 +105,21 @@
         }
 
         .btn-data-position{
-            //border-radius: 50%;
-            margin-top: 8px;
+            //border-radius: 20%;
+            margin-top: 5px;
             margin-left: 5px;
-
+            margin-right: 5px;
+            width: 25px;
+            height: 25px;
 
         }
+
+        .list-my-location{
+          padding: 10px;
+          width: 200px;
+          margin-top: 10px;
+        }
+
         #btn-data-position-ads-list{
             background-color: @color-location;
         }
@@ -135,6 +145,9 @@
         margin-bottom: 10px;
         font-size: 1.1em;
         .mixin-shadow-bottom(1px, 1px, 2px, 1px, #434343);
+        i{
+          margin-right: 10px;
+        }
 	}
 
     #list-filters-active{
@@ -149,10 +162,19 @@
             font-size: .9em;
             height: 20px;
 
+            #btn-remove-filter{
+              float: right;
+              top: 0px;
+              color: white;
+              &:hover{
+                color: black;
+              }
+            }
             span{
               margin: 5px 5px;
             }
         }
+
     }
 
 }
@@ -172,11 +194,15 @@
 		height: 45px;
 		padding: 5px 0px;
 
+        #btn-collapse{
+          width: 20px;
+          margin-top: 2px;
+        }
 
 		p{
 			float: left;
 			vertical-align: bottom;
-            margin-left: 15px;
+            margin-left: 40px;
             padding: 0px;
             bottom: 0px;
             position: absolute;
@@ -185,6 +211,15 @@
         .order-by-container{
             float: right;
             margin-right: 15px;
+        }
+        .order-by-container-collapse{
+          float: right;
+          width: 73%;
+          margin-right: 5px;
+
+          select{
+            width: 100%;
+          }
         }
 
 	}
@@ -226,6 +261,15 @@
 			position: absolute;
 			top: 10px;
 			right: 10px;
+            .mixin-shadow-bottom(-1px, 1px, 1px, 1px, #ccc);
+		    background-color: white;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            padding: 10px;
+          &:hover{
+            .mixin-shadow-bottom(1px, 1px, 3px, 4px, #1e617d);
+          }
 		}
 
 		.price-ads-list {
@@ -239,13 +283,27 @@
 		}
 	}
 
+    .item-ads-list.collapsed{
+        height: 100%;
+
+        .container-img img{
+          width: 100%;
+        }
+
+
+        .price-ads-list{
+          font-weight: bold;
+           text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+        }
+    }
+
 	.ads-list-item-hover {
 		.mixin-shadow-bottom(1px, 1px, 3px, 4px, #1e617d);
 	}
 }
 
 
-#modalNewLocation .modal-dialog, #modalSelectLocation .modal-dialog, #modalFilterFacet .modal-dialog{
+#modalNewLocation .modal-dialog, #modalSelectLocation .modal-dialog{
     margin-bottom: 0px;
 
     .modal-content{
@@ -263,20 +321,31 @@
 }
 
 
-#modalFilterFacet .modal-content .modal-body{
+#modalFilterFacet{
     padding-bottom: 0px;
+    width: 250px;
     h5{
         color: #787476;
         border-bottom: 1px solid #6C6C6C;
-        margin-top: 20px;
+        //margin-top: 20px;
         padding-bottom: 5px;
+        margin: 10px;
     }
 
     ul{
+      list-style: none;
+      padding-left: 0px;
+      margin-right: 20px;
+      margin-left: 20px;
         li{
             height: 30px;
             padding-top: 4px;
             border-bottom: 1px solid #c3c3c3;
+
+          &:hover{
+            border-color: #000000;
+            cursor: pointer;
+          }
             a{
               color: #000;
             }

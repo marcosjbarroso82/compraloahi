@@ -6318,13 +6318,25 @@ body .navbar-default .dropdown-menu {
 }
 html .navbar-default #notification-menu,
 body .navbar-default #notification-menu {
-  height: 30px;
-  padding: 6px;
-  margin: 10px 0px;
-  color: white;
-  background-color: #aa4400;
-  font-size: .9em;
+  padding-bottom: 9px;
+}
+html .navbar-default #notification-menu i,
+body .navbar-default #notification-menu i {
+  font-size: 22px;
+}
+html .navbar-default #notification-menu span,
+body .navbar-default #notification-menu span {
+  color: #FFF;
+  border-radius: 50%;
+  background-color: #A40;
   font-weight: bold;
+  font-size: 0.8em;
+  position: absolute;
+  right: 4px;
+  top: 6px;
+  height: 20px;
+  width: 20px;
+  opacity: 0.8;
 }
 html .navbar-default .list-notification li,
 body .navbar-default .list-notification li {
@@ -6614,6 +6626,7 @@ input-group-custom-addon examples:
   padding-left: 0px;
   padding-right: 0px;
   float: left;
+  width: 410px;
   /*
         input[type='range'] {
             -webkit-appearance: none;
@@ -6670,15 +6683,24 @@ input-group-custom-addon examples:
 #data-filter-map #data-position-form .form-inline #range {
   font-weight: bold;
   color: #065378;
-  padding: 6px 4px;
+  padding: 3px;
+  padding-top: 10px;
 }
 #data-filter-map #data-position-form .form-inline .label-dist {
   font-size: .8em;
   vertical-align: bottom;
 }
 #data-filter-map #data-position-form .btn-data-position {
-  margin-top: 8px;
+  margin-top: 5px;
   margin-left: 5px;
+  margin-right: 5px;
+  width: 25px;
+  height: 25px;
+}
+#data-filter-map #data-position-form .list-my-location {
+  padding: 10px;
+  width: 200px;
+  margin-top: 10px;
 }
 #data-filter-map #data-position-form #btn-data-position-ads-list {
   background-color: #065378;
@@ -6706,6 +6728,9 @@ input-group-custom-addon examples:
   -moz-box-shadow: 1px 1px 2px 1px #434343;
   box-shadow: 1px 1px 2px 1px #434343;
 }
+#data-filter-map #btn-filter-facet i {
+  margin-right: 10px;
+}
 #data-filter-map #list-filters-active {
   float: right;
   clear: right;
@@ -6720,6 +6745,14 @@ input-group-custom-addon examples:
   color: white;
   font-size: .9em;
   height: 20px;
+}
+#data-filter-map #list-filters-active .active-filter #btn-remove-filter {
+  float: right;
+  top: 0px;
+  color: white;
+}
+#data-filter-map #list-filters-active .active-filter #btn-remove-filter:hover {
+  color: black;
 }
 #data-filter-map #list-filters-active .active-filter span {
   margin: 5px 5px;
@@ -6739,10 +6772,14 @@ input-group-custom-addon examples:
   height: 45px;
   padding: 5px 0px;
 }
+#container-ad-list #header-list #btn-collapse {
+  width: 20px;
+  margin-top: 2px;
+}
 #container-ad-list #header-list p {
   float: left;
   vertical-align: bottom;
-  margin-left: 15px;
+  margin-left: 40px;
   padding: 0px;
   bottom: 0px;
   position: absolute;
@@ -6750,6 +6787,14 @@ input-group-custom-addon examples:
 #container-ad-list #header-list .order-by-container {
   float: right;
   margin-right: 15px;
+}
+#container-ad-list #header-list .order-by-container-collapse {
+  float: right;
+  width: 73%;
+  margin-right: 5px;
+}
+#container-ad-list #header-list .order-by-container-collapse select {
+  width: 100%;
 }
 #container-ad-list .item-ads-list {
   -webkit-box-shadow: 0.5px 0.5px 0px 0.5px #cccccc;
@@ -6784,6 +6829,19 @@ input-group-custom-addon examples:
   position: absolute;
   top: 10px;
   right: 10px;
+  -webkit-box-shadow: -1px 1px 1px 1px #cccccc;
+  -moz-box-shadow: -1px 1px 1px 1px #cccccc;
+  box-shadow: -1px 1px 1px 1px #cccccc;
+  background-color: white;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  padding: 10px;
+}
+#container-ad-list .item-ads-list .locate-it:hover {
+  -webkit-box-shadow: 1px 1px 3px 4px #1e617d;
+  -moz-box-shadow: 1px 1px 3px 4px #1e617d;
+  box-shadow: 1px 1px 3px 4px #1e617d;
 }
 #container-ad-list .item-ads-list .price-ads-list {
   font-size: 1.3em;
@@ -6794,19 +6852,27 @@ input-group-custom-addon examples:
   right: 20px;
   bottom: 0px;
 }
+#container-ad-list .item-ads-list.collapsed {
+  height: 100%;
+}
+#container-ad-list .item-ads-list.collapsed .container-img img {
+  width: 100%;
+}
+#container-ad-list .item-ads-list.collapsed .price-ads-list {
+  font-weight: bold;
+  text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+}
 #container-ad-list .ads-list-item-hover {
   -webkit-box-shadow: 1px 1px 3px 4px #1e617d;
   -moz-box-shadow: 1px 1px 3px 4px #1e617d;
   box-shadow: 1px 1px 3px 4px #1e617d;
 }
 #modalNewLocation .modal-dialog,
-#modalSelectLocation .modal-dialog,
-#modalFilterFacet .modal-dialog {
+#modalSelectLocation .modal-dialog {
   margin-bottom: 0px;
 }
 #modalNewLocation .modal-dialog .modal-content,
-#modalSelectLocation .modal-dialog .modal-content,
-#modalFilterFacet .modal-dialog .modal-content {
+#modalSelectLocation .modal-dialog .modal-content {
   margin-right: 34%;
   margin-top: 100px;
 }
@@ -6814,24 +6880,35 @@ input-group-custom-addon examples:
   list-style: none;
   margin-top: 20px;
 }
-#modalFilterFacet .modal-content .modal-body {
+#modalFilterFacet {
   padding-bottom: 0px;
+  width: 250px;
 }
-#modalFilterFacet .modal-content .modal-body h5 {
+#modalFilterFacet h5 {
   color: #787476;
   border-bottom: 1px solid #6C6C6C;
-  margin-top: 20px;
   padding-bottom: 5px;
+  margin: 10px;
 }
-#modalFilterFacet .modal-content .modal-body ul li {
+#modalFilterFacet ul {
+  list-style: none;
+  padding-left: 0px;
+  margin-right: 20px;
+  margin-left: 20px;
+}
+#modalFilterFacet ul li {
   height: 30px;
   padding-top: 4px;
   border-bottom: 1px solid #c3c3c3;
 }
-#modalFilterFacet .modal-content .modal-body ul li a {
+#modalFilterFacet ul li:hover {
+  border-color: #000000;
+  cursor: pointer;
+}
+#modalFilterFacet ul li a {
   color: #000;
 }
-#modalFilterFacet .modal-content .modal-body ul li .badge {
+#modalFilterFacet ul li .badge {
   background-color: #aa4400;
   float: right;
   position: relative;

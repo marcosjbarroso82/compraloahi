@@ -6317,13 +6317,25 @@ body .navbar-default .dropdown-menu {
 }
 html .navbar-default #notification-menu,
 body .navbar-default #notification-menu {
-  height: 30px;
-  padding: 6px;
-  margin: 10px 0px;
-  color: white;
-  background-color: #aa4400;
-  font-size: .9em;
+  padding-bottom: 9px;
+}
+html .navbar-default #notification-menu i,
+body .navbar-default #notification-menu i {
+  font-size: 22px;
+}
+html .navbar-default #notification-menu span,
+body .navbar-default #notification-menu span {
+  color: #FFF;
+  border-radius: 50%;
+  background-color: #A40;
   font-weight: bold;
+  font-size: 0.8em;
+  position: absolute;
+  right: 4px;
+  top: 6px;
+  height: 20px;
+  width: 20px;
+  opacity: 0.8;
 }
 html .navbar-default .list-notification li,
 body .navbar-default .list-notification li {

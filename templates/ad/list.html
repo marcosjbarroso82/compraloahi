@@ -66,12 +66,13 @@
 
     </div>
     <!-- ########################## END MAP ########################## -->
-    {% endverbatim %}
+
 
         <!-- ########################## SECTION DATA FILTER MAP ########################## -->
-        <section id="data-filter-map" class="col-md-7" style="height: 0px;">
+        <section id="data-filter-map" style="height: 0px;" ng-class="{'col-md-7': !collapsabled, 'col-md-10': collapsabled}">
+        {% endverbatim %}
             <!-- ########################## FORM LOCATION INF ########################## -->
-            <div id="data-position-form" class="col-md-5">
+            <div id="data-position-form">
                 <!-- Address -->
                 <div class="input-group col-md-12">
                     <google-places location=search_location></google-places>
@@ -91,21 +92,63 @@
             </div>
             {% endverbatim %}
         </div>
-    
 
 
-                {% if user.is_authenticated %}
+            {% if user.is_authenticated %}
+
+                <div class="btn-group pull-left" dropdown is-open="status.isopen">
+                  <button type="button"
+                          class="btn btn-xs btn-data-position btn-primary dropdown-toggle"
+                          dropdown-toggle
+                          ng-disabled="disabled"
+                          popover="Mis ubicaciones"
+                          popover-trigger="mouseenter"
+                          popover-placement="right">
+                    <i class="glyphicon glyphicon-list-alt"></i>
+                  </button>
+                    <span class="pull-left" style="margin-top: 10px;">Mis ubicaciones</span>
+                  {% verbatim %}
+                    <ul class="dropdown-menu list-my-location" role="menu" >
+                        <li ng-repeat="user_location in user_locations" for="{{user_location}}" >
+                            <div class="radio">
+                                <label class="i-checks">
+                                    <input type="radio"
+                                           name="selte"
+                                           ng-model="$parent.user_location_selected"
+                                           ng-value="user_location"
+                                           id="{{user_location}}"
+                                            >
+                                    <i></i>
+                                    {{ user_location.title }}
+                                </label>
+                            </div>
+                        </li>
+                    </ul>
+                    {% endverbatim %}
+
+                </div>
+
+
                     <!-- ########################## SAVE NEW LOCATION ########################## -->
-                    <button data-toggle="modal" class="btn btn-xs btn-success btn-data-position" data-target="#modalNewLocation" tooltip="Guarda tu ubicacion">
-                        <i class="glyphicon glyphicon-floppy-disk"></i>
-                    </button>
-                    <button data-toggle="modal"
-                            class="btn btn-xs btn-info btn-data-position"
+
+
+              <!--      <button data-toggle="modal"
+                            class="btn btn-xs btn-info btn-data-position pull-left"
                             id="btn-data-position-ads-list"
                             data-target="#modalSelectLocation"
                             tooltip="Elegi una de tus ubicaciones guardadas">
                         <i class="glyphicon glyphicon-th-list"></i>
                     </button>
+                    <span class="pull-left" style="font-size: 8px;">Elegi una de tus ubicaciones</span>-->
+                    <button data-toggle="modal"
+                            class="btn btn-xs btn-success btn-data-position pull-right"
+                            data-target="#modalNewLocation"
+                            tooltip="Guarda tu ubicacion"
+                            popover-placement="top"
+                            ng-show="search_location.changed">
+                        <i class="glyphicon glyphicon-floppy-disk"></i>
+                    </button>
+
                     </div>
                     <!-- MODAL SAVE NEW LOCATION -->
                     <div class="modal" id="modalNewLocation">
@@ -142,7 +185,7 @@
                     <!-- ########################## END SAVE NEW LOCATION ########################## -->
 
 
-                    <!-- ########################## MY LOCATIONS ########################## -->
+                    <!-- ########################## MY LOCATIONS ##########################
                     <button data-toggle="modal"
                             class="btn btn-success"
                             id="btn-my-locations"
@@ -158,7 +201,7 @@
                             data-target="#modalNewLocation"
                             style="z-index: 99999;">
                         <i class=""></i> Guardar Ubicación
-                    </button>
+                    </button>-->
 
                     <!-- MODAL SELECT MY LOCATION -->
                     <div class="modal" id="modalSelectLocation">
@@ -207,21 +250,15 @@
                 {% endif %}
 
 
-    <!-- ########################## BTN FILTER FACET ########################## -->
-    <button data-toggle="modal" class="btn btn-success" id="btn-filter-facet" data-target="#modalFilterFacet">
-        <i class=""></i> Filtros
-    </button>
 
-    <!-- ########################## MODAL FILTER FACET ########################## -->
-    <div class="modal" id="modalFilterFacet">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
-                    <h4 class="modal-title">Active filtros de busqueda</h4>
-                </div>
-                <div class="modal-body">
-                    <!-- Categories -->
+    <!-- ########################## FILTER FACET ########################## -->
+    <div class="btn-group pull-right" dropdown is-open="status.isopenfilter" >
+      <button type="button" class="btn btn-success dropdown-toggle" id="btn-filter-facet" dropdown-toggle >
+        <i class="glyphicon glyphicon-filter"></i>  Filtros <span class="caret"></span>
+      </button>
+        <div class="dropdown-menu" role="menu" id="modalFilterFacet">
+
+                         <!-- Categories -->
                     {% if facets.fields.categories and "categories_exact" not in request.get_full_path%}
                         <h5>Categorias</h5>
                         <ul>
@@ -267,20 +304,24 @@
                             {% endfor %}
                         </ul>
                     {% endif %}
-                    <!-- End Localities -->
-                </div>
-            </div>
-        </div>
-        <!-- ########################## END MODAL FILTER FACET ########################## -->
-    </div>
 
-    <!-- ########################## BTN FILTER FACET ########################## -->
+                    <!-- End Localities -->
+
+
+        </div>
+
+    </div>
+    <!-- ########################## END FILTER FACET ########################## -->
+
+
+
+    <!-- ########################## BTN ACTIVE FILTER FACET ########################## -->
     <ul id="list-filters-active">
         {% verbatim %}
         <li class="active-filter"
             ng-repeat="facet in selected_facets.facets"
             ng-show="facet.enabled"    ><span>{{ facet.value }}</span>
-            <a ng-click="disableFacet(facet)"> x</a></li>
+            <a ng-click="disableFacet(facet)"> <i class="btn btn-xs glyphicon glyphicon-remove" id="btn-remove-filter"></i> </a></li>
         <!-- DO NOT delete. This code will be usefull when ajax gets implemeted
         <li class="active-filter"
             ng-show="selected_facets.changed">
@@ -296,12 +337,14 @@
     </section>
 
     <!-- ########################## CONTAINER ADs LIST ########################## -->
-    <div id="container-ad-list" class="col-md-5">
+    {% verbatim %}
+    <div id="container-ad-list" ng-class="{'col-md-5': !collapsabled, 'col-md-2': collapsabled}">
         <div id="header-list" class="col-md-12">
-            <p>Mostrando 20 de 300 resultados.</p>
-            <div class="form-inline order-by-container">
-                <label for="order_by">Ordenar por</label>
-                {% verbatim %}
+            <button type="button" id="btn-collapse" class="btn" ng-click="collapse()"> <i class="glyphicon " ng-class="{'glyphicon-chevron-left': collapsabled, 'glyphicon-chevron-right': !collapsabled}"></i> </button>
+            <p ng-show="!collapsabled">Mostrando 20 de 300 resultados.</p>
+            <div class="form-inline " ng-class="{'order-by-container': !collapsabled, 'order-by-container-collapse': collapsabled}">
+                <label ng-show="!collapsabled" for="order_by">Ordenar por</label>
+
                 <select
                         ng-change="refreshResults()"
                         ng-model="selected_ordering"
@@ -310,10 +353,10 @@
                         class="form-control">
                     <option value=""> -- </option>
                 </select>
-                {% endverbatim %}
+
             </div>
         </div>
-
+        {% endverbatim %}
         <!-- ##### FORMUARIO QUE VA EN EL HEADER -->
         <form method="get" action="/ad/ad-list/" class="search-form" hidden="true">
             <div class="">
@@ -363,21 +406,26 @@
                  ng-repeat="ad in ads"
                  ng-mouseenter="selectAd(ad)"
                  ng-mouseleave="deselectAd(ad)"
-                 ng-class="{'ads-list-item-hover': ad.selected == true}">
+                 ng-class="{'ads-list-item-hover': ad.selected == true, 'collapsed': collapsabled}">
 
-                <div class="col-md-3 container-img">
-                    <img class="img-responsive" src="{{ ad.image }}">
+                <div class="container-img" ng-class="{'col-md-3': !collapsabled, 'col-md-12': collapsabled}">
+                    <a id="ad-anchor-{{ ad.pk }}"></a> <!-- This tag is used for animation, It could be replaced -->
+                    <img class="img-responsive"
+                         tooltip="{{ ad.title }}"
+
+                          src="{{ ad.image }}">
+
                 </div>
 
-                <div class="col-md-8 container-text">
-                    <a id="ad-anchor-{{ ad.pk }}"></a> <!-- This tag is used for animation, It could be replaced -->
+                <div class="col-md-8 container-text" ng-show="!collapsabled">
+
                     <a href="/ad/{{ ad.slug }}" ><h4 >{{ ad.title }}</h4></a>
                     <small> Publicado el {{ ad.pub_date }} </small>
                     <p> {{ ad.short_description }} </p>
 
                 </div>
                 <span class="price-ads-list pull-right">${{ ad.price }}<sup>99</sup></span>
-                <a class="locate-it btn" ng-click="centerMap(ad.center)" ><img src="/static/image/icon-location-it.png"></a>
+                <a class="locate-it btn" ng-click="centerMap(ad.center)" ><img src="/static/image/icon-location.png" width="20px" height="20px"></a>
             </div>
 
         </div>
@@ -445,7 +493,7 @@
     <script>
         // TODO: define a proper initialization
         var search_location = {
-            radius: {{ form.data.radius | default:20000}},
+            radius: {{ form.data.radius | default:8000}},
             location: {
                 latitude: {{ form.data.lat | default:"-31.4179952" }},
                 longitude: {{ form.data.lng | default:"-64.1890513" }}

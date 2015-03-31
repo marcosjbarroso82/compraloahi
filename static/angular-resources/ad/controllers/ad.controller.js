@@ -33,6 +33,17 @@
         $scope.user_locations = user_locations;
         $scope.user_location_selected = {};
 
+        $scope.collapsabled = false;
+
+
+        $scope.collapse = function(){
+            if ($scope.collapsabled){
+                $scope.collapsabled = false;
+            }else{
+                $scope.collapsabled = true;
+            }
+        }
+
         $scope.existsLocationTitle = function (title) {
             for (var i=0; i < $scope.user_locations.length; i++) {
                 if ($scope.user_locations[i].title === $scope.search_location.title) {
@@ -135,6 +146,7 @@
                     $('html, body').animate({
                         scrollTop: $("#ad-anchor-" + args.$parent.ad.pk).offset().top - 70
                     }, 1000);
+
                 },
                 mouseover: function (marker, eventName, args) {
                     args.$parent.ad.selected = true;
@@ -208,8 +220,9 @@
         $scope.circle_events = {
             click: function (marker, eventName, args) {
                 $('html, body').animate({
-                    scrollTop: $("#ad-anchor-" + args.$parent.ad.pk).offset().top - 70
+                    scrollTop: $("#ad-anchor-" + args.$parent.ad.pk).offset().top - 200
                 }, 1000);
+
             },
             mouseover: function (marker, eventName, args) {
                 args.$parent.ad.selected = true;
