@@ -11,7 +11,8 @@ angular.module('dashBoardApp', [
         'dashBoardApp.ad',
         'dashBoardApp.message',
         'dashBoardApp.userLocation',
-        'dashBoardApp.util'
+        'dashBoardApp.util',
+        'dashBoardApp.favorite'
 
     ])
     .config(function ($interpolateProvider, $httpProvider, $resourceProvider, $stateProvider, $urlRouterProvider) {
@@ -92,6 +93,12 @@ angular.module('dashBoardApp', [
                 url: '/my-locations',
                 templateUrl: '/static/dashboard/user-location/templates/user-locations-list.html',
                 controller: 'UserLocationCtrl'
+            })
+            // FAVORITE
+            .state('favorite', {
+                url: '/my-favorites',
+                templateUrl: '/static/dashboard/favorite/templates/list.html',
+                controller: 'FavoriteCtrl'
             })
 
             // AGENDA

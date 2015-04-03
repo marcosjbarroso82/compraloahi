@@ -1,0 +1,32 @@
+<div id="container-favorite-list-data">
+    <h4 class="title-data">Mis Favoritos
+    <ul class="pull-right nav" style="height: 30px;">
+            <li class="pull-right" style="height: 30px;"><a ng-click="get_favorites_page(next_page)" ng-disabled="!next_page" class="btn btn-default"> >> </a></li>
+            <li class="pull-right" style="height: 30px;"><a ng-click="get_favorites_page(prev_page)" ng-disable="!prev_page" class="btn btn-default"> << </span></a></li>
+        </ul>
+    </h4>
+    
+    <div class="content-data col-md-12">
+        <table class="table table-bordred table-striped">
+            <tbody id="tab-all-message">
+            <tr id="ad-row-{{ ad.id }}" ng-class-odd="'odd'" ng-class-even="'even'" ng-repeat="ad in favorites">
+                <td class="col-md-1">
+                    <img id="media-object" class="img-rounded" ng-src="{{ ad.images[0].thumbnail_90x90 }}" width="90" height="90">
+                </td>
+                <td class="col-md-9">
+                    <h4><strong>{{ ad.title }}</strong></h4>
+                    <p>{{ ad.short_description }}</p>
+                    <small><strong>Fecha de publicacion : </strong>{{ ad.pub_date }} || <strong>Price : </strong> $ {{ ad.price }}</small>
+                </td>
+                <td class="col-md-2">
+                    <!-- remove -->
+                    <a class="btn btn-sm btn-danger btn-actions" ng-really-message="Are you sure ?" ng-really-click="remove_favorite(ad)" item="ad" tooltip="Elimina de favoritos"><span class="glyphicon glyphicon-remove"></span></a>
+                </td>
+            </tr>
+
+            </tbody>
+        </table>
+    </div>
+    <div class="container-footer col-md-12">
+    </div>
+</div>
