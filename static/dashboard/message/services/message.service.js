@@ -43,10 +43,13 @@
         }
 
         function reply(id, msg){
-            var url = '/message/ajax-reply/' + id + '/?next=/accounts/profile/';
+            //var url = '/message/ajax-reply/' + id + '/?next=/accounts/profile/';
+            var url = '/api/v1/messages-all/';
             return $q(function(resolve, reject) {
                 $.post(url,
-                    {body: msg.body, csrfmiddlewaretoken: $.cookie('csrftoken')},
+                    {
+                        parent: id,
+                        body: msg.body, csrfmiddlewaretoken: $.cookie('csrftoken')},
                     function(data) {
                         resolve('La respuesta se ha enviado con Exito');
                     })

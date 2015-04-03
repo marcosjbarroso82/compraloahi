@@ -22,9 +22,14 @@ class CustomWriteView(WriteView):
     template_name = 'message/write_modal.html'
 
 
+from django.contrib.auth.models import User
+
 class MessageModelViewSet(viewsets.ModelViewSet):
     paginate_by = 10
     serializer_class = MessageSerializer
+
+    def list_all(self, request, *args, **kwargs):
+        return super(MessageModelViewSet, self).list(request, *args, **kwargs)
 
     def list(self, request, *args, **kwargs):
         self.folder = kwargs.get('folder', None)
@@ -32,7 +37,49 @@ class MessageModelViewSet(viewsets.ModelViewSet):
         return super(MessageModelViewSet, self).list(request, *args, **kwargs)
 
     def create(self, request, *args, **kwargs):
-        pass
+        sender = request.user
+        recipient = None
+
+        if request.POST.get('ad_id'):
+            ad = Ad.objects.get(pk=request.POST['ad_id'])
+            recipient = ad.author
+            mc = MessageChannel(sender=sender, recipient=recipient, ad=ad, date=datetime_now())
+            if mc.already_exist():
+                mc.save()
+
+        # Sobre escribir si viene especificado ??
+        if not recipient and request.POST.get('recipient'):
+            recipient = User.objects.get(pk=request.POST['recipient'])
+
+        if request.POST.get('sender'):
+            sender = User.objects.get(pk=request.POST['sender'])
+        else:
+            sender = request.user
+
+        message = Message()
+        parent = None
+        if request.POST.get('parent'):
+            parent = Message.objects.get(pk=request.POST['parent'])
+            recipient=parent.sender
+            subject = 'RE:' + parent.subject
+        if parent and not parent.thread:  # at the very first reply, make it a conversation
+            print("first reply")
+            parent.thread = parent
+            parent.save()
+        if parent:
+            message.parent = parent
+            message.thread = parent.thread
+            initial_moderation = message.get_moderation()
+
+        if request.POST.get('subject'):
+            subject = request.POST['subject']
+
+        message = Message(subject=subject, body=request.POST['body'], sender=sender, recipient=recipient)
+        message.save()
+        msg_serializer = MessageSerializer(message, many=False)
+
+        return Response(msg_serializer.data)
+
 
     def retrieve(self, request, *args, **kwargs):
         """
@@ -57,7 +104,7 @@ class MessageModelViewSet(viewsets.ModelViewSet):
         return Response(msg_serializer.data)
 
     def get_queryset(self):
-        if self.folder:
+        if hasattr(self, 'folder'):
             if self.folder == 'inbox':
                 msgs = Message.objects.inbox(self.request.user)
             elif self.folder == 'sent':
