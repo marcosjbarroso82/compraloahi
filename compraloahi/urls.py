@@ -78,6 +78,10 @@ urlpatterns = patterns('',
                            MessageModelViewSet.as_view({'get': 'list'}),
                            name='api-message-list'),
 
+                       url(r'^api/v1/messages-all/$',
+                           MessageModelViewSet.as_view({'get': 'list_all', 'post': 'create'}),
+                           name='api-message-list-all'),
+
                        url(r'^api/v1/messages/delete-bulk/$',
                            'apps.message.views.message_bulk_delete',
                            name='api-message-delete-bulk'),
