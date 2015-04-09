@@ -10,12 +10,12 @@
         .module('App.ad.controllers')
         .controller('AdCtrl', AdCtrl);
 
-    AdCtrl.$inject = ['$scope', 'Ad'];
+    AdCtrl.$inject = ['$scope', 'Ad', 'AdSearch'];
 
     /**
      * @namespace AdCtrl
      */
-    function AdCtrl($scope, Ad) {
+    function AdCtrl($scope, Ad, AdSearch) {
         $scope.ads = {};
 
         $scope.orderings = [{'name': 'price', selected: false}, {'name': 'distance', selected: false}];
@@ -34,6 +34,8 @@
         $scope.user_location_selected = {};
 
         $scope.collapsabled = false;
+
+        $scope.page_nro = 1;
 
 
         $scope.collapse = function(){
@@ -109,6 +111,8 @@
                 $scope.search_location.location.longitude = $scope.user_location_selected.longitude;
                 $scope.search_location.radius = $scope.user_location_selected.radius;
                 $scope.search_location.changed = false;
+
+                getAdsearch(getUrlParams());
             }
         });
 
@@ -144,7 +148,7 @@
             circle_events: {
                 click: function (marker, eventName, args) {
                     $('html, body').animate({
-                        scrollTop: $("#ad-anchor-" + args.$parent.ad.pk).offset().top - 70
+                        scrollTop: $("#ad-anchor-" + args.$parent.ad.id).offset().top - 70
                     }, 1000);
 
                 },
@@ -166,16 +170,17 @@
 
 
         function getAds(){
-            Ad.get(function(data) {
+            $scope.adPromise = Ad.get(function(data) {
                 $scope.ads = data.results;
 
                 $scope.next_page = data.next;
                 $scope.prev_page = data.previous;
+                $scope.q = data.q;
+                $scope.facets = data.facets;
 
                 // set Circle style for each ad
                 $.each($scope.ads,function(index, ad){
                     setCircleStyle(ad);
-
                 });
             });
         }
@@ -200,7 +205,7 @@
 
         // TODO: Implement this functionality
         $scope.AddToFavourites = function(ad) {
-            window.alert("NOT IMLPEMENTED YET! ad" + ad.pk + " should be added to favourites")
+            window.alert("NOT IMLPEMENTED YET! ad" + ad.id + " should be added to favourites")
         }
 
         $scope.centerMap = function(position) {
@@ -220,7 +225,7 @@
         $scope.circle_events = {
             click: function (marker, eventName, args) {
                 $('html, body').animate({
-                    scrollTop: $("#ad-anchor-" + args.$parent.ad.pk).offset().top - 200
+                    scrollTop: $("#ad-anchor-" + args.$parent.ad.id).offset().top - 200
                 }, 1000);
 
             },
@@ -236,47 +241,83 @@
             $scope.user_location_selected = location;
         }
 
-        // FACETS
-        $scope.disableFacet = function(facet) {
-            facet.enabled = false;
-            $scope.selected_facets['changed'] = true;
-            // We currently navigate inmediatly. Will see in the future when ajax gets implemented
-            $scope.refreshResults();
+
+        /**
+         * Function to change status facet
+         * @param facet is Object Facet change
+         * @param detail is Detail to facet
+         * @param value is value to change activated= True, desactivated = false
+         */
+        $scope.changeFacet = function(facet, detail, value){
+            facet.activated = value;
+            detail.activated = value;
+            getAdsearch(getUrlParams());
         }
-
-        // reset facets to the original ones ( all enabled )
-        $scope.resetFacets =function() {
-            $scope.selected_facets['changed'] = false   ;
-
-            if ($scope.selected_facets['facets']) {
-                $scope.selected_facets['facets'].forEach(function(facet, index, array) {
-                        facet.enabled = true;
-                    }
-                );
-            }
-        };
 
 
         $scope.refreshResults = function(){
-            var url = window.location.pathname + '?' +
-                'lat=' + search_location.location.latitude +
-                '&lng=' + search_location.location.longitude +
-                '&radius=' + search_location.radius;
-            // Add Selected Facets to the URL
-            if ($scope.selected_facets['facets']) {
-                $scope.selected_facets['facets'].forEach(function(facet, index, array) {
-                        if (facet.enabled) {
-                            url += '&selected_facets=' + facet['filter'] + ":" + facet['value'];
+            getAdsearch(getUrlParams());
+        };
+
+        /**
+         * Function to make params url
+         * @returns {string}
+         */
+        function getUrlParams(){
+            var url = 'lat=' + $scope.search_location.location.latitude +
+                '&lng=' + $scope.search_location.location.longitude +
+                '&km=' + $scope.search_location.radius;
+
+            if($scope.q != '' && $scope.q != undefined){
+                url += '&q=' + $scope.q;
+            }
+
+            for(var i=0; i < $scope.facets.length; i++){
+                if($scope.facets[i].activated){
+                    url += '&selected_facets=';
+                    for(var iv=0; iv < $scope.facets[i].values.length; iv++){
+                        if($scope.facets[i].values[iv].activated == true){
+                            url += $scope.facets[i].name + "_exact:" + $scope.facets[i].values[iv].name;
                         }
                     }
-                );
+                }
             }
-            // Ad Seleceted Ordering Parameter to the URL
             if ($scope.selected_ordering && $scope.selected_ordering['name']) {
                 url += '&order_by=' + $scope.selected_ordering['name'];
             }
-            window.location.href = url;
-        };
+
+            if($scope.page_nro > 0){
+                url += '&page=' + String($scope.page_nro);
+            }
+
+            return url;
+        }
+
+
+        function getAdsearch(q){
+            $scope.adPromise = AdSearch.search(q).then(getAdSearchSuccess, getAdSearchError);
+
+            function getAdSearchSuccess(data){
+                $scope.ads = data.data.results;
+                $scope.facets = data.data.facets;
+                $scope.next_page = data.data.next;
+                $scope.prev_page = data.data.previous;
+
+                // set Circle style for each ad
+                $.each($scope.ads,function(index, ad){
+                    setCircleStyle(ad);
+                });
+            }
+
+            function getAdSearchError(data){
+                console.log("Error al traer los mensajes");
+            }
+        }
+
+        $scope.get_ads_page = function(nro_page){
+            $scope.page_nro = nro_page;
+            getAdsearch(getUrlParams());
+        }
 
         // Process Current URL to get the selected Facets and Ordering Parameter
         function processCurrentURL() {

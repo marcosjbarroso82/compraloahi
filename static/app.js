@@ -5,14 +5,14 @@ var App = angular.module('App', [
         'ngSanitize',
         'uiGmapgoogle-maps',
         'ui.bootstrap',
-
+        'cgBusy',
         // My lib
         'App.ad',
         'App.util'
 
     ])
     .config(function ($interpolateProvider, $httpProvider, $resourceProvider, $stateProvider) {
-            console.log("configurando App");
+
         // Force angular to use square brackets for template tag
         // The alternative is using {% verbatim %}
         $interpolateProvider.startSymbol('{{').endSymbol('}}');

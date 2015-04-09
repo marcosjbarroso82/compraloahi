@@ -5,8 +5,8 @@ from django.views.generic import DetailView, \
     CreateView, UpdateView, DeleteView
 from django.http import HttpResponseRedirect
 from haystack.views import FacetedSearchView
-from haystack.query import SearchQuerySet
-from haystack.forms import ModelSearchForm
+from haystack.query import SearchQuerySet, Clean
+from haystack.forms import ModelSearchForm, FacetedModelSearchForm
 from rest_framework import viewsets
 from rest_framework import mixins
 from django.contrib.gis.measure import *
@@ -15,58 +15,151 @@ from django.contrib.gis.geos import Point
 from apps.userProfile.models import UserProfile, UserLocation
 
 from .models import Ad
-from apps.ad.serializers import SearchResultSerializer, AdSerializer, AdPublicSerializer
+from apps.ad.serializers import SearchResultSerializer, AdSerializer, AdPublicSerializer, AdsSearchSerializer
 from .forms import CreateAdForm, AdModifyForm, \
     AdImage_inline_formset, AdLocation_inline_formset
 from apps.comment_notification.models import CommentNotification
+from rest_framework.response import Response
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
+import json
 
 import logging
 
 logger = logging.getLogger('debug')
 
+# Devolver un diccionario de filtros activos y un array de facets detallados
+def get_facet(params_url, facets_fields):
+    # Var to all facets active
+    facets_active = {}
+    # Var to all facets
+    facets = []
+    for name, values in facets_fields:
+        facet = {}
+        facet['name'] = name
+        facet['values'] = []
+        facet['activated'] = False
+
+        facet_active = {}
+        if not facet['activated']:
+            for param_facet in params_url:
+                param_name = str(param_facet).split(':')[0]
+                 # Validate if this facet is in facet_active  # Validate is filter contain sufix 'exact'
+                #and facets_active.get(param_name.split('_')[0], None) is None#
+                if param_name.split('_')[0] == name and facets_active.get(param_name.split('_')[0], True):
+                    if param_name.split('_')[1] != 'exact':
+                         break
+                    param_value = str(param_facet).split(':')[1]
+                    facet_active['value'] = param_value
+                    facet_active['name'] = param_name.split('_')[0]
+                    break
+
+        for value in values:
+            val = {}
+            val['name'] = value[0]
+            val['cant'] = value[1]
+            val['activated'] = False
+            if not facet['activated'] and facet_active.get('value', None):
+                if val['name'] == facet_active['value']:
+                    facets_active[facet_active['name']] = facet_active['value']
+                    facet['activated'] = True
+                    val['activated'] = True
+
+            facet['values'].append(val)
+
+        facets.append(facet)
+
+    return facets
+
+
 class SearchViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
     #permission_classes = (permissions.IsAuthenticated,)
-    serializer_class = SearchResultSerializer
+    serializer_class = AdsSearchSerializer
 
     def get_queryset(self, *args, **kwargs):
-        # This will return a dict of the first known
-        # unit of distance found in the query
-        request = self.request
-        #results = EmptySearchQuerySet()
-        results = SearchQuerySet().all()
+        # Init queryset
+        qs = SearchQuerySet().all()
+        qs = qs.facet('categories').facet('provinces').facet('localities')
 
-        if request.GET.get('q'):
-            form = ModelSearchForm(request.QUERY_PARAMS, searchqueryset=None, load_all=True)
+        if self.request.query_params.get('q'):
+            #qs = qs.filter_and(title__contains=self.request.query_params.get('q'))
+            qs = qs.auto_query(self.request.query_params.get('q'))
 
-            if form.is_valid():
-                query = form.cleaned_data['q']
-                results = form.search()
-        else:
-            form = ModelSearchForm(searchqueryset=None, load_all=True)
+
+        try:
+            param_facet_url = list(self.request.query_params.getlist('selected_facets', []))
+        except:
+            param_facet_url = list(self.request.query_params.get('selected_facets', []))
+
+        for facet in param_facet_url:
+            if ":" not in facet:
+                continue
+            field, value = facet.split(":", 1)
+            if value and field.split('_')[1] == 'exact':
+                qs = qs.narrow('%s:"%s"' % (field, qs.query.clean(value)))
+
+        self.facets = get_facet(param_facet_url, qs.facet_counts()['fields'].items())
 
         distance = None
-        unit = None
         try:
-            for k,v in request.QUERY_PARAMS.items():
+            for k,v in self.request.QUERY_PARAMS.items():
                 if k in D.UNITS.keys():
                     distance = {k:v}
-                    unit = k
 
         except Exception as e:
             logging.error(e)
         point = None
 
         try:
-            point = Point(float(request.QUERY_PARAMS['longitude']), float(request.QUERY_PARAMS['latitude']))
+            point = Point(float(self.request.QUERY_PARAMS['lng']), float(self.request.QUERY_PARAMS['lat']))
         except Exception as e:
             logging.error(e)
 
         if distance and point:
-            results = results or SearchQuerySet()
-            results = results.dwithin('location', point, D(**distance)).distance('location', point)
+            qs = qs or SearchQuerySet()
+            qs = qs.dwithin('location', point, D(**distance)).distance('location', point)
 
-        return results
-        #return Response(SearchResultSerializer(sqs, many=True, unit=unit).data)
+        order_by = self.request.query_params.get('order_by')
+        if order_by:
+            if order_by is 'distance':
+                if distance and point:
+                    qs = qs.order_by(self.request.query_params.get('order_by'))
+            else:
+                qs = qs.order_by(self.request.query_params.get('order_by'))
+
+        return qs
+
+    def list(self, request, *args, **kwargs):
+        ads = self.get_queryset()
+
+        paginator = Paginator(ads, 10)
+        page = self.request.query_params.get('page')
+        try:
+            results = paginator.page(page)
+        except PageNotAnInteger:
+            # If page is not an integer, deliver first page
+            results = paginator.page(1)
+        except EmptyPage:
+            # If page is out of range, deliver last page
+            results = paginator.page(paginator.num_pages)
+
+        results.facets = self.facets
+        results.count = paginator.count
+
+        if results.has_next():
+            results.next = results.next_page_number()
+        else:
+            results.next = None
+
+        if results.has_previous():
+            results.previous = results.previous_page_number()
+        else:
+            results.previous = None
+
+        result_serializer = SearchResultSerializer(instance=results)
+
+        return Response(result_serializer.data)
+
 
 
 
@@ -80,9 +173,22 @@ class AdFacetedSearchView(FacetedSearchView):
             context['user_locations'] = userLocations
         else:
             context['user_locations'] = {}
-        logger.debug("testing debug algo")
 
+        # TODO Se esta creando el json de facets antes de setearlo y las cantidades quedan mal generadas.
+        try:
+            param_facet_url = list(self.request.GET.getlist('selected_facets', []))
+        except:
+            param_facet_url = list(self.request.GET.get('selected_facets', []))
+
+        self.facets = get_facet(param_facet_url, self.searchqueryset.facet_counts()['fields'].items())
+
+        context['clean_facets'] = json.dumps(self.facets)
+        print("#############################")
+        print(self.request.GET.get('q', ''))
+        context['q'] = self.request.GET.get('q', '')
         return context
+
+
 
 
 class DetailAdView(DetailView):

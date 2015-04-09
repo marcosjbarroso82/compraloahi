@@ -7,33 +7,25 @@
 
     angular
         .module('App.ad.services')
-        .factory('Ad', Ad);
+        .factory('AdSearch', AdSearch);
 
-    Ad.$inject = ['$resource'];
+    AdSearch.$inject = ['$http'];
 
     /**
      * @namespace Ad
      * @returns {Factory}
      */
-    function Ad($resource) {
-        //return $resource('/api/v1/ads/:id/:page');
-        return $resource(
-            '/api/v1/my-ads/:id/', {}, {
-                get: {
-                    method: 'GET',
-                    id: '@id',
-                    transformResponse: function(data, headers){
-                        data = angular.fromJson(data);
+    function AdSearch($http) {
+       var AdSearch = {
+            search: search
+        };
 
-                        // Rewrite Next and Previous
-                        data.next = data.next ? getPageFromUrl(data.next) : "";
-                        data.previous = data.previous ? getPageFromUrl(data.previous) : "";
+        return AdSearch;
 
-                        return data;
-                    }
-                }
-            }
-        );
+        function search(q){
+            return $http.get('/api/v1/ad-search/?' + q);
+
+        }
     }
 
     /**

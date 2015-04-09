@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
-from .views import HomeView, ApiDashBoardView, DashBoardAjaxView
+from .views import HomeView, ApiDashBoardView, DashBoardAjaxView, log
 from . import settings_old
 
 from apps.ad import views as adViews

@@ -1,7 +1,6 @@
 @import '../../bower_components/bootstrap/less/bootstrap.less';
 @import 'mixin.less';
 
-@header-height:               50px;
 @header-form-height:          30px;
 
 // Panel
@@ -46,7 +45,11 @@ html, body{
         height: @header-height;
         margin-bottom: 0px;
 
-        form{
+        .container-fluid, .navbar-header{
+          height: @header-height;
+        }
+
+        #nav-search{
             .navbar-vertical-align(35);
             #q{
                 border: 1px solid @input-border;
@@ -94,7 +97,7 @@ html, body{
     }
 
     #container-body{
-        margin-top: 50px;
+        padding-top: @header-height;
         height: 100%;
     }
 

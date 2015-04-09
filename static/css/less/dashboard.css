@@ -6297,13 +6297,19 @@ body .navbar-default {
   height: 50px;
   margin-bottom: 0px;
 }
-html .navbar-default form,
-body .navbar-default form {
+html .navbar-default .container-fluid,
+body .navbar-default .container-fluid,
+html .navbar-default .navbar-header,
+body .navbar-default .navbar-header {
+  height: 50px;
+}
+html .navbar-default #nav-search,
+body .navbar-default #nav-search {
   margin-top: 7.5px;
   margin-bottom: 7.5px;
 }
-html .navbar-default form #q,
-body .navbar-default form #q {
+html .navbar-default #nav-search #q,
+body .navbar-default #nav-search #q {
   border: 1px solid #c3c3c3;
 }
 html .navbar-default #logo,
@@ -6347,7 +6353,7 @@ body .navbar-default .list-notification li:hover {
 }
 html #container-body,
 body #container-body {
-  margin-top: 50px;
+  padding-top: 50px;
   height: 100%;
 }
 html input,

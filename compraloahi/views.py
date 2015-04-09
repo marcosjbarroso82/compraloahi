@@ -10,6 +10,8 @@ from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from django.contrib.auth.models import User
 
+from rest_framework import pagination
+
 
 class HomeView(TemplateView):
     template_name = 'index.html'
@@ -59,3 +61,26 @@ class GenerateAllAuthToken(APIView):
         return Response(response)
 
 generate_all_auth_token = GenerateAllAuthToken.as_view()
+
+
+
+class CustomPagination(pagination.PageNumberPagination):
+    """
+        Custom pagination
+            return only page number in next and previous pages.
+    """
+    def get_paginated_response(self, data):
+        resp = {}
+        if self.page.has_next():
+            resp['next']  = self.page.next_page_number()
+        else:
+            resp['next']  = None
+
+        if self.page.has_previous():
+            resp['previous'] = self.page.previous_page_number()
+        else:
+            resp['previous'] = None
+
+        resp['count'] = self.page.paginator.count
+        resp['results'] = data
+        return Response(resp)

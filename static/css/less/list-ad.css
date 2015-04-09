@@ -6298,13 +6298,19 @@ body .navbar-default {
   height: 50px;
   margin-bottom: 0px;
 }
-html .navbar-default form,
-body .navbar-default form {
+html .navbar-default .container-fluid,
+body .navbar-default .container-fluid,
+html .navbar-default .navbar-header,
+body .navbar-default .navbar-header {
+  height: 50px;
+}
+html .navbar-default #nav-search,
+body .navbar-default #nav-search {
   margin-top: 7.5px;
   margin-bottom: 7.5px;
 }
-html .navbar-default form #q,
-body .navbar-default form #q {
+html .navbar-default #nav-search #q,
+body .navbar-default #nav-search #q {
   border: 1px solid #c3c3c3;
 }
 html .navbar-default #logo,
@@ -6348,7 +6354,7 @@ body .navbar-default .list-notification li:hover {
 }
 html #container-body,
 body #container-body {
-  margin-top: 50px;
+  padding-top: 50px;
   height: 100%;
 }
 html input,
@@ -6601,9 +6607,16 @@ input-group-custom-addon examples:
 
 
 */
+#container-body,
+#page-ads-list,
+#map-container,
+#container-ad-list {
+  max-height: 100%;
+  min-height: 100%;
+  height: 100%;
+}
 #map-container {
   position: fixed;
-  top: 50px;
   left: 0px;
   width: 100%;
   height: 100%;
@@ -6765,6 +6778,7 @@ input-group-custom-addon examples:
   background-color: rgba(255, 255, 255, 0.8);
   padding: 0px;
   border-left: 0.1px solid #c3c3c3;
+  overflow: auto;
 }
 #container-ad-list #header-list {
   background-color: #C5C5C5;
@@ -6915,4 +6929,11 @@ input-group-custom-addon examples:
 }
 .footer {
   display: none;
+}
+.pagination {
+  margin: 0px 7px 0px 0px;
+  padding: 0px;
+}
+.cg-busy {
+  top: 50px !important;
 }
