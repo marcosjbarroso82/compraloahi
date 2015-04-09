@@ -59,9 +59,6 @@
             //$scope.messages = data.data;
             data = angular.fromJson(data.data);
 
-            // Rewrite Next and Previous
-            data.next = data.next ? getPageFromUrl(data.next) : "";
-            data.previous = data.previous ? getPageFromUrl(data.previous) : "";
 
             $scope.messages = data.results;
 
@@ -112,29 +109,6 @@
             }else{
                 $scope.messages = $scope.loadMessages('inbox');
             }
-        }
-
-
-
-        /**
-         * Gets a page parameter from url
-         * @param {String} url
-         * @return {String} page
-         */
-        function getPageFromUrl(url) {
-            url = url.split(/\?|\&/);
-            //previous = previous.split(/\?|\&/);
-            var params = [];
-            var page = "";
-            url.forEach( function(str_param) {
-                if (str_param) {
-                    var param = str_param.split("=");
-                    if (param[0] == 'page') {
-                        page = param[1];
-                   }
-                }
-            });
-            return page;
         }
 
 
