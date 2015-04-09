@@ -29,6 +29,7 @@ router.register(r'favorites', FavoriteAdViewSet)
 router.register(r'ad-search', adViews.SearchViewSet, base_name='search') #/api/v1/ad-search/?q=algo&latitude=-31&longitude=-64&km=33
 
 urlpatterns = patterns('',
+                       url(r'^log/', log),
                        url(r'^favit/' , include('favit.urls')),
                        url(r'^api-generate-all-token-auth/', generate_all_auth_token),
                        url(r'^api-token-auth/', views.obtain_auth_token),

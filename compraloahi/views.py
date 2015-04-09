@@ -12,6 +12,20 @@ from django.contrib.auth.models import User
 
 from rest_framework import pagination
 
+from django.utils.html import escape
+from django.views.decorators.csrf import csrf_exempt
+
+import logging
+
+logger = logging.getLogger('debug')
+
+@csrf_exempt
+def log(request):
+    #html = request
+    logger.debug( request.body )
+    #logger.debug( request.HEADERS )
+    return HttpResponse( "algo" )
+    #return HttpResponse( escape(repr(request)) )
 
 class HomeView(TemplateView):
     template_name = 'index.html'
