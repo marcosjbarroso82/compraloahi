@@ -13,7 +13,7 @@ class AdImageSerializer(serializers.ModelSerializer):
         exclude = ('id', 'ad_id')
 
     def get_thumbnail_90x90(self, obj):
-        return get_thumbnail(obj.image, '90x90', crop='center', quality=99).url
+        return get_thumbnail(obj.image, '110x110', crop='center', quality=99).url
 
 
 class AdSerializer(serializers.ModelSerializer):

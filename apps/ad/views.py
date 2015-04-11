@@ -6,7 +6,6 @@ from django.views.generic import DetailView, \
 from django.http import HttpResponseRedirect
 from haystack.views import FacetedSearchView
 from haystack.query import SearchQuerySet, Clean
-from haystack.forms import ModelSearchForm, FacetedModelSearchForm
 from rest_framework import viewsets
 from rest_framework import mixins
 from django.contrib.gis.measure import *
@@ -44,8 +43,7 @@ def get_facet(params_url, facets_fields):
         if not facet['activated']:
             for param_facet in params_url:
                 param_name = str(param_facet).split(':')[0]
-                 # Validate if this facet is in facet_active  # Validate is filter contain sufix 'exact'
-                #and facets_active.get(param_name.split('_')[0], None) is None#
+                # Valida si el parametro pertenece a un facet, y si el facet mismo ya esta activo
                 if param_name.split('_')[0] == name and facets_active.get(param_name.split('_')[0], True):
                     if param_name.split('_')[1] != 'exact':
                          break
@@ -183,8 +181,6 @@ class AdFacetedSearchView(FacetedSearchView):
         self.facets = get_facet(param_facet_url, self.searchqueryset.facet_counts()['fields'].items())
 
         context['clean_facets'] = json.dumps(self.facets)
-        print("#############################")
-        print(self.request.GET.get('q', ''))
         context['q'] = self.request.GET.get('q', '')
         return context
 

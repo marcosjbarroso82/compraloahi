@@ -224,8 +224,10 @@
 
         $scope.circle_events = {
             click: function (marker, eventName, args) {
-                $('html, body').animate({
-                    scrollTop: $("#ad-anchor-" + args.$parent.ad.id).offset().top - 200
+                var container = $("#container-ad-list");
+                var item = $("#ad-anchor-" + args.$parent.ad.id);
+                $('html, body, #container-ad-list').animate({
+                    scrollTop: item.offset().top - container.offset().top + container.scrollTop() - 70
                 }, 1000);
 
             },
