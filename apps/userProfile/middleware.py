@@ -13,8 +13,11 @@ class ValidProfileCreatedMiddleware(object):
         Valida si el usuario tiene un perfil creado, sino lo redirecciona a la vista para crearlo.
     """
     def process_request(self, request):
-        if hasattr(request, 'user') and request.user.is_authenticated() \
-                and hasattr(request, 'path') and request.path != '/accounts/profile/create/':
+        if hasattr(request, 'user') \
+                and request.user.is_authenticated() \
+                and hasattr(request, 'path') \
+                and request.path != '/accounts/profile/create/' \
+                and request.path != '/users/logout/':
             try:
                 user_profile = UserProfile.objects.get(user = request.user)
                 if user_profile and user_profile.birth_date and request.user.first_name != '' and request.user.last_name != '':
