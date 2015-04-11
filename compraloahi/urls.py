@@ -11,14 +11,13 @@ from apps.favorite.views import FavoriteAdViewSet
 
 from rest_framework.routers import DefaultRouter
 
-from apps.user.views import ChangePasswordUpdateAPIView
+from apps.user.views import ChangePasswordUpdateAPIView, FacebookLogin, GoogleLogin
 
 from rest_framework.authtoken import views
 
-from apps.comment_notification import receivers
-from compraloahi import receivers
+# from apps.comment_notification import receivers
+# from compraloahi import receivers
 from compraloahi.views import generate_all_auth_token
-
 
 router = DefaultRouter()
 router.register(r'my-ads', adViews.AdUserViewSet)
@@ -29,6 +28,12 @@ router.register(r'favorites', FavoriteAdViewSet)
 router.register(r'ad-search', adViews.SearchViewSet, base_name='search') #/api/v1/ad-search/?q=algo&latitude=-31&longitude=-64&km=33
 
 urlpatterns = patterns('',
+                       url(r'^rest-auth/facebook/$', FacebookLogin.as_view(), name='fb_login'),
+                       url(r'^rest-auth/google/$', GoogleLogin.as_view(), name='goo_login'),
+                       url(r'^rest-auth/', include('rest_auth.urls')),
+                       url(r'^rest-auth/registration/', include('rest_auth.registration.urls')),
+
+
                        url(r'^log/', log),
                        url(r'^favit/' , include('favit.urls')),
                        url(r'^api-generate-all-token-auth/', generate_all_auth_token),

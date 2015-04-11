@@ -11,7 +11,7 @@ DJANGO_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
-    'django.contrib.messages',
+    #'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'django.contrib.comments',
@@ -35,6 +35,9 @@ THIRD_PARTY_APPS = (
     'favit',
     'corsheaders',
     'rest_framework.authtoken',
+    'rest_auth',
+    'rest_auth.registration',
+
 )
 
 # Defined own applications
@@ -160,6 +163,13 @@ SOCIALACCOUNT_PROVIDERS = {
         'SCOPE': ['https://www.googleapis.com/auth/userinfo.profile'],
         'AUTH_PARAMS': {'access_type': 'online'}}
 }
+"""
+ACCOUNT_EMAIL_REQUIRED=False
+ACCOUNT_CONFIRM_EMAIL_ON_GET=False
+ACCOUNT_EMAIL_REQUIRED = False
+ACCOUNT_UNIQUE_EMAIL =  False
+ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = False
+"""
 
 POSTMAN_DISALLOW_ANONYMOUS = True  # default is False
 POSTMAN_DISALLOW_MULTIRECIPIENTS = True  # default is False

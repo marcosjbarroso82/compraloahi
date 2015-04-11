@@ -14,6 +14,17 @@ from rest_framework import status
 from rest_framework.response import Response
 
 
+from allauth.socialaccount.providers.facebook.views import FacebookOAuth2Adapter
+from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
+from rest_auth.registration.views import SocialLogin
+
+
+class FacebookLogin(SocialLogin):
+    adapter_class = FacebookOAuth2Adapter
+
+class GoogleLogin(SocialLogin):
+    adapter_class = GoogleOAuth2Adapter
+
 
 class LogoutView(View):
 

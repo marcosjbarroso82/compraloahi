@@ -382,4 +382,5 @@ class AdUserViewSet(viewsets.ModelViewSet):
 class AdPublicViewSet(viewsets.ModelViewSet):
     queryset = Ad.objects.all()
     serializer_class = AdPublicSerializer
+    paginate_by = 10
 
