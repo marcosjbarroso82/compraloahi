@@ -6,8 +6,8 @@ from django.contrib.auth import logout
 
 from django.views.generic import View
 
-from .serializers import UserSerializer
-from rest_framework.generics import UpdateAPIView
+from .serializers import UserSerializer, DeviceSerializer
+from rest_framework.generics import UpdateAPIView, CreateAPIView
 
 from django.contrib.auth.models import User
 from rest_framework import status
@@ -17,6 +17,14 @@ from rest_framework.response import Response
 from allauth.socialaccount.providers.facebook.views import FacebookOAuth2Adapter
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 from rest_auth.registration.views import SocialLogin
+
+
+from push_notifications.models import GCMDevice
+
+class RegisterNotificatin(CreateAPIView):
+    serializer_class = DeviceSerializer
+
+
 
 
 class FacebookLogin(SocialLogin):
@@ -57,8 +65,8 @@ class ChangePasswordUpdateAPIView(UpdateAPIView):
             if request.DATA['new_password'] == request.DATA['new_password_repeat']:
                 user.set_password(request.DATA['new_password'])
                 user.save()
-                return Response({'status': 'Ok request.', 'message': 'La contraseña se modifico con exito'}, status=status.HTTP_200_OK )
+                return Response({'message': 'La contraseña se modifico con exito'}, status=status.HTTP_200_OK )
             else:
-                return Response({'status': 'Bad request.', 'message': 'Las contraseñas no cohinciden'}, status=status.HTTP_400_BAD_REQUEST )
+                return Response({'message': 'Las contraseñas no cohinciden'}, status=status.HTTP_400_BAD_REQUEST )
         else:
-            return Response({'status': 'Bad request.', 'message': 'La contraseña actual es incorrecta'}, status=status.HTTP_400_BAD_REQUEST )
+            return Response({'message': 'La contraseña actual es incorrecta'}, status=status.HTTP_400_BAD_REQUEST )

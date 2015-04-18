@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
-from .views import HomeView, ApiDashBoardView, DashBoardAjaxView, log
+from .views import HomeView, ApiDashBoardView, DashBoardAjaxView, log, send_notification
 from . import settings_old
 
 from apps.ad import views as adViews
@@ -11,13 +11,14 @@ from apps.favorite.views import FavoriteAdViewSet
 
 from rest_framework.routers import DefaultRouter
 
-from apps.user.views import ChangePasswordUpdateAPIView, FacebookLogin, GoogleLogin
+from apps.user.views import ChangePasswordUpdateAPIView, FacebookLogin, GoogleLogin, RegisterNotificatin
 
 from rest_framework.authtoken import views
 
 # from apps.comment_notification import receivers
 # from compraloahi import receivers
 from compraloahi.views import generate_all_auth_token
+
 
 router = DefaultRouter()
 router.register(r'my-ads', adViews.AdUserViewSet)
@@ -28,13 +29,15 @@ router.register(r'favorites', FavoriteAdViewSet)
 router.register(r'ad-search', adViews.SearchViewSet, base_name='search') #/api/v1/ad-search/?q=algo&latitude=-31&longitude=-64&km=33
 
 urlpatterns = patterns('',
+                       url(r'^api/v1/notification/register/$', RegisterNotificatin.as_view(), name='not-register'),
                        url(r'^rest-auth/facebook/$', FacebookLogin.as_view(), name='fb_login'),
                        url(r'^rest-auth/google/$', GoogleLogin.as_view(), name='goo_login'),
                        url(r'^rest-auth/', include('rest_auth.urls')),
                        url(r'^rest-auth/registration/', include('rest_auth.registration.urls')),
 
-
+                       url(r'^send_notification/', send_notification),
                        url(r'^log/', log),
+
                        url(r'^favit/' , include('favit.urls')),
                        url(r'^api-generate-all-token-auth/', generate_all_auth_token),
                        url(r'^api-token-auth/', views.obtain_auth_token),

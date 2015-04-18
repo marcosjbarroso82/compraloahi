@@ -35,10 +35,17 @@ THIRD_PARTY_APPS = (
     'favit',
     'corsheaders',
     'rest_framework.authtoken',
+    'push_notifications',
     'rest_auth',
     'rest_auth.registration',
 
 )
+
+PUSH_NOTIFICATIONS_SETTINGS = {
+        "GCM_API_KEY": "AIzaSyD-750iceKvjKVno9p1Z4W6guATHMPJoak",
+        #"APNS_CERTIFICATE": "/path/to/your/certificate.pem",
+}
+GCM_POST_URL = 'https://android.googleapis.com/gcm/send'
 
 # Defined own applications
 LOCAL_APPS = (
@@ -67,7 +74,6 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'apps.userProfile.middleware.ValidProfileCreatedMiddleware',
-
 )
 
 CORS_ORIGIN_ALLOW_ALL = True

@@ -15,15 +15,13 @@ class ValidProfileCreatedMiddleware(object):
     def process_request(self, request):
         if hasattr(request, 'user') \
                 and request.user.is_authenticated() \
-                and hasattr(request, 'path') \
-                and request.path != '/accounts/profile/create/' \
-                and request.path != '/users/logout/':
+                and request.path == '/ad/ad-list/':
             try:
                 user_profile = UserProfile.objects.get(user = request.user)
-                if user_profile and user_profile.birth_date and request.user.first_name != '' and request.user.last_name != '':
+                if user_profile: #and user_profile.birth_date and request.user.first_name != '' and request.user.last_name != '':
                     return None
                 else:
-                    return hasnt_profile(request.path)
+                    raise  UserProfile.DoesNotExist
             except UserProfile.DoesNotExist:
                 return hasnt_profile(request.path)
         else:

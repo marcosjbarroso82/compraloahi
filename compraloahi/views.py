@@ -13,6 +13,7 @@ from django.contrib.auth.models import User
 from rest_framework import pagination
 
 from django.utils.html import escape
+from push_notifications.models import GCMDevice
 from django.views.decorators.csrf import csrf_exempt
 
 import logging
@@ -26,6 +27,16 @@ def log(request):
     #logger.debug( request.HEADERS )
     return HttpResponse( "algo" )
     #return HttpResponse( escape(repr(request)) )
+
+
+# Test send notification to android
+def send_notification(request):
+    device = GCMDevice.objects.first()
+
+    device.send_message(request.GET.get('msg', "Hola"))
+
+    return HttpResponse("Notificacion enviada con exito")
+
 
 class HomeView(TemplateView):
     template_name = 'index.html'

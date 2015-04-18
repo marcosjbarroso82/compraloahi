@@ -15,6 +15,7 @@ from apps.ad.models import Ad
 from .models import MessageChannel
 
 from django.utils.timezone import now as datetime_now
+from push_notifications.models import GCMDevice
 
 
 class CustomWriteView(WriteView):
@@ -71,14 +72,20 @@ class MessageModelViewSet(viewsets.ModelViewSet):
             message.thread = parent.thread
             initial_moderation = message.get_moderation()
 
-        if request.POST.get('subject'):
-            subject = request.POST['subject']
+        subject = request.POST.get('subject', '')
 
-        message = Message(subject=subject, body=request.POST['body'], sender=sender, recipient=recipient)
-        message.save()
-        msg_serializer = MessageSerializer(message, many=False)
+        if recipient:
+            message = Message(subject=subject, body=request.POST['body'], sender=sender, recipient=recipient)
+            message.save()
+            msg_serializer = MessageSerializer(message, many=False)
 
-        return Response(msg_serializer.data)
+            # Send notification
+            device = GCMDevice.objects.filter(user= recipient).first()
+            device.send_message("Mensaje nuevo de " + recipient.username, {'type': 'message', 'id': message.id})
+
+            return Response(msg_serializer.data)
+        else:
+            return Response({'message': 'Need recipient'}, status=status.HTTP_200_OK)
 
 
     def retrieve(self, request, *args, **kwargs):
