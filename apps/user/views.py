@@ -18,13 +18,27 @@ from allauth.socialaccount.providers.facebook.views import FacebookOAuth2Adapter
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 from rest_auth.registration.views import SocialLogin
 
-
+from rest_framework.decorators import api_view
 from push_notifications.models import GCMDevice
 
 class RegisterNotificatin(CreateAPIView):
     serializer_class = DeviceSerializer
 
 
+class UnregisterNotification(UpdateAPIView):
+    serializer_class = DeviceSerializer
+    # TODO: Pasar funcionalidad al serializer
+    def update(self, request, *args, **kwargs):
+        if request.DATA.get('registration_id', '') != '':
+            try:
+                gcm = GCMDevice.objects.get(user=request.user, registration_id= request.DATA.get('registration_id'))
+                gcm.active = False
+                gcm.save()
+                return Response({"message": "Success! User unregistered to notification"}, status=status.HTTP_200_OK)
+            except GCMDevice.DoesNotExist:
+                return Response({'message': "Invalid request"}, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response({'message': "Field registration id is required."}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class FacebookLogin(SocialLogin):

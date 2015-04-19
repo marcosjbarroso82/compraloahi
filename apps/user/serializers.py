@@ -15,7 +15,7 @@ class DeviceSerializer(serializers.ModelSerializer):
 
 
     def create(self, validated_data):
-
+        # TODO: Validad campos
         request = self.context.get('request', None)
         if request is not None:
            if request.user.is_authenticated():
@@ -23,6 +23,8 @@ class DeviceSerializer(serializers.ModelSerializer):
                 validated_data['user'] = request.user
 
         return GCMDevice.objects.create(**validated_data)
+
+
 
 
 

@@ -11,7 +11,7 @@ from apps.favorite.views import FavoriteAdViewSet
 
 from rest_framework.routers import DefaultRouter
 
-from apps.user.views import ChangePasswordUpdateAPIView, FacebookLogin, GoogleLogin, RegisterNotificatin
+from apps.user.views import ChangePasswordUpdateAPIView, FacebookLogin, GoogleLogin, RegisterNotificatin, UnregisterNotification
 
 from rest_framework.authtoken import views
 
@@ -30,6 +30,7 @@ router.register(r'ad-search', adViews.SearchViewSet, base_name='search') #/api/v
 
 urlpatterns = patterns('',
                        url(r'^api/v1/notification/register/$', RegisterNotificatin.as_view(), name='not-register'),
+                       url(r'^api/v1/notification/unregister/$', UnregisterNotification.as_view(), name='not-unregister'),
                        url(r'^rest-auth/facebook/$', FacebookLogin.as_view(), name='fb_login'),
                        url(r'^rest-auth/google/$', GoogleLogin.as_view(), name='goo_login'),
                        url(r'^rest-auth/', include('rest_auth.urls')),
