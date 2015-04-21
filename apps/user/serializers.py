@@ -4,9 +4,9 @@ from rest_framework import serializers
 
 from push_notifications.models import GCMDevice
 
-
 class DeviceSerializer(serializers.ModelSerializer):
-    device_id = serializers.StringRelatedField(allow_null=True)
+    device_id = serializers.CharField(allow_null=True, required=False, max_length=255)
+    #device_id = serializers.UUIDField(allow_null=True, required=False)
 
     class Meta:
         model = GCMDevice
@@ -23,7 +23,6 @@ class DeviceSerializer(serializers.ModelSerializer):
                 validated_data['user'] = request.user
 
         return GCMDevice.objects.create(**validated_data)
-
 
 
 
