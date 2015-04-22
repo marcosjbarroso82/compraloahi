@@ -8,12 +8,13 @@ from .models import Notification, TYPE_NOTIFICATION
 
 
 class DeviceSerializer(serializers.ModelSerializer):
-    device_id = serializers.CharField(required=True)
+    device_id = serializers.CharField(allow_null=True, required=False, max_length=255)
 
     class Meta:
         model = GCMDevice
         fields = ('name', 'user', 'device_id', 'registration_id')
         read_only_fields = ('user', 'name')
+
 
     def create(self, validated_data):
         # TODO: Validad campos

@@ -7,10 +7,10 @@ from rest_framework.authtoken import views
 from apps.ad import views as adViews
 from apps.favorite.views import FavoriteAdViewSet
 from apps.message.views import MessageDetail, MessageModelViewSet
-from apps.notification.views import NotificationListApiView, NotificationPartialUpdate
+from apps.notification.views import NotificationListApiView, NotificationPartialUpdate, \
+    RegisterGCMNotification, UnregisterGCMNotification
 from apps.userProfile.views import UserLocationViewSet, UserProfileModelView
-from apps.user.views import ChangePasswordUpdateAPIView, FacebookLogin, \
-    GoogleLogin, RegisterNotificatin, UnregisterNotification
+from apps.user.views import ChangePasswordUpdateAPIView, FacebookLogin, GoogleLogin
 
 from .views import HomeView, ApiDashBoardView, DashBoardAjaxView, log, send_notification, generate_all_auth_token
 from . import settings_old
@@ -28,8 +28,8 @@ urlpatterns = patterns('',
                        url(r'^api/v1/notifications/(?P<pk>\d+)/$',NotificationPartialUpdate.as_view(), name='notification-marked-read'),
                        url(r'^api/v1/notifications/$', NotificationListApiView.as_view(), name='notifications-user'),
 
-                       url(r'^api/v1/notification/register/$', RegisterNotificatin.as_view(), name='not-register'),
-                       url(r'^api/v1/notification/unregister/$', UnregisterNotification.as_view(), name='not-unregister'),
+                       url(r'^api/v1/notification/register/$', RegisterGCMNotification.as_view(), name='not-register'),
+                       url(r'^api/v1/notification/unregister/$', UnregisterGCMNotification.as_view(), name='not-unregister'),
 
                        url(r'^rest-auth/facebook/$', FacebookLogin.as_view(), name='fb_login'),
                        url(r'^rest-auth/google/$', GoogleLogin.as_view(), name='goo_login'),
