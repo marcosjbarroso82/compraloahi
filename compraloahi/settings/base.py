@@ -49,13 +49,14 @@ GCM_POST_URL = 'https://android.googleapis.com/gcm/send'
 
 # Defined own applications
 LOCAL_APPS = (
+    'apps.common_tags',
     'apps.ad',
     'apps.adLocation',
     'apps.userProfile',
     'apps.user',
     'apps.message',
-    'apps.common_tags',
     'apps.comment_notification',
+    'apps.notification'
 )
 
 # All aplication
