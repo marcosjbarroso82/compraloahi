@@ -1,29 +1,28 @@
+from django.db.models import Q
+from django.contrib.auth.models import User
+from django.utils.timezone import now as datetime_now
+
 from postman.views import WriteView
 from postman.models import Message
-from .forms import CustomWriteForm
 
 from rest_framework import viewsets, generics, status
-from .serializers import MessageSerializer
-
+from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from django.db.models import Q
-
-from rest_framework.decorators import api_view
-
 from apps.ad.models import Ad
-from .models import MessageChannel
+from apps.notification.models import Notification
 
-from django.utils.timezone import now as datetime_now
-from push_notifications.models import GCMDevice
+from .forms import CustomWriteForm
+from .models import MessageChannel
+from .serializers import MessageSerializer
+
+import sys
 
 
 class CustomWriteView(WriteView):
     form_classes = (CustomWriteForm, CustomWriteForm)
     template_name = 'message/write_modal.html'
 
-
-from django.contrib.auth.models import User
 
 class MessageModelViewSet(viewsets.ModelViewSet):
     paginate_by = 10
@@ -38,61 +37,76 @@ class MessageModelViewSet(viewsets.ModelViewSet):
         return super(MessageModelViewSet, self).list(request, *args, **kwargs)
 
     def create(self, request, *args, **kwargs):
-        sender = request.user
-        recipient = None
+        """
+            body obligatorio
+            ad_id or messageParent obligatorio
+        """
+        try:
+            if not request.DATA.get('body'):
+                raise KeyError(fielderror="body")
 
-        if request.POST.get('ad_id'):
-            ad = Ad.objects.get(pk=request.POST['ad_id'])
-            recipient = ad.author
-            mc = MessageChannel(sender=sender, recipient=recipient, ad=ad, date=datetime_now())
-            if mc.already_exist():
-                mc.save()
+            message = Message()
+            message.sender = request.user
 
-        # Sobre escribir si viene especificado ??
-        if not recipient and request.POST.get('recipient'):
-            recipient = User.objects.get(pk=request.POST['recipient'])
+            if request.DATA.get('ad_id', '') != '':
+                ad = Ad.objects.get(pk=request.DATA['ad_id'])
+                message.recipient = ad.author
+                mc = MessageChannel(sender=message.sender, recipient=message.recipient, ad=ad, date=datetime_now())
+                if mc.already_exist():
+                    mc.save()
+            else:
+                #
+                # if request.POST.get('sender'):
+                #     sender = User.objects.get(pk=request.POST['sender'])
 
-        if request.POST.get('sender'):
-            sender = User.objects.get(pk=request.POST['sender'])
-        else:
-            sender = request.user
+                try:
+                    parent = Message.objects.get(pk=request.DATA.get('parent'))
 
-        message = Message()
-        parent = None
-        if request.POST.get('parent'):
-            parent = Message.objects.get(pk=request.POST['parent'])
-            recipient=parent.sender
-            subject = 'RE:' + parent.subject
-        if parent and not parent.thread:  # at the very first reply, make it a conversation
-            print("first reply")
-            parent.thread = parent
-            parent.save()
-        if parent:
-            message.parent = parent
-            message.thread = parent.thread
-            initial_moderation = message.get_moderation()
+                    if not parent.thread:
+                        parent.thread = parent
+                        parent.save()
 
-        subject = request.POST.get('subject', '')
+                    print("ENTRO AL AVISO3")
+                    message.parent = parent
+                    message.thread = parent.thread
+                    # Esto lo deberia hacer el objeto
+                    message.recipient = parent.sender
 
-        if recipient:
-            message = Message(subject=subject, body=request.POST['body'], sender=sender, recipient=recipient)
+
+                # Sobre escribir si viene especificado ??
+                # if not message.recipient and request.POST.get('recipient'):
+                #     recipient = User.objects.get(pk=request.POST['recipient'])
+
+                except Message.DoesNotExist:
+                    return Response({'Error'}, status=status.HTTP_400_BAD_REQUEST)
+
+            message.subject = request.DATA.get('subject', '')
+            #message.subject = request.DATA.get('body')[:20] + "...."
+
+            message.body = request.DATA.get('body')
+
+            #NO se que hace
+            message.get_moderation()
+
             message.save()
-            msg_serializer = MessageSerializer(message, many=False)
 
-            # Send notification
-            device = GCMDevice.objects.filter(user= recipient).first()
-            device.send_message("Mensaje nuevo de " + recipient.username, {'type': 'message', 'id': message.id})
+            Notification(receiver=message.recipient, type='msg', message="New Message", extras={'user': request.user.id}).save()
 
-            return Response(msg_serializer.data)
-        else:
-            return Response({'message': 'Need recipient'}, status=status.HTTP_200_OK)
+            return Response(MessageSerializer(message, many=False).data)
+
+        except KeyError:
+            print("KEY ERROR ARGS")
+            print(KeyError.args)
+            return Response({'Error, fields is required'}, status=status.HTTP_400_BAD_REQUEST)
+        except:
+            print(sys.exc_info()[0])
+            return Response({'Error'}, status=status.HTTP_400_BAD_REQUEST)
 
 
     def retrieve(self, request, *args, **kwargs):
         """
             Devuelve un thread
         """
-
         msg = Message.objects.get(pk=self.kwargs['pk'])
         if msg.read_at is None:
             msg.read_at = datetime_now()

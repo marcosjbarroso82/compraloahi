@@ -44,7 +44,7 @@
 
         function reply(id, msg){
             //var url = '/message/ajax-reply/' + id + '/?next=/accounts/profile/';
-            var url = '/api/v1/messages-all/';
+            var url = '/api/v1/messages/';
             return $q(function(resolve, reject) {
                 $.post(url,
                     {

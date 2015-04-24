@@ -90,13 +90,15 @@ urlpatterns = patterns('',
                            MessageModelViewSet.as_view({'get': 'list'}),
                            name='api-message-list'),
 
-                       url(r'^api/v1/messages-all/$',
+                       url(r'^api/v1/messages/$',
                            MessageModelViewSet.as_view({'get': 'list_all', 'post': 'create'}),
                            name='api-message-list-all'),
 
                        url(r'^api/v1/messages/delete-bulk/$',
                            'apps.message.views.message_bulk_delete',
                            name='api-message-delete-bulk'),
+
+
                        url(r'^api/v1/messages/set-read-bulk/$',
                            'apps.message.views.message_bulk_set_read',
                            name='api-message-set-read-bulk'),
