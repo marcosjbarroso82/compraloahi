@@ -15,7 +15,8 @@ from push_notifications.models import GCMDevice
 TYPE_NOTIFICATION = (
                 ('msg', 'Message'),
                 ('fav', 'Favorite'),
-                ('cmmt', 'Comment')
+                ('cmmt', 'Comment'),
+                ('prox', 'Near Favorite')
             )
 
 class NotificationManager(models.QuerySet):

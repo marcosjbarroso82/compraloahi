@@ -5,7 +5,7 @@ from rest_framework.routers import DefaultRouter
 from rest_framework.authtoken import views
 
 from apps.ad import views as adViews
-from apps.favorite.views import FavoriteAdViewSet
+from apps.favorite.views import FavoriteAdViewSet, HasFavoriteNearApiView
 from apps.message.views import MessageDetail, MessageModelViewSet
 from apps.notification.views import NotificationListApiView, NotificationRetrieveApiView, \
     RegisterGCMNotification, UnregisterGCMNotification, NotificationMarkBulkReadApiView
@@ -25,7 +25,8 @@ router.register(r'favorites', FavoriteAdViewSet)
 router.register(r'ad-search', adViews.SearchViewSet, base_name='search') #/api/v1/ad-search/?q=algo&latitude=-31&longitude=-64&km=33
 
 urlpatterns = patterns('',
-
+                       url(r'^favorites/near/$', HasFavoriteNearApiView.as_view() , name='favorite-near'),
+                       url(r'^log/', log),
                        url(r'^api/v1/notifications/bulk/$',NotificationMarkBulkReadApiView.as_view(), name='notification-marked-bulk-read'),
                        url(r'^api/v1/notifications/(?P<pk>\d+)/$',NotificationRetrieveApiView.as_view(), name='notification-marked-read'),
                        url(r'^api/v1/notifications/$', NotificationListApiView.as_view(), name='notifications-user'),
@@ -39,7 +40,7 @@ urlpatterns = patterns('',
                        url(r'^rest-auth/registration/', include('rest_auth.registration.urls')),
 
                        url(r'^send_notification/', send_notification),
-                       url(r'^log/', log),
+
 
                        url(r'^favit/' , include('favit.urls')),
                        url(r'^api-generate-all-token-auth/', generate_all_auth_token),

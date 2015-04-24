@@ -88,3 +88,5 @@ class NotificationMarkBulkReadApiView(UpdateAPIView):
             return Response({'message': 'Success, notifications mark readed'}, status=status.HTTP_200_OK)
         else:
             return Response({'message': 'Error, need array to notifications'}, status=status.HTTP_400_BAD_REQUEST)
+
+

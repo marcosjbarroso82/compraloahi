@@ -66,7 +66,6 @@ class MessageModelViewSet(viewsets.ModelViewSet):
                         parent.thread = parent
                         parent.save()
 
-                    print("ENTRO AL AVISO3")
                     message.parent = parent
                     message.thread = parent.thread
                     # Esto lo deberia hacer el objeto
