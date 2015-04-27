@@ -5,7 +5,7 @@ from rest_framework.routers import DefaultRouter
 from rest_framework.authtoken import views
 
 from apps.ad import views as adViews
-from apps.favorite.views import FavoriteAdViewSet, HasFavoriteNearApiView
+from apps.favorite.views import FavoriteAdViewSet, HasFavoriteNearApiView, proximityFavorityApiView
 from apps.message.views import MessageDetail, MessageModelViewSet
 from apps.notification.views import NotificationListApiView, NotificationRetrieveApiView, \
     RegisterGCMNotification, UnregisterGCMNotification, NotificationMarkBulkReadApiView
@@ -26,6 +26,7 @@ router.register(r'ad-search', adViews.SearchViewSet, base_name='search') #/api/v
 
 urlpatterns = patterns('',
                        url(r'^favorites/near/$', HasFavoriteNearApiView.as_view() , name='favorite-near'),
+                       url(r'^api/v1/favorites/(?P<lat>[a-zA-Z0-9_.-]+)/(?P<lng>[a-zA-Z0-9_.-]+)/$', proximityFavorityApiView.as_view() , name='proximity-favorite0'),
                        url(r'^log/', log),
                        url(r'^api/v1/notifications/bulk/$',NotificationMarkBulkReadApiView.as_view(), name='notification-marked-bulk-read'),
                        url(r'^api/v1/notifications/(?P<pk>\d+)/$',NotificationRetrieveApiView.as_view(), name='notification-marked-read'),
