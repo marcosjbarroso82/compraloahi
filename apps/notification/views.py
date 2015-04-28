@@ -4,8 +4,8 @@ from rest_framework.response import Response
 
 from push_notifications.models import GCMDevice
 
-from .serializers import DeviceSerializer, NotificationSerializer
-from .models import Notification
+from .serializers import DeviceSerializer, NotificationSerializer, ConfigNotificationSerializer
+from .models import Notification, ConfigNotification
 
 
 class RegisterGCMNotification(CreateAPIView):
@@ -90,3 +90,9 @@ class NotificationMarkBulkReadApiView(UpdateAPIView):
             return Response({'message': 'Error, need array to notifications'}, status=status.HTTP_400_BAD_REQUEST)
 
 
+class ConfigNotificationApiView(UpdateAPIView):
+    serializer_class = ConfigNotificationSerializer
+
+    def update(self, request, *args, **kwargs):
+        request.DATA['user'] = request.user.id
+        return super(ConfigNotificationApiView, self).update(request, *args, **kwargs)

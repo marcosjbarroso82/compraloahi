@@ -12,12 +12,41 @@ from push_notifications.models import GCMDevice
 #from jsonfield import JSONField
 #from django_pgjson.fields import JsonField
 
+from django.conf import settings
+
+AUTH_USER_MODEL = getattr(settings, 'AUTH_USER_MODEL', 'auth.User')
+
 TYPE_NOTIFICATION = (
                 ('msg', 'Message'),
                 ('fav', 'Favorite'),
                 ('cmmt', 'Comment'),
                 ('prox', 'Near Favorite')
             )
+
+CANAL_NOTIFICATION = (
+    ('alert', 'Alert'),
+    ('email', "Email")
+)
+
+CONFIG = {
+    "msg": { "alert": True, "email": True },
+    "fav": { "alert": True, "email": True },
+    "cmmt": { "alert": True, "email": True },
+    "prox": { "alert": True, "email": True }
+}
+
+
+class ConfigNotification(models.Model):
+    user = models.OneToOneField(AUTH_USER_MODEL, related_name='config_notifications')
+    config = models.TextField()
+
+    def save(self, *args, **kwargs):
+        self.config =  str(self.config) # When change extras fields to json, remove this
+        super(ConfigNotification, self).save(*args, **kwargs)
+
+    def has_perm(self, type, canal):
+        return ast.literal_eval(self.config).get(type, {}).get(canal, False)
+
 
 class NotificationManager(models.QuerySet):
 
@@ -30,7 +59,6 @@ class NotificationManager(models.QuerySet):
         """
         date = datetime_now()
         return self.unread().update(read= date)
-
 
 
 class Notification(models.Model):
@@ -73,8 +101,26 @@ def notification_post_save(sender, *args, **kwargs):
     notification = kwargs['instance']
     if kwargs['created']:
         # Send notification
-        device = GCMDevice.objects.filter(user= notification.receiver).first()
-        device.send_message(notification.message , extra={'type': notification.type , 'id': notification.get_user()})
+        try:
+            config = ConfigNotification.objects.get(user=notification.receiver)
+        except:
+            config = None
 
+        if config and config.has_perm(notification.type, 'alert'):
+            device = GCMDevice.objects.filter(user= notification.receiver).first()
+            device.send_message(notification.message , extra={'type': notification.type , 'id': notification.get_user()})
+
+        if config and config.has_perm(notification.type, 'email'):
+            pass
+            # SEND EMAIL...
+
+
+
+@receiver(post_save, sender=User)
+def create_config_notification(sender, *args, **kwargs):
+
+    if kwargs['created']:
+        user = kwargs['instance']
+        ConfigNotification(user=user, config=CONFIG).save()
 
 

@@ -4,7 +4,7 @@ from rest_framework import serializers
 from push_notifications.models import GCMDevice
 
 
-from .models import Notification, TYPE_NOTIFICATION
+from .models import Notification, ConfigNotification, TYPE_NOTIFICATION
 
 
 class DeviceSerializer(serializers.ModelSerializer):
@@ -43,3 +43,10 @@ class NotificationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Notification
         excluded = ('receiver')
+
+
+class ConfigNotificationSerializer(serializers.ModelSerializer):
+    config = jsonField()
+
+    class Meta:
+        model = ConfigNotification
