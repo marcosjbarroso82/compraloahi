@@ -8,7 +8,7 @@ from apps.ad import views as adViews
 from apps.favorite.views import FavoriteAdViewSet, HasFavoriteNearApiView, proximityFavorityApiView
 from apps.message.views import MessageDetail, MessageModelViewSet
 from apps.notification.views import NotificationListApiView, NotificationRetrieveApiView, \
-    RegisterGCMNotification, UnregisterGCMNotification, NotificationMarkBulkReadApiView
+    RegisterGCMNotification, UnregisterGCMNotification, NotificationMarkBulkReadApiView, ConfigNotificationModelViewSet
 from apps.userProfile.views import UserLocationViewSet, UserProfileModelView
 from apps.user.views import ChangePasswordUpdateAPIView, FacebookLogin, GoogleLogin
 
@@ -26,17 +26,50 @@ router.register(r'ad-search', adViews.SearchViewSet, base_name='search') #/api/v
 
 urlpatterns = patterns('',
                        url(r'^favorites/near/$', HasFavoriteNearApiView.as_view() , name='favorite-near'),
-                       url(r'^api/v1/favorites/(?P<lat>[a-zA-Z0-9_.-]+)/(?P<lng>[a-zA-Z0-9_.-]+)/$', proximityFavorityApiView.as_view() , name='proximity-favorite0'),
+
+                       url(r'^api/v1/favorites/(?P<lat>[a-zA-Z0-9_.-]+)/(?P<lng>[a-zA-Z0-9_.-]+)/$',
+                           proximityFavorityApiView.as_view() ,
+                           name='proximity-favorite'),
+
                        url(r'^log/', log),
-                       url(r'^api/v1/notifications/bulk/$',NotificationMarkBulkReadApiView.as_view(), name='notification-marked-bulk-read'),
-                       url(r'^api/v1/notifications/(?P<pk>\d+)/$',NotificationRetrieveApiView.as_view(), name='notification-marked-read'),
-                       url(r'^api/v1/notifications/$', NotificationListApiView.as_view(), name='notifications-user'),
 
-                       url(r'^api/v1/notification/register/$', RegisterGCMNotification.as_view(), name='not-register'),
-                       url(r'^api/v1/notification/unregister/$', UnregisterGCMNotification.as_view(), name='not-unregister'),
 
-                       url(r'^rest-auth/facebook/$', FacebookLogin.as_view(), name='fb_login'),
-                       url(r'^rest-auth/google/$', GoogleLogin.as_view(), name='goo_login'),
+                       url(r'^api/v1/notifications-config/$',
+                           ConfigNotificationModelViewSet.as_view({'get': 'retrieve', 'put': 'update'}),
+                           name='notification-config-detail'),
+
+                       # url(r'^api/v1/notifications-config/$',
+                       #     ConfigNotificationModelViewSet.as_view({'put': 'update'}),
+                       #     name='notification-config'),
+
+
+
+                       url(r'^api/v1/notifications/bulk/$',
+                           NotificationMarkBulkReadApiView.as_view(),
+                           name='notification-marked-bulk-read'),
+
+                       url(r'^api/v1/notifications/(?P<pk>\d+)/$',
+                           NotificationRetrieveApiView.as_view(),
+                           name='notification-marked-read'),
+
+                       url(r'^api/v1/notifications/$',
+                           NotificationListApiView.as_view(),
+                           name='notifications-user'),
+
+                       url(r'^api/v1/notification/register/$',
+                           RegisterGCMNotification.as_view(),
+                           name='not-register'),
+                       url(r'^api/v1/notification/unregister/$',
+                           UnregisterGCMNotification.as_view(),
+                           name='not-unregister'),
+
+                       url(r'^rest-auth/facebook/$',
+                           FacebookLogin.as_view(),
+                           name='fb_login'),
+                       url(r'^rest-auth/google/$',
+                           GoogleLogin.as_view(),
+                           name='goo_login'),
+
                        url(r'^rest-auth/', include('rest_auth.urls')),
                        url(r'^rest-auth/registration/', include('rest_auth.registration.urls')),
 

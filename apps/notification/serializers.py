@@ -4,7 +4,7 @@ from rest_framework import serializers
 from push_notifications.models import GCMDevice
 
 
-from .models import Notification, ConfigNotification, TYPE_NOTIFICATION
+from .models import Notification, ConfigNotification, TYPE_NOTIFICATION, CANAL_NOTIFICATION
 
 
 class DeviceSerializer(serializers.ModelSerializer):
@@ -46,7 +46,45 @@ class NotificationSerializer(serializers.ModelSerializer):
 
 
 class ConfigNotificationSerializer(serializers.ModelSerializer):
-    config = jsonField()
+
+    def __init__(self, *args, **kwargs):
+        super(ConfigNotificationSerializer, self).__init__(*args, **kwargs)
+
+        for type_key, type_value in TYPE_NOTIFICATION:
+            for canal_key, canal_value in CANAL_NOTIFICATION:
+                name = type_key + "_" + canal_key
+                self.fields[name] = serializers.BooleanField(label=type_value + " " + canal_value)
 
     class Meta:
         model = ConfigNotification
+        read_only_fields = ('id', 'user', 'config')
+        #excluded = ('user', 'config')
+
+    def to_representation(self, instance):
+        obj = {}
+        #obj['config'] = {}
+        for type_key, type_value in TYPE_NOTIFICATION:
+            for canal_key, canal_value in CANAL_NOTIFICATION:
+                name = type_key + "_" + canal_key
+                obj[name] = instance.has_perm(type_key, canal_key)
+
+        return obj
+
+
+    def to_internal_value(self, data):
+        result = {}
+        result['config'] = {}
+        for type_key, type_value in TYPE_NOTIFICATION:
+            result['config'][type_key] = {}
+            for canal_key, canal_value in CANAL_NOTIFICATION:
+                name = type_key + "_" + canal_key
+                result['config'][type_key][canal_key] = bool(data.get(name, False)) #getattr(instance, name)
+                result[name] = bool(data.get(name, False))
+
+        return result
+
+    def update(self, instance, validated_data):
+        instance.config = validated_data.get('config')
+        instance.save()
+
+        return instance

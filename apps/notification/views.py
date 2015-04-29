@@ -2,6 +2,8 @@ from rest_framework import status
 from rest_framework.generics import UpdateAPIView, CreateAPIView, ListAPIView, RetrieveAPIView
 from rest_framework.response import Response
 
+from rest_framework.viewsets import ModelViewSet
+
 from push_notifications.models import GCMDevice
 
 from .serializers import DeviceSerializer, NotificationSerializer, ConfigNotificationSerializer
@@ -93,6 +95,32 @@ class NotificationMarkBulkReadApiView(UpdateAPIView):
 class ConfigNotificationApiView(UpdateAPIView):
     serializer_class = ConfigNotificationSerializer
 
+    def get_object(self):
+        return ConfigNotification.objects.get(user= self.request.user)
+
+    def get_queryset(self):
+        return ConfigNotification.objects.get(user= self.request.user)
+
+
+class ConfigNotificationRetrieveApiView(RetrieveAPIView):
+    serializer_class = ConfigNotificationSerializer
+
+    def get_object(self):
+        return ConfigNotification.objects.get(user= self.request.user)
+
+    def get_queryset(self):
+        return ConfigNotification.objects.get(user= self.request.user)
+
+
+
+class ConfigNotificationModelViewSet(ModelViewSet):
+    serializer_class = ConfigNotificationSerializer
+
+    def get_object(self):
+        return ConfigNotification.objects.get(user= self.request.user)
+
+    def get_queryset(self):
+        return ConfigNotification.objects.get(user= self.request.user)
+
     def update(self, request, *args, **kwargs):
-        request.DATA['user'] = request.user.id
-        return super(ConfigNotificationApiView, self).update(request, *args, **kwargs)
+        return super(ConfigNotificationModelViewSet, self).update(request, *args, **kwargs)
