@@ -8,7 +8,7 @@ from django.db.models.signals import post_save
 import ast
 
 from push_notifications.models import GCMDevice
-
+from django.core.mail import EmailMultiAlternatives
 #from jsonfield import JSONField
 #from django_pgjson.fields import JsonField
 
@@ -107,11 +107,19 @@ def notification_post_save(sender, *args, **kwargs):
             config = None
 
         if config and config.has_perm(notification.type, 'alert'):
+            print("NOTIFICACION  -  ENVIANDO ALERTA ..........")
             device = GCMDevice.objects.filter(user= notification.receiver).first()
             device.send_message(notification.message , extra={'type': notification.type , 'id': notification.get_user()})
 
         if config and config.has_perm(notification.type, 'email'):
-            pass
+            print("NOTIFICACION  -  ENVIANDO MENSAJE..........")
+            html_content = 'Notificacion de ' + notification.type
+            msg = EmailMultiAlternatives('Compraloahi - Notifications',
+                                              html_content,
+                                              'testnubiquo@gmail.com',
+                                              [notification.receiver.email])
+            msg.attach_alternative(html_content, 'text/html')
+            msg.send()
             # SEND EMAIL...
 
 

@@ -92,27 +92,6 @@ class NotificationMarkBulkReadApiView(UpdateAPIView):
             return Response({'message': 'Error, need array to notifications'}, status=status.HTTP_400_BAD_REQUEST)
 
 
-class ConfigNotificationApiView(UpdateAPIView):
-    serializer_class = ConfigNotificationSerializer
-
-    def get_object(self):
-        return ConfigNotification.objects.get(user= self.request.user)
-
-    def get_queryset(self):
-        return ConfigNotification.objects.get(user= self.request.user)
-
-
-class ConfigNotificationRetrieveApiView(RetrieveAPIView):
-    serializer_class = ConfigNotificationSerializer
-
-    def get_object(self):
-        return ConfigNotification.objects.get(user= self.request.user)
-
-    def get_queryset(self):
-        return ConfigNotification.objects.get(user= self.request.user)
-
-
-
 class ConfigNotificationModelViewSet(ModelViewSet):
     serializer_class = ConfigNotificationSerializer
 
@@ -123,4 +102,5 @@ class ConfigNotificationModelViewSet(ModelViewSet):
         return ConfigNotification.objects.get(user= self.request.user)
 
     def update(self, request, *args, **kwargs):
+        print(request.DATA)
         return super(ConfigNotificationModelViewSet, self).update(request, *args, **kwargs)

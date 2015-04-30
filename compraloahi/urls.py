@@ -13,7 +13,7 @@ from apps.userProfile.views import UserLocationViewSet, UserProfileModelView
 from apps.user.views import ChangePasswordUpdateAPIView, FacebookLogin, GoogleLogin
 
 from .views import HomeView, ApiDashBoardView, DashBoardAjaxView, log, send_notification, generate_all_auth_token
-from . import settings_old
+from .settings import base as settings
 
 
 router = DefaultRouter()
@@ -33,16 +33,9 @@ urlpatterns = patterns('',
 
                        url(r'^log/', log),
 
-
                        url(r'^api/v1/notifications-config/$',
                            ConfigNotificationModelViewSet.as_view({'get': 'retrieve', 'put': 'update'}),
                            name='notification-config-detail'),
-
-                       # url(r'^api/v1/notifications-config/$',
-                       #     ConfigNotificationModelViewSet.as_view({'put': 'update'}),
-                       #     name='notification-config'),
-
-
 
                        url(r'^api/v1/notifications/bulk/$',
                            NotificationMarkBulkReadApiView.as_view(),
@@ -181,6 +174,6 @@ urlpatterns = patterns('',
                        # Files Media
                        url(r'^media/(?P<path>.*)$',
                            "django.views.static.serve",
-                           {'document_root': settings_old.MEDIA_ROOT}),
+                           {'document_root': settings.MEDIA_ROOT}),
 
                        )
