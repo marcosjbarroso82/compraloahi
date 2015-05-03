@@ -5,7 +5,7 @@ from .models import UserProfile, Phone, UserLocation
 
 from sorl.thumbnail import get_thumbnail
 
-from apps.user.serializers import UserByProfileSerializer
+from django.contrib.auth.models import User
 
 
 
@@ -16,18 +16,45 @@ class PhoneSerializer(ModelSerializer):
         fields = ('number', 'type', 'id')
 
 
-class UserProfileSerializer(ModelSerializer):
+class UserProfileSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = ('id', 'email', 'first_name', 'last_name', 'username')
+        read_only_fields = ('id', 'username')
+
+
+class ProfileSerializer(ModelSerializer):
     thumbnail_200x200 = serializers.SerializerMethodField()
     phones = PhoneSerializer(many=True)
-    user = UserByProfileSerializer()
-    image = serializers.ImageField(allow_empty_file=True, use_url=True)
+    user = UserProfileSerializer()
+    image = serializers.ImageField(allow_empty_file=True, use_url=True, read_only=True)
 
     class Meta:
         model = UserProfile
         depth = 2
         fields = ('image', 'birth_date', 'user', 'phones', 'thumbnail_200x200', 'id')
-        read_only_fields = ('user', 'id')
-        #write_only_fields = ('image',)
+        read_only_fields = ('id',)
+
+    def update(self, instance, validated_data):
+        user_data = validated_data.get('user', instance.user)
+        request = self.context.get('request', None)
+        user_serializer = UserProfileSerializer()
+        instance.user = user_serializer.update(instance=request.user, validated_data=user_data)
+
+        phones_data = validated_data.get('phones', [])
+        Phone.objects.filter(userProfile=instance).delete()
+        for phone in phones_data:
+            p = Phone()
+            p.userProfile = instance
+            p.number= int(phone.get('number', 0))
+            p.type = phone.get('type', 'TEL')
+            p.save()
+
+        instance.birth_date = validated_data.get('birth_date', instance.birth_date)
+        instance.save()
+
+        return instance
 
     def get_thumbnail_200x200(self, obj):
         return get_thumbnail(obj.image, '400x400', crop='center', quality=99).url

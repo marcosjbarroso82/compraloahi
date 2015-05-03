@@ -9,10 +9,11 @@ import ast
 
 from push_notifications.models import GCMDevice
 from django.core.mail import EmailMultiAlternatives
+from django.conf import settings
 #from jsonfield import JSONField
 #from django_pgjson.fields import JsonField
 
-from django.conf import settings
+
 
 AUTH_USER_MODEL = getattr(settings, 'AUTH_USER_MODEL', 'auth.User')
 
@@ -107,12 +108,10 @@ def notification_post_save(sender, *args, **kwargs):
             config = None
 
         if config and config.has_perm(notification.type, 'alert'):
-            print("NOTIFICACION  -  ENVIANDO ALERTA ..........")
-            device = GCMDevice.objects.filter(user= notification.receiver).first()
-            device.send_message(notification.message , extra={'type': notification.type , 'id': notification.get_user()})
+            devices = GCMDevice.objects.filter(user= notification.receiver)
+            devices.send_message(notification.message , extra={'type': notification.type , 'id': notification.get_user()})
 
         if config and config.has_perm(notification.type, 'email'):
-            print("NOTIFICACION  -  ENVIANDO MENSAJE..........")
             html_content = 'Notificacion de ' + notification.type
             msg = EmailMultiAlternatives('Compraloahi - Notifications',
                                               html_content,

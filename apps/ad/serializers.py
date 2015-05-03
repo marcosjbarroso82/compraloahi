@@ -18,9 +18,21 @@ class AdImageSerializer(serializers.ModelSerializer):
 
 class AdSerializer(serializers.ModelSerializer):
     images = AdImageSerializer(many=True, read_only=True)
+    is_favorite = serializers.SerializerMethodField()
+
     class Meta:
         model = Ad
         #fields = ('title',)
+
+    def get_is_favorite(self, obj):
+        #request = self.context.get('request', None)
+        #return obj.is_favorite(request.user)
+        request = self.context.get('request', None)
+        if request is not None:
+           if request.user.is_authenticated():
+               return obj.is_favorite(request.user)
+           else:
+               return False
 
 
 class AdPublicSerializer(serializers.ModelSerializer):

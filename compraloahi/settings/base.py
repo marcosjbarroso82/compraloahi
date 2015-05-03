@@ -74,7 +74,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'apps.userProfile.middleware.ValidProfileCreatedMiddleware',
+    #'apps.userProfile.middleware.ValidProfileCreatedMiddleware',
 )
 
 CORS_ORIGIN_ALLOW_ALL = True

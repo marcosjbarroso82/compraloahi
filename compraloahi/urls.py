@@ -77,20 +77,8 @@ urlpatterns = patterns('',
 
                        # Detail Profile
                        url(r'^api/v1/profile/$',
-                           UserProfileModelView.as_view({'get': 'retrieve'}),
+                           UserProfileModelView.as_view({'get': 'retrieve', 'put': 'update'}),
                            name='api-profile-detail'),
-
-                        # Create Profile by API
-                       #url(r'^api/v1/profile/create/$',
-                       #    UserProfileModelView.as_view({'post': 'create'}),
-                       #    name='api-profile-detail'),
-
-                       # Update Profile
-                       url(r'^api/v1/profile/(?P<pk>\d+)/$',
-                           UserProfileModelView.as_view({'put': 'update'}),
-                           name='api-profile-update'),
-
-
 
                        # Change password
                        url(r'^api/v1/change-password/$',

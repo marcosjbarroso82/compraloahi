@@ -51,7 +51,7 @@ class ChangePasswordUpdateAPIView(UpdateAPIView):
 
 
     def partial_update(self, request, *args, **kwargs):
-
+        print(request.DATA)
         user = request.user
         if user.check_password(request.DATA.get('password', None)):
             if request.DATA['new_password'] == request.DATA['new_password_repeat']:

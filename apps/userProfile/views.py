@@ -2,105 +2,26 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, DetailView
 
-from .models import UserProfile, UserLocation, Phone
+from .models import UserProfile, UserLocation
 from .forms import UserProfileForm, Phone_inline_formset
 
 from rest_framework.viewsets import ModelViewSet
 
-from .serializers import UserProfileSerializer, UserLocationSeralizer
+from .serializers import ProfileSerializer, UserLocationSeralizer
 from rest_framework.response import Response
-from rest_framework import status
 
 from rest_framework import viewsets
-from rest_framework.parsers import MultiPartParser, JSONParser, FormParser, FileUploadParser
-import ast
 from rest_framework import status
-from django.contrib.auth.models import User
 
 
 class UserProfileModelView(ModelViewSet):
-    serializer_class = UserProfileSerializer
-    #parser_classes = (MultiPartParser, FormParser)
+    serializer_class = ProfileSerializer
 
-    def retrieve(self, request, *args, **kwargs):
-        serializer = UserProfileSerializer(self.get_queryset())
-        return Response(serializer.data)
-
-    def update(self, request, *args, **kwargs):
-        #TODO: Implement with FileUploadParser
-        user_data = ast.literal_eval(request.DATA['user'])
-
-        if user_data.get('username', None) and \
-            User.objects.filter(username= user_data['username']).exclude(id=request.user.pk).count() == 0 :
-            try:
-                profile = self.get_queryset()
-                profile.birth_date = request.DATA['birth_date']
-
-                if request.FILES.get('image', None):
-                    profile.image = request.FILES['image']
-
-                user = profile.user
-                user.first_name = user_data['first_name']
-                user.last_name = user_data['last_name']
-                user.email = user_data['email']
-
-                #Delete all phones to user
-                Phone.objects.filter(userProfile=profile).delete()
-
-                phones_data = ast.literal_eval(request.DATA['phones'])
-                #Add new phone
-                for phone in phones_data:
-                    p = Phone()
-                    p.userProfile = profile
-                    p.number= int(phone['number'])
-                    p.type = phone['type']
-                    p.save()
-
-                profile.save()
-                user.save()
-
-                return Response({'status': 'Ok request.', 'message': 'Los datos de usuario se modificaron con exito'}, status=status.HTTP_200_OK )
-            except KeyError:
-                return Response({'status': 'Bad request.', 'message': "ERROR: You need Complete all fields"}, status=status.HTTP_400_BAD_REQUEST)
-        else:
-            return Response({'message': 'Invalid username.'}, status=status.HTTP_400_BAD_REQUEST)
-    # Code to found create profile by API
-    # def create(self, request, *args, **kwargs):
-    #     try:
-    #         profile = UserProfile()
-    #         profile.birth_date = request.DATA['birth_date']
-    #
-    #         if request.FILES.get('image', None):
-    #             profile.image = request.FILES['image']
-    #
-    #         user_data = ast.literal_eval(request.DATA['user'])
-    #
-    #         user = request.user
-    #         user.first_name = user_data['first_name']
-    #         user.last_name = user_data['last_name']
-    #         user.email = user_data['email']
-    #
-    #         profile.user = user
-    #
-    #         profile.save()
-    #         user.save()
-    #
-    #         phones_data = ast.literal_eval(request.DATA['phones'])
-    #         #Add new phone
-    #         for phone in phones_data:
-    #             p = Phone()
-    #             p.userProfile = profile
-    #             p.number= int(phone['number'])
-    #             p.type = phone['type']
-    #             p.save()
-    #
-    #         return Response({'status': 'Ok request.', 'message': 'Success! create profile'}, status=status.HTTP_200_OK )
-    #     except KeyError:
-    #         return Response({'status': 'Bad request.', 'message': "Error"}, status=status.HTTP_400_BAD_REQUEST)
+    def get_object(self):
+        return UserProfile.objects.get(user=self.request.user)
 
     def get_queryset(self):
         return UserProfile.objects.get(user=self.request.user)
-
 
 
 class UserProfileCreateView(CreateView):
