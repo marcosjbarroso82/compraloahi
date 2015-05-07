@@ -9,12 +9,12 @@
         .module('dashBoardApp.message.controllers')
         .controller('MessageCtrl', MessageCtrl);
 
-    MessageCtrl.$inject = ['$scope', 'Message', 'Snackbar', '$stateParams'];
+    MessageCtrl.$inject = ['$scope', 'Message', 'AlertNotification', '$stateParams'];
 
     /**
      * @namespace MessageCtrl
      */
-    function MessageCtrl($scope, Message, Snackbar, $stateParams) {
+    function MessageCtrl($scope, Message, AlertNotification, $stateParams) {
         $scope.messages = {};
         $scope.message = {};
         $scope.messages_selected = [];
@@ -82,13 +82,13 @@
             Message.delete_bulk($scope.messages_selected).then(deleteSuccess, deleteError);
 
             function deleteSuccess(data, headers, status){
-                Snackbar.show("Los mensajes seleccionados se eliminaron con exito");
+                AlertNotification.success("Los mensajes seleccionados se eliminaron con exito");
                 console.log(data.data);
                 $scope.get_msgs_page($scope.page);
             }
 
             function deleteError(data, headers, status){
-                Snackbar.error("Error al intentar eliminar mensajes seleccionados");
+                AlertNotification.error("Error al intentar eliminar mensajes seleccionados");
             }
         }
         

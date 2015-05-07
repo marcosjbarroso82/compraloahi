@@ -9,12 +9,12 @@
         .module('dashBoardApp.userLocation.controllers')
         .controller('UserLocationCtrl', UserLocationCtrl);
 
-    UserLocationCtrl.$inject = ['$scope', 'UserLocations', 'Snackbar'];
+    UserLocationCtrl.$inject = ['$scope', 'UserLocations', 'AlertNotification'];
 
     /**
      * @namespace UserLocationCtrl
      */
-    function UserLocationCtrl($scope, UserLocations, Snackbar) {
+    function UserLocationCtrl($scope, UserLocations, AlertNotification) {
         // TODO: provide a proper map center location
         $scope.map = {center: {latitude: -31.4179952, longitude: -64.1890513 }, zoom: 9 };
         $scope.options = {scrollwheel: false};
@@ -80,7 +80,7 @@
                 $scope.locations.splice($scope.locations.indexOf(location), 1);
             }
             function deleteError(data, headers, status){
-                Snackbar.show("Error al intentar borrar la ubicacion seleccionada");
+                AlertNotification.success("Error al intentar borrar la ubicacion seleccionada");
             }
         }
 
@@ -118,7 +118,7 @@
             }
 
             function saveSuccess(data, headers, status){
-                Snackbar.show("Se ha agregado una ubicacion nueva");
+                AlertNotification.success("Se ha agregado una ubicacion nueva");
                 $scope.location.id = data.id;
                 $scope.locations.push($scope.location);
                 $scope.location = {};
@@ -126,18 +126,18 @@
             }
 
             function saveError(data, headers, status){
-                Snackbar.show("Error al intentar agregar una nueva ubicacion");
+                AlertNotification.error("Error al intentar agregar una nueva ubicacion");
                 $scope.resetLocations();
             }
 
             function updateSuccess(data, headers, status){
-                Snackbar.show("La ubicacion seleccionada se edito con exito");
+                AlertNotification.success("La ubicacion seleccionada se edito con exito");
                 $scope.flag_update = false;
                 $scope.resetLocations();
             }
 
             function updateError(data, headers, status){
-                Snackbar.show("Error al intentar editar la ubicacion seleccionada");
+                AlertNotification.error("Error al intentar editar la ubicacion seleccionada");
                 $scope.resetLocations();
             }
         };

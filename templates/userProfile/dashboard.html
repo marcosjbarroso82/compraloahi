@@ -4,9 +4,21 @@
 <head>
     <title>Panel de administracion - {{ profile.first_name|capfirst }} {{ profile.last_name|capfirst }}</title>
     {% include 'layout/stylesheets.html' %}
+
     <link rel="stylesheet" href="{% static 'css/less/dashboard.css' %}" >
 
-    <link rel="stylesheet" type="text/css" href="{% static 'lib/snackbarjs/snackbar.min.css' %}" />
+
+    <link rel="stylesheet" type="text/css" href="{% static 'bower_components/ngDialog/css/ngDialog.css' %}" />
+
+    <link rel="stylesheet" type="text/css" href="{% static 'bower_components/ngDialog/css/ngDialog-theme-plain.min.css' %}" />
+
+    <link rel="stylesheet" type="text/css" href="{% static 'bower_components/angular-snackbar/css/angular.snackbar.css' %}" />
+
+
+
+    <link rel="stylesheet" type="text/css" href="{% static 'bower_components/ng-table/dist/ng-table.css' %}" />
+
+    <link rel="stylesheet" type="text/css" href="{% static 'bower_components/angular-tooltips/src/css/angular-tooltips.css' %}" />
 </head>
 
 <body>
@@ -26,21 +38,21 @@
             <li role="presentation"
                 ng-class="{active: ('messages' | includedByState) || ('message-thread' | includedByState)}">
                 <!--<div class="navbar-inner">-->
-                    <!--<div class="container-fluid">-->
-                        <a class="collapsed item-menu"
-                           ui-sref="messages({'folder': 'inbox'})"
-                           data-target="#nav-collapse-message"
-                           data-toggle="collapse" ng-class="{collapsed: !('messages' | includedByState) && !('message-thread' | includedByState)}">
-                            <i class="glyphicon glyphicon-envelope"></i> Messages <span class="badge pull-right">2</span>
-                        </a>
-                        <div id="nav-collapse-message" class="nav-menu-collapse collapse" ng-class="{ in: ('messages' | includedByState) || ('message-thread' | includedByState)}">
-                            <ul class="nav">
-                                <li><a ui-sref="messages({'folder': 'inbox'})" ui-sref-active="active">Inbox</a></li>
-                                <li><a ui-sref="messages({'folder': 'sent'})" ui-sref-active="active">Sent</a></li>
-                                <li><a ui-sref="messages({'folder': 'trash'})" ui-sref-active="active">Tash</a></li>
-                            </ul>
-                        </div>
-                    <!--</div>-->
+                <!--<div class="container-fluid">-->
+                <a class="collapsed item-menu"
+                   ui-sref="messages({'folder': 'inbox'})"
+                   data-target="#nav-collapse-message"
+                   data-toggle="collapse" ng-class="{collapsed: !('messages' | includedByState) && !('message-thread' | includedByState)}">
+                    <i class="glyphicon glyphicon-envelope"></i> Messages <span class="badge pull-right">2</span>
+                </a>
+                <div id="nav-collapse-message" class="nav-menu-collapse collapse" ng-class="{ in: ('messages' | includedByState) || ('message-thread' | includedByState)}">
+                    <ul class="nav">
+                        <li><a ui-sref="messages({'folder': 'inbox'})" ui-sref-active="active">Inbox</a></li>
+                        <li><a ui-sref="messages({'folder': 'sent'})" ui-sref-active="active">Sent</a></li>
+                        <li><a ui-sref="messages({'folder': 'trash'})" ui-sref-active="active">Tash</a></li>
+                    </ul>
+                </div>
+                <!--</div>-->
 
                 <!--</div>-->
             </li>
@@ -59,11 +71,12 @@
             <li class="divider"></li>
             <li><a class="item-menu" href="{% url 'my-user:my-logout' %}"><i class="glyphicon glyphicon-off"></i> Salir</a></li>
         </ul>
-        
+
     </div>
 
     <div ui-view class="col-md-10 dashboard-content">
     </div>
+    <div class="snackbar-container" data-snackbar="true"></div>
 </div>
 
 <footter>
@@ -75,26 +88,40 @@
 
     <script type="text/javascript" src="{% static 'bower_components/bootstrap/dist/js/bootstrap.js' %}"></script>
 
-    <script type="text/javascript" src="{% static 'bower_components/jquery-cookie/jquery.cookie.js' %}"></script>
+    <!--<script type="text/javascript" src="{% static 'bower_components/jquery-cookie/jquery.cookie.js' %}"></script>-->
 
     <!-- angular resources -->
     <script type="text/javascript" src="{% static 'bower_components/angular/angular.js' %}"></script>
     <script type="text/javascript" src="{% static 'bower_components/angular-resource/angular-resource.js' %}"></script>
     <script type="text/javascript" src="{% static 'bower_components/angular-route/angular-route.js' %}"></script>
     <script type="text/javascript" src="{% static 'bower_components/angular-ui-router/release/angular-ui-router.js' %}"></script>
-    <script type="text/javascript" src="{% static 'bower_components/angular-sanitize/angular-sanitize.js' %}"></script>
-    <script type="text/javascript" src="{% static 'bower_components/angular-google-maps/dist/angular-google-maps.js' %}"></script>
+    <!--<script type="text/javascript" src="{% static 'bower_components/angular-sanitize/angular-sanitize.js' %}"></script>
     <script type="text/javascript" src="{% static 'bower_components/angular-bootstrap/ui-bootstrap.js' %}"></script>
     <script type="text/javascript" src="{% static 'bower_components/angular-bootstrap/ui-bootstrap-tpls.js' %}"></script>
+-->
+
+    <script type="text/javascript" src="{% static 'bower_components/angular-google-maps/dist/angular-google-maps.js' %}"></script>
     <!-- google mapp -->
     <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true&libraries=places&language=en-US"></script>
 
-    <!-- Nose -->
+    <!-- Nose (lo requiere google maps )-->
     <script type="text/javascript" src="{% static 'bower_components/lodash/dist/lodash.js' %}"></script>
 
 
-    <!-- SnackBar -->
-    <script type="text/javascript" src="{% static 'lib/snackbarjs/snackbar.min.js' %}"></script>
+    <!-- TOOLTIP -->
+    <script type="text/javascript" src="{% static 'bower_components/angular-tooltips/src/js/angular-tooltips.js' %}"></script>
+
+    <!-- VALIDATOR -->
+    <script type="text/javascript" src="{% static 'bower_components/tg-angular-validator/dist/angular-validator.js' %}"></script>
+
+    <!-- TABLES-->
+    <script type="text/javascript" src="{% static 'bower_components/ng-table/dist/ng-table.js' %}"></script>
+
+    <!-- ALERT NOTIFICATION -->
+    <script type="text/javascript" src="{% static 'bower_components/angular-snackbar/angular.snackbar.js' %}"></script>
+
+    <!-- EASY AND CUSTOMIZABLE POP UP DIALOG -->
+    <script type="text/javascript" src="{% static 'bower_components/ngDialog/js/ngDialog.js' %}"></script>
 
     <!-- Angular and django rest framework Resource -->
     <script type="text/javascript" src="{% static 'bower_components/angular-django-rest-resource/angular-django-rest-resource.js' %}"></script>
@@ -111,7 +138,8 @@
     <script type="text/javascript" src="{% static 'dashboard/utils/util.module.js' %}"></script>
     <script type="text/javascript" src="{% static 'dashboard/utils/directives/google-places.directive.js' %}"></script>
     <script type="text/javascript" src="{% static 'dashboard/utils/directives/really-click.directive.js' %}"></script>
-    <script type="text/javascript" src="{% static 'dashboard/utils/services/snackbar.service.js' %}"></script>
+
+    <script type="text/javascript" src="{% static 'dashboard/utils/directives/alert-notification.directive.js' %}"></script>
 
     <script type="text/javascript" src="{% static 'dashboard/utils/directives/upload-file-model.directive.js' %}"></script>
     <!-- ###################### END DASHBOARD APP - MODULE UTILS ###################### -->
@@ -120,8 +148,8 @@
     <script type="text/javascript" src="{% static 'dashboard/profile/profile.module.js' %}"></script>
     <script type="text/javascript" src="{% static 'dashboard/profile/services/profile.service.js' %}"></script>
     <script type="text/javascript" src="{% static 'dashboard/profile/controllers/detail-profile.controller.js' %}"></script>
-    <!--<script type="text/javascript" src="{# static 'dashboard/profile/controllers/create-profile.controller.js' #}"></script>-->
-    <script type="text/javascript" src="{% static 'dashboard/profile/controllers/update-profile.controller.js' %}"></script>
+    <!--<script type="text/javascript" src="{# static 'dashboard/profile/controllers/create-profile.controller.js' #}"></script>
+    <script type="text/javascript" src="{% static 'dashboard/profile/controllers/update-profile.controller.js' %}"></script>-->
     <script type="text/javascript" src="{% static 'dashboard/profile/controllers/change-password.controller.js' %}"></script>
     <!-- ###################### END DASHBOARD APP - MODULE PROFILE ###################### -->
 

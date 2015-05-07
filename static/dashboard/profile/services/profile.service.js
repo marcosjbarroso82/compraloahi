@@ -44,11 +44,7 @@
          * @memberOf dashBoardApp.profile.services.Profile
          */
         function change_password(user) {
-            return $http.patch('/api/v1/change-password/', {
-                password: user.password,
-                new_password: user.new_password,
-                new_password_repeat: user.new_password_repeat
-            });
+            return $http.patch('/api/v1/change-password/', user);
         }
 
         /**
@@ -59,21 +55,7 @@
          * @memberOf dashBoardApp.profile.services.Profile
          */
         function update(profile){
-            var fd = new FormData();
-
-            fd.append('birth_date', profile.birth_date);
-            fd.append('user', angular.toJson(profile.user));
-            fd.append('phones', angular.toJson(profile.phones));
-            fd.append('image', profile.image);
-
-
-            return $http.put('/api/v1/profile/'+ profile.id + '/', fd, {
-                //headers: {'Content-Type': undefined},
-                headers: {'Content-Type': undefined},
-                //withCredentials: true,
-                transformRequest: angular.identity
-
-            })
+            return $http.put('/api/v1/profile/', profile);
         }
 
         /**

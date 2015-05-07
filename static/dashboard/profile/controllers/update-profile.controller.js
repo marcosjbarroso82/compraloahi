@@ -9,12 +9,12 @@
         .module('dashBoardApp.profile.controllers')
         .controller('ProfileUpdateController', ProfileUpdateController);
 
-    ProfileUpdateController.$inject = ['Profile', '$state', 'Snackbar', '$filter'];
+    ProfileUpdateController.$inject = ['Profile', '$state', 'AlertNotification', '$filter'];
 
     /**
      * @namespace ProfileUpdateController
      */
-    function ProfileUpdateController(Profile, $state, Snackbar, $filter) {
+    function ProfileUpdateController(Profile, $state, AlertNotification, $filter) {
         var vm = this;
 
         vm.profile = undefined;
@@ -39,7 +39,7 @@
             }
 
             function detailError(data){
-                Snackbar.error("Error al cargar los datos de su perfil. Intente cargar de nuevo la pagina");
+                AlertNotification.error("Error al cargar los datos de su perfil. Intente cargar de nuevo la pagina");
             }
 
             vm.dateOptions = {
@@ -66,8 +66,6 @@
          * @memberOf dashBoardApp.profile.controllers.ProfileUpdateController
          */
         function submit(){
-            vm.profile.image = vm.img_profile;
-
             //Cast datetime to date.
             vm.profile.birth_date = $filter('date')(vm.profile.birth_date,'yyyy-MM-dd');
             Profile.update(vm.profile).then(updateSuccess, updateError);

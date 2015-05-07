@@ -8,7 +8,7 @@
         ]);
 
     angular
-        .module('dashBoardApp.userLocation.controllers', []);
+        .module('dashBoardApp.userLocation.controllers', ['ngDialog']);
 
     angular
         .module('dashBoardApp.userLocation.services', ['ngResource']);
