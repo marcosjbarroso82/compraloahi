@@ -390,6 +390,7 @@ class AdPublicUserListView(ListView):
     model = Ad
     template_name = 'ad/ad-public-user.html'
     context_object_name = 'ads'
+    paginate_by = 8
 
     def get_queryset(self):
         return Ad.objects.filter(author__username=self.kwargs['username'])
