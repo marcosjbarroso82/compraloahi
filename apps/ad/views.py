@@ -117,6 +117,12 @@ class SearchViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
             qs = qs or SearchQuerySet()
             qs = qs.dwithin('location', point, D(**distance)).distance('location', point)
 
+        try:
+            bottom_left = Point( float( self.request.QUERY_PARAMS['w'] ), float( self.request.QUERY_PARAMS['s']) )
+            top_right = Point( float(self.request.QUERY_PARAMS['e']), float( self.request.QUERY_PARAMS['n']) )
+            qs = qs.within('location', bottom_left, top_right)
+        except:
+            pass
         order_by = self.request.query_params.get('order_by')
         if order_by:
             if order_by is 'distance':
