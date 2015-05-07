@@ -1,12 +1,12 @@
 /**
  * AlertNotification
- * @namespace app.utils.directives
+ * @namespace dashBoardApp.utils.directives
  */
 (function ($, _) {
     'use strict';
 
     angular
-        .module('app.utils.directives')
+        .module('dashBoardApp.util.directives')
         .factory('AlertNotification', AlertNotification);
 
 
