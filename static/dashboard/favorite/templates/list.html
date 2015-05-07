@@ -1,32 +1,35 @@
 <div id="container-favorite-list-data">
     <h4 class="title-data">Mis Favoritos
-    <ul class="pull-right" >
+     <!-- <ul class="pull-right" >
             
-          <li class="pull-right"><a ng-disabled="!next_page" ng-click="get_favorites_page(next_page)" class="btn btn-default"> <i class="glyphicon glyphicon-chevron-right"></i> </a></li>
+        <li class="pull-right"><a ng-disabled="!next_page" ng-click="get_favorites_page(next_page)" class="btn btn-default"> <i class="glyphicon glyphicon-chevron-right"></i> </a></li>
             <li  class="pull-right"><a ng-disabled="!prev_page" ng-click="get_favorites_page(prev_page)" class="btn btn-default"> <i class="glyphicon glyphicon-chevron-left"></i> </a></li>
-        </ul>
+        </ul> -->
     </h4>
 
     <div class="content-data col-md-12">
-        <table class="table table-bordred table-striped">
-            <tbody id="tab-all-message">
-            <tr id="ad-row-{{ ad.id }}" ng-class-odd="'odd'" ng-class-even="'even'" ng-repeat="ad in favorites">
-                <td class="col-md-1">
+        <input type="text" name="title"
+               ng-model="filters.title" class="form-control">
+        <table class="table table-bordred table-striped" ng-table="tableParams" >
+            <tr id="ad-row-{{ ad.id }}" ng-class-odd="'odd'" ng-class-even="'even'" ng-repeat="ad in $data">
+                <td class="v-align-middle col-md-1"
+                    data-title="'Image'">
                     <img id="media-object" class="img-rounded" ng-src="{{ ad.images[0].thumbnail_90x90 }}" width="90" height="90">
                 </td>
-                <td class="col-md-9">
+                <td class="v-align-middle col-md-9"
+                    data-title="'Ads'"
+                    sortable="'title'">
                     <h4><strong>{{ ad.title }}</strong></h4>
                     <p>{{ ad.short_description }}</p>
-                    <small><strong>Fecha de publicacion : </strong>{{ ad.pub_date }} || <strong>Price : </strong> $ {{ ad.price }}</small>
+                    <small><strong>Fecha de publicacion : </strong>{{ ad.pub_date }} </small>
                 </td>
-                <td class="col-md-2">
-                    <!-- remove -->
+                <td class="v-align-middle col-md-1" data-title="'Price'" sortable="'price'"> {{ ad.price| currency:"$" }}</td>
+                <td class="v-align-middle col-md-1" data-title="'Actions'">
                     <a class="btn btn-sm btn-danger btn-actions" ng-really-message="Are you sure ?" ng-really-click="remove_favorite(ad)" item="ad" tooltip="Elimina de favoritos"><span class="glyphicon glyphicon-remove"></span></a>
                 </td>
             </tr>
-
-            </tbody>
         </table>
+
     </div>
     <div class="container-footer col-md-12">
     </div>

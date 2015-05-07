@@ -8,7 +8,7 @@
         ]);
 
     angular
-        .module('dashBoardApp.favorite.controllers', []);
+        .module('dashBoardApp.favorite.controllers', ['ngDialog']);
 
     angular
         .module('dashBoardApp.favorite.services', ['ngResource', 'djangoRESTResources']);
