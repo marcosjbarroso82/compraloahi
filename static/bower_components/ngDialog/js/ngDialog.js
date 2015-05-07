@@ -77,7 +77,7 @@
 						if (typeof window.Hammer !== 'undefined') {
 							var hammerTime = angular.element($dialog).scope().hammerTime;
 							hammerTime.off('tap', closeByDocumentHandler);
-							hammerTime.destroy && hammerTime.destroy();
+							hammerTime.destroy();
 							delete $dialog.scope().hammerTime;
 						} else {
 							$dialog.unbind('click');
@@ -201,7 +201,7 @@
 								var firstLetter = options.data.replace(/^\s*/, '')[0];
 								scope.ngDialogData = (firstLetter === '{' || firstLetter === '[') ? angular.fromJson(options.data) : options.data;
 							} else if (options.data && angular.isObject(options.data)) {
-								scope.ngDialogData = options.data;
+								scope.ngDialogData = angular.fromJson(angular.toJson(options.data));
 							}
 
 							if (options.controller && (angular.isString(options.controller) || angular.isArray(options.controller) || angular.isFunction(options.controller))) {
@@ -332,7 +332,6 @@
 					 * @param {Object} options:
 					 * - template {String} - id of ng-template, url for partial, plain string (if enabled)
 					 * - plain {Boolean} - enable plain string templates, default false
-					 * - name {String}
 					 * - scope {Object}
 					 * - controller {String}
 					 * - className {String} - dialog theme class
