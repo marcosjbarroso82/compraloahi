@@ -8,7 +8,7 @@
         ]);
 
     angular
-        .module('dashBoardApp.message.controllers', []);
+        .module('dashBoardApp.message.controllers', ['ngDialog']);
 
     angular
         .module('dashBoardApp.message.services', ['ngResource']);

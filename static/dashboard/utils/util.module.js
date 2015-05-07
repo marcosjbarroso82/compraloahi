@@ -3,15 +3,13 @@
 
     angular
         .module('dashBoardApp.util', [
-            'dashBoardApp.util.directives',
-            'dashBoardApp.util.services'
+            'dashBoardApp.util.directives'
         ]);
 
     angular
-        .module('dashBoardApp.util.directives', ['ui.bootstrap']);
+        .module('dashBoardApp.util.directives', []);
 
-    angular
-        .module('dashBoardApp.util.services', []);
+
 })();
 
 

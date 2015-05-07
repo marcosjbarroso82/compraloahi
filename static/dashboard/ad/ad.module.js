@@ -8,7 +8,7 @@
         ]);
 
     angular
-        .module('dashBoardApp.ad.controllers', []);
+        .module('dashBoardApp.ad.controllers', ['ngDialog']);
 
     angular
         .module('dashBoardApp.ad.services', ['ngResource', 'djangoRESTResources']);
