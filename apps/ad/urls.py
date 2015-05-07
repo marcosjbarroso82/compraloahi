@@ -17,6 +17,8 @@ urlpatterns = patterns('',
                                                template='ad/list.html'),
                            name='search-facet'),
 
+
+
                        # Create Ad
                        url(r'^create/$',
                            CreateAdView.as_view(),
