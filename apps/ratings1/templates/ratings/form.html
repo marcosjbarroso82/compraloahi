@@ -1,0 +1,35 @@
+{% extends 'layout/base.html' %}
+{% load bootstrap3 %}
+{% load ratings_tags %}
+{% block title %}Aviso {% endblock %}
+
+{% block css_header_block %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/less/ad-detail.css" >
+{% endblock %}
+
+{% block body_block %}
+    <h2 class="text-center">Calificar al {{ title }}</h2>
+    <div class="content">
+        <h3>Tiempo</h3>
+        <div class="container-time">
+            <div id="user_rating" class="category-time"></div>
+        </div>
+        <br/>
+        <h3>Calidad</h3>
+        <div class="container-quality">
+            <div id="user_rating" class="category-quality"></div>
+        </div>
+
+        <br/>
+        <h3>Atension</h3>
+        <div class="container-regard">
+            <div id="user_rating" class="category-regard"></div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js_footer_block %}
+    {% user_rating_js request.user user_calification 'time'  %}
+    {% user_rating_js request.user user_calification 'quality'  %}
+    {% user_rating_js request.user user_calification 'regard'  %}
+{% endblock %}

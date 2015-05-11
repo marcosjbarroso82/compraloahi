@@ -1,0 +1,23 @@
+{% extends 'layout/base.html' %}
+{% load bootstrap3 %}
+
+{% block title %}Votando {% endblock %}
+
+{% block css_header_block %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/less/ad-detail.css" >
+{% endblock %}
+
+{% block body_block %}
+    <h2 class="text-center">Califica y ayuda</h2>
+    <div class="content">
+    {% bootstrap_messages %}
+        <form method="post" action="" role="form">
+            {% csrf_token %}
+            {{ form.as_p }}
+
+            {% buttons %}
+                <button class="btn btn-lg btn-primary" type="submit"> Votar</button>
+           {% endbuttons %}
+        </form>
+    </div>
+{% endblock %}

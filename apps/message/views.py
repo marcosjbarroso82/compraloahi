@@ -94,11 +94,8 @@ class MessageModelViewSet(viewsets.ModelViewSet):
             return Response(MessageSerializer(message, many=False).data)
 
         except KeyError:
-            print("KEY ERROR ARGS")
-            print(KeyError.args)
             return Response({'Error, fields is required'}, status=status.HTTP_400_BAD_REQUEST)
         except:
-            print(sys.exc_info()[0])
             return Response({'Error'}, status=status.HTTP_400_BAD_REQUEST)
 
 

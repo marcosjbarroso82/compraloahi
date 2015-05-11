@@ -190,8 +190,8 @@ class AdFacetedSearchView(FacetedSearchView):
         context['q'] = self.request.GET.get('q', '')
         return context
 
-
-
+from apps.rating.models import OverallRating
+from django.shortcuts import get_object_or_404
 
 class DetailAdView(DetailView):
     template_name = "ad/details.html"
@@ -203,7 +203,11 @@ class DetailAdView(DetailView):
         CommentNotification.objects.filter(ad=self.get_object()).delete()
         return super(DetailAdView, self).get(request)
 
-
+    def get_context_data(self, **kwargs):
+        context = super(DetailAdView, self).get_context_data(**kwargs)
+        print(context['ad'].author)
+        context['rating'] = get_object_or_404(OverallRating, user=context['ad'].author).rate
+        return context
 # class ReloadCommentsThread(DetailView):
 # Vista que genera un template de la lista de comentarios de un aviso, para poder actualizarla mediante ajax
 #     template_name = 'ad/reload-comments.html'
@@ -386,11 +390,18 @@ class AdPublicViewSet(viewsets.ModelViewSet):
     serializer_class = AdPublicSerializer
     paginate_by = 10
 
+
 class AdPublicUserListView(ListView):
     model = Ad
     template_name = 'ad/ad-public-user.html'
     context_object_name = 'ads'
     paginate_by = 8
+
+    def get_context_data(self, **kwargs):
+        context = super(AdPublicUserListView, self).get_context_data(**kwargs)
+        context['param_url'] = self.kwargs['username']
+
+        return context
 
     def get_queryset(self):
         return Ad.objects.filter(author__username=self.kwargs['username'])

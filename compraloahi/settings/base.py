@@ -38,14 +38,7 @@ THIRD_PARTY_APPS = (
     'push_notifications',
     'rest_auth',
     'rest_auth.registration',
-
 )
-
-PUSH_NOTIFICATIONS_SETTINGS = {
-        "GCM_API_KEY": "AIzaSyD-750iceKvjKVno9p1Z4W6guATHMPJoak",
-        #"APNS_CERTIFICATE": "/path/to/your/certificate.pem",
-}
-GCM_POST_URL = 'https://android.googleapis.com/gcm/send'
 
 # Defined own applications
 LOCAL_APPS = (
@@ -56,7 +49,8 @@ LOCAL_APPS = (
     'apps.user',
     'apps.message',
     'apps.comment_notification',
-    'apps.notification'
+    'apps.notification',
+    'apps.rating'
 )
 
 # All aplication
@@ -251,3 +245,13 @@ REST_FRAMEWORK = {
 
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+
+
+
+
+PUSH_NOTIFICATIONS_SETTINGS = {
+        "GCM_API_KEY": "AIzaSyD-750iceKvjKVno9p1Z4W6guATHMPJoak",
+        #"APNS_CERTIFICATE": "/path/to/your/certificate.pem",
+}
+GCM_POST_URL = 'https://android.googleapis.com/gcm/send'

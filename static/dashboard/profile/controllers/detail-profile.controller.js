@@ -51,6 +51,7 @@
          */
         function submit(){
             //Cast datetime to date.
+            // TODO: Se rompe el formato fecha para el input al hacer el filtro
             vm.profile.birth_date = $filter('date')(vm.profile.birth_date,'yyyy-MM-dd');
             Profile.update(vm.profile).then(updateSuccess, updateError);
 
