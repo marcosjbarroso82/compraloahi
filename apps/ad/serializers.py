@@ -19,40 +19,29 @@ class AdImageSerializer(serializers.ModelSerializer):
 class AdSerializer(serializers.ModelSerializer):
     images = AdImageSerializer(many=True, read_only=True)
     is_favorite = serializers.SerializerMethodField()
+    price = serializers.DecimalField(decimal_places=2, max_digits=10, coerce_to_string=False)
 
     class Meta:
         model = Ad
         #fields = ('title',)
 
     def get_is_favorite(self, obj):
-        #request = self.context.get('request', None)
-        #return obj.is_favorite(request.user)
         request = self.context.get('request', None)
-        if request is not None:
-           if request.user.is_authenticated():
-               return obj.is_favorite(request.user)
-           else:
-               return False
+        return obj.is_favorite(request.user)
+        # request = self.context.get('request', None)
+        # if request is not None:
+        #    if request.user.is_authenticated():
+        #        return obj.is_favorite(request.user)
+        #    else:
+        #        return False
 
 
 class AdPublicSerializer(serializers.ModelSerializer):
-    is_favorite = serializers.SerializerMethodField()
     images = AdImageSerializer(many=True, read_only=True)
 
     class Meta:
         model= Ad
         fields = ('id','title', 'body', 'pub_date', 'categories', 'short_description', 'price', 'is_favorite', 'images')
-
-    def get_is_favorite(self, obj):
-        #request = self.context.get('request', None)
-        #return obj.is_favorite(request.user)
-        request = self.context.get('request', None)
-        if request is not None:
-           if request.user.is_authenticated():
-               return obj.is_favorite(request.user)
-           else:
-               return False
-
 
 
 class DistanceSerializer(serializers.Serializer):
@@ -60,8 +49,6 @@ class DistanceSerializer(serializers.Serializer):
     m = serializers.FloatField()
     mi = serializers.FloatField()
     ft = serializers.FloatField()
-
-
 
 class AdsSearchSerializer(serializers.Serializer):
     id = serializers.IntegerField(source='pk')

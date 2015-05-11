@@ -1,11 +1,12 @@
 angular.module('dashBoardApp', [
         // Third lib
+        'angular.snackbar',
         'ui.router',
+        '720kb.tooltips',
         'ngResource',
-        'ngSanitize',
+        //'ngSanitize',
         'uiGmapgoogle-maps',
-        'ui.bootstrap',
-
+        'ngTable',
         // My lib
         'dashBoardApp.profile',
         'dashBoardApp.ad',
@@ -56,12 +57,12 @@ angular.module('dashBoardApp', [
             //    controller: 'ProfileCreateController',
             //    controllerAs: 'vm'
             //})
-            .state('profile-update', {
-                url: '/profile-update',
-                templateUrl: '/static/dashboard/profile/templates/update-profile.html',
-                controller: 'ProfileUpdateController',
-                controllerAs: 'vm'
-            })
+//            .state('profile-update', {
+//                url: '/profile-update',
+//                templateUrl: '/static/dashboard/profile/templates/update-profile.html',
+//                controller: 'ProfileUpdateController',
+//                controllerAs: 'vm'
+//            })
             .state('change-password', {
                 url: '/profile/change-password',
                 templateUrl: '/static/dashboard/profile/templates/change-password.html',

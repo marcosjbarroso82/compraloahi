@@ -164,4 +164,8 @@ urlpatterns = patterns('',
                            "django.views.static.serve",
                            {'document_root': settings.MEDIA_ROOT}),
 
+                       url(r'^tienda/(?P<username>[a-zA-Z0-9_.-]+)/$',
+                           adViews.AdPublicUserListView.as_view(),
+                           name="catalogs"),
+
                        )

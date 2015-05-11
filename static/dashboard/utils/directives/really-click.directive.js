@@ -1,72 +1,54 @@
 /**
- * 
+ *
  * @namespace dashBoardApp.util.directives
  */
- (function () {
-  'use strict';
+(function () {
+    'use strict';
 
-  angular
-  .module('dashBoardApp.util.directives')
-  .directive('ngReallyClick', ngReallyClick);
+    angular
+        .module('dashBoardApp.util.directives')
+        .directive('ngReallyClick', ngReallyClick);
 
-  ngReallyClick.$inject = ['$modal'];
+    ngReallyClick.$inject = ['ngDialog'];
 
     /**
-     * @namespace Dynamic field
+     * @name ngReallyClick
+     * @desc The directive to easy add message confirm
      */
-     function ngReallyClick($modal) {
-        /**
-         * @name ngReallyClick
-         * @desc The directive to be returned
-         * @memberOf dashBoardApp.util.directives.countries
-         */
-         var ModalInstanceCtrl = function($scope, $modalInstance) {
-          $scope.ok = function() {
-            $modalInstance.close();
-          };
+    function ngReallyClick(ngDialog) {
 
-          $scope.cancel = function() {
-            $modalInstance.dismiss('cancel');
-          };
-        };
 
         return {
-          restrict: 'A',
-          scope:{
-    ngReallyClick:"&", //declare a function binding for directive
-    item:"=" //the current item for the directive
-  },
-  link: function(scope, element, attrs) {
-    element.bind('click', function() {
-      var message = attrs.ngReallyMessage || "Are you sure ?";
+            restrict: 'A',
+            scope:{
+                ngReallyClick:"&", //declare a function binding for directive
+                item:"=" //the current item for the directive
+            },
+            link: function(scope, element, attrs, $scope) {
+                element.bind('click', function() {
+                    var message = attrs.ngReallyMessage || "Are you sure?";
+                    // TODO: https://github.com/likeastore/ngDialog
+                    var dialog = ngDialog.openConfirm({
+                        className: 'ngdialog-theme-plain',
+                        template: '<div class="dialog-contents">\
+                            <p><i class="fa fa-question-circle"> </i>  ' + message + '</p>\
+                            <div class="ngdialog-buttons">\
+                                <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog(0)">CANCEL</button>\
+                                <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="confirm(1)">OK</button>\
+                            </div> </div>',
+                        plain: true
 
-            /*
-            //This works
-            if (message && confirm(message)) {
-              scope.$apply(attrs.ngReallyClick);
+                    });
+
+                    dialog.then(function (data) {
+                        if(data == 1){
+                            scope.ngReallyClick({item:scope.item});
+                        }
+                    });
+                });
+
             }
-            //*/
+        };
 
-            //*This doesn't work
-            var modalHtml = '<div class="modal-body">' + message + '</div>';
-            modalHtml += '<div class="modal-footer"><button class="btn btn-primary" ng-click="ok()">OK</button><button class="btn btn-warning" ng-click="cancel()">Cancel</button></div>';
-
-            var modalInstance = $modal.open({
-              template: modalHtml,
-              controller: ModalInstanceCtrl
-            });
-
-            modalInstance.result.then(function() {
-              scope.ngReallyClick({item:scope.item}); //call the function though function binding
-            }, function() {
-              //Modal dismissed
-            });
-            //*/
-
-          });
-
-  }
-};
-
-}
+    }
 })();

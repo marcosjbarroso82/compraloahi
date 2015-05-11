@@ -9,7 +9,7 @@
 
 
     angular
-        .module('dashBoardApp.profile.controllers', []);
+        .module('dashBoardApp.profile.controllers', ['ngDialog']);
 
     angular
         .module('dashBoardApp.profile.services', []);

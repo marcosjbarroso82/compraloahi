@@ -11,7 +11,7 @@ import math
 
 class FavoriteAdViewSet(viewsets.ModelViewSet):
     serializer_class= AdSerializer
-    paginate_by = 10
+    paginate_by = 100
     queryset = Ad.objects.all()
 
     def get_queryset(self):

@@ -9,12 +9,12 @@
         .module('dashBoardApp.profile.controllers')
         .controller('ProfileCreateController', ProfileCreateController);
 
-    ProfileCreateController.$inject = ['Profile', '$state', 'Snackbar', '$filter'];
+    ProfileCreateController.$inject = ['Profile', '$state', 'AlertNotification', '$filter'];
 
     /**
      * @namespace ProfileCreateController
      */
-    function ProfileCreateController(Profile, $state, Snackbar, $filter) {
+    function ProfileCreateController(Profile, $state, AlertNotification, $filter) {
         var vm = this;
 
         vm.profile = {};
@@ -64,12 +64,12 @@
             Profile.create(vm.profile).then(updateSuccess, updateError);
 
             function updateSuccess(data){
-                Snackbar.show(data.data.message);
+                AlertNotification.success(data.data.message);
                 $state.go('profile-detail');
             }
 
             function updateError(data){
-                Snackbar.error("Error al intentar cambiar los datos");
+                AlertNotification.error("Error al intentar cambiar los datos");
             }
         }
 

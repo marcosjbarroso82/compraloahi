@@ -6,9 +6,10 @@ var App = angular.module('App', [
         'uiGmapgoogle-maps',
         'ui.bootstrap',
         'cgBusy',
+        '720kb.tooltips',
         // My lib
         'App.ad',
-        'App.util'
+        'dashBoardApp.util'
 
     ])
     .config(function ($interpolateProvider, $httpProvider, $resourceProvider, $stateProvider) {

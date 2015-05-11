@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.views.generic import DetailView, \
-    CreateView, UpdateView, DeleteView
+    CreateView, UpdateView, DeleteView, ListView
 from django.http import HttpResponseRedirect
 from haystack.views import FacetedSearchView
 from haystack.query import SearchQuerySet, Clean
@@ -14,7 +14,7 @@ from django.contrib.gis.geos import Point
 from apps.userProfile.models import UserProfile, UserLocation
 
 from .models import Ad
-from apps.ad.serializers import SearchResultSerializer, AdSerializer, AdPublicSerializer, AdsSearchSerializer
+from .serializers import SearchResultSerializer, AdSerializer, AdPublicSerializer, AdsSearchSerializer
 from .forms import CreateAdForm, AdModifyForm, \
     AdImage_inline_formset, AdLocation_inline_formset
 from apps.comment_notification.models import CommentNotification
@@ -374,7 +374,7 @@ class UpdateAdView(UpdateView):
 
 
 class AdUserViewSet(viewsets.ModelViewSet):
-    paginate_by = 5
+    paginate_by = 100
     queryset = Ad.objects.all()
     serializer_class = AdSerializer
     #filter_backends = (filters.DjangoFilterBackend,)
@@ -393,3 +393,11 @@ class AdPublicViewSet(viewsets.ModelViewSet):
     serializer_class = AdPublicSerializer
     paginate_by = 10
 
+class AdPublicUserListView(ListView):
+    model = Ad
+    template_name = 'ad/ad-public-user.html'
+    context_object_name = 'ads'
+    paginate_by = 8
+
+    def get_queryset(self):
+        return Ad.objects.filter(author__username=self.kwargs['username'])

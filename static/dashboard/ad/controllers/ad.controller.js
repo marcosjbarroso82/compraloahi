@@ -9,13 +9,13 @@
         .module('dashBoardApp.ad.controllers')
         .controller('AdCtrl', AdCtrl);
 
-    AdCtrl.$inject = ['$scope', 'Ad', 'Snackbar'];
+    AdCtrl.$inject = ['$scope', 'Ad', 'AlertNotification', 'ngTableParams', '$filter'];
 
     /**
      * @namespace AdCtrl
      */
-    function AdCtrl($scope, Ad, Snackbar) {
-        $scope.ads = {};
+    function AdCtrl($scope, Ad, AlertNotification, ngTableParams, $filter) {
+        $scope.ads = [];
         $scope.next_page = null;
         $scope.prev_page = null;
         $scope.count_page = 0;
@@ -54,15 +54,49 @@
             Ad.delete({id:ad.id}, deleteSuccess, deleteError);
 
             function deleteSuccess(data, headers, status){
-                getAds();
-                //$scope.ads.splice($scope.ads.indexOf(ad),1);
-                Snackbar.show("El aviso fue eliminado con exito!");
+                AlertNotification.success("El aviso " + ad.title + " fue eliminado con exito!");
+                //getAds();
+                $scope.ads.splice($scope.ads.indexOf(ad),1);
+
             }
 
             function deleteError(data, headers, status){
-                Snackbar.error("Error al intentar borrar el aviso");
+                AlertNotification.error("Error al intentar borrar el aviso");
             }
         };
+
+
+        $scope.filters = {
+            title: ''
+        };
+
+        $scope.tableParams = new ngTableParams({
+            page: 1,            // show first page
+            count: 10,          // count per page
+            filter: $scope.filters,
+            sorting: {
+                title: 'asc'
+            }
+        }, {
+            total: $scope.ads.length, // length of data
+            getData: function($defer, params) {
+                // use build-in angular filter
+                var filteredData = params.filter() ?
+                    $filter('filter')($scope.ads, params.filter()) :
+                    $scope.ads;
+                // use build-in angular filter
+                var orderedData = params.sorting() ?
+                    $filter('orderBy')(filteredData, params.orderBy()) :
+                    $scope.ads;
+
+                params.total(orderedData.length); // set total for recalc pagination
+                $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
+            }
+        });
+
+        $scope.$watchCollection("ads", function () {
+            $scope.tableParams.reload();
+        });
 
 
     }
