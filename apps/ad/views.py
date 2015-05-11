@@ -82,8 +82,6 @@ class SearchViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
         if self.request.query_params.get('q'):
             #qs = qs.filter_and(title__contains=self.request.query_params.get('q'))
             qs = qs.auto_query(self.request.query_params.get('q'))
-
-
         try:
             param_facet_url = list(self.request.query_params.getlist('selected_facets', []))
         except:
@@ -202,7 +200,14 @@ class DetailAdView(DetailView):
         # We delete all Unread Comment Notification for this Ad
         CommentNotification.objects.filter(ad=self.get_object()).delete()
         return super(DetailAdView, self).get(request)
+    def get_context_data(self, **kwargs):
+        context = super(DetailView, self).get_context_data(**kwargs)
 
+        try:
+            context['comments_limit'] = int(self.request.GET.get('comments_limit', '') )
+        except:
+            context['comments_limit'] = 5
+        return context
 
 # class ReloadCommentsThread(DetailView):
 # Vista que genera un template de la lista de comentarios de un aviso, para poder actualizarla mediante ajax
@@ -235,6 +240,8 @@ class AdDeleteView(DeleteView):
         messages.success(self.request, "Aviso "
                          + self.object.title + " removed success.")
         return HttpResponseRedirect(self.get_success_url())
+
+
 
 
 class CreateAdView(CreateView):

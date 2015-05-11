@@ -26,6 +26,14 @@ def add_attributes(field, css):
 def addcss(field, css):
    return field.as_widget(attrs={"class":css})
 
+@register.filter(name='slice0to')
+def slice0to(value, upto):
+    """Use: {% for a in mylist|slice0to:z %}"""
+    try:
+        return value[0:upto]
+    except (ValueError, TypeError):
+        return value # Fail silently.
+
 
 @register.filter(name='float_decimal_part')
 def floatdecimalpartformat(text, arg=-1):
@@ -58,3 +66,4 @@ def add_get(parser, token):
         s = pair.split('=', 1)
         values[s[0]] = parser.compile_filter(s[1])
     return AddGetParameter(values)
+
