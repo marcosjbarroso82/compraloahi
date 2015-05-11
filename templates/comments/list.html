@@ -1,5 +1,7 @@
 {% load i18n comments_xtd %}
 {% load url from future %}
+{% load common_tags %}
+
 
 
 <div class="panel panel-default widget">
@@ -11,7 +13,7 @@
     </div>
     <div class="panel-body">
         <ul class="list-group">
-            {% for comment in comment_list %}
+            {% for comment in comment_list|slice0to:comments_limit %}
                 <li class="list-group-item" >
                     <div class="row" style="margin-left:{{ comment.level }}00px;">
                         <div>
@@ -48,11 +50,9 @@
                 </li>
             {% endfor %}
     </ul>
-        {% if not request.GET.all_comments or request.GET.all_comments != "true" %}
-            <a id="more-comments-btn" class="btn btn-primary btn-sm btn-block" role="button"
-               href="/ad/{{ object.slug }}/?all_comments=true"
-                    ><span class="glyphicon glyphicon-refresh"></span> More</a>
-        {% endif %}
+        <a id="more-comments-btn" class="btn btn-primary btn-sm btn-block" role="button"
+               href="/ad/{{ object.slug }}/?comments_limit={{ comments_limit|add:5 }}">
+            <span class="glyphicon glyphicon-refresh"></span> More</a>
 
 </div>
 </div>

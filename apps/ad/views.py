@@ -21,6 +21,9 @@ from apps.comment_notification.models import CommentNotification
 from rest_framework.response import Response
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
+from apps.rating.models import OverallRating
+from django.shortcuts import get_object_or_404
+
 import json
 
 import logging
@@ -82,8 +85,6 @@ class SearchViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
         if self.request.query_params.get('q'):
             #qs = qs.filter_and(title__contains=self.request.query_params.get('q'))
             qs = qs.auto_query(self.request.query_params.get('q'))
-
-
         try:
             param_facet_url = list(self.request.query_params.getlist('selected_facets', []))
         except:
@@ -190,8 +191,7 @@ class AdFacetedSearchView(FacetedSearchView):
         context['q'] = self.request.GET.get('q', '')
         return context
 
-from apps.rating.models import OverallRating
-from django.shortcuts import get_object_or_404
+
 
 class DetailAdView(DetailView):
     template_name = "ad/details.html"
@@ -205,9 +205,16 @@ class DetailAdView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(DetailAdView, self).get_context_data(**kwargs)
-        print(context['ad'].author)
-        context['rating'] = get_object_or_404(OverallRating, user=context['ad'].author).rate
+        try:
+            context['rating'] = OverallRating.objects.get(user=context['ad'].author).rate
+        except OverallRating.DoesNotExist:
+            context['rating'] = ""
+        try:
+            context['comments_limit'] = int(self.request.GET.get('comments_limit', '') )
+        except:
+            context['comments_limit'] = 5
         return context
+
 # class ReloadCommentsThread(DetailView):
 # Vista que genera un template de la lista de comentarios de un aviso, para poder actualizarla mediante ajax
 #     template_name = 'ad/reload-comments.html'
@@ -239,6 +246,8 @@ class AdDeleteView(DeleteView):
         messages.success(self.request, "Aviso "
                          + self.object.title + " removed success.")
         return HttpResponseRedirect(self.get_success_url())
+
+
 
 
 class CreateAdView(CreateView):
@@ -399,9 +408,9 @@ class AdPublicUserListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(AdPublicUserListView, self).get_context_data(**kwargs)
-        context['param_url'] = self.kwargs['username']
+        context['param_url'] = self.kwargs.get('username', '')
 
         return context
 
     def get_queryset(self):
-        return Ad.objects.filter(author__username=self.kwargs['username'])
+        return Ad.objects.filter(author__username=self.kwargs.get('username', ''))
