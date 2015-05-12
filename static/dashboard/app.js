@@ -75,32 +75,37 @@ angular.module('dashBoardApp', [
             .state('messages', {
                 url: 'messages/?:folder',
                 templateUrl: '/static/dashboard/message/templates/messages-app.html',
-                controller: 'MessageCtrl'
+                controller: 'MessageCtrl',
+                controllerAs: 'vm'
             })
             .state('message-thread', {
                 url: 'message-thread/:id',
                 templateUrl: '/static/dashboard/message/templates/messages-thread.html',
-                controller: 'MessageThreadCtrl'
+                controller: 'MessageThreadCtrl',
+                controllerAs: 'vm'
             })
 
             // ADS
             .state('my-ads', {
                 url: '/my-ads',
                 templateUrl: '/static/dashboard/ad/templates/ad-list.html',
-                controller: 'AdCtrl'
+                controller: 'AdCtrl',
+                controllerAs: 'vm'
             })
 
             // LOCATIONS
             .state('my-locations', {
                 url: '/my-locations',
                 templateUrl: '/static/dashboard/user-location/templates/user-locations-list.html',
-                controller: 'UserLocationCtrl'
+                controller: 'UserLocationCtrl',
+                controllerAs: 'vm'
             })
             // FAVORITE
             .state('favorite', {
                 url: '/my-favorites',
                 templateUrl: '/static/dashboard/favorite/templates/list.html',
-                controller: 'FavoriteCtrl'
+                controller: 'FavoriteCtrl',
+                controllerAs: 'vm'
             })
 
             // AGENDA

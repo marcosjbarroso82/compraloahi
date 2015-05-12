@@ -1,8 +1,8 @@
 <!-- ############## PROFILE ############### -->
-<div id="container-message-thread-data">
+<div id="container-message-thread-data" cg-busy="vm.promiseRequest">
     <h3 class="title-data">Detalle de Mensaje</h3>
 
-    <div class="content-data col-md-12">
+    <div class="content-data col-md-12" >
         
         <div ng-repeat="msg in message" class="message">
             <h4>{{ msg.subject }}</h4>

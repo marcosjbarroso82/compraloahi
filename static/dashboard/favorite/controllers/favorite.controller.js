@@ -15,7 +15,8 @@
      * @namespace FavoriteCtrl
      */
     function FavoriteCtrl($scope, Favorite, AlertNotification, ngTableParams, $filter) {
-        $scope.favorites = [];
+        var vm = this;
+        vm.favorites = [];
         $scope.next_page = null;
         $scope.prev_page = null;
         $scope.count_page = 0;
@@ -36,26 +37,25 @@
                 title: 'asc'
             }
         }, {
-            total: $scope.favorites.length, // length of data
+            total: vm.favorites.length, // length of data
             getData: function($defer, params) {
                 // use build-in angular filter
                 var filteredData = params.filter() ?
-                    $filter('filter')($scope.favorites, params.filter()) :
-                    $scope.favorites;
+                    $filter('filter')(vm.favorites, params.filter()) :
+                    vm.favorites;
                 // use build-in angular filter
                 var orderedData = params.sorting() ?
                     $filter('orderBy')(filteredData, params.orderBy()) :
                     filteredData;
 
                 params.total(orderedData.length); // set total for recalc pagination
-                console.log(orderedData);
                 $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
             }
         });
 
         function getFavorites(){
-            Favorite.get(function(data) {
-                $scope.favorites = data.results;
+            vm.promiseRequest = Favorite.get(function(data) {
+                vm.favorites = data.results;
                 $scope.next_page = data.next;
                 $scope.prev_page = data.previous;
             });
@@ -63,15 +63,15 @@
 
 
 
-            $scope.$watchCollection("favorites", function () {
+            $scope.$watchCollection("vm.favorites", function () {
                 $scope.tableParams.reload();
             });
         }
 
         $scope.get_favorites_page = function(page){
-            Favorite.get({"page":page},function(response) {
+            vm.promiseRequest = Favorite.get({"page":page},function(response) {
                 $scope.current_page = page;
-                $scope.favorites = response.results;
+                vm.favorites = response.results;
                 $scope.next_page = response.next;
                 $scope.prev_page = response.previous;
             });
@@ -81,7 +81,7 @@
             var fav = new Favorite({target_object_id: favorite.id});
             fav.$save(function(){
                 AlertNotification.info("El aviso " + favorite.title + " fue quitado de tus favoritos");
-                $scope.favorites.splice($scope.favorites.indexOf(favorite),1);
+                vm.favorites.splice(vm.favorites.indexOf(favorite),1);
             });
         }
 

@@ -15,6 +15,8 @@
      * @namespace MessageCtrl
      */
     function MessageCtrl($scope, Message, AlertNotification, $stateParams) {
+        var vm = this;
+
         $scope.messages = {};
         $scope.message = {};
         $scope.messages_selected = [];
@@ -22,7 +24,7 @@
         $scope.count = 0;
 
         $scope.loadMessages = function(folder){
-            Message.getMsgs(folder, 0).then(getMessagesByFolderSuccess, getMessagesByFolderError);
+            vm.promiseRequest = Message.getMsgs(folder, 0).then(getMessagesByFolderSuccess, getMessagesByFolderError);
             $scope.folder = folder;
             
         }
@@ -50,7 +52,7 @@
         }
 
         $scope.get_msgs_page = function(page){
-            Message.getMsgs($scope.folder, page).then(getMessagesByFolderSuccess, getMessagesByFolderError);
+            vm.promiseRequest = Message.getMsgs($scope.folder, page).then(getMessagesByFolderSuccess, getMessagesByFolderError);
             $scope.page = page;
         };
 
@@ -79,7 +81,7 @@
 
         $scope.delete_bulk = function(){
 
-            Message.delete_bulk($scope.messages_selected).then(deleteSuccess, deleteError);
+            vm.promiseRequest = Message.delete_bulk($scope.messages_selected).then(deleteSuccess, deleteError);
 
             function deleteSuccess(data, headers, status){
                 AlertNotification.success("Los mensajes seleccionados se eliminaron con exito");

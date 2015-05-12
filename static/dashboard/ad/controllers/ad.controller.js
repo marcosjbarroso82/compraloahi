@@ -15,7 +15,10 @@
      * @namespace AdCtrl
      */
     function AdCtrl($scope, Ad, AlertNotification, ngTableParams, $filter) {
-        $scope.ads = [];
+
+        var vm = this;
+
+        vm.ads = [];
         $scope.next_page = null;
         $scope.prev_page = null;
         $scope.count_page = 0;
@@ -26,17 +29,17 @@
 
 
         function getAds(){
-            Ad.get(function(data) {
-                $scope.ads = data.results;
+            vm.promiseRequest = Ad.get(function(data) {
+                vm.ads = data.results;
                 $scope.next_page = data.next;
                 $scope.prev_page = data.previous;
             });
         }
 
         $scope.get_ads_page = function(page){
-            Ad.get({"page":page},function(response) {
+            vm.promiseRequest = Ad.get({"page":page},function(response) {
                 $scope.current_page = page;
-                $scope.ads = response.results;
+                vm.ads = response.results;
                 $scope.next_page = response.next;
                 $scope.prev_page = response.previous;
             });
@@ -46,7 +49,7 @@
         $scope.submitAd= function(text) {
             var ad = new Ad({text: text});
             ad.$save(function(){
-                $scope.ads.unshift(ad);
+                vm.ads.unshift(ad);
             })
         };
         $scope.deleteAd= function(ad) {
@@ -56,7 +59,7 @@
             function deleteSuccess(data, headers, status){
                 AlertNotification.success("El aviso " + ad.title + " fue eliminado con exito!");
                 //getAds();
-                $scope.ads.splice($scope.ads.indexOf(ad),1);
+                vm.ads.splice(vm.ads.indexOf(ad),1);
 
             }
 
@@ -78,26 +81,25 @@
                 title: 'asc'
             }
         }, {
-            total: $scope.ads.length, // length of data
+            total: vm.ads.length, // length of data
             getData: function($defer, params) {
                 // use build-in angular filter
                 var filteredData = params.filter() ?
-                    $filter('filter')($scope.ads, params.filter()) :
-                    $scope.ads;
+                    $filter('filter')(vm.ads, params.filter()) :
+                    vm.ads;
                 // use build-in angular filter
                 var orderedData = params.sorting() ?
                     $filter('orderBy')(filteredData, params.orderBy()) :
-                    $scope.ads;
+                    filteredData;
 
                 params.total(orderedData.length); // set total for recalc pagination
                 $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
             }
         });
 
-        $scope.$watchCollection("ads", function () {
+        $scope.$watchCollection("vm.ads", function () {
             $scope.tableParams.reload();
         });
-
 
     }
 })();

@@ -81,6 +81,9 @@ urlpatterns = patterns('',
                            UserProfileModelView.as_view({'get': 'retrieve', 'put': 'update'}),
                            name='api-profile-detail'),
 
+                       url(r'^api/v1/change-image/$',
+                           'apps.userProfile.views.upload_image_profile', name='api-profile-change-image'),
+
                        # Change password
                        url(r'^api/v1/change-password/$',
                            ChangePasswordUpdateAPIView.as_view(),

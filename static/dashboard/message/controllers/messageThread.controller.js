@@ -15,11 +15,12 @@
      * @namespace MessageThreadCtrl
      */
     function MessageThreadCtrl($scope, Message, $stateParams, $q) {
+        var vm = this;
         $scope.message = {};
         $scope.msgReply = {};
 
         $scope.loadMessageThread = function(id){
-            Message.getMsgThread(id).then(getSuccess, getError);
+            vm.promiseRequest = Message.getMsgThread(id).then(getSuccess, getError);
 
             function getSuccess(data){
                 $scope.message = data.data;
