@@ -50,6 +50,8 @@ class MessageModelViewSet(viewsets.ModelViewSet):
 
             if request.DATA.get('ad_id', '') != '':
                 ad = Ad.objects.get(pk=request.DATA['ad_id'])
+                if ad.author == request.user:
+                    raise Exception
                 message.recipient = ad.author
                 mc = MessageChannel(sender=message.sender, recipient=message.recipient, ad=ad, date=datetime_now())
                 if mc.already_exist():
