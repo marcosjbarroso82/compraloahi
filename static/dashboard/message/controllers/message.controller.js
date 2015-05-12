@@ -9,67 +9,67 @@
         .module('dashBoardApp.message.controllers')
         .controller('MessageCtrl', MessageCtrl);
 
-    MessageCtrl.$inject = ['$scope', 'Message', 'AlertNotification', '$stateParams'];
+    MessageCtrl.$inject = ['Message', 'AlertNotification', '$stateParams'];
 
     /**
      * @namespace MessageCtrl
      */
-    function MessageCtrl($scope, Message, AlertNotification, $stateParams) {
+    function MessageCtrl(Message, AlertNotification, $stateParams) {
         var vm = this;
 
-        $scope.messages = {};
-        $scope.message = {};
-        $scope.messages_selected = [];
-        $scope.page = 1;
-        $scope.count = 0;
+        vm.messages = {};
+        vm.message = {};
+        vm.messages_selected = [];
+        vm.page = 1;
+        vm.count = 0;
 
-        $scope.loadMessages = function(folder){
+        vm.loadMessages = function(folder){
             vm.promiseRequest = Message.getMsgs(folder, 0).then(getMessagesByFolderSuccess, getMessagesByFolderError);
-            $scope.folder = folder;
+            vm.folder = folder;
             
         }
 
-        $scope.select_all_messages = function(){
-            angular.forEach($scope.messages, function(message){
-               message.selected = $scope.messages_select;
+        vm.select_all_messages = function(){
+            angular.forEach(vm.messages, function(message){
+               message.selected = vm.messages_select;
             });
 
-            if($scope.messages_select){
-                $scope.messages_selected = $scope.messages;
+            if(vm.messages_select){
+                vm.messages_selected = vm.messages;
             }else{
-                $scope.messages_selected = [];
+                vm.messages_selected = [];
             }
         }
         
-        $scope.select_message = function(message){
+        vm.select_message = function(message){
             // If message has state selected add to array messages_selected, else, remove.
             if(message.selected){
-                $scope.messages_selected.push(message);
+                vm.messages_selected.push(message);
             }else{
-                $scope.messages_selected.splice($scope.messages_selected.indexOf(message), 1);
+                vm.messages_selected.splice(vm.messages_selected.indexOf(message), 1);
             }
-            console.log($scope.messages_selected);
+            console.log(vm.messages_selected);
         }
 
-        $scope.get_msgs_page = function(page){
-            vm.promiseRequest = Message.getMsgs($scope.folder, page).then(getMessagesByFolderSuccess, getMessagesByFolderError);
-            $scope.page = page;
+        vm.get_msgs_page = function(page){
+            vm.promiseRequest = Message.getMsgs(vm.folder, page).then(getMessagesByFolderSuccess, getMessagesByFolderError);
+            vm.page = page;
         };
 
 
         function getMessagesByFolderSuccess(data){
-            //$scope.messages = data.data;
+            //vm.messages = data.data;
             data = angular.fromJson(data.data);
 
 
-            $scope.messages = data.results;
+            vm.messages = data.results;
 
-            $scope.next_page = data.next;
-            $scope.prev_page = data.previous;
-            $scope.count = data.count;
+            vm.next_page = data.next;
+            vm.prev_page = data.previous;
+            vm.count = data.count;
 
-            $scope.messages_selected = [];
-            $scope.messages_select = false;
+            vm.messages_selected = [];
+            vm.messages_select = false;
 
         };
 
@@ -79,14 +79,14 @@
 
 
 
-        $scope.delete_bulk = function(){
+        vm.delete_bulk = function(){
 
-            vm.promiseRequest = Message.delete_bulk($scope.messages_selected).then(deleteSuccess, deleteError);
+            vm.promiseRequest = Message.delete_bulk(vm.messages_selected).then(deleteSuccess, deleteError);
 
             function deleteSuccess(data, headers, status){
                 AlertNotification.success("Los mensajes seleccionados se eliminaron con exito");
                 console.log(data.data);
-                $scope.get_msgs_page($scope.page);
+                vm.get_msgs_page(vm.page);
             }
 
             function deleteError(data, headers, status){
@@ -94,11 +94,11 @@
             }
         }
         
-        $scope.set_read_bulk = function(){
-            Message.set_read_bulk($scope.messages_selected).then(setReadSuccess);
+        vm.set_read_bulk = function(){
+            Message.set_read_bulk(vm.messages_selected).then(setReadSuccess);
 
             function setReadSuccess(data, headers, status){
-                $scope.get_msgs_page($scope.page);
+                vm.get_msgs_page(vm.page);
             }
         }
         
@@ -107,9 +107,9 @@
 
         function init(){
             if($stateParams.folder != '' && $stateParams.folder != undefined){
-                $scope.messages = $scope.loadMessages($stateParams.folder);
+                vm.messages = vm.loadMessages($stateParams.folder);
             }else{
-                $scope.messages = $scope.loadMessages('inbox');
+                vm.messages = vm.loadMessages('inbox');
             }
         }
 

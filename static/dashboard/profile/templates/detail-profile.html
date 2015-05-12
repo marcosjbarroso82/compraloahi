@@ -1,6 +1,4 @@
-<div >
-    <h4 class="title-data">Datos personales</h4>
-    <style>
+<style>
         .fileUpload {
             overflow: hidden;
             margin: 10px;
@@ -20,8 +18,13 @@
             filter: alpha(opacity=0);
         }
     </style>
+
+
+<div >
+    <h4 class="title-data">Datos personales</h4>
+
     <div class="content-data col-md-12 container-profile-data" id="container-profile-data">
-        <div class="col-md-12">
+        <div class="col-md-12" cg-busy="vm.promiseRequest">
             <div class="col-md-2" cg-busy="vm.promise_img" ng-mouseover="vm.focus_img = true;" ng-mouseleave="vm.focus_img = false;">
                 <img class="img-responsive" id="item-display" src="{{ vm.profile.thumbnail_200x200 }}">
                 <div class="fileUpload btn btn-primary" ng-show="vm.focus_img">
@@ -45,7 +48,7 @@
                 </div>
                 <div class="col-md-6">
                     <label>Number Contact : </label>
-                    <ul id="contact-number-list">
+                    <ul id="contact-number-list" ng-if="vm.profile.phones.length > 0">
                         <li ng-repeat="phone in vm.profile.phones">
                             <i ng-if="phone.type == 'TEL'" class="glyphicon glyphicon-earphone"></i>
                             <i ng-if="phone.type == 'CEL'" class="glyphicon glyphicon-phone"></i>
@@ -53,6 +56,9 @@
                             {{ phone.number }}
                         </li>
                     </ul>
+                    <div ng-if="vm.profile.phones == 0">
+                        No tienes ningun numero de contacto registrado..
+                    </div>
                 </div>
             </div>
             <div class="col-md-2 btn-actions" ng-if="!vm.profileEdit">

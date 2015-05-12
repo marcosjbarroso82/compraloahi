@@ -25,8 +25,6 @@
 
         vm.upload_img = upload_img;
 
-        $scope.img_profile = {};
-
         activate();
 
         /**
@@ -35,7 +33,7 @@
          * @memberOf dashBoardApp.authentication.controllers.ProfileDetailController
          */
         function activate() {
-            Profile.detail().then(detailSuccess, detailError);
+            vm.promiseRequest = Profile.detail().then(detailSuccess, detailError);
 
             function detailSuccess(data){
                 vm.profile = data.data;

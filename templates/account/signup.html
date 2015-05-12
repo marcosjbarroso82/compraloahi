@@ -3,14 +3,29 @@
 {% load url from future %}
 {% load i18n %}
 
+{% block css_header_block %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/auth.css" >
+{% endblock %}
+
 {% block title %}{% trans "Signup" %}{% endblock %}
 
 {% block body_block %}
-    <div class="container">
-        <h1>{% trans "Sign Up" %}</h1>
 
+    <div class="main container">
+      <h3 class="text-center">{% trans "Sign Up" %}</h3>
+    <hr/>
+      <div class="row">
+        <div class="col-xs-6 col-sm-6 col-md-6">
+          <a href="/accounts/facebook/login/?process=login" class="btn btn-lg btn-primary btn-block">Facebook</a>
+        </div>
+        <div class="col-xs-6 col-sm-6 col-md-6">
+          <a href="/accounts/google/login/?process=login" class="btn btn-lg btn-danger btn-block">Google</a>
+        </div>
+      </div>
+      <div class="login-or">
+        <hr class="hr-or">
+      </div>
         <p>{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>
-
         <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
           {% csrf_token %}
           {% bootstrap_form form %}
@@ -21,8 +36,6 @@
           <button class="btn btn-success pull-right" type="submit">{% trans "Sign Up" %} &raquo;</button>
         </form>
     </div>
-
-
 
 {% endblock %}
 
