@@ -37,6 +37,7 @@
 
             function detailSuccess(data){
                 vm.profile = data.data;
+                vm.profile.birth_date_input = angular.copy(new Date(vm.profile.birth_date));
             }
 
             function detailError(data){
@@ -74,7 +75,7 @@
         function submit(){
             //Cast datetime to date.
             // TODO: Se rompe el formato fecha para el input al hacer el filtro
-            vm.profile.birth_date = $filter('date')(vm.profile.birth_date,'yyyy-MM-dd');
+            vm.profile.birth_date = angular.copy($filter('date')(vm.profile.birth_date_input,'yyyy-MM-dd'));
             Profile.update(vm.profile).then(updateSuccess, updateError);
 
             function updateSuccess(data){
