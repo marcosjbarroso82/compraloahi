@@ -4,6 +4,7 @@ angular.module('dashBoardApp', [
         'ui.router',
         '720kb.tooltips',
         'ngResource',
+        'cgBusy',
         //'ngSanitize',
         'uiGmapgoogle-maps',
         'ngTable',

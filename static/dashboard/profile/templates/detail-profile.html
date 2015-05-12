@@ -1,11 +1,36 @@
 <div >
     <h4 class="title-data">Datos personales</h4>
-
+    <style>
+        .fileUpload {
+            overflow: hidden;
+            margin: 10px;
+            position: absolute;
+            right: 10px;
+            top: -6px;
+        }
+        .fileUpload input.upload {
+            position: absolute;
+            top: 0;
+            right: 0;
+            margin: 0;
+            padding: 0;
+            font-size: 20px;
+            cursor: pointer;
+            opacity: 0;
+            filter: alpha(opacity=0);
+        }
+    </style>
     <div class="content-data col-md-12 container-profile-data" id="container-profile-data">
         <div class="col-md-12">
-            <div class="col-md-2">
+            <div class="col-md-2" cg-busy="vm.promise_img" ng-mouseover="vm.focus_img = true;" ng-mouseleave="vm.focus_img = false;">
                 <img class="img-responsive" id="item-display" src="{{ vm.profile.thumbnail_200x200 }}">
+                <div class="fileUpload btn btn-primary" ng-show="vm.focus_img">
+                    <span><i class="fa fa-upload"></i></span>
+                    <input type="file" class="upload" file-model='img_profile' accept="image/*"/>
+                </div>
             </div>
+
+            <!-- PROFILE DETAIL -->
             <div class="col-md-8" ng-if="!vm.profileEdit">
                 <h5>{{ vm.profile.user.first_name }}, {{ vm.profile.user.last_name }}</h5>
                 <div class="col-md-6">
@@ -34,8 +59,9 @@
                 <button ui-sref="change-password" class="btn btn-info pull-right"><i class="glyphicon glyphicon-cog"></i>Change password</button>
                 <button ng-click="vm.profileEdit = !vm.profileEdit" class="btn btn-warning pull-right"><i class="glyphicon glyphicon-edit"></i>Edit personal data</button>
             </div>
+            <!-- END PROFILE DETAIL -->
 
-
+            <!-- PROFILE UPDATE -->
             <div class="col-md-8" ng-if="vm.profileEdit">
                 <h5 class="form-inline">
                     <input class="form-control" ng-model="vm.profile.user.first_name" type="text" ng-required="true"/>

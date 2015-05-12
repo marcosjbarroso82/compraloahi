@@ -9,12 +9,12 @@
         .module('dashBoardApp.profile.controllers')
         .controller('ProfileDetailController', ProfileDetailController);
 
-    ProfileDetailController.$inject = ['Profile', 'AlertNotification', '$filter'];
+    ProfileDetailController.$inject = ['Profile', 'AlertNotification', '$filter', '$scope'];
 
     /**
      * @namespace ProfileDetailController
      */
-    function ProfileDetailController(Profile, AlertNotification, $filter) {
+    function ProfileDetailController(Profile, AlertNotification, $filter, $scope) {
         var vm = this;
 
         vm.profile = undefined;
@@ -22,6 +22,10 @@
         vm.submit = submit;
         vm.removePhone = removePhone;
         vm.addPhone = addPhone;
+
+        vm.upload_img = upload_img;
+
+        $scope.img_profile = {};
 
         activate();
 
@@ -42,6 +46,26 @@
             }
 
         }
+
+        function upload_img(){
+
+            if (vm.img_profile && 'name' in vm.img_profile){
+                 vm.promise_img = Profile.upload_img(vm.img_profile).then(ChangeImgSuccess, ChangeImgError);
+            }
+
+            function ChangeImgSuccess(data, status, headers, config){
+                vm.profile.thumbnail_200x200 = data.data.image_url;
+                $scope.img_profile = {};
+            }
+
+            function ChangeImgError(data, status, headers, config){
+                 AlertNotification.error(data.error);
+            }
+        }
+
+        $scope.$watch('vm.img_profile', function(){
+            upload_img();
+        });
 
 
         /**
