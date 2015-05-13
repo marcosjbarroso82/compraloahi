@@ -119,6 +119,10 @@ urlpatterns = patterns('',
                            'apps.message.views.message_bulk_set_read',
                            name='api-message-set-read-bulk'),
 
+                       url(r'^api/v1/messages/unread-count/$',
+                           'apps.message.views.get_unread_count',
+                           name='api-message-get-unread-count'),
+
                        url(r'^dashboard/.*$',
                            ApiDashBoardView.as_view(),
                            name='dashboard'),

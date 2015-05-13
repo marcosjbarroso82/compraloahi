@@ -205,3 +205,13 @@ def get_valid_message_write(request, *args, **kwargs):
             {'message': 'CANAL BLOQUEADO'}, status=status.HTTP_200_OK)
     # else:
     #    return Response({'message': 'NEEDLOGIN'}, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+def get_unread_count(request):
+    try:
+        all_unread = Message.objects.filter(recipient=request.user, read_at=None, moderation_status='a')
+        return Response({'count': all_unread.count()}, status=status.HTTP_200_OK)
+    except:
+        return Response(
+            {'message': 'ERROR'},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR)

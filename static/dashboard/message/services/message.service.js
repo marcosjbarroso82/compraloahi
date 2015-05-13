@@ -18,6 +18,7 @@
     function Message($resource, $http, $q) {
         var msgs = {
             getMsgs:getMsgs,
+            getUnreadCount:getUnreadCount,
             getMsgThread:getMsgThread,
             getMsg: getMsg,
             reply: reply,
@@ -31,7 +32,10 @@
             }else{
                 return $http.get('/api/v1/messages/' + folder + "/?page=" + page);
             }
+        }
 
+        function getUnreadCount(){
+            return $http.get('/api/v1/messages/unread-count/');
         }
 
         function getMsgThread(id){

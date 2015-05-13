@@ -16,6 +16,16 @@ angular.module('dashBoardApp', [
         'dashBoardApp.favorite'
 
     ])
+    .run(function($rootScope, Message){
+        $rootScope.new_messages_count = '';
+        Message.getUnreadCount().
+            success(function(data, status, headers, config) {
+                $rootScope.new_messages_count = data.count;
+            }).
+            error(function(data, status, headers, config) {
+                $rootScope.new_messages_count = 0;
+            });
+    })
     .config(function ($interpolateProvider, $httpProvider, $resourceProvider, $stateProvider, $urlRouterProvider) {
         // Force angular to use square brackets for template tag
         // The alternative is using {% verbatim %}

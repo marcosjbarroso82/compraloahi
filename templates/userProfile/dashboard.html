@@ -43,7 +43,9 @@
                    ui-sref="messages({'folder': 'inbox'})"
                    data-target="#nav-collapse-message"
                    data-toggle="collapse" ng-class="{collapsed: !('messages' | includedByState) && !('message-thread' | includedByState)}">
-                    <i class="glyphicon glyphicon-envelope"></i> Messages <span class="badge pull-right">2</span>
+                    <i class="glyphicon glyphicon-envelope"></i> Messages <span class="badge pull-right">
+                    {% verbatim %}{{ new_messages_count }}{% endverbatim %}
+                </span>
                 </a>
                 <div id="nav-collapse-message" class="nav-menu-collapse collapse" ng-class="{ in: ('messages' | includedByState) || ('message-thread' | includedByState)}">
                     <ul class="nav">
