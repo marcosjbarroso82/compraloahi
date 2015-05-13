@@ -21,10 +21,28 @@
             detail: detail,
             change_password: change_password,
             update: update,
-            create: create
+            create: create,
+            upload_img: upload_img
         };
 
         return Profile;
+
+
+        /**
+         *
+         * @param image
+         * @returns {HttpPromise}
+         */
+        function upload_img(image) {
+            var fd = new FormData();
+
+            fd.append("image", image);
+            return $http.post('/api/v1/change-image/', fd, {
+                headers: {'Content-Type': undefined},
+                withCredentials: true,
+                transformRequest: angular.identity
+            });
+        }
 
 
         /**

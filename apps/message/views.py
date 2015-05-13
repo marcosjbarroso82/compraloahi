@@ -50,6 +50,8 @@ class MessageModelViewSet(viewsets.ModelViewSet):
 
             if request.DATA.get('ad_id', '') != '':
                 ad = Ad.objects.get(pk=request.DATA['ad_id'])
+                if ad.author == request.user:
+                    raise Exception
                 message.recipient = ad.author
                 mc = MessageChannel(sender=message.sender, recipient=message.recipient, ad=ad, date=datetime_now())
                 if mc.already_exist():
@@ -94,11 +96,8 @@ class MessageModelViewSet(viewsets.ModelViewSet):
             return Response(MessageSerializer(message, many=False).data)
 
         except KeyError:
-            print("KEY ERROR ARGS")
-            print(KeyError.args)
             return Response({'Error, fields is required'}, status=status.HTTP_400_BAD_REQUEST)
         except:
-            print(sys.exc_info()[0])
             return Response({'Error'}, status=status.HTTP_400_BAD_REQUEST)
 
 

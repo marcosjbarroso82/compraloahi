@@ -14,7 +14,7 @@
 
     <link rel="stylesheet" type="text/css" href="{% static 'bower_components/angular-snackbar/css/angular.snackbar.css' %}" />
 
-
+    <link rel="stylesheet" type="text/css" href="{% static 'bower_components/angular-busy/dist/angular-busy.css' %}" />
 
     <link rel="stylesheet" type="text/css" href="{% static 'bower_components/ng-table/dist/ng-table.css' %}" />
 
@@ -128,6 +128,10 @@
     <!-- Angular and django rest framework Resource -->
     <script type="text/javascript" src="{% static 'bower_components/angular-django-rest-resource/angular-django-rest-resource.js' %}"></script>
 
+
+    <!-- LOAD PROMISE -->
+    <script type="text/javascript" src="{% static 'bower_components/angular-busy/dist/angular-busy.js' %}"></script>
+
     <!-- ###################### END IMPORT ###################### -->
 
 
@@ -182,6 +186,12 @@
     <script type="text/javascript" src="{% static 'dashboard/favorite/services/favorite.service.js' %}"></script>
     <script type="text/javascript" src="{% static 'dashboard/favorite/controllers/favorite.controller.js' %}"></script>
     <!-- ###################### END DASHBOARD APP - MODULE FAVORITES ###################### -->
+
+    <!-- ###################### DASHBOARD APP - MODULE NOTIFICATIONS ###################### -->
+    <script type="text/javascript" src="{% static 'dashboard/notification/notification.module.js' %}"></script>
+    <script type="text/javascript" src="{% static 'dashboard/notification/services/notification.service.js' %}"></script>
+    <script type="text/javascript" src="{% static 'dashboard/notification/controllers/config-notification.controller.js' %}"></script>
+    <!-- ###################### END DASHBOARD APP - MODULE NOTIFICATIONS ###################### -->
 </footter>
 </body>
 </html>

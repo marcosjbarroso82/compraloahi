@@ -15,6 +15,7 @@ from apps.user.views import ChangePasswordUpdateAPIView, FacebookLogin, GoogleLo
 from .views import HomeView, ApiDashBoardView, DashBoardAjaxView, log, send_notification, generate_all_auth_token
 from .settings import base as settings
 
+from apps.rating.views import ActionRatingView
 
 router = DefaultRouter()
 router.register(r'my-ads', adViews.AdUserViewSet)
@@ -80,6 +81,9 @@ urlpatterns = patterns('',
                            UserProfileModelView.as_view({'get': 'retrieve', 'put': 'update'}),
                            name='api-profile-detail'),
 
+                       url(r'^api/v1/change-image/$',
+                           'apps.userProfile.views.upload_image_profile', name='api-profile-change-image'),
+
                        # Change password
                        url(r'^api/v1/change-password/$',
                            ChangePasswordUpdateAPIView.as_view(),
@@ -137,6 +141,8 @@ urlpatterns = patterns('',
                         include('apps.user.urls',
                                 namespace='my-user')),
 
+                        url(r'^calification/', include('apps.rating.urls', namespace="rating")),
+
                        # App Allauth (social authentication)
                        (r'^accounts/', include('allauth.urls')),
 
@@ -171,5 +177,4 @@ urlpatterns = patterns('',
                        url(r'^tienda/(?P<username>[a-zA-Z0-9_.-]+)/$',
                            adViews.AdPublicUserListView.as_view(),
                            name="catalogs"),
-
                        )

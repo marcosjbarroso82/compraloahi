@@ -6286,6 +6286,13 @@ button.close {
     display: none !important;
   }
 }
+#logo {
+  max-height: 90%;
+  padding: 0px;
+  margin-bottom: 0px;
+  margin-left: -23px;
+  margin-top: 3px;
+}
 html,
 body {
   height: 100%;

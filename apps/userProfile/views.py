@@ -12,6 +12,23 @@ from rest_framework.response import Response
 
 from rest_framework import viewsets
 from rest_framework import status
+from rest_framework.decorators import api_view
+
+from sorl.thumbnail import get_thumbnail
+
+@api_view(['GET', 'POST', ])
+def upload_image_profile(request):
+    if request.method == 'POST':
+        if request.FILES.get('image'):
+            request.user.profile.image = request.FILES.get('image')
+            request.user.profile.save()
+
+
+            return Response({
+                                'status': 'Ok request',
+                                'message': 'Set data ok.',
+                                'image_url': get_thumbnail(request.user.profile.image, '400x400', crop='center', quality=99).url
+                            }, status=status.HTTP_200_OK)
 
 
 class UserProfileModelView(ModelViewSet):

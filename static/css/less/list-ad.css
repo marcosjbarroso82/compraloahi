@@ -6286,6 +6286,13 @@ button.close {
     display: none !important;
   }
 }
+#logo {
+  max-height: 90%;
+  padding: 0px;
+  margin-bottom: 0px;
+  margin-left: -23px;
+  margin-top: 3px;
+}
 html,
 body {
   height: 100%;
@@ -6372,7 +6379,7 @@ body .btn {
 html .input-group-custom-addon.icon-addon.addon-sm,
 body .input-group-custom-addon.icon-addon.addon-sm {
   position: relative;
-  color: #065378;
+  color: #aa4400;
 }
 html .input-group-custom-addon.icon-addon.addon-sm:after,
 body .input-group-custom-addon.icon-addon.addon-sm:after {
@@ -6389,7 +6396,7 @@ body .input-group-custom-addon.icon-addon.addon-sm .glyphicon {
   padding: 0px;
   margin-top: 3px;
   border: none;
-  border-left: 1px solid #065378;
+  border-left: 1px solid #aa4400;
   font-size: 18px;
   margin-right: 0;
   right: 5px;

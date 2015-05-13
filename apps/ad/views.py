@@ -21,6 +21,9 @@ from apps.comment_notification.models import CommentNotification
 from rest_framework.response import Response
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
+from apps.rating.models import OverallRating
+from django.shortcuts import get_object_or_404
+
 import json
 
 import logging
@@ -190,7 +193,6 @@ class AdFacetedSearchView(FacetedSearchView):
 
 
 
-
 class DetailAdView(DetailView):
     template_name = "ad/details.html"
     excluded = ('created', '')
@@ -200,9 +202,13 @@ class DetailAdView(DetailView):
         # We delete all Unread Comment Notification for this Ad
         CommentNotification.objects.filter(ad=self.get_object()).delete()
         return super(DetailAdView, self).get(request)
-    def get_context_data(self, **kwargs):
-        context = super(DetailView, self).get_context_data(**kwargs)
 
+    def get_context_data(self, **kwargs):
+        context = super(DetailAdView, self).get_context_data(**kwargs)
+        try:
+            context['rating'] = OverallRating.objects.get(user=context['ad'].author).rate
+        except OverallRating.DoesNotExist:
+            context['rating'] = ""
         try:
             context['comments_limit'] = int(self.request.GET.get('comments_limit', '') )
         except:
@@ -393,11 +399,18 @@ class AdPublicViewSet(viewsets.ModelViewSet):
     serializer_class = AdPublicSerializer
     paginate_by = 10
 
+
 class AdPublicUserListView(ListView):
     model = Ad
     template_name = 'ad/ad-public-user.html'
     context_object_name = 'ads'
     paginate_by = 8
 
+    def get_context_data(self, **kwargs):
+        context = super(AdPublicUserListView, self).get_context_data(**kwargs)
+        context['param_url'] = self.kwargs.get('username', '')
+
+        return context
+
     def get_queryset(self):
-        return Ad.objects.filter(author__username=self.kwargs['username'])
+        return Ad.objects.filter(author__username=self.kwargs.get('username', ''))

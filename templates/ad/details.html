@@ -55,6 +55,7 @@
             <div class="publisher">
                 <div class="ratting">
                     <div >Puntaje de este Anunciante</div>
+                    {{ rating }}
                     <div class="score">
                         <i class="rate-bar-green"></i>
                         <i class="rate-bar-green"></i>
@@ -67,9 +68,12 @@
                 <!-- ######## CONTACT ############# -->
                 {% if user.is_authenticated %}
                     <!-- BUTTON OPEN --->
-                    <button data-toggle="modal" class="btn btn-lg pull-right contact" id="btn-contact" data-target="#modalMessage">
+                    {% if user != ad.author %}
+                        <button data-toggle="modal" class="btn btn-lg pull-right contact" id="btn-contact" data-target="#modalMessage">
                         <i class=""></i> Contactar
                     </button>
+                    {% endif %}
+
                 {% else %}
                     <a class="contact btn btn-lg btn-success pull-right" href="/accounts/login/?next=/ad/{{ ad.slug }}">
                         <i class=""></i> Contactar
@@ -79,9 +83,9 @@
                 <div class="modal" id="modalMessage">
                 </div>
                 <!-- ######## END CONTACT ############# -->
-                <div class="social"> 
-                   {% favorite_button ad %}
-                    
+                <div class="social">
+                    {% favorite_button ad %}
+
                     <a class="popup" href="http://twitter.com/share"><i class="twitter pull-right"></i></a>
                     <a class="popup" href="https://www.facebook.com/sharer/sharer.php?app_id=1507071816215188&amp;u={{ request.get_full_path|urlencode }}&amp;display=popup&amp;ref=plugin"><i id="social" class="facebook pull-right"></i></a>
                 </div>
@@ -107,11 +111,11 @@
     {% get_comment_count for object as comment_count %}
     <!-- Comments  List -->
     <div class="section">
-    <div class="container col-md-10 col-md-offset-1">
-        {% get_comment_list for object as comment_list%}
+        <div class="container col-md-10 col-md-offset-1">
+            {% get_comment_list for object as comment_list%}
 
-        {% include "comments/list.html" %}
-    </div>
+            {% include "comments/list.html" %}
+        </div>
     </div>
 
     <!-- Comment Form -->
@@ -120,15 +124,15 @@
             <span id="form-comment-list">
             <div class="comment-form container col-md-10 col-md-offset-1">
                 <div class="panel panel-default widget">
-        <div class="panel-heading">
-            Ingresa tu Pregunta
-        </div>
-        <div class="panel-body">
+                    <div class="panel-heading">
+                        Ingresa tu Pregunta
+                    </div>
+                    <div class="panel-body">
 
-                {% render_comment_form for ad %}
-            </div>
+                        {% render_comment_form for ad %}
                     </div>
                 </div>
+            </div>
             </span>
             <script>
                 var content_comment_form = $("#form-comment-list");
@@ -151,5 +155,6 @@
     </script>
 
     <script type="text/javascript" src="{{ STATIC_URL }}js/ad/detail.js"></script>
+
 {% endblock %}
 </div>

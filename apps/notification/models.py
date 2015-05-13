@@ -21,7 +21,8 @@ TYPE_NOTIFICATION = (
                 ('msg', 'Message'),
                 ('fav', 'Favorite'),
                 ('cmmt', 'Comment'),
-                ('prox', 'Near Favorite')
+                ('prox', 'Near Favorite'),
+                ('cal', "Calification")
             )
 
 CANAL_NOTIFICATION = (
@@ -29,16 +30,17 @@ CANAL_NOTIFICATION = (
     ('email', "Email")
 )
 
-CONFIG = {
+CONFIG_NOTIFICATION = {
     "msg": { "alert": True, "email": True },
     "fav": { "alert": True, "email": True },
     "cmmt": { "alert": True, "email": True },
-    "prox": { "alert": True, "email": True }
+    "prox": { "alert": True, "email": True },
+    "cal": { "alert": True, "email": True }
 }
 
 
 class ConfigNotification(models.Model):
-    user = models.OneToOneField(AUTH_USER_MODEL, related_name='config_notifications')
+    user = models.OneToOneField(AUTH_USER_MODEL, related_name='config_notifications', unique=True)
     config = models.TextField()
 
     def save(self, *args, **kwargs):
@@ -46,7 +48,7 @@ class ConfigNotification(models.Model):
         super(ConfigNotification, self).save(*args, **kwargs)
 
     def has_perm(self, type, canal):
-        return ast.literal_eval(self.config).get(type, {}).get(canal, False)
+        return ast.literal_eval(self.config).get(type, {}).get(canal, True)
 
 
 class NotificationManager(models.QuerySet):
@@ -91,10 +93,13 @@ class Notification(models.Model):
         super(Notification, self).save(*args, **kwargs)
 
     def get_user(self):
-        return ast.literal_eval(self.extras).get('user')
+        return ast.literal_eval(self.extras).get('user', "")
 
     def get_object_id(self):
         return ast.literal_eval(self.extras).get('id', 0)
+
+    def get_url(self):
+        return ast.literal_eval(self.extras).get('url', "")
 
 
 @receiver(post_save, sender=Notification)
@@ -108,19 +113,26 @@ def notification_post_save(sender, *args, **kwargs):
             config = None
 
         if config and config.has_perm(notification.type, 'alert'):
-            devices = GCMDevice.objects.filter(user= notification.receiver)
-            devices.send_message(notification.message , extra={'type': notification.type , 'id': notification.get_user()})
+
+            try:
+                # TODO: Caputar error : GCMError: {'failure': 1, 'canonical_ids': 0, 'multicast_id': 7630349632432802077, 'results': [{'error': 'NotRegistered'}], 'success': 0}
+                print("Enviando alerta.....")
+                devices = GCMDevice.objects.filter(user= notification.receiver)
+                devices.send_message(notification.message , extra={'type': notification.type , 'id': notification.get_user()})
+                print("Alerta enviada!")
+            except:
+                print("Error al intentar enviar alerta")
 
         if config and config.has_perm(notification.type, 'email'):
-            html_content = 'Notificacion de ' + notification.type
+            print("Enviando email.....")
+            html_content = notification.message
             msg = EmailMultiAlternatives('Compraloahi - Notifications',
                                               html_content,
                                               'testnubiquo@gmail.com',
                                               [notification.receiver.email])
             msg.attach_alternative(html_content, 'text/html')
             msg.send()
-            # SEND EMAIL...
-
+            print("Email enviado!")
 
 
 @receiver(post_save, sender=User)
@@ -128,6 +140,6 @@ def create_config_notification(sender, *args, **kwargs):
 
     if kwargs['created']:
         user = kwargs['instance']
-        ConfigNotification(user=user, config=CONFIG).save()
+        ConfigNotification(user=user, config=CONFIG_NOTIFICATION).save()
 
 

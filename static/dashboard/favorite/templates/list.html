@@ -1,4 +1,4 @@
-<div id="container-favorite-list-data">
+<div id="container-favorite-list-data" cg-busy="vm.promiseRequest">
     <h4 class="title-data">Mis Favoritos
      <!-- <ul class="pull-right" >
             
@@ -7,7 +7,7 @@
         </ul> -->
     </h4>
 
-    <div class="content-data col-md-12">
+    <div class="content-data col-md-12" ng-show="vm.favorites.length > 0">
         <input type="text" name="title"
                ng-model="filters.title" class="form-control">
         <table class="table table-bordred table-striped" ng-table="tableParams" >
@@ -30,6 +30,10 @@
             </tr>
         </table>
 
+    </div>
+    <div class="content-data col-md-12" ng-show="vm.favorites.length == 0">
+        <p>No tienenes ningun favorito, Empieza ya, con la ayuda de los favoritos no te vas a peder ninguna oportunidad.
+        Entra a los avisos que te interesan y agregalo a tus favoritos, nosotros nos encargamos del resto.</p>
     </div>
     <div class="container-footer col-md-12">
     </div>

@@ -1,4 +1,4 @@
-<div id="container-ad-list-data">
+<div id="container-ad-list-data" cg-busy="vm.promiseRequest">
     <h4 class="title-data">Mis avisos
       <!--  <ul class="pull-right">
             <li class="pull-right"><a ng-disabled="!next_page" ng-click="get_ads_page(next_page)" class="btn btn-default"> <i class="glyphicon glyphicon-chevron-right"></i> </a></li>
@@ -6,7 +6,7 @@
         </ul>-->
     </h4>
 
-    <div class="content-data col-md-12">
+    <div class="content-data col-md-12" ng-show="vm.ads.length > 0">
         <input type="text" name="title"
                ng-model="filters.title" class="form-control">
         <table class="table table-bordred table-striped" ng-table="tableParams" >
@@ -42,6 +42,10 @@
                 </td>
             </tr>
         </table>
+    </div>
+    <div class="content-data col-md-12" ng-show="vm.ads.length == 0">
+        <p>No tienenes ningun aviso. Puedes empezar cargando tu primer aviso</p>
+        <a href="/ad/create/" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-bullhorn"></span> Agrega tu aviso</a>-
     </div>
     <div class="container-footer col-md-12">
         <a href="/ad/create/" id="btn-add-ad" class="btn btn-success btn-lg"><span class="glyphicon glyphicon-bullhorn"></span> Agrega tu aviso</a>-

@@ -13,7 +13,7 @@ TYPE_PHONE = (
 class UserProfile(models.Model):
     image = models.ImageField(upload_to='profile', null=False, blank=False, default="profile/images.jpg")
     birth_date = models.DateField(blank=True, null=True)
-    user = models.OneToOneField(User, unique=True)
+    user = models.OneToOneField(User, unique=True, related_name='profile')
 
     def __str__(self):
         return 'profile ' + self.user.username

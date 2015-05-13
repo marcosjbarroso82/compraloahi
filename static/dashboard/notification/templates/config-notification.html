@@ -1,0 +1,24 @@
+<div id="container-notification-config" cg-busy="vm.promiseRequest">
+    <h3 class="title-data">Configurar Notificaciones</h3>
+
+    <form>
+        <div class="table-responsive">
+            <table class="table">
+                <tbody>
+                <tr ng-repeat="(key, value) in vm.configs" >
+
+                    <td class="col-md-8">{{ key }}</td>
+                    <td class="col-md-1">
+                            <label class="i-checks">
+                                <input checked="" value="config" ng-model="vm.configs[key]" type="checkbox">
+                                <i></i>
+                            </label>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <button class="btn btn-success pull-right" type="button" ng-click="vm.submit()"><i class="fa fa-save"></i> Guardar</button>
+    </form>
+</div>

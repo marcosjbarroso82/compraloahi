@@ -17,35 +17,42 @@
                         <img  class="img-thumbnail" src="{{ im.url }}">
                     {% endthumbnail %}
                 {% endwith %}
-                <h3 style="height: 50px;"> {{ ad.title }}</h3>
+                <a href="{% url 'ad:detail' ad.slug %}"><h3 style="height: 50px;"> {{ ad.title }}</h3></a>
                 <span class="pull-right"><strong>${{ ad.price }}</strong></span>
                 <p style="height: 50px;">{{ ad.short_description }}</p>
             </div>
 
         {% endfor %}
 
-        <!-- PAGINATION -->
-        <!-- TODO: la representacion del paginado no funciona -->
+
         <div class="col-md-12">
-            <div class="pagination pull-right" id="pagination">
-                {% if paginator %}
-                    {% load i18n %}
-                    <div class="pagination">
-                        {% if page.has_previous %}
-                            <a href="?page={{ page.previous_page_number }}{{ getvars }}" class="prev">&lsaquo;&lsaquo; {% trans "previous" %}</a>
-                        {% else %}
-                            <span class="disabled prev">&lsaquo;&lsaquo; {% trans "previous" %}</span>
+            {% if is_paginated %}
+                <ul class="pagination pull-right">
+                    {% if page_obj.has_previous %}
+                        <li class="enabled"><a href="{% url 'catalogs' param_url %}?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+                    {% else %}
+                        <li class="disabled"><a href="#">&laquo;</a></li>
+                    {% endif %}
+                    {% for num_page in paginator.page_range %}
+                        {# Solo mostramos +5 y -5 en el paginator. Podemos cambiar si necesitamos mostrar más o menos páginas #}
+                        {% if page_obj.number|add:'-5' <= num_page and page_obj.number|add:"5" >= num_page%}
+                            {%if page_obj.number == num_page %}
+                                <li class="active"><a href="#">{{ num_page }}<span class="sr-only">(current)</span></a></li>
+                            {% else %}
+                                <li><a href="{% url 'catalogs' param_url %}?page={{ num_page }}">{{ num_page }}<span class="sr-only">(current)</span></a></li>
+                            {% endif %}
                         {% endif %}
-                        <span> Page {{ page.number }} of {{ paginator.num_pages }}</span>
-                        {% if page.has_next %}
-                            <a href="?page={{ page.next_page_number }}{{ getvars }}" class="next">{% trans "next" %} &rsaquo;&rsaquo;</a>
-                        {% else %}
-                            <span class="disabled next">{% trans "next" %} &rsaquo;&rsaquo;</span>
-                        {% endif %}
-                    </div>
-                {% endif %}
-            </div>
+                    {% endfor %}
+                    {% if page_obj.has_next %}
+                        <li><a href="{% url 'catalogs' param_url %}?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+                    {% else %}
+                        <li><a href="#" class="disabled">&raquo;</a></li>
+                    {% endif %}
+                </ul><!--//pagination-->
+            {% endif %}
         </div>
+
+
 
     </div>
 {% endblock %}
