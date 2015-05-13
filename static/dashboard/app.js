@@ -14,7 +14,8 @@ angular.module('dashBoardApp', [
         'dashBoardApp.message',
         'dashBoardApp.userLocation',
         'dashBoardApp.util',
-        'dashBoardApp.favorite'
+        'dashBoardApp.favorite',
+        'dashBoardApp.notification'
 
     ])
     .config(function ($interpolateProvider, $httpProvider, $resourceProvider, $stateProvider, $urlRouterProvider) {
@@ -112,6 +113,13 @@ angular.module('dashBoardApp', [
             .state('agenda', {
                 url: '/agenda',
                 templateUrl: '/static/dashboard/agenda/templates/agenda.html'
+            })
+
+            .state('config-notification', {
+                url: '/config-notification',
+                templateUrl: '/static/dashboard/notification/templates/config-notification.html',
+                controller: 'ConfigNotificationCtrl',
+                controllerAs: 'vm'
             })
     });
 

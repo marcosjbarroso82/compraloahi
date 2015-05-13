@@ -30,7 +30,7 @@ CANAL_NOTIFICATION = (
     ('email', "Email")
 )
 
-CONFIG = {
+CONFIG_NOTIFICATION = {
     "msg": { "alert": True, "email": True },
     "fav": { "alert": True, "email": True },
     "cmmt": { "alert": True, "email": True },
@@ -40,7 +40,7 @@ CONFIG = {
 
 
 class ConfigNotification(models.Model):
-    user = models.OneToOneField(AUTH_USER_MODEL, related_name='config_notifications')
+    user = models.OneToOneField(AUTH_USER_MODEL, related_name='config_notifications', unique=True)
     config = models.TextField()
 
     def save(self, *args, **kwargs):
@@ -140,6 +140,6 @@ def create_config_notification(sender, *args, **kwargs):
 
     if kwargs['created']:
         user = kwargs['instance']
-        ConfigNotification(user=user, config=CONFIG).save()
+        ConfigNotification(user=user, config=CONFIG_NOTIFICATION).save()
 
 

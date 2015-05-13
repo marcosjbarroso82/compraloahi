@@ -7,7 +7,7 @@ from rest_framework.viewsets import ModelViewSet
 from push_notifications.models import GCMDevice
 
 from .serializers import DeviceSerializer, NotificationSerializer, ConfigNotificationSerializer
-from .models import Notification, ConfigNotification
+from .models import Notification, ConfigNotification, CONFIG_NOTIFICATION
 
 
 class RegisterGCMNotification(CreateAPIView):
@@ -16,9 +16,7 @@ class RegisterGCMNotification(CreateAPIView):
     def create(self, request, *args, **kwargs):
         try:
             device_id = int(str(request.DATA['device_id']), 16)
-            gcm = GCMDevice.objects.get(user=request.user,
-                                        #registration_id= request.DATA['registration_id'],
-                                        device_id= device_id)
+            gcm = GCMDevice.objects.get(user=request.user,device_id= device_id) #registration_id= request.DATA['registration_id'],
             gcm.active = True
             gcm.registration_id = request.DATA['registration_id']
             gcm.device_id = device_id
@@ -40,9 +38,7 @@ class UnregisterGCMNotification(UpdateAPIView):
         if request.DATA.get('registration_id', '') != '':
             try:
                 device_id = int(str(request.DATA['device_id']), 16)
-                gcm = GCMDevice.objects.get(user=request.user,
-                       #registration_id= request.DATA.get('registration_id'),
-                       device_id= device_id)
+                gcm = GCMDevice.objects.get(user=request.user, device_id= device_id) #registration_id= request.DATA.get('registration_id'),
                 gcm.active = False
                 gcm.save()
                 return Response({"message": "Success! User unregistered to notification"}, status=status.HTTP_200_OK)
@@ -102,5 +98,4 @@ class ConfigNotificationModelViewSet(ModelViewSet):
         return ConfigNotification.objects.get(user= self.request.user)
 
     def update(self, request, *args, **kwargs):
-        print(request.DATA)
         return super(ConfigNotificationModelViewSet, self).update(request, *args, **kwargs)
