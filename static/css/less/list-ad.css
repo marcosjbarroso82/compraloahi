@@ -6796,6 +6796,7 @@ input-group-custom-addon examples:
 #container-ad-list #header-list #btn-collapse {
   width: 20px;
   margin-top: 2px;
+  padding: 4px;
 }
 #container-ad-list #header-list p {
   float: left;
@@ -6828,6 +6829,7 @@ input-group-custom-addon examples:
 }
 #container-ad-list .item-ads-list .container-img {
   padding: 0px;
+  min-height: 100px;
 }
 #container-ad-list .item-ads-list .container-text {
   padding: 0px;
