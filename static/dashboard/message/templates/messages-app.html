@@ -25,8 +25,8 @@
             </li>
             <div class="pull-right">
                 <li class="pull-left">{{ vm.page }} - {{ 10 }}  de  {{ vm.count }}</li>
-                <li class="pull-right"><a ng-disabled="!vm.next_page" ng-click="vm.get_msgs_page(vm.next_page)" class="btn btn-default"> <i class="glyphicon glyphicon-chevron-right"></i> </a></li>
-                <li  class="pull-right"><a ng-disabled="!vm.prev_page" ng-click="vm.get_msgs_page(vm.prev_page)" class="btn btn-default"> <i class="glyphicon glyphicon-chevron-left"></i> </a></li>
+                <li class="pull-right"><a ng-disabled="!vm.next_page" ng-click="vm.loadMessages(vm.next_page)" class="btn btn-default"> <i class="glyphicon glyphicon-chevron-right"></i> </a></li>
+                <li  class="pull-right"><a ng-disabled="!vm.prev_page" ng-click="vm.loadMessages(vm.prev_page)" class="btn btn-default"> <i class="glyphicon glyphicon-chevron-left"></i> </a></li>
                 
             </div>
         </ul>

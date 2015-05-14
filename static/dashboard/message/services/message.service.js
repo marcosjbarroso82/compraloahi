@@ -46,21 +46,9 @@
             return $http.get('/api/v1/messages/' + id);
         }
 
-        function reply(id, msg){
-            //var url = '/message/ajax-reply/' + id + '/?next=/accounts/profile/';
-            var url = '/api/v1/messages/';
-            return $q(function(resolve, reject) {
-                $.post(url,
-                    {
-                        parent: id,
-                        body: msg.body, csrfmiddlewaretoken: $.cookie('csrftoken')},
-                    function(data) {
-                        resolve('La respuesta se ha enviado con Exito');
-                    })
-                    .fail(function(){
-                        reject('Error al enviar la respuesta');
-                    });
-            });
+        function reply(msg){
+            return $http.post('/api/v1/messages/', msg);
+
         }
 
         function delete_bulk(messages){

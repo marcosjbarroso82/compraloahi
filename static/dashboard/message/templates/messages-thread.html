@@ -4,14 +4,14 @@
 
     <div class="content-data col-md-12" >
         
-        <div ng-repeat="msg in message" class="message">
+        <div ng-repeat="msg in vm.thread" class="message">
             <h4>{{ msg.subject }}</h4>
             <small>{{ msg.sent_at }}</small>
             <p>{{ msg.body }}</p>
         </div>
     </div>
     <div class="container-footer col-md-12">
-        <textarea ng-model="msgReply.body" class="form-control"></textarea>
-        <button class="btn btn-info pull-right" ng-click="reply()">RESPONDER</button>
+        <textarea ng-model="vm.msgReply.body" class="form-control"></textarea>
+        <button class="btn btn-info pull-right" ng-click="vm.reply()">RESPONDER</button>
     </div>
 </div>

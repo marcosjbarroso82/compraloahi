@@ -9,47 +9,44 @@
         .module('dashBoardApp.message.controllers')
         .controller('MessageThreadCtrl', MessageThreadCtrl);
 
-    MessageThreadCtrl.$inject = ['$scope', 'Message', '$stateParams', '$q'];
+    MessageThreadCtrl.$inject = ['Message', '$stateParams', 'AlertNotification'];
 
     /**
      * @namespace MessageThreadCtrl
      */
-    function MessageThreadCtrl($scope, Message, $stateParams, $q) {
+    function MessageThreadCtrl(Message, $stateParams, AlertNotification) {
         var vm = this;
-        $scope.message = {};
-        $scope.msgReply = {};
+        vm.thread = [];
+        vm.msgReply = {};
 
-        $scope.loadMessageThread = function(id){
+        vm.loadMessageThread = function(id){
             vm.promiseRequest = Message.getMsgThread(id).then(getSuccess, getError);
 
             function getSuccess(data){
-                $scope.message = data.data;
-            };
+                vm.thread = data.data;
+            }
 
             function getError(data){
-                console.log('Error al cargar el mensaje');
+                AlertNotification.error('Error al cargar el mensaje');
             }
         }
 
-        $scope.reply = function(){
-
-            Message.reply($stateParams.id, $scope.msgReply)
+        vm.reply = function(){
+            vm.msgReply['parent'] = vm.thread[vm.thread.length -1]['id'];
+            Message.reply(vm.msgReply)
                 .then(replySuccess, replyError);
 
             function replySuccess(data){
-                console.log('replySuccess');
-                console.log(data);
-                $scope.loadMessageThread($stateParams.id);
-                $scope.msgReply = {};
+                vm.thread.push(data.data);
+                vm.msgReply = {};
+                AlertNotification.success("El mensaje fue enviado correctamente");
             }
 
             function replyError(data){
-                console.log('replyError');
-                console.log("ERROR REPLY" + data);
+                AlertNotification.success("Error al intentar responder el mensaje");
             }
         }
 
-        console.log($stateParams);
-        $scope.message = $scope.loadMessageThread($stateParams.id);
+        vm.loadMessageThread($stateParams.id);
     }
 })();

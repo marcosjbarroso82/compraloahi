@@ -23,10 +23,15 @@
         vm.page = 1;
         vm.count = 0;
 
-        vm.loadMessages = function(folder){
-            vm.promiseRequest = Message.getMsgs(folder, 0).then(getMessagesByFolderSuccess, getMessagesByFolderError);
-            vm.folder = folder;
-            
+        vm.folder = 'inbox';
+
+        vm.loadMessages = function(page_nro){
+            page_nro = typeof page_nro !== 'undefined' ? page_nro : 0;
+            console.log(page_nro);
+            console.log(vm.folder);
+            vm.promiseRequest = Message.getMsgs(vm.folder, page_nro).then(getMessagesByFolderSuccess, getMessagesByFolderError);
+            vm.folder = vm.folder;
+            vm.page = page_nro;
         }
 
         vm.select_all_messages = function(){
@@ -51,27 +56,16 @@
             console.log(vm.messages_selected);
         }
 
-        vm.get_msgs_page = function(page){
-            vm.promiseRequest = Message.getMsgs(vm.folder, page).then(getMessagesByFolderSuccess, getMessagesByFolderError);
-            vm.page = page;
-        };
-
 
         function getMessagesByFolderSuccess(data){
-            //vm.messages = data.data;
             data = angular.fromJson(data.data);
-
-
             vm.messages = data.results;
-
             vm.next_page = data.next;
             vm.prev_page = data.previous;
             vm.count = data.count;
-
             vm.messages_selected = [];
             vm.messages_select = false;
-
-        };
+        }
 
         function getMessagesByFolderError(data){
             console.log('Error al cargar el inbox');
@@ -86,7 +80,7 @@
             function deleteSuccess(data, headers, status){
                 AlertNotification.success("Los mensajes seleccionados se eliminaron con exito");
                 console.log(data.data);
-                vm.get_msgs_page(vm.page);
+                vm.loadMessages(vm.page);
             }
 
             function deleteError(data, headers, status){
@@ -98,7 +92,12 @@
             Message.set_read_bulk(vm.messages_selected).then(setReadSuccess);
 
             function setReadSuccess(data, headers, status){
-                vm.get_msgs_page(vm.page);
+                AlertNotification.success("Los seleccionados mensajes fueron marcados como leido.");
+                for(var i=0; i < vm.messages_selected.length; i++){
+                    vm.messages_selected[i].read_at = "Leido";
+                    vm.messages_selected[i].selected = false;
+                }
+                vm.messages_selected = [];
             }
         }
         
@@ -106,11 +105,8 @@
         init();
 
         function init(){
-            if($stateParams.folder != '' && $stateParams.folder != undefined){
-                vm.messages = vm.loadMessages($stateParams.folder);
-            }else{
-                vm.messages = vm.loadMessages('inbox');
-            }
+            vm.folder = $stateParams.folder = typeof $stateParams.folder !== 'undefined' ? $stateParams.folder : 'inbox';
+            vm.loadMessages();
         }
 
 
