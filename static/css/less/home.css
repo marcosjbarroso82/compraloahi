@@ -6644,7 +6644,7 @@ input-group-custom-addon examples:
   position: absolute;
   right: 25%;
   width: 50%;
-  bottom: -20px;
+  bottom: -100px;
 }
 .result-search {
   width: 30px;
