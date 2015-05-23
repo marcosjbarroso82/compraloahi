@@ -286,7 +286,7 @@
         <button type="button" class="btn btn-success dropdown-toggle" id="btn-filter-facet" dropdown-toggle >
             <i class="glyphicon glyphicon-filter"></i>  Filtros <span class="caret"></span>
         </button>
-        <div class="dropdown-menu" role="menu" id="modalFilterFacet">
+        <div class="dropdown-menu menu-dropdown" role="menu" id="modalFilterFacet">
             {% verbatim %}
             <div ng-repeat="facet in facets" ng-if="!facet.activated">
                 <h5>{{ facet.name }}</h5>
@@ -424,7 +424,7 @@
 
                 </div>
                 <span class="price-ads-list pull-right">${{ ad.price }}<sup>99</sup></span>
-                <a class="locate-it btn" ng-click="centerMap(ad.center)" ><img src="/static/image/icon-location.png" width="20px" height="20px"></a>
+                <a class="locate-it btn" ng-click="centerMap(ad.center)" ><img src="/static/image/icon-location.png" width="30px" height="30px"></a>
             </div>
 
         </div>

@@ -6286,13 +6286,6 @@ button.close {
     display: none !important;
   }
 }
-#logo {
-  max-height: 90%;
-  padding: 0px;
-  margin-bottom: 0px;
-  margin-left: -23px;
-  margin-top: 3px;
-}
 html,
 body {
   height: 100%;
@@ -6310,6 +6303,7 @@ body .navbar-default .container-fluid,
 html .navbar-default .navbar-header,
 body .navbar-default .navbar-header {
   height: 50px;
+  padding: 0px;
 }
 html .navbar-default #nav-search,
 body .navbar-default #nav-search {
@@ -6324,6 +6318,9 @@ html .navbar-default #logo,
 body .navbar-default #logo {
   margin-top: 8px;
   margin-bottom: 8px;
+  max-height: 100%;
+  margin: 0px;
+  margin-right: -10px;
 }
 html .navbar-default .dropdown-menu,
 body .navbar-default .dropdown-menu {
@@ -6614,6 +6611,27 @@ input-group-custom-addon examples:
 
 
 */
+#longin-menu {
+  margin-right: -10px;
+  margin-left: 5px;
+}
+#longin-menu .dropdown-menu {
+  margin-top: 15px;
+}
+#longin-menu .dropdown-menu::before {
+  position: absolute;
+  top: -10px;
+  right: 15px;
+  display: inline-block;
+  border-right: 10px solid transparent;
+  border-bottom: 10px solid #FFFFFF;
+  border-left: 10px solid transparent;
+  content: "";
+}
+#longin-menu *::before,
+#longin-menu *::after {
+  box-sizing: border-box;
+}
 #container-body,
 #page-ads-list,
 #map-container,
@@ -6859,7 +6877,7 @@ input-group-custom-addon examples:
   border-radius: 50%;
   width: 40px;
   height: 40px;
-  padding: 10px;
+  padding: 5px;
 }
 #container-ad-list .item-ads-list .locate-it:hover {
   -webkit-box-shadow: 1px 1px 3px 4px #1e617d;
@@ -6945,4 +6963,21 @@ input-group-custom-addon examples:
 }
 .cg-busy {
   top: 50px !important;
+}
+.menu-dropdown {
+  padding: 10px;
+}
+.menu-dropdown::before {
+  position: absolute;
+  top: -10px;
+  right: 15px;
+  display: inline-block;
+  border-right: 10px solid transparent;
+  border-bottom: 10px solid #FFFFFF;
+  border-left: 10px solid transparent;
+  content: "";
+}
+*::before,
+*::after {
+  box-sizing: border-box;
 }

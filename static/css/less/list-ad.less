@@ -274,7 +274,7 @@
             border-radius: 50%;
             width: 40px;
             height: 40px;
-            padding: 10px;
+            padding: 5px;
           &:hover{
             .mixin-shadow-bottom(1px, 1px, 3px, 4px, #1e617d);
           }
@@ -377,4 +377,23 @@
 
 .cg-busy{
  top: @header-height !important;
+}
+
+.menu-dropdown{
+  padding: 10px;
+}
+
+.menu-dropdown::before {
+    position: absolute;
+    top: -10px;
+    right: 15px;
+    display: inline-block;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid #FFFFFF;
+    border-left: 10px solid transparent;
+
+    content: "";
+}
+*::before, *::after {
+    box-sizing: border-box;
 }
