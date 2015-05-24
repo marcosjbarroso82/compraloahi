@@ -44,6 +44,7 @@ class Ad(models.Model):
                                 decimal_places=2,
                                 max_digits=10)
 
+    store_published = models.BooleanField(default=False)
     # Instance of manager to Favorite Objects
     #favorites = GenericRelation(Favorite,
     #                            content_type_field='target_content_type',

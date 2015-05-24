@@ -15,7 +15,8 @@ angular.module('dashBoardApp', [
         'dashBoardApp.userLocation',
         'dashBoardApp.util',
         'dashBoardApp.favorite',
-        'dashBoardApp.notification'
+        'dashBoardApp.notification',
+        'dashBoardApp.store'
 
     ])
     .run(function($rootScope, Message){
@@ -129,6 +130,13 @@ angular.module('dashBoardApp', [
                 url: '/config-notification',
                 templateUrl: '/static/dashboard/notification/templates/config-notification.html',
                 controller: 'ConfigNotificationCtrl',
+                controllerAs: 'vm'
+            })
+
+            .state('config-store', {
+                url: '/config-store',
+                templateUrl: '/static/dashboard/store/templates/config-store.html',
+                controller: 'StoreConfigCtrl',
                 controllerAs: 'vm'
             })
     });

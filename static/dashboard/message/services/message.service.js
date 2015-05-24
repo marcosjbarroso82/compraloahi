@@ -9,13 +9,13 @@
         .module('dashBoardApp.message.services')
         .factory('Message', Message);
 
-    Message.$inject = ['$resource', '$http', '$q'];
+    Message.$inject = ['$http'];
 
     /**
      * @namespace Message
      * @returns {Factory}
      */
-    function Message($resource, $http, $q) {
+    function Message($http) {
         var msgs = {
             getMsgs:getMsgs,
             getUnreadCount:getUnreadCount,

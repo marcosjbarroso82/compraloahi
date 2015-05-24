@@ -9,13 +9,11 @@ from apps.favorite.views import FavoriteAdViewSet, HasFavoriteNearApiView, proxi
 from apps.message.views import MessageDetail, MessageModelViewSet
 from apps.notification.views import NotificationListApiView, NotificationRetrieveApiView, \
     RegisterGCMNotification, UnregisterGCMNotification, NotificationMarkBulkReadApiView, ConfigNotificationModelViewSet
-from apps.userProfile.views import UserLocationViewSet, UserProfileModelView
+from apps.userProfile.views import UserLocationViewSet, UserProfileModelView, StoreModelViewSet, StoreView
 from apps.user.views import ChangePasswordUpdateAPIView, FacebookLogin, GoogleLogin
 
 from .views import HomeView, ApiDashBoardView, DashBoardAjaxView, log, send_notification, generate_all_auth_token
 from .settings import base as settings
-
-from apps.rating.views import ActionRatingView
 
 router = DefaultRouter()
 router.register(r'my-ads', adViews.AdUserViewSet)
@@ -34,9 +32,14 @@ urlpatterns = patterns('',
 
                        url(r'^log/', log),
 
+
+                       url(r'^api/v1/store-config/$',
+                           StoreModelViewSet.as_view({'get': 'retrieve', 'put': 'update'}),
+                           name='store-config'),
+
                        url(r'^api/v1/notifications-config/$',
                            ConfigNotificationModelViewSet.as_view({'get': 'retrieve', 'put': 'update'}),
-                           name='notification-config-detail'),
+                           name='notification-config'),
 
                        url(r'^api/v1/notifications/bulk/$',
                            NotificationMarkBulkReadApiView.as_view(),
@@ -175,6 +178,11 @@ urlpatterns = patterns('',
                            {'document_root': settings.MEDIA_ROOT}),
 
                        url(r'^tienda/(?P<username>[a-zA-Z0-9_.-]+)/$',
-                           adViews.AdPublicUserListView.as_view(),
-                           name="catalogs"),
+                           StoreView.as_view(),
+                           name="store"),
+
+                       url(r'^api/v1/change-logo/$',
+                           'apps.userProfile.views.upload_logo_store', name='api-store-change-logo'),
+
+
                        )

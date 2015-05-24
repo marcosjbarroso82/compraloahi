@@ -23,17 +23,10 @@ class AdSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Ad
-        #fields = ('title',)
 
     def get_is_favorite(self, obj):
         request = self.context.get('request', None)
         return obj.is_favorite(request.user)
-        # request = self.context.get('request', None)
-        # if request is not None:
-        #    if request.user.is_authenticated():
-        #        return obj.is_favorite(request.user)
-        #    else:
-        #        return False
 
 
 class AdPublicSerializer(serializers.ModelSerializer):
@@ -52,6 +45,7 @@ class AdPublicSerializer(serializers.ModelSerializer):
            else:
                return False
 
+
 class DistanceSerializer(serializers.Serializer):
     km = serializers.FloatField()
     m = serializers.FloatField()
@@ -66,7 +60,6 @@ class AdsSearchSerializer(serializers.Serializer):
     short_description = serializers.CharField()
     slug = serializers.CharField()
     is_favorite = serializers.SerializerMethodField()
-    #thumbnail_90x90 = serializers.SerializerMethodField()
     images = serializers.SerializerMethodField()
     center = serializers.SerializerMethodField()
     image = serializers.SerializerMethodField()
@@ -80,18 +73,9 @@ class AdsSearchSerializer(serializers.Serializer):
 
     def get_images(self, obj):
         return AdImageSerializer(AdImage.objects.filter(ad_id=obj.object), many=True).data
-        #return get_thumbnail(AdImage.objects.filter(ad_id=obj.object).first(), '90x90', crop='center', quality=99).url
 
     def get_image(self, obj):
         return AdImageSerializer(AdImage.objects.filter(ad_id=obj.object).first()).data['thumbnail_90x90']
-
-    # def get_thumbnail_90x90(self, obj):
-    #     thumbs = []
-    #     for image in AdImage.objects.filter(ad_id=obj.object):
-    #         thumbs.append(get_thumbnail(image, '90x90', crop='center', quality=99).url)
-    #
-    #     return thumbs
-
 
     def get_is_favorite(self, obj):
         request = self.context.get('request', None)
@@ -107,57 +91,3 @@ class SearchResultSerializer(serializers.Serializer):
     next = serializers.IntegerField()
     previous = serializers.IntegerField()
     results = AdsSearchSerializer(many=True, source='object_list')
-
-    #def get_results(self, obj):
-    #    return AdsSearchSerializer(obj.object_list, many=True).data
-
-    # def get_next(self, obj):
-    #     return 10
-    #     #if self.obj.has_next():
-    #     #    return self.obj.next_page_number()
-    #     #else:
-    #     #    return None
-    #
-    # def get_previous(self, obj):
-    #     return 5
-    #     # if self.obj.has_previous():
-    #     #     return self.obj.previous_page_number()
-    #     # else:
-    #     #     return None
-    #
-    # def get_count(self, obj):
-    #     return 1
-        #return self.obj.count
-
-
-    #content_type = serializers.CharField(source='model_name')
-    #content_object = serializers.SerializerMethodField('_content_object')
-    #distance = serializers.SerializerMethodField('_distance')
-
-
-
-
-
-
-    # def _content_object(self, obj):
-    #     #assert False, obj.model_name
-    #     if obj.model_name == 'ad':
-    #         return AdPublicSerializer(obj.object, many=False, context=self.context).data
-    #         #return FoSerializer(obj.object, many=False, context=self.context).data
-    #     if obj.model_name == 'Ad':
-    #         return AdPublicSerializer(obj.object, many=False, context=self.context).data
-    #         #return BarSerializer(obj.object, many=False, context=self.context).data
-    #     return {}
-
-    #def __init__(self,  *args, **kwargs):
-    #    self.unit = kwargs.pop('unit', None)
-    #    return super(SearchResultSerializer, self).__init__(*args, **kwargs)
-
-    #def _distance(self, obj):
-    #    if self.unit:
-    #        return {self.unit: getattr(obj.distance, self.unit)}
-    #    try:
-    #        return DistanceSerializer(obj.distance, many=False).data
-    #    except Exception as e:
-    #        ## Log this
-    #        return {}

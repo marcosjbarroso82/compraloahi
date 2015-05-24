@@ -1,0 +1,81 @@
+<style>
+
+    .column{
+        padding: 2px;
+    }
+
+    .active-colum{
+        border: 2px solid #882819;
+    }
+
+     .fileUpload {
+            overflow: hidden;
+            margin: 10px;
+            position: absolute;
+            right: 10px;
+            top: -6px;
+        }
+        .fileUpload input.upload {
+            position: absolute;
+            top: 0;
+            right: 0;
+            margin: 0;
+            padding: 0;
+            font-size: 20px;
+            cursor: pointer;
+            opacity: 0;
+            filter: alpha(opacity=0);
+        }
+    #container-logo{
+
+        max-height: 100px;
+        max-width: 300px;
+    }
+</style>
+
+<div id="container-message-data" cg-busy="vm.promiseRequest">
+    <h4 class="title-data">Configure su tienda</h4>
+
+    <div class="content-data col-md-12" >
+
+        <div class="col-md-12">
+            <label for="">Logo</label>
+
+            <div cg-busy="vm.promise_img" id="container-logo" ng-mouseover="vm.focus_img = true;" ng-mouseleave="vm.focus_img = false;">
+                <img style="max-width: 100%; max-height: 100%;" id="item-display" src="{{ vm.configs.logo }}">
+                <div class="fileUpload btn btn-primary btn-xs" ng-show="vm.focus_img">
+                    <span><i class="fa fa-upload"></i></span>
+                    <input type="file" class="upload" file-model='logo' accept="image/*"/>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <label for="">Name</label>
+            <input type="text" class="form-control" ng-model="vm.configs.name"/>
+        </div>
+
+        <br/>
+        <br/>
+
+        <label for="">Formato</label>
+        <div class="col-md-12">
+            <div class="col-md-3 column" ng-click="vm.configs.column = 1" ng-class="{'active-colum': vm.configs.column == 1}"><img src="/static/image/dashboard/1-col-portfolio.jpg" style="width: 100%;" alt=""/></div>
+            <div class="col-md-3 column" ng-click="vm.configs.column = 2" ng-class="{'active-colum': vm.configs.column == 2}"><img src="/static/image/dashboard/2-col-portfolio.jpg" style="width: 100%;" alt=""/></div>
+            <div class="col-md-3 column" ng-click="vm.configs.column = 3" ng-class="{'active-colum': vm.configs.column == 3}"><img src="/static/image/dashboard/3-col-portfolio.jpg" style="width: 100%;" alt=""/></div>
+            <div class="col-md-3 column" ng-click="vm.configs.column = 4" ng-class="{'active-colum': vm.configs.column == 4}"><img src="/static/image/dashboard/4-col-portfolio.jpg" style="width: 100%;" alt=""/></div>
+        </div>
+
+        <hr/>
+        Select Ads to view
+        <ul>
+            <li ng-repeat="ad in vm.configs.ads">
+                {{ ad.title }}
+                <input type="checkbox" ng-model="ad.store_published"/>
+            </li>
+        </ul>
+
+        <button class="btn btn-succes pull-right" ng-click="vm.submit()">Guardar configuracion</button>
+    </div>
+
+</div>

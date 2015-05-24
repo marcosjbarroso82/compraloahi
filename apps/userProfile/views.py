@@ -1,20 +1,81 @@
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from django.views.generic import CreateView, DetailView
+from django.views.generic import CreateView, DetailView, ListView
 
-from .models import UserProfile, UserLocation
+from .models import UserProfile, UserLocation, Store
 from .forms import UserProfileForm, Phone_inline_formset
 
 from rest_framework.viewsets import ModelViewSet
 
-from .serializers import ProfileSerializer, UserLocationSeralizer
+from .serializers import ProfileSerializer, UserLocationSeralizer, StoreSerializer
 from rest_framework.response import Response
 
-from rest_framework import viewsets
 from rest_framework import status
 from rest_framework.decorators import api_view
 
 from sorl.thumbnail import get_thumbnail
+
+from apps.ad.models import Ad
+
+
+
+class StoreModelViewSet(ModelViewSet):
+    serializer_class = StoreSerializer
+
+    def get_object(self):
+        return Store.objects.get(profile__user= self.request.user)
+
+    def get_queryset(self):
+        return Store.objects.get(profile__user= self.request.user)
+
+
+    def update(self, request, *args, **kwargs):
+        if request.DATA.get('ads'):
+            for ad_data in request.DATA.get('ads'):
+                try:
+                    print(ad_data['store_published'])
+                    ad = Ad.objects.get(pk=ad_data['id'], author=request.user)
+                    ad.store_published = ad_data.get('store_published', False)
+                    ad.save()
+                except Ad.DoesNotExist:
+                    pass
+
+            return super(StoreModelViewSet, self).update(request, *args, **kwargs)
+
+
+class StoreView(ListView):
+    model = Ad
+    template_name = 'userProfile/store.html'
+    context_object_name = 'ads'
+    paginate_by = 8
+
+    def get_context_data(self, **kwargs):
+        context = super(StoreView, self).get_context_data(**kwargs)
+        context['param_url'] = self.kwargs.get('username', '')
+        try:
+            context['store'] = Store.objects.get(profile__user__username=self.kwargs.get('username', ''))
+        except Store.DoesNotExist:
+            context['store'] = {}
+        return context
+
+    def get_queryset(self):
+        return Ad.objects.filter(author__username=self.kwargs.get('username', ''), store_published=True)
+
+
+@api_view(['GET', 'POST', ])
+def upload_logo_store(request):
+    if request.method == 'POST':
+        if request.FILES.get('image'):
+            request.user.profile.store.logo = request.FILES.get('image')
+            request.user.profile.store.save()
+
+            return Response({
+                                'status': 'Ok request',
+                                'message': 'Set data ok.',
+                                'image_url': request.user.profile.store.logo.url
+                            }, status=status.HTTP_200_OK)
+
+
 
 @api_view(['GET', 'POST', ])
 def upload_image_profile(request):
@@ -123,7 +184,7 @@ class UserProfileDetailView(DetailView):
             return None
 
 
-class UserLocationViewSet(viewsets.ModelViewSet):
+class UserLocationViewSet(ModelViewSet):
     queryset = UserLocation.objects.all()
     serializer_class = UserLocationSeralizer
 

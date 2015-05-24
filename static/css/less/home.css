@@ -6631,6 +6631,9 @@ input-group-custom-addon examples:
 #longin-menu *::after {
   box-sizing: border-box;
 }
+body {
+  overflow: hidden;
+}
 #container-arrow {
   width: 60px;
   margin: auto;
@@ -6639,6 +6642,7 @@ input-group-custom-addon examples:
 #home-animation {
   background-image: url("../../image/background-map.png");
   height: 100%;
+  overflow: hidden;
 }
 #img-hand {
   position: absolute;

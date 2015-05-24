@@ -153,7 +153,7 @@
     $ pip install gunicorn
 
     # Checked
-      $ gunicorn --workers=3 --name=Compraloahi --user=compraloahi --bind 104.236.42.46:8001 --env DJANGO_SETTINGS_MODULE=compraloahi.settings.production compraloahi.wsgi
+      $ gunicorn --workers=3 --name=Compraloahi --user=compraloahi --bind 45.55.220.166:8001 --env DJANGO_SETTINGS_MODULE=compraloahi.settings.production compraloahi.wsgi
   
     Params
       workers: As a rule-of-thumb set the --workers (NUM_WORKERS) according to the following formula: 2 * CPUs + 1. 
@@ -198,7 +198,7 @@
     ######################################END FILE ##########################################################################  
 
 16 - For the --name argument to have an effect you need to install a Python module called setproctitle
-      $ pip3 install setproctitle
+      $ pip install setproctitle
 
 
 17 - Install Supervisord and add configuration 
@@ -220,6 +220,8 @@
 18 - Create forlder to logs supervisor and gunicorn
       $ mkdir -p /webapps/compraloahi/logs/
       $ touch /webapps/compraloahi/logs/gunicorn_supervisor.log
+
+      $ sudo chown -R compraloahi:users /webapps/hello_django
 
 
 19 - Reload config supervisor
@@ -327,7 +329,7 @@
     $ python manage.py createsuperuser --settings=compraloahi.settings.production
 
 
-    
+
 
 Posible errores:
   # If not gen locale and doesnt run postgres service

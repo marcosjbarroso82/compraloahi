@@ -37,6 +37,8 @@ class FavoriteAdViewSet(viewsets.ModelViewSet):
                 return Response({"message": message}, status=status.HTTP_200_OK)
             except Ad.DoesNotExist:
                 return Response({"message": "Error, the ad dont exists"}, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 
@@ -73,7 +75,6 @@ class proximityFavorityApiView(APIView):
         result = ads = Ad.objects.filter(id__in=Favorite.objects.for_user(self.request.user.id, model=Ad).values_list('target_object_id'))
 
         if kwargs['lat'] and kwargs['lng']:
-            print("filtrar ubicacion !!!!!!!!!!!!!!!!!!!!!!!!!")
             if ads.count() > 0:
                 result = []
                 for ad in ads:

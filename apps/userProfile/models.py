@@ -11,7 +11,7 @@ TYPE_PHONE = (
 
 
 class UserProfile(models.Model):
-    image = models.ImageField(upload_to='profile', null=False, blank=False, default="profile/images.jpg")
+    image = models.ImageField(upload_to='profile', null=False, blank=False, default="profile/default.png")
     birth_date = models.DateField(blank=True, null=True)
     user = models.OneToOneField(User, unique=True, related_name='profile')
 
@@ -35,9 +35,25 @@ class UserLocation(models.Model):
         return self.title
 
 
+COLUMNS_STORE = (
+    (1, 1),
+    (2, 2),
+    (3, 3),
+    (4, 4)
+)
+
+class Store(models.Model):
+    logo = models.ImageField(upload_to='logo', null=False, blank=False, default="logo/default.png")
+    name = models.CharField(max_length=255, default="Name")
+    column = models.PositiveIntegerField(choices=COLUMNS_STORE, default=4) # TODO: Field limited to config layout
+    profile = models.OneToOneField(UserProfile, unique=True, related_name='store')
+
+
 @receiver(post_save, sender=User)
 def create_config_notification(sender, *args, **kwargs):
 
     if kwargs['created']:
         user = kwargs['instance']
-        UserProfile(user=user).save()
+        profile = UserProfile(user=user).save()
+        Store(profile=profile).save()
+

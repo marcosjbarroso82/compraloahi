@@ -1,12 +1,23 @@
 from rest_framework.serializers import ModelSerializer
 from rest_framework import serializers
 
-from .models import UserProfile, Phone, UserLocation
+from .models import UserProfile, Phone, UserLocation, Store
 
 from sorl.thumbnail import get_thumbnail
 
 from django.contrib.auth.models import User
 
+
+
+
+class StoreSerializer(ModelSerializer):
+    logo = serializers.SerializerMethodField()
+    class Meta:
+        model = Store
+        fields = ('name', 'column', 'logo')
+
+    def get_logo(self, obj):
+        return obj.logo.url
 
 
 class PhoneSerializer(ModelSerializer):
