@@ -54,14 +54,19 @@
 
             {% if user.is_authenticated %}
                 <!-- MENU -->
-                <ul class="nav navbar-nav navbar-right">
-                    <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown"> Hola! {{ user.first_name }}<span class="caret"></span></a>
+                <ul class="nav navbar-nav navbar-right " id="longin-menu">
+                    <li style="padding-top: 15px;">   <p>{{ user.first_name }}</p>
+                    </li>
+                    <li class="dropdown ">
+
+                        <a class="dropdown-toggle" data-toggle="dropdown" style="padding: 5px !important;">
+                            <img class="img-responsive img-circle pull-right" width="40px" src="{{ user.profile.image.url }}">
+                        </a>
                         <ul class="dropdown-menu" role="menu">
-                            <li> <a href="{% url 'profile:detail' %}"><span class="glyphicon glyphicon-wrench"></span> Mi panel</a></li>
-                            <li><a href="/accounts/profile/#/profile/change-password"><span class="glyphicon glyphicon-adjust"></span> Cambiar contraseña </a> </li>
+                            <li> <a href="{% url 'profile:detail' %}"><span class="fa fa-th-large"></span> Mi panel</a></li>
+                            <li><a href="/accounts/profile/#/profile/change-password"><span class="fa fa-key"></span> Cambiar contraseña </a> </li>
                             <li class="divider"></li>
-                            <li><a href="{% url 'my-user:my-logout' %}"><span class="glyphicon glyphicon-off"></span> Salir</a></li>
+                            <li><a href="{% url 'my-user:my-logout' %}"><span class="fa fa-sign-out"></span> Salir</a></li>
                         </ul>
                     </li>
                 </ul>
