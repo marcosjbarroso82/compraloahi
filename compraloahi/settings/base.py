@@ -152,7 +152,7 @@ SITE_ID = 1
 
 SOCIALACCOUNT_PROVIDERS = {
     'facebook': {
-        'SCOPE': ['email', 'publish_stream'],
+        'SCOPE': ['email', 'public_profile'],
 
         # Instead of OAuth
         #'METHOD': 'js_sdk'  # instead of 'oauth2'
@@ -164,6 +164,8 @@ SOCIALACCOUNT_PROVIDERS = {
         'SCOPE': ['https://www.googleapis.com/auth/userinfo.profile'],
         'AUTH_PARAMS': {'access_type': 'online'}}
 }
+
+SOCIALACCOUNT_EMAIL_VERIFICATION=True
 """
 ACCOUNT_EMAIL_REQUIRED=False
 ACCOUNT_CONFIRM_EMAIL_ON_GET=False
