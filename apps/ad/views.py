@@ -1,31 +1,31 @@
+import json
+import logging
+
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.utils.decorators import method_decorator
-from django.views.generic import DetailView, \
-    CreateView, UpdateView, DeleteView, ListView
-from django.http import HttpResponseRedirect
-from haystack.views import FacetedSearchView
-from haystack.query import SearchQuerySet, Clean
-from rest_framework import viewsets
-from rest_framework import mixins
 from django.contrib.gis.measure import *
 from django.contrib.gis.geos import Point
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.http import HttpResponseRedirect
+from django.utils.decorators import method_decorator
+from django.views.generic import DetailView, CreateView, UpdateView, DeleteView
 
+from haystack.views import FacetedSearchView
+from haystack.query import SearchQuerySet
+
+from rest_framework import viewsets
+from rest_framework import mixins
+from rest_framework.response import Response
+from rest_framework.permissions import AllowAny
+
+from apps.comment_notification.models import CommentNotification
+from apps.rating.models import OverallRating
 from apps.userProfile.models import UserProfile, UserLocation
 
 from .models import Ad
 from .serializers import SearchResultSerializer, AdSerializer, AdPublicSerializer, AdsSearchSerializer
-from .forms import CreateAdForm, AdModifyForm, \
-    AdImage_inline_formset, AdLocation_inline_formset
-from apps.comment_notification.models import CommentNotification
-from rest_framework.response import Response
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from .forms import CreateAdForm, AdModifyForm, AdImage_inline_formset, AdLocation_inline_formset
 
-from apps.rating.models import OverallRating
-
-import json
-
-import logging
 
 logger = logging.getLogger('debug')
 
@@ -73,7 +73,7 @@ def get_facet(params_url, facets_fields):
 
 
 class SearchViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
-    #permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (AllowAny,)
     serializer_class = AdsSearchSerializer
 
     def get_queryset(self, *args, **kwargs):
@@ -396,6 +396,7 @@ class AdUserViewSet(viewsets.ModelViewSet):
 class AdPublicViewSet(viewsets.ModelViewSet):
     queryset = Ad.objects.all()
     serializer_class = AdPublicSerializer
+    permission_classes = (AllowAny,)
     paginate_by = 10
 
 

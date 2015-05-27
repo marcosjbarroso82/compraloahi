@@ -16,8 +16,6 @@ from .forms import CustomWriteForm
 from .models import MessageChannel
 from .serializers import MessageSerializer
 
-import sys
-
 
 class CustomWriteView(WriteView):
     form_classes = (CustomWriteForm, CustomWriteForm)

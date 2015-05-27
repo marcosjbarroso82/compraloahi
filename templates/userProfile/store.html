@@ -72,7 +72,7 @@
             {% for ad in ads %}
                 <div class="col-ms-10 col-md-3 pull-left">
                     {% with ad.images.all|first as image %}
-                        {% thumbnail image.image "400x400" crop="center" as im %}
+                        {% thumbnail image.image "110x110" crop="center" as im %}
                             <img  class="img-thumbnail" src="{{ im.url }}">
                         {% endthumbnail %}
                     {% endwith %}
