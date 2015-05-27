@@ -5,16 +5,18 @@ from apps.adLocation.models import AdLocation
 
 
 class AdImageSerializer(serializers.ModelSerializer):
-    thumbnail_90x90 = serializers.SerializerMethodField()
-
+    thumbnail_110x110 = serializers.SerializerMethodField()
+    thumbnail_800x800 = serializers.SerializerMethodField()
     class Meta:
         model = AdImage
         #fields = ('title',)
         exclude = ('id', 'ad_id')
 
-    def get_thumbnail_90x90(self, obj):
+    def get_thumbnail_110x110(self, obj):
         return get_thumbnail(obj.image, '110x110', crop='center', quality=99).url
 
+    def get_thumbnail_800x800(self, obj):
+        return get_thumbnail(obj.image, '800x800', crop='center', quality=99).url
 
 class AdSerializer(serializers.ModelSerializer):
     images = AdImageSerializer(many=True, read_only=True)
@@ -75,7 +77,7 @@ class AdsSearchSerializer(serializers.Serializer):
         return AdImageSerializer(AdImage.objects.filter(ad_id=obj.object), many=True).data
 
     def get_image(self, obj):
-        return AdImageSerializer(AdImage.objects.filter(ad_id=obj.object).first()).data['thumbnail_90x90']
+        return AdImageSerializer(AdImage.objects.filter(ad_id=obj.object).first()).data['thumbnail_110x110']
 
     def get_is_favorite(self, obj):
         request = self.context.get('request', None)
