@@ -51,9 +51,13 @@ class Store(models.Model):
 
 @receiver(post_save, sender=User)
 def create_config_notification(sender, *args, **kwargs):
-
     if kwargs['created']:
         user = kwargs['instance']
-        profile = UserProfile(user=user).save()
-        Store(profile=profile).save()
+        UserProfile(user=user).save()
 
+
+@receiver(post_save, sender=UserProfile)
+def create_config_store(sender, *args, **kwargs):
+    if kwargs['created']:
+        profile = kwargs['instance']
+        Store(profile=profile).save()
