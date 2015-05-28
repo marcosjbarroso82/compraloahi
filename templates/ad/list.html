@@ -7,6 +7,7 @@
 
 
 {% block css_header_block %}
+    <base href="/ad/search/">
     <link rel="stylesheet" type="text/css" href="{% static 'css/less/list-ad.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'bower_components/angular-busy/angular-busy.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'bower_components/angular-snackbar/css/angular.snackbar.css' %}" />
@@ -84,7 +85,7 @@
                             center="ad.center"
                             stroke="ad.stroke"
                             fill="ad.fill"
-                            radius="300"
+                            radius="200"
                             visible="true"
                             geodesic="location_options.geodesic"
                             editable="location_options.editable"
@@ -105,7 +106,8 @@
         <div id="data-position-form">
             <!-- Address -->
             <div class="input-group col-md-12">
-                <google-places location=search_location></google-places>
+                <!--<google-places location=search_location></google-places> -->
+                <google-places location="location_search_places" map="map" ></google-places>
             </div>
 
             <!-- Radius -->
@@ -162,15 +164,6 @@
 
                 <!-- ########################## SAVE NEW LOCATION ########################## -->
 
-
-                <!--      <button data-toggle="modal"
-                              class="btn btn-xs btn-info btn-data-position pull-left"
-                              id="btn-data-position-ads-list"
-                              data-target="#modalSelectLocation"
-                              tooltip="Elegi una de tus ubicaciones guardadas">
-                          <i class="glyphicon glyphicon-th-list"></i>
-                      </button>
-                      <span class="pull-left" style="font-size: 8px;">Elegi una de tus ubicaciones</span>-->
                 <button data-toggle="modal"
                         class="btn btn-xs btn-success btn-data-position pull-right"
                         data-target="#modalNewLocation"
@@ -215,66 +208,6 @@
                 </div>
                 <!-- ########################## END SAVE NEW LOCATION ########################## -->
 
-
-                <!-- ########################## MY LOCATIONS ##########################
-                <button data-toggle="modal"
-                        class="btn btn-success"
-                        id="btn-my-locations"
-                        data-target="#modalSelectLocation"
-                        style="z-index: 99999;">
-                    <i class=""></i> Mis Ubicaciones
-                </button>
-
-                <button data-toggle="modal"
-                        ng-show="search_location.changed"
-                        id="btn-save-location"
-                        class="btn btn-success"
-                        data-target="#modalNewLocation"
-                        style="z-index: 99999;">
-                    <i class=""></i> Guardar Ubicación
-                </button>-->
-
-                <!-- MODAL SELECT MY LOCATION -->
-                <div class="modal" id="modalSelectLocation">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
-                                <h4 class="modal-title">Elije una ubicacion</h4>
-                            </div>
-                            <div class="modal-body">
-                                {% verbatim %}
-                                <ul>
-                                    <li ng-repeat="user_location in user_locations" for="{{user_location}}">
-                                        <div class="radio">
-                                            <label class="i-checks">
-                                                <input type="radio"
-                                                       name="selte"
-                                                       ng-model="$parent.user_location_selected"
-                                                       ng-value="user_location"
-                                                       id="{{user_location}}"
-                                                        >
-                                                <i></i>
-                                                {{ user_location.title }}
-                                            </label>
-                                        </div>
-                                    </li>
-                                </ul>
-                                {% endverbatim %}
-                            </div>
-                            <div class="modal-footer">
-                                <button data-dismiss="modal" class="btn btn-primary pull-right">
-                                    Aceptar
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- END MODAL SELECT MY LOCATION -->
-                </div>
-
-                <!-- ########################## END MY LOCATIONS ########################## -->
-
-
             {% else %}
                 </div>
                 <!-- ########################## END FORM LOCATION INF (IN IF TOO CLOSE) ########################## -->
@@ -318,16 +251,6 @@
                 <a ng-click="changeFacet(facet, value, false)"> <i class="btn btn-xs glyphicon glyphicon-remove" id="btn-remove-filter"></i> </a>
             </span>
         </li>
-
-
-        <!-- DO NOT delete. This code will be usefull when ajax gets implemeted
-        <li class="active-filter"
-            ng-show="selected_facets.changed">
-            <a ng-click="resetFacets()"> Deshacer</a></li>
-        <li class="active-filter"
-            ng-show="selected_facets.changed">
-            <a ng-click="refreshFacets()"> Actualizar</a></li>
-        -->
         {% endverbatim %}
     </ul>
 
@@ -338,7 +261,7 @@
     {% verbatim %}
     <div id="container-ad-list" ng-class="{'col-md-5': !collapsabled, 'col-md-2': collapsabled}">
         <div id="header-list" class="col-md-12">
-            <button type="button" id="btn-collapse" class="btn" ng-click="collapse()"> <i class="glyphicon " ng-class="{'glyphicon-chevron-left': collapsabled, 'glyphicon-chevron-right': !collapsabled}"></i> </button>
+            <button type="button" id="btn-collapse" class="btn" ng-click="collapsabled = !collapsabled"> <i class="glyphicon " ng-class="{'glyphicon-chevron-left': collapsabled, 'glyphicon-chevron-right': !collapsabled}"></i> </button>
             <p ng-show="!collapsabled">Mostrando 20 de 300 resultados.</p>
             <div class="form-inline " ng-class="{'order-by-container': !collapsabled, 'order-by-container-collapse': collapsabled}">
                 <label ng-show="!collapsabled" for="order_by">Ordenar por</label>
@@ -480,7 +403,7 @@
     <script>
         // TODO: define a proper initialization
         var search_location = {
-            radius: {{ form.data.radius | default:8000}},
+            radius: {{ form.data.radius | default:6000}},
             location: {
                 latitude: {{ form.data.lat | default:"-31.4179952" }},
                 longitude: {{ form.data.lng | default:"-64.1890513" }}

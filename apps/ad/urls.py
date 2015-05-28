@@ -11,7 +11,7 @@ sqs = SearchQuerySet().facet('categories').facet('localities').facet('provinces'
 
 urlpatterns = patterns('',
                        # List and Search ads with facets
-                       url(r'^ad-list/$',
+                       url(r'^search/$',
                            AdFacetedSearchView(form_class=AdSearchForm,
                                                searchqueryset=sqs,
                                                template='ad/list.html'),

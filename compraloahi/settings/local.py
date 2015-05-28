@@ -1,9 +1,9 @@
 from .base import *
 
 ALLOWED_HOSTS = ['*']
-DEBUG = False
+DEBUG = True
 
-TEMPLATE_DEBUG = False
+TEMPLATE_DEBUG = True
 
 
 INSTALLED_APPS = INSTALLED_APPS + (

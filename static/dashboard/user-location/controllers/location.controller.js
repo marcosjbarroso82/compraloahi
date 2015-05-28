@@ -41,6 +41,20 @@
             visible: true // optional: defaults to true
         }
 
+
+        $scope.location_places = {};
+
+        $scope.$watch('location_places', function(val, old_val){
+           if($scope.location_places.geometry){
+               $scope.location.lat = angular.copy($scope.location_places.geometry.location.lat());
+               $scope.location.lng = angular.copy($scope.location_places.geometry.location.lng());
+               $scope.location.title = angular.copy($scope.location_places.formatted_address);
+               $scope.location.center = {};
+               $scope.location.center.latitude = angular.copy($scope.location_places.geometry.location.lat());
+               $scope.location.center.longitude = angular.copy($scope.location_places.geometry.location.lng());
+           }
+        });
+
         $scope.hideLocations = function () {
             for (var i=0; i < $scope.locations.length; i++) {
                 $scope.locations[i].visible = false;

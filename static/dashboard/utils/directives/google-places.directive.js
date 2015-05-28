@@ -11,15 +11,8 @@
 
     googlePlaces.$inject = [];
 
-    /**
-     * @namespace googlePlaces
-     */
+
     function googlePlaces() {
-        /**
-         * @name directive
-         * @desc The directive to be returned
-         * @memberOf dashBoardApp.util.directives.googlePlaces
-         */
         return {
             restrict:'E',
             replace:true,
@@ -30,17 +23,21 @@
                 var autocomplete = new google.maps.places.Autocomplete($("#google_places_ac")[0], {});
                 google.maps.event.addListener(autocomplete, 'place_changed', function() {
                     var place = autocomplete.getPlace();
-                    //$scope.location = place.geometry.location.lat() + ',' + place.geometry.location.lng();
-                    $scope.location.lat = place.geometry.location.lat();
-                    $scope.location.lng = place.geometry.location.lng();
-                    $scope.location.center = {};
-                    $scope.location.center.latitude = place.geometry.location.lat();
-                    $scope.location.center.longitude = place.geometry.location.lng();
 
-                    $scope.map.center.latitude = $scope.location.center.latitude;
-                    $scope.map.center.longitude = $scope.location.center.longitude;
+                    if(place.geometry){
+                        $scope.location = angular.copy(place);
+                        //$scope.location.lat = place.geometry.location.lat();
+                        //$scope.location.lng = place.geometry.location.lng();
+                        //$scope.location.center = {};
+                        //$scope.location.center.latitude = place.geometry.location.lat();
+                        //$scope.location.center.longitude = place.geometry.location.lng();
 
-                    $scope.$apply();
+                        $scope.map.center.latitude = angular.copy(place.geometry.location.A);
+                        $scope.map.center.longitude = angular.copy(place.geometry.location.F);
+
+                        $scope.$apply();
+                    }
+
                 });
             }
         };

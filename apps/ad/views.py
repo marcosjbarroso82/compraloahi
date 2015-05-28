@@ -84,19 +84,7 @@ class SearchViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
         if self.request.query_params.get('q'):
             #qs = qs.filter_and(title__contains=self.request.query_params.get('q'))
             qs = qs.auto_query(self.request.query_params.get('q'))
-        try:
-            param_facet_url = list(self.request.query_params.getlist('selected_facets', []))
-        except:
-            param_facet_url = list(self.request.query_params.get('selected_facets', []))
 
-        for facet in param_facet_url:
-            if ":" not in facet:
-                continue
-            field, value = facet.split(":", 1)
-            if value and field.split('_')[1] == 'exact':
-                qs = qs.narrow('%s:"%s"' % (field, qs.query.clean(value)))
-
-        self.facets = get_facet(param_facet_url, qs.facet_counts()['fields'].items())
 
         distance = None
         try:
@@ -123,6 +111,22 @@ class SearchViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
             qs = qs.within('location', bottom_left, top_right)
         except:
             pass
+
+
+        try:
+            param_facet_url = list(self.request.query_params.getlist('selected_facets', []))
+        except:
+            param_facet_url = list(self.request.query_params.get('selected_facets', []))
+
+        for facet in param_facet_url:
+            if ":" not in facet:
+                continue
+            field, value = facet.split(":", 1)
+            if value and field.split('_')[1] == 'exact':
+                qs = qs.narrow('%s:"%s"' % (field, qs.query.clean(value)))
+
+        self.facets = get_facet(param_facet_url, qs.facet_counts()['fields'].items())
+
         order_by = self.request.query_params.get('order_by')
         if order_by:
             if order_by is 'distance':

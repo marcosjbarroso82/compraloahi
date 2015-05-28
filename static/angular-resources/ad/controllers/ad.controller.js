@@ -10,12 +10,12 @@
         .module('App.ad.controllers')
         .controller('AdCtrl', AdCtrl);
 
-    AdCtrl.$inject = ['$scope', 'Ad', 'AdSearch'];
+    AdCtrl.$inject = ['$scope', 'Ad', 'AdSearch', '$location'];
 
     /**
      * @namespace AdCtrl
      */
-    function AdCtrl($scope, Ad, AdSearch) {
+    function AdCtrl($scope, Ad, AdSearch, $location) {
         $scope.ads = {};
 
         $scope.orderings = [{'name': 'price', selected: false}, {'name': 'distance', selected: false}];
@@ -37,15 +37,35 @@
 
         $scope.page_nro = 1;
 
+        //Var to save location when search on google places
+        $scope.location_search_places = {};
 
-        $scope.collapse = function(){
-            if ($scope.collapsabled){
-                $scope.collapsabled = false;
-            }else{
-                $scope.collapsabled = true;
-            }
+
+        //var cache_history = [];
+
+        // Initialize Controller
+        activate();
+
+
+
+        function activate(){
+            //Get ads init
+            $scope.adPromise = Ad.get(function(data) {
+                $scope.ads = data.results;
+
+                $scope.next_page = data.next;
+                $scope.prev_page = data.previous;
+                $scope.q = data.q;
+                $scope.facets = data.facets;
+
+                // set Circle style for each ad
+                $.each($scope.ads,function(index, ad){
+                    setCircleStyle(ad);
+                });
+            });
         }
 
+// ############ SAVE LOCATION ##############
         $scope.existsLocationTitle = function (title) {
             for (var i=0; i < $scope.user_locations.length; i++) {
                 if ($scope.user_locations[i].title === $scope.search_location.title) {
@@ -87,8 +107,6 @@
                         $scope.search_location.changed = false;
                         $scope.search_location.title= "";
                         $("#search_location_name").val("");
-
-
                     })
                     .fail(function(){
                         $('#modalNewLocation .modal-body').html("Ocurrio un error al guardar su ubicación");
@@ -97,10 +115,27 @@
                 // TODO: manage this in a better way
                 window.alert("Ingrese un nombre que no exista ya");
             }
-
-
         }
+// ############ END SAVE LOCATION ##############
 
+
+// ################## MAP ################################
+
+        // Event to watch change search location find by google places
+         $scope.$watch('location_search_places', function(val, old_val){
+           if($scope.location_search_places.geometry){
+               $scope.search_location.location.latitude = angular.copy($scope.location_search_places.geometry.location.lat());
+               $scope.search_location.location.longitude = angular.copy($scope.location_search_places.geometry.location.lng());
+               $scope.search_location.title = angular.copy($scope.location_search_places.formatted_address);
+               $scope.search_location.location.center = {};
+               $scope.search_location.location.center.latitude = angular.copy($scope.location_search_places.geometry.location.lat());
+               $scope.search_location.location.center.longitude = angular.copy($scope.location_search_places.geometry.location.lng());
+               $scope.search_location.changed = false;
+
+           }
+        });
+
+        // Change select user's locations
         $scope.$watch('user_location_selected',function(val,old){
             //  this IF makes sure the code is no executed right when its loaded
             if ($scope.user_location_selected.latitude
@@ -139,10 +174,22 @@
             }
         });
 
+        function searchLocationChanged() {
+            if (typeof $scope.user_location_selected.latitude !== search_location.location.latitude
+                && typeof $scope.user_location_selected.longitude !== search_location.location.longitude
+                && typeof $scope.user_location_selected.radius !== search_location.location.radius ){
+                $scope.search_location.changed = true;
+                $scope.user_location_selected = {};
+            }
+        }
+
         $scope.map = {
             // TODO: define a proper location initialization
-            center: {latitude: -31.4179952,
-                longitude: -64.1890513 }, zoom: 13,
+            center: {
+                latitude: -31.4179952,
+                longitude: -64.1890513
+            },
+            zoom: 13,
             options: {},
             control: {},
             circle_events: {
@@ -150,7 +197,6 @@
                     $('html, body').animate({
                         scrollTop: $("#ad-anchor-" + args.$parent.ad.id).offset().top - 70
                     }, 1000);
-
                 },
                 mouseover: function (marker, eventName, args) {
                     args.$parent.ad.selected = true;
@@ -168,60 +214,7 @@
             visible: true // optional: defaults to true
         }
 
-
-        function getAds(){
-            $scope.adPromise = Ad.get(function(data) {
-                $scope.ads = data.results;
-
-                $scope.next_page = data.next;
-                $scope.prev_page = data.previous;
-                $scope.q = data.q;
-                $scope.facets = data.facets;
-
-                // set Circle style for each ad
-                $.each($scope.ads,function(index, ad){
-                    setCircleStyle(ad);
-                });
-            });
-        }
-
-        function searchLocationChanged() {
-            if (typeof $scope.user_location_selected.latitude !== search_location.location.latitude
-                && typeof $scope.user_location_selected.longitude !== search_location.location.longitude
-                && typeof $scope.user_location_selected.radius !== search_location.location.radius ){
-                $scope.search_location.changed = true;
-                $scope.user_location_selected = {};
-            }
-        }
-
-        $scope.selectAd = function (ad) {
-            ad.selected = true;
-            setCircleStyle(ad);
-        }
-        $scope.deselectAd = function (ad) {
-            ad.selected = false;
-            setCircleStyle(ad);
-        }
-
-        // TODO: Implement this functionality
-        $scope.AddToFavourites = function(ad) {
-            window.alert("NOT IMLPEMENTED YET! ad" + ad.id + " should be added to favourites")
-        }
-
-        $scope.centerMap = function(position) {
-            $scope.map.control.getGMap().panTo(new google.maps.LatLng(position.latitude, position.longitude));
-        }
-
-        function setCircleStyle(ad){
-            if (ad.selected) {
-                ad.stroke = {color: '#1e617d', weight: 0, opacity: 0.9 };
-                ad.fill = {color: '#1e617d', weight: 2, opacity: 0.9 };
-            } else {
-                ad.stroke = {color: '#ff6600', weight: 0, opacity:0.6 };
-                ad.fill = {color: '#ff6600', weight: 2, opacity: 0.6 };
-            }
-        }
-
+        // Define circle map event, when click on circle event vertical aling ad.
         $scope.circle_events = {
             click: function (marker, eventName, args) {
                 var container = $("#container-ad-list");
@@ -239,10 +232,74 @@
             }
         };
 
-        $scope.change_select_location = function(location){
-            $scope.user_location_selected = location;
+        /**
+         * Define style to ad on map
+         * @param ad
+         */
+        function setCircleStyle(ad){
+            if (ad.selected) {
+                ad.stroke = {color: '#1e617d', weight: 0, opacity: 0.9 };
+                ad.fill = {color: '#1e617d', weight: 2, opacity: 0.9 };
+            } else {
+                ad.stroke = {color: '#ff6600', weight: 0, opacity:0.6 };
+                ad.fill = {color: '#ff6600', weight: 2, opacity: 0.6 };
+            }
+        }
+// ################## END MAP ################################
+
+
+
+
+// ######## LIST ADS ##########
+
+         // Function to center on location ad.
+        $scope.centerMap = function(position) {
+            $scope.map.control.getGMap().panTo(new google.maps.LatLng(position.latitude, position.longitude));
         }
 
+        $scope.selectAd = function (ad) {
+            ad.selected = true;
+            console.log($scope.location_search_places);
+            setCircleStyle(ad);
+        }
+
+        $scope.deselectAd = function (ad) {
+            ad.selected = false;
+            setCircleStyle(ad);
+        }
+
+        function getAdsearch(q){
+            $scope.adPromise = AdSearch.search(q).then(getAdSearchSuccess, getAdSearchError);
+
+            function getAdSearchSuccess(data){
+                $scope.ads = data.data.results;
+                $scope.facets = data.data.facets;
+                $scope.next_page = data.data.next;
+                $scope.prev_page = data.data.previous;
+
+                // Remplace path by new query path
+                $location.search('q='+ q);
+                //$location.replace();
+
+                // set Circle style for each ad
+                $.each($scope.ads,function(index, ad){
+                    setCircleStyle(ad);
+                });
+            }
+            function getAdSearchError(data){
+                console.log("Error al traer los mensajes");
+            }
+        }
+
+        $scope.get_ads_page = function(nro_page){
+            $scope.page_nro = nro_page;
+            getAdsearch(getUrlParams());
+        }
+// ######## END LIST ADS ##########
+
+
+
+// ######## FACETS ##########
 
         /**
          * Function to change status facet
@@ -261,14 +318,18 @@
             getAdsearch(getUrlParams());
         };
 
+// ######## END FACETS ##########
+
+
+
         /**
          * Function to make params url
          * @returns {string}
          */
         function getUrlParams(){
-            var url = 'lat=' + $scope.search_location.location.latitude +
-                '&lng=' + $scope.search_location.location.longitude +
-                '&km=' + $scope.search_location.radius;
+            var url = '&km=' + $scope.search_location.radius +
+                '&lat=' + String($scope.search_location.location.latitude) +
+                '&lng=' + $scope.search_location.location.longitude;
 
             if($scope.q != '' && $scope.q != undefined){
                 url += '&q=' + $scope.q;
@@ -296,32 +357,17 @@
         }
 
 
-        function getAdsearch(q){
-            $scope.adPromise = AdSearch.search(q).then(getAdSearchSuccess, getAdSearchError);
+ /**
+         * Function to change location, selecting user location
+         * @param location
 
-            function getAdSearchSuccess(data){
-                $scope.ads = data.data.results;
-                $scope.facets = data.data.facets;
-                $scope.next_page = data.data.next;
-                $scope.prev_page = data.data.previous;
+        $scope.change_select_location = function(location){
+            $scope.user_location_selected = location;
+        }*/
 
-                // set Circle style for each ad
-                $.each($scope.ads,function(index, ad){
-                    setCircleStyle(ad);
-                });
-            }
-
-            function getAdSearchError(data){
-                console.log("Error al traer los mensajes");
-            }
-        }
-
-        $scope.get_ads_page = function(nro_page){
-            $scope.page_nro = nro_page;
-            getAdsearch(getUrlParams());
-        }
 
         // Process Current URL to get the selected Facets and Ordering Parameter
+
         function processCurrentURL() {
             var url = decodeURIComponent(window.location.href);
 
@@ -347,10 +393,9 @@
                 })[0];
                 $scope.selected_ordering.selected = true;
             }
-        };
+        }
 
-        // Initialize Controller
-        getAds();
-        processCurrentURL();
+
+        //processCurrentURL();
     }
 })();

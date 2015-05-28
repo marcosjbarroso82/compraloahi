@@ -72,18 +72,21 @@ class ProfileSerializer(ModelSerializer):
 
 
 class UserLocationSeralizer(ModelSerializer):
+    center = serializers.SerializerMethodField()
 
     class Meta:
         model = UserLocation
-        #fields = ('title', 'userProfile', 'lat', 'lng')
-        read_only_fields = ('userProfile')
+        fields = ('title', 'lat', 'lng', 'center', 'radius')
+        excluded = ('userProfile',)
         depth = 1
-
-    center = serializers.SerializerMethodField()
-
 
     def get_center(self, obj):
         center = {'latitude': obj.lat, 'longitude': obj.lng}
         return center
 
-
+    def create(self, validated_data):
+        request = self.context.get('request', None)
+        if request is not None:
+            if request.user.is_authenticated():
+                validated_data['userProfile'] =  request.user.profile
+        return UserLocation.objects.create(**validated_data)

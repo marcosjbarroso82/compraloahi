@@ -25,7 +25,7 @@ class Phone(models.Model):
 
 
 class UserLocation(models.Model):
-    title = models.CharField(max_length=40)
+    title = models.CharField(max_length=100)
     userProfile = models.ForeignKey(UserProfile, related_name='locations')
     lat = models.FloatField(null=True)
     lng = models.FloatField(null=True)
