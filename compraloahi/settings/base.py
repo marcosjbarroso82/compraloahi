@@ -250,7 +250,7 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 
 PUSH_NOTIFICATIONS_SETTINGS = {
-        "GCM_API_KEY": "AIzaSyD-750iceKvjKVno9p1Z4W6guATHMPJoak",
+        "GCM_API_KEY": "AIzaSyA_KurD4JmJdMSj12Mh0ZhjAI-LDJlNybI", #"AIzaSyD-750iceKvjKVno9p1Z4W6guATHMPJoak",
         #"APNS_CERTIFICATE": "/path/to/your/certificate.pem",
 }
 GCM_POST_URL = 'https://android.googleapis.com/gcm/send'
