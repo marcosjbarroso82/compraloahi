@@ -150,6 +150,8 @@ SITE_ID = 1
 
 #SOCIALACCOUNT_QUERY_EMAIL = True
 
+ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'https'
+
 SOCIALACCOUNT_PROVIDERS = {
     'facebook': {
         'SCOPE': ['email', 'public_profile'],
@@ -225,10 +227,10 @@ COMMENTS_APP = "django_comments_xtd"
 COMMENTS_XTD_CONFIRM_EMAIL = False
 
 # Config email
-EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST = 'smtp.zoho.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'testnubiquo@gmail.com'
-EMAIL_HOST_PASSWORD = 'nubiquo1234567890'
+EMAIL_HOST_USER = 'notification@compraloahi.com.ar'
+EMAIL_HOST_PASSWORD = '1j3uUk9X82g8d7imFgcFRgqV3'
 EMAIL_USE_TLS = True
 
 

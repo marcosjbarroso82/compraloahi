@@ -128,7 +128,7 @@ def notification_post_save(sender, *args, **kwargs):
             html_content = notification.message
             msg = EmailMultiAlternatives('Compraloahi - Notifications',
                                               html_content,
-                                              'testnubiquo@gmail.com',
+                                              'notification@compraloahi.com.ar',
                                               [notification.receiver.email])
             msg.attach_alternative(html_content, 'text/html')
             msg.send()
