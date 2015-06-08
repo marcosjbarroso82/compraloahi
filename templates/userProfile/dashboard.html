@@ -8,17 +8,17 @@
     <link rel="stylesheet" href="{% static 'css/less/dashboard.css' %}" >
 
 
-    <link rel="stylesheet" type="text/css" href="{% static 'bower_components/ngDialog/css/ngDialog.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'bower_components/ngDialog/css/ngDialog.min.css' %}" />
 
     <link rel="stylesheet" type="text/css" href="{% static 'bower_components/ngDialog/css/ngDialog-theme-plain.min.css' %}" />
 
     <link rel="stylesheet" type="text/css" href="{% static 'bower_components/angular-snackbar/css/angular.snackbar.css' %}" />
 
-    <link rel="stylesheet" type="text/css" href="{% static 'bower_components/angular-busy/dist/angular-busy.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'bower_components/angular-busy/dist/angular-busy.min.css' %}" />
 
-    <link rel="stylesheet" type="text/css" href="{% static 'bower_components/ng-table/dist/ng-table.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'bower_components/ng-table/dist/ng-table.min.css' %}" />
 
-    <link rel="stylesheet" type="text/css" href="{% static 'bower_components/angular-tooltips/src/css/angular-tooltips.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'bower_components/angular-tooltips/dist/angular-tooltips.min.css' %}" />
 </head>
 
 <body>
@@ -67,9 +67,9 @@
             <li role="presentation" ui-sref="favorite" ui-sref-active="active">
                 <a class="item-menu"><i class="glyphicon glyphicon-heart"></i> My favorites</a>
             </li>
-            <li role="presentation" ui-sref="agenda" ui-sref-active="active">
-                <a class="item-menu"><i class="glyphicon glyphicon-calendar"></i> My agenda</a>
-            </li>
+{#            <li role="presentation" ui-sref="agenda" ui-sref-active="active">#}
+{#                <a class="item-menu"><i class="glyphicon glyphicon-calendar"></i> My agenda</a>#}
+{#            </li>#}
             <li class="divider"></li>
             <li><a class="item-menu" href="{% url 'my-user:my-logout' %}"><i class="glyphicon glyphicon-off"></i> Salir</a></li>
         </ul>
@@ -85,52 +85,52 @@
     <!-- ###################### IMPORT THIRD LIB ###################### -->
 
     <!-- jquery resources -->
-    <script type="text/javascript" src="{% static 'bower_components/jquery/dist/jquery.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bower_components/jquery/dist/jquery.min.js' %}"></script>
 
 
-    <script type="text/javascript" src="{% static 'bower_components/bootstrap/dist/js/bootstrap.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
 
     <!--<script type="text/javascript" src="{% static 'bower_components/jquery-cookie/jquery.cookie.js' %}"></script>-->
 
     <!-- angular resources -->
-    <script type="text/javascript" src="{% static 'bower_components/angular/angular.js' %}"></script>
-    <script type="text/javascript" src="{% static 'bower_components/angular-resource/angular-resource.js' %}"></script>
-    <script type="text/javascript" src="{% static 'bower_components/angular-route/angular-route.js' %}"></script>
-    <script type="text/javascript" src="{% static 'bower_components/angular-ui-router/release/angular-ui-router.js' %}"></script>
-    <!--<script type="text/javascript" src="{% static 'bower_components/angular-sanitize/angular-sanitize.js' %}"></script>
-    <script type="text/javascript" src="{% static 'bower_components/angular-bootstrap/ui-bootstrap.js' %}"></script>
-    <script type="text/javascript" src="{% static 'bower_components/angular-bootstrap/ui-bootstrap-tpls.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bower_components/angular/angular.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bower_components/angular-resource/angular-resource.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bower_components/angular-route/angular-route.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bower_components/angular-ui-router/release/angular-ui-router.min.js' %}"></script>
+    <!--<script type="text/javascript" src="{% static 'bower_components/angular-sanitize/angular-sanitize.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bower_components/angular-bootstrap/ui-bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js' %}"></script>
 -->
 
-    <script type="text/javascript" src="{% static 'bower_components/angular-google-maps/dist/angular-google-maps.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bower_components/angular-google-maps/dist/angular-google-maps.min.js' %}"></script>
     <!-- google mapp -->
     <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true&libraries=places&language=en-US"></script>
 
     <!-- Nose (lo requiere google maps )-->
-    <script type="text/javascript" src="{% static 'bower_components/lodash/dist/lodash.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bower_components/lodash/dist/lodash.min.js' %}"></script>
 
 
     <!-- TOOLTIP -->
-    <script type="text/javascript" src="{% static 'bower_components/angular-tooltips/src/js/angular-tooltips.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bower_components/angular-tooltips/dist/angular-tooltips.min.js' %}"></script>
 
     <!-- VALIDATOR -->
-    <script type="text/javascript" src="{% static 'bower_components/tg-angular-validator/dist/angular-validator.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bower_components/tg-angular-validator/dist/angular-validator.min.js' %}"></script>
 
     <!-- TABLES-->
-    <script type="text/javascript" src="{% static 'bower_components/ng-table/dist/ng-table.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bower_components/ng-table/dist/ng-table.min.js' %}"></script>
 
     <!-- ALERT NOTIFICATION -->
-    <script type="text/javascript" src="{% static 'bower_components/angular-snackbar/angular.snackbar.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bower_components/angular-snackbar/angular.snackbar.min.js' %}"></script>
 
     <!-- EASY AND CUSTOMIZABLE POP UP DIALOG -->
-    <script type="text/javascript" src="{% static 'bower_components/ngDialog/js/ngDialog.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bower_components/ngDialog/js/ngDialog.min.js' %}"></script>
 
     <!-- Angular and django rest framework Resource -->
     <script type="text/javascript" src="{% static 'bower_components/angular-django-rest-resource/angular-django-rest-resource.js' %}"></script>
 
 
     <!-- LOAD PROMISE -->
-    <script type="text/javascript" src="{% static 'bower_components/angular-busy/dist/angular-busy.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bower_components/angular-busy/dist/angular-busy.min.js' %}"></script>
 
     <!-- ###################### END IMPORT ###################### -->
 
