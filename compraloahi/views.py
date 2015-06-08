@@ -16,6 +16,8 @@ from django.utils.html import escape
 from push_notifications.models import GCMDevice
 from django.views.decorators.csrf import csrf_exempt
 
+from django.shortcuts import redirect
+
 import logging
 
 logger = logging.getLogger('debug')
@@ -40,6 +42,9 @@ def send_notification(request):
 
 class HomeView(TemplateView):
     template_name = 'index.html'
+	# Temporary redirect
+    def dispatch(self, request, *args, **kwargs):
+        return redirect('/ad/search/?q=')
 
 
 class ApiDashBoardView(TemplateView):

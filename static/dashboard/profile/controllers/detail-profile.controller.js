@@ -37,7 +37,9 @@
 
             function detailSuccess(data){
                 vm.profile = data.data;
-                vm.profile.birth_date_input = angular.copy(new Date(vm.profile.birth_date));
+                if (vm.profile.birth_date) {
+                    vm.profile.birth_date_input = angular.copy(new Date(vm.profile.birth_date));
+                }
             }
 
             function detailError(data){
