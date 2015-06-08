@@ -35,11 +35,12 @@
 
             <!-- PROFILE DETAIL -->
             <div class="col-md-8" ng-if="!vm.profileEdit">
-                <h5>{{ vm.profile.user.first_name }}, {{ vm.profile.user.last_name }}</h5>
+                <h5>{{ vm.profile.user.first_name }}<span ng-show="!vm.profile.user.first_name">Sin Nombre</span>,
+                    {{ vm.profile.user.last_name }}<span ng-show="!vm.profile.user.last_name">Sin Apellido</span></h5>
                 <div class="col-md-6">
                     <div class="">
-                        <label> Fecha Nac : </label>
-                        <p><i class="glyphicon glyphicon-gift"></i>{{ vm.profile.birth_date }}</p>
+                        <label> Fecha Nac (detalle): </label>
+                        <p><i class="glyphicon glyphicon-gift"></i>{{ vm.profile.birth_date | date:'dd/MM/yyyy' }}<span ng-show="!vm.profile.birth_date">Sin Fecha de Nacimiento</span></p>
                     </div>
                     <div class="">
                         <label>Email : </label>
@@ -86,6 +87,7 @@
                                    class="form-control"
                                    ng-required="true"
                                    ng-model="vm.profile.birth_date_input"
+                                   placeholder="yyyy/mm/dd"
                                     />
                         </div>
                     </div>
