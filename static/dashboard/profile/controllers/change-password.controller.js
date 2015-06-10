@@ -25,7 +25,8 @@
 
             function updateSuccess(data){
                 $state.go('profile-detail');
-                AlertNotification.success("La contraseña ha sido cambiada con exito");
+                //AlertNotification.success("La contraseña ha sido cambiada con exito");
+                window.location.href = "/accounts/login/";
             }
 
             function updateError(data){
