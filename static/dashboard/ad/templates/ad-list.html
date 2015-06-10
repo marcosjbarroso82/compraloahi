@@ -7,22 +7,22 @@
     </h4>
 
     <div class="content-data col-md-12" ng-show="vm.ads.length > 0">
-        <input type="text" name="title"
+        <input type="text" name="title" style="width: 400px" placeholder="Filtrar por Nombre"
                ng-model="filters.title" class="form-control">
         <table class="table table-bordred table-striped" ng-table="tableParams" >
             <tr id="ad-row-{{ ad.id }}" ng-class-odd="'odd'" ng-class-even="'even'" ng-repeat="ad in $data">
                 <td class="v-align-middle col-md-1"
-                    data-title="'Image'">
+                    data-title="''">
                     <img id="media-object" class="img-rounded" ng-src="{{ ad.images[0].thumbnail_110x110 }}" width="90" height="90">
                 </td>
                 <td class="v-align-middle col-md-9"
-                    data-title="'Ads'"
+                    data-title="'Avisos'"
                     sortable="'title'" filter="{ 'title': 'text' }">
                     <h4><strong><a href="/ad/{{ ad.slug }}">{{ ad.title }}</a></strong></h4>
                     <p>{{ ad.short_description }}</p>
                     <small><strong>Fecha de publicacion : </strong>{{ ad.pub_date }} || <strong>Price : </strong> $ {{ ad.price }}</small>
                 </td>
-                <td class="v-align-middle col-md-2" data-title="'Actions'">
+                <td class="v-align-middle col-md-2" data-title="''">
                     <!-- update -->
                     <a href="/ad/update/{{ ad.slug }}" class="btn btn-sm btn-warning btn-actions"><span class="glyphicon glyphicon-edit"></span></a>
                     <!-- view detail -->
