@@ -21,6 +21,7 @@
         $scope.orderings = [{'name': 'price', selected: false}, {'name': 'distance', selected: false}];
         $scope.selected_ordering = {};
 
+        $scope.facets = {};
         $scope.selected_facets = [];
         //$scope.selected_facets['facets'] = selected_facets;
         $scope.selected_facets['changed'] = false;
@@ -50,19 +51,23 @@
 
         function activate(){
             //Get ads init
-            $scope.adPromise = Ad.get(function(data) {
-                $scope.ads = data.results;
+            $scope.q = getUrlParameter('q');
+            getAdsearch(getUrlParams());
 
-                $scope.next_page = data.next;
-                $scope.prev_page = data.previous;
-                $scope.q = data.q;
-                $scope.facets = data.facets;
+        }
 
-                // set Circle style for each ad
-                $.each($scope.ads,function(index, ad){
-                    setCircleStyle(ad);
-                });
-            });
+        function getUrlParameter(sParam)
+        {
+            var sPageURL = window.location.search.substring(1);
+            var sURLVariables = sPageURL.split('&');
+            for (var i = 0; i < sURLVariables.length; i++)
+            {
+                var sParameterName = sURLVariables[i].split('=');
+                if (sParameterName[0] == sParam)
+                {
+                    return sParameterName[1];
+                }
+            }
         }
 
 // ############ SAVE LOCATION ##############
@@ -259,7 +264,6 @@
 
         $scope.selectAd = function (ad) {
             ad.selected = true;
-            console.log($scope.location_search_places);
             setCircleStyle(ad);
         }
 
@@ -276,6 +280,7 @@
                 $scope.facets = data.data.facets;
                 $scope.next_page = data.data.next;
                 $scope.prev_page = data.data.previous;
+                $scope.page_nro = 1;
 
                 // Remplace path by new query path
                 $location.search('q='+ q);
