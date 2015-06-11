@@ -16,7 +16,8 @@ angular.module('dashBoardApp', [
         'dashBoardApp.util',
         'dashBoardApp.favorite',
         'dashBoardApp.notification',
-        'dashBoardApp.store'
+        'dashBoardApp.store',
+        'validation.match'
 
     ])
     .run(function($rootScope, Message){
