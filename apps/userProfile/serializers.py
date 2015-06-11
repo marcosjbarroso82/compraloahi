@@ -76,7 +76,7 @@ class UserLocationSeralizer(ModelSerializer):
 
     class Meta:
         model = UserLocation
-        fields = ('title', 'lat', 'lng', 'center', 'radius')
+        fields = ('id', 'title', 'lat', 'lng', 'center', 'radius')
         excluded = ('userProfile',)
         depth = 1
 
