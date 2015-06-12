@@ -9,12 +9,12 @@
         .module('dashBoardApp.ad.controllers')
         .controller('AdCreateCtrl', AdCreateCtrl);
 
-    AdCreateCtrl.$inject = ['$scope', 'Ad', 'AlertNotification', '$timeout', 'UserLocations', '$filter'];
+    AdCreateCtrl.$inject = ['$scope', 'Ad', 'AlertNotification', '$timeout', 'UserLocations'];
 
     /**
      * @namespace AdCreateCtrl
      */
-    function AdCreateCtrl($scope, Ad, AlertNotification, $timeout, UserLocations, $filter) {
+    function AdCreateCtrl($scope, Ad, AlertNotification, $timeout, UserLocations) {
 
 
         var vm = this;
@@ -31,6 +31,7 @@
         vm.ad.categories = [];
 
         vm.location = {};
+        vm.location.center = {};
 
         vm.editorOptions = {
             language: 'es',
@@ -61,7 +62,6 @@
 
 
         function nextStep(){
-            console.log("Nex Step");
             vm.step ++;
             if(vm.maxStep < vm.step){
                 vm.maxStep = angular.copy(vm.step);
@@ -79,18 +79,12 @@
         }
 
         function setDefaultLocation(){
-            vm.location.center = {};
             vm.location.center.latitude = -13.30272;
             vm.location.center.longitude = -87.144107;
 
             $scope.map.center = vm.location.center;
 
         }
-
-        $scope.$watch('vm.ad.price', function(val, old){
-            console.log("FILTRANDO PRECIO");
-            $filter('currency')(vm.ad.price, "$");
-        });
 
         function init(){
             vm.promiseRequestCategories = Ad.getAllCategories().then(getCategoriesSuccess, getCategoriesError);
@@ -110,7 +104,6 @@
             }
 
             function getCoords(position) {
-                vm.location.center = {};
                 vm.location.center.latitude = position.coords.latitude;
                 vm.location.center.longitude = position.coords.longitude;
                 $scope.map.center = vm.location.center;
@@ -124,10 +117,7 @@
             UserLocations.query(userLocationSuccess, userLocationError);
 
             function userLocationSuccess(data){
-                console.log("USER LOCATIONS RESPONSE SUCCESS");
-                console.log(data);
                 vm.user_locations = data;
-                console.log(vm.user_locations);
             }
 
             function userLocationError(data){
@@ -158,6 +148,9 @@
             vm.promiseRequest = Ad.create(vm.ad, $scope.interface.getFiles($scope.interface.FILE_TYPES.VALID)).then(createSuccess, createError);
 
             function createSuccess(data){
+                if(vm.save_location && vm.custom_location == 'custom'){
+                    UserLocations.save(vm.ad.locations[0]);
+                }
                 AlertNotification.success("El aviso se creo correctamente para ver el detalle presione <a href='http://compraloahi.com.ar' target='_blank'>aqui</a>.");
             }
             function createError(data){
@@ -166,8 +159,6 @@
         }
 
         $scope.$watch('location_places', function(val, old_val){
-            console.log("CAMBIO las ubicaciones");
-            console.log($scope.location_places);
             if($scope.location_places.geometry){
                 //vm.location.title = angular.copy($scope.location_places.formatted_address);
                 vm.location.center = {};
@@ -216,8 +207,6 @@
 
             $scope.uploadCount = files.length;
             $scope.success     = true;
-            console.log(response, files);
-
             $timeout(function timeout() {
                 $scope.success = false;
             }, 5000);
@@ -228,7 +217,6 @@
         $scope.$on('$dropletError', function onDropletError(event, response) {
 
             $scope.error = true;
-            console.log(response);
 
             $timeout(function timeout() {
                 $scope.error = false;

@@ -654,6 +654,7 @@ hr{
                            ng-required="vm.custom_location == 'custom'"
                            name="location_title"
                            placeholder="Nombre de la ubicacion. Ej: Mi trabajo."
+                           required-message="'Si carga una ubicacion personalizada el titulo es requerido.'"
                            title=""
                            type="text">
                 </div>
@@ -689,7 +690,7 @@ hr{
                     </div>
                 </div>
                 <ui-gmap-google-map id="location-map"  center="map.center" zoom="map.zoom" draggable="true" options="options">
-                    <ui-gmap-marker idkey="1" coords="vm.location.center"></ui-gmap-marker>
+                    <ui-gmap-marker idkey="1" coords="vm.location.center" draggable="true"></ui-gmap-marker>
                 </ui-gmap-google-map>
             </div>
             <div class="col-md-12">
