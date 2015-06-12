@@ -16,6 +16,10 @@ from django.utils.html import escape
 from push_notifications.models import GCMDevice
 from django.views.decorators.csrf import csrf_exempt
 
+from apps.ad.models import Ad
+
+from django.shortcuts import redirect
+
 import logging
 
 logger = logging.getLogger('debug')
@@ -40,6 +44,9 @@ def send_notification(request):
 
 class HomeView(TemplateView):
     template_name = 'index.html'
+	# Temporary redirect
+    def dispatch(self, request, *args, **kwargs):
+        return redirect('/ad/search/?q=')
 
 
 class ApiDashBoardView(TemplateView):
@@ -69,11 +76,16 @@ class DashBoardAjaxView(TemplateView):
 def comment_post_wrapper(request):
     # Clean the request to prevent form spoofing
     if request.user.is_authenticated():
-        # if not (request.user.get_full_name() == request.POST['name'] or \
-        #        request.user.email == request.POST['email']):
-        #     return HttpResponse("You registered user...trying to spoof a form...eh?")
-        return post_comment(request) # VER SI ESTE ES EL POST, o EL DE COMMENT XTD
-    return HttpResponse("You anonymous cheater...trying to spoof a form?")
+        # In case of a reply, check that the user is answering a comment of his own ad
+        object_pk = request.POST.get('object_pk', '')
+        if int( request.POST.get('reply_to') ) > 0:
+            if ( Ad.objects.get(pk=object_pk).author == request.user):
+                return post_comment(request) # VER SI ESTE ES EL POST, o EL DE COMMENT XTD
+        else:
+            if ( Ad.objects.get(pk=object_pk).author != request.user):
+                return post_comment(request) # VER SI ESTE ES EL POST, o EL DE COMMENT XTD
+
+    return HttpResponse('Unauthorized', status=401)
 
 # Generates Auth Tokens for all Users
 class GenerateAllAuthToken(APIView):

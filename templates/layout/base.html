@@ -8,9 +8,12 @@
 
     {% include 'layout/stylesheets.html' %}
     {% block css_header_block %}
+
     {% endblock %}
-    <script type="text/javascript" src="{% static 'bower_components/jquery/dist/jquery.js' %}"></script>
-    <script type="text/javascript" src="{% static 'bower_components/bootstrap/dist/js/bootstrap.js' %}"></script>
+
+
+    <script type="text/javascript" src="{% static 'bower_components/jquery/dist/jquery.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
     {% block js_header_block %}
 
     {% endblock %}

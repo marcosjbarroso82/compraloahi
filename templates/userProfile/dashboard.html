@@ -8,17 +8,17 @@
     <link rel="stylesheet" href="{% static 'css/less/dashboard.css' %}" >
 
 
-    <link rel="stylesheet" type="text/css" href="{% static 'bower_components/ngDialog/css/ngDialog.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'bower_components/ngDialog/css/ngDialog.min.css' %}" />
 
     <link rel="stylesheet" type="text/css" href="{% static 'bower_components/ngDialog/css/ngDialog-theme-plain.min.css' %}" />
 
     <link rel="stylesheet" type="text/css" href="{% static 'bower_components/angular-snackbar/css/angular.snackbar.css' %}" />
 
-    <link rel="stylesheet" type="text/css" href="{% static 'bower_components/angular-busy/dist/angular-busy.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'bower_components/angular-busy/dist/angular-busy.min.css' %}" />
 
-    <link rel="stylesheet" type="text/css" href="{% static 'bower_components/ng-table/dist/ng-table.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'bower_components/ng-table/dist/ng-table.min.css' %}" />
 
-    <link rel="stylesheet" type="text/css" href="{% static 'bower_components/angular-tooltips/src/css/angular-tooltips.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'bower_components/angular-tooltips/dist/angular-tooltips.min.css' %}" />
 
     <link rel="stylesheet" type="text/css" href="{% static 'bower_components/nsPopover/less/ns-popover.css' %}" />
 </head>
@@ -69,9 +69,9 @@
             <li role="presentation" ui-sref="favorite" ui-sref-active="active">
                 <a class="item-menu"><i class="glyphicon glyphicon-heart"></i> My favorites</a>
             </li>
-            <li role="presentation" ui-sref="agenda" ui-sref-active="active">
-                <a class="item-menu"><i class="glyphicon glyphicon-calendar"></i> My agenda</a>
-            </li>
+{#            <li role="presentation" ui-sref="agenda" ui-sref-active="active">#}
+{#                <a class="item-menu"><i class="glyphicon glyphicon-calendar"></i> My agenda</a>#}
+{#            </li>#}
             <li class="divider"></li>
             <li><a class="item-menu" href="{% url 'my-user:my-logout' %}"><i class="glyphicon glyphicon-off"></i> Salir</a></li>
         </ul>
@@ -86,15 +86,14 @@
 <footter>
     <!-- ###################### IMPORT THIRD LIB ###################### -->
 
-    <!-- JQUERY -->
-    <script type="text/javascript" src="{% static 'bower_components/jquery/dist/jquery.js' %}"></script>
+    <!-- jquery resources -->
+    <script type="text/javascript" src="{% static 'bower_components/jquery/dist/jquery.min.js' %}"></script>
 
-    <!-- BOOTSTRAP JS -->
-    <script type="text/javascript" src="{% static 'bower_components/bootstrap/dist/js/bootstrap.js' %}"></script>
+
+    <script type="text/javascript" src="{% static 'bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
 
     <!-- CKEDITOR LIB -->
     <script type="text/javascript" src="{% static 'bower_components/ng-ckeditor/libs/ckeditor/ckeditor.js' %}"></script>
-
 
     <!-- angular resources -->
     <script type="text/javascript" src="{% static 'bower_components/angular/angular.js' %}"></script>
@@ -109,6 +108,7 @@
 
     <!-- Nose (lo requiere google maps )-->
     <script type="text/javascript" src="{% static 'bower_components/lodash/dist/lodash.js' %}"></script>
+
 
     <!-- TOOLTIP -->
     <script type="text/javascript" src="{% static 'bower_components/angular-tooltips/src/js/angular-tooltips.js' %}"></script>
@@ -127,6 +127,7 @@
 
     <!-- Angular and django rest framework Resource -->
     <script type="text/javascript" src="{% static 'bower_components/angular-django-rest-resource/angular-django-rest-resource.js' %}"></script>
+
 
     <!-- LOAD PROMISE -->
     <script type="text/javascript" src="{% static 'bower_components/angular-busy/dist/angular-busy.js' %}"></script>
@@ -163,13 +164,14 @@
     <script type="text/javascript" src="{% static 'dashboard/utils/directives/alert-notification.directive.js' %}"></script>
 
     <script type="text/javascript" src="{% static 'dashboard/utils/directives/upload-file-model.directive.js' %}"></script>
-
     <!-- ###################### END DASHBOARD APP - MODULE UTILS ###################### -->
 
     <!-- ###################### DASHBOARD APP - MODULE PROFILE ###################### -->
     <script type="text/javascript" src="{% static 'dashboard/profile/profile.module.js' %}"></script>
     <script type="text/javascript" src="{% static 'dashboard/profile/services/profile.service.js' %}"></script>
     <script type="text/javascript" src="{% static 'dashboard/profile/controllers/detail-profile.controller.js' %}"></script>
+    <!--<script type="text/javascript" src="{# static 'dashboard/profile/controllers/create-profile.controller.js' #}"></script>
+    <script type="text/javascript" src="{% static 'dashboard/profile/controllers/update-profile.controller.js' %}"></script>-->
     <script type="text/javascript" src="{% static 'dashboard/profile/controllers/change-password.controller.js' %}"></script>
     <!-- ###################### END DASHBOARD APP - MODULE PROFILE ###################### -->
 

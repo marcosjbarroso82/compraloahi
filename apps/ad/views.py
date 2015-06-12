@@ -127,8 +127,10 @@ class SearchViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
             field, value = facet.split(":", 1)
             if value and field.split('_')[1] == 'exact':
                 qs = qs.narrow('%s:"%s"' % (field, qs.query.clean(value)))
-
-        self.facets = get_facet(param_facet_url, qs.facet_counts()['fields'].items())
+        try:
+            self.facets = get_facet(param_facet_url, qs.facet_counts()['fields'].items())
+        except:
+            self.facets = []
 
         order_by = self.request.query_params.get('order_by')
         if order_by:

@@ -1,0 +1,51 @@
+{
+  "name": "angular-input-match",
+  "version": "1.5.0",
+  "homepage": "https://github.com/TheSharpieOne/angular-input-match",
+  "authors": [
+    "TheSharpieOne  <evan@lostonia.com>"
+  ],
+  "description": "Checks if one input matches another",
+  "main": "dist/angular-input-match.min.js",
+  "keywords": [
+    "Angular",
+    "input",
+    "form",
+    "confirmation",
+    "match",
+    "validation"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/TheSharpieOne/angular-input-match"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://www.opensource.org/licenses/MIT"
+    }
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": ">=1.2.0 <2.0.0"
+  },
+  "devDependencies": {
+    "angular-mocks": ">=1.2.0 <2.0.0"
+  },
+  "_release": "1.5.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "v1.5.0",
+    "commit": "2937184f430a5d1dd00b8f4f768a3262e3a45ad3"
+  },
+  "_source": "git://github.com/TheSharpieOne/angular-input-match.git",
+  "_target": "~1.5.0",
+  "_originalSource": "angular-validation-match",
+  "_direct": true
+}

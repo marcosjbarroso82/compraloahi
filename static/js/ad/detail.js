@@ -56,7 +56,7 @@ $('#btn-contact').click(function(){
 
 // SCRIPT TO SHARE SOCIAL
 $('.popup').click(function(event) {
-    var width  = 50,
+    var width  = 500,
         height = 400,
         left   = ($(window).width()  - width)  / 2,
         top    = ($(window).height() - height) / 2,
