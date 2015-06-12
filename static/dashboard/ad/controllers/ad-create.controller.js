@@ -25,7 +25,7 @@
         vm.selectCategory = selectCategory;
 
 
-        vm.maxStep = 1; //flag to save least goes user
+        vm.maxStep = 1;
         // Define vars
         vm.ad = {};
         vm.ad.categories = [];

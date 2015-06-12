@@ -24,7 +24,7 @@ angular.module('dashBoardApp', [
 
     ])
     .run(function($rootScope, Message){
-        $rootScope.new_messages_count = '';
+        $rootScope.new_messages_count = 0;
         Message.getUnreadCount().
             success(function(data, status, headers, config) {
                 $rootScope.new_messages_count = data.count;
