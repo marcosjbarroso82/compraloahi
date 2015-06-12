@@ -610,6 +610,7 @@ section.droplet input.droplet-multiple {
                 <div class="form-group col-md-12" >
                     <select name="location_select"
                             ng-model="vm.location_selected"
+                            ng-change="vm.changeLocationSelected()"
                             class="form-control"
                             ng-disabled="vm.custom_location == 'custom'"
                             ng-required="vm.custom_location != 'custom'"
@@ -665,7 +666,7 @@ section.droplet input.droplet-multiple {
                                invalid-message="'Ingresa la direccion exacta, o selecciona una de las que ya tienes.'"/>
                     </div>
                 </div>
-                <ui-gmap-google-map id="location-map"  center="map.center" zoom="map.zoom" draggable="true" options="options">
+                <ui-gmap-google-map id="location-map"  center="map.center" zoom="map.zoom" draggable="false" options="options">
                     <ui-gmap-marker idkey="1" coords="vm.location.center" draggable="true"></ui-gmap-marker>
                 </ui-gmap-google-map>
             </div>
