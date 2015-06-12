@@ -1,23 +1,23 @@
 <style>
-        .fileUpload {
-            overflow: hidden;
-            margin: 10px;
-            position: absolute;
-            right: 10px;
-            top: -6px;
-        }
-        .fileUpload input.upload {
-            position: absolute;
-            top: 0;
-            right: 0;
-            margin: 0;
-            padding: 0;
-            font-size: 20px;
-            cursor: pointer;
-            opacity: 0;
-            filter: alpha(opacity=0);
-        }
-    </style>
+    .fileUpload {
+        overflow: hidden;
+        margin: 10px;
+        position: absolute;
+        right: 10px;
+        top: -6px;
+    }
+    .fileUpload input.upload {
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin: 0;
+        padding: 0;
+        font-size: 20px;
+        cursor: pointer;
+        opacity: 0;
+        filter: alpha(opacity=0);
+    }
+</style>
 
 
 <div >
@@ -35,6 +35,7 @@
 
             <!-- PROFILE DETAIL -->
             <div class="col-md-8" ng-if="!vm.profileEdit">
+                <h3>{{ vm.profile.user.username }}</h3>
                 <h5>{{ vm.profile.user.first_name }}<span ng-show="!vm.profile.user.first_name">Sin Nombre</span>,
                     {{ vm.profile.user.last_name }}<span ng-show="!vm.profile.user.last_name">Sin Apellido</span></h5>
                 <div class="col-md-6">
@@ -72,7 +73,10 @@
 
             <!-- PROFILE UPDATE -->
             <div class="col-md-8" ng-if="vm.profileEdit">
+                <label>Nombre de Usuario : </label>
+                <input type="text" ng-model="vm.profile.user.username" class="form-control" ng-required="true" width="100%">
                 <h5 class="form-inline">
+
                     <input class="form-control" ng-model="vm.profile.user.first_name" type="text" ng-required="true"/>
                     <input class="form-control" ng-model="vm.profile.user.last_name" type="text" ng-required="true"/>
                     <!--<label for=""> Username :</label>
@@ -80,8 +84,10 @@
                     -->
                 </h5>
                 <div class="col-md-6">
+
+
                     <div class="form-group">
-                        <label> Fecha Nac : </label>
+
                         <div class="form-inline">
                             <input type="date"
                                    class="form-control"

@@ -29,10 +29,30 @@ class PhoneSerializer(ModelSerializer):
 
 class UserProfileSerializer(serializers.ModelSerializer):
 
+    username = serializers.CharField()
     class Meta:
         model = User
         fields = ('id', 'email', 'first_name', 'last_name', 'username')
-        read_only_fields = ('id', 'username')
+        read_only_fields = ('id')
+
+    def create(self, validated_data):
+        if validated_data.get('username'):
+            if User.objects.filter(username=validated_data.get('username')).count() > 0:
+                raise serializers.ValidationError("create - El username ya existe")
+        else:
+            raise serializers.ValidationError("create - username es requerido ")
+        return super(UserProfileSerializer, self).create(validated_data)
+
+    def update(self, instance, validated_data):
+        # Check no other user has the same name
+        if validated_data.get('username'):
+            if User.objects.filter(username=validated_data.get('username') ).exclude(pk=instance.id).count() > 0:
+                raise serializers.ValidationError("username must be unique")
+        else:
+            raise serializers.ValidationError(" username eis required")
+        return super(UserProfileSerializer, self).update(instance, validated_data)
+
+
 
 
 class ProfileSerializer(ModelSerializer):
