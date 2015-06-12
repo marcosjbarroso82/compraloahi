@@ -6907,6 +6907,26 @@ input-group-custom-addon examples:
   border: none;
   border-bottom: 1px solid #c3c3c3;
 }
+#dashboard-body .dashboard-content #container-ad-create-data .categories {
+  min-height: 100px;
+  list-style: none;
+}
+#dashboard-body .dashboard-content #container-ad-create-data .categories li {
+  width: 180px;
+  float: left;
+}
+#dashboard-body .dashboard-content #container-ad-create-data .disabled {
+  z-index: 100;
+  background-color: #b1b1b1;
+  opacity: 0.6;
+  pointer-events: none;
+}
+#dashboard-body .dashboard-content #container-ad-create-data fieldset[disabled] {
+  background-color: #b1b1b1;
+}
+#dashboard-body .dashboard-content #container-ad-create-data hr {
+  border-color: #BBBBBB;
+}
 .angular-google-map-container {
   height: 400px;
   width: 100%;

@@ -48,8 +48,7 @@
 
         vm.options = {scrollwheel: false};
 
-        $scope.map = { zoom: 14 };
-
+        $scope.map = { zoom: 14};
 
         $scope.location_places = {};
 
@@ -60,6 +59,13 @@
 
         init();
 
+        function setDefaultLocation(){
+            vm.location.center.latitude = -13.30272;
+            vm.location.center.longitude = -87.144107;
+
+            $scope.map.center = vm.location.center;
+
+        }
 
         function nextStep(){
             vm.step ++;
@@ -78,13 +84,7 @@
             }
         }
 
-        function setDefaultLocation(){
-            vm.location.center.latitude = -13.30272;
-            vm.location.center.longitude = -87.144107;
 
-            $scope.map.center = vm.location.center;
-
-        }
 
         function init(){
             vm.promiseRequestCategories = Ad.getAllCategories().then(getCategoriesSuccess, getCategoriesError);

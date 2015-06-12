@@ -16,10 +16,10 @@ from .views import HomeView, ApiDashBoardView, DashBoardAjaxView, log, send_noti
 from .settings import base as settings
 
 router = DefaultRouter()
-router.register(r'my-ads', adViews.AdUserViewSet)
-router.register(r'ads', adViews.AdPublicViewSet)
-router.register(r'user-locations', UserLocationViewSet)
-router.register(r'favorites', FavoriteAdViewSet)
+router.register(r'my-ads', adViews.AdUserViewSet, base_name='ad-by-user')
+router.register(r'ads', adViews.AdPublicViewSet, base_name='ads')
+router.register(r'user-locations', UserLocationViewSet, base_name='location-by-user')
+router.register(r'favorites', FavoriteAdViewSet, base_name='favorites')
 
 router.register(r'ad-search', adViews.SearchViewSet, base_name='search') #/api/v1/ad-search/?q=algo&latitude=-31&longitude=-64&km=33
 
