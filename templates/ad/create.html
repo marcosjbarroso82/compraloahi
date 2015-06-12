@@ -4,10 +4,11 @@
 {% block title %}Crear Aviso {% endblock %}
 
 {% block css_header_block %}
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/less/ad-forms.css" >
+
+    <link rel="stylesheet" href="{% static 'css/less/ad-forms.css' %}" >
+
+    <link rel="stylesheet" href="{% static 'bower_components/ng-ckeditor/ng-ckeditor.css' %}" >
 {% endblock %}
-
-
 
 
 {% block body_block %}
@@ -16,70 +17,291 @@
     {% include 'layout/dashboard-menu.html' %}
 
     <div class="container col-md-10 col-md-offset-2 container-form-ad">
-    {% bootstrap_messages %}
-    <h3 class="text-center">Creando un aviso</h3>
-    <hr/>
-    <form action="" method="post" class="form form-horizontal" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.media }}
-        {% bootstrap_field form.title %}
-        {% bootstrap_field form.tags %}
-        {% bootstrap_field form.short_description %}
-        {% bootstrap_field form.price %}
-        {% bootstrap_field form.pub_date %}
-        {% bootstrap_field form.categories %}
-        {{ form.body }}
+        <h3 class="text-center">Crea tu aviso</h3>
+        <hr/>
+        {% bootstrap_messages %}
+        <form action="" method="post" name="formAd" class="form form-horizontal" enctype="multipart/form-data" ng-app="AppAdForm" ng-controller="AdFormCtrl">
+            {% csrf_token %}
+            {{ form.media }}
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label class="control-label" for="id_title">Titulo</label>
+                    <input class="form-control" id="id_title" maxlength="40" name="title" placeholder="Title" required="required" title="" type="text">
+                </div>
 
-        {{ images_form.management_form }}
-        {% for image_form in images_form %}
-            {{ image_form.id }}
-            <div class="inline {{ images_form.prefix }} form-inline">
-                 {{ image_form }}
+                <!-- <div class="form-group">
+                     <label class="control-label" for="id_tags">Etiquetas</label>
+                     <input class="form-control" id="id_tags" name="tags" placeholder="Tags" title="A comma-separated list of tags." type="text">
+                     <span class="help-block">A comma-separated list of tags.</span>
+                 </div>-->
+                <div class="form-group">
+                    <label class="control-label" for="id_short_description">Descripcion corta</label>
+                    <input class="form-control" id="id_short_description" maxlength="100" name="short_description" placeholder="Short description" required="required" title="" type="text">
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label" for="id_price">Precio</label>
+                    <input class="form-control" id="id_price" name="price" placeholder="Price" required="required" title="" type="text">
+                </div>
             </div>
-        {% endfor %}
-        <div id="locations">
-            <h3>Locations</h3>
-            <input id="search-places" class="controls" type="text" placeholder="Buscar Dirreción">
-        {{ locations_form.management_form }}
-        {% for location_form in locations_form %}
-            {{ location_form.id }}
-            <div class="inline {{ locations_form.prefix }} form-inline">
-                {% bootstrap_field location_form.title %}
-                {% bootstrap_field location_form.lat %}
-                {% bootstrap_field location_form.lng %}
+
+
+            <div class="col-md-12">
+                {% bootstrap_field form.categories %}
             </div>
-        {% endfor %}
-        </div>
-        <!-- Locations Map -->
-        <div id="mapa" class="capas"></div>
-        <!-- End Locations Map -->
 
 
-        {% buttons %}
-            <button type="submit" class="btn btn-primary pull-right">
-                <i class="glyphicon glyphicon-floppy-disk"></i> Crear
-            </button>
-        {% endbuttons %}
-    </form>
+            <div class="col-md-12">
+                <div class="form-group" >
+                    <label class="control-label" for="id_body">Descripcion</label>
+                    <textarea ckeditor="editorOptions" ng-model="description" class="form-control" id="id_body" name="body" placeholder="Descripcion" required="required" title="" >
+                    </textarea>
+                </div>
+
+            </div>
+
+            <!--
+                <div class="col-md-6">
+                    <div id="mapa" ></div>
+                </div>
+             -->
+            <div class="col-md-5 col-sm-12" style="height: 400px;">
+                <div id="data-position-form" class="col-md-12">
+                    <!-- Address -->
+                    <div class="input-group col-md-12">
+                        <google-places location=location_places map=map></google-places>
+                    </div>
+                </div>
+                <ui-gmap-google-map id="location-map"  center="map.center" zoom="map.zoom" draggable="true" options="options">
+
+                    <ui-gmap-marker idkey="1" coords="location.center"></ui-gmap-marker>
+                    <!--<ui-gmap-marker coords="location.center" icon="'icon'">
+
+                    </ui-gmap-marker>-->
+
+
+                </ui-gmap-google-map>
+            </div>
+
+            <div class="col-md-6 col-md-offset-1 col-sm-12" style="height: 400px;">
+                <h4>Datos de la ubicacion</h4>
+
+                <input id="id_locations-TOTAL_FORMS" name="locations-TOTAL_FORMS" type="hidden" value="1">
+                <input id="id_locations-INITIAL_FORMS" name="locations-INITIAL_FORMS" type="hidden" value="0">
+                <input id="id_locations-MIN_NUM_FORMS" name="locations-MIN_NUM_FORMS" type="hidden" value="1">
+                <input id="id_locations-MAX_NUM_FORMS" name="locations-MAX_NUM_FORMS" type="hidden" value="1">
+
+                <input id="id_locations-0-id" name="locations-0-id" type="hidden">
+                <div class="locations">
+                    <div class="form-group">
+                        <label class="control-label" for="id_locations-0-title">Nombre</label>
+                        <input class="form-control" id="id_locations-0-title" maxlength="40" name="locations-0-title" placeholder="Title" required="required" title="" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="id_locations-0-lat">Latitud</label>
+                        <input class="form-control" disabled="true" id="id_locations-0-lat" ng-model="location.center.latitude" name="locations-0-lat" required="required" step="any" title="" type="number">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="id_locations-0-lng">Longitud</label>
+                        <input class="form-control" id="id_locations-0-lng" disabled="true" name="locations-0-lng" ng-model="location.center.longitude" required="required" step="any" title="" type="number">
+                    </div>
+                </div>
+            </div>
+
+            <!--
+            <div class="col-md-12">
+                <div formset="template.html">
+                    {{formset.management_form}}
+                    <div formset-container>
+                        {% for image_form in images_form %}
+                            <div formset-child>
+                                {{image_form.as_p}}
+                                <button formset-remove>Remove</button>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+ -->
+
+            <div class="col-md-12">
+                <hr/>
+                <br/></div>
+
+            <div class="col-md-12">
+                <label for="">Seleccione imagenes para el producto</label>
+                {{ images_form.management_form }}
+
+                {% for image_form in images_form %}
+                    {{ image_form.id }}
+                    <div class="inline {{ images_form.prefix }} form-inline">
+                        <label for="id_images{{ forloop.counter0 }}-image">Image:</label>
+                        <input id="id_images-{{ forloop.counter0 }}-image" name="images-{{ forloop.counter0 }}-image" type="file">
+                        <label for="id_images-{{ forloop.counter0 }}-DELETE" type="hidden">Delete:</label>
+                        <input name="images-{{ forloop.counter0 }}-DELETE" id="id_images-{{ forloop.counter0 }}-DELETE" type="hidden">
+                        <input id="id_images-{{ forloop.counter0 }}-id" name="images-{{ forloop.counter0 }}-id" type="hidden">
+                        <input id="id_images-{{ forloop.counter0 }}-ad_id" name="images-{{ forloop.counter0 }}-ad_id" type="hidden">
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="col-md-12">
+                <input type="file" name="file" onchange="angular.element(this).scope().photoChanged(this.files)" />
+                <img ng-show="thumbnail.dataUrl != null" ng-src="[[ thumbnail.dataUrl ]]" class="img-thumbnail" style="width: 60px;">
+                <img ng-show="thumbnail.dataUrl" src="/static/image/images-default.jpeg" class="img-thumbnail" style="width: 60px;">
+            </div>
+
+
+            <div class="col-md-12">
+                {% buttons %}
+                    <button type="submit" ng-disabled="formAd.$invalid" class="btn btn-primary pull-right">
+                        <i class="glyphicon glyphicon-floppy-disk"></i> Crear
+                    </button>
+                {% endbuttons %}
+            </div>
+
+        </form>
+
+
     </div>
 
 
 {% endblock %}
 
 {% block js_footer_block %}
-    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-
     <script src="{% static 'jquery-formset-12/jquery.formset.js' %}"></script>
-
-    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=TRUE"></script>
-    <script src="{% static 'js/ad/forms.js' %}"></script>
-
     <script type="text/javascript">
-            $(function() {
-                $(".inline.{{ images_form.prefix }}").formset({
-                    prefix: "{{ images_form.prefix }}"
-                })
+        $(function() {
+            $(".inline.{{ images_form.prefix }}").formset({
+                prefix: "{{ images_form.prefix }}",
+                addText: '<button class="btn btn-sm btn-success pull-righ"><span class="glyphicon glyphicon-plus"></span> Agregar nueva imagen</button>'
+            });
 
-            })
+        })
     </script>
+
+    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true&libraries=places&language=en-US"></script>
+
+    <script type="text/javascript" src="{% static 'bower_components/angular/angular.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bower_components/lodash/dist/lodash.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bower_components/angular-google-maps/dist/angular-google-maps.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bower_components/angular-snackbar/angular.snackbar.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bower_components/angular-tooltips/src/js/angular-tooltips.js' %}"></script>
+
+    <script type="text/javascript" src="{% static 'bower_components/ng-ckeditor/libs/ckeditor/ckeditor.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bower_components/ng-ckeditor/ng-ckeditor.js' %}"></script>
+
+    <script type="text/javascript" src="{% static 'bower_components/angular-django-formsets/ngDjangoFormset/module.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bower_components/angular-django-formsets/ngDjangoFormset/directives.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bower_components/angular-django-formsets/ngDjangoFormset/controllers.js' %}"></script>
+
+
+    <!-- ###################### DASHBOARD APP - MODULE UTILS ###################### -->
+    <script type="text/javascript" src="{% static 'dashboard/utils/util.module.js' %}"></script>
+    <script type="text/javascript" src="{% static 'dashboard/utils/directives/google-places.directive.js' %}"></script>
+    <script type="text/javascript" src="{% static 'dashboard/utils/directives/really-click.directive.js' %}"></script>
+
+    <script type="text/javascript" src="{% static 'dashboard/utils/directives/alert-notification.directive.js' %}"></script>
+
+    <!-- ###################### END DASHBOARD APP - MODULE UTILS ###################### -->
+
+
+    <script>
+
+        (function () {
+            'use strict';
+
+            angular.module('AppAdForm', [
+                        'uiGmapgoogle-maps',
+                        'dashBoardApp.util',
+                        'ngCkeditor',
+                        'ngDjangoFormset'
+                    ])
+                    .config(function ($interpolateProvider) {
+                        // Force angular to use square brackets for template tag
+                        // The alternative is using
+                        $interpolateProvider.startSymbol('[[').endSymbol(']]');
+                    })
+                    .controller('AdFormCtrl', function ($scope, $timeout) {
+
+                        $scope.thumbnail = {};
+                        $scope.thumbnail.dataUrl = "";
+
+
+                        if (navigator.geolocation) {
+                            navigator.geolocation.getCurrentPosition(getCoords, getError);
+                        } else {
+                            setDefaultLocation();
+                        }
+
+                        function getCoords(position) {
+                            $scope.location.center = {};
+                            $scope.location.center.latitude = position.coords.latitude;
+                            $scope.location.center.longitude = position.coords.longitude;
+                        }
+
+                        function getError(err) {
+                            setDefaultLocation();
+                        }
+
+                        function setDefaultLocation(){
+                            $scope.location.center = {};
+                            $scope.location.center.latitude = -13.30272;
+                            $scope.location.center.longitude = -87.144107;
+                        }
+
+
+                        $scope.fileReaderSupported = window.FileReader != null;
+                        $scope.photoChanged = function(files){
+                            if (files != null) {
+                                var file = files[0];
+                                if ($scope.fileReaderSupported && file.type.indexOf('image') > -1) {
+                                    $timeout(function() {
+                                        var fileReader = new FileReader();
+                                        fileReader.readAsDataURL(file);
+                                        fileReader.onload = function(e) {
+                                            $timeout(function(){
+
+                                                $scope.thumbnail.dataUrl = e.target.result;
+                                            });
+                                        }
+                                    });
+                                }
+                            }
+                        };
+
+
+                        $scope.description = "";
+                        $scope.editorOptions = {
+                            language: 'es',
+                            uiColor: '#FFFFFF',
+                            toolbar: [
+                                ["Format", "Bold", "Italic", "Underline", "Strike", "SpellChecker", 'TextColor'],
+                                ['NumberedList', 'BulletedList', "Indent", "Outdent", 'JustifyLeft', 'JustifyCenter',
+                                    'JustifyRight', 'JustifyBlock'],
+                                ["Table", "Link", "Unlink", "SectionLink", "Subscript", "Superscript"], ['Undo', 'Redo'],
+                                ["Maximize"]
+                            ]
+                        };
+
+                        $scope.map = {center: {latitude: -31.4179952, longitude: -64.1890513 }, zoom: 14 };
+                        $scope.options = {scrollwheel: false};
+                        $scope.location = {};
+
+                        $scope.location_places = {};
+
+                        $scope.$watch('location_places', function(val, old_val){
+                            if($scope.location_places.geometry){
+                                $scope.location.title = angular.copy($scope.location_places.formatted_address);
+                                $scope.location.center = {};
+                                $scope.location.center.latitude = angular.copy($scope.location_places.geometry.location.lat());
+                                $scope.location.center.longitude = angular.copy($scope.location_places.geometry.location.lng());
+                            }
+                        });
+                    });
+        })();
+    </script>
+
+
+
 {% endblock %}

@@ -26,6 +26,8 @@ router.register(r'ad-search', adViews.SearchViewSet, base_name='search') #/api/v
 urlpatterns = patterns('',
                        url(r'^favorites/near/$', HasFavoriteNearApiView.as_view() , name='favorite-near'),
 
+                       url(r'^api/v1/categories/$', adViews.CategoriesListAPIView.as_view(), name='categories'),
+
                        url(r'^api/v1/favorites/(?P<lat>[a-zA-Z0-9_.-]+)/(?P<lng>[a-zA-Z0-9_.-]+)/$',
                            proximityFavorityApiView.as_view() ,
                            name='proximity-favorite'),

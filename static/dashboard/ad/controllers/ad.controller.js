@@ -18,65 +18,20 @@
 
         var vm = this;
 
+        // Declare functions
+        vm.destroy = destroy;
+
+        // Declare vars
         vm.ads = [];
-        $scope.next_page = null;
-        $scope.prev_page = null;
-        $scope.count_page = 0;
-        $scope.current_page = 1;
-        $scope.pages = [];
 
-        getAds();
-
-
-        function getAds(){
-            vm.promiseRequest = Ad.get(function(data) {
-                vm.ads = data.results;
-                $scope.next_page = data.next;
-                $scope.prev_page = data.previous;
-            });
-        }
-
-        $scope.get_ads_page = function(page){
-            vm.promiseRequest = Ad.get({"page":page},function(response) {
-                $scope.current_page = page;
-                vm.ads = response.results;
-                $scope.next_page = response.next;
-                $scope.prev_page = response.previous;
-            });
-        };
-
-
-        $scope.submitAd= function(text) {
-            var ad = new Ad({text: text});
-            ad.$save(function(){
-                vm.ads.unshift(ad);
-            })
-        };
-        $scope.deleteAd= function(ad) {
-
-            Ad.delete({id:ad.id}, deleteSuccess, deleteError);
-
-            function deleteSuccess(data, headers, status){
-                AlertNotification.success("El aviso " + ad.title + " fue eliminado con exito!");
-                //getAds();
-                vm.ads.splice(vm.ads.indexOf(ad),1);
-
-            }
-
-            function deleteError(data, headers, status){
-                AlertNotification.error("Error al intentar borrar el aviso");
-            }
-        };
-
-
-        $scope.filters = {
+        vm.filters = {
             title: ''
         };
 
-        $scope.tableParams = new ngTableParams({
+        vm.tableParams = new ngTableParams({
             page: 1,            // show first page
             count: 10,          // count per page
-            filter: $scope.filters,
+            filter: vm.filters,
             sorting: {
                 title: 'asc'
             }
@@ -97,9 +52,48 @@
             }
         });
 
+
         $scope.$watchCollection("vm.ads", function () {
-            $scope.tableParams.reload();
+            vm.tableParams.reload();
         });
+
+
+        function loadAds(page_nro){
+            vm.promiseRequest = Ad.getAll().then(getSuccess, getError);
+
+            function getSuccess(data){
+                vm.ads = data.data.results;
+            }
+
+            function getError(error){
+                AlertNotification.error("Error al consultar avisos, vuelva a intentarlo mas tarde");
+            }
+
+        }
+
+        init();
+
+        function init(){
+            loadAds();
+        }
+
+        function destroy(ad) {
+            Ad.destroy(ad.id).then(deleteSuccess, deleteError);
+
+            function deleteSuccess(data, headers, status){
+                AlertNotification.success("El aviso " + ad.title + " fue eliminado con exito!");
+                vm.ads.splice(vm.ads.indexOf(ad),1);
+            }
+
+            function deleteError(data, headers, status){
+                AlertNotification.error("Error al intentar borrar el aviso");
+            }
+        }
+
+
+
+
+
 
     }
 })();

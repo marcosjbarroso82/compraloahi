@@ -9,28 +9,46 @@
         .module('dashBoardApp.ad.services')
         .factory('Ad', Ad);
 
-    Ad.$inject = ['$resource'];
+    Ad.$inject = ['$http'];
 
     /**
      * @namespace Ad
      * @returns {Factory}
      */
-    function Ad($resource) {
+    function Ad($http) {
+        var Ads = {
+            getAll:getAll,
+            destroy: destroy,
+            getAllCategories: getAllCategories,
+            create: create
+        };
+        return Ads;
 
-        return $resource(
-            '/api/v1/my-ads/:id/', {}, {
-                get: {
-                    method: 'GET',
-                    id: '@id',
-                    transformResponse: function(data, headers){
-                        data = angular.fromJson(data);
+        function getAll(){
+            return $http.get('/api/v1/my-ads/');
+        }
 
+        function destroy(id){
+            return $http.delete('/api/v1/my-ads/' + id + '/');
+        }
 
-                        return data;
-                    }
-                }
-            }
-        );
+        function getAllCategories(){
+            return $http.get('/api/v1/categories/');
+        }
+
+        function create(ad, images){
+             var fd = new FormData();
+            fd.append('data', angular.toJson(ad));
+            angular.forEach(images, function (val, key) {
+                fd.append(key, val.file);
+            });
+            return $http.post('/api/v1/my-ads/', fd, {
+                headers: {'Content-Type': undefined},
+                withCredentials: true,
+                transformRequest: angular.identity
+            });
+        }
+
     }
 
-})()
+})();

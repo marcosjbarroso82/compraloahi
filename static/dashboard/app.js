@@ -5,6 +5,9 @@ angular.module('dashBoardApp', [
         '720kb.tooltips',
         'ngResource',
         'cgBusy',
+        'angularValidator',
+        'nsPopover',
+        'ng-currency',
         //'ngSanitize',
         'uiGmapgoogle-maps',
         'ngTable',
@@ -19,9 +22,16 @@ angular.module('dashBoardApp', [
         'dashBoardApp.store',
         'validation.match'
 
-    ])
+    ]).value('cgBusyDefaults',{
+              message:'Procesando solicitud...',
+              backdrop: false,
+              templateUrl: '/static/templates-utils/spinner.html',
+              delay: 300,
+              minDuration: 1000,
+              wrapperClass: 'cg-busy cg-busy-backdrop'
+        })
     .run(function($rootScope, Message){
-        $rootScope.new_messages_count = '';
+        $rootScope.new_messages_count = 0;
         Message.getUnreadCount().
             success(function(data, status, headers, config) {
                 $rootScope.new_messages_count = data.count;
@@ -71,12 +81,6 @@ angular.module('dashBoardApp', [
             //    controller: 'ProfileCreateController',
             //    controllerAs: 'vm'
             //})
-//            .state('profile-update', {
-//                url: '/profile-update',
-//                templateUrl: '/static/dashboard/profile/templates/update-profile.html',
-//                controller: 'ProfileUpdateController',
-//                controllerAs: 'vm'
-//            })
             .state('change-password', {
                 url: '/profile/change-password',
                 templateUrl: '/static/dashboard/profile/templates/change-password.html',
@@ -103,6 +107,14 @@ angular.module('dashBoardApp', [
                 url: '/my-ads',
                 templateUrl: '/static/dashboard/ad/templates/ad-list.html',
                 controller: 'AdCtrl',
+                controllerAs: 'vm'
+            })
+
+            // ADS CREATE
+            .state('ad-create', {
+                url: '/ad-create',
+                templateUrl: '/static/dashboard/ad/templates/create.html',
+                controller: 'AdCreateCtrl',
                 controllerAs: 'vm'
             })
 

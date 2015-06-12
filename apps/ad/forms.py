@@ -81,9 +81,9 @@ class CreateAdForm(forms.ModelForm):
 
     class Meta:
         model = Ad
-        fields = ('title', 'short_description', 'price', 'body', 'tags', 'pub_date', 'categories')
-        excluded = ('author', 'modified', 'created', 'published')
-        widgets = {'body': CKEditorWidget(config_name='awesome_ckeditor'), 'pub_date': forms.TextInput(attrs={'type': 'date', 'class': 'form-control'}) }
+        fields = ('title', 'short_description', 'price', 'body', 'categories')
+        excluded = ('author', 'modified', 'created', 'published', 'pub_date', 'tags' )
+        #widgets = {'body': CKEditorWidget(config_name='awesome_ckeditor'), 'pub_date': forms.TextInput(attrs={'type': 'date', 'class': 'form-control'}) }
 
 
 class AdModifyForm(forms.ModelForm):
@@ -96,7 +96,17 @@ class AdModifyForm(forms.ModelForm):
         widgets = {'body': CKEditorWidget(config_name='awesome_ckeditor'), 'pub_date': forms.TextInput(attrs={'type': 'date', 'class': 'form-control'}) }
 
 
+from django.forms.extras.widgets import Widget
+
+class AdImageForm(forms.ModelForm):
+    image = forms.ImageField(forms.ClearableFileInput(attrs={'ng-model': 'image'}))
+
+    class Meta:
+        model = AdImage
+        fields = ('image', )
+
+
 AdImage_inline_formset = inlineformset_factory(
-    Ad, AdImage, extra=1, can_delete=True)
+    Ad, AdImage, extra=1, can_delete=True, form=AdImageForm)
 AdLocation_inline_formset = inlineformset_factory(
     Ad, AdLocation, extra=0, can_delete=False, max_num=1, min_num=1)

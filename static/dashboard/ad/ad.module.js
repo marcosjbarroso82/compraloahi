@@ -4,7 +4,9 @@
     angular
         .module('dashBoardApp.ad', [
             'dashBoardApp.ad.controllers',
-            'dashBoardApp.ad.services'
+            'dashBoardApp.ad.services',
+            'ngCkeditor',
+            'ngDroplet'
         ]);
 
     angular

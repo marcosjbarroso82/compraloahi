@@ -19,21 +19,40 @@
     <link rel="stylesheet" type="text/css" href="{% static 'bower_components/ng-table/dist/ng-table.min.css' %}" />
 
     <link rel="stylesheet" type="text/css" href="{% static 'bower_components/angular-tooltips/dist/angular-tooltips.min.css' %}" />
+
+    <link rel="stylesheet" type="text/css" href="{% static 'bower_components/nsPopover/less/ns-popover.css' %}" />
+
+    <link rel="stylesheet" href="{% static 'css/animate/animate.min.css' %}" >
+
+    {% block js_header_block %}
+        <!-- jquery resources -->
+    <script type="text/javascript" src="{% static 'bower_components/jquery/dist/jquery.min.js' %}"></script>
+    <script>
+
+        $( document ).ready(function() {
+            $("#loading").css('display', 'none');
+            $("#dashboard-body").css('display', 'block');
+        });
+    </script>
+
+{% endblock %}
 </head>
 
 <body>
 
 {% include "layout/menu.html" %}
 
-
-<div id="dashboard-body">
-    <div id="dashboard-menu" class="col-md-2" >
+<div id="loading" style="display: block; padding-top: 50px;">
+        <h1>CARGANDO LA PAGINA....</h1>
+    </div>
+<div id="dashboard-body" style="display: none;">
+    <div id="dashboard-menu" class="col-md-2 col-xs-2" >
         <ul class="nav nav-pills nav-stacked" >
             <li role="presentation" class="navbar-header">Menu</li>
             <li role="presentation"
                 ui-sref="profile-detail"
                 ng-class="{active: ('default' | includedByState) || ('profile-detail' | includedByState) || ('profile-update' | includedByState) || ('change-password' | includedByState )}">
-                <a class="item-menu"><i class="glyphicon glyphicon-user"></i> Profile </a>
+                <a class="item-menu"><i class="glyphicon glyphicon-user"></i> Perfil </a>
             </li>
             <li role="presentation"
                 ng-class="{active: ('messages' | includedByState) || ('message-thread' | includedByState)}">
@@ -43,15 +62,15 @@
                    ui-sref="messages({'folder': 'inbox'})"
                    data-target="#nav-collapse-message"
                    data-toggle="collapse" ng-class="{collapsed: !('messages' | includedByState) && !('message-thread' | includedByState)}">
-                    <i class="glyphicon glyphicon-envelope"></i> Messages <span class="badge pull-right">
+                    <i class="glyphicon glyphicon-envelope"></i> Mensajes <span class="badge pull-right">
                     {% verbatim %}{{ new_messages_count }}{% endverbatim %}
                 </span>
                 </a>
                 <div id="nav-collapse-message" class="nav-menu-collapse collapse" ng-class="{ in: ('messages' | includedByState) || ('message-thread' | includedByState)}">
                     <ul class="nav">
-                        <li><a ui-sref="messages({'folder': 'inbox'})" ui-sref-active="active">Inbox</a></li>
-                        <li><a ui-sref="messages({'folder': 'sent'})" ui-sref-active="active">Sent</a></li>
-                        <li><a ui-sref="messages({'folder': 'trash'})" ui-sref-active="active">Tash</a></li>
+                        <li><a ui-sref="messages({'folder': 'inbox'})" ui-sref-active="active">Entrada</a></li>
+                        <li><a ui-sref="messages({'folder': 'sent'})" ui-sref-active="active">Enviados</a></li>
+                        <li><a ui-sref="messages({'folder': 'trash'})" ui-sref-active="active">Papelera</a></li>
                     </ul>
                 </div>
                 <!--</div>-->
@@ -59,13 +78,13 @@
                 <!--</div>-->
             </li>
             <li role="presentation" ui-sref="my-ads" ui-sref-active="active" >
-                <a class="item-menu"><i class="glyphicon glyphicon-bullhorn"></i> My ad</a>
+                <a class="item-menu"><i class="glyphicon glyphicon-bullhorn"></i> Mis avisos</a>
             </li>
             <li role="presentation" ui-sref="my-locations" ui-sref-active="active">
-                <a class="item-menu"><i class="glyphicon glyphicon-map-marker"></i> My locations</a>
+                <a class="item-menu"><i class="glyphicon glyphicon-map-marker"></i> Mis ubicaciones</a>
             </li>
             <li role="presentation" ui-sref="favorite" ui-sref-active="active">
-                <a class="item-menu"><i class="glyphicon glyphicon-heart"></i> My favorites</a>
+                <a class="item-menu"><i class="glyphicon glyphicon-heart"></i> Mis favoritos</a>
             </li>
 {#            <li role="presentation" ui-sref="agenda" ui-sref-active="active">#}
 {#                <a class="item-menu"><i class="glyphicon glyphicon-calendar"></i> My agenda</a>#}
@@ -76,7 +95,7 @@
 
     </div>
 
-    <div ui-view class="col-md-10 dashboard-content">
+    <div ui-view class="col-md-10 col-xs-10 dashboard-content">
     </div>
     <div class="snackbar-container" data-snackbar="true"></div>
 </div>
@@ -84,24 +103,20 @@
 <footter>
     <!-- ###################### IMPORT THIRD LIB ###################### -->
 
-    <!-- jquery resources -->
-    <script type="text/javascript" src="{% static 'bower_components/jquery/dist/jquery.min.js' %}"></script>
+
 
 
     <script type="text/javascript" src="{% static 'bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
 
-    <!--<script type="text/javascript" src="{% static 'bower_components/jquery-cookie/jquery.cookie.js' %}"></script>-->
+    <!-- CKEDITOR LIB -->
+    <script type="text/javascript" src="{% static 'bower_components/ng-ckeditor/libs/ckeditor/ckeditor.js' %}"></script>
 
     <!-- angular resources -->
     <script type="text/javascript" src="{% static 'bower_components/angular/angular.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'bower_components/angular-resource/angular-resource.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'bower_components/angular-route/angular-route.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'bower_components/angular-ui-router/release/angular-ui-router.min.js' %}"></script>
-    <!--<script type="text/javascript" src="{% static 'bower_components/angular-sanitize/angular-sanitize.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'bower_components/angular-bootstrap/ui-bootstrap.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js' %}"></script>
--->
-    <script type="text/javascript" src="{% static 'bower_components/angular-validation-match/dist/angular-input-match.min.js' %}"></script>
+
 
     <script type="text/javascript" src="{% static 'bower_components/angular-google-maps/dist/angular-google-maps.min.js' %}"></script>
     <!-- google mapp -->
@@ -133,7 +148,25 @@
     <!-- LOAD PROMISE -->
     <script type="text/javascript" src="{% static 'bower_components/angular-busy/dist/angular-busy.min.js' %}"></script>
 
+    <!-- CKEDITOR -->
+    <script type="text/javascript" src="{% static 'bower_components/ng-ckeditor/ng-ckeditor.min.js' %}"></script>
+
+    <!-- WIDGET TU UPLOAD IMAGE -->
+    <script type="text/javascript" src="{% static 'bower_components/ng-droplet/dist/ng-droplet.min.js' %}"></script>
+
+    <!-- POPOVER -->
+    <script type="text/javascript" src="{% static 'bower_components/nsPopover/src/nsPopover.js' %}"></script>
+
+    <!-- Currency mask angular -->
+    <script type="text/javascript" src="{% static 'bower_components/ng-currency/dist/ng-currency.min.js' %}"></script>
+
+    <!-- validation match -->
+    <script type="text/javascript" src="{% static 'bower_components/angular-validation-match/dist/angular-input-match.min.js' %}"></script>
+
     <!-- ###################### END IMPORT ###################### -->
+
+
+
 
 
     <!-- ###################### DASHBOARD APP ###################### -->
@@ -165,6 +198,7 @@
     <script type="text/javascript" src="{% static 'dashboard/ad/ad.module.js' %}"></script>
     <script type="text/javascript" src="{% static 'dashboard/ad/services/ad.service.js' %}"></script>
     <script type="text/javascript" src="{% static 'dashboard/ad/controllers/ad.controller.js' %}"></script>
+    <script type="text/javascript" src="{% static 'dashboard/ad/controllers/ad-create.controller.js' %}"></script>
     <!-- ###################### END DASHBOARD APP - MODULE AD ###################### -->
 
 

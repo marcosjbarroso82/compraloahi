@@ -40,3 +40,6 @@ class AdLocation(models.Model):
 
     def __str__(self):
         return self.title
+
+    def center(self):
+        return {'latitude': self.lat, 'longitude': self.lng}

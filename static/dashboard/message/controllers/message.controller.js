@@ -17,6 +17,15 @@
     function MessageCtrl(Message, AlertNotification, $stateParams) {
         var vm = this;
 
+        // Declare functions
+        vm.loadMessages = loadMessages;
+        vm.select_all_messages = select_all_messages;
+        vm.select_message = select_message;
+        vm.delete_bulk = delete_bulk;
+        vm.set_read_bulk = set_read_bulk;
+
+
+        // Declare vars
         vm.messages = {};
         vm.message = {};
         vm.messages_selected = [];
@@ -25,16 +34,22 @@
 
         vm.folder = 'inbox';
 
-        vm.loadMessages = function(page_nro){
+
+        init();
+
+        function init(){
+            vm.folder = $stateParams.folder = typeof $stateParams.folder !== 'undefined' ? $stateParams.folder : 'inbox';
+            vm.loadMessages();
+        }
+
+        function loadMessages(page_nro){
             page_nro = typeof page_nro !== 'undefined' ? page_nro : 0;
-            console.log(page_nro);
-            console.log(vm.folder);
             vm.promiseRequest = Message.getMsgs(vm.folder, page_nro).then(getMessagesByFolderSuccess, getMessagesByFolderError);
             vm.folder = vm.folder;
             vm.page = page_nro;
         }
 
-        vm.select_all_messages = function(){
+         function select_all_messages(){
             angular.forEach(vm.messages, function(message){
                message.selected = vm.messages_select;
             });
@@ -46,14 +61,13 @@
             }
         }
         
-        vm.select_message = function(message){
+         function select_message(message){
             // If message has state selected add to array messages_selected, else, remove.
             if(message.selected){
                 vm.messages_selected.push(message);
             }else{
                 vm.messages_selected.splice(vm.messages_selected.indexOf(message), 1);
             }
-            console.log(vm.messages_selected);
         }
 
 
@@ -68,18 +82,14 @@
         }
 
         function getMessagesByFolderError(data){
-            console.log('Error al cargar el inbox');
+            AlertNotification.success("Error al intentar consultar mensajes, intenta mas tarde.");
         }
 
-
-
-        vm.delete_bulk = function(){
-
+        function delete_bulk(){
             vm.promiseRequest = Message.delete_bulk(vm.messages_selected).then(deleteSuccess, deleteError);
 
             function deleteSuccess(data, headers, status){
                 AlertNotification.success("Los mensajes seleccionados se eliminaron con exito");
-                console.log(data.data);
                 vm.loadMessages(vm.page);
             }
 
@@ -88,7 +98,7 @@
             }
         }
         
-        vm.set_read_bulk = function(){
+         function set_read_bulk(){
             Message.set_read_bulk(vm.messages_selected).then(setReadSuccess);
 
             function setReadSuccess(data, headers, status){
@@ -99,14 +109,6 @@
                 }
                 vm.messages_selected = [];
             }
-        }
-        
-
-        init();
-
-        function init(){
-            vm.folder = $stateParams.folder = typeof $stateParams.folder !== 'undefined' ? $stateParams.folder : 'inbox';
-            vm.loadMessages();
         }
 
 
