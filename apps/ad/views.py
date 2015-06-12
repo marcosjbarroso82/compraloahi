@@ -13,18 +13,21 @@ from django.views.generic import DetailView, CreateView, UpdateView, DeleteView
 from haystack.views import FacetedSearchView
 from haystack.query import SearchQuerySet
 
+from rest_framework.generics import ListAPIView
 from rest_framework import viewsets
 from rest_framework import mixins
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
+from rest_framework.parsers import FileUploadParser, MultiPartParser, FormParser
 
 from apps.comment_notification.models import CommentNotification
 from apps.rating.models import OverallRating
 from apps.userProfile.models import UserProfile, UserLocation
 
-from .models import Ad
-from .serializers import SearchResultSerializer, AdSerializer, AdPublicSerializer, AdsSearchSerializer
+from .models import Ad, Category, AdImage
+from .serializers import SearchResultSerializer, AdSerializer, AdPublicSerializer, AdsSearchSerializer, CategorySerializer, AdLocationSerializer
 from .forms import CreateAdForm, AdModifyForm, AdImage_inline_formset, AdLocation_inline_formset
+from rest_framework import status
 
 
 logger = logging.getLogger('debug')
@@ -388,6 +391,7 @@ class AdUserViewSet(viewsets.ModelViewSet):
     serializer_class = AdSerializer
     #filter_backends = (filters.DjangoFilterBackend,)
     filter_fields = ('title', 'slug', 'id')
+    parser_classes = (MultiPartParser, FormParser, FileUploadParser )
 
     def pre_save(self, obj):
         obj.author = self.request.user
@@ -395,6 +399,47 @@ class AdUserViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         return Ad.objects.filter(author= self.request.user)
         #return Ad.objects.all()
+
+    def create(self, request, *args, **kwargs):
+        if request.data and request.data.get('data') and len(request.FILES) > 0:
+            ad_data = json.loads(request.data.get('data'))
+            ad_data['author'] = request.user.id
+            ad_serializer = AdSerializer(data=ad_data)
+
+            if ad_serializer.is_valid():
+                ad_serializer.save()
+                location_serializer = {}
+                for location_data in ad_data['locations']:
+                    location_data['ad'] = ad_serializer.instance.id
+                    location_serializer = AdLocationSerializer(data=location_data)
+                    location_serializer.run_validation(location_data)
+                    # TODO: What happen if save location faild?
+                    try:
+                        if location_serializer.is_valid():
+                            location_serializer.save()
+                        else:
+                            raise Exception
+                    except:
+                        ad_serializer.instance.delete()
+                        return Response({"Error al intentar guardar la ubicacion"}, status=status.HTTP_400_BAD_REQUEST)
+
+                # TODO: What happen if save images faild?
+                images = []
+                try:
+                    for image in request.FILES:
+                        images.append(AdImage(image=request.FILES.get(image), ad_id=ad_serializer.instance).save())
+                except:
+                    ad_serializer.instance.delete()
+                    location_serializer.instance.delete()
+                    for img in images:
+                        img.delete()
+
+                    return Response({"Error al intentar guardar las imagenes"}, status=status.HTTP_400_BAD_REQUEST)
+
+                return Response({'message': "SUCCESS"})
+
+        return Response({'message': "ERROR"})
+
 
 
 class AdPublicViewSet(viewsets.ModelViewSet):
@@ -405,3 +450,6 @@ class AdPublicViewSet(viewsets.ModelViewSet):
 
 
 
+class CategoriesListAPIView(ListAPIView):
+    serializer_class = CategorySerializer
+    queryset = Category.objects.all()

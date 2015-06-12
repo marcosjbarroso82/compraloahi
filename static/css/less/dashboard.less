@@ -2,337 +2,384 @@
 
 
 #dashboard-body{
-    background: #efefef;
+  background: #efefef;
+  height: 100%;
+  padding-top: 50px;
+
+  #dashboard-menu{
+    position: fixed;
+    background-color: #1C2B36;
     height: 100%;
-    padding-top: 50px;
-
-    #dashboard-menu{
-        position: fixed;
-        background-color: #1C2B36;
-        height: 100%;
-        padding-left: 0px;
-        padding-right: 0px;
-        .navbar-header{
-            margin-top: 20px;
-            height: 40px;
-            color: #787878;
-            float: none;
-            margin-bottom: 10px;
-        }
-
-        .divider{
-          width: 100%;
-          border-bottom: 1px solid #7c958f;
-        }
-        ul{
-            
-            .navbar-header{
-                margin-left: 30px;    
-            }
-
-            li{
-              &.active{
-
-                background-color: #1E3C78;
-              }
-              &:hover, &:focus{
-                  background-color: none;
-                  font-size: bold;
-                  color: black;
-              }
-            }
-
-            
-            .item-menu{
-                color: #c3c3c3;
-                min-height: 30px;
-                padding: 10px 0px;
-                width: 100%;
-                margin-right: 15px;
-                background-color: none;
-                
-                i{
-                    margin-right: 5px;
-                    margin-left: 15px;
-                }
-
-                .badge{
-                  margin-right: 15px;
-                }
-
-                
-            }
-            .nav-menu-collapse{
-                li{
-
-                    a{
-                      padding-left: 45px;
-                      color: white;
-
-                        &.active{
-                            background-color: none;
-                            color: #55b7da;
-                            font-weight: bold;
-                        }
-                        &:hover, &:focus{
-                            background-color: none;
-                            font-size: bold;
-                            color: black;
-                        }
-                    }
-                  
-                }
-            }
-        }
+    padding-left: 0px;
+    padding-right: 0px;
+    .navbar-header{
+      margin-top: 20px;
+      height: 40px;
+      color: #787878;
+      float: none;
+      margin-bottom: 10px;
     }
 
-    .dashboard-content{
+    .divider{
+      width: 100%;
+      border-bottom: 1px solid #7c958f;
+    }
+    ul{
+
+      .navbar-header{
+        margin-left: 30px;
+      }
+
+      li{
+        &.active{
+
+          background-color: #1E3C78;
+        }
+        &:hover, &:focus{
+          background-color: none;
+          font-size: bold;
+          color: black;
+        }
+      }
+
+
+      .item-menu{
+        color: #c3c3c3;
+        min-height: 30px;
+        padding: 10px 0px;
+        width: 100%;
+        margin-right: 15px;
+        background-color: none;
+
+        i{
+          margin-right: 5px;
+          margin-left: 15px;
+        }
+
+        .badge{
+          margin-right: 15px;
+        }
+
+
+      }
+      .nav-menu-collapse{
+        li{
+
+          a{
+            padding-left: 45px;
+            color: white;
+
+            &.active{
+              background-color: none;
+              color: #55b7da;
+              font-weight: bold;
+            }
+            &:hover, &:focus{
+              background-color: none;
+              font-size: bold;
+              color: black;
+            }
+          }
+
+        }
+      }
+    }
+  }
+
+  .dashboard-content{
+    float: right;
+    right: 0px;
+
+    height: 100%;
+
+    .title-data{
+      width: 100%;
+      color: #065378;
+      padding-bottom: 5px;
+      height: 30px;
+    }
+
+    .content-data{
+      //margin-top: 15px;
+    }
+
+    .container-footer{
+      .btn{
         float: right;
-        right: 0px;
+        margin-top: 20px;
+        margin-left: 10px;
+      }
+    }
 
-        height: 100%;
+    //---- PROFILE -----
+    .container-profile-data{
+      padding: 0px;
+      border-bottom: 1px solid #434343;
+      h5{
+        color: #aa4400;
+        margin-bottom: 10px;
+        margin-top: 0px;
+        width: 100%;
+        height: 35px;
+        font-weight: bold;
+      }
+      p{
+        margin-left: 20px;
+        height: 35px;
+      }
 
-        .title-data{
-          width: 100%;
-          color: #065378;
-          padding-bottom: 5px;
-          height: 30px;
+      p i, li i{
+        margin-right: 10px;
+        height: 35px;
+      }
+      #contact-number-list{
+        list-style: none;
+        margin-left: 20px;
+        padding-left: 0px;
+
+        .input-contact-number{
+          width: 175px;
         }
+      }
 
-        .content-data{
-          //margin-top: 15px;
+      .btn-actions {
+        margin-top: 10px;
+        button{
+          margin-bottom: 10px;
+          clear: right;
         }
+      }
+    }
 
-        .container-footer{
-          .btn{
-            float: right;
-            margin-top: 20px;
-            margin-left: 10px;
-          }
+    #container-profile-data-update{
+      #input-upload-photo{
+        width: 100%;
+      }
+    }
+
+    #container-change-password{
+      .form-inline{
+        margin-bottom: 10px;
+        label{
+          width: 50%;
+          text-align: right;
         }
-
-        //---- PROFILE -----
-        .container-profile-data{
-          padding: 0px;
-          border-bottom: 1px solid #434343;
-          h5{
-            color: #aa4400;
-            margin-bottom: 10px;
-            margin-top: 0px;
-            width: 100%;
-            height: 35px;
-            font-weight: bold;
-          }
-          p{
-            margin-left: 20px;
-            height: 35px;
-          }
-
-          p i, li i{
-            margin-right: 10px;
-            height: 35px;
-          }
-          #contact-number-list{
-              list-style: none;
-              margin-left: 20px;
-              padding-left: 0px;
-
-              .input-contact-number{
-                  width: 175px;
-              }
-          }
-
-          .btn-actions {
-            margin-top: 10px;
-            button{
-              margin-bottom: 10px;
-              clear: right;
-            }
-          }
-        }
-
-        #container-profile-data-update{
-          #input-upload-photo{
-            width: 100%;
-          }
-        }
-
-        #container-change-password{
-            .form-inline{
-                margin-bottom: 10px;
-                label{
-                  width: 50%;
-                  text-align: right;
-                }
-            }
-        }
-        //---- END PROFILE -----
+      }
+    }
+    //---- END PROFILE -----
 
 
-        //---- MESSAGE -----
-        #container-message-data{
-            .nav{
-                margin-bottom: 10px;    
-                li{
-                    border: none;
-                    border-radius: 0px;
-                    height: 35px;
-                    .i-checks{
-                        margin-left: -6px;
-                    }
-                }
-
-
-
-            }
-            .content-data{
-              .active{
-                      background-color: #9fffa0;
-              }
-              td{
-                background: none;
-              }
-            }
-
-        }
-        //---- END MESSAGE -----
-
-        //---- MESSAGE TRHEAD -----
-        #container-message-thread-data{
-            .message{
-              border-bottom: 1px solid #c3c3c3;
-              padding: 10px;
-              h4{
-                color: #065378;
-              }
-              small{
-                color: #434343;
-                font-size: .8em;
-              }
-            }
-        }
-        //---- END MESSAGE THREAD -----
-
-        //----  USER LOCATIONS -------
-        #container-locations-data{
-          #location-map{
-            width: 100%;
-            top: 0px;
-            left: 0px;
-            position: absolute;
-
-          }
-
-          #content-header-forms-location{
-            height: 35px;
-            #form-location{
-              padding: 0px;
-
-              #form-location-btn{
-                padding-left: 0px;
-                padding-right: 0px;
-
-                .btn{
-                  margin-right: 5px;
-
-                }
-              }
-
-              #form-location-input{
-                padding: 0px;
-                input{
-                  width: 100%;
-                }
-              }
-
-            }
-          }
-
-
-
-          #data-position-form{
-              .mixin-shadow-bottom(1px, 1px, 2px, .5px, #626060);
-              background-color: rgba(255,255,255,0.8);
-              padding-left: 0px;
-              padding-right: 0px;
-              float: left;
-              margin-top: 10px;
-              z-index: 10;
-
-                  .input-group-custom-addon.icon-addon.addon-sm{
-                      color: @color-location;
-                      .glyphicon {
-                          border-color: @color-location;
-                      }
-                  }
-
-              input[type="text"]{
-                      border: none;
-                border-bottom: 1px solid @input-border;
-              }
-
-                  
-
-                  .range{
-                      margin-top: 10px;
-                  }
-
-                  #range{
-                      border: none;
-                  }
-                  #map-radius{
-                    z-index: 10;
-                  }
-                  .form-inline{
-                      margin-right : 5px;
-                      #range{
-                        font-weight: bold;
-                        color: @color-location;
-                        padding: 6px 4px;
-                      }
-
-                      .label-dist{
-                        font-size: .8em;
-                        vertical-align: bottom;
-                        margin-top: 13px;
-                      }
-                      .data-point{
-                        font-size: .8em;
-                        margin: 13px 5px 0px 0px;
-                      }
-                  }
-            }
-        }
-      //---- END USER LOCATIONS -------
-
-
-      //------ LIST ADS ------------
-
-      #container-ad-list-data{
-
-        .content-data{
-          .btn-actions{
-            margin-left: 10px;
-            float: right;
-            margin-top: 30px;
+    //---- MESSAGE -----
+    #container-message-data{
+      .nav{
+        margin-bottom: 10px;
+        li{
+          border: none;
+          border-radius: 0px;
+          height: 35px;
+          .i-checks{
+            margin-left: -6px;
           }
         }
 
-        .container-footer{
-          #btn-add-ad{
-              position: fixed;
-              left: 0px;
-              bottom: 10px;
-          }
+
+
+      }
+      .content-data{
+        .active{
+          background-color: #9fffa0;
+        }
+        td{
+          background: none;
         }
       }
 
     }
+    //---- END MESSAGE -----
+
+    //---- MESSAGE TRHEAD -----
+    #container-message-thread-data{
+      .message{
+        border-bottom: 1px solid #c3c3c3;
+        padding: 10px;
+        h4{
+          color: #065378;
+        }
+        small{
+          color: #434343;
+          font-size: .8em;
+        }
+      }
+    }
+    //---- END MESSAGE THREAD -----
+
+    //----  USER LOCATIONS -------
+    #container-locations-data{
+      #location-map{
+        width: 100%;
+        top: 0px;
+        left: 0px;
+        position: absolute;
+
+      }
+
+      #content-header-forms-location{
+        height: 35px;
+        #form-location{
+          padding: 0px;
+
+          #form-location-btn{
+            padding-left: 0px;
+            padding-right: 0px;
+
+            .btn{
+              margin-right: 5px;
+
+            }
+          }
+
+          #form-location-input{
+            padding: 0px;
+            input{
+              width: 100%;
+            }
+          }
+
+        }
+      }
+
+
+
+      #data-position-form{
+        .mixin-shadow-bottom(1px, 1px, 2px, .5px, #626060);
+        background-color: rgba(255,255,255,0.8);
+        padding-left: 0px;
+        padding-right: 0px;
+        float: left;
+        margin-top: 10px;
+        z-index: 10;
+
+        .input-group-custom-addon.icon-addon.addon-sm{
+          color: @color-location;
+          .glyphicon {
+            border-color: @color-location;
+          }
+        }
+
+        input[type="text"]{
+          border: none;
+          border-bottom: 1px solid @input-border;
+        }
+
+
+
+        .range{
+          margin-top: 10px;
+        }
+
+        #range{
+          border: none;
+        }
+        #map-radius{
+          z-index: 10;
+        }
+        .form-inline{
+          margin-right : 5px;
+          #range{
+            font-weight: bold;
+            color: @color-location;
+            padding: 6px 4px;
+          }
+
+          .label-dist{
+            font-size: .8em;
+            vertical-align: bottom;
+            margin-top: 13px;
+          }
+          .data-point{
+            font-size: .8em;
+            margin: 13px 5px 0px 0px;
+          }
+        }
+      }
+    }
+    //---- END USER LOCATIONS -------
+
+
+    //------ LIST ADS ------------
+
+    #container-ad-list-data{
+
+      .content-data{
+        .btn-actions{
+          margin-left: 10px;
+          float: right;
+          margin-top: 30px;
+        }
+      }
+
+      .container-footer{
+        #btn-add-ad{
+          position: fixed;
+          left: 0px;
+          bottom: 10px;
+        }
+      }
+    }
+
+    #container-ad-create-data{
+      #mapa{
+        height: 500px;
+        margin: 20px;
+      }
+      #search-places{
+        width: 90%;
+        height: 35px !important;
+      }
+      #location-map{
+        width: 100%;
+        top: 0px;
+        left: 0px;
+        position: absolute;
+
+      }
+
+      #data-position-form{
+        .mixin-shadow-bottom(1px, 1px, 2px, .5px, #626060);
+        background-color: rgba(255,255,255,0.8);
+        padding-left: 0px;
+        padding-right: 0px;
+        float: left;
+        margin-top: 10px;
+        z-index: 10;
+        width: 100%;
+
+
+        .input-group{
+          width: 100%;
+        }
+
+        .input-group-custom-addon.icon-addon.addon-sm{
+          color: @color-location;
+          .glyphicon {
+            border-color: @color-location;
+          }
+        }
+
+        input[type="text"]{
+          border: none;
+          border-bottom: 1px solid @input-border;
+        }
+      }
+    }
+
+
+  }
 }
 
 
 
 .angular-google-map-container{
-    height: 400px;
-    width: 100%;
+  height: 400px;
+  width: 100%;
 }

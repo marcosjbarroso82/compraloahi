@@ -1,8 +1,13 @@
 from rest_framework import serializers
-from .models import Ad, AdImage
+from .models import Ad, AdImage, Category
 from sorl.thumbnail import get_thumbnail
 from apps.adLocation.models import AdLocation
 
+
+class CategorySerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Category
 
 class AdImageSerializer(serializers.ModelSerializer):
     thumbnail_110x110 = serializers.SerializerMethodField()
@@ -18,10 +23,23 @@ class AdImageSerializer(serializers.ModelSerializer):
     def get_thumbnail_800x800(self, obj):
         return get_thumbnail(obj.image, '800x800', crop='center', quality=99).url
 
+class AdLocationSerializer(serializers.ModelSerializer):
+    center = serializers.SerializerMethodField()
+
+    class Meta:
+        model = AdLocation
+        fields = ['title', 'ad', 'lat', 'lng', 'center']
+
+
+    def get_center(self, obj):
+        return obj.center()
+
+
 class AdSerializer(serializers.ModelSerializer):
     images = AdImageSerializer(many=True, read_only=True)
     is_favorite = serializers.SerializerMethodField()
     price = serializers.DecimalField(decimal_places=2, max_digits=10, coerce_to_string=False)
+    locations = AdLocationSerializer(many=True, read_only=True)
 
     class Meta:
         model = Ad

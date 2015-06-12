@@ -32,7 +32,7 @@ class Ad(models.Model):
     body = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
-    pub_date = models.DateTimeField(blank=True, null=True)
+    pub_date = models.DateTimeField(auto_now_add=True)
     slug = AutoSlugField(populate_from='title', unique_with='pub_date')
     published = models.BooleanField(default=True)
     tags = TaggableManager(blank=True)
@@ -45,10 +45,6 @@ class Ad(models.Model):
                                 max_digits=10)
 
     store_published = models.BooleanField(default=False)
-    # Instance of manager to Favorite Objects
-    #favorites = GenericRelation(Favorite,
-    #                            content_type_field='target_content_type',
-    #                            object_id_field='target_object_id')
 
     objects = AdQuerySet.as_manager()
 
@@ -69,8 +65,11 @@ class Ad(models.Model):
         else:
             self.published = False
         """
-        super(Ad, self).save(*args, **kwargs)
+        instance = super(Ad, self).save(*args, **kwargs)
+        for tag in self.title.split(' '):
+            self.tags.add(tag)
 
+        return instance
 
     def is_favorite(self, user):
         if Favorite.objects.get_favorite(user, self):

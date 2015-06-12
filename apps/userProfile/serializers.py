@@ -38,13 +38,11 @@ class UserProfileSerializer(serializers.ModelSerializer):
 class ProfileSerializer(ModelSerializer):
     thumbnail_200x200 = serializers.SerializerMethodField()
     phones = PhoneSerializer(many=True)
-    user = UserProfileSerializer()
     image = serializers.ImageField(allow_empty_file=True, use_url=True, read_only=True)
 
     class Meta:
         model = UserProfile
         depth = 2
-        fields = ('image', 'birth_date', 'user', 'phones', 'thumbnail_200x200', 'id')
         read_only_fields = ('id',)
 
     def update(self, instance, validated_data):
@@ -76,7 +74,7 @@ class UserLocationSeralizer(ModelSerializer):
 
     class Meta:
         model = UserLocation
-        fields = ('title', 'lat', 'lng', 'center', 'radius')
+        fields = ('title', 'lat', 'lng', 'center', 'radius', 'id')
         excluded = ('userProfile',)
         depth = 1
 

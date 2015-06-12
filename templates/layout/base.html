@@ -8,10 +8,7 @@
 
     {% include 'layout/stylesheets.html' %}
     {% block css_header_block %}
-
     {% endblock %}
-
-
     <script type="text/javascript" src="{% static 'bower_components/jquery/dist/jquery.js' %}"></script>
     <script type="text/javascript" src="{% static 'bower_components/bootstrap/dist/js/bootstrap.js' %}"></script>
     {% block js_header_block %}
@@ -88,8 +85,8 @@
                 <!-- FIN - listado de noficaciones -->
             {% else %}
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="/accounts/signup/">Registrate  </a> </li>
-                    <li><a href="/accounts/login">Entrar</a></li>
+                    <li><a href="/accounts/signup/">Registrate</a> </li>
+                    <li><a href="/accounts/login/">Entrar</a></li>
                 </ul>
             {% endif %}
         </div>
@@ -105,7 +102,7 @@
     </div>
 </body>
 <footer class="container-fluid footer bottom-block">
-    <p class="pull-right">Create by <a href="#">Compralo ahi</a></p>
+    <p class="pull-right">Create by <a href="http://www.context.com.ar" target="_blank">Context</a></p>
     {% block js_footer_block %}{% endblock %}
 </footer>
 </html>

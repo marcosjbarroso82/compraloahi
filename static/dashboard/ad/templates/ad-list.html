@@ -8,8 +8,8 @@
 
     <div class="content-data col-md-12" ng-show="vm.ads.length > 0">
         <input type="text" name="title"
-               ng-model="filters.title" class="form-control">
-        <table class="table table-bordred table-striped" ng-table="tableParams" >
+               ng-model="vm.filters.title" class="form-control">
+        <table class="table table-bordred table-striped" ng-table="vm.tableParams" >
             <tr id="ad-row-{{ ad.id }}" ng-class-odd="'odd'" ng-class-even="'even'" ng-repeat="ad in $data">
                 <td class="v-align-middle col-md-1"
                     data-title="'Image'">
@@ -28,16 +28,16 @@
                     <!-- view detail -->
                     <a href="/ad/{{ ad.slug }}" class="btn btn-sm btn-success btn-actions" ><span class="glyphicon glyphicon-eye-open"></span></a>
                     <!-- delete -->
-                    <a class="btn btn-sm btn-danger btn-actions"
-                       ng-really-message="Are you sure ?"
-                       ng-really-click="deleteAd(ad)"
+                    <button class="btn btn-sm btn-danger btn-actions"
+                       ng-really-message="Estas seguro que deseas borrar el aviso {{ ad.title }} ?"
+                       ng-really-click="vm.destroy(ad)"
                        item="ad">
                         <span class="glyphicon glyphicon-remove"
                               tooltips
                             tooltip-title="Elimina el aviso {{ ad.title }}"
                             tooltip-side="top"
                             tooltip-size="small"></span>
-                    </a>
+                    </button>
 
                 </td>
             </tr>
@@ -45,9 +45,9 @@
     </div>
     <div class="content-data col-md-12" ng-show="vm.ads.length == 0">
         <p>No tienenes ningun aviso. Puedes empezar cargando tu primer aviso</p>
-        <a href="/ad/create/" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-bullhorn"></span> Agrega tu aviso</a>-
+        <a ui-sref="ad-create" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-bullhorn"></span> Agrega tu aviso</a>-
     </div>
     <div class="container-footer col-md-12">
-        <a href="/ad/create/" id="btn-add-ad" class="btn btn-success btn-lg"><span class="glyphicon glyphicon-bullhorn"></span> Agrega tu aviso</a>-
+        <a ui-sref="ad-create" id="btn-add-ad" class="btn btn-success btn-lg"><span class="glyphicon glyphicon-bullhorn"></span> Agrega tu aviso</a>-
     </div>
 </div>

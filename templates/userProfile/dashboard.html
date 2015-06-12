@@ -19,6 +19,8 @@
     <link rel="stylesheet" type="text/css" href="{% static 'bower_components/ng-table/dist/ng-table.css' %}" />
 
     <link rel="stylesheet" type="text/css" href="{% static 'bower_components/angular-tooltips/src/css/angular-tooltips.css' %}" />
+
+    <link rel="stylesheet" type="text/css" href="{% static 'bower_components/nsPopover/less/ns-popover.css' %}" />
 </head>
 
 <body>
@@ -27,7 +29,7 @@
 
 
 <div id="dashboard-body">
-    <div id="dashboard-menu" class="col-md-2" >
+    <div id="dashboard-menu" class="col-md-2 col-xs-2" >
         <ul class="nav nav-pills nav-stacked" >
             <li role="presentation" class="navbar-header">Menu</li>
             <li role="presentation"
@@ -76,7 +78,7 @@
 
     </div>
 
-    <div ui-view class="col-md-10 dashboard-content">
+    <div ui-view class="col-md-10 col-xs-10 dashboard-content">
     </div>
     <div class="snackbar-container" data-snackbar="true"></div>
 </div>
@@ -84,23 +86,22 @@
 <footter>
     <!-- ###################### IMPORT THIRD LIB ###################### -->
 
-    <!-- jquery resources -->
+    <!-- JQUERY -->
     <script type="text/javascript" src="{% static 'bower_components/jquery/dist/jquery.js' %}"></script>
 
-
+    <!-- BOOTSTRAP JS -->
     <script type="text/javascript" src="{% static 'bower_components/bootstrap/dist/js/bootstrap.js' %}"></script>
 
-    <!--<script type="text/javascript" src="{% static 'bower_components/jquery-cookie/jquery.cookie.js' %}"></script>-->
+    <!-- CKEDITOR LIB -->
+    <script type="text/javascript" src="{% static 'bower_components/ng-ckeditor/libs/ckeditor/ckeditor.js' %}"></script>
+
 
     <!-- angular resources -->
     <script type="text/javascript" src="{% static 'bower_components/angular/angular.js' %}"></script>
     <script type="text/javascript" src="{% static 'bower_components/angular-resource/angular-resource.js' %}"></script>
     <script type="text/javascript" src="{% static 'bower_components/angular-route/angular-route.js' %}"></script>
     <script type="text/javascript" src="{% static 'bower_components/angular-ui-router/release/angular-ui-router.js' %}"></script>
-    <!--<script type="text/javascript" src="{% static 'bower_components/angular-sanitize/angular-sanitize.js' %}"></script>
-    <script type="text/javascript" src="{% static 'bower_components/angular-bootstrap/ui-bootstrap.js' %}"></script>
-    <script type="text/javascript" src="{% static 'bower_components/angular-bootstrap/ui-bootstrap-tpls.js' %}"></script>
--->
+
 
     <script type="text/javascript" src="{% static 'bower_components/angular-google-maps/dist/angular-google-maps.js' %}"></script>
     <!-- google mapp -->
@@ -108,7 +109,6 @@
 
     <!-- Nose (lo requiere google maps )-->
     <script type="text/javascript" src="{% static 'bower_components/lodash/dist/lodash.js' %}"></script>
-
 
     <!-- TOOLTIP -->
     <script type="text/javascript" src="{% static 'bower_components/angular-tooltips/src/js/angular-tooltips.js' %}"></script>
@@ -128,11 +128,26 @@
     <!-- Angular and django rest framework Resource -->
     <script type="text/javascript" src="{% static 'bower_components/angular-django-rest-resource/angular-django-rest-resource.js' %}"></script>
 
-
     <!-- LOAD PROMISE -->
     <script type="text/javascript" src="{% static 'bower_components/angular-busy/dist/angular-busy.js' %}"></script>
 
+    <!-- CKEDITOR -->
+    <script type="text/javascript" src="{% static 'bower_components/ng-ckeditor/ng-ckeditor.js' %}"></script>
+
+    <!-- WIDGET TU UPLOAD IMAGE -->
+    <script type="text/javascript" src="{% static 'bower_components/ng-droplet/dist/ng-droplet.js' %}"></script>
+
+    <!-- POPOVER -->
+    <script type="text/javascript" src="{% static 'bower_components/nsPopover/src/nsPopover.js' %}"></script>
+
+    <!-- Currency mask angular -->
+    <script type="text/javascript" src="{% static 'bower_components/ng-currency/dist/ng-currency.js' %}"></script>
+
+
     <!-- ###################### END IMPORT ###################### -->
+
+
+
 
 
     <!-- ###################### DASHBOARD APP ###################### -->
@@ -148,14 +163,13 @@
     <script type="text/javascript" src="{% static 'dashboard/utils/directives/alert-notification.directive.js' %}"></script>
 
     <script type="text/javascript" src="{% static 'dashboard/utils/directives/upload-file-model.directive.js' %}"></script>
+
     <!-- ###################### END DASHBOARD APP - MODULE UTILS ###################### -->
 
     <!-- ###################### DASHBOARD APP - MODULE PROFILE ###################### -->
     <script type="text/javascript" src="{% static 'dashboard/profile/profile.module.js' %}"></script>
     <script type="text/javascript" src="{% static 'dashboard/profile/services/profile.service.js' %}"></script>
     <script type="text/javascript" src="{% static 'dashboard/profile/controllers/detail-profile.controller.js' %}"></script>
-    <!--<script type="text/javascript" src="{# static 'dashboard/profile/controllers/create-profile.controller.js' #}"></script>
-    <script type="text/javascript" src="{% static 'dashboard/profile/controllers/update-profile.controller.js' %}"></script>-->
     <script type="text/javascript" src="{% static 'dashboard/profile/controllers/change-password.controller.js' %}"></script>
     <!-- ###################### END DASHBOARD APP - MODULE PROFILE ###################### -->
 
@@ -164,6 +178,7 @@
     <script type="text/javascript" src="{% static 'dashboard/ad/ad.module.js' %}"></script>
     <script type="text/javascript" src="{% static 'dashboard/ad/services/ad.service.js' %}"></script>
     <script type="text/javascript" src="{% static 'dashboard/ad/controllers/ad.controller.js' %}"></script>
+    <script type="text/javascript" src="{% static 'dashboard/ad/controllers/ad-create.controller.js' %}"></script>
     <!-- ###################### END DASHBOARD APP - MODULE AD ###################### -->
 
 
