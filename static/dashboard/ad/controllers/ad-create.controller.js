@@ -57,11 +57,14 @@
         vm.categories_selected = [];
         ////////// Functions
 
+        $scope.location = {center: {}};
+
+
         init();
 
         function changeLocationSelected(){
             vm.location.center = angular.copy(vm.location_selected.center);
-            $scope.map.center = angular.copy(vm.location.center);
+
         }
 
 
@@ -70,10 +73,19 @@
             vm.location.center = {};
             vm.location.center.latitude = -13.30272;
             vm.location.center.longitude = -87.144107;
-
-            $scope.map.center = angular.copy(vm.location.center);
-
         }
+
+        $scope.$watch('vm.location.center', function(location, old_location){
+            console.log("CAMBIO LOCATION");
+            if(vm.location.center.latitude && vm.location.center.longitude){
+                console.log(vm.location);
+                $scope.map.center = angular.copy(vm.location.center);
+                $scope.location.center = angular.copy(vm.location.center);
+
+                console.log("MAP LOCATION");
+                console.log(vm.location);
+            }
+        });
 
         function nextStep(){
             vm.step ++;
@@ -116,7 +128,7 @@
                 vm.location.center.latitude = angular.copy(position.coords.latitude);
                 vm.location.center.longitude = angular.copy(position.coords.longitude);
 
-                $scope.map.center = angular.copy(vm.location.center);
+
             }
 
             function getError(err) {
@@ -169,16 +181,10 @@
         }
 
         $scope.$watch('location_places', function(val, old_val){
-            console.log("change locations_places");
-            console.log($scope.location_places);
             if($scope.location_places.geometry){
-                console.log("ENTRO");
-                //vm.location.title = angular.copy($scope.location_places.formatted_address);
                 vm.location.center = {};
                 vm.location.center.latitude = angular.copy($scope.location_places.geometry.location.lat());
                 vm.location.center.longitude = angular.copy($scope.location_places.geometry.location.lng());
-
-                $scope.map.center = angular.copy(vm.location.center);
             }
         });
 
