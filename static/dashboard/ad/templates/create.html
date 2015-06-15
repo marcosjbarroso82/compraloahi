@@ -308,45 +308,51 @@ section.droplet input.droplet-multiple {
 </style>
 
 
-
-
-
-<div id="container-ad-create-data" cg-busy="vm.promiseRequest">
-<h4 class="title-data">Crea tu aviso en 4 simples pasos.</h4>
-
-<div  >
-
-<!-- TAB STEP -->
-<div class="row">
-    <div class="col-xs-12">
-        <!-- TABS STEP -->
-        <ul class="nav nav-pills nav-justified thumbnail setup-panel" ng-init="vm.step=1;">
-            <li ng-class="{active: vm.step == 1 }">
-                <a ng-click="vm.step = 1;">
-                    <h4 class="list-group-item-heading">Paso 1</h4>
-                    <p class="list-group-item-text">Descripcion general</p>
-                </a>
-            </li>
-            <li ng-class="{active: vm.step == 2, disabled: vm.maxStep < 2 }" >
-                <a ng-click="vm.step = 2;" >
-                    <h4 class="list-group-item-heading">Paso 2</h4>
-                    <p class="list-group-item-text">Imangenes</p>
-                </a>
-            </li>
-            <li ng-class="{active: vm.step == 3, disabled: vm.maxStep < 3 }">
-                <a ng-click="vm.step = 3;">
-                    <h4 class="list-group-item-heading">Paso 3</h4>
-                    <p class="list-group-item-text">Descripcion</p>
-                </a>
-            </li>
-            <li ng-class="{active: vm.step == 4, disabled: vm.maxStep < 4 }">
-                <a ng-click="vm.step = 4;">
-                    <h4 class="list-group-item-heading">Paso 4</h4>
-                    <p class="list-group-item-text">Selecciona la ubicacion</p>
-                </a>
-            </li>
-        </ul>
+<div class="page-breadcrumb">
+    <ol class="breadcrumb container">
+        <li><a href="#">Panel</a></li>
+        <li><a ui-sref="my-ads">Mis avisos</a></li>
+        <li class="active">Crear anuncio</li>
+    </ol>
+</div>
+<div class="page-title">
+    <div class="container">
+        <h3>Crea tu aviso en 4 simples pasos</h3>
     </div>
+</div>
+<div id="main-wrapper" class="container">
+<div class="row">
+<div class="col-md-12">
+<div class="panel panel-white">
+<div class="panel-body">
+<div class="col-xs-12">
+    <!-- TABS STEP -->
+    <ul class="nav nav-pills nav-justified thumbnail setup-panel" ng-init="vm.step=1;">
+        <li ng-class="{active: vm.step == 1 }">
+            <a ng-click="vm.step = 1;">
+                <h4 class="list-group-item-heading">Paso 1</h4>
+                <p class="list-group-item-text">Descripcion general</p>
+            </a>
+        </li>
+        <li ng-class="{active: vm.step == 2, disabled: vm.maxStep < 2 }" >
+            <a ng-click="vm.step = 2;" >
+                <h4 class="list-group-item-heading">Paso 2</h4>
+                <p class="list-group-item-text">Imangenes</p>
+            </a>
+        </li>
+        <li ng-class="{active: vm.step == 3, disabled: vm.maxStep < 3 }">
+            <a ng-click="vm.step = 3;">
+                <h4 class="list-group-item-heading">Paso 3</h4>
+                <p class="list-group-item-text">Descripcion</p>
+            </a>
+        </li>
+        <li ng-class="{active: vm.step == 4, disabled: vm.maxStep < 4 }">
+            <a ng-click="vm.step = 4;">
+                <h4 class="list-group-item-heading">Paso 4</h4>
+                <p class="list-group-item-text">Selecciona la ubicacion</p>
+            </a>
+        </li>
+    </ul>
 </div>
 
 <!-- STEP 1 -->
@@ -385,7 +391,7 @@ section.droplet input.droplet-multiple {
                     <div class="ns-popover-tooltip" style="max-width: 400px; padding: 10px;">
                         <img src="/static/image/help/short-description.png" class="img-thumbnail"  />
                         <p>La descripcion corta del anuncio te permite tener mas posibilidades de ser encontrado, y ademas
-                         es la primer descripcion de tu anuncio que el usuario lee.</p>
+                            es la primer descripcion de tu anuncio que el usuario lee.</p>
                     </div>
 
                 </script>
@@ -412,15 +418,15 @@ section.droplet input.droplet-multiple {
                            name="price"
                            type="text"
                            ng-currency
-                           >
+                            >
                 </div>
-                    <!-- POPOVER SHORT DESCRIPTION HELP -->
+                <!-- POPOVER SHORT DESCRIPTION HELP -->
                 <script type="text/ng-template" id="popover">
                     <div class="triangle"></div>
                     <div class="ns-popover-tooltip" style="max-width: 400px; padding: 10px;">
                         <img src="/static/image/help/short-description.png" class="img-thumbnail"  />
                         <p>El precio del anuncio te permite tener mas posibilidades de ser encontrado a la hora que el
-                        usuario filtra por precio.</p>
+                            usuario filtra por precio.</p>
                     </div>
 
                 </script>
@@ -562,22 +568,22 @@ section.droplet input.droplet-multiple {
     <div class="col-xs-12">
         <form class="col-md-12 well" novalidate angular-validator angular-validator-submit="vm.nextStep()" name="formStep3" enctype="multipart/form-data">
             <script type="text/ng-template" id="helpbody">
-                    <div class="triangle"></div>
-                    <div class="ns-popover-tooltip" style="max-width: 400px; padding: 10px;">
-                        <img src="/static/image/help/description.png" class="img-thumbnail"  />
-                        <p>La descripcion del anuncio aparece en el detalle del mismo, es recomendable describir cada especificacion....</p>
-                    </div>
-                </script>
-                <p class="help" >¿Para que sirve la descripcion?.
-                    <a ns-popover
-                       ns-popover-template="helpbody"
-                       ns-popover-trigger="click"
-                       ns-popover-hide-on-outside-click="true"
-                       ns-popover-hide-on-button-click="true"
-                       ns-popover-template="menu"
-                       ns-popover-theme="ns-popover-list-theme"
-                       ns-popover-placement="bottom"
-                       ns-popover-placement="bottom">Ayuda</a></p>
+                <div class="triangle"></div>
+                <div class="ns-popover-tooltip" style="max-width: 400px; padding: 10px;">
+                    <img src="/static/image/help/description.png" class="img-thumbnail"  />
+                    <p>La descripcion del anuncio aparece en el detalle del mismo, es recomendable describir cada especificacion....</p>
+                </div>
+            </script>
+            <p class="help" >¿Para que sirve la descripcion?.
+                <a ns-popover
+                   ns-popover-template="helpbody"
+                   ns-popover-trigger="click"
+                   ns-popover-hide-on-outside-click="true"
+                   ns-popover-hide-on-button-click="true"
+                   ns-popover-template="menu"
+                   ns-popover-theme="ns-popover-list-theme"
+                   ns-popover-placement="bottom"
+                   ns-popover-placement="bottom">Ayuda</a></p>
             <div class="form-group" >
                 <textarea ckeditor="vm.editorOptions"
                           ng-model="vm.ad.body"
@@ -678,6 +684,14 @@ section.droplet input.droplet-multiple {
 </div>
 
 
+</div>
+</div>
+</div>
+</div><!-- Row -->
+</div><!-- Main Wrapper -->
+<div class="page-footer">
+    <div class="container">
+        <p class="no-s">2015 &copy; Compraloahi by Context.</p>
+    </div>
+</div>
 
-</div>
-</div>

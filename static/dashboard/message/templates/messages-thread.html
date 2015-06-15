@@ -1,17 +1,38 @@
-<!-- ############## PROFILE ############### -->
-<div id="container-message-thread-data" cg-busy="vm.promiseRequest">
-    <h3 class="title-data">Detalle de Mensaje</h3>
-
-    <div class="content-data col-md-12" >
-        
-        <div ng-repeat="msg in vm.thread" class="message">
-            <h4>{{ msg.subject }}</h4>
-            <small>{{ msg.sent_at }}</small>
-            <p>{{ msg.body }}</p>
-        </div>
+<div class="page-breadcrumb">
+    <ol class="breadcrumb container">
+        <li><a href="index.html">Panel</a></li>
+        <li><a href="#">Mensajes</a></li>
+        <li class="active">Detalle de Mensaje</li>
+    </ol>
+</div>
+<div class="page-title">
+    <div class="container">
+        <h3>Detalle de Mensaje</h3>
     </div>
-    <div class="container-footer col-md-12">
-        <textarea ng-model="vm.msgReply.body" class="form-control"></textarea>
-        <button class="btn btn-info pull-right" ng-click="vm.reply()">RESPONDER</button>
+</div>
+<div id="main-wrapper" class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-white">
+                <div class="panel-body">
+                    <div class="col-md-12">
+                        <div ng-repeat="msg in vm.thread" class="message">
+                            <h4>{{ msg.subject }}</h4>
+                            <small>{{ msg.sent_at }}</small>
+                            <p>{{ msg.body }}</p>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <textarea ng-model="vm.msgReply.body" class="form-control"></textarea>
+                        <button class="btn btn-info pull-right" ng-click="vm.reply()">RESPONDER</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!-- Row -->
+</div><!-- Main Wrapper -->
+<div class="page-footer">
+    <div class="container">
+        <p class="no-s">2015 &copy; Compraloahi by Context.</p>
     </div>
 </div>

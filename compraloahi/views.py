@@ -43,8 +43,8 @@ def send_notification(request):
 
 
 class HomeView(TemplateView):
-    template_name = 'index.html'
-	# Temporary redirect
+    template_name = 'dashboard/base.html'
+
     def dispatch(self, request, *args, **kwargs):
         return redirect('/ad/search/?q=')
 

@@ -1,55 +1,80 @@
-<div id="container-message-data" cg-busy="vm.promiseRequest">
-    <h4 class="title-data">Mensajes - ({{ vm.folder }})</h4>
-
-    <div class="content-data col-md-12" ng-if="vm.messages.length > 0">
-        <ul class="nav nav-pills">
-            <li class="btn">
-               <label class="i-checks">
-                    <input ng-model="vm.messages_select" ng-click="vm.select_all_messages()" type="checkbox">
-                    <i></i>
-                </label> 
-            </li>    
-            <li ng-disabled="vm.messages_selected.length == 0"
-                ng-if="vm.folder == 'inbox'"
-                rel="tooltip" title="Eliminar mensajes seleccionados" 
-                class="btn btn-danger" 
-                ng-really-message="Are you sure ?" 
-                ng-really-click="vm.delete_bulk()">
-                <i class="glyphicon glyphicon-trash"></i>
-            </li>
-            <li ng-disabled="vm.messages_selected.length == 0"
-                rel="tooltip" title="Marcar como leido mensajes seleccionados" 
-                class="btn btn-info" 
-                ng-click="vm.set_read_bulk()">
-                <i class="glyphicon glyphicon-ok"></i>
-            </li>
-            <div class="pull-right">
-                <li class="pull-left">{{ vm.page }} - {{ 10 }}  de  {{ vm.count }}</li>
-                <li class="pull-right"><a ng-disabled="!vm.next_page" ng-click="vm.loadMessages(vm.next_page)" class="btn btn-default"> <i class="glyphicon glyphicon-chevron-right"></i> </a></li>
-                <li  class="pull-right"><a ng-disabled="!vm.prev_page" ng-click="vm.loadMessages(vm.prev_page)" class="btn btn-default"> <i class="glyphicon glyphicon-chevron-left"></i> </a></li>
-                
-            </div>
-        </ul>
-        <div class="table-responsive">
-            <table class="table">
-                <tbody>
-                <tr ng-repeat="message in vm.messages" ng-class="{'active': message.read_at == None}">
-                    <td class="col-md-1">
-                            <label class="i-checks">
-                                <input checked="" value="message.id" ng-model="message.selected" type="checkbox" ng-click="vm.select_message(message)">
-                                <i></i>
-                            </label>
-                    </td>
-                    <td class="col-md-8"><a ui-sref="message-thread({id:{{ message.id }}})">{{ message.subject }}</a></td>
-                    <td class="col-md-3">{{ message.sent_at }}</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-
-
-    </div>
-    <div class="col-md-12" ng-if="vm.messages.length == 0">
-        No tiene mensajes.
+<div class="page-breadcrumb">
+    <ol class="breadcrumb container">
+        <li><a href="index.html">Panel</a></li>
+        <li><a href="#">Mensajes</a></li>
+        <li class="active">{{ vm.folder }}</li>
+    </ol>
+</div>
+<div class="page-title">
+    <div class="container">
+        <h3>Mensajes - ({{ vm.folder }})</h3>
     </div>
 </div>
+<div id="main-wrapper" class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-white">
+                <div class="panel-body">
+                    <div class="content-data col-md-12" ng-if="vm.messages.length > 0">
+                        <ul class="nav nav-pills">
+                            <li class="btn">
+                                <label class="i-checks">
+                                    <input ng-model="vm.messages_select" ng-click="vm.select_all_messages()" type="checkbox">
+                                    <i></i>
+                                </label>
+                            </li>
+                            <li ng-disabled="vm.messages_selected.length == 0"
+                                ng-if="vm.folder == 'inbox'"
+                                rel="tooltip" title="Eliminar mensajes seleccionados"
+                                class="btn btn-danger"
+                                ng-really-message="Are you sure ?"
+                                ng-really-click="vm.delete_bulk()">
+                                <i class="glyphicon glyphicon-trash"></i>
+                            </li>
+                            <li ng-disabled="vm.messages_selected.length == 0"
+                                rel="tooltip" title="Marcar como leido mensajes seleccionados"
+                                class="btn btn-info"
+                                ng-click="vm.set_read_bulk()">
+                                <i class="glyphicon glyphicon-ok"></i>
+                            </li>
+                            <div class="pull-right">
+                                <li class="pull-left">{{ vm.page }} - {{ 10 }}  de  {{ vm.count }}</li>
+                                <li class="pull-right"><a ng-disabled="!vm.next_page" ng-click="vm.loadMessages(vm.next_page)" class="btn btn-default"> <i class="glyphicon glyphicon-chevron-right"></i> </a></li>
+                                <li  class="pull-right"><a ng-disabled="!vm.prev_page" ng-click="vm.loadMessages(vm.prev_page)" class="btn btn-default"> <i class="glyphicon glyphicon-chevron-left"></i> </a></li>
+
+                            </div>
+                        </ul>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <tbody>
+                                <tr ng-repeat="message in vm.messages" ng-class="{'active': message.read_at == None}">
+                                    <td class="col-md-1">
+                                        <label class="i-checks">
+                                            <input checked="" value="message.id" ng-model="message.selected" type="checkbox" ng-click="vm.select_message(message)">
+                                            <i></i>
+                                        </label>
+                                    </td>
+                                    <td class="col-md-8"><a ui-sref="message-thread({id:{{ message.id }}})">{{ message.subject }}</a></td>
+                                    <td class="col-md-3">{{ message.sent_at }}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+
+                    </div>
+                    <div class="col-md-12" ng-if="vm.messages.length == 0">
+                        No tiene mensajes.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!-- Row -->
+</div><!-- Main Wrapper -->
+<div class="page-footer">
+    <div class="container">
+        <p class="no-s">2015 &copy; Compraloahi by Context.</p>
+    </div>
+</div>
+
+

@@ -1,24 +1,48 @@
-<div id="container-notification-config" cg-busy="vm.promiseRequest">
-    <h3 class="title-data">Configurar Notificaciones</h3>
-
-    <form>
-        <div class="table-responsive">
-            <table class="table">
-                <tbody>
-                <tr ng-repeat="(key, value) in vm.configs" >
-
-                    <td class="col-md-8">{{ key }}</td>
-                    <td class="col-md-1">
-                            <label class="i-checks">
-                                <input checked="" value="config" ng-model="vm.configs[key]" type="checkbox">
-                                <i></i>
-                            </label>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <button class="btn btn-success pull-right" type="button" ng-click="vm.submit()"><i class="fa fa-save"></i> Guardar</button>
-    </form>
+<div class="page-breadcrumb">
+    <ol class="breadcrumb container">
+        <li><a href="index.html">Panel</a></li>
+        <li><a href="#">Notificaciones</a></li>
+        <li class="active">Configuracion</li>
+    </ol>
 </div>
+<div class="page-title">
+    <div class="container">
+        <h3>Configure sus notificaciones</h3>
+    </div>
+</div>
+<div id="main-wrapper" class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-white">
+                <div class="panel-body">
+                    <form>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <tbody>
+                                <tr ng-repeat="(key, value) in vm.configs" >
+
+                                    <td class="col-md-8">{{ key }}</td>
+                                    <td class="col-md-1">
+                                        <label class="i-checks">
+                                            <input checked="" value="config" ng-model="vm.configs[key]" type="checkbox">
+                                            <i></i>
+                                        </label>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <button class="btn btn-success pull-right" type="button" ng-click="vm.submit()"><i class="fa fa-save"></i> Guardar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div><!-- Row -->
+</div><!-- Main Wrapper -->
+<div class="page-footer">
+    <div class="container">
+        <p class="no-s">2015 &copy; Compraloahi by Context.</p>
+    </div>
+</div>
+

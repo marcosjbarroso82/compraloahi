@@ -1,56 +1,78 @@
-<div id="container-ad-list-data" cg-busy="vm.promiseRequest">
-    <h4 class="title-data">Mis avisos
-    </h4>
-
-    <div class="content-data col-md-12" ng-show="vm.ads.length > 0">
-        <div class="col-md-6 col-xs-12">
-            <div class="input-group">
-                <input type="text" name="title" ng-model="vm.filters.title" placeholder="Ingresa el titulo del aviso que buscas" class="form-control">
-                <span class="input-group-addon"><i class="fa fa-search"></i></span>
-            </div>
-        </div>
+<div class="page-breadcrumb">
+    <ol class="breadcrumb container">
+        <li><a href="index.html">Panel</a></li>
+        <li class="active">Mis avisos</li>
+    </ol>
+</div>
+<div class="page-title">
+    <div class="container">
+        <h3>Mis avisos</h3>
+    </div>
+</div>
+<div id="main-wrapper" class="container">
+    <div class="row">
         <div class="col-md-12">
-            <hr/>
-        </div>
-        <table class="table table-bordred table-striped" ng-table="vm.tableParams" >
-            <tr id="ad-row-{{ ad.id }}" ng-class-odd="'odd'" ng-class-even="'even'" ng-repeat="ad in $data">
-                <td class="v-align-middle col-md-1"
-                    data-title="'Imagen'">
-                    <img id="media-object" class="img-rounded" ng-src="{{ ad.images[0].thumbnail_110x110 }}" width="90" height="90">
-                </td>
-                <td class="v-align-middle col-md-9"
-                    data-title="'Avisos'"
-                    sortable="'title'" filter="{ 'title': 'text' }">
-                    <h4><strong>{{ ad.title }}</strong></h4>
-                    <p>{{ ad.short_description }}</p>
-                    <small><strong>Fecha de publicacion : </strong>{{ ad.pub_date }} || <strong>Price : </strong> $ {{ ad.price }}</small>
-                </td>
-                <td class="v-align-middle col-md-2" data-title="'Acciones'">
-                    <!-- delete -->
-                    <button class="btn btn-sm btn-danger btn-actions"
-                            ng-really-message="Estas seguro que deseas borrar el aviso {{ ad.title }} ?"
-                            ng-really-click="vm.destroy(ad)"
-                            item="ad">
+            <div class="panel panel-white">
+                <div class="panel-body">
+                    <div class="container-footer col-md-12">
+                        <a ui-sref="ad-create" id="btn-add-ad" class="btn btn-success btn-lg"><span class="glyphicon glyphicon-bullhorn"></span> Agrega tu aviso</a>-
+                    </div>
+                    <div class="content-data col-md-12" ng-show="vm.ads.length > 0">
+                        <div class="col-md-6 col-xs-12">
+                            <div class="input-group">
+                                <input type="text" name="title" ng-model="vm.filters.title" placeholder="Ingresa el titulo del aviso que buscas" class="form-control">
+                                <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <hr/>
+                        </div>
+                        <table class="table table-bordred table-striped" ng-table="vm.tableParams" >
+                            <tr id="ad-row-{{ ad.id }}" ng-class-odd="'odd'" ng-class-even="'even'" ng-repeat="ad in $data">
+                                <td class="v-align-middle col-md-1"
+                                    data-title="'Imagen'">
+                                    <img id="media-object" class="img-rounded" ng-src="{{ ad.images[0].thumbnail_110x110 }}" width="90" height="90">
+                                </td>
+                                <td class="v-align-middle col-md-9"
+                                    data-title="'Avisos'"
+                                    sortable="'title'" filter="{ 'title': 'text' }">
+                                    <h4><strong>{{ ad.title }}</strong></h4>
+                                    <p>{{ ad.short_description }}</p>
+                                    <small><strong>Fecha de publicacion : </strong>{{ ad.pub_date }} || <strong>Price : </strong> $ {{ ad.price }}</small>
+                                </td>
+                                <td class="v-align-middle col-md-2" data-title="'Acciones'">
+                                    <!-- delete -->
+                                    <button class="btn btn-sm btn-danger btn-actions"
+                                            ng-really-message="Estas seguro que deseas borrar el aviso {{ ad.title }} ?"
+                                            ng-really-click="vm.destroy(ad)"
+                                            item="ad">
                         <span class="glyphicon glyphicon-remove"
                               tooltips
                               tooltip-title="Elimina el aviso {{ ad.title }}"
                               tooltip-side="top"
                               tooltip-size="small"></span>
-                    </button>
-                    <!-- update -->
-                    <a href="/ad/update/{{ ad.slug }}" class="btn btn-sm btn-warning btn-actions"><span class="glyphicon glyphicon-edit"></span></a>
-                    <!-- view detail -->
-                    <a href="/ad/{{ ad.slug }}" class="btn btn-sm btn-success btn-actions" ><span class="glyphicon glyphicon-eye-open"></span></a>
+                                    </button>
+                                    <!-- update -->
+                                    <a href="/ad/update/{{ ad.slug }}" class="btn btn-sm btn-warning btn-actions"><span class="glyphicon glyphicon-edit"></span></a>
+                                    <!-- view detail -->
+                                    <a href="/ad/{{ ad.slug }}" class="btn btn-sm btn-success btn-actions" ><span class="glyphicon glyphicon-eye-open"></span></a>
 
-                </td>
-            </tr>
-        </table>
-    </div>
-    <div class="content-data col-md-12" ng-show="vm.ads.length == 0">
-        <p>No tienenes ningun aviso. Puedes empezar cargando tu primer aviso</p>
-        <a ui-sref="ad-create" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-bullhorn"></span> Agrega tu aviso</a>-
-    </div>
-    <div class="container-footer col-md-12">
-        <a ui-sref="ad-create" id="btn-add-ad" class="btn btn-success btn-lg"><span class="glyphicon glyphicon-bullhorn"></span> Agrega tu aviso</a>-
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="content-data col-md-12" ng-show="vm.ads.length == 0">
+                        <p>No tienenes ningun aviso. Puedes empezar cargando tu primer aviso</p>
+                        <a ui-sref="ad-create" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-bullhorn"></span> Agrega tu aviso</a>-
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!-- Row -->
+</div><!-- Main Wrapper -->
+<div class="page-footer">
+    <div class="container">
+        <p class="no-s">2015 &copy; Compraloahi by Context.</p>
     </div>
 </div>
+

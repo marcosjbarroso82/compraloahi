@@ -6289,89 +6289,6 @@ html,
 body {
   height: 100%;
 }
-html .navbar-default,
-body .navbar-default {
-  -webkit-box-shadow: 0px 8px 6px -10px black;
-  -moz-box-shadow: 0px 8px 6px -10px black;
-  box-shadow: 0px 8px 6px -10px black;
-  height: 50px;
-  margin-bottom: 0px;
-}
-html .navbar-default .container-fluid,
-body .navbar-default .container-fluid,
-html .navbar-default .navbar-header,
-body .navbar-default .navbar-header {
-  height: 50px;
-  padding: 0px;
-}
-html .navbar-default #nav-search,
-body .navbar-default #nav-search {
-  margin-top: 7.5px;
-  margin-bottom: 7.5px;
-}
-html .navbar-default #nav-search #q,
-body .navbar-default #nav-search #q {
-  border: 1px solid #c3c3c3;
-}
-html .navbar-default #logo,
-body .navbar-default #logo {
-  margin-top: 8px;
-  margin-bottom: 8px;
-  max-height: 100%;
-  margin: 0px;
-  margin-right: -10px;
-}
-html .navbar-default .dropdown-menu,
-body .navbar-default .dropdown-menu {
-  transition: top 0.2s ease 0s, opacity 0.2s ease-in 0s;
-}
-html .navbar-default #notification-menu,
-body .navbar-default #notification-menu {
-  padding-bottom: 9px;
-}
-html .navbar-default #notification-menu i,
-body .navbar-default #notification-menu i {
-  font-size: 22px;
-}
-html .navbar-default #notification-menu span,
-body .navbar-default #notification-menu span {
-  color: #FFF;
-  border-radius: 50%;
-  background-color: #A40;
-  font-weight: bold;
-  font-size: 0.8em;
-  position: absolute;
-  right: 4px;
-  top: 6px;
-  height: 20px;
-  width: 20px;
-  opacity: 0.8;
-}
-html .navbar-default .list-notification li,
-body .navbar-default .list-notification li {
-  font-size: .8em;
-}
-html .navbar-default .list-notification li:hover,
-body .navbar-default .list-notification li:hover {
-  background-color: #c3c3c3;
-}
-html #container-body,
-body #container-body {
-  padding-top: 50px;
-  height: 100%;
-}
-html input,
-body input,
-html .form-control,
-body .form-control {
-  border-radius: 0px;
-  border: 1px solid #c3c3c3;
-}
-html .btn,
-body .btn {
-  border-radius: 0px;
-  border: none;
-}
 html .input-group-custom-addon.icon-addon.addon-sm,
 body .input-group-custom-addon.icon-addon.addon-sm {
   position: relative;
@@ -6437,85 +6354,9 @@ html .modal-content .modal-footer .btn,
 body .modal-content .modal-footer .btn {
   margin-left: 10px;
 }
-html .i-checks,
-body .i-checks {
-  padding-left: 20px;
-  cursor: pointer;
-}
-html .i-checks input,
-body .i-checks input {
-  opacity: 0;
-  position: absolute;
-  margin-left: -20px;
-}
-html .i-checks input:checked + i,
-body .i-checks input:checked + i {
-  border-color: #aa4400;
-}
-html .i-checks input:checked + i:before,
-body .i-checks input:checked + i:before {
-  left: 4px;
-  top: 4px;
-  width: 10px;
-  height: 10px;
-  background-color: #aa4400;
-}
-html .i-checks input:checked + span .active,
-body .i-checks input:checked + span .active {
-  display: inherit;
-}
-html .i-checks input[type="radio"] + i,
-body .i-checks input[type="radio"] + i,
-html .i-checks input[type="radio"] + i:before,
-body .i-checks input[type="radio"] + i:before {
-  border-radius: 50%;
-}
-html .i-checks input[disabled] + i,
-body .i-checks input[disabled] + i,
-fieldset[disabled] html .i-checks input + i,
-fieldset[disabled] body .i-checks input + i {
-  border-color: #d0d0d0;
-}
-html .i-checks input[disabled] + i:before,
-body .i-checks input[disabled] + i:before,
-fieldset[disabled] html .i-checks input + i:before,
-fieldset[disabled] body .i-checks input + i:before {
-  background-color: #d0d0d0;
-}
-html .i-checks > i,
-body .i-checks > i {
-  width: 20px;
-  height: 20px;
-  line-height: 1;
-  border: 1px solid #c3c3c3;
-  background-color: #fff;
-  margin-left: -20px;
-  margin-top: -2px;
-  display: inline-block;
-  vertical-align: middle;
-  margin-right: 4px;
-  position: relative;
-}
-html .i-checks > i:before,
-body .i-checks > i:before {
-  content: "";
-  position: absolute;
-  left: 10px;
-  top: 10px;
-  width: 0px;
-  height: 0px;
-  background-color: transparent;
-  -webkit-transition: all 0.2s;
-  -o-transition: all 0.2s;
-  transition: all 0.2s;
-}
-html .i-checks > span,
-body .i-checks > span {
-  margin-left: -20px;
-}
-html .i-checks > span .active,
-body .i-checks > span .active {
-  display: none;
+html .cg-busy,
+body .cg-busy {
+  top: 50px !important;
 }
 html input[type='range'],
 body input[type='range'] {
@@ -6550,32 +6391,7 @@ body input[type='range']::-moz-range-thumb {
   height: 20px;
   width: 20px;
 }
-::-webkit-scrollbar {
-  width: 12px;
-  border: 1px solid #424242;
-}
-::-webkit-scrollbar-track {
-  -webkit-box-shadow: inset 0 0 6px rgba(6, 83, 120, 0.3);
-}
-::-webkit-scrollbar-thumb {
-  background-color: #2f6ca6;
-  -webkit-box-shadow: inset 0 0 6px rgba(6, 83, 120, 0.5);
-}
-::-webkit-scrollbar-track-piece:start {
-  background-color: #e4e1de;
-}
-.panel-heading {
-  color: white !important;
-  font-family: Ubuntu, Arial, sans-serif;
-  font-size: 30px;
-}
-.panel-heading .label-info {
-  font-size: 30%;
-  vertical-align: top;
-  top: 0.5em;
-}
-/*
-
+/**
 ____________________________________________________________________________________
 i-check examples:
 -----------------
@@ -6607,30 +6423,7 @@ input-group-custom-addon examples:
     </div>
 
 
-
-
 */
-#longin-menu {
-  margin-right: -10px;
-  margin-left: 5px;
-}
-#longin-menu .dropdown-menu {
-  margin-top: 15px;
-}
-#longin-menu .dropdown-menu::before {
-  position: absolute;
-  top: -10px;
-  right: 15px;
-  display: inline-block;
-  border-right: 10px solid transparent;
-  border-bottom: 10px solid #FFFFFF;
-  border-left: 10px solid transparent;
-  content: "";
-}
-#longin-menu *::before,
-#longin-menu *::after {
-  box-sizing: border-box;
-}
 #dashboard-body {
   background: #efefef;
   height: 100%;

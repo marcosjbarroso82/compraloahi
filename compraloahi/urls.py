@@ -3,6 +3,7 @@ from django.contrib import admin
 
 from rest_framework.routers import DefaultRouter
 from rest_framework.authtoken import views
+from django.views.generic import TemplateView
 
 from apps.ad import views as adViews
 from apps.favorite.views import FavoriteAdViewSet, HasFavoriteNearApiView, proximityFavorityApiView
@@ -103,6 +104,8 @@ urlpatterns = patterns('',
                            DashBoardAjaxView.as_view(),
                            name='dashboard-ajax'),
                        url(r'^$', HomeView.as_view()),
+
+                       url(r'^panel/', TemplateView.as_view(template_name='dashboard/base.html')),
 
                        # API Message List
                        url(r'^api/v1/messages/thread/(?P<pk>\d+)/$',

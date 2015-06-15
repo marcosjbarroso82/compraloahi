@@ -7,43 +7,41 @@
 {% load common_tags %}
 {% block title %}Aviso {{ ad.title }}{% endblock %}
 
+
 {% block js_header_block %}
-    <script type="text/javascript" src="{{ STATIC_URL }}bower_components/jquery-cookie/jquery.cookie.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/cloud-zoom.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/favit/favorite.js"></script>
 {% endblock %}
 
 {% block css_header_block %}
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/less/ad-detail.css" >
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/cloud-zoom.css" type="text/css">
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/favit/favorite.css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/less/ad-detail.css" >
+<link rel="stylesheet" href="{{ STATIC_URL }}css/cloud-zoom.css" type="text/css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/favit/favorite.css">
 {% endblock %}
 
 {% block body_block %}
-    <div class="ad-detail-page">
+<div class="ad-detail-page">
     {% bootstrap_messages %}
     <div class="section summery">
         <!-- Thumnails -->
         <div class="col-md-1 col-md-offset-1">
             {% for images in ad.images.all %}
-                {% thumbnail images.image "800x800" crop="center" as im %}
-                    <a id="{{ images.pk }}" class="ad-image-gallery" data-image="{{ im.url }}">
+            {% thumbnail images.image "800x800" crop="center" as im %}
+            <a id="{{ images.pk }}" class="ad-image-gallery" data-image="{{ im.url }}">
                 {% endthumbnail %}
-            {% thumbnail images.image "110x110" crop="center" as im %}
+                {% thumbnail images.image "110x110" crop="center" as im %}
                 <img class="img-thumbnail" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
-            {% endthumbnail %}
+                {% endthumbnail %}
             </a>
             {% endfor %}
         </div>
         <!-- Main Image -->
         <div class="col-md-4" >
             {% with ad.images.all|first as image %}
-                {% thumbnail image.image "800x800" crop="center" as im %}
-                    <!-- TODO: make cloud zoom responsive -->
-                    <a id="main-image-link" href="{{ im.url }}" class="cloud-zoom" rel=" adjustY:0, adjustX:30, zoomWidth:535 ">
-                        <img id="main-image" class="img-thumbnail" src="{{ im.url }}">
-                    </a>
-                {% endthumbnail %}
+            {% thumbnail image.image "800x800" crop="center" as im %}
+            <!-- TODO: make cloud zoom responsive -->
+            <a id="main-image-link" href="{{ im.url }}" class="cloud-zoom" rel=" adjustY:0, adjustX:30, zoomWidth:535 ">
+                <img id="main-image" class="img-thumbnail" src="{{ im.url }}">
+            </a>
+            {% endthumbnail %}
             {% endwith %}
         </div>
         <!-- Ad Summery -->
@@ -67,17 +65,17 @@
 
                 <!-- ######## CONTACT ############# -->
                 {% if user.is_authenticated %}
-                    <!-- BUTTON OPEN --->
-                    {% if user != ad.author %}
-                        <button data-toggle="modal" class="btn btn-lg pull-right contact" id="btn-contact" data-target="#modalMessage">
-                        <i class=""></i> Contactar
-                    </button>
-                    {% endif %}
+                <!-- BUTTON OPEN --->
+                {% if user != ad.author %}
+                <button data-toggle="modal" class="btn btn-lg pull-right contact" id="btn-contact" data-target="#modalMessage">
+                    <i class=""></i> Contactar
+                </button>
+                {% endif %}
 
                 {% else %}
-                    <a class="contact btn btn-lg btn-success pull-right" href="/accounts/login/?next=/ad/{{ ad.slug }}">
-                        <i class=""></i> Contactar
-                    </a>
+                <a class="contact btn btn-lg btn-success pull-right" href="/accounts/login/?next=/ad/{{ ad.slug }}">
+                    <i class=""></i> Contactar
+                </a>
                 {% endif %}
                 <!-- /.modal compose message -->
                 <div class="modal" id="modalMessage">
@@ -134,27 +132,31 @@
                 </div>
             </div>
             </span>
-            <script>
-                var content_comment_form = $("#form-comment-list");
-                submit_comment_ajax(content_comment_form);
-            </script>
+        <script>
+            var content_comment_form = $("#form-comment-list");
+            submit_comment_ajax(content_comment_form);
+        </script>
         {% else %}
-            <div class="container col-md-10 col-md-offset-1">
-                <a class="btn btn-success pull-right" href="/accounts/login/?next=/ad/{{ ad.slug }}">
-                    <i class=""></i> Ingresar para Preguntar
-                </a>
+        <div class="container col-md-10 col-md-offset-1">
+            <a class="btn btn-success pull-right" href="/accounts/login/?next=/ad/{{ ad.slug }}">
+                <i class=""></i> Ingresar para Preguntar
+            </a>
 
-            </div>
+        </div>
         {% endif %}
     </div>
-{% endblock %}
+    {% endblock %}
 
-{% block js_footer_block %}
+
+    {% block js_footer_block %}
+    <script type="text/javascript" src="{{ STATIC_URL }}js/cloud-zoom.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/favit/favorite.js"></script>
+
     <script>
         var ad = {id: {{ad.id}} };
     </script>
 
     <script type="text/javascript" src="{{ STATIC_URL }}js/ad/detail.js"></script>
+    {% endblock %}
 
-{% endblock %}
 </div>
