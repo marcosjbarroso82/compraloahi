@@ -77,11 +77,15 @@
                         <!-- ######## END CONTACT ############# -->
                         <div class="social">
                             {% favorite_button ad %}
-                            <a class="btn btn-info pull-right popup " href="http://twitter.com/share"><i class="fa fa-twitter"></i></a>
-                            <a class="btn btn-info pull-right popup" href="https://www.facebook.com/sharer/sharer.php?app_id=1507071816215188&amp;u={{ request.get_full_path|urlencode }}&amp;display=popup&amp;ref=plugin"><i class="fa fa-facebook"></i></a>
+                            <a class="btn btn-twitter m-b-xs pull-right popup " href="http://twitter.com/share"><i class="fa fa-twitter"></i></a>
+                            <a class="btn btn-facebook  m-b-xs pull-right popup" href="https://www.facebook.com/sharer/sharer.php?app_id=1507071816215188&amp;u={{ request.get_full_path|urlencode }}&amp;display=popup&amp;ref=plugin"><i class="fa fa-facebook"></i></a>
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <div class="col-md-12">
+                <hr/>
             </div>
 
             <!-- Ad Details -->
@@ -96,6 +100,10 @@
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <div class="col-md-12">
+                <hr/>
             </div>
 
             <!-- Listado de Comentarios / Preguntas -->
