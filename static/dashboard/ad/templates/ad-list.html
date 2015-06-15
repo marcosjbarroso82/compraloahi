@@ -14,19 +14,20 @@
         <div class="col-md-12">
             <div class="panel panel-white">
                 <div class="panel-body">
-                    <div class="container-footer col-md-12">
-                        <a ui-sref="ad-create" id="btn-add-ad" class="btn btn-success btn-lg"><span class="glyphicon glyphicon-bullhorn"></span> Agrega tu aviso</a>-
-                    </div>
+
                     <div class="content-data col-md-12" ng-show="vm.ads.length > 0">
-                        <div class="col-md-6 col-xs-12">
+                        <div class="col-md-8">
+                            <a ui-sref="ad-create" class="btn btn-success"><span class="glyphicon glyphicon-bullhorn"></span> Agrega tu aviso</a>
+                        </div>
+                        <div class="col-md-4">
                             <div class="input-group">
-                                <input type="text" name="title" ng-model="vm.filters.title" placeholder="Ingresa el titulo del aviso que buscas" class="form-control">
-                                <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                                <input name="search" ng-model="vm.filters.title" class="form-control input-search" placeholder="Ingresa el titulo del aviso que buscas..." type="text">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-success" type="button"><i class="fa fa-search"></i></button>
+                                </span>
                             </div>
                         </div>
-                        <div class="col-md-12">
-                            <hr/>
-                        </div>
+                        <hr/>
                         <table class="table table-bordred table-striped" ng-table="vm.tableParams" >
                             <tr id="ad-row-{{ ad.id }}" ng-class-odd="'odd'" ng-class-even="'even'" ng-repeat="ad in $data">
                                 <td class="v-align-middle col-md-1"
@@ -42,20 +43,34 @@
                                 </td>
                                 <td class="v-align-middle col-md-2" data-title="'Acciones'">
                                     <!-- delete -->
-                                    <button class="btn btn-sm btn-danger btn-actions"
+                                    <button class="btn btn-sm btn-default text-danger btn-actions"
                                             ng-really-message="Estas seguro que deseas borrar el aviso {{ ad.title }} ?"
                                             ng-really-click="vm.destroy(ad)"
                                             item="ad">
-                        <span class="glyphicon glyphicon-remove"
-                              tooltips
-                              tooltip-title="Elimina el aviso {{ ad.title }}"
-                              tooltip-side="top"
-                              tooltip-size="small"></span>
+                                        <span class="fa fa-trash-o"
+                                              tooltips
+                                              tooltip-title="Elimina el aviso {{ ad.title }}"
+                                              tooltip-side="top"
+                                              tooltip-size="small"></span>
                                     </button>
                                     <!-- update -->
-                                    <a href="/ad/update/{{ ad.slug }}" class="btn btn-sm btn-warning btn-actions"><span class="glyphicon glyphicon-edit"></span></a>
+                                    <a href="/ad/update/{{ ad.slug }}" class="btn btn-sm text-warning btn-default  btn-actions">
+                                        <span
+                                                tooltips
+                                                tooltip-title="Editar el aviso"
+                                                tooltip-side="top"
+                                                tooltip-size="small"
+                                                class="fa fa-pencil"></span>
+                                    </a>
                                     <!-- view detail -->
-                                    <a href="/ad/{{ ad.slug }}" class="btn btn-sm btn-success btn-actions" ><span class="glyphicon glyphicon-eye-open"></span></a>
+                                    <a href="/ad/{{ ad.slug }}" class="btn btn-sm btn-default text-success btn-actions" >
+                                        <span
+                                                tooltips
+                                                tooltip-title="Ver en detalle"
+                                                tooltip-side="top"
+                                                tooltip-size="small"
+                                                class="fa fa-eye"></span>
+                                    </a>
 
                                 </td>
                             </tr>
@@ -63,7 +78,7 @@
                     </div>
                     <div class="content-data col-md-12" ng-show="vm.ads.length == 0">
                         <p>No tienenes ningun aviso. Puedes empezar cargando tu primer aviso</p>
-                        <a ui-sref="ad-create" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-bullhorn"></span> Agrega tu aviso</a>-
+                        <a ui-sref="ad-create" class="btn btn-success"><span class="glyphicon glyphicon-bullhorn"></span> Agrega tu aviso</a>
                     </div>
                 </div>
             </div>
