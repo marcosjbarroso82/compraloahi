@@ -9,37 +9,39 @@
 
 {% block body_block %}
 
-<div class="main container">
+<main class="page-content">
+    <div class="page-inner">
+        <div id="main-wrapper">
+            <div class="row">
+                <div class="col-md-3 center">
+                    <div class="login-box">
+                        <a href="index.html" class="logo-name text-lg text-center">Ingresa con tu cuenta</a>
+                        <div class="btn-group btn-group-justified m-t-sm" role="group" aria-label="Justified button group">
+                            <a href="/accounts/facebook/login/?process=login" class="btn btn-facebook"><i class="fa fa-facebook"></i> Facebook</a>
+                            <!--<a href="#" class="btn btn-twitter"><i class="fa fa-twitter"></i> Twitter</a>-->
+                            <a href="/accounts/google/login/?process=login" class="btn btn-google"><i class="fa fa-google-plus"></i> Google+</a>
+                        </div>
 
-      <h3>Please Log In, or <a href="{{ signup_url }}">Sign Up</a></h3>
-      <div class="row">
-        <div class="col-xs-6 col-sm-6 col-md-6">
-          <a href="/accounts/facebook/login/?process=login" class="btn btn-lg btn-primary btn-block">Facebook</a>
-        </div>
-        <div class="col-xs-6 col-sm-6 col-md-6">
-          <a href="/accounts/google/login/?process=login" class="btn btn-lg btn-danger btn-block">Google</a>
-        </div>
-      </div>
-      <div class="login-or">
-        <hr class="hr-or">
-        <span class="span-or">or</span>
-      </div>
+                        
+                        <form class="m-t-md" role="form" method="POST" action="{% url 'account_login' %}">
+                            {% if redirect_field_value %}
+                            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+                            {% endif %}
+                            {% csrf_token %}
+                            {% bootstrap_form form %}
 
-      <form role="form" method="POST" action="{% url 'account_login' %}" >
-            {% csrf_token %}
-            {% bootstrap_form form %}
+                            <button type="submit" class="btn btn-success btn-block">Entrar</button>
+                            <a href="{% url 'account_reset_password' %}" class="display-block text-center m-t-md text-sm">Olvido la contraseña?</a>
+                            <p class="text-center m-t-xs text-sm">No tienes una cuenta en compraloahi?</p>
+                            <a href="{{ signup_url }}" class="btn btn-default btn-block m-t-md">Crear una cuenta</a>
+                        </form>
+                    </div>
 
-            {% if redirect_field_value %}
-                <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-            {% endif %}
-
-            <a class="button secondaryAction" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
-            <button class="primaryAction btn btn-success pull-right" type="submit">{% trans "Sign In" %}</button>
-      </form>
-
-    </div>
-
-
+                </div>
+            </div><!-- Row -->
+        </div><!-- Main Wrapper -->
+    </div><!-- Page Inner -->
+</main><!-- Page Content -->
 
 
 
