@@ -1,20 +1,20 @@
 @import '../../bower_components/bootstrap/less/bootstrap.less';
 @import 'mixin.less';
 
-@header-form-height:          30px;
-
 // Panel
+/*
 @panel-default-heading-bg:    #008080;
 @panel-heading-padding:       0px 0px 0px 20px;
-@border-radius-base:          0px;
 
+*/
+@border-radius-base: 0px;
 // Colors
-@orange:                      #ff6600;
-@blue-dark:                   #4e6c83;
+//@orange:                      #ff6600;
+//@blue-dark:                   #4e6c83;
 
 
 // ----- COLOR VAR -----
-
+/*
 @brand-primary: #466178; // #337ab7
 @brand-success: #2b7929;
 @brand-info: #488dbd;
@@ -22,19 +22,12 @@
 @brand-danger: #8d101d;
 
 @input-border: #c3c3c3;
+*/
+@color-input-custom-addon: #ce4f00;
 
-@color-input-custom-addon: #aa4400;
-
-@color-location: #065378;
+@color-location: #4e6c83;
 
 // ----- END COLOR VAR ---
-
-
-@header-height: 50px;
-
-
-@main-font-family:            Ubuntu, Arial, sans-serif;
-@navbar-default-bg: #f2f2f2;
 
 
 html, body{
@@ -74,38 +67,8 @@ html, body{
   }
 
 
-  .modal-content{
-    border-radius: 0px;
-
-
-    .modal-header{
-      border: none;
-      padding: 5px;
-      text-align: center;
-      height: 30px;
-
-      .close{
-        font-size: 1.3em;
-        font-weight: 600;
-      }
-      h4{
-        color: #2b5b91;
-        font-weight: bold;
-      }
-    }
-    .modal-body{
-      overflow: auto;
-      overflow-x: hidden;
-    }
-    .modal-footer{
-      border: none;
-      .btn{
-        margin-left: 10px;
-      }
-    }
-  }
 .cg-busy{
-  top: @header-height !important;
+  top: 70px !important;
 }
 
 

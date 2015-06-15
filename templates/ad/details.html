@@ -54,26 +54,19 @@
                 <div class="ratting">
                     <div >Puntaje de este Anunciante</div>
                     {{ rating }}
-                    <div class="score">
-                        <i class="rate-bar-green"></i>
-                        <i class="rate-bar-green"></i>
-                        <i class="rate-bar-green"></i>
-                        <i class="rate-bar-light-orange"></i>
-                        <i class="rate-bar-orange"></i>
-                    </div>
                 </div>
 
                 <!-- ######## CONTACT ############# -->
                 {% if user.is_authenticated %}
                 <!-- BUTTON OPEN --->
                 {% if user != ad.author %}
-                <button data-toggle="modal" class="btn btn-lg pull-right contact" id="btn-contact" data-target="#modalMessage">
+                <button data-toggle="modal" class="btn btn-lg pull-right" id="btn-contact" data-target="#modalMessage">
                     <i class=""></i> Contactar
                 </button>
                 {% endif %}
 
                 {% else %}
-                <a class="contact btn btn-lg btn-success pull-right" href="/accounts/login/?next=/ad/{{ ad.slug }}">
+                <a class="btn btn-lg btn-success pull-right" href="/accounts/login/?next=/ad/{{ ad.slug }}">
                     <i class=""></i> Contactar
                 </a>
                 {% endif %}
@@ -83,18 +76,21 @@
                 <!-- ######## END CONTACT ############# -->
                 <div class="social">
                     {% favorite_button ad %}
-
-                    <a class="popup" href="http://twitter.com/share"><i class="twitter pull-right"></i></a>
-                    <a class="popup" href="https://www.facebook.com/sharer/sharer.php?app_id=1507071816215188&amp;u={{ request.get_full_path|urlencode }}&amp;display=popup&amp;ref=plugin"><i id="social" class="facebook pull-right"></i></a>
+                    <a class="btn btn-info pull-right popup " href="http://twitter.com/share"><i class="fa fa-twitter"></i></a>
+                    <a class="btn btn-info pull-right popup" href="https://www.facebook.com/sharer/sharer.php?app_id=1507071816215188&amp;u={{ request.get_full_path|urlencode }}&amp;display=popup&amp;ref=plugin"><i class="fa fa-facebook"></i></a>
                 </div>
             </div>
         </div>
     </div>
 
+    <div class="col-md-12">
+        <hr/>
+    </div>
+
     <!-- Ad Details -->
     <div class="section">
         <div class="container col-md-10 col-md-offset-1">
-            <div class="panel panel-default widget">
+            <div class="panel panel-default">
                 <div class="panel-heading">
                     Descripcion del Anuncio
                 </div>
@@ -104,7 +100,10 @@
             </div>
         </div>
     </div>
-
+    
+    <div class="col-md-12">
+        <hr/>
+    </div>
     <!-- Listado de Comentarios / Preguntas -->
     {% get_comment_count for object as comment_count %}
     <!-- Comments  List -->

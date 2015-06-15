@@ -115,15 +115,13 @@
                             <img class="img-circle avatar" src="{{ user.profile.image.url }}" width="40" height="40" alt="">
                         </a>
                         <ul class="dropdown-menu dropdown-list" role="menu">
-                            <li role="presentation"><a href="/panel/user/profile/"><i class="fa fa-user"></i>Profile</a></li>
-                            <li role="presentation"><a href="/panel/mensaje/entrada/"><i class="fa fa-envelope"></i>Inbox<span class="badge badge-success pull-right">4</span></a></li>
+                            <li role="presentation"><a href="/panel/user/profile"><i class="fa fa-user"></i>Profile</a></li>
+                            <li role="presentation"><a href="/panel/mensajes/inbox"><i class="fa fa-envelope"></i>Inbox<span class="badge badge-success pull-right">4</span></a></li>
                             <li role="presentation" class="divider"></li>
                             <li role="presentation"><a href="lock-screen.html"><i class="fa fa-lock"></i>Lock screen</a></li>
                             <li role="presentation"><a href="{% url 'my-user:my-logout' %}"><i class="fa fa-sign-out m-r-xs"></i>Log out</a></li>
                         </ul>
                     </li>
-
-
                 </ul><!-- Nav -->
             </div><!-- Top Menu -->
         </div>
