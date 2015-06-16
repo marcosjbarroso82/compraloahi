@@ -3,7 +3,6 @@ from django.contrib import admin
 
 from rest_framework.routers import DefaultRouter
 from rest_framework.authtoken import views
-from django.views.generic import TemplateView
 
 from apps.ad import views as adViews
 from apps.favorite.views import FavoriteAdViewSet, HasFavoriteNearApiView, proximityFavorityApiView
@@ -13,7 +12,7 @@ from apps.notification.views import NotificationListApiView, NotificationRetriev
 from apps.userProfile.views import UserLocationViewSet, UserProfileModelView, StoreModelViewSet, StoreView
 from apps.user.views import ChangePasswordUpdateAPIView, FacebookLogin, GoogleLogin
 
-from .views import HomeView, ApiDashBoardView, DashBoardAjaxView, log, send_notification, generate_all_auth_token
+from .views import HomeView, DashBoardView, log, send_notification, generate_all_auth_token
 from .settings import base as settings
 
 router = DefaultRouter()
@@ -25,6 +24,7 @@ router.register(r'favorites', FavoriteAdViewSet, base_name='favorites')
 router.register(r'ad-search', adViews.SearchViewSet, base_name='search') #/api/v1/ad-search/?q=algo&latitude=-31&longitude=-64&km=33
 
 urlpatterns = patterns('',
+                       url(r'^$', HomeView.as_view()),
                        url(r'^favorites/near/$', HasFavoriteNearApiView.as_view() , name='favorite-near'),
 
                        url(r'^api/v1/categories/$', adViews.CategoriesListAPIView.as_view(), name='categories'),
@@ -100,13 +100,6 @@ urlpatterns = patterns('',
                            include('rest_framework.urls',
                                    namespace='rest_framework')),
 
-                       url(r'^dashboard-ajax/.*$',
-                           DashBoardAjaxView.as_view(),
-                           name='dashboard-ajax'),
-                       url(r'^$', HomeView.as_view()),
-
-                       url(r'^panel/', TemplateView.as_view(template_name='dashboard/base.html')),
-
                        # API Message List
                        url(r'^api/v1/messages/thread/(?P<pk>\d+)/$',
                            MessageModelViewSet.as_view({'get': 'retrieve'})),
@@ -135,9 +128,7 @@ urlpatterns = patterns('',
                            'apps.message.views.get_unread_count',
                            name='api-message-get-unread-count'),
 
-                       url(r'^dashboard/.*$',
-                           ApiDashBoardView.as_view(),
-                           name='dashboard'),
+                       url(r'^panel/.*$', DashBoardView.as_view(), name='dashboard'),
                        # Admin django
                        url(r'^admin/', include(admin.site.urls)),
 

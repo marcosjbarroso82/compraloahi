@@ -4,6 +4,7 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.contrib.comments.views.comments import post_comment
 from django.http import HttpResponse
+from django.contrib.auth.decorators import login_required
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -49,27 +50,15 @@ class HomeView(TemplateView):
         return redirect('/ad/search/?q=')
 
 
-class ApiDashBoardView(TemplateView):
-    template_name = 'api/dashboard.html'
-
-    @method_decorator(ensure_csrf_cookie)
-    def dispatch(self, *args, **kwargs):
-        return super(ApiDashBoardView, self).dispatch(*args, **kwargs)
-
-
 class DashBoardView(TemplateView):
-    template_name = 'dashboard-ajax.html'
+    """
+        View to init dashboard
+    """
+    template_name = 'dashboard/base.html'
 
-    @method_decorator(ensure_csrf_cookie)
+    @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
         return super(DashBoardView, self).dispatch(*args, **kwargs)
-
-class DashBoardAjaxView(TemplateView):
-    template_name = 'userProfile/dashboard-ajax.html'
-
-    @method_decorator(ensure_csrf_cookie)
-    def dispatch(self, *args, **kwargs):
-        return super(DashBoardAjaxView, self).dispatch(*args, **kwargs)
 
 
 
