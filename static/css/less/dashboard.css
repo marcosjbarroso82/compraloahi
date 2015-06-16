@@ -6303,6 +6303,10 @@ html,
 body {
   height: 100%;
 }
+html .modal-backdrop,
+body .modal-backdrop {
+  z-index: 999;
+}
 html .input-group-custom-addon.icon-addon.addon-sm,
 body .input-group-custom-addon.icon-addon.addon-sm {
   position: relative;
@@ -6404,92 +6408,11 @@ input-group-custom-addon examples:
 
 
 */
-#dashboard-body {
-  background: #efefef;
-  height: 100%;
-  padding-top: 50px;
-}
-#dashboard-body #dashboard-menu {
-  position: fixed;
-  background-color: #1C2B36;
-  height: 100%;
-  padding-left: 0px;
-  padding-right: 0px;
-}
-#dashboard-body #dashboard-menu .navbar-header {
-  margin-top: 20px;
-  height: 40px;
-  color: #787878;
-  float: none;
-  margin-bottom: 10px;
-}
-#dashboard-body #dashboard-menu .divider {
-  width: 100%;
-  border-bottom: 1px solid #7c958f;
-}
-#dashboard-body #dashboard-menu ul .navbar-header {
-  margin-left: 30px;
-}
-#dashboard-body #dashboard-menu ul li.active {
-  background-color: #1E3C78;
-}
-#dashboard-body #dashboard-menu ul li:hover,
-#dashboard-body #dashboard-menu ul li:focus {
-  background-color: none;
-  font-size: bold;
-  color: black;
-}
-#dashboard-body #dashboard-menu ul .item-menu {
-  color: #c3c3c3;
-  min-height: 30px;
-  padding: 10px 0px;
-  width: 100%;
-  margin-right: 15px;
-  background-color: none;
-}
-#dashboard-body #dashboard-menu ul .item-menu i {
-  margin-right: 5px;
-  margin-left: 15px;
-}
-#dashboard-body #dashboard-menu ul .item-menu .badge {
-  margin-right: 15px;
-}
-#dashboard-body #dashboard-menu ul .nav-menu-collapse li a {
-  padding-left: 45px;
-  color: white;
-}
-#dashboard-body #dashboard-menu ul .nav-menu-collapse li a.active {
-  background-color: none;
-  color: #55b7da;
-  font-weight: bold;
-}
-#dashboard-body #dashboard-menu ul .nav-menu-collapse li a:hover,
-#dashboard-body #dashboard-menu ul .nav-menu-collapse li a:focus {
-  background-color: none;
-  font-size: bold;
-  color: black;
-}
-#dashboard-body .dashboard-content {
-  float: right;
-  right: 0px;
-  height: 100%;
-}
-#dashboard-body .dashboard-content .title-data {
-  width: 100%;
-  color: #065378;
-  padding-bottom: 5px;
-  height: 30px;
-}
-#dashboard-body .dashboard-content .container-footer .btn {
-  float: right;
-  margin-top: 20px;
-  margin-left: 10px;
-}
-#dashboard-body .dashboard-content .container-profile-data {
+.container-profile-data {
   padding: 0px;
   border-bottom: 1px solid #434343;
 }
-#dashboard-body .dashboard-content .container-profile-data h5 {
+.container-profile-data h5 {
   color: #aa4400;
   margin-bottom: 10px;
   margin-top: 0px;
@@ -6497,94 +6420,63 @@ input-group-custom-addon examples:
   height: 35px;
   font-weight: bold;
 }
-#dashboard-body .dashboard-content .container-profile-data p {
+.container-profile-data p {
   margin-left: 20px;
   height: 35px;
 }
-#dashboard-body .dashboard-content .container-profile-data p i,
-#dashboard-body .dashboard-content .container-profile-data li i {
+.container-profile-data p i,
+.container-profile-data li i {
   margin-right: 10px;
   height: 35px;
 }
-#dashboard-body .dashboard-content .container-profile-data #contact-number-list {
+.container-profile-data #contact-number-list {
   list-style: none;
   margin-left: 20px;
   padding-left: 0px;
 }
-#dashboard-body .dashboard-content .container-profile-data #contact-number-list .input-contact-number {
+.container-profile-data #contact-number-list .input-contact-number {
   width: 175px;
 }
-#dashboard-body .dashboard-content .container-profile-data .btn-actions {
+.container-profile-data .btn-actions {
   margin-top: 10px;
 }
-#dashboard-body .dashboard-content .container-profile-data .btn-actions button {
+.container-profile-data .btn-actions button {
   margin-bottom: 10px;
   clear: right;
 }
-#dashboard-body .dashboard-content #container-profile-data-update #input-upload-photo {
-  width: 100%;
-}
-#dashboard-body .dashboard-content #container-change-password .form-inline {
+#container-change-password .form-inline {
   margin-bottom: 10px;
 }
-#dashboard-body .dashboard-content #container-change-password .form-inline label {
+#container-change-password .form-inline label {
   width: 50%;
   text-align: right;
 }
-#dashboard-body .dashboard-content #container-message-data .nav {
-  margin-bottom: 10px;
-}
-#dashboard-body .dashboard-content #container-message-data .nav li {
-  border: none;
-  border-radius: 0px;
-  height: 35px;
-}
-#dashboard-body .dashboard-content #container-message-data .nav li .i-checks {
-  margin-left: -6px;
-}
-#dashboard-body .dashboard-content #container-message-data .content-data .active {
-  background-color: #9fffa0;
-}
-#dashboard-body .dashboard-content #container-message-data .content-data td {
-  background: none;
-}
-#dashboard-body .dashboard-content #container-message-thread-data .message {
-  border-bottom: 1px solid #c3c3c3;
-  padding: 10px;
-}
-#dashboard-body .dashboard-content #container-message-thread-data .message h4 {
-  color: #065378;
-}
-#dashboard-body .dashboard-content #container-message-thread-data .message small {
-  color: #434343;
-  font-size: .8em;
-}
-#dashboard-body .dashboard-content #container-locations-data #location-map {
+#container-locations-data #location-map {
   width: 100%;
   top: 0px;
   left: 0px;
   position: absolute;
 }
-#dashboard-body .dashboard-content #container-locations-data #content-header-forms-location {
+#container-locations-data #content-header-forms-location {
   height: 35px;
 }
-#dashboard-body .dashboard-content #container-locations-data #content-header-forms-location #form-location {
+#container-locations-data #content-header-forms-location #form-location {
   padding: 0px;
 }
-#dashboard-body .dashboard-content #container-locations-data #content-header-forms-location #form-location #form-location-btn {
+#container-locations-data #content-header-forms-location #form-location #form-location-btn {
   padding-left: 0px;
   padding-right: 0px;
 }
-#dashboard-body .dashboard-content #container-locations-data #content-header-forms-location #form-location #form-location-btn .btn {
+#container-locations-data #content-header-forms-location #form-location #form-location-btn .btn {
   margin-right: 5px;
 }
-#dashboard-body .dashboard-content #container-locations-data #content-header-forms-location #form-location #form-location-input {
+#container-locations-data #content-header-forms-location #form-location #form-location-input {
   padding: 0px;
 }
-#dashboard-body .dashboard-content #container-locations-data #content-header-forms-location #form-location #form-location-input input {
+#container-locations-data #content-header-forms-location #form-location #form-location-input input {
   width: 100%;
 }
-#dashboard-body .dashboard-content #container-locations-data #data-position-form {
+#container-locations-data #data-position-form {
   -webkit-box-shadow: 1px 1px 2px 0.5px #626060;
   -moz-box-shadow: 1px 1px 2px 0.5px #626060;
   box-shadow: 1px 1px 2px 0.5px #626060;
@@ -6595,67 +6487,57 @@ input-group-custom-addon examples:
   margin-top: 10px;
   z-index: 10;
 }
-#dashboard-body .dashboard-content #container-locations-data #data-position-form .input-group-custom-addon.icon-addon.addon-sm {
+#container-locations-data #data-position-form .input-group-custom-addon.icon-addon.addon-sm {
   color: #4e6c83;
 }
-#dashboard-body .dashboard-content #container-locations-data #data-position-form .input-group-custom-addon.icon-addon.addon-sm .glyphicon {
+#container-locations-data #data-position-form .input-group-custom-addon.icon-addon.addon-sm .glyphicon {
   border-color: #4e6c83;
 }
-#dashboard-body .dashboard-content #container-locations-data #data-position-form input[type="text"] {
+#container-locations-data #data-position-form input[type="text"] {
   border: none;
   border-bottom: 1px solid #cccccc;
 }
-#dashboard-body .dashboard-content #container-locations-data #data-position-form .range {
+#container-locations-data #data-position-form .range {
   margin-top: 10px;
 }
-#dashboard-body .dashboard-content #container-locations-data #data-position-form #range {
+#container-locations-data #data-position-form #range {
   border: none;
 }
-#dashboard-body .dashboard-content #container-locations-data #data-position-form #map-radius {
+#container-locations-data #data-position-form #map-radius {
   z-index: 10;
 }
-#dashboard-body .dashboard-content #container-locations-data #data-position-form .form-inline {
+#container-locations-data #data-position-form .form-inline {
   margin-right: 5px;
 }
-#dashboard-body .dashboard-content #container-locations-data #data-position-form .form-inline #range {
+#container-locations-data #data-position-form .form-inline #range {
   font-weight: bold;
   color: #4e6c83;
   padding: 6px 4px;
 }
-#dashboard-body .dashboard-content #container-locations-data #data-position-form .form-inline .label-dist {
+#container-locations-data #data-position-form .form-inline .label-dist {
   font-size: .8em;
   vertical-align: bottom;
   margin-top: 13px;
 }
-#dashboard-body .dashboard-content #container-locations-data #data-position-form .form-inline .data-point {
+#container-locations-data #data-position-form .form-inline .data-point {
   font-size: .8em;
   margin: 13px 5px 0px 0px;
 }
-#dashboard-body .dashboard-content #container-ad-list-data .content-data .btn-actions {
-  margin-left: 10px;
-  float: right;
-  margin-top: 30px;
-}
-#dashboard-body .dashboard-content #container-ad-list-data .container-footer #btn-add-ad {
-  position: fixed;
-  left: 0px;
-  bottom: 10px;
-}
-#dashboard-body .dashboard-content #container-ad-create-data #mapa {
+#container-ad-create-data #mapa {
   height: 500px;
   margin: 20px;
 }
-#dashboard-body .dashboard-content #container-ad-create-data #search-places {
+#container-ad-create-data #search-places {
   width: 90%;
   height: 35px !important;
 }
-#dashboard-body .dashboard-content #container-ad-create-data #location-map {
+#container-ad-create-data #location-map {
   width: 100%;
   top: 0px;
   left: 0px;
   position: absolute;
 }
-#dashboard-body .dashboard-content #container-ad-create-data #data-position-form {
+#container-ad-create-data #data-position-form {
   -webkit-box-shadow: 1px 1px 2px 0.5px #626060;
   -moz-box-shadow: 1px 1px 2px 0.5px #626060;
   box-shadow: 1px 1px 2px 0.5px #626060;
@@ -6667,40 +6549,40 @@ input-group-custom-addon examples:
   z-index: 10;
   width: 100%;
 }
-#dashboard-body .dashboard-content #container-ad-create-data #data-position-form .input-group {
+#container-ad-create-data #data-position-form .input-group {
   width: 100%;
 }
-#dashboard-body .dashboard-content #container-ad-create-data #data-position-form .input-group-custom-addon.icon-addon.addon-sm {
+#container-ad-create-data #data-position-form .input-group-custom-addon.icon-addon.addon-sm {
   color: #4e6c83;
 }
-#dashboard-body .dashboard-content #container-ad-create-data #data-position-form .input-group-custom-addon.icon-addon.addon-sm .glyphicon {
+#container-ad-create-data #data-position-form .input-group-custom-addon.icon-addon.addon-sm .glyphicon {
   border-color: #4e6c83;
 }
-#dashboard-body .dashboard-content #container-ad-create-data #data-position-form input[type="text"] {
+#container-ad-create-data #data-position-form input[type="text"] {
   border: none;
   border-bottom: 1px solid #cccccc;
 }
-#dashboard-body .dashboard-content #container-ad-create-data .categories {
+#container-ad-create-data .categories {
   min-height: 100px;
   list-style: none;
 }
-#dashboard-body .dashboard-content #container-ad-create-data .categories li {
+#container-ad-create-data .categories li {
   width: 180px;
   float: left;
 }
-#dashboard-body .dashboard-content #container-ad-create-data .disabled {
+#container-ad-create-data .disabled {
   z-index: 100;
   background-color: #b1b1b1;
   opacity: 0.6;
   pointer-events: none;
 }
-#dashboard-body .dashboard-content #container-ad-create-data fieldset[disabled] {
+#container-ad-create-data fieldset[disabled] {
   background-color: #b1b1b1;
 }
-#dashboard-body .dashboard-content #container-ad-create-data hr {
+#container-ad-create-data hr {
   border-color: #BBBBBB;
 }
 .angular-google-map-container {
-  height: 400px;
+  min-height: 400px;
   width: 100%;
 }

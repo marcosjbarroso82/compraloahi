@@ -6,17 +6,26 @@
 </div>
 <div class="page-title">
     <div class="container">
-        <h3>Mis Favoritos</h3>
+        <h3>Mis favoritos</h3>
     </div>
 </div>
 <div id="main-wrapper" class="container">
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-white">
-                <div class="panel-body">
+                <div class="panel-body" cg-busy="vm.promiseRequest">
+
                     <div class="content-data col-md-12" ng-show="vm.favorites.length > 0">
-                        <input type="text" name="title"
-                               ng-model="filters.title" class="form-control">
+                        <div class="col-md-4 col-md-offset-8">
+                            <div class="input-group">
+                                <input name="search" ng-model="vm.filters.title" class="form-control input-search" placeholder="Ingresa el titulo del aviso que buscas..." type="text">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-success" type="button"><i class="fa fa-search"></i></button>
+                                </span>
+                            </div>
+                        </div>
+                        <hr/>
+
                         <table class="table table-bordred table-striped" ng-table="tableParams" >
                             <tr id="ad-row-{{ ad.id }}" ng-class-odd="'odd'" ng-class-even="'even'" ng-repeat="ad in $data">
                                 <td class="v-align-middle col-md-1"
@@ -32,13 +41,22 @@
                                 </td>
                                 <td class="v-align-middle col-md-1" data-title="'Price'" sortable="'price'"> {{ ad.price| currency:"$" }}</td>
                                 <td class="v-align-middle col-md-1" data-title="'Actions'">
-                                    <a class="btn btn-sm btn-danger btn-actions" ng-really-message="Are you sure ?" ng-really-click="remove_favorite(ad)" item="ad" tooltip="Elimina de favoritos"><span class="glyphicon glyphicon-remove"></span></a>
+                                    <!-- delete -->
+                                    <button class="btn btn-sm btn-default text-danger btn-actions"
+                                            ng-really-message="Estas seguro que deseas quitar de favoritos el aviso {{ ad.title }} ?"
+                                            ng-really-click="vm.remove_favorite(ad)"
+                                            item="ad">
+                                        <span class="fa fa-trash-o"
+                                              tooltips
+                                              tooltip-title="Quita de favorito el aviso {{ ad.title }}"
+                                              tooltip-side="top"
+                                              tooltip-size="small"></span>
+                                    </button>
                                 </td>
                             </tr>
                         </table>
-
                     </div>
-                    <div class="content-data col-md-12" ng-show="vm.favorites.length == 0">
+                    <div class="content-data col-md-12" ng-show="vm.favorites.length == 0 && vm.request">
                         <p>No tienenes ningun favorito, Empieza ya, con la ayuda de los favoritos no te vas a peder ninguna oportunidad.
                             Entra a los avisos que te interesan y agregalo a tus favoritos, nosotros nos encargamos del resto.</p>
                     </div>
@@ -52,3 +70,4 @@
         <p class="no-s">2015 &copy; Compraloahi by Context.</p>
     </div>
 </div>
+

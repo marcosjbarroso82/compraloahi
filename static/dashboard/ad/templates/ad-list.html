@@ -13,7 +13,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-white">
-                <div class="panel-body">
+                <div class="panel-body" cg-busy="vm.promiseRequest">
 
                     <div class="content-data col-md-12" ng-show="vm.ads.length > 0">
                         <div class="col-md-8">
@@ -76,7 +76,7 @@
                             </tr>
                         </table>
                     </div>
-                    <div class="content-data col-md-12" ng-show="vm.ads.length == 0">
+                    <div class="content-data col-md-12" ng-show="vm.ads.length == 0 && vm.request">
                         <p>No tienenes ningun aviso. Puedes empezar cargando tu primer aviso</p>
                         <a ui-sref="ad-create" class="btn btn-success"><span class="glyphicon glyphicon-bullhorn"></span> Agrega tu aviso</a>
                     </div>

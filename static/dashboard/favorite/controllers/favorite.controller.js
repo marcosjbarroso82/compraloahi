@@ -23,6 +23,8 @@
         $scope.current_page = 1;
         $scope.pages = [];
 
+
+        vm.request = false;
         getFavorites();
 
         $scope.filters = {
@@ -74,6 +76,10 @@
                 vm.favorites = response.results;
                 $scope.next_page = response.next;
                 $scope.prev_page = response.previous;
+                vm.request = true;
+            }, function(error){
+
+                vm.request = true;
             });
         };
 

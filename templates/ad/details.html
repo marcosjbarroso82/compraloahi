@@ -76,9 +76,16 @@
                         </div>
                         <!-- ######## END CONTACT ############# -->
                         <div class="social">
-                            {% favorite_button ad %}
-                            <a class="btn btn-twitter m-b-xs pull-right popup " href="http://twitter.com/share"><i class="fa fa-twitter"></i></a>
-                            <a class="btn btn-facebook  m-b-xs pull-right popup" href="https://www.facebook.com/sharer/sharer.php?app_id=1507071816215188&amp;u={{ request.get_full_path|urlencode }}&amp;display=popup&amp;ref=plugin"><i class="fa fa-facebook"></i></a>
+                            <div class="col-md-4">
+                                <p>Favorito:</p>
+                                {% favorite_button ad %}
+                            </div>
+                            <div class="col-md-8">
+                             <p>Compartir en:</p>
+                            <a class="btn btn-twitter m-b-sm pull-right popup " href="http://twitter.com/share"><i class="fa fa-twitter"></i> Twitter</a>
+                            <a class="btn btn-facebook  m-b-sm pull-right popup" href="https://www.facebook.com/sharer/sharer.php?app_id=1507071816215188&amp;u={{ request.get_full_path|urlencode }}&amp;display=popup&amp;ref=plugin"><i class="fa fa-facebook"></i> Facebook</a>
+                            </div>
+
                         </div>
                     </div>
                 </div>

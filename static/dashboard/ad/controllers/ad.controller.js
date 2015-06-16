@@ -24,6 +24,8 @@
         // Declare vars
         vm.ads = [];
 
+        vm.request = false;
+
         vm.filters = {
             title: ''
         };
@@ -63,10 +65,13 @@
 
             function getSuccess(data){
                 vm.ads = data.data.results;
+                vm.request = true;
             }
 
             function getError(error){
                 AlertNotification.error("Error al consultar avisos, vuelva a intentarlo mas tarde");
+
+                vm.request = true;
             }
 
         }

@@ -7,69 +7,117 @@
 </div>
 <div class="page-title">
     <div class="container">
-        <h3>Mensajes - ({{ vm.folder }})</h3>
+        <h3>Mensajes</h3>
     </div>
 </div>
 <div id="main-wrapper" class="container">
-    <div class="row">
+
+
+
+
+    <div class="row m-t-md">
         <div class="col-md-12">
-            <div class="panel panel-white">
-                <div class="panel-body">
-                    <div class="content-data col-md-12" ng-if="vm.messages.length > 0">
-                        <ul class="nav nav-pills">
-                            <li class="btn">
-                                <label class="i-checks">
-                                    <input ng-model="vm.messages_select" ng-click="vm.select_all_messages()" type="checkbox">
-                                    <i></i>
-                                </label>
-                            </li>
-                            <li ng-disabled="vm.messages_selected.length == 0"
-                                ng-if="vm.folder == 'inbox'"
-                                rel="tooltip" title="Eliminar mensajes seleccionados"
-                                class="btn btn-danger"
-                                ng-really-message="Are you sure ?"
-                                ng-really-click="vm.delete_bulk()">
-                                <i class="glyphicon glyphicon-trash"></i>
-                            </li>
-                            <li ng-disabled="vm.messages_selected.length == 0"
-                                rel="tooltip" title="Marcar como leido mensajes seleccionados"
-                                class="btn btn-info"
-                                ng-click="vm.set_read_bulk()">
-                                <i class="glyphicon glyphicon-ok"></i>
-                            </li>
-                            <div class="pull-right">
-                                <li class="pull-left">{{ vm.page }} - {{ 10 }}  de  {{ vm.count }}</li>
-                                <li class="pull-right"><a ng-disabled="!vm.next_page" ng-click="vm.loadMessages(vm.next_page)" class="btn btn-default"> <i class="glyphicon glyphicon-chevron-right"></i> </a></li>
-                                <li  class="pull-right"><a ng-disabled="!vm.prev_page" ng-click="vm.loadMessages(vm.prev_page)" class="btn btn-default"> <i class="glyphicon glyphicon-chevron-left"></i> </a></li>
+            <div class="row mailbox-header">
 
-                            </div>
-                        </ul>
-                        <div class="table-responsive">
-                            <table class="table">
-                                <tbody>
-                                <tr ng-repeat="message in vm.messages" ng-class="{'active': message.read_at == None}">
-                                    <td class="col-md-1">
-                                        <label class="i-checks">
-                                            <input checked="" value="message.id" ng-model="message.selected" type="checkbox" ng-click="vm.select_message(message)">
-                                            <i></i>
-                                        </label>
-                                    </td>
-                                    <td class="col-md-8"><a ui-sref="message-thread({id:{{ message.id }}})">{{ message.subject }}</a></td>
-                                    <td class="col-md-3">{{ message.sent_at }}</td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-
-
-                    </div>
-                    <div class="col-md-12" ng-if="vm.messages.length == 0">
-                        No tiene mensajes.
-                    </div>
+                <div class="col-md-6">
+                    <h2>{{ vm.folder }}</h2>
+                </div>
+                <div class="col-md-4 col-md-offset-2">
+                    <form action="#" method="GET">
+                        <div class="input-group">
+                            <input type="text" name="search" class="form-control input-search" placeholder="Search...">
+                            <span class="input-group-btn">
+                                <button class="btn btn-success" type="button"><i class="fa fa-search"></i></button>
+                            </span>
+                        </div><!-- Input Group -->
+                    </form>
                 </div>
             </div>
         </div>
-    </div><!-- Row -->
+        <div class="col-md-2">
+            <ul class="list-unstyled mailbox-nav">
+                <li ng-class="{ 'active': vm.folder == 'inbox' }"><a ui-sref="messages({'folder': 'inbox'})" ><i class="fa fa-inbox"></i>Bandeja <span class="badge badge-success pull-right">4</span></a></li>
+                <li ng-class="{ 'active': vm.folder == 'sent' }"><a ui-sref="messages({'folder': 'sent'})"><i class="fa fa-sign-out"></i>Enviados</a></li>
+                <li ng-class="{ 'active': vm.folder == 'trash' }"><a ui-sref="messages({'folder': 'trash'})" ><i class="fa fa-trash"></i>Papelera</a></li>
+            </ul>
+        </div>
+        <div class="col-md-10">
+            <div class="panel panel-white">
+                <div class="panel-body mailbox-content">
+                    <table class="table" cg-busy="vm.promiseRequest">
+                        <thead>
+                        <tr>
+                            <th colspan="1" class="hidden-xs">
+                                <span><input ng-click="vm.select_all_messages()" type="checkbox" class="check-mail-all"></span>
+                            </th>
+                            <th class="text-right" colspan="5">
+                                <span class="text-muted m-r-sm">Mostrando 10 de {{ vm.count }} </span>
+                                <!--<a class="btn btn-default m-r-sm" data-toggle="tooltip" data-placement="top" title="Refresh"><i class="fa fa-refresh"></i></a>-->
+                                <div class="btn-group m-r-sm ">
+                                    <a class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Delete" ng-disabled="vm.messages_selected.length == 0">
+                                        <i class="fa fa-trash"
+                                           tooltips
+                                           tooltip-title="Eliminar"
+                                           tooltip-side="top"
+                                           tooltip-size="small"></i>
+                                    </a>
+                                    <a class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Mark as Read" ng-disabled="vm.messages_selected.length == 0">
+                                        <i class="fa fa-pencil"
+                                           tooltips
+                                           tooltip-title="Marcar como leido"
+                                           tooltip-side="top"
+                                           tooltip-size="small"></i>
+                                    </a>
+                                </div>
+                                <div class="btn-group m-r-sm ">
+                                    <div class="btn-group">
+                                        <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" ng-disabled="vm.messages_selected.length == 0">
+                                            <i class="fa fa-folder"
+                                               tooltips
+                                               tooltip-title="Mover a.."
+                                               tooltip-side="top"
+                                               tooltip-size="small"></i>
+                                            <span class="caret"></span>
+                                        </a>
+                                        <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                            <li><a href="#">Trash</a></li>
+                                        </ul>
+                                    </div>
+
+                                </div>
+                                <div class="btn-group">
+                                    <a ng-disabled="!vm.next_page" ng-click="vm.loadMessages(vm.next_page)" class="btn btn-default"><i class="fa fa-angle-left"></i></a>
+                                    <a ng-disabled="!vm.prev_page" ng-click="vm.loadMessages(vm.prev_page)" class="btn btn-default"><i class="fa fa-angle-right"></i></a>
+                                </div>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="unread" ng-repeat="message in vm.messages" ng-class="{'unread': message.read_at == null, 'read': message.read_at}">
+                            <td class="hidden-xs">
+                                <span><input ng-click="vm.select_message(message)" value="message.id" ng-model="message.selected" type="checkbox" class="checkbox-mail"></span>
+                            </td>
+                            <td class="hidden-xs" ui-sref="message-thread({id:{{ message.id }}})">
+                                {{ message.subject }}
+                            </td>
+                            <td ui-sref="message-thread({id:{{ message.id }}})">
+                                Nullam quis risus eget urna mollis ornare vel eu leo
+                            </td>
+                            <td>
+                            </td>
+                            <td>
+                                {{ message.sent_at }}
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
 </div><!-- Main Wrapper -->
 <div class="page-footer">
     <div class="container">

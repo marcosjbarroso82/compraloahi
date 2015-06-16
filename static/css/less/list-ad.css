@@ -6304,6 +6304,10 @@ html,
 body {
   height: 100%;
 }
+html .modal-backdrop,
+body .modal-backdrop {
+  z-index: 999;
+}
 html .input-group-custom-addon.icon-addon.addon-sm,
 body .input-group-custom-addon.icon-addon.addon-sm {
   position: relative;
