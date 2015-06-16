@@ -50,6 +50,7 @@
         }
 
          function select_all_messages(){
+             console.log("ENTRO");
             angular.forEach(vm.messages, function(message){
                message.selected = vm.messages_select;
             });

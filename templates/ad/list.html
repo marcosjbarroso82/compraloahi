@@ -25,9 +25,9 @@ cg-busy="adPromise"
     <div class="input-group">
         <!-- TODO: Implement watch event to press enter for search -->
         <input type="text" name="q" ng-model="q" ng-enter="refreshResults()" class="form-control search-input" placeholder="Search...">
-                <span class="input-group-btn">
-                    <button class="btn btn-default close-search waves-effect waves-button waves-classic" type="button"><i class="fa fa-times"></i></button>
-                </span>
+            <span class="input-group-btn">
+                <button class="btn btn-default close-search waves-effect waves-button waves-classic" type="button"><i class="fa fa-times"></i></button>
+            </span>
     </div><!-- Input Group -->
     <input type="hidden" name="radius" ng-value="search_location.radius"/>
     <input type="hidden" name="lat" ng-value="search_location.location.latitude"/>
@@ -97,7 +97,7 @@ cg-busy="adPromise"
 
     <!-- ########################## SECTION DATA FILTER MAP ########################## -->
     <section id="data-filter-map" style="height: 0px;" ng-class="{'col-md-7': !collapsabled, 'col-md-10': collapsabled}">
-        {% endverbatim %}
+
         <!-- ########################## FORM LOCATION INF ########################## -->
         <div id="data-position-form">
             <!-- Address -->
@@ -108,7 +108,7 @@ cg-busy="adPromise"
 
             <!-- Radius -->
             <div class="">
-                {% verbatim %}
+
                 <div class="range range-success">
                     <input id="map_radius" class="col-md-8" type="range" name="map_radius" min="1000" max="6000" ng-model="search_location.radius" >
                 </div>
@@ -118,59 +118,48 @@ cg-busy="adPromise"
                     <output id="range" class="form-control">{{ search_location.radius }}</output>
                     <label class="label-dist">Mtrs</label>
                 </div>
-                {% endverbatim %}
+
             </div>
 
+            {% endverbatim %}
 
             {% if user.is_authenticated %}
+            {% verbatim %}
+            <div class="btn-group pull-left dropdown">
+                <a class="btn btn-xs btn-data-position btn-primary dropdown-toggle waves-effect waves-button waves-classic" data-toggle="dropdown">
+                    <i class="glyphicon glyphicon-list-alt"
+                       tooltips
+                       tooltip-size="small"
+                       tooltip-title="Mis ubicaciones"
+                       tooltip-side="right">
+                    </i>
+                </a>
 
-            <div class="btn-group pull-left" dropdown is-open="status.isopen">
-                <button type="button"
-                        class="btn btn-xs btn-data-position btn-primary dropdown-toggle"
-                        dropdown-toggle
-                        ng-disabled="disabled"
-                        tooltips
-                        tooltip-size="small"
-                        tooltip-title="Mis ubicaciones"
-                        tooltip-side="right">
-                    <i class="glyphicon glyphicon-list-alt"></i>
-                </button>
-                <span class="pull-left" style="margin-top: 10px;">Mis ubicaciones</span>
-                {% verbatim %}
-                <ul class="dropdown-menu list-my-location" role="menu" >
-                    <li ng-repeat="user_location in user_locations" for="{{user_location}}" >
-                        <div class="radio">
-                            <label class="i-checks">
-                                <input type="radio"
-                                       name="selte"
-                                       ng-model="$parent.user_location_selected"
-                                       ng-value="user_location"
-                                       id="{{user_location}}"
-                                        >
-                                <i></i>
-                                {{ user_location.title }}
-                            </label>
-                        </div>
+                <ul class="dropdown-menu dropdown-list" role="menu">
+                    <li role="presentation" ng-repeat="user_location in user_locations" for="{{user_location}}" >
+                        <input type="radio"
+                               name="selte"
+                               ng-model="$parent.user_location_selected"
+                               ng-value="user_location"
+                               id="{{user_location}}"
+                                >
+                        <i></i>
+                        {{ user_location.title }}
                     </li>
                     <li ng-if="!user_locations.lenght">No tienes ubicaciones guardadas.</li>
                     <li ng-if="!user_locations.lenght">
-
-                                <span style="cursor: pointer"
-                                      class="btn-link"
-                                      data-toggle="modal"
-                                      data-target="#modalNewLocation"
-                                      tooltip="Guarda tu ubicacion"
-                                      popover-placement="top"
-                                      ng-show="search_location.changed">
-                                    Guardar ubicación actual
-                                </span>
+                        <span style="cursor: pointer"
+                              class="btn-link"
+                              data-toggle="modal"
+                              data-target="#modalNewLocation"
+                              tooltip="Guarda tu ubicacion"
+                              popover-placement="top"
+                              ng-show="search_location.changed">
+                            Guardar ubicación actual
+                        </span>
                     </li>
-
                 </ul>
-                {% endverbatim %}
-
             </div>
-
 
             <!-- ########################## SAVE NEW LOCATION ########################## -->
 
@@ -193,7 +182,6 @@ cg-busy="adPromise"
                         <h4 class="modal-title">Guardar Ubicacion</h4>
                     </div>
                     <div class="modal-body">
-                        {% verbatim %}
                         <!-- Address -->
                         <div class="form-group">
                             <label>Nombre :</label>
@@ -202,7 +190,6 @@ cg-busy="adPromise"
                                    ng-model="search_location.title" />
 
                         </div>
-                        {% endverbatim %}
                     </div>
                     <div class="modal-footer">
                         <button ng-click="submitNewLocation()" type="submit" class="btn btn-primary pull-right">
@@ -217,37 +204,42 @@ cg-busy="adPromise"
             <!-- END MODAL SAVE NEW LOCATION -->
         </div>
         <!-- ########################## END SAVE NEW LOCATION ########################## -->
-
+        {% endverbatim %}
         {% else %}
 </div>
 <!-- ########################## END FORM LOCATION INF (IN IF TOO CLOSE) ########################## -->
 {% endif %}
 
-
-
+{% verbatim %}
 <!-- ########################## FILTER FACET ########################## -->
-<div class="btn-group pull-right" dropdown is-open="status.isopenfilter" >
-    <button type="button" class="btn btn-success dropdown-toggle" id="btn-filter-facet" dropdown-toggle >
-        <i class="glyphicon glyphicon-filter"></i>  Filtros <span class="caret"></span>
-    </button>
-    <div class="dropdown-menu menu-dropdown" role="menu" id="modalFilterFacet">
-        {% verbatim %}
-        <div ng-repeat="facet in facets" ng-if="!facet.activated">
-            <h5>{{ facet.name }}</h5>
-            <ul>
-                <li ng-repeat="value in facet.values" ng-click="changeFacet(facet, value, true)">
-                    {{ value.name }}<span class="badge">{{ value.cant }}</span>
-                </li>
-            </ul>
-        </div>
-        <div ng-if="facets.length == 0">
-            <p>No hay mas filtros para aplicar</p>
-        </div>
-        {% endverbatim %}
+
+<div class="pull-right">
+    <div>
+        <div class="dropdown">
+        <a id="btn-filter-facet" class="btn btn-success dropdown-toggle waves-effect waves-button waves-classic" data-toggle="dropdown">
+            <i class="glyphicon glyphicon-filter"></i>  Filtros <span class="caret"></span>
+        </a>
+
+        <ul class="dropdown-menu dropdown-list" role="menu" id="modalFilterFacet">
+            <li ng-repeat="facet in facets" ng-if="!facet.activated" id="list-facet">
+                <h5>{{ facet.name }}</h5>
+                <ul>
+                    <li  ng-repeat="value in facet.values" ng-click="changeFacet(facet, value, true)">
+                        {{ value.name }}<span class="badge">{{ value.cant }}</span>
+                    </li>
+                </ul>
+            </li>
+
+        </ul>
+    </div>
     </div>
 
-
 </div>
+
+
+
+
+{% endverbatim %}
 <!-- ########################## END FILTER FACET ########################## -->
 
 
@@ -490,7 +482,6 @@ cg-busy="adPromise"
 <!-- ###################### DASHBOARD APP - MODULE UTILS ###################### -->
 <script type="text/javascript" src="{% static 'dashboard/utils/util.module.js' %}"></script>
 <script type="text/javascript" src="{% static 'dashboard/utils/directives/google-places.directive.js' %}"></script>
-<script type="text/javascript" src="{% static 'dashboard/utils/directives/really-click.directive.js' %}"></script>
 
 <!-- ###################### END DASHBOARD APP - MODULE UTILS ###################### -->
 
@@ -500,11 +491,6 @@ cg-busy="adPromise"
 <script type="text/javascript" src="{% static 'angular-resources/modules/ad/services/ad.service.js' %}"></script>
 <script type="text/javascript" src="{% static 'angular-resources/modules/ad/controllers/ad.controller.js' %}"></script>
 <!-- ###################### END angular-resources APP - MODULE AD ###################### -->
-
-<script>
-
-
-</script>
 
 
 <script>

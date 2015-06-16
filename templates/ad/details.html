@@ -50,83 +50,92 @@
                     <h1 class=" product title">{{  ad.title }}</h1 >
                     <div class="product price pull-right">${{ ad.price|floatformat:"0" }}<sup>{{ ad.price|float_decimal_part}}</sup></div>
                     <div class="product desc">{{ ad.short_description }}</div>
-
+                    <hr/>
                     <div class="publisher">
-                        <div class="ratting">
+                        <div class="col-md-6">
                             <div >Puntaje de este Anunciante</div>
                             {{ rating }}
                         </div>
 
                         <!-- ######## CONTACT ############# -->
-                        {% if user.is_authenticated %}
-                        <!-- BUTTON OPEN --->
-                        {% if user != ad.author %}
-                        <button data-toggle="modal" class="btn btn-lg pull-right" id="btn-contact" data-target="#modalMessage">
-                            <i class=""></i> Contactar
-                        </button>
-                        {% endif %}
+                        <div class="col-md-6">
+                            {% if user.is_authenticated %}
+                            <!-- BUTTON OPEN --->
+                            {% if user != ad.author %}
+                            <button data-toggle="modal" class="btn btn-success pull-right" id="btn-contact" data-target="#modalMessage">
+                                <i class=""></i> Contactar
+                            </button>
+                            {% endif %}
 
-                        {% else %}
-                        <a class="btn btn-lg btn-success pull-right" href="/accounts/login/?next=/ad/{{ ad.slug }}">
-                            <i class=""></i> Contactar
-                        </a>
-                        {% endif %}
+                            {% else %}
+                            <a class="btn btn-success pull-right" href="/accounts/login/?next=/ad/{{ ad.slug }}">
+                                <i class=""></i> Contactar
+                            </a>
+                            {% endif %}
+                        </div>
                         <!-- /.modal compose message -->
                         <div class="modal" id="modalMessage">
                         </div>
                         <!-- ######## END CONTACT ############# -->
+                        <div class="col-md-12">
+                            <hr/>
+                        </div>
                         <div class="social">
+                            {% if user.is_authenticated %}
                             <div class="col-md-4">
                                 <p>Favorito:</p>
                                 {% favorite_button ad %}
                             </div>
                             <div class="col-md-8">
-                             <p>Compartir en:</p>
-                            <a class="btn btn-twitter m-b-sm pull-right popup " href="http://twitter.com/share"><i class="fa fa-twitter"></i> Twitter</a>
-                            <a class="btn btn-facebook  m-b-sm pull-right popup" href="https://www.facebook.com/sharer/sharer.php?app_id=1507071816215188&amp;u={{ request.get_full_path|urlencode }}&amp;display=popup&amp;ref=plugin"><i class="fa fa-facebook"></i> Facebook</a>
+                                {% else %}
+                                <div class="col-md-8 col-md-offset-4">
+                                    {% endif %}
+                                    <p>Compartir en:</p>
+                                    <a class="btn btn-twitter m-b-sm pull-right popup " href="http://twitter.com/share"><i class="fa fa-twitter"></i> Twitter</a>
+                                    <a class="btn btn-facebook  m-b-sm pull-right popup" href="https://www.facebook.com/sharer/sharer.php?app_id=1507071816215188&amp;u={{ request.get_full_path|urlencode }}&amp;display=popup&amp;ref=plugin"><i class="fa fa-facebook"></i> Facebook</a>
+                                </div>
+
                             </div>
-
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="col-md-12">
-                <hr/>
-            </div>
+                <div class="col-md-12">
+                    <hr/>
+                </div>
 
-            <!-- Ad Details -->
-            <div class="section">
-                <div class="container col-md-10 col-md-offset-1">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            Descripcion del Anuncio
-                        </div>
-                        <div class="panel-body" >
-                            {{ ad.body|safe }}
+                <!-- Ad Details -->
+                <div class="section">
+                    <div class="container col-md-10 col-md-offset-1">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                Descripcion del Anuncio
+                            </div>
+                            <div class="panel-body" >
+                                {{ ad.body|safe }}
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="col-md-12">
-                <hr/>
-            </div>
-
-            <!-- Listado de Comentarios / Preguntas -->
-            {% get_comment_count for object as comment_count %}
-            <!-- Comments  List -->
-            <div class="section">
-                <div class="container col-md-10 col-md-offset-1">
-                    {% get_comment_list for object as comment_list%}
-
-                    {% include "comments/list.html" %}
+                <div class="col-md-12">
+                    <hr/>
                 </div>
-            </div>
 
-            <!-- Comment Form -->
-            <div class="section">
-                {% if user.is_authenticated %}
+                <!-- Listado de Comentarios / Preguntas -->
+                {% get_comment_count for object as comment_count %}
+                <!-- Comments  List -->
+                <div class="section">
+                    <div class="container col-md-10 col-md-offset-1">
+                        {% get_comment_list for object as comment_list%}
+
+                        {% include "comments/list.html" %}
+                    </div>
+                </div>
+
+                <!-- Comment Form -->
+                <div class="section">
+                    {% if user.is_authenticated %}
             <span id="form-comment-list">
             <div class="comment-form container col-md-10 col-md-offset-1">
                 <div class="panel panel-default widget">
@@ -140,34 +149,34 @@
                 </div>
             </div>
             </span>
-                <script>
-                    var content_comment_form = $("#form-comment-list");
-                    submit_comment_ajax(content_comment_form);
-                </script>
-                {% else %}
-                <div class="container col-md-10 col-md-offset-1">
-                    <a class="btn btn-success pull-right" href="/accounts/login/?next=/ad/{{ ad.slug }}">
-                        <i class=""></i> Ingresar para Preguntar
-                    </a>
+                    <script>
+                        var content_comment_form = $("#form-comment-list");
+                        submit_comment_ajax(content_comment_form);
+                    </script>
+                    {% else %}
+                    <div class="container col-md-10 col-md-offset-1">
+                        <a class="btn btn-success pull-right" href="/accounts/login/?next=/ad/{{ ad.slug }}">
+                            <i class=""></i> Ingresar para Preguntar
+                        </a>
 
+                    </div>
+                    {% endif %}
                 </div>
-                {% endif %}
+
             </div>
+        </div><!-- Row -->
+    </div><!-- Main Wrapper -->
 
-        </div>
-    </div><!-- Row -->
-</div><!-- Main Wrapper -->
-
-{% endblock %}
+    {% endblock %}
 
 
-{% block js_footer_block %}
-<script type="text/javascript" src="{{ STATIC_URL }}js/cloud-zoom.js"></script>
-<script type="text/javascript" src="{{ STATIC_URL }}js/favit/favorite.js"></script>
+    {% block js_footer_block %}
+    <script type="text/javascript" src="{{ STATIC_URL }}js/cloud-zoom.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/favit/favorite.js"></script>
 
-<script>
-    var ad = {id: {{ad.id}} };
-</script>
+    <script>
+        var ad = {id: {{ad.id}} };
+    </script>
 
-<script type="text/javascript" src="{{ STATIC_URL }}js/ad/detail.js"></script>
-{% endblock %}
+    <script type="text/javascript" src="{{ STATIC_URL }}js/ad/detail.js"></script>
+    {% endblock %}
