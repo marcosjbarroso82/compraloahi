@@ -108,7 +108,8 @@
                                 {{ message.subject }}
                             </td>
                             <td ui-sref="message-thread({id:{{ message.id }}})">
-                                Nullam quis risus eget urna mollis ornare vel eu leo
+                                <!-- TODO : En caso de que el mensaje sea nuevo, validar desde el servidor q no traiga todo el contenido -->
+                                {{ message.body | limitTo : 20 }} ...
                             </td>
                             <td>
                             </td>

@@ -294,6 +294,6 @@ input-group-custom-addon examples:
   border-color: #BBBBBB;
 }
 .angular-google-map-container {
-  min-height: 400px;
+  min-height: 400px !important;
   width: 100%;
 }
