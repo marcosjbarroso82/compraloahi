@@ -365,7 +365,17 @@ input-group-custom-addon examples:
   box-shadow: 1px 1px 3px 4px #1e617d;
 }
 #modalFilterFacet {
+  left: auto;
+  right: 0;
   width: 250px;
+}
+#modalFilterFacet:before {
+  left: auto;
+  right: 9xp;
+}
+#modalFilterFacet:after {
+  left: auto;
+  right: 10px;
 }
 #modalFilterFacet h5 {
   color: #787476;
