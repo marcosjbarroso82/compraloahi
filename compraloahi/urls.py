@@ -7,6 +7,7 @@ from rest_framework.authtoken import views
 from apps.ad import views as adViews
 from apps.favorite.views import FavoriteAdViewSet, HasFavoriteNearApiView, proximityFavorityApiView
 from apps.message.views import MessageDetail, MessageModelViewSet
+from apps.msg.views import MsgViewSet
 from apps.notification.views import NotificationListApiView, NotificationRetrieveApiView, \
     RegisterGCMNotification, UnregisterGCMNotification, NotificationMarkBulkReadApiView, ConfigNotificationModelViewSet
 from apps.userProfile.views import UserLocationViewSet, UserProfileModelView, StoreModelViewSet, StoreView
@@ -20,6 +21,7 @@ router.register(r'my-ads', adViews.AdUserViewSet, base_name='ad-by-user')
 router.register(r'ads', adViews.AdPublicViewSet, base_name='ads')
 router.register(r'user-locations', UserLocationViewSet, base_name='location-by-user')
 router.register(r'favorites', FavoriteAdViewSet, base_name='favorites')
+router.register(r'msgs', MsgViewSet, base_name='msgs')
 
 router.register(r'ad-search', adViews.SearchViewSet, base_name='search') #/api/v1/ad-search/?q=algo&latitude=-31&longitude=-64&km=33
 

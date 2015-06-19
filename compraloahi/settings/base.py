@@ -50,7 +50,8 @@ LOCAL_APPS = (
     'apps.message',
     'apps.comment_notification',
     'apps.notification',
-    'apps.rating'
+    'apps.rating',
+    'apps.msg'
 )
 
 # All aplication
@@ -238,9 +239,11 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',
+        # 'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.AllowAny',
     ),
     'DEFAULT_FILTER_BACKENDS': ('rest_framework.filters.DjangoFilterBackend',),
     'DEFAULT_PAGINATION_CLASS': 'compraloahi.views.CustomPagination'
