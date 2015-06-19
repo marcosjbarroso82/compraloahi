@@ -20,13 +20,13 @@ Packages requeriments:
 Folders to project:
 
 compraloahi/
-    apps/ ----------------------------> My django modules
-    compraloahi/
-        settings/ --------------------> Settings to django
-    static/
-        angular-resources/ -----------> Resources angular by site (less dashboard)
-            app/ ---------------------> Individual app angular to one page
-            modules/ -----------------> Angular modules to individual pages
+&nbsp;&nbsp;&nbsp;&nbsp;apps/ ----------------------------> My django modules
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;compraloahi/
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;settings/ --------------------> Settings to django
+&nbsp;&nbsp;&nbsp;&nbsp;static/
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;angular-resources/ -----------> Resources angular by site (less dashboard)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;app/ ---------------------> Individual app angular to one page
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;modules/ -----------------> Angular modules to individual pages
         bower_components/ ------------> Third libraries to frontend install by bower
         css/ -------------------------> Custom style to all the site
         dashboard/ -------------------> Angular app and modules to dashboard
