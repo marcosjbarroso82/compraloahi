@@ -35,14 +35,28 @@
                 AlertNotification.error("Se produjo un error en el servidor.");
             }
 
-            vm.promiseRequest = Ad.get(function(data) {
-                vm.configs.ads = data.results;
-            });
+            vm.promiseRequest = Ad.getAll().then(getAdSuccess, getAdError);
+
+            function getAdSuccess(data){
+                vm.configs.ads = data.data.results;
+            }
+
+            function getAdError(data){
+                console.log("Error request ads");
+            }
         }
 
 
         function submit(){
-            Store.setConfig(vm.configs);
+            Store.setConfig(vm.configs).then(submitSuccess, submitError);
+
+            function submitSuccess(data){
+                AlertNotification.success("La tienda se configuro con exito");
+            }
+
+            function submitError(data){
+                AlertNotification.error("Error al intentar configurar la tienda. Vuelva a intentarlo mas tarde");
+            }
         }
 
         function upload_img(){

@@ -119,11 +119,10 @@ input-group-custom-addon examples:
 
 
 */
-.container-profile-data {
+#container-profile-data {
   padding: 0px;
-  border-bottom: 1px solid #434343;
 }
-.container-profile-data h5 {
+#container-profile-data h4 {
   color: #aa4400;
   margin-bottom: 10px;
   margin-top: 0px;
@@ -131,27 +130,29 @@ input-group-custom-addon examples:
   height: 35px;
   font-weight: bold;
 }
-.container-profile-data p {
+#container-profile-data p {
   margin-left: 20px;
   height: 35px;
 }
-.container-profile-data p i,
-.container-profile-data li i {
+#container-profile-data li {
   margin-right: 10px;
   height: 35px;
 }
-.container-profile-data #contact-number-list {
+#container-profile-data .icon-desc {
+  margin-right: 10px;
+}
+#container-profile-data #contact-number-list {
   list-style: none;
   margin-left: 20px;
   padding-left: 0px;
 }
-.container-profile-data #contact-number-list .input-contact-number {
+#container-profile-data #contact-number-list .input-contact-number {
   width: 175px;
 }
-.container-profile-data .btn-actions {
+#container-profile-data .btn-actions {
   margin-top: 10px;
 }
-.container-profile-data .btn-actions button {
+#container-profile-data .btn-actions button {
   margin-bottom: 10px;
   clear: right;
 }
@@ -296,4 +297,8 @@ input-group-custom-addon examples:
 .angular-google-map-container {
   min-height: 400px !important;
   width: 100%;
+}
+.panel-footer button {
+  margin-left: 5px;
+  margin-right: 5px;
 }
