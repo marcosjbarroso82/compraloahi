@@ -19,17 +19,16 @@ angular.module('dashBoardApp', [
         'dashBoardApp.util',
         'dashBoardApp.favorite',
         'dashBoardApp.notification',
-        'dashBoardApp.store',
-        'validation.match'
-
-    ]).value('cgBusyDefaults',{
-    message:'Procesando solicitud...',
-    backdrop: false,
-    templateUrl: '/static/templates-utils/spinner.html',
-    delay: 300,
-    minDuration: 1000,
-    wrapperClass: 'cg-busy cg-busy-backdrop'
-})
+        'dashBoardApp.store'
+    ])
+    .value('cgBusyDefaults',{
+        message:'Procesando solicitud...',
+        backdrop: false,
+        templateUrl: '/static/templates-utils/spinner.html',
+        delay: 300,
+        minDuration: 1000,
+        wrapperClass: 'cg-busy cg-busy-backdrop'
+    })
     .run(function($rootScope, Message){
         $rootScope.new_messages_count = 0;
         Message.getUnreadCount().
