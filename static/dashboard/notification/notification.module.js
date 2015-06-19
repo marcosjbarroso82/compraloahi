@@ -4,8 +4,7 @@
     angular
         .module('dashBoardApp.notification', [
             'dashBoardApp.notification.controllers',
-            'dashBoardApp.notification.services',
-            'colorpicker.module'
+            'dashBoardApp.notification.services'
         ]);
 
     angular

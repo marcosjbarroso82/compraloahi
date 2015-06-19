@@ -23,6 +23,8 @@
         vm.validateAdsSelect = validateAdsSelect;
 
         vm.configs = {};
+        vm.configs.ads = [];
+        vm.configs.color = "#ffffff";
         vm.logo = {};
 
         activate();
@@ -51,9 +53,11 @@
         }
 
         function validateAdsSelect(){
-            for(var i=0; i < vm.configs.ads.length; i++){
-                if(vm.configs.ads[i].store_published){
-                    return true;
+            if(vm.configs.ads){
+                for(var i=0; i < vm.configs.ads.length; i++){
+                    if(vm.configs.ads[i].store_published){
+                        return true;
+                    }
                 }
             }
             return false;

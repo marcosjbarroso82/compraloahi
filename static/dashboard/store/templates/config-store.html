@@ -171,7 +171,7 @@
                             <form class="col-md-12 well" novalidate angular-validator angular-validator-submit="vm.nextStep()" name="formStep2" enctype="multipart/form-data">
                                 <div class="form-group">
                                     <label for="color">Elije un color de fondo para tu tienda </label>
-                                    <div colorpicker="hex" ng-model="vm.configs.color" class="btn btn-default" style="background-color: {{ vm.configs.color }}">Selecciona un color</div>
+                                    <input ng-model="vm.configs.color" type="color" placeholder="Selecciona un color" class="btn btn-default" style="background-color: {{ vm.configs.color }}" />
                                 </div>
                                 <div class="col-md-12">
                                     <p>
