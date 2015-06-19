@@ -49,10 +49,6 @@ html .input-group-custom-addon.icon-addon.addon-sm:focus,
 body .input-group-custom-addon.icon-addon.addon-sm:focus {
   color: #000 !important;
 }
-html .cg-busy,
-body .cg-busy {
-  top: 70px !important;
-}
 html input[type='range'],
 body input[type='range'] {
   -webkit-appearance: none;
@@ -310,4 +306,7 @@ hr {
 }
 .ng-table th.sortable.sort-asc {
   background-color: rgba(35, 194, 0, 0.3) !important;
+}
+.cg-busy {
+  top: 0px !important;
 }

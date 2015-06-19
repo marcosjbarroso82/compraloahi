@@ -50,10 +50,6 @@ html .input-group-custom-addon.icon-addon.addon-sm:focus,
 body .input-group-custom-addon.icon-addon.addon-sm:focus {
   color: #000 !important;
 }
-html .cg-busy,
-body .cg-busy {
-  top: 70px !important;
-}
 html input[type='range'],
 body input[type='range'] {
   -webkit-appearance: none;
@@ -409,8 +405,24 @@ input-group-custom-addon examples:
 .footer {
   display: none;
 }
-.ng-table th.sortable.sort-desc,
-.ng-table th.sortable.sort-asc {
-  background-color: none !important;
+.panel .panel-body {
+  min-height: 400px;
+}
+.table th {
   border-bottom: 1px solid #111;
+}
+.table th .sortable {
+  background-color: none !important;
+}
+.cg-busy {
+  top: 70px !important;
+}
+.loading {
+  height: 100%;
+  width: 100%;
+}
+.loading .loading-spinner {
+  position: absolute;
+  right: 50%;
+  top: 50%;
 }

@@ -25,8 +25,8 @@ angular.module('dashBoardApp', [
         message:'Procesando solicitud...',
         backdrop: false,
         templateUrl: '/static/templates-utils/spinner.html',
-        delay: 300,
-        minDuration: 1000,
+        delay: 100,
+        minDuration: 500,
         wrapperClass: 'cg-busy cg-busy-backdrop'
     })
     .run(function($rootScope, Message){

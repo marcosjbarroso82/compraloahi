@@ -32,12 +32,12 @@
 </div>
 <div id="main-wrapper" class="container">
     <div class="row">
-        <div class="col-md-12">
-            <div class="panel panel-white">
-                <div class="panel-body" cg-busy="vm.promiseRequest" id="container-profile-data">
+        <div class="col-md-12" >
+            <div class="panel panel-white" cg-busy="vm.promiseRequest">
+                <div class="panel-body" id="container-profile-data">
                     <div class="col-md-12 body-container" >
                         <div class="col-md-3" cg-busy="vm.promise_img" ng-mouseover="vm.focus_img = true;" ng-mouseleave="vm.focus_img = false;">
-                            <img class="img-responsive" id="item-display" src="{{ vm.profile.thumbnail_200x200 }}">
+                            <img class="img-responsive img-circle" id="item-display" src="{{ vm.profile.thumbnail_200x200 }}">
                             <div class="fileUpload btn btn-primary btn-xs" ng-show="vm.focus_img">
                                 <span><i class="fa fa-upload"></i></span>
                                 <input type="file" class="upload" file-model='img_profile' accept="image/*"/>
