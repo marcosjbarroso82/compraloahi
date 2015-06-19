@@ -279,21 +279,21 @@ input-group-custom-addon examples:
   width: 180px;
   float: left;
 }
-#container-ad-create-data .disabled {
+.angular-google-map-container {
+  min-height: 400px !important;
+  width: 100%;
+}
+.disabled {
   z-index: 100;
   background-color: #b1b1b1;
   opacity: 0.6;
   pointer-events: none;
 }
-#container-ad-create-data fieldset[disabled] {
+fieldset[disabled] {
   background-color: #b1b1b1;
 }
-#container-ad-create-data hr {
+hr {
   border-color: #BBBBBB;
-}
-.angular-google-map-container {
-  min-height: 400px !important;
-  width: 100%;
 }
 .panel-footer button {
   margin-left: 5px;

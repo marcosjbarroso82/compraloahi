@@ -18,6 +18,9 @@
         var vm = this;
 
         vm.submit = submit;
+        vm.changeStoreName = changeStoreName;
+        vm.nextStep = nextStep;
+        vm.validateAdsSelect = validateAdsSelect;
 
         vm.configs = {};
         vm.logo = {};
@@ -29,6 +32,7 @@
 
             function successConfig(data){
                 vm.configs = data.data;
+                changeStoreName();
             }
 
             function errorConfig(data){
@@ -46,12 +50,21 @@
             }
         }
 
+        function validateAdsSelect(){
+            for(var i=0; i < vm.configs.ads.length; i++){
+                if(vm.configs.ads[i].store_published){
+                    return true;
+                }
+            }
+            return false;
+        }
+
 
         function submit(){
             Store.setConfig(vm.configs).then(submitSuccess, submitError);
 
             function submitSuccess(data){
-                AlertNotification.success("La tienda se configuro con exito");
+                AlertNotification.success("La tienda se configuro con exito. Ahora puedes ver tu tienda haciendo click <a href='/tienda/"+ vm.configs.url +"'>AQUI</a>");
             }
 
             function submitError(data){
@@ -76,11 +89,20 @@
         }
 
         $scope.$watch('vm.logo', function(){
-            console.log("EL LOGO CAMBIO");
             upload_img();
         });
 
+        function changeStoreName(){
+            vm.configs.url = String(angular.copy(vm.configs.name)).replace(/\s+/g,'-');
+        }
 
+        function nextStep(){
+            vm.step ++;
+            if(vm.maxStep < vm.step){
+                vm.maxStep = angular.copy(vm.step);
+            }
+
+        }
 
     }
 
