@@ -34,6 +34,9 @@
 
             function successConfig(data){
                 vm.configs = data.data;
+                if(vm.configs.name == 'Name'){
+                    vm.configs.name = '';
+                }
                 changeStoreName();
             }
 

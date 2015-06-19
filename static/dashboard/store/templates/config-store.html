@@ -90,20 +90,20 @@
                                         <img style="max-width: 100%; max-height: 100%;" id="item-display" src="{{ vm.configs.logo }}">
                                         <div class="fileUpload btn btn-primary btn-xs" ng-show="vm.focus_img">
                                             <span><i class="fa fa-upload"></i></span>
-                                            <input type="file" class="upload" file-model='logo' accept="image/*"/>
+                                            <input name="logo" id="logo" type="file" class="upload" file-model='logo' accept="image/*"/>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="col-md-10">
                                     <div class="form-group">
-                                        <label for="name">Nombre de la tienda</label>
-                                        <input ng-change="vm.changeStoreName()"
-                                               id="name"
-                                               name="name"
+                                        <label for="name-store">Nombre de la tienda</label>
+                                        <input id="name-store"
+                                               name="name-store"
                                                type="text"
                                                class="form-control"
                                                ng-model="vm.configs.name"
+                                               ng-change="vm.changeStoreName()"
                                                placeholder="Titulo. Ej: La tienda de Pepe"
                                                ng-minlength="3"
                                                required="required"
