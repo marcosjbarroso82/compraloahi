@@ -4,7 +4,7 @@
 {% block title %}Aviso {% endblock %}
 
 {% block css_header_block %}
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/less/ad-detail.css" >
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/less/store.css" >
 {% endblock %}
 
 {% block body_block %}
@@ -16,69 +16,80 @@
         {% if store.column == 1 %}
             <!-- COL 1 -->
             {% for ad in ads %}
-                <div class="row">
-                    <div class="col-md-7">
-                        <a href="{% url 'ad:detail' ad.slug %}">
-                            {% with ad.images.all|first as image %}
-                                {% thumbnail image.image "700x300" crop="center" as im %}
-                                    <img  class="img-responsive" src="{{ im.url }}">
-                                {% endthumbnail %}
-                            {% endwith %}
-                        </a>
+                <div class="col-md-12 item-store">
+                    <div class="col-md-12 item-content one-column">
+                        <div class="col-md-7">
+
+                            <a href="{% url 'ad:detail' ad.slug %}">
+                                {% with ad.images.all|first as image %}
+                                    {% thumbnail image.image "700x300" crop="center" as im %}
+                                        <img  class="img-responsive" src="{{ im.url }}">
+                                    {% endthumbnail %}
+                                {% endwith %}
+                            </a>
+                        </div>
+                        <div class="col-md-5">
+                            <h3 ><a href="{% url 'ad:detail' ad.slug %}" class="title">{{ ad.title }}</a></h3>
+                            <p class="description">{{ ad.short_description }}</p>
+                           <span class="price">${{ ad.price }}</span>
+                        </div>
                     </div>
-                    <div class="col-md-5">
-                        <h3>{{ ad.title }}</h3>
-                        <h4>${{ ad.price }}</h4>
-                        <p>{{ ad.short_description }}</p>
-                        <a class="btn btn-primary" href="{% url 'ad:detail' ad.slug %}">View Ad <span class="glyphicon glyphicon-chevron-right"> </span></a>
-                    </div>
+
                 </div>
             {% endfor %}
         {% elif store.column == 2 %}
             {% for ad in ads %}
-                <div class="col-md-6">
-                    <a href="{% url 'ad:detail' ad.slug %}">
-                        {% with ad.images.all|first as image %}
-                            {% thumbnail image.image "700x400" crop="center" as im %}
-                                <img  class="img-responsive" src="{{ im.url }}">
-                            {% endthumbnail %}
-                        {% endwith %}
-                    </a>
-                    <h3>
-                        <a href="{% url 'ad:detail' ad.slug %}">{{ ad.title }}</a>
-                    </h3>
-                    <span class="pull-right"><strong>${{ ad.price }}</strong></span>
-                    <p>{{ ad.short_description }}</p>
+                <div class="col-md-6 item-store">
+                    <div class="col-md-12 item-content">
+                        <a href="{% url 'ad:detail' ad.slug %}">
+                            {% with ad.images.all|first as image %}
+                                {% thumbnail image.image "700x400" crop="center" as im %}
+                                    <img  class="img-responsive" src="{{ im.url }}">
+                                {% endthumbnail %}
+                            {% endwith %}
+                        </a>
+                        <h3>
+                            <a href="{% url 'ad:detail' ad.slug %}" class="title">{{ ad.title }}</a>
+                        </h3>
+                        <span class="pull-right price">${{ ad.price }}</span>
+                        <p class="description">{{ ad.short_description }}</p>
+                    </div>
+
                 </div>
             {% endfor %}
         {% elif store.column == 3 %}
             {% for ad in ads %}
-                <div class="col-md-4">
-                    <a href="{% url 'ad:detail' ad.slug %}">
-                        {% with ad.images.all|first as image %}
-                            {% thumbnail image.image "700x400" crop="center" as im %}
-                                <img  class="img-responsive" src="{{ im.url }}">
-                            {% endthumbnail %}
-                        {% endwith %}
-                    </a>
-                    <h3>
-                        <a href="{% url 'ad:detail' ad.slug %}">{{ ad.title }}</a>
-                    </h3>
-                    <span class="pull-right"><strong>${{ ad.price }}</strong></span>
-                    <p>{{ ad.short_description }}</p>
+                <div class="col-md-4 item-store">
+                    <div class="col-md-12 item-content">
+                        <a href="{% url 'ad:detail' ad.slug %}">
+                            {% with ad.images.all|first as image %}
+                                {% thumbnail image.image "700x400" crop="center" as im %}
+                                    <img  class="img-responsive" src="{{ im.url }}">
+                                {% endthumbnail %}
+                            {% endwith %}
+                        </a>
+                        <h3>
+                            <a href="{% url 'ad:detail' ad.slug %}" class="title">{{ ad.title }}</a>
+                        </h3>
+                        <span class="pull-right price">${{ ad.price }}</span>
+                        <p class="description">{{ ad.short_description }}</p>
+                    </div>
                 </div>
             {% endfor %}
         {% else %}
             {% for ad in ads %}
-                <div class="col-ms-10 col-md-3 pull-left">
-                    {% with ad.images.all|first as image %}
-                        {% thumbnail image.image "110x110" crop="center" as im %}
-                            <img  class="img-thumbnail" src="{{ im.url }}">
-                        {% endthumbnail %}
-                    {% endwith %}
-                    <a href="{% url 'ad:detail' ad.slug %}"><h3 style="height: 50px;"> {{ ad.title }}</h3></a>
-                    <span class="pull-right"><strong>${{ ad.price }}</strong></span>
-                    <p style="height: 50px;">{{ ad.short_description }}</p>
+                <div class="col-ms-10 col-md-3 item-store">
+                    <div class="col-md-12 item-content">
+                        {% with ad.images.all|first as image %}
+                            {% thumbnail image.image "110x110" crop="center" as im %}
+                                <img  class="img-responsive" style="width: 100%;" src="{{ im.url }}">
+                            {% endthumbnail %}
+                        {% endwith %}
+                        <h3><a href="{% url 'ad:detail' ad.slug %}" class="title">{{ ad.title }}</a></h3>
+                        <span class="pull-right price">${{ ad.price }}</span>
+                        <p class="description">{{ ad.short_description }}</p>
+                    </div>
+
                 </div>
 
             {% endfor %}
