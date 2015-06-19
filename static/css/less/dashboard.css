@@ -279,6 +279,9 @@ input-group-custom-addon examples:
   width: 180px;
   float: left;
 }
+.container-ad-list .container-header {
+  padding: 5px 15px 20px;
+}
 .angular-google-map-container {
   min-height: 400px !important;
   width: 100%;
@@ -295,7 +298,20 @@ fieldset[disabled] {
 hr {
   border-color: #BBBBBB;
 }
-.panel-footer button {
+.panel .panel-body {
+  min-height: 400px;
+}
+.panel .panel-footer {
+  min-height: 40px;
+}
+.panel .panel-footer button {
   margin-left: 5px;
   margin-right: 5px;
+}
+.table thead tr th {
+  padding: 10px !important;
+  border-color: rgba(5, 0, 69, 0.76) !important;
+}
+.ng-table th.sortable.sort-asc {
+  background-color: rgba(35, 194, 0, 0.3) !important;
 }

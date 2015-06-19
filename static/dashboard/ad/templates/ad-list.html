@@ -13,81 +13,85 @@
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-white">
-                <div class="panel-body" cg-busy="vm.promiseRequest">
+                <div class="panel-body container-ad-list" cg-busy="vm.promiseRequest">
 
                     <div class="content-data col-md-12" ng-show="vm.ads.length > 0">
-                        <div class="col-md-8">
-                            <a ui-sref="ad-create" class="btn btn-success"><span class="fa fa-plus"></span> Agrega tu aviso</a>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="input-group">
-                                <input name="search" ng-model="vm.filters.title" class="form-control input-search" placeholder="Ingresa el titulo del aviso que buscas..." type="text">
-                                <span class="input-group-btn">
-                                    <button class="btn btn-success" type="button"><i class="fa fa-search"></i></button>
-                                </span>
+                        <div class="col-md-12 container-header">
+                            <div class="col-md-8">
+                                <a ui-sref="ad-create" class="btn btn-success"><span class="fa fa-plus"></span> Agrega tu aviso</a>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="input-group">
+                                    <input name="search" ng-model="vm.filters.title" class="form-control input-search" placeholder="Ingresa el titulo del aviso que buscas..." type="text">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-success" type="button"><i class="fa fa-search"></i></button>
+                                    </span>
+                                </div>
                             </div>
                         </div>
-                        <hr/>
-                        <table class="table table-bordred table-striped dataTable" ng-table="vm.tableParams" >
-                            <!--<thead>
-                                <tr>
-                                    <th></th>
-                                    <th class="sorting" ng-class="{'sort-asc': vm.tableParams.isSortBy('title', 'asc'), 'sort-desc': vm.tableParams.isSortBy('title', 'desc') }"
-                                        ng-click="vm.tableParams.sorting({'title' : vm.tableParams.isSortBy('title', 'asc') ? 'desc' : 'asc'})">
-                                    Avisos
-                                    </th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead> -->
-                            <tbody>
+                            <table class="table table-bordred table-striped dataTable" ng-table="vm.tableParams" >
+                                <!--<thead>
+                                    <tr>
+                                        <th></th>
+                                        <th class="sorting" ng-class="{'sort-asc': vm.tableParams.isSortBy('title', 'asc'), 'sort-desc': vm.tableParams.isSortBy('title', 'desc') }"
+                                            ng-click="vm.tableParams.sorting({'title' : vm.tableParams.isSortBy('title', 'asc') ? 'desc' : 'asc'})">
+                                        Avisos
+                                        </th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead> -->
+                                <tbody>
 
-                            </tbody>
-                            <tr id="ad-row-{{ ad.id }}" ng-class-odd="'odd'" ng-class-even="'even'" ng-repeat="ad in $data">
-                                <td class="v-align-middle col-md-1"
-                                    data-title="'Imagen'">
-                                    <img id="media-object" class="img-rounded" ng-src="{{ ad.images[0].thumbnail_110x110 }}" width="90" height="90">
-                                </td>
-                                <td class="v-align-middle col-md-9"
-                                    data-title="'Avisos'"
-                                    sortable="'title'" filter="{ 'title': 'text' }">
-                                    <h4><strong>{{ ad.title }}</strong></h4>
-                                    <p>{{ ad.short_description }}</p>
-                                    <small><strong>Fecha de publicacion : </strong>{{ ad.pub_date }} || <strong>Price : </strong> $ {{ ad.price }}</small>
-                                </td>
-                                <td class="v-align-middle col-md-2" data-title="'Acciones'">
-                                    <!-- delete -->
-                                    <button class="btn btn-sm btn-default text-danger btn-actions"
-                                            ng-really-message="Estas seguro que deseas borrar el aviso {{ ad.title }} ?"
-                                            ng-really-click="vm.destroy(ad)"
-                                            item="ad">
-                                        <span class="fa fa-trash-o"
-                                              tooltips
-                                              tooltip-title="Elimina el aviso {{ ad.title }}"
-                                              tooltip-side="top"
-                                              tooltip-size="small"></span>
-                                    </button>
-                                    <!-- update -->
-                                    <a href="/ad/update/{{ ad.slug }}" class="btn btn-sm text-warning btn-default  btn-actions">
-                                        <span
-                                                tooltips
-                                                tooltip-title="Editar el aviso"
-                                                tooltip-side="top"
-                                                tooltip-size="small"
-                                                class="fa fa-pencil"></span>
-                                    </a>
-                                    <!-- view detail -->
-                                    <a href="/ad/{{ ad.slug }}" class="btn btn-sm btn-default text-success btn-actions" >
-                                        <span
+                                </tbody>
+                                <tr id="ad-row-{{ ad.id }}" ng-class-odd="'odd'" ng-class-even="'even'" ng-repeat="ad in $data">
+                                    <td class="v-align-middle col-md-1"
+                                        data-title="'Imagen'">
+                                        <img id="media-object" class="img-rounded" ng-src="{{ ad.images[0].thumbnail_110x110 }}" width="90" height="90">
+                                    </td>
+                                    <td class="v-align-middle col-md-9"
+                                        data-title="'Avisos'"
+                                        sortable="'title'" filter="{ 'title': 'text' }">
+                                        <h4><strong>{{ ad.title }}</strong></h4>
+                                        <p>{{ ad.short_description }}</p>
+                                        <small><strong>Fecha de publicacion : </strong>{{ ad.pub_date }} || <strong>Price : </strong> $ {{ ad.price }}</small>
+                                    </td>
+                                    <td class="v-align-middle col-md-2 text-center" data-title="'Acciones'">
+
+                                        <!-- view detail -->
+                                        <a href="/ad/{{ ad.slug }}" class="btn btn-sm btn-default text-success btn-actions" >
+                                            <span
                                                 tooltips
                                                 tooltip-title="Ver en detalle"
                                                 tooltip-side="top"
                                                 tooltip-size="small"
                                                 class="fa fa-eye"></span>
-                                    </a>
+                                        </a>
+                                        <!-- update -->
+                                        <a href="/ad/update/{{ ad.slug }}" class="btn btn-sm text-warning btn-default  btn-actions">
+                                            <span
+                                                tooltips
+                                                tooltip-title="Editar el aviso"
+                                                tooltip-side="top"
+                                                tooltip-size="small"
+                                                class="fa fa-pencil"></span>
+                                        </a>
+                                        <!-- delete -->
+                                        <button class="btn btn-sm btn-default text-danger btn-actions"
+                                                ng-really-message="Estas seguro que deseas borrar el aviso {{ ad.title }} ?"
+                                                ng-really-click="vm.destroy(ad)"
+                                                item="ad">
+                                            <span class="fa fa-trash-o"
+                                                  tooltips
+                                                  tooltip-title="Elimina el aviso {{ ad.title }}"
+                                                  tooltip-side="top"
+                                                  tooltip-size="small"></span>
+                                        </button>
 
-                                </td>
-                            </tr>
-                        </table>
+
+                                    </td>
+                                </tr>
+                            </table>
+
                     </div>
                     <div class="content-data col-md-12" ng-show="vm.ads.length == 0 && vm.request">
                         <p>No tienenes ningun aviso. Puedes empezar cargando tu primer aviso</p>
