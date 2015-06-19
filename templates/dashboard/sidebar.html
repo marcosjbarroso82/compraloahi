@@ -3,10 +3,10 @@
         <ul class="menu accordion-menu">
             <li class="nav-heading"><span>Navigation</span></li>
             <li ng-class="{active: ('profile-detail' | includedByState) || ('profile-detail' | includedByState) || ('change-password' | includedByState )}">
-                <a ui-sref="profile-detail"><span class="menu-icon icon-user"></span><p>Perfil</p></a>
+                <a ui-sref="profile-detail"><span class="menu-icon fa fa-user"></span><p>Perfil</p></a>
             </li>
             <li class="droplink" ng-class="{active: ('messages' | includedByState) || ('message-thread' | includedByState)}">
-                <a href="#"><span class="menu-icon icon-envelope-open"></span><p>Mensajes</p><span class="arrow"></span></a>
+                <a href="#"><span class="menu-icon fa fa-envelope" ui-sref="messages({'folder': 'inbox'})"></span><p>Mensajes</p><span class="arrow"></span></a>
                 <ul class="sub-menu">
                     <li><a ui-sref="messages({'folder': 'inbox'})" ui-sref-active="active">Bandeja</a></li>
                     <li><a ui-sref="messages({'folder': 'sent'})" ui-sref-active="active">Enviados</a></li>
@@ -14,13 +14,13 @@
                 </ul>
             </li>
             <li ng-class="{active: ('my-ads' | includedByState) || ('ad-create' | includedByState)}">
-                <a ui-sref="my-ads"><span class="menu-icon icon-speedometer"></span><p>Mis avisos</p></a>
+                <a ui-sref="my-ads"><span class="menu-icon fa fa-bullhorn"></span><p>Mis avisos</p></a>
             </li>
             <li ng-class="{active: ('my-locations' | includedByState)}">
-                <a ui-sref="my-locations"><span class="menu-icon icon-pointer"></span><p>Mis ubicaciones</p></a>
+                <a ui-sref="my-locations"><span class="menu-icon fa fa-map-marker"></span><p>Mis ubicaciones</p></a>
             </li>
             <li ng-class="{active: ('favorites' | includedByState)}">
-                <a ui-sref="favorite"><span class="menu-icon fa fa-heart-o"></span><p>Mis favoritos</p></a>
+                <a ui-sref="favorites"><span class="menu-icon fa fa-heart"></span><p>Mis favoritos</p></a>
             </li>
         </ul>
     </div><!-- Page Sidebar Inner -->

@@ -26,12 +26,12 @@
                             <div ng-show="flag_update || flag_create">
                                 <div class="col-md-5" id="form-location-btn">
                                     <button class="btn btn-success pull-left" ng-click="addLocation()">
-                                        <i class="glyphicon glyphicon-ok"></i>
+                                        <i class="fa fa-check"></i>
                                         <span ng-if="flag_update">Modificar</span>
                                         <span ng-if="flag_update == false">Crear</span>
                                     </button>
                                     <button class="btn btn-danger pull-left" ng-click="cancelLocation()">
-                                        <i class="glyphicon glyphicon-minus">Cancelar</i>
+                                        <i class="fa fa-times">Cancelar</i>
                                     </button>
                                 </div>
                                 <div class="col-md-7" id="form-location-input">
@@ -40,7 +40,7 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <button ng-show="!flag_create" class="btn btn-success pull-right" ng-click="newLocation()">Agregar <i class="glyphicon glyphicon-plus"></i></button>
+                            <button ng-show="!flag_create" class="btn btn-success pull-right" ng-click="newLocation()">Agregar <i class="fa fa-plus"></i></button>
                         </div>
 
                     </div>
@@ -93,13 +93,13 @@
                                 <tr ng-class-odd="'odd'" ng-class-even="'even'" ng-repeat="loc in locations" ng-click="select(loc)">
                                     <td class="col-md-9">{{ loc.title }}</td>
                                     <td class="col-md-3">
-                                        <button type="button" class="btn btn-sm btn-warning" ng-click="update(loc)">
-                                            <i class="glyphicon glyphicon-edit"></i>
+                                        <button type="button" class="btn btn-sm btn-default" ng-click="update(loc)">
+                                            <i class="fa fa-pencil"></i>
                                         </button>
-                                        <button type="button" class="btn btn-sm btn-danger"
+                                        <button type="button" class="btn btn-sm btn-default"
                                                 ng-really-click="deleteLocation(loc)"
                                                 ng-really-message="Are you sure ?" >
-                                            <i class="glyphicon glyphicon-remove"></i>
+                                            <i class="fa fa-trash-o"></i>
                                         </button>
                                     </td>
                                 </tr>

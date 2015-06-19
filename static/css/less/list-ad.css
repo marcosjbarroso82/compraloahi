@@ -409,3 +409,8 @@ input-group-custom-addon examples:
 .footer {
   display: none;
 }
+.ng-table th.sortable.sort-desc,
+.ng-table th.sortable.sort-asc {
+  background-color: none !important;
+  border-bottom: 1px solid #111;
+}

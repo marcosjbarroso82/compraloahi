@@ -52,20 +52,20 @@
                             <div class="col-md-6">
                                 <div class="">
                                     <label> Fecha Nac (detalle): </label>
-                                    <p><i class="glyphicon glyphicon-gift"></i>{{ vm.profile.birth_date | date:'dd/MM/yyyy' }}<span ng-show="!vm.profile.birth_date">Sin Fecha de Nacimiento</span></p>
+                                    <p><i class="fa fa-birthday-cake"></i>{{ vm.profile.birth_date | date:'dd/MM/yyyy' }}<span ng-show="!vm.profile.birth_date">Sin Fecha de Nacimiento</span></p>
                                 </div>
                                 <div class="">
                                     <label>Email : </label>
-                                    <p><i class="glyphicon glyphicon-envelope"></i>{{ vm.profile.user.email }}</p>
+                                    <p><i class="fa fa-envelope"></i>{{ vm.profile.user.email }}</p>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <label>Number Contact : </label>
                                 <ul id="contact-number-list" ng-if="vm.profile.phones.length > 0">
                                     <li ng-repeat="phone in vm.profile.phones">
-                                        <i ng-if="phone.type == 'TEL'" class="glyphicon glyphicon-earphone"></i>
-                                        <i ng-if="phone.type == 'CEL'" class="glyphicon glyphicon-phone"></i>
-                                        <i ng-if="phone.type == 'FAX'" class="glyphicon glyphicon-phone-alt"></i>
+                                        <i ng-if="phone.type == 'TEL'" class="fa fa-phone"></i>
+                                        <i ng-if="phone.type == 'CEL'" class="fa fa-mobile"></i>
+                                        <i ng-if="phone.type == 'FAX'" class="fa fa-fax"></i>
                                         {{ phone.number }}
                                     </li>
                                 </ul>
@@ -75,10 +75,10 @@
                             </div>
                         </div>
                         <div class="col-md-2 btn-actions" ng-if="!vm.profileEdit">
-                            <button ui-sref="change-password" class="btn btn-info pull-right"><i class="glyphicon glyphicon-cog"></i>Change password</button>
-                            <button ng-click="vm.profileEdit = !vm.profileEdit" class="btn btn-warning pull-right"><i class="glyphicon glyphicon-edit"></i>Edit personal data</button>
-                            <button ui-sref="config-notification" class="btn btn-success pull-right"><i class="glyphicon glyphicon-cog"></i>Config notifications</button>
-                            <button ui-sref="config-store" class="btn btn-success pull-right"><i class="glyphicon glyphicon-cog"></i>Config shop</button>
+                            <button ui-sref="change-password" class="btn btn-info pull-right"><i class="fa fa-unlock-alt"></i> Change password</button>
+                            <button ng-click="vm.profileEdit = !vm.profileEdit" class="btn btn-warning pull-right"><i class="fa fa-pencil"></i> Edit profile</button>
+                            <button ui-sref="config-notification" class="btn btn-success pull-right"><i class="fa fa-bell"></i> Config notifications</button>
+                            <button ui-sref="config-store" class="btn btn-success pull-right"><i class="fa fa-cogs"></i> Config shop</button>
                         </div>
                         <!-- END PROFILE DETAIL -->
 
@@ -135,8 +135,8 @@
                             </div>
                         </div>
                         <div class="col-md-2 btn-actions" ng-if="vm.profileEdit">
-                            <button class="btn btn-warning pull-right" ng-click="vm.profileEdit = !vm.profileEdit"><i class="glyphicon glyphicon-remove"></i>Cancelar</button>
-                            <button type="button" ng-click="vm.submit()" class="btn btn-success pull-right"><i class="glyphicon glyphicon-ok"></i>Aceptar</button>
+                            <button class="btn btn-warning pull-right" ng-click="vm.profileEdit = !vm.profileEdit"><i class="fa fa-times"></i> Cancelar</button>
+                            <button type="button" ng-click="vm.submit()" class="btn btn-success pull-right"><i class="fa fa-check"></i> Aceptar</button>
                         </div>
                     </div>
                 </div>

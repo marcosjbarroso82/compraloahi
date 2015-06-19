@@ -17,7 +17,7 @@
 
                     <div class="content-data col-md-12" ng-show="vm.ads.length > 0">
                         <div class="col-md-8">
-                            <a ui-sref="ad-create" class="btn btn-success"><span class="glyphicon glyphicon-bullhorn"></span> Agrega tu aviso</a>
+                            <a ui-sref="ad-create" class="btn btn-success"><span class="fa fa-plus"></span> Agrega tu aviso</a>
                         </div>
                         <div class="col-md-4">
                             <div class="input-group">
@@ -28,7 +28,20 @@
                             </div>
                         </div>
                         <hr/>
-                        <table class="table table-bordred table-striped" ng-table="vm.tableParams" >
+                        <table class="table table-bordred table-striped dataTable" ng-table="vm.tableParams" >
+                            <!--<thead>
+                                <tr>
+                                    <th></th>
+                                    <th class="sorting" ng-class="{'sort-asc': vm.tableParams.isSortBy('title', 'asc'), 'sort-desc': vm.tableParams.isSortBy('title', 'desc') }"
+                                        ng-click="vm.tableParams.sorting({'title' : vm.tableParams.isSortBy('title', 'asc') ? 'desc' : 'asc'})">
+                                    Avisos
+                                    </th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead> -->
+                            <tbody>
+
+                            </tbody>
                             <tr id="ad-row-{{ ad.id }}" ng-class-odd="'odd'" ng-class-even="'even'" ng-repeat="ad in $data">
                                 <td class="v-align-middle col-md-1"
                                     data-title="'Imagen'">
@@ -78,7 +91,7 @@
                     </div>
                     <div class="content-data col-md-12" ng-show="vm.ads.length == 0 && vm.request">
                         <p>No tienenes ningun aviso. Puedes empezar cargando tu primer aviso</p>
-                        <a ui-sref="ad-create" class="btn btn-success"><span class="glyphicon glyphicon-bullhorn"></span> Agrega tu aviso</a>
+                        <a ui-sref="ad-create" class="btn btn-success"><span class="fa fa-plus"></span> Agrega tu aviso</a>
                     </div>
                 </div>
             </div>

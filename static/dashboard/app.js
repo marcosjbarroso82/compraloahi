@@ -118,7 +118,7 @@ angular.module('dashBoardApp', [
                 controllerAs: 'vm'
             })
             // FAVORITE
-            .state('favorite', {
+            .state('favorites', {
                 url: '/mis-favoritos/',
                 templateUrl: '/static/dashboard/favorite/templates/list.html',
                 controller: 'FavoriteCtrl',
