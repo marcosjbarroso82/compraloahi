@@ -186,8 +186,9 @@ input-group-custom-addon examples:
   width: 25px;
   height: 25px;
 }
-#data-filter-map #data-position-form .list-my-location {
+#data-filter-map #data-position-form .user-location-list {
   padding: 10px;
+  padding-left: 30px;
   width: 200px;
   margin-top: 10px;
 }

@@ -57,6 +57,10 @@
 
         }
 
+        $scope.onFocusInputSearch = function(event){
+            console.log("EL FOCUS ANDA");
+        }
+
         function getUrlParameter(sParam)
         {
             var sPageURL = window.location.search.substring(1);
