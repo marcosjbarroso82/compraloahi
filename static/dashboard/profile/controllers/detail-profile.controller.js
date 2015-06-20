@@ -17,12 +17,6 @@
     function ProfileDetailController(Profile, AlertNotification, $filter, $scope) {
         var vm = this;
 
-        vm.profile = undefined;
-
-        vm.submit = submit;
-        vm.removePhone = removePhone;
-        vm.addPhone = addPhone;
-
         vm.upload_img = upload_img;
 
         activate();
@@ -67,55 +61,6 @@
         $scope.$watch('vm.img_profile', function(){
             upload_img();
         });
-
-
-        /**
-         * @name submit
-         * @desc submit form to update profile
-         * @memberOf dashBoardApp.profile.controllers.ProfileUpdateController
-         */
-        function submit(){
-            //Cast datetime to date.
-            // TODO: Se rompe el formato fecha para el input al hacer el filtro
-            vm.profile.birth_date = angular.copy($filter('date')(vm.profile.birth_date_input,'yyyy-MM-dd'));
-            Profile.update(vm.profile).then(updateSuccess, updateError);
-
-            function updateSuccess(data){
-                AlertNotification.success("El perfil se modifico correctamente.");
-                //$state.go('profile-detail');
-                vm.profileEdit = false;
-            }
-
-            function updateError(data){
-                AlertNotification.error("Error al modificar el perfil");
-
-            }
-        }
-
-        /**
-         * @name removePhone
-         * @desc Delete phone to arrays phones
-         * @param {Integer} Id to phone
-         * @memberOf dashBoardApp.profile.controllers.ProfileUpdateController
-         */
-        function removePhone(phone){
-            vm.profile.phones.splice(vm.profile.phones.indexOf(phone), 1);
-        }
-
-        /**
-         * @name addPhone
-         * @desc add new row to array phones.
-         * @memberOf dashBoardApp.profile.controllers.ProfileUpdateController
-         */
-        function addPhone(){
-            var phone = {};
-            phone.id = vm.profile.phones[(vm.profile.phones.length -1)] + 1;
-            phone.type = "";
-            phone.number = 0;
-            //Add new obj phone to array phones
-            vm.profile.phones.push(phone);
-        }
-
 
     }
 

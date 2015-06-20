@@ -66,12 +66,12 @@ angular.module('dashBoardApp', [
                 controller: 'ProfileDetailController',
                 controllerAs: 'vm'
             })
-            //.state('profile-create', {
-            //    url: '/profile-create',
-            //    templateUrl: '/static/dashboard/profile/templates/create-profile.html',
-            //    controller: 'ProfileCreateController',
-            //    controllerAs: 'vm'
-            //})
+            .state('profile-update', {
+                url: '/profile-update',
+                templateUrl: '/static/dashboard/profile/templates/update-profile.html',
+                controller: 'ProfileUpdateController',
+                controllerAs: 'vm'
+            })
             .state('change-password', {
                 url: '/usuario/cambiar-contrasena/',
                 templateUrl: '/static/dashboard/profile/templates/change-password.html',

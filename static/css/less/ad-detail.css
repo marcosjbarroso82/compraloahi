@@ -82,6 +82,9 @@ body input[type='range']::-moz-range-thumb {
   height: 20px;
   width: 20px;
 }
+#logo {
+  height: 60px;
+}
 /**
 ____________________________________________________________________________________
 i-check examples:

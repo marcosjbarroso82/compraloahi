@@ -21,7 +21,7 @@
 
 <div class="page-breadcrumb">
     <ol class="breadcrumb container">
-        <li><a href="index.html">Panel</a></li>
+        <li><a href="#">Panel</a></li>
         <li class="active">Detalle del perfil</li>
     </ol>
 </div>
@@ -43,9 +43,8 @@
                                 <input type="file" class="upload" file-model='img_profile' accept="image/*"/>
                             </div>
                         </div>
-
                         <!-- PROFILE DETAIL -->
-                        <div class="col-md-9" ng-if="!vm.profileEdit">
+                        <div class="col-md-9">
 
                             <h3>{{ vm.profile.user.first_name }}<span ng-show="!vm.profile.user.first_name">Sin Nombre</span>,
                                 {{ vm.profile.user.last_name }}<span ng-show="!vm.profile.user.last_name">Sin Apellido</span>
@@ -75,70 +74,13 @@
                                 </div>
                             </div>
                         </div>
-
-                        <!-- END PROFILE DETAIL -->
-
-                        <!-- PROFILE UPDATE -->
-                        <div class="col-md-9" ng-if="vm.profileEdit">
-                            <h5 class="form-inline">
-                                <input class="form-control" ng-model="vm.profile.user.first_name" type="text" ng-required="true"/>
-                                <input class="form-control" ng-model="vm.profile.user.last_name" type="text" ng-required="true"/>
-                                <label for=""> Username :</label>
-                                <input class="form-control" ng-model="vm.profile.user.username" type="text" ng-required="true"/>
-
-                            </h5>
-                            <div class="col-md-6">
-
-
-                                <div class="form-group">
-
-                                    <div class="form-inline">
-                                        <input type="date"
-                                               class="form-control"
-                                               ng-required="true"
-                                               ng-model="vm.profile.birth_date_input"
-                                               placeholder="yyyy/mm/dd"
-                                                />
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label>Email : </label>
-                                    <input type="email" ng-model="vm.profile.user.email" class="form-control" ng-required="true" width="100%">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <label>Number Contact :
-                                </label>
-                                <button type="button" ng-if="vm.profile.phones.length < 3" ng-click="vm.addPhone()" class="btn btn-sm btn-info pull-right"><i class="fa fa-plus"></i> Nro</button>
-
-                                <ul id="contact-number-list">
-                                    <li ng-repeat="phone in vm.profile.phones">
-                                        <div class="form-inline">
-                                            <select ng-model="phone.type" class="form-control" ng-required="true">
-                                                <option></option>
-                                                <option id="TEL">TEL</option>
-                                                <option id="CEL">CEL</option>
-                                                <option id="FAX">FAX</option>
-                                            </select>
-                                            <input class="form-control input-contact-number" type="number" ng-model="phone.number" ng-required="true"/>
-                                            <button type="button" ng-click="vm.removePhone(phone)" class="btn btn-xs btn-danger"><i class="fa fa-times"></i></button>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-
                     </div>
                 </div>
-                <div class="panel-footer" ng-if="!vm.profileEdit">
-                    <button ng-click="vm.profileEdit = !vm.profileEdit" class="btn btn-warning pull-left"><i class="fa fa-pencil"></i> Editar informacion personal</button>
+                <div class="panel-footer">
+                    <button ui-sref="profile-update" class="btn btn-warning pull-left"><i class="fa fa-pencil"></i> Editar informacion personal</button>
                     <button ui-sref="change-password" class="btn btn-info pull-left"><i class="fa fa-unlock-alt"></i> Cambiar contraseña</button>
                     <button ui-sref="config-notification" class="btn btn-success pull-right"><i class="fa fa-bell"></i> Configurar notificaciones</button>
                     <button ui-sref="config-store" class="btn btn-success pull-right"><i class="fa fa-cogs"></i> Configurar tienda</button>
-                </div>
-                <div class="panel-footer" ng-if="vm.profileEdit">
-                    <button type="button" ng-click="vm.submit()" class="btn btn-success pull-right"><i class="fa fa-check"></i> Aceptar</button>
-                    <button class="btn btn-warning pull-right" ng-click="vm.profileEdit = !vm.profileEdit"><i class="fa fa-times"></i> Cancelar</button>
                 </div>
             </div>
         </div>
