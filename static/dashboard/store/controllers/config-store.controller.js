@@ -24,7 +24,7 @@
 
         vm.configs = {};
         vm.configs.ads = [];
-        vm.configs.backgroud_color = "#ffffff";
+        vm.configs.backgroud_color = "#f9f9f9";
         vm.configs.font_color = "#000000";
         vm.logo = {};
 
