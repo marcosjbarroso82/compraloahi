@@ -9,12 +9,12 @@
         .module('dashBoardApp.profile.controllers')
         .controller('ProfileDetailController', ProfileDetailController);
 
-    ProfileDetailController.$inject = ['Profile', 'AlertNotification', '$filter', '$scope'];
+    ProfileDetailController.$inject = ['Profile', 'AlertNotification', '$scope'];
 
     /**
      * @namespace ProfileDetailController
      */
-    function ProfileDetailController(Profile, AlertNotification, $filter, $scope) {
+    function ProfileDetailController(Profile, AlertNotification, $scope) {
         var vm = this;
 
         vm.upload_img = upload_img;

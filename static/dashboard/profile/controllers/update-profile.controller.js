@@ -9,12 +9,12 @@
         .module('dashBoardApp.profile.controllers')
         .controller('ProfileUpdateController', ProfileUpdateController);
 
-    ProfileUpdateController.$inject = ['Profile', '$scope', 'AlertNotification', '$filter'];
+    ProfileUpdateController.$inject = ['Profile', '$scope', 'AlertNotification', '$state'];
 
     /**
      * @namespace ProfileUpdateController
      */
-    function ProfileUpdateController(Profile, $scope, AlertNotification, $filter) {
+    function ProfileUpdateController(Profile, $scope, AlertNotification, $state) {
         var vm = this;
 
         vm.profile = undefined;
@@ -49,15 +49,11 @@
          * @memberOf dashBoardApp.profile.controllers.ProfileUpdateController
          */
         function submit(){
-            //Cast datetime to date.
-            // TODO: Se rompe el formato fecha para el input al hacer el filtro
-            vm.profile.birth_date = angular.copy($filter('date')(vm.profile.birth_date_input,'yyyy-MM-dd'));
             Profile.update(vm.profile).then(updateSuccess, updateError);
 
             function updateSuccess(data){
                 AlertNotification.success("El perfil se modifico correctamente.");
-                //$state.go('profile-detail');
-                vm.profileEdit = false;
+                $state.go('profile-detail');
             }
 
             function updateError(data){

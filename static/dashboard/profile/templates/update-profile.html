@@ -72,6 +72,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="username">Nombre de usuario</label>
+                                <!-- TODO: Need validate username is unique by ajax -->
                                 <input class="form-control"
                                        id="username"
                                        name="username"
@@ -84,18 +85,22 @@
                             </div>
                             <div class="form-group">
                                 <label for="birth-date">Fecha de nacimiento</label>
-                                <input type="date"
+
+                                <div class='input-group date' id='datetimepicker1'>
+                                    <input type="text"
                                        class="form-control"
                                        id="birth-date"
                                        name="birth-date"
-                                       ng-model="vm.profile.birth_date_input"
-                                       placeholder="yyyy/mm/dd"
-                                       required="required"
-                                       required-message="'La fecha de nacimiento es requerida!'"/>
-                                <div class='input-group date' id='datetimepicker1'>
-                                    <input type='text' class="form-control" />
+                                       ng-model="vm.profile.birth_date"
+                                       data-date-format="yyyy-mm-dd"
+                                       data-date-viewmode="years"
+                                       placeholder="Selecciona la fecha de nacimiento"
+                                       data-provide="datepicker"
+                                       validator="vm.profile.birth_date != ''"
+                                       invalid-message="'La fecha de nacimiento es requerida!'"
+                                       />
                                     <span class="input-group-addon">
-                                        <span class="glyphicon glyphicon-calendar"></span>
+                                        <span class="fa fa-calendar"></span>
                                     </span>
                                 </div>
                             </div>
@@ -136,7 +141,7 @@
                     <button type="submit" class="btn btn-success pull-right"><i class="fa fa-check"></i> Aceptar</button>
                     <button class="btn btn-warning pull-right" ui-sref="profile-detail"><i class="fa fa-times"></i> Cancelar</button>
                 </div>
-        </div>
+        </form>
     </div>
 </div><!-- Row -->
 </div><!-- Main Wrapper -->
@@ -145,3 +150,6 @@
         <p class="no-s">2015 &copy; Compraloahi by Context.</p>
     </div>
 </div>
+<script>
+    $('#birth-date').datepicker()
+</script>
