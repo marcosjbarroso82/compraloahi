@@ -118,6 +118,50 @@ input-group-custom-addon examples:
 
 
 */
+.logo-box {
+  width: auto !important;
+}
+.search-form {
+  margin-top: 5px !important;
+  height: 50px !important;
+  width: 50%;
+  margin-left: 25%;
+  border: 1px solid #e9e9e9;
+}
+.search-form .search-input,
+.search-form .input-group {
+  height: 40px !important;
+  margin-bottom: 10px !important;
+}
+.nav-user-dropdown-responsive {
+  position: absolute;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+  z-index: 9999;
+  display: none;
+  right: 0;
+}
+.nav-user-dropdown-responsive .a {
+  display: inline-block !important;
+  padding: 0px 18px !important;
+  color: #5F5F5F;
+  border: none;
+  position: relative;
+  line-height: 20px;
+  float: right;
+  font-size: 17px;
+  text-decoration: none;
+}
+@media (max-width: 767px) {
+  .search-form {
+    width: 70%;
+    margin-left: 15%;
+  }
+  .nav-user-dropdown-responsive {
+    display: block;
+  }
+}
 .item-store {
   margin-bottom: 30px;
 }

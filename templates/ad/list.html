@@ -19,10 +19,9 @@ cg-busy="adPromise"
 
 <form class="search-form" >
     <div class="input-group">
-        <!-- TODO: Implement watch event to press enter for search  ng-keyup="$event.keyCode == 13 ?  : null"-->
         <input type="text" name="q" ng-model="q" ng-enter="refreshResults()" class="form-control search-input" placeholder="Search...">
             <span class="input-group-btn">
-                <button class="btn btn-default close-search waves-effect waves-button waves-classic" type="button"><i class="fa fa-times"></i></button>
+                <button class="btn btn-default close-search" type="button"><i class="fa fa-search"></i></button>
             </span>
     </div><!-- Input Group -->
     <input type="hidden" name="radius" ng-value="search_location.radius"/>
@@ -91,7 +90,7 @@ cg-busy="adPromise"
         <!-- ########################## FORM LOCATION INF ########################## -->
         <div id="data-position-form">
             <!-- Address -->
-            <div class="input-group col-md-12">
+            <div>
                 <!--<google-places location=search_location></google-places> -->
                 <google-places location="location_search_places" map="map" ></google-places>
             </div>
