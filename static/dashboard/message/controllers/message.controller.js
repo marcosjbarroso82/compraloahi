@@ -26,7 +26,7 @@
 
 
         // Declare vars
-        vm.messages = {};
+        vm.messages = [];
         vm.message = {};
         vm.messages_selected = [];
         vm.page = 1;
@@ -50,16 +50,24 @@
         }
 
          function select_all_messages(){
-             console.log("ENTRO");
+
+
+            vm.messages_select_all = !vm.messages_select_all; // Fixed: checkbox input cant change ng-model value
+
             angular.forEach(vm.messages, function(message){
-               message.selected = vm.messages_select;
+                console.log(vm.messages_select_all);
+                console.log(message);
+                message.selected = vm.messages_select_all;
+
             });
 
-            if(vm.messages_select){
+            if(vm.messages_select_all){
                 vm.messages_selected = vm.messages;
             }else{
                 vm.messages_selected = [];
             }
+
+             console.log(vm.messages);
         }
         
          function select_message(message){
@@ -79,7 +87,7 @@
             vm.prev_page = data.previous;
             vm.count = data.count;
             vm.messages_selected = [];
-            vm.messages_select = false;
+            vm.messages_select_all = false;
         }
 
         function getMessagesByFolderError(data){
@@ -111,6 +119,8 @@
                 vm.messages_selected = [];
             }
         }
+
+
 
 
     }

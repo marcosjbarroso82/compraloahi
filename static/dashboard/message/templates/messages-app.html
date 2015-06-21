@@ -11,10 +11,6 @@
     </div>
 </div>
 <div id="main-wrapper" class="container">
-
-
-
-
     <div class="row m-t-md">
         <div class="col-md-12">
             <div class="row mailbox-header">
@@ -48,7 +44,10 @@
                         <thead>
                         <tr>
                             <th colspan="1" class="hidden-xs" ng-click="vm.select_all_messages()">
-                                <span><input  ng-model="vm.select_all" type="checkbox" class="check-mail-all"></span>
+                                <span>
+                                    <input type="checkbox" ng-model="vm.messages_select_all" ng-change="vm.selectt_all_messages()" />
+                                    <!--<input ng-model="vm.messages_select_all" ng-change="vm.select_all_messages()" type="checkbox" class="check-mail-all" />-->
+                                </span>
                             </th>
                             <th class="text-right" colspan="5">
                                 <span class="text-muted m-r-sm">Mostrando {{ vm.messages.length }} de {{ vm.count }} </span>
