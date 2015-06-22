@@ -371,8 +371,9 @@ section.droplet input.droplet-multiple {
                        ng-model="vm.ad.title"
                        placeholder="Titulo. Ej: Celular Galaxy GIT"
                        ng-minlength="3"
+                       ng-maxlength="40"
                        required="required"
-                       invalid-message="'Caracteres minimo: 3.'"
+                       invalid-message="'El minimo de caracteres es de 3 y el maximo es de 40'"
                        required-message="'El titulo del anuncio es requerido!'">
             </div>
 

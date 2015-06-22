@@ -9,12 +9,12 @@
         .module('dashBoardApp.ad.controllers')
         .controller('AdCreateCtrl', AdCreateCtrl);
 
-    AdCreateCtrl.$inject = ['$scope', 'Ad', 'AlertNotification', '$timeout', 'UserLocations'];
+    AdCreateCtrl.$inject = ['$scope', 'Ad', 'AlertNotification', '$timeout', 'UserLocations', '$state'];
 
     /**
      * @namespace AdCreateCtrl
      */
-    function AdCreateCtrl($scope, Ad, AlertNotification, $timeout, UserLocations) {
+    function AdCreateCtrl($scope, Ad, AlertNotification, $timeout, UserLocations, $state) {
 
 
         var vm = this;
@@ -174,6 +174,7 @@
                     UserLocations.save(vm.ad.locations[0]);
                 }
                 AlertNotification.success("El aviso se creo correctamente para ver el detalle presione <a href='http://compraloahi.com.ar' target='_blank'>aqui</a>.");
+                $state.go('my-ads');
             }
             function createError(data){
                 AlertNotification.error("Error al intentar crear el aviso");
