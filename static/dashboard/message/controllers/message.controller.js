@@ -91,7 +91,7 @@
         }
 
         function getMessagesByFolderError(data){
-            AlertNotification.success("Error al intentar consultar mensajes, intenta mas tarde.");
+            AlertNotification.error("Error al intentar consultar mensajes, intenta mas tarde.");
         }
 
         function delete_bulk(){
