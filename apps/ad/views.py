@@ -439,6 +439,8 @@ class AdUserViewSet(viewsets.ModelViewSet):
                     return Response({"Error al intentar guardar las imagenes"}, status=status.HTTP_400_BAD_REQUEST)
 
                 return Response({'message': "SUCCESS"})
+            else:
+                ad_serializer.run_validation(ad_data)
 
         return Response({'message': "ERROR"})
 
