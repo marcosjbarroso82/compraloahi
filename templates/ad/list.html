@@ -21,7 +21,7 @@ cg-busy="adPromise"
     <div class="input-group">
         <input type="text" name="q" ng-model="q" ng-enter="refreshResults()" class="form-control search-input" placeholder="Search...">
             <span class="input-group-btn">
-                <button class="btn btn-default close-search" type="button"><i class="fa fa-search"></i></button>
+                <button class="btn btn-default close-search " ng-click="refreshResults()" type="button"><i class="fa fa-search"></i></button>
             </span>
     </div><!-- Input Group -->
     <input type="hidden" name="radius" ng-value="search_location.radius"/>
