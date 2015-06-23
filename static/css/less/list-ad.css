@@ -86,6 +86,10 @@ body input[type='range']::-moz-range-thumb {
 #logo {
   height: 50px;
 }
+.navbar,
+.topmenu-outer {
+  background-color: #E5E5E5;
+}
 /**
 ____________________________________________________________________________________
 i-check examples:
