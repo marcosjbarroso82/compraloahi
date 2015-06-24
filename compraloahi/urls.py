@@ -173,7 +173,7 @@ urlpatterns = patterns('',
                            "django.views.static.serve",
                            {'document_root': settings.MEDIA_ROOT}),
 
-                       url(r'^tienda/(?P<username>[a-zA-Z0-9_.-]+)/$',
+                       url(r'^tienda/(?P<slug>[a-zA-Z0-9_.-]+)/$',
                            StoreView.as_view(),
                            name="store"),
 

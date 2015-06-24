@@ -77,6 +77,7 @@ class TextMultiField(forms.MultipleChoiceField):
 
 
 class CreateAdForm(forms.ModelForm):
+    # TODO: ALERT: When init migrate need comment this line
     categories = TextMultiField(choices=tuple(Category.objects.all().values_list("id", "name")))
 
     class Meta:
@@ -87,6 +88,7 @@ class CreateAdForm(forms.ModelForm):
 
 
 class AdModifyForm(forms.ModelForm):
+    # TODO: ALERT: When init migrate need comment this line
     categories = TextMultiField(choices=tuple(Category.objects.all().values_list("id", "name")))
 
     class Meta:

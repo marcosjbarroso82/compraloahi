@@ -50,7 +50,8 @@ LOCAL_APPS = (
     'apps.message',
     'apps.comment_notification',
     'apps.notification',
-    'apps.rating'
+    'apps.rating',
+    'apps.favorite'
 )
 
 # All aplication

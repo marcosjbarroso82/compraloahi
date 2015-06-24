@@ -42,11 +42,58 @@ COLUMNS_STORE = (
     (4, 4)
 )
 
+BACKGROUND_COLOR = "#f9f9f9"
+FONT_COLOR = "#00000"
+
+STYLE_STORE = {
+    "column": 4,
+    "background_color": BACKGROUND_COLOR,
+    "font_color": FONT_COLOR,
+}
+
+STATUS_STORE = (
+    (0, "deactivate"),
+    (1, "activate")
+)
+
+from autoslug import AutoSlugField
+
+from django_pgjson.fields import JsonField
+from django.core.exceptions import ValidationError
+
 class Store(models.Model):
-    logo = models.ImageField(upload_to='logo', null=False, blank=False, default="logo/default.png")
-    name = models.CharField(max_length=255, default="Name")
-    column = models.PositiveIntegerField(choices=COLUMNS_STORE, default=4) # TODO: Field limited to config layout
+    logo = models.ImageField(upload_to='logo', null=False, blank=True)
+    name = models.CharField(max_length=255, blank=True)
+    slug = AutoSlugField(populate_from='name', always_update=True)
+    slogan = models.TextField()
+    style = JsonField(default=STYLE_STORE)
     profile = models.OneToOneField(UserProfile, unique=True, related_name='store')
+    status = models.IntegerField(choices=STATUS_STORE, default=0)
+
+    def __str__(self):
+        return self.name
+
+    def clean_name(self):
+        print("ENTRO AL CLEAN NAME")
+        if self.name != '':
+            if Store.objects.get(name= self.name).count() > 0:
+                raise ValidationError('Error, fields name is unique')
+
+    def name_clean(self):
+        print("PROBANDO LAS VALIDACIONES")
+
+    def save(self, *args, **kwargs):
+        print(self.style)
+        for key, value in STYLE_STORE.items():
+            print(key)
+
+            if not key in self.style or not self.style[key]:
+                print("ENTRA")
+                self.style[key] = value
+
+        if self.name != '':
+            self.status = 1
+        return super(Store, self).save(*args, **kwargs)
 
 
 @receiver(post_save, sender=User)

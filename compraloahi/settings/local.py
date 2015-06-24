@@ -8,7 +8,7 @@ TEMPLATE_DEBUG = True
 
 INSTALLED_APPS = INSTALLED_APPS + (
     'django_extensions',   # for Ipython Notebook
-    #'debug_toolbar',
+    'debug_toolbar',
 )
 
 

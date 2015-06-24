@@ -24,8 +24,8 @@
 
         vm.configs = {};
         vm.configs.ads = [];
-        vm.configs.backgroud_color = "#f9f9f9";
-        vm.configs.font_color = "#000000";
+        //vm.configs.backgroud_color = "#f9f9f9";
+        //vm.configs.font_color = "#000000";
         vm.logo = {};
 
         activate();
@@ -35,9 +35,7 @@
 
             function successConfig(data){
                 vm.configs = data.data;
-                if(vm.configs.name == 'Name'){
-                    vm.configs.name = '';
-                }
+
                 changeStoreName();
             }
 
@@ -69,10 +67,12 @@
 
 
         function submit(){
-            Store.setConfig(vm.configs).then(submitSuccess, submitError);
+            vm.promiseRequest = Store.setConfig(vm.configs).then(submitSuccess, submitError);
 
             function submitSuccess(data){
-                AlertNotification.success("La tienda se configuro con exito. Ahora puedes ver tu tienda haciendo click <a href='/tienda/"+ vm.configs.url +"'>AQUI</a>");
+                // TODO: make url with data response slug
+                var slug = data.data.slug;
+                AlertNotification.success("La tienda se configuro con exito. Ahora puedes ver tu tienda haciendo click <a href='/tienda/"+ slug +"'>AQUI</a>");
             }
 
             function submitError(data){
@@ -101,6 +101,7 @@
         });
 
         function changeStoreName(){
+            // TODO: Need lower case
             vm.configs.url = String(angular.copy(vm.configs.name)).replace(/\s+/g,'-');
         }
 

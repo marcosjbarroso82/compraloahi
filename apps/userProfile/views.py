@@ -39,27 +39,33 @@ class StoreModelViewSet(ModelViewSet):
                     ad.save()
                 except Ad.DoesNotExist:
                     pass
+                except:
+                    pass
 
             return super(StoreModelViewSet, self).update(request, *args, **kwargs)
+        else:
+            return super(StoreModelViewSet, self).update(request, *args, **kwargs)
+            #return Response({'ads': ['Need a or more ads to config config store']})
 
 
-class StoreView(ListView):
+class StoreView(DetailView):
     model = Ad
     template_name = 'userProfile/store.html'
-    context_object_name = 'ads'
-    paginate_by = 8
+    context_object_name = 'store'
+    paginate_by = 12
 
     def get_context_data(self, **kwargs):
         context = super(StoreView, self).get_context_data(**kwargs)
-        context['param_url'] = self.kwargs.get('username', '')
-        try:
-            context['store'] = Store.objects.get(profile__user__username=self.kwargs.get('username', ''))
-        except Store.DoesNotExist:
-            context['store'] = {}
+        context['param_url'] = self.kwargs.get('slug', '')
+        context['ads'] = Ad.objects.filter(author=self.object.profile.user, store_published=True)
         return context
 
-    def get_queryset(self):
-        return Ad.objects.filter(author__username=self.kwargs.get('username', ''), store_published=True)
+    def get_object(self, queryset=None):
+        try:
+            return Store.objects.get(slug=self.kwargs.get('slug', ''), status=1)
+        except Store.DoesNotExist:
+            # TODO: Return page doesnt exist
+            return {}
 
 
 @api_view(['GET', 'POST', ])

@@ -5,25 +5,37 @@
 
 {% block css_header_block %}
     <link rel="stylesheet" href="{{ STATIC_URL }}css/less/store.css" >
+
+<style>
+    .font-color{
+        color: {{ store.style.font_color }};
+    }
+    .page-inner{
+        background-color: {{ store.style.background_color }};
+    }
+</style>
 {% endblock %}
+
 
 {% block body_block %}
     <div class="container-store">
 
         <div class="header col-md-12">
             <div class="col-md-6 col-xs-6">
-                <div class="title">{{ store.name }}</div>
-                <div class="slogan">Este es el slogan del primer comercio que configura la tienda</div>
+                <div class="title font-color">{{ store.name }}</div>
+                <div class="slogan font-color">Este es el slogan del primer comercio que configura la tienda</div>
             </div>
             <div class="col-md-6 col-xs-6">
-                <img class="logo" src="{{ store.logo.url }}" style="" alt=""/>
+                {% if store.logo %}
+                    <img class="logo" src="{{ store.logo.url }}" style="" alt=""/>
+                {% endif %}
             </div>
         </div>
 
         <div class="content">
 
 
-            {% if store.column == 1 %}
+            {% if store.style.column == 1 %}
                 <!-- COL 1 -->
                 {% for ad in ads %}
                     <div class="col-md-12 item-store">
@@ -47,7 +59,7 @@
 
                     </div>
                 {% endfor %}
-            {% elif store.column == 2 %}
+            {% elif store.style.column == 2 %}
                 {% for ad in ads %}
                     <div class="col-md-6 item-store">
                         <div class="col-md-12 item-content">
@@ -67,7 +79,7 @@
 
                     </div>
                 {% endfor %}
-            {% elif store.column == 3 %}
+            {% elif store.style.column == 3 %}
                 {% for ad in ads %}
                     <div class="col-md-4 item-store">
                         <div class="col-md-12 item-content">

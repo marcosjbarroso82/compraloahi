@@ -178,7 +178,7 @@ input-group-custom-addon examples:
 }
 .container-store .header .title {
   max-width: 60%;
-  font-size: 22px;
+  font-size: 28px;
   margin-top: 20px;
   font-weight: bold;
 }
@@ -191,6 +191,7 @@ input-group-custom-addon examples:
 .container-store .item-store .item-content {
   border: 1px solid #c3b3b3;
   padding: 10px;
+  background-color: #F9F9F9;
 }
 .container-store .item-store .item-content:hover {
   border: 2px solid #466178;
