@@ -11,7 +11,7 @@ TYPE_PHONE = (
 
 
 class UserProfile(models.Model):
-    image = models.ImageField(upload_to='profile', null=False, blank=False, default="profile/default.png")
+    image = models.ImageField(upload_to='profile', null=False, blank=False, default="profile/default.jpg")
     birth_date = models.DateField(blank=True, null=True)
     user = models.OneToOneField(User, unique=True, related_name='profile')
 

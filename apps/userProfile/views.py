@@ -64,6 +64,7 @@ class StoreView(DetailView):
         try:
             return Store.objects.get(slug=self.kwargs.get('slug', ''), status=1)
         except Store.DoesNotExist:
+
             # TODO: Return page doesnt exist
             return {}
 
