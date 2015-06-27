@@ -55,6 +55,7 @@
             Profile.update(vm.profile).then(updateSuccess, updateError);
 
             function updateSuccess(data){
+                Profile.set_profile(data.data);
                 AlertNotification.success("El perfil se modifico correctamente.");
                 $state.go('profile-detail');
             }

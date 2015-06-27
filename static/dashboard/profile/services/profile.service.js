@@ -9,13 +9,13 @@
         .module('dashBoardApp.profile.services')
         .factory('Profile', Profile);
 
-    Profile.$inject = ['$http'];
+    Profile.$inject = ['$http', '$q'];
 
     /**
      * @namespace Profile
      * @returns {Factory}
      */
-    function Profile($http) {
+    function Profile($http, $q) {
 
         var Profile = {
             detail: detail,
@@ -23,11 +23,11 @@
             update: update,
             create: create,
             upload_img: upload_img,
-            is_username_valid: is_username_valid
+            is_username_valid: is_username_valid,
+            set_profile: set_profile
         };
 
-        return Profile;
-
+        var profile_cache = {};
 
         /**
          *
@@ -53,7 +53,13 @@
          * @memberOf dashBoardApp.profile.services.Profile
          */
         function detail() {
-            return $http.get('/api/v1/profile/');
+            if(profile_cache.id){
+                var deferred = $q.defer();
+                deferred.resolve({data:profile_cache});
+                return deferred.promise;
+            }else{
+                return $http.get('/api/v1/profile/');
+            }
         }
 
         /**
@@ -104,5 +110,10 @@
             return $http.get('/api/v1/username-is-unique/' + username + '/');
         }
 
+        function set_profile(profile){
+            profile_cache = profile;
+        }
+
+        return Profile;
     }
 })()
