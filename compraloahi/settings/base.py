@@ -38,6 +38,7 @@ THIRD_PARTY_APPS = (
     'push_notifications',
     'rest_auth',
     'rest_auth.registration',
+    'djmail',
 )
 
 # Defined own applications
@@ -151,6 +152,8 @@ SITE_ID = 1
 
 #SOCIALACCOUNT_QUERY_EMAIL = True
 
+ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
+
 ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'https'
 
 SOCIALACCOUNT_PROVIDERS = {
@@ -227,10 +230,19 @@ COMMENTS_XTD_MAX_THREAD_LEVEL = 2
 COMMENTS_APP = "django_comments_xtd"
 COMMENTS_XTD_CONFIRM_EMAIL = False
 
+
+DEFAULT_FROM_EMAIL = 'notification@compraloahi.com.ar'
+
+EMAIL_BACKEND="djmail.backends.async.EmailBackend"
+DJMAIL_REAL_BACKEND="django.core.mail.backends.smtp.EmailBackend"
+
+SITE_URL = "http://www.compraloahi.com.ar/"
+
+
 # Config email
 EMAIL_HOST = 'smtp.zoho.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'notification@compraloahi.com.ar'
+EMAIL_HOST_USER = DEFAULT_FROM_EMAIL
 EMAIL_HOST_PASSWORD = '1j3uUk9X82g8d7imFgcFRgqV3'
 EMAIL_USE_TLS = True
 
