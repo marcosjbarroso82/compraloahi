@@ -200,7 +200,7 @@ input-group-custom-addon examples:
 .container-store .item-store .item-content .description {
   min-height: 50px;
 }
-.container-store .item-store .item-content .title {
+.container-store .item-store .item-content .title a {
   color: #074e7c;
 }
 .container-store .item-store .item-content .price {

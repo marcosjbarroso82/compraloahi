@@ -107,7 +107,7 @@
                                     <img  class="img-responsive" style="width: 100%;" src="{{ im.url }}">
                                 {% endthumbnail %}
                             {% endwith %}
-                            <h3><a href="{% url 'ad:detail' ad.slug %}" class="title">{{ ad.title }}</a></h3>
+                            <h3 class="title"><a href="{% url 'ad:detail' ad.slug %}" >{{ ad.title }}</a></h3>
                             <span class="pull-right price">${{ ad.price }}</span>
                             <p class="description">{{ ad.short_description }}</p>
                         </div>
