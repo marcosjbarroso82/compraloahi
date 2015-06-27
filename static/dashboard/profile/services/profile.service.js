@@ -22,7 +22,8 @@
             change_password: change_password,
             update: update,
             create: create,
-            upload_img: upload_img
+            upload_img: upload_img,
+            is_username_valid: is_username_valid
         };
 
         return Profile;
@@ -96,6 +97,11 @@
                 withCredentials: true,
                 transformRequest: angular.identity
             })
+        }
+
+
+        function is_username_valid(username){
+            return $http.get('/api/v1/username-is-unique/' + username + '/');
         }
 
     }

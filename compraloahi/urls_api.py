@@ -74,6 +74,10 @@ urlpatterns = patterns('',
                            ChangePasswordUpdateAPIView.as_view(),
                            name='api-change-password'),
 
+                       url('^username-is-unique/(?P<username>.+)/$',
+                           'apps.user.views.username_is_unique',
+                           name='api-user-username-is-unique'),
+
                        # Login and logout (DjangoRestFramework)
                        url(r'^',
                            include('rest_framework.urls',

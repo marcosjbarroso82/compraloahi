@@ -361,3 +361,12 @@ hr {
 .cg-busy {
   top: 0px !important;
 }
+.check-field {
+  border-radius: 50%;
+  color: white;
+  position: absolute;
+  right: 10px;
+  top: 31px;
+  background-color: #0DAD9E;
+  padding: 2px;
+}

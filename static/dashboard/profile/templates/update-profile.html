@@ -70,9 +70,16 @@
                                        invalid-message="'El apellido necesita un minimo de 3 caracteres.'"
                                        required-message="'El apellido es requerido!'"/>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group" style="position: relative;">
                                 <label for="username">Nombre de usuario</label>
                                 <!-- TODO: Need validate username is unique by ajax -->
+                                <i class="fa fa-check check-field"
+                                       tooltips
+                                       tooltip-size="small"
+                                       tooltip-title="El username esta habilitado."
+                                       tooltip-side="top"
+                                       ng-if="vm.username_is_valid">
+                                    </i>
                                 <input class="form-control"
                                        id="username"
                                        name="username"
@@ -80,8 +87,12 @@
                                        type="text"
                                        ng-minlength="3"
                                        required="required"
-                                       invalid-message="'El nombre de usuario necesita un minimo de 3 caracteres.'"
-                                       required-message="'El nombre de usuario es requerido!'"/>
+                                       ng-model-options="{ updateOn: 'blur' }"
+                                       invalid-message="'El Nombre de usuario ya existe.'"
+                                       validator = "!vm.username_unique"
+                                       invalid-message="'El nombre de usuario ya existe.'"
+                                       required-message="'El nombre de usuario es requerido!'"
+                                        validate-on="dirty"/>
                             </div>
                             <div class="form-group">
                                 <label for="birth-date">Fecha de nacimiento</label>

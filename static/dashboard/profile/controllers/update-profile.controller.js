@@ -23,6 +23,9 @@
         vm.removePhone = removePhone;
         vm.addPhone = addPhone;
 
+        vm.username_unique = false;
+        vm.username_is_valid = false;
+
         vm.upload_img = upload_img;
 
 
@@ -91,7 +94,7 @@
         function upload_img(){
 
             if (vm.img_profile && 'name' in vm.img_profile){
-                 vm.promise_img = Profile.upload_img(vm.img_profile).then(ChangeImgSuccess, ChangeImgError);
+                vm.promise_img = Profile.upload_img(vm.img_profile).then(ChangeImgSuccess, ChangeImgError);
             }
 
             function ChangeImgSuccess(data, status, headers, config){
@@ -100,12 +103,29 @@
             }
 
             function ChangeImgError(data, status, headers, config){
-                 AlertNotification.error(data.error);
+                AlertNotification.error(data.error);
             }
         }
 
         $scope.$watch('vm.img_profile', function(){
             upload_img();
+        });
+
+
+        $scope.$watch('vm.profile.user.username', function(newValue, oldValue){
+            if(String(vm.profile.user.username).length > 3){
+                Profile.is_username_valid(vm.profile.user.username).then(isUsernameValidSuccess);
+            }
+
+            function isUsernameValidSuccess(data){
+                if (data.data.is_valid != 'true'){
+                    vm.username_unique = true;
+                    vm.username_is_valid = false;
+                }else{
+                    vm.username_unique = false;
+                    vm.username_is_valid = true;
+                }
+            }
         });
     }
 
