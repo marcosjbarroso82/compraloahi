@@ -9,27 +9,33 @@
         .module('dashBoardApp.ad.services')
         .factory('Favorite', Favorite);
 
-    Favorite.$inject = ['$resource', 'djResource'];
+    Favorite.$inject = ['$http'];
 
     /**
      * @namespace Favorite
      * @returns {Factory}
      */
-    function Favorite($resource, djResource) {
+    function Favorite($http) {
 
-        return $resource(
-            '/api/v1/favorites/:id/', {}, {
-                get: {
-                    method: 'GET',
-                    id: '@id',
-                    transformResponse: function(data, headers){
-                        data = angular.fromJson(data);
+        var Favorite = {
+            get_favorites: getFavorites,
+            toggle_favorites: toggleFavorite
+        };
+
+        function getFavorites(){
+            return $http.get('/api/v1/favorites/');
+        }
+
+        /**
+         * Call servite to add or remove favorite
+         * @param favorite
+         * @returns {HttpPromise}
+         */
+        function toggleFavorite(favorite) {
+            return $http.post('/api/v1/favorites/', {target_object_id: favorite.id});
+        }
 
 
-                        return data;
-                    }
-                }
-            }
-        );
+        return Favorite;
     }
 })()

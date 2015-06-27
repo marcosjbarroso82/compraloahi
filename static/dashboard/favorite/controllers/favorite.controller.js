@@ -16,25 +16,25 @@
      */
     function FavoriteCtrl($scope, Favorite, AlertNotification, ngTableParams, $filter) {
         var vm = this;
+
+
         vm.favorites = [];
-        $scope.next_page = null;
-        $scope.prev_page = null;
-        $scope.count_page = 0;
-        $scope.current_page = 1;
-        $scope.pages = [];
-
-
         vm.request = false;
+
+
+        vm.remove_favorite = remove_favorite;
+
+
         getFavorites();
 
-        $scope.filters = {
+        vm.filters = {
             title: ''
         };
 
-        $scope.tableParams = new ngTableParams({
+        vm.tableParams = new ngTableParams({
             page: 1,            // show first page
             count: 10,          // count per page
-            filter: $scope.filters,
+            filter: vm.filters,
             sorting: {
                 title: 'asc'
             }
@@ -56,39 +56,40 @@
         });
 
         function getFavorites(){
-            vm.promiseRequest = Favorite.get(function(data) {
-                vm.favorites = data.results;
-                $scope.next_page = data.next;
-                $scope.prev_page = data.previous;
-            });
+            vm.promiseRequest = Favorite.get_favorites().then(getFavoriteSuccess, getFavoriteError);
 
+            function getFavoriteSuccess(data){
+                console.log("Return favorite");
+                console.log(data);
+                vm.favorites = data.data.results;
+                vm.request = true;
+            }
 
-
+            function getFavoriteError(data){
+                console.log("Return favoriteeee");
+                vm.request = true;
+                AlertNotification.error("Error al intentar traer tus favoritos. Vuelve a intentarlo mas tarde");
+            }
 
             $scope.$watchCollection("vm.favorites", function () {
-                $scope.tableParams.reload();
+                vm.tableParams.reload();
             });
         }
 
-        $scope.get_favorites_page = function(page){
-            vm.promiseRequest = Favorite.get({"page":page},function(response) {
-                $scope.current_page = page;
-                vm.favorites = response.results;
-                $scope.next_page = response.next;
-                $scope.prev_page = response.previous;
-                vm.request = true;
-            }, function(error){
 
-                vm.request = true;
-            });
-        };
+        function remove_favorite(favorite){
 
-        $scope.remove_favorite = function(favorite){
-            var fav = new Favorite({target_object_id: favorite.id});
-            fav.$save(function(){
+            vm.promiseRequest = Favorite.toggle_favorites(favorite).then(removeFavoriteSuccess, removeFavoriteError);
+
+            function removeFavoriteSuccess(data){
                 AlertNotification.info("El aviso " + favorite.title + " fue quitado de tus favoritos");
                 vm.favorites.splice(vm.favorites.indexOf(favorite),1);
-            });
+            }
+
+            function removeFavoriteError(data){
+                AlertNotification.error("Error al intentar quitar el favorito de tu lista, intenta mas tarde");
+            }
+
         }
 
 
