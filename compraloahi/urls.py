@@ -1,134 +1,50 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 
-from rest_framework.routers import DefaultRouter
-from rest_framework.authtoken import views
+from apps.favorite.views import HasFavoriteNearApiView
 
-from apps.ad import views as adViews
-from apps.favorite.views import FavoriteAdViewSet, HasFavoriteNearApiView, proximityFavorityApiView
-from apps.message.views import MessageDetail, MessageModelViewSet
-from apps.notification.views import NotificationListApiView, NotificationRetrieveApiView, \
-    RegisterGCMNotification, UnregisterGCMNotification, NotificationMarkBulkReadApiView, ConfigNotificationModelViewSet
-from apps.userProfile.views import UserLocationViewSet, UserProfileModelView, StoreModelViewSet, StoreView
-from apps.user.views import ChangePasswordUpdateAPIView, FacebookLogin, GoogleLogin
+from apps.userProfile.views import StoreView
+from apps.user.views import FacebookLogin, GoogleLogin
 
-from .views import HomeView, DashBoardView, log, send_notification, generate_all_auth_token
+from .views import HomeView, DashBoardView, log, send_notification
+
 from .settings import base as settings
 
-router = DefaultRouter()
-router.register(r'my-ads', adViews.AdUserViewSet, base_name='ad-by-user')
-router.register(r'ads', adViews.AdPublicViewSet, base_name='ads')
-router.register(r'user-locations', UserLocationViewSet, base_name='location-by-user')
-router.register(r'favorites', FavoriteAdViewSet, base_name='favorites')
-
-router.register(r'ad-search', adViews.SearchViewSet, base_name='search') #/api/v1/ad-search/?q=algo&latitude=-31&longitude=-64&km=33
 
 urlpatterns = patterns('',
                        url(r'^$', HomeView.as_view()),
+
+                       # TODO : This url belong to api
                        url(r'^favorites/near/$', HasFavoriteNearApiView.as_view() , name='favorite-near'),
 
-                       url(r'^api/v1/categories/$', adViews.CategoriesListAPIView.as_view(), name='categories'),
-
-                       url(r'^api/v1/favorites/(?P<lat>[a-zA-Z0-9_.-]+)/(?P<lng>[a-zA-Z0-9_.-]+)/$',
-                           proximityFavorityApiView.as_view() ,
-                           name='proximity-favorite'),
-
+                       # TODO: Esta url no va en produccion
                        url(r'^log/', log),
 
+                        # Include API
+                       (r'^api/v1/', include('compraloahi.urls_api', namespace='api')),
 
-                       url(r'^api/v1/store-config/$',
-                           StoreModelViewSet.as_view({'get': 'retrieve', 'put': 'update'}),
-                           name='store-config'),
-
-                       url(r'^api/v1/notifications-config/$',
-                           ConfigNotificationModelViewSet.as_view({'get': 'retrieve', 'put': 'update'}),
-                           name='notification-config'),
-
-                       url(r'^api/v1/notifications/bulk/$',
-                           NotificationMarkBulkReadApiView.as_view(),
-                           name='notification-marked-bulk-read'),
-
-                       url(r'^api/v1/notifications/(?P<pk>\d+)/$',
-                           NotificationRetrieveApiView.as_view(),
-                           name='notification-marked-read'),
-
-                       url(r'^api/v1/notifications/$',
-                           NotificationListApiView.as_view(),
-                           name='notifications-user'),
-
-                       url(r'^api/v1/notification/register/$',
-                           RegisterGCMNotification.as_view(),
-                           name='not-register'),
-                       url(r'^api/v1/notification/unregister/$',
-                           UnregisterGCMNotification.as_view(),
-                           name='not-unregister'),
-
+                       # TODO : This url belong to api
                        url(r'^rest-auth/facebook/$',
                            FacebookLogin.as_view(),
                            name='fb_login'),
+
+                        # TODO : This url belong to api
                        url(r'^rest-auth/google/$',
                            GoogleLogin.as_view(),
                            name='goo_login'),
 
+                        # TODO : This url belong to api
                        url(r'^rest-auth/', include('rest_auth.urls')),
                        url(r'^rest-auth/registration/', include('rest_auth.registration.urls')),
 
+                       # TODO: Esta url no va en produccion
                        url(r'^send_notification/', send_notification),
 
-
                        url(r'^favit/' , include('favit.urls')),
-                       url(r'^api-generate-all-token-auth/', generate_all_auth_token),
-                       url(r'^api-token-auth/', views.obtain_auth_token),
 
-                       url(r'^api/v1/', include(router.urls)),
-
-                       # Detail Profile
-                       url(r'^api/v1/profile/$',
-                           UserProfileModelView.as_view({'get': 'retrieve', 'put': 'update'}),
-                           name='api-profile-detail'),
-
-                       url(r'^api/v1/change-image/$',
-                           'apps.userProfile.views.upload_image_profile', name='api-profile-change-image'),
-
-                       # Change password
-                       url(r'^api/v1/change-password/$',
-                           ChangePasswordUpdateAPIView.as_view(),
-                           name='api-change-password'),
-
-                       # Login and logout (DjangoRestFramework)
-                       url(r'^api/v1/',
-                           include('rest_framework.urls',
-                                   namespace='rest_framework')),
-
-                       # API Message List
-                       url(r'^api/v1/messages/thread/(?P<pk>\d+)/$',
-                           MessageModelViewSet.as_view({'get': 'retrieve'})),
-
-                       url(r'^api/v1/messages/(?P<pk>\d+)/$',
-                           MessageDetail.as_view()),
-
-                       url(r'^api/v1/messages/(?P<folder>\w+)/$',
-                           MessageModelViewSet.as_view({'get': 'list'}),
-                           name='api-message-list'),
-
-                       url(r'^api/v1/messages/$',
-                           MessageModelViewSet.as_view({'get': 'list_all', 'post': 'create'}),
-                           name='api-message-list-all'),
-
-                       url(r'^api/v1/messages/delete-bulk/$',
-                           'apps.message.views.message_bulk_delete',
-                           name='api-message-delete-bulk'),
-
-
-                       url(r'^api/v1/messages/set-read-bulk/$',
-                           'apps.message.views.message_bulk_set_read',
-                           name='api-message-set-read-bulk'),
-
-                       url(r'^api/v1/messages/unread-count/$',
-                           'apps.message.views.get_unread_count',
-                           name='api-message-get-unread-count'),
-
+                       # URL load dashboard
                        url(r'^panel/.*$', DashBoardView.as_view(), name='dashboard'),
+
                        # Admin django
                        url(r'^admin/', include(admin.site.urls)),
 
@@ -145,21 +61,11 @@ urlpatterns = patterns('',
                        # App Allauth (social authentication)
                        (r'^accounts/', include('allauth.urls')),
 
-                       # My app Profile
-                       (r'^accounts/',
-                        include('apps.userProfile.urls',
-                                namespace="profile")),
-
                        # Package Postman Messages
                        (r'^messages/', include('postman.urls')),
 
                        # Override package postman
-                       (r'^message/',
-                        include('apps.message.urls',
-                                namespace="message")),
-
-                       # Packages ckeditor
-                       (r'^ckeditor/', include('ckeditor.urls')),
+                       (r'^message/', include('apps.message.urls', namespace="message")),
 
                        # Parche comments
                        (r'^comments/post/$',
@@ -176,9 +82,5 @@ urlpatterns = patterns('',
                        url(r'^tienda/(?P<slug>[a-zA-Z0-9_.-]+)/$',
                            StoreView.as_view(),
                            name="store"),
-
-                       url(r'^api/v1/change-logo/$',
-                           'apps.userProfile.views.upload_logo_store', name='api-store-change-logo'),
-
 
                        )
