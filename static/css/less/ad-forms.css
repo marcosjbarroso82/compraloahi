@@ -179,6 +179,13 @@ input-group-custom-addon examples:
   font-size: 17px;
   text-decoration: none;
 }
+html {
+  overflow: hidden;
+}
+.page-content,
+.page-inner {
+  height: 100%;
+}
 .container-form-ad {
   padding: 20px 40px 40px 40px;
   background-color: #EFEFEF;

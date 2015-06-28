@@ -180,6 +180,13 @@ input-group-custom-addon examples:
   font-size: 17px;
   text-decoration: none;
 }
+html {
+  overflow: hidden;
+}
+.page-content,
+.page-inner {
+  height: 100%;
+}
 #page-ads-list,
 #map-container,
 #container-ad-list {
@@ -350,8 +357,8 @@ input-group-custom-addon examples:
   width: 100%;
 }
 #container-ad-list #ad-list {
-  overflow: auto;
-  height: 100%;
+  overflow: hidden;
+  height: auto;
 }
 #container-ad-list .item-ads-list {
   -webkit-box-shadow: 0.5px 0.5px 0px 0.5px #cccccc;
@@ -490,4 +497,8 @@ input-group-custom-addon examples:
   position: absolute;
   right: 50%;
   top: 50%;
+}
+.page-inner {
+  /** Quiet padding because dont exist footer */
+  padding-bottom: 0px !important;
 }

@@ -179,6 +179,13 @@ input-group-custom-addon examples:
   font-size: 17px;
   text-decoration: none;
 }
+html {
+  overflow: hidden;
+}
+.page-content,
+.page-inner {
+  height: 100%;
+}
 .container-store .header {
   height: 100px;
   margin: 30px 15px;

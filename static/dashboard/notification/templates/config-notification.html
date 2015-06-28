@@ -1,54 +1,30 @@
-<div class="page-breadcrumb">
-    <ol class="breadcrumb container">
-        <li><a href="index.html">Panel</a></li>
-        <li><a href="#">Alertas</a></li>
-        <li class="active">Configuracion</li>
-    </ol>
-</div>
-<div class="page-title">
-    <div class="container">
-        <h3>Configure sus alertas</h3>
+<div class="panel panel-white">
+    <div class="panel-body">
+        <h4 class="body-header">
+            Configura las alertas a tu gusto.
+        </h4>
+        <form>
+
+            <table class="table">
+                <thead>
+                <th></th>
+                <th>Por celular</th>
+                <th>Por email</th>
+                </thead>
+                <tbody>
+                <tr ng-repeat="config in vm.configs.configs" >
+
+                    <td class="col-md-8">{{ config.label }}</td>
+                    <td class="col-md-1 text-center">
+                        <input checked="" value="config" ng-model="config.alert" type="checkbox">
+                    </td>
+                    <td class="col-md-1 text-center">
+                        <input checked="" value="config" ng-model="config.email" type="checkbox">
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <button class="btn btn-success pull-right" type="button" ng-click="vm.submit()"><i class="fa fa-save"></i> Guardar</button>
+        </form>
     </div>
 </div>
-<div id="main-wrapper" class="container">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="panel panel-white">
-                <div class="panel-body">
-                    <h4 class="body-header">
-                        Configura las alertas a tu gusto.
-                    </h4>
-                    <form>
-
-                        <table class="table">
-                            <thead>
-                            <th></th>
-                            <th>Por celular</th>
-                            <th>Por email</th>
-                            </thead>
-                            <tbody>
-                            <tr ng-repeat="config in vm.configs.configs" >
-
-                                <td class="col-md-8">{{ config.label }}</td>
-                                <td class="col-md-1 text-center">
-                                    <input checked="" value="config" ng-model="config.alert" type="checkbox">
-                                </td>
-                                <td class="col-md-1 text-center">
-                                    <input checked="" value="config" ng-model="config.email" type="checkbox">
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                        <button class="btn btn-success pull-right" type="button" ng-click="vm.submit()"><i class="fa fa-save"></i> Guardar</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div><!-- Row -->
-</div><!-- Main Wrapper -->
-<div class="page-footer">
-    <div class="container">
-        <p class="no-s">2015 &copy; Compraloahi by Context.</p>
-    </div>
-</div>
-

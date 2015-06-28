@@ -59,14 +59,11 @@
             vm.promiseRequest = Favorite.get_favorites().then(getFavoriteSuccess, getFavoriteError);
 
             function getFavoriteSuccess(data){
-                console.log("Return favorite");
-                console.log(data);
                 vm.favorites = data.data.results;
                 vm.request = true;
             }
 
             function getFavoriteError(data){
-                console.log("Return favoriteeee");
                 vm.request = true;
                 AlertNotification.error("Error al intentar traer tus favoritos. Vuelve a intentarlo mas tarde");
             }

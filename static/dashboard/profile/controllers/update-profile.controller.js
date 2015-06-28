@@ -17,7 +17,9 @@
     function ProfileUpdateController(Profile, $scope, AlertNotification, $state) {
         var vm = this;
 
-        vm.profile = undefined;
+        vm.profile = {};
+        vm.profile.user = {};
+        vm.profile.usermame = "";
         vm.submit = submit;
         vm.open = open;
         vm.removePhone = removePhone;

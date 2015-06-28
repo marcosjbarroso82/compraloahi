@@ -299,43 +299,44 @@ cg-busy="adPromise"
 
 
         {% verbatim %}
-        <div id="ad-list" class="col-md-12" >
+        <div style="display: block; overflow-y: auto; max-height: 90%; position: relative; width: 100%">
+            <div id="ad-list" class="col-md-12" >
 
-            <!-- ADs LIST -->
-            <div class="col-md-12 item-ads-list"
+                <!-- ADs LIST -->
+                <div class="col-md-12 item-ads-list"
 
-                 ng-repeat="ad in ads track by ad.id"
-                 ng-mouseenter="selectAd(ad)"
-                 ng-mouseleave="deselectAd(ad)"
-                 ng-class="{'ads-list-item-hover': ad.selected == true, 'collapsed': collapsabled}">
+                     ng-repeat="ad in ads track by ad.id"
+                     ng-mouseenter="selectAd(ad)"
+                     ng-mouseleave="deselectAd(ad)"
+                     ng-class="{'ads-list-item-hover': ad.selected == true, 'collapsed': collapsabled}">
 
-                <div class="container-img" ng-class="{'col-md-3': !collapsabled, 'col-md-12': collapsabled}">
-                    <a id="ad-anchor-{{ ad.id }}"></a> <!-- This tag is used for animation, It could be replaced -->
-                    <!-- TODO: Add directive "imageonload" on img element -->
-                    <img class="img-responsive"
-                         src="{{ ad.image }}">
+                    <div class="container-img" ng-class="{'col-md-3': !collapsabled, 'col-md-12': collapsabled}">
+                        <a id="ad-anchor-{{ ad.id }}"></a> <!-- This tag is used for animation, It could be replaced -->
+                        <!-- TODO: Add directive "imageonload" on img element -->
+                        <img class="img-responsive"
+                             src="{{ ad.image }}">
 
+                    </div>
+
+                    <div class="col-md-8 container-text" ng-show="!collapsabled">
+
+                        <a href="/ad/{{ ad.slug }}" ><h4 >{{ ad.title }}</h4></a>
+                        <small> Publicado el {{ ad.pub_date }} </small>
+                        <p> {{ ad.short_description }} </p>
+
+                    </div>
+                    <span class="price-ads-list pull-right">${{ ad.price }}<sup>99</sup></span>
+                    <a class="locate-it btn" ng-click="centerMap(ad.center)" ><span style="font-size: 20px; color: #07355b;">{{ $index + 1 }}</span></a>
                 </div>
 
-                <div class="col-md-8 container-text" ng-show="!collapsabled">
-
-                    <a href="/ad/{{ ad.slug }}" ><h4 >{{ ad.title }}</h4></a>
-                    <small> Publicado el {{ ad.pub_date }} </small>
-                    <p> {{ ad.short_description }} </p>
-
-                </div>
-                <span class="price-ads-list pull-right">${{ ad.price }}<sup>99</sup></span>
-                <a class="locate-it btn" ng-click="centerMap(ad.center)" ><span style="font-size: 20px; color: #07355b;">{{ $index + 1 }}</span></a>
             </div>
 
-        </div>
-
-
-        <!-- PAGINATION ADs LIST -->
-        <div class="pagination pull-right" id="pagination">
-            <div class="pagination">
-                <li class="pull-right"><a ng-disabled="!next_page" ng-click="get_ads_page(next_page)" class="btn btn-default">Go page {{ next_page }} <i class="glyphicon glyphicon-chevron-right"></i>  </a></li>
-                <li  class="pull-right"><a ng-disabled="!prev_page" ng-click="get_ads_page(prev_page)" class="btn btn-default"> <i class="glyphicon glyphicon-chevron-left"></i> Go page {{ prev_page }}</a></li>
+            <!-- PAGINATION ADs LIST -->
+            <div class="pagination pull-right" id="pagination">
+                <div class="pagination">
+                    <li class="pull-right"><a ng-disabled="!next_page" ng-click="get_ads_page(next_page)" class="btn btn-default">Go page {{ next_page }} <i class="glyphicon glyphicon-chevron-right"></i>  </a></li>
+                    <li  class="pull-right"><a ng-disabled="!prev_page" ng-click="get_ads_page(prev_page)" class="btn btn-default"> <i class="glyphicon glyphicon-chevron-left"></i> Go page {{ prev_page }}</a></li>
+                </div>
             </div>
         </div>
         {% endverbatim %}
