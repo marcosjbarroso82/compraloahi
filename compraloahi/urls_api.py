@@ -78,6 +78,10 @@ urlpatterns = patterns('',
                            'apps.user.views.username_is_unique',
                            name='api-user-username-is-unique'),
 
+                       url('^store-name-is-unique/(?P<slug>.+)/$',
+                           'apps.userProfile.views.store_name_is_unique',
+                           name='api-user-store-name-is-unique'),
+
                        # Login and logout (DjangoRestFramework)
                        url(r'^',
                            include('rest_framework.urls',

@@ -19,7 +19,8 @@
         var store = {
             getConfig:getConfig,
             setConfig: setConfig,
-            uploadImg: uploadImg
+            uploadImg: uploadImg,
+            is_name_valid: is_name_valid
         };
 
         function getConfig(){
@@ -39,6 +40,10 @@
                 withCredentials: true,
                 transformRequest: angular.identity
             });
+        }
+
+        function is_name_valid(slug){
+            return $http.get('/api/v1/store-name-is-unique/' + slug + '/');
         }
 
         return store;

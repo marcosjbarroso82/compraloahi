@@ -69,6 +69,15 @@ class StoreView(DetailView):
             return {}
 
 
+@api_view(['GET',])
+def store_name_is_unique(request, *args, **kwargs):
+    if request.user and kwargs.get('slug'):
+        if Store.objects.filter(name=kwargs.get('slug')).exclude(profile__user=request.user.id).count() > 0:
+            return Response({'is_valid': "false", 'message': "This store name exist."})
+
+    return Response({'is_valid': "true", 'message': "This store name is valid"})
+
+
 @api_view(['GET', 'POST', ])
 def upload_logo_store(request):
     if request.method == 'POST':

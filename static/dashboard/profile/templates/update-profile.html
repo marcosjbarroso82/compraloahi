@@ -72,7 +72,8 @@
                             </div>
                             <div class="form-group" style="position: relative;">
                                 <label for="username">Nombre de usuario</label>
-                                <!-- TODO: Need validate username is unique by ajax -->
+
+                                <!-- CHECK VALIDATE IS UNIQUE -->
                                 <i class="fa fa-check check-field"
                                        tooltips
                                        tooltip-size="small"
@@ -90,7 +91,6 @@
                                        ng-model-options="{ updateOn: 'blur' }"
                                        invalid-message="'El Nombre de usuario ya existe.'"
                                        validator = "!vm.username_unique"
-                                       invalid-message="'El nombre de usuario ya existe.'"
                                        required-message="'El nombre de usuario es requerido!'"
                                         validate-on="dirty"/>
                             </div>

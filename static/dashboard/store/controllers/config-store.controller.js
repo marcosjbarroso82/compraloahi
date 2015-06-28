@@ -24,9 +24,10 @@
 
         vm.configs = {};
         vm.configs.ads = [];
-        //vm.configs.backgroud_color = "#f9f9f9";
-        //vm.configs.font_color = "#000000";
         vm.logo = {};
+
+        vm.name_unique = false;
+        vm.name_is_valid = false;
 
         activate();
 
@@ -101,8 +102,7 @@
         });
 
         function changeStoreName(){
-            // TODO: Need lower case
-            vm.configs.url = String(angular.copy(vm.configs.name)).replace(/\s+/g,'-');
+            vm.configs.new_slug = String(angular.copy(vm.configs.name)).replace(/\s+/g,'-').toLowerCase();
         }
 
         function nextStep(){
@@ -112,6 +112,23 @@
             }
 
         }
+
+        $scope.$watch('vm.configs.name', function(newValue, oldValue){
+            if(String(vm.configs.name).length > 3){
+                changeStoreName();
+                Store.is_name_valid(vm.configs.new_slug).then(isNameValidSuccess);
+            }
+
+            function isNameValidSuccess(data){
+                if (data.data.is_valid != 'true'){
+                    vm.name_unique = true;
+                    vm.name_is_valid = false;
+                }else{
+                    vm.name_unique = false;
+                    vm.name_is_valid = true;
+                }
+            }
+        });
 
     }
 
