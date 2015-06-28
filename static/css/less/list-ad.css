@@ -91,10 +91,10 @@ body input[type='range']::-moz-range-thumb {
   background-color: #E5E5E5;
 }
 .navbar {
-  z-index: 400;
+  z-index: 400 !important;
 }
 .search-form {
-  z-index: 500;
+  z-index: 500 !important;
 }
 /**
 ____________________________________________________________________________________
