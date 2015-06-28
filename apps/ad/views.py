@@ -223,19 +223,6 @@ class DetailAdView(DetailView):
             context['comments_limit'] = 5
         return context
 
-# class ReloadCommentsThread(DetailView):
-# Vista que genera un template de la lista de comentarios de un aviso, para poder actualizarla mediante ajax
-#     template_name = 'ad/reload-comments.html'
-#     model = Ad
-#
-#     def get(self, request, *args, **kwargs):
-#         if kwargs.get('ad_id', None):
-#             self.object = Ad.objects.get(pk=kwargs['ad_id'])
-#         else:
-#             print("ERROR EN LA CLAVE")
-#
-#         return self.render_to_response(self.get_context_data())
-
 
 class AdDeleteView(DeleteView):
     model = Ad
