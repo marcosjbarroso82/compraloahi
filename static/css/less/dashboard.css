@@ -85,6 +85,11 @@ body input[type='range']::-moz-range-thumb {
 #logo {
   height: 50px;
 }
+@media (max-width: 767px) {
+  #logo {
+    margin-left: 15px;
+  }
+}
 .navbar,
 .topmenu-outer {
   background-color: #E5E5E5;
@@ -138,6 +143,12 @@ input-group-custom-addon examples:
   margin-left: 25%;
   border: 1px solid #e9e9e9;
 }
+@media (max-width: 767px) {
+  .search-form {
+    width: 70%;
+    margin-left: 15%;
+  }
+}
 .search-form .search-input,
 .search-form .input-group {
   height: 40px !important;
@@ -152,6 +163,11 @@ input-group-custom-addon examples:
   display: none;
   right: 0;
 }
+@media (max-width: 767px) {
+  .nav-user-dropdown-responsive {
+    display: block;
+  }
+}
 .nav-user-dropdown-responsive .a {
   display: inline-block !important;
   padding: 0px 18px !important;
@@ -162,15 +178,6 @@ input-group-custom-addon examples:
   float: right;
   font-size: 17px;
   text-decoration: none;
-}
-@media (max-width: 767px) {
-  .search-form {
-    width: 70%;
-    margin-left: 15%;
-  }
-  .nav-user-dropdown-responsive {
-    display: block;
-  }
 }
 #container-profile-data .body-container {
   margin-top: 25px;
