@@ -397,3 +397,8 @@ hr {
   background-color: #0DAD9E;
   padding: 2px;
 }
+@media (max-width: 767px) {
+  .horizontal-bar {
+    z-index: 390;
+  }
+}
