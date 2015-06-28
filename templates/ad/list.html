@@ -164,7 +164,7 @@ cg-busy="adPromise"
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times"></i></button>
                                     <h4 class="modal-title">Guardar Ubicacion</h4>
                                 </div>
                                 <div class="modal-body">
@@ -325,7 +325,7 @@ cg-busy="adPromise"
 
                 </div>
                 <span class="price-ads-list pull-right">${{ ad.price }}<sup>99</sup></span>
-                <a class="locate-it btn" ng-click="centerMap(ad.center)" ><img src="/static/image/icon-location.png" width="30px" height="30px"></a>
+                <a class="locate-it btn" ng-click="centerMap(ad.center)" ><span style="font-size: 20px; color: #07355b; font-weight: bold;">{{ $index + 1 }}</span></a>
             </div>
 
         </div>

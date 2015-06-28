@@ -57,10 +57,6 @@
 
         }
 
-        $scope.onFocusInputSearch = function(event){
-            console.log("EL FOCUS ANDA");
-        }
-
         function getUrlParameter(sParam)
         {
             var sPageURL = window.location.search.substring(1);
@@ -75,7 +71,7 @@
             }
         }
 
-// ############ SAVE LOCATION ##############
+        // ############ SAVE LOCATION ##############
         $scope.existsLocationTitle = function (title) {
             for (var i=0; i < $scope.user_locations.length; i++) {
                 if ($scope.user_locations[i].title === $scope.search_location.title) {
