@@ -9,12 +9,12 @@
     .module('dashBoardApp.notification.controllers')
     .controller('ConfigNotificationCtrl', ConfigNotificationCtrl);
 
-    ConfigNotificationCtrl.$inject = ['Notification', 'AlertNotification'];
+    ConfigNotificationCtrl.$inject = ['Notification', 'AlertNotification', '$state'];
 
     /**
      * @namespace ConfigNotificationCtrl
      */
-     function ConfigNotificationCtrl(Notification, AlertNotification) {
+     function ConfigNotificationCtrl(Notification, AlertNotification, $state) {
 
         var vm = this;
 
@@ -43,10 +43,11 @@
 
             function success(data){
                 AlertNotification.success("Notificaciones configuradas conrrectamente.");
+                $state.go('profile-detail');
             }
 
             function error(data){
-                AlertNotification.success("Se produjo un error al intentar configurar las notificaciones");
+                AlertNotification.error("Se produjo un error al intentar configurar las notificaciones");
             }
         }
 

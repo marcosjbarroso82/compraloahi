@@ -7,7 +7,7 @@ from rest_framework.viewsets import ModelViewSet
 from push_notifications.models import GCMDevice
 
 from .serializers import DeviceSerializer, NotificationSerializer, ConfigNotificationSerializer
-from .models import Notification, ConfigNotification, CONFIG_NOTIFICATION
+from .models import Notification, ConfigNotification
 
 
 class RegisterGCMNotification(CreateAPIView):
@@ -96,6 +96,3 @@ class ConfigNotificationModelViewSet(ModelViewSet):
 
     def get_queryset(self):
         return ConfigNotification.objects.get(user= self.request.user)
-
-    def update(self, request, *args, **kwargs):
-        return super(ConfigNotificationModelViewSet, self).update(request, *args, **kwargs)

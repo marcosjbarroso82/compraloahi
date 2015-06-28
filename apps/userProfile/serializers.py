@@ -9,18 +9,9 @@ from django.contrib.auth.models import User
 
 
 
-class jsonField(serializers.DictField):
-
-    def get_attribute(self, instance):
-        return instance.style
-
-    def to_representation(self, value):
-        return value
-
-
 class StoreSerializer(ModelSerializer):
     logo = serializers.SerializerMethodField()
-    style = jsonField()
+    style = serializers.DictField()
 
     class Meta:
         model = Store

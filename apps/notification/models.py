@@ -10,8 +10,8 @@ import ast
 from push_notifications.models import GCMDevice
 from django.core.mail import EmailMultiAlternatives
 from django.conf import settings
-#from jsonfield import JSONField
-#from django_pgjson.fields import JsonField
+
+from django_pgjson.fields import JsonField
 
 
 
@@ -31,24 +31,34 @@ CANAL_NOTIFICATION = (
 )
 
 CONFIG_NOTIFICATION = {
-    "msg": { "alert": True, "email": True },
-    "fav": { "alert": True, "email": True },
-    "cmmt": { "alert": True, "email": True },
-    "prox": { "alert": True, "email": True },
-    "cal": { "alert": True, "email": True }
+    "msg": { "alert": True, "email": True, "label": "Desea recibir una notificacion cuando recibe un mensaje"},
+    "fav": { "alert": True, "email": True, "label": "Desea recibir una notificacion cuando agregan un aviso propio a favoritos" },
+    "cmmt": { "alert": True, "email": True, "label": "Desea recibir una notificacion cuando commentan un aviso propio" },
+    "prox": { "alert": True, "email": True, "label": "Desea recibir una notificacion cuando estas cerca de uno de tus avisos favoritos" },
+    "cal": { "alert": True, "email": True, "label": "Desea recibir una notificacion cuando tiene tiene la posibilidad de calificar a otro usuario" }
 }
 
 
 class ConfigNotification(models.Model):
     user = models.OneToOneField(AUTH_USER_MODEL, related_name='config_notifications', unique=True)
-    config = models.TextField()
+    config = JsonField(default=CONFIG_NOTIFICATION)
 
     def save(self, *args, **kwargs):
-        self.config =  str(self.config) # When change extras fields to json, remove this
+        # Validate if has all config
+        for config in CONFIG_NOTIFICATION.keys():
+            for key, value in CONFIG_NOTIFICATION[config].items():
+                if not self.config[config] or not key in self.config[config] or key == 'label':
+                    self.config[config][key] = value
+
         super(ConfigNotification, self).save(*args, **kwargs)
 
     def has_perm(self, type, canal):
-        return ast.literal_eval(self.config).get(type, {}).get(canal, True)
+        if self.config[type][canal]:
+            return True
+        else:
+            return False
+
+
 
 
 class NotificationManager(models.QuerySet):

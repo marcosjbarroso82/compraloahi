@@ -2,13 +2,18 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.dispatch import receiver
 from django.db.models.signals import post_save
+from django.core.exceptions import ValidationError
+
+from autoslug import AutoSlugField
+
+from django_pgjson.fields import JsonField
+
 
 TYPE_PHONE = (
     ('TEL', 'Telefono'),
     ('CEL', 'Celular'),
     ('FAX', 'Fax'),
 )
-
 
 class UserProfile(models.Model):
     image = models.ImageField(upload_to='profile', null=False, blank=False, default="profile/default.jpg")
@@ -56,10 +61,6 @@ STATUS_STORE = (
     (1, "activate")
 )
 
-from autoslug import AutoSlugField
-
-from django_pgjson.fields import JsonField
-from django.core.exceptions import ValidationError
 
 class Store(models.Model):
     logo = models.ImageField(upload_to='logo', null=False, blank=True)
@@ -73,26 +74,22 @@ class Store(models.Model):
     def __str__(self):
         return self.name
 
-    def clean_name(self):
-        print("ENTRO AL CLEAN NAME")
+    def clean_slug(self):
+        print("ENTRO AL CLEAN SLUG")
         if self.name != '':
-            if Store.objects.get(name= self.name).count() > 0:
+            if Store.objects.get(slug= self.slug).count() > 0:
                 raise ValidationError('Error, fields name is unique')
 
-    def name_clean(self):
-        print("PROBANDO LAS VALIDACIONES")
-
     def save(self, *args, **kwargs):
-        print(self.style)
+        # Validate if has all config
         for key, value in STYLE_STORE.items():
-            print(key)
-
             if not key in self.style or not self.style[key]:
-                print("ENTRA")
                 self.style[key] = value
 
         if self.name != '':
             self.status = 1
+        else:
+            self.status = 0
         return super(Store, self).save(*args, **kwargs)
 
 
