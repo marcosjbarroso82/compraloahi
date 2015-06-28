@@ -186,6 +186,10 @@ html {
 .page-inner {
   height: 100%;
 }
+.container-scroll {
+  overflow-y: auto;
+  height: 100%;
+}
 #container-profile-data .body-container {
   margin-top: 25px;
 }
@@ -222,6 +226,9 @@ html {
 #container-profile-data .btn-actions button {
   margin-bottom: 10px;
   clear: right;
+}
+#container-locations-data {
+  min-height: 480px;
 }
 #container-locations-data #location-map {
   width: 100%;

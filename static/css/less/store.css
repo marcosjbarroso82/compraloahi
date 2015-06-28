@@ -186,6 +186,10 @@ html {
 .page-inner {
   height: 100%;
 }
+.container-scroll {
+  overflow-y: auto;
+  height: 100%;
+}
 .container-store .header {
   height: 100px;
   margin: 30px 15px;

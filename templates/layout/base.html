@@ -51,27 +51,13 @@
 
 
     <div class="page-inner" >
-        {% block body_block %}
-        <div class="page-breadcrumb">
-            <ol class="breadcrumb container">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="#">Layouts</a></li>
-                <li class="active">Static Header</li>
-            </ol>
+        <div class="container-scroll">
+            {% block body_block %}
+            <!-- CONTENT -->
+            {% endblock %}
         </div>
-        <div class="page-title">
-            <div class="container">
-                <h3>Static Header</h3>
-            </div>
-        </div>
-        <div id="main-wrapper" class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    This is body_block's default content.
-                </div>
-            </div><!-- Row -->
-        </div><!-- Main Wrapper -->
-        {% endblock %}
+
+
         {% block footer %}
         <div class="page-footer">
             <div class="container">

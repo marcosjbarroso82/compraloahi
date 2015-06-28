@@ -186,6 +186,10 @@ html {
 .page-inner {
   height: 100%;
 }
+.container-scroll {
+  overflow-y: auto;
+  height: 100%;
+}
 .container-form-ad {
   padding: 20px 40px 40px 40px;
   background-color: #EFEFEF;

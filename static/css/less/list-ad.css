@@ -187,6 +187,10 @@ html {
 .page-inner {
   height: 100%;
 }
+.container-scroll {
+  overflow-y: auto;
+  height: 100%;
+}
 #page-ads-list,
 #map-container,
 #container-ad-list {
