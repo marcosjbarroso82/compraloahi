@@ -23,32 +23,32 @@
                 <div class="panel-body" id="container-locations-data">
                     <div class="col-md-12" id="content-header-forms-location">
                         <div class="col-md-6 " id="form-location">
-                            <div ng-show="flag_update || flag_create">
+                            <div ng-show="vm.flag_update || vm.flag_create">
                                 <div class="col-md-5" id="form-location-btn">
-                                    <button class="btn btn-success pull-left" ng-click="addLocation()">
+                                    <button class="btn btn-success pull-left" ng-click="vm.submit()">
                                         <i class="fa fa-check"></i>
-                                        <span ng-if="flag_update">Modificar</span>
-                                        <span ng-if="flag_update == false">Crear</span>
+                                        <span ng-if="vm.flag_update">Modificar</span>
+                                        <span ng-if="vm.flag_update == false">Crear</span>
                                     </button>
-                                    <button class="btn btn-danger pull-left" ng-click="cancelLocation()">
+                                    <button class="btn btn-danger pull-left" ng-click="vm.cancelLocation()">
                                         <i class="fa fa-times">Cancelar</i>
                                     </button>
                                 </div>
                                 <div class="col-md-7" id="form-location-input">
-                                    <input class="form-control" type="text" placeholder="Ingresa el nombre de tu ubicacion.." ng-model="location.title">
+                                    <input class="form-control" type="text" placeholder="Ingresa el nombre de tu ubicacion.." ng-model="vm.location.title">
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <button ng-show="!flag_create" class="btn btn-success pull-right" ng-click="newLocation()">Agregar <i class="fa fa-plus"></i></button>
+                            <button ng-show="!vm.flag_create" class="btn btn-success pull-right" ng-click="vm.add()">Agregar <i class="fa fa-plus"></i></button>
                         </div>
 
                     </div>
                     <div class="col-md-6" >
-                        <div id="data-position-form" ng-show="flag_update || flag_create" class="col-md-10">
+                        <div id="data-position-form" ng-show="vm.flag_update || vm.flag_create" class="col-md-10">
                             <!-- Address -->
                             <div class="input-group col-md-12">
-                                <google-places location=location_places map=map ng-show="flag_update || flag_create"></google-places>
+                                <google-places location=location_places map=map ng-show="vm.flag_update || vm.flag_create"></google-places>
                             </div>
                             <!-- Radius -->
                             <div class="col-md-12" >
@@ -65,17 +65,17 @@
                             </div>
                         </div>
                         <ui-gmap-google-map id="location-map"  center="map.center" zoom="map.zoom" draggable="true" options="options">
-                            <ui-gmap-circle ng-repeat="location in locations track by location.id"
+                            <ui-gmap-circle ng-repeat="location in vm.locations track by location.id"
                                             center="location.center"
 
-                                            stroke="location_options.stroke"
-                                            fill="location_options.fill"
+                                            stroke="vm.location_options.stroke"
+                                            fill="vm.location_options.fill"
                                             radius="location.radius"
                                             visible="location.visible"
-                                            geodesic="location_options.geodesic"
+                                            geodesic="vm.location_options.geodesic"
                                             editable="location.editable"
                                             draggable="location.draggable"
-                                            clickable="location_options.clickable">
+                                            clickable="vm.location_options.clickable">
 
                             </ui-gmap-circle>
                         </ui-gmap-google-map>
@@ -83,21 +83,21 @@
 
                     <div class="col-md-6">
 
-                        <div class="table-responsive col-md-12">
-                            <table class="table table-bordred table-striped">
+                        <div class="table-responsive col-md-12" cg-busy="vm.promiseRequest">
+                            <table class="table table-bordred table-striped" ng-if="vm.locations.length > 0">
                                 <thead>
                                 <td class="col-md-9">Nombre</td>
                                 <td class="col-md-3">Acciones</td>
                                 </thead>
                                 <tbody>
-                                <tr ng-class-odd="'odd'" ng-class-even="'even'" ng-repeat="loc in locations" ng-click="select(loc)">
+                                <tr ng-class-odd="'odd'" ng-class-even="'even'" ng-repeat="loc in vm.locations" ng-click="vm.location = loc;">
                                     <td class="col-md-9">{{ loc.title }}</td>
                                     <td class="col-md-3">
-                                        <button type="button" class="btn btn-sm btn-default" ng-click="update(loc)">
+                                        <button type="button" class="btn btn-sm btn-default" ng-click="vm.edit(loc)">
                                             <i class="fa fa-pencil"></i>
                                         </button>
                                         <button type="button" class="btn btn-sm btn-default"
-                                                ng-really-click="deleteLocation(loc)"
+                                                ng-really-click="vm.delete(loc)"
                                                 ng-really-message="Are you sure ?" >
                                             <i class="fa fa-trash-o"></i>
                                         </button>
@@ -105,6 +105,9 @@
                                 </tr>
                                 </tbody>
                             </table>
+                            <div class="col-md-12" ng-if="vm.locations.length == 0">
+                                <p>Agrega ubicaciones que uses a menudo, a la hora de buscar y/o crear un aviso, te será mas facil.</p>
+                            </div>
                         </div>
 
                     </div>

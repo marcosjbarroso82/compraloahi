@@ -15,16 +15,28 @@
      * @namespace UserLocationCtrl
      */
     function UserLocationCtrl($scope, UserLocations, AlertNotification) {
+        var vm = this;
+        
+        
+        // Declare functions
+        vm.submit = submit;
+        vm.edit = edit;
+        vm.delete = destroy;
+        vm.add = add;
+        vm.cancelLocation = cancelLocation;
+
+        //Declare vars
+        vm.flag_update = false;
+        vm.flag_create = false;
+
+        vm.locations = [];
+        vm.location = {};
+        
         // TODO: provide a proper map center location
         $scope.map = {center: {latitude: -31.4179952, longitude: -64.1890513 }, zoom: 9 };
         $scope.options = {scrollwheel: false};
-        $scope.locations = {};
-        $scope.location = {};
 
-        $scope.flag_update = false;
-        $scope.flag_create = false;
-
-        $scope.location_options = {
+        vm.location_options = {
             stroke: {
                 color: '#08B21F',
                 weight: 2,
@@ -39,145 +51,138 @@
             clickable: true, // optional: defaults to true
             editable: true, // optional: defaults to false
             visible: true // optional: defaults to true
-        }
-
+        };
 
         $scope.location_places = {};
 
+
+        activate();
+
+        function activate(){
+            vm.promiseRequest = UserLocations.list().then(getLocationsSuccess, getLocationsError);
+
+            function getLocationsSuccess(data){
+                vm.locations = data.data;
+                resetLocations();
+            }
+
+            function getLocationsError(data){
+                AlertNotification.error("Error al intentar traer tus ubicaciones, vuelve a intentarlo");
+            }
+        }
+
         $scope.$watch('location_places', function(val, old_val){
            if($scope.location_places.geometry){
-               $scope.location.lat = angular.copy($scope.location_places.geometry.location.lat());
-               $scope.location.lng = angular.copy($scope.location_places.geometry.location.lng());
-               $scope.location.title = angular.copy($scope.location_places.formatted_address);
-               $scope.location.center = {};
-               $scope.location.center.latitude = angular.copy($scope.location_places.geometry.location.lat());
-               $scope.location.center.longitude = angular.copy($scope.location_places.geometry.location.lng());
+               vm.location.lat = angular.copy($scope.location_places.geometry.location.lat());
+               vm.location.lng = angular.copy($scope.location_places.geometry.location.lng());
+               //vm.location.title = angular.copy($scope.location_places.formatted_address);
+               vm.location.center = {};
+               vm.location.center.latitude = angular.copy($scope.location_places.geometry.location.lat());
+               vm.location.center.longitude = angular.copy($scope.location_places.geometry.location.lng());
            }
         });
 
-        $scope.hideLocations = function () {
-            for (var i=0; i < $scope.locations.length; i++) {
-                $scope.locations[i].visible = false;
+        function hideLocations() {
+            for (var i=0; i < vm.locations.length; i++) {
+                vm.locations[i].visible = false;
             }
         }
 
-        $scope.resetLocations = function () {
+        function resetLocations() {
             // clean search places text box
             $('#google_places_ac').val('');
             // if a location wa being updated, set to original values
-            if ($scope.flag_update) {
-                console.log($scope.location);
-                $scope.location.center.latitude = $scope.location.lat_original;
-                $scope.location.center.longitude = $scope.location.lng_original;
-                $scope.location.radius = $scope.location.radius_original;
+            if (vm.flag_update) {
+                vm.location.center.latitude = vm.location.lat_original;
+                vm.location.center.longitude = vm.location.lng_original;
+                vm.location.radius = vm.location.radius_original;
             }
-            $scope.location = {};
-            $scope.flag_create = false;
-            $scope.flag_update = false;
-            for (var i=0; i < $scope.locations.length; i++) {
-                $scope.locations[i].visible = true;
-                $scope.locations[i].draggable = false;
-                $scope.locations[i].editable = false;
-            }
-        }
-
-        UserLocations.query(function(data) {
-            $scope.locations = data;
-            $scope.resetLocations();
-        });
-
-        $scope.deleteLocation = function(location) {
-            $scope.resetLocations();
-            UserLocations.delete(location, deleteSuccess, deleteError);
-
-            function deleteSuccess(data, headers, status) {
-                $scope.locations.splice($scope.locations.indexOf(location), 1);
-            }
-            function deleteError(data, headers, status){
-                AlertNotification.success("Error al intentar borrar la ubicacion seleccionada");
+            vm.location = {};
+            vm.flag_create = false;
+            vm.flag_update = false;
+            for (var i=0; i < vm.locations.length; i++) {
+                vm.locations[i].visible = true;
+                vm.locations[i].draggable = false;
+                vm.locations[i].editable = false;
             }
         }
 
-        $scope.doSearch = function(){
-            if($scope.location === ''){
-                alert('Directive did not update the location property in parent controller.');
-            } else {
-                console.log($scope.location);
-            }
-        };
+        function destroy(location) {
+            vm.promiseRequest = UserLocations.destroy(location).then(deleteSuccess, deleteError);
 
-        $scope.newLocation = function(){
-            $scope.flag_create = true;
-            $scope.hideLocations();
-            $scope.location = {radius: 10000, center: {}};
-            $scope.location.center.latitude = $scope.map.center.latitude;
-            $scope.location.center.longitude = $scope.map.center.longitude;
-            $scope.location.visible = true;
-            $scope.location.draggable = true;
-            $scope.location.editable = true;
+            function deleteSuccess(data) {
+                AlertNotification.success("La ubicacion '"+ location.title +"' se elimino con exito")
+                vm.locations.splice(vm.locations.indexOf(location), 1);
+            }
+            function deleteError(data){
+                AlertNotification.error("Error al intentar borrar la ubicacion seleccionada");
+            }
+            resetLocations();
         }
 
-        $scope.cancelLocation = function(){
-            $scope.resetLocations();
-
+        function add(){
+            vm.flag_create = true;
+            hideLocations();
+            vm.location = {radius: 10000, center: {}};
+            vm.location.center.latitude = $scope.map.center.latitude;
+            vm.location.center.longitude = $scope.map.center.longitude;
+            vm.location.visible = true;
+            vm.location.draggable = true;
+            vm.location.editable = true;
         }
 
-        $scope.addLocation = function() {
-            if($scope.flag_update){
-                $scope.location.lat = $scope.location.center.latitude;
-                $scope.location.lng = $scope.location.center.longitude;
-                UserLocations.update($scope.location, updateSuccess, updateError);
-            }else if($scope.flag_create){
-                UserLocations.save($scope.location, saveSuccess, saveError);
+        function cancelLocation(){
+            resetLocations();
+        }
+
+        function submit() {
+            if(vm.flag_update){
+                vm.location.lat = vm.location.center.latitude;
+                vm.location.lng = vm.location.center.longitude;
+                vm.promiseRequest = UserLocations.update(vm.location).then(submitSuccess, submitError);
+            }else if(vm.flag_create){
+                vm.promiseRequest = UserLocations.create(vm.location).then(submitSuccess, submitError);
             }
 
-            function saveSuccess(data, headers, status){
-                AlertNotification.success("Se ha agregado una ubicacion nueva");
-                $scope.location.id = data.id;
-                $scope.locations.push($scope.location);
-                $scope.location = {};
-                $scope.resetLocations();
+            function submitSuccess(data){
+                if(vm.flag_update){
+                    AlertNotification.success("La ubicacion seleccionada se edito con exito");
+                    vm.flag_update = false;
+                }else{
+                    AlertNotification.success("Se ha agregado una ubicacion nueva");
+                    vm.locations.push(data.data);
+                    vm.location = {};
+                }
+                resetLocations();
             }
 
-            function saveError(data, headers, status){
-                AlertNotification.error("Error al intentar agregar una nueva ubicacion");
-                $scope.resetLocations();
+            function submitError(data){
+                if(vm.flag_update){
+                     AlertNotification.error("Error al intentar editar la ubicacion seleccionada");
+                }else{
+                    AlertNotification.error("Error al intentar agregar una nueva ubicacion");
+                }
+                resetLocations();
             }
-
-            function updateSuccess(data, headers, status){
-                AlertNotification.success("La ubicacion seleccionada se edito con exito");
-                $scope.flag_update = false;
-                $scope.resetLocations();
-            }
-
-            function updateError(data, headers, status){
-                AlertNotification.error("Error al intentar editar la ubicacion seleccionada");
-                $scope.resetLocations();
-            }
-        };
+        }
 
         /**
          * @Desc
          *
          */
-        $scope.update = function(location){
-            $scope.resetLocations();
-            $scope.hideLocations();
-            console.log(location);
+        function edit(location){
+            resetLocations();
+            hideLocations();
             location.lat_original = location.lat;
             location.lng_original = location.lng;
             location.radius_original = location.radius;
-            $scope.location = location;
-            $scope.map.center.latitude = $scope.location.center.latitude;
-            $scope.map.center.longitude = $scope.location.center.longitude;
+            vm.location = location;
+            $scope.map.center.latitude = vm.location.center.latitude;
+            $scope.map.center.longitude = vm.location.center.longitude;
             location.draggable = true;
             location.editable = true;
             location.visible = true;
-            $scope.flag_update = true;
-        };
-
-        $scope.select = function(location){
-            $scope.location = location;
+            vm.flag_update = true;
         }
 
     }
