@@ -90,6 +90,12 @@ body input[type='range']::-moz-range-thumb {
 .topmenu-outer {
   background-color: #E5E5E5;
 }
+.navbar {
+  z-index: 400;
+}
+.search-form {
+  z-index: 500;
+}
 /**
 ____________________________________________________________________________________
 i-check examples:
