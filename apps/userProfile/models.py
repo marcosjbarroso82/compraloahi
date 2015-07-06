@@ -24,7 +24,7 @@ class UserProfile(models.Model):
         return 'profile ' + self.user.username
 
 class Phone(models.Model):
-    number = models.IntegerField()
+    number = models.BigIntegerField()
     type = models.CharField(max_length=200, choices=TYPE_PHONE)
     userProfile = models.ForeignKey(UserProfile, related_name='phones')
 
