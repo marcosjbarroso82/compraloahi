@@ -23,9 +23,46 @@ class IsRecipient(permissions.BasePermission):
             return True
         return False
 
+import pdb
+class CustomPermission(permissions.BasePermission):
+
+    def has_object_permission(self, request, view, obj):
+        # pdb.set_trace()
+        # print(request.data)
+        # print(request.method)
+        # print(request.user)
+
+        # print(view.allowed_methods)
+        # print(view.action)
+        # print(view.action)
+
+        if request.method not in permissions.SAFE_METHODS:
+            # print("not safe")
+            # print(view.action)
+            if view.action == 'update' or view.action == 'partial_update':
+                # print("update or patch")
+                if obj.sender == request.user:
+                    # print("Im a SENDER")
+                    updateable_fields = ['sender_archived', 'sender_deleted_at']
+                    for field in request.data:
+                        if field not in updateable_fields:
+                            return False
+                if obj.recipient == request.user:
+                    # print("IM a RECIPIENT")
+                    updateable_fields = ['read_at', 'recipient_archived',
+                                         'recipient_deleted_at']
+                    for field in request.data:
+                        if field not in updateable_fields:
+                            return False
+        else:
+            # print("action: " + str(view.action) )
+            pass
+        return True
+
 class MsgViewSet(viewsets.ModelViewSet):
     # TODO: set serializer for Reciepient and Sender
     serializer_class = MsgSerializer
+    permission_classes = (CustomPermission,)
 
     @detail_route(methods=['patch'], permission_classes=[IsRecipient])
     def set_read(self, request, pk=None):
