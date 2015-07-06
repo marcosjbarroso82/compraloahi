@@ -38,10 +38,8 @@
     }
 </style>
 
-<div class="panel panel-white">
+<form novalidate angular-validator angular-validator-submit="vm.submit()" name="formConfigStore" enctype="multipart/form-data" class="panel panel-white">
     <div class="panel-body" cg-busy="vm.promiseRequest">
-
-        <form novalidate angular-validator angular-validator-submit="vm.submit()" name="formConfigStore" enctype="multipart/form-data">
             <div class="panel col-md-12 panel-info">
                 <div class="panel-heading">
                     <h3 class="panel-title">Descripcion de la tienda</h3>
@@ -200,10 +198,9 @@
                            invalid-message="'Para poder activar tu tienda es requerido tener al menos un producto.'"/>
                 </div>
             </div>
-
-            <div class="col-md-12">
-                <button type="submit" class="btn btn-primary btn-lg pull-right">Guardar <i class="fa fa-floppy-o"></i></button>
-            </div>
-        </form>
     </div>
-</div>
+    <div class="panel-footer">
+        <button type="submit" class="btn btn-primary pull-right">Guardar <i class="fa fa-floppy-o"></i></button>
+        <button class="btn btn-warning pull-right" ui-sref="profile-detail"><i class="fa fa-times"></i> Cancelar</button>
+    </div>
+</form>
