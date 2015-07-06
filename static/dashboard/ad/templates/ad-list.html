@@ -48,18 +48,17 @@
                             <a href="/ad/{{ ad.slug }}" class="btn btn-sm btn-default text-success btn-actions" >
                                 <span
                                     tooltips
-                                    tooltip-title="Ver en detalle"
+                                    tooltip-title="Ver detalle"
+                                    tooltip-lazy="false"
                                     tooltip-side="top"
-                                    tooltip-size="small"
                                     class="fa fa-eye"></span>
                             </a>
                             <!-- update -->
                             <a href="/ad/update/{{ ad.slug }}" class="btn btn-sm text-warning btn-default  btn-actions">
                                 <span
                                     tooltips
-                                    tooltip-title="Editar el aviso"
+                                    tooltip-title="Editar aviso"
                                     tooltip-side="top"
-                                    tooltip-size="small"
                                     class="fa fa-pencil"></span>
                             </a>
                             <!-- delete -->
@@ -69,9 +68,8 @@
                                     item="ad">
                                 <span class="fa fa-trash-o"
                                       tooltips
-                                      tooltip-title="Elimina el aviso {{ ad.title }}"
-                                      tooltip-side="top"
-                                      tooltip-size="small"></span>
+                                      tooltip-title="Eliminar aviso '{{ ad.title }}'"
+                                      tooltip-side="top"></span>
                             </button>
 
 

@@ -61,7 +61,7 @@
                 AlertNotification.error("Se produjo un error en el servidor.");
             }
 
-            vm.promiseRequest = Ad.getAll().then(getAdSuccess, getAdError);
+            vm.promiseRequestAds = Ad.getAll().then(getAdSuccess, getAdError);
 
             function getAdSuccess(data){
                 vm.configs.ads = data.data.results;

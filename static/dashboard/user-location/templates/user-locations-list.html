@@ -80,12 +80,17 @@
                         <td class="col-md-9">{{ loc.title }}</td>
                         <td class="col-md-3">
                             <button type="button" class="btn btn-sm btn-default" ng-click="vm.edit(loc)">
-                                <i class="fa fa-pencil"></i>
+                                <i class="fa fa-pencil"
+                                        tooltips
+                                      tooltip-title="Editar ubicacion '{{ loc.title }}'"
+                                      tooltip-side="top"></i>
                             </button>
                             <button type="button" class="btn btn-sm btn-default"
                                     ng-really-click="vm.delete(loc)"
                                     ng-really-message="Are you sure ?" >
-                                <i class="fa fa-trash-o"></i>
+                                <i class="fa fa-trash-o" tooltips
+                                      tooltip-title="Eliminar ubicacion '{{ loc.title }}'"
+                                      tooltip-side="top"></i>
                             </button>
                         </td>
                     </tr>

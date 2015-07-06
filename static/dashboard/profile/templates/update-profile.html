@@ -61,9 +61,11 @@
                     <!-- CHECK VALIDATE IS UNIQUE -->
                     <i class="fa fa-check check-field"
                            tooltips
-                           tooltip-size="small"
                            tooltip-title="El username esta habilitado."
                            tooltip-side="top"
+                           tooltip-content="Recuerda tu nombre de usuario, te servira para poder acceder."
+
+                           tooltip-show-trigger="mouseover click"
                            ng-if="vm.username_is_valid">
                         </i>
                     <input class="form-control"
