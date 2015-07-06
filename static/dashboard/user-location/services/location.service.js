@@ -22,7 +22,7 @@
             update: update,
             destroy: destroy,
             list: list
-        }
+        };
 
         function create(location){
             return $http.post('/api/v1/user-locations/', location);

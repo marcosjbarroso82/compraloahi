@@ -18,7 +18,10 @@ class StoreSerializer(ModelSerializer):
         fields = ('name', 'style', 'logo', 'slug', 'slogan')
 
     def get_logo(self, obj):
-        return obj.logo.url
+        if obj.logo:
+            return obj.logo.url
+        else:
+            return ""
 
 
 class PhoneSerializer(ModelSerializer):

@@ -188,7 +188,17 @@ html {
 }
 .container-scroll {
   overflow-y: auto;
+  overflow-x: hidden;
   height: 100%;
+}
+.page-content {
+  margin-bottom: 40px;
+}
+.page-inner {
+  padding-bottom: 0px !important;
+}
+.page-footer {
+  position: relative !important;
 }
 .container-form-ad {
   padding: 20px 40px 40px 40px;

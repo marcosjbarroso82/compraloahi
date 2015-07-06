@@ -55,16 +55,17 @@
             {% block body_block %}
             <!-- CONTENT -->
             {% endblock %}
+            {% block footer %}
+                <div class="page-footer">
+                    <div class="container">
+                        <p class="no-s">2015 &copy; Compraloahi by <a href="http://www.context.com.ar" target="_blank">Context</a></p>
+                    </div>
+                </div>
+            {% endblock %}
         </div>
 
 
-        {% block footer %}
-        <div class="page-footer">
-            <div class="container">
-                <p class="no-s">2015 &copy; Compraloahi by <a href="http://www.context.com.ar" target="_blank">Context</a></p>
-            </div>
-        </div>
-        {% endblock %}
+
     </div><!-- Page Inner -->
 </main><!-- Page Content -->
 <div class="cd-overlay"></div>

@@ -189,7 +189,17 @@ html {
 }
 .container-scroll {
   overflow-y: auto;
+  overflow-x: hidden;
   height: 100%;
+}
+.page-content {
+  margin-bottom: 40px;
+}
+.page-inner {
+  padding-bottom: 0px !important;
+}
+.page-footer {
+  position: relative !important;
 }
 #page-ads-list,
 #map-container,

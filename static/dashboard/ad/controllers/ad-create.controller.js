@@ -136,7 +136,7 @@
             }
 
 
-            UserLocations.query(userLocationSuccess, userLocationError);
+            UserLocations.list().then(userLocationSuccess, userLocationError);
 
             function userLocationSuccess(data){
                 vm.user_locations = data;
