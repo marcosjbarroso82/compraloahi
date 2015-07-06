@@ -39,8 +39,12 @@
             {% include 'dashboard/sidebar.html' %}
 
             {% verbatim %}
-            <div class="page-inner" ng-controller="LayoutCtrl as vm">
-                <div style="max-height: 100%; overflow-y: auto;">
+            <div id="loading" style="display: block;">
+                <i class="fa fa-spinner fa-pulse fa-2x loading-spinner"></i>
+            </div>
+
+            <div class="page-inner" ng-controller="LayoutCtrl as vm" id="page-content" style="display: none;">
+                <div style="max-height: 100%; overflow-y: auto; overflow-x: none;">
                     <div class="page-breadcrumb">
                         <ol class="breadcrumb container">
                             <li><a href="#">Panel</a></li>
@@ -63,17 +67,19 @@
                             </div>
                         </div><!-- Row -->
                     </div><!-- Main Wrapper -->
-                </div>
-                <div class="page-footer">
-                    <div class="container">
-                        <p class="no-s">2015 &copy; Compraloahi by Context.</p>
+                    <div class="page-footer">
+                        <div class="container">
+                            <p class="no-s">2015 &copy; Compraloahi by Context.</p>
+                        </div>
                     </div>
                 </div>
+
             </div><!-- Page Inner -->
         {% endverbatim %}
         </main><!-- Page Content -->
         <div class="cd-overlay"></div>
         <div class="snackbar-container" data-snackbar="true"></div>
+
         {% include 'dashboard/javascripts.html' %}
 
 

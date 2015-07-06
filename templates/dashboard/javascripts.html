@@ -3,6 +3,14 @@
 <!-- JQUERY -->
 <script type="text/javascript" src="{% static 'bower_components/jquery/dist/jquery.min.js' %}"></script>
 
+<script>
+    $( document ).ready(function() {
+        $("#loading").css('display', 'none');
+        $("#page-content").css('display', 'block');
+
+    });
+</script>
+
 <!-- JQUERY UI (Required by moderms ) -->
 <script src="{% static 'theme/plugins/jquery-ui/jquery-ui.min.js' %}"></script>
 <!-- LOADING TO ALL JQUERY -->
