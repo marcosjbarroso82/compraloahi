@@ -1,5 +1,5 @@
 {% verbatim %}
-<div class="page-sidebar sidebar horizontal-bar">
+<div class="page-sidebar sidebar horizontal-bar" ng-controller="SidebarCtrl as vm">
     <div class="page-sidebar-inner">
         <ul class="menu accordion-menu">
             <li class="nav-heading"><span>Navigation</span></li>
@@ -27,8 +27,9 @@
                 <i class="fa fa-info sidebar-alert"
                    tooltips
                     tooltip-title="Debes cargar anuncios antes de poder activar tu tienda"
-                    tooltip-side="rigth"></i>
-                <a ui-sref="config-store" class="disabled"><span class="menu-icon fa fa-home "></span><p>Mi tienda</p></a>
+                    tooltip-side="rigth"
+                        ng-show="!vm.has_ads"></i>
+                <a ui-sref="config-store" ng-class="{disabled: !vm.has_ads }" ><span class="menu-icon fa fa-home "></span><p>Mi tienda</p></a>
             </li>
         </ul>
     </div><!-- Page Sidebar Inner -->

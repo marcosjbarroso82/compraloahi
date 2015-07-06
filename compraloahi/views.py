@@ -1,10 +1,9 @@
 from django.views.generic import TemplateView
-from django.views.decorators.csrf import ensure_csrf_cookie
 from django.utils.decorators import method_decorator
-from django.views.decorators.csrf import ensure_csrf_cookie
 from django.contrib.comments.views.comments import post_comment
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -13,13 +12,12 @@ from django.contrib.auth.models import User
 
 from rest_framework import pagination
 
-from django.utils.html import escape
 from push_notifications.models import GCMDevice
 from django.views.decorators.csrf import csrf_exempt
 
 from apps.ad.models import Ad
+from apps.user.serializers import UserAuthenticationSerializer
 
-from django.shortcuts import redirect
 
 import logging
 
@@ -27,11 +25,8 @@ logger = logging.getLogger('debug')
 
 @csrf_exempt
 def log(request):
-    #html = request
     logger.debug( request.body )
-    #logger.debug( request.HEADERS )
     return HttpResponse( "algo" )
-    #return HttpResponse( escape(repr(request)) )
 
 
 # Test send notification to android
@@ -50,6 +45,7 @@ class HomeView(TemplateView):
         return redirect('/ad/search/?q=')
 
 
+
 class DashBoardView(TemplateView):
     """
         View to init dashboard
@@ -59,6 +55,12 @@ class DashBoardView(TemplateView):
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
         return super(DashBoardView, self).dispatch(*args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(DashBoardView, self).get_context_data(**kwargs)
+
+        context['user_data'] = UserAuthenticationSerializer(instance=self.request.user).data
+        return context
 
 
 
@@ -76,6 +78,7 @@ def comment_post_wrapper(request):
 
     return HttpResponse('Unauthorized', status=401)
 
+
 # Generates Auth Tokens for all Users
 class GenerateAllAuthToken(APIView):
     def get(self, request):
@@ -87,7 +90,6 @@ class GenerateAllAuthToken(APIView):
         return Response(response)
 
 generate_all_auth_token = GenerateAllAuthToken.as_view()
-
 
 
 class CustomPagination(pagination.PageNumberPagination):

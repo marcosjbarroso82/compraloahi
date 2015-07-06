@@ -9,12 +9,12 @@
         .module('dashBoardApp.profile.controllers')
         .controller('ProfileUpdateController', ProfileUpdateController);
 
-    ProfileUpdateController.$inject = ['Profile', '$scope', 'AlertNotification', '$state'];
+    ProfileUpdateController.$inject = ['Profile', '$scope', 'AlertNotification', '$state', 'Authentication'];
 
     /**
      * @namespace ProfileUpdateController
      */
-    function ProfileUpdateController(Profile, $scope, AlertNotification, $state) {
+    function ProfileUpdateController(Profile, $scope, AlertNotification, $state, Authentication) {
         var vm = this;
 
         vm.profile = {};
@@ -39,13 +39,15 @@
          * @memberOf dashBoardApp.profile.controllers.ProfileUpdateController
          */
         function activate() {
-            Profile.detail().then(detailSuccess, detailError);
+            vm.profile = angular.copy(Authentication.profile);
+
+            /*Profile.detail().then(detailSuccess, detailError);
             function detailSuccess(data){
                 vm.profile = data.data;
             }
             function detailError(data){
                 AlertNotification.error("Error al cargar los datos de su perfil. Intente cargar de nuevo la pagina");
-            }
+            }*/
         }
 
         /**
@@ -57,7 +59,7 @@
             Profile.update(vm.profile).then(updateSuccess, updateError);
 
             function updateSuccess(data){
-                Profile.set_profile(data.data);
+                Authentication.profile = angular.copy(data.data);
                 AlertNotification.success("El perfil se modifico correctamente.");
                 $state.go('profile-detail');
             }

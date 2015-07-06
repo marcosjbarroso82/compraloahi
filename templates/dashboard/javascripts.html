@@ -106,13 +106,51 @@
 <!-- ###################### DASHBOARD APP ###################### -->
 <script type="text/javascript" src="{% static 'dashboard/app.js' %}"></script>
 
+<script type="text/javascript" src="{% static 'dashboard/app.config.js' %}"></script>
+<script type="text/javascript" src="{% static 'dashboard/app.routes.js' %}"></script>
 <!-- ###################### END DASHBOARD APP ###################### -->
 
 <!-- ###################### DASHBOARD APP - MODULE LAYOUT ###################### -->
 <script type="text/javascript" src="{% static 'dashboard/layout/layout.module.js' %}"></script>
-<script type="text/javascript" src="{% static 'dashboard/layout/controllers/base.controller.js' %}"></script>
+<script type="text/javascript" src="{% static 'dashboard/layout/controllers/layout.controller.js' %}"></script>
+<script type="text/javascript" src="{% static 'dashboard/layout/controllers/sidebar.controller.js' %}"></script>
+<script type="text/javascript" src="{% static 'dashboard/layout/controllers/nav.controller.js' %}"></script>
 <!-- ###################### END DASHBOARD APP - MODULE LAYOUT ###################### -->
 
+{% load jsonify %}
+<script>
+    angular.module('dashBoardApp.authentication', [
+            ])
+            .factory('Authentication', function(){
+                // Print user data with django
+
+                var user = {{ user_data|jsonify }};
+                var Authentication = {
+                    setProfile: setProfile,
+                    profile: user.profile,
+                    has_ads: user.has_ads,
+                    msg_unread: user.msg_unread,
+                    unauthenticate: unauthenticate
+                }
+
+                function getProfile(){
+                    return user.profile;
+                }
+                function setProfile(profile){
+                    console.log("CHANGE PROFILE");
+                    console.log(profile);
+                    user.profile = profile;
+                }
+
+                function unauthenticate(){
+
+                    delete user;
+                }
+
+                return Authentication;
+            });
+
+</script>
 
 <!-- ###################### DASHBOARD APP - MODULE UTILS ###################### -->
 <script type="text/javascript" src="{% static 'dashboard/utils/util.module.js' %}"></script>

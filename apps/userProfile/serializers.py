@@ -7,6 +7,7 @@ from sorl.thumbnail import get_thumbnail
 
 from django.contrib.auth.models import User
 
+from apps.ad.models import Ad
 
 
 class StoreSerializer(ModelSerializer):
@@ -114,3 +115,5 @@ class UserLocationSeralizer(ModelSerializer):
             if request.user.is_authenticated():
                 validated_data['userProfile'] =  request.user.profile
         return UserLocation.objects.create(**validated_data)
+
+

@@ -38,6 +38,23 @@
                 vm.configs = data.data;
 
                 changeStoreName();
+
+                $scope.$watch('vm.configs.name', function(newValue, oldValue){
+                    if(String(vm.configs.name).length > 3){
+                        changeStoreName();
+                        Store.is_name_valid(vm.configs.new_slug).then(isNameValidSuccess);
+                    }
+
+                    function isNameValidSuccess(data){
+                        if (data.data.is_valid != 'true'){
+                            vm.name_unique = true;
+                            vm.name_is_valid = false;
+                        }else{
+                            vm.name_unique = false;
+                            vm.name_is_valid = true;
+                        }
+                    }
+                });
             }
 
             function errorConfig(data){
@@ -113,22 +130,7 @@
 
         }
 
-        $scope.$watch('vm.configs.name', function(newValue, oldValue){
-            if(String(vm.configs.name).length > 3){
-                changeStoreName();
-                Store.is_name_valid(vm.configs.new_slug).then(isNameValidSuccess);
-            }
 
-            function isNameValidSuccess(data){
-                if (data.data.is_valid != 'true'){
-                    vm.name_unique = true;
-                    vm.name_is_valid = false;
-                }else{
-                    vm.name_unique = false;
-                    vm.name_is_valid = true;
-                }
-            }
-        });
 
     }
 

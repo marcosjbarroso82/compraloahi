@@ -9,12 +9,12 @@
         .module('dashBoardApp.profile.controllers')
         .controller('ProfileDetailController', ProfileDetailController);
 
-    ProfileDetailController.$inject = ['Profile', 'AlertNotification', '$scope'];
+    ProfileDetailController.$inject = ['Profile', 'AlertNotification', '$scope', 'Authentication'];
 
     /**
      * @namespace ProfileDetailController
      */
-    function ProfileDetailController(Profile, AlertNotification, $scope) {
+    function ProfileDetailController(Profile, AlertNotification, $scope, Authentication) {
         var vm = this;
 
         vm.upload_img = upload_img;
@@ -27,7 +27,8 @@
          * @memberOf dashBoardApp.authentication.controllers.ProfileDetailController
          */
         function activate() {
-            vm.promiseRequest = Profile.detail().then(detailSuccess, detailError);
+            vm.profile = Authentication.profile;
+            /*vm.promiseRequest = Profile.detail().then(detailSuccess, detailError);
 
             function detailSuccess(data){
                 vm.profile = data.data;
@@ -39,7 +40,7 @@
 
             function detailError(data){
                 console.log(data);
-            }
+            }*/
 
         }
 

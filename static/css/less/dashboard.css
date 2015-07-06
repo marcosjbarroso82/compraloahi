@@ -427,3 +427,10 @@ hr {
 ._720kb-tooltip {
   z-index: 1000;
 }
+.help {
+  width: 100%;
+  font-style: italic;
+  color: #a3a3a3;
+  font-weight: bold;
+  display: block;
+}

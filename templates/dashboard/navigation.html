@@ -1,4 +1,5 @@
-<div class="navbar">
+{% verbatim %}
+<div class="navbar" ng-controller="NavCtrl as vm">
     <div class="navbar-inner container-fluid">
         <div class="sidebar-pusher">
             <a href="javascript:void(0);" class="waves-effect waves-button waves-classic push-sidebar">
@@ -12,13 +13,13 @@
             <a class="waves-effect waves-button waves-classic a">
                 <div class="nav-user-dropdown-responsive dropdown">
                     <a href="#" class="a dropdown-toggle waves-effect waves-button waves-classic" data-toggle="dropdown">
-                        <img class="img-circle avatar" src="{{ user.profile.image.url }}" width="40" height="40" alt="">
+                        <img class="img-circle avatar" src="{{ vm.profile.thumbnail_200x200 }}" width="40" height="40" alt="">
                     </a>
                     <ul class="dropdown-menu dropdown-menu-right dropdown-list" role="menu">
                         <li role="presentation"><a href="/panel/user/profile/"><i class="fa fa-user"></i>Profile</a></li>
                         <li role="presentation"><a href="/panel/mensaje/entrada/"><i class="fa fa-envelope"></i>Inbox<span class="badge badge-success pull-right">4</span></a></li>
                         <li role="presentation" class="divider"></li>
-                        <li role="presentation"><a href="{% url 'my-user:my-logout' %}"><i class="fa fa-sign-out m-r-xs"></i>Log out</a></li>
+                        <li role="presentation"><a href="/accounts/logout/"><i class="fa fa-sign-out m-r-xs"></i>Log out</a></li>
                     </ul>
                 </div>
             </a>
@@ -27,7 +28,7 @@
             <div class="top-menu">
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle waves-effect waves-button waves-classic" data-toggle="dropdown"><i class="fa fa-envelope"></i><span class="badge badge-success pull-right">4</span></a>
+                        <a href="#" class="dropdown-toggle waves-effect waves-button waves-classic" data-toggle="dropdown"><i class="fa fa-envelope"></i><span class="badge badge-success pull-right">{{ vm.msg_unread }}</span></a>
                         <ul class="dropdown-menu title-caret dropdown-lg" role="menu">
                             <li><p class="drop-title">You have 4 new  messages !</p></li>
                             <li class="dropdown-menu-list slimscroll messages">
@@ -119,8 +120,8 @@
                     </li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle waves-effect waves-button waves-classic" data-toggle="dropdown">
-                            <span class="user-name">{{ user.first_name }}<i class="fa fa-angle-down"></i></span>
-                            <img class="img-circle avatar" src="{{ user.profile.image.url }}" width="40" height="40" alt="">
+                            <span class="user-name">{{ vm.profile.user.username }}<i class="fa fa-angle-down"></i></span>
+                            <img class="img-circle avatar" src="{{ vm.profile.thumbnail_200x200 }}" width="40" height="40" alt="">
                         </a>
                         <ul class="dropdown-menu dropdown-list" role="menu">
                             <li role="presentation"><a href="/panel/user/profile"><i class="fa fa-user"></i>Profile</a></li>
@@ -135,3 +136,4 @@
         </div>
     </div>
 </div><!-- Navbar -->
+{% endverbatim %}
