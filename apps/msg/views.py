@@ -107,3 +107,5 @@ class MsgViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(sent, many=True)
         return Response(serializer.data)
 
+    def list(self, request, *args, **kwargs):
+        return Response([])
