@@ -35,7 +35,7 @@ class CustomPermission(permissions.BasePermission):
         # print(view.allowed_methods)
         # print(view.action)
         # print(view.action)
-
+        return True
         if request.method not in permissions.SAFE_METHODS:
             # print("not safe")
             # print(view.action)
@@ -43,13 +43,13 @@ class CustomPermission(permissions.BasePermission):
                 # print("update or patch")
                 if obj.sender == request.user:
                     # print("Im a SENDER")
-                    updateable_fields = ['sender_archived', 'sender_deleted_at']
+                    updateable_fields = ['sender_archived', 'custom', 'sender_deleted_at']
                     for field in request.data:
                         if field not in updateable_fields:
                             return False
                 if obj.recipient == request.user:
                     # print("IM a RECIPIENT")
-                    updateable_fields = ['read_at', 'recipient_archived',
+                    updateable_fields = ['read_at', 'recipient_archived', 'custom',
                                          'recipient_deleted_at']
                     for field in request.data:
                         if field not in updateable_fields:
@@ -69,15 +69,12 @@ class MsgViewSet(viewsets.ModelViewSet):
         msg = self.get_object()
         self.serializer_class = MsgSerializer
 
-        serializer = self.get_serializer(data=request.data, partial=True)
-        if serializer.is_valid():
-            msg.set_read(datetime.now())
-            msg.save()
-            serializer = self.get_serializer(msg)
-            return Response(serializer.data)
-        else:
-            return Response(serializer.errors,
-                            status=status.HTTP_400_BAD_REQUEST)
+        msg.set_read(datetime.now()).save()
+
+        serializer = self.get_serializer(msg)
+        return Response(serializer.data)
+
+
 
     def get_queryset(self):
         return models.Msg.objects.all()

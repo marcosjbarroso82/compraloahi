@@ -2,7 +2,7 @@ from django.db import models
 from django.conf import settings
 from django.utils.translation import ugettext as _
 
-
+import datetime
 # moderation constants
 STATUS_PENDING = 'p'
 STATUS_ACCEPTED = 'a'
@@ -13,11 +13,15 @@ STATUS_CHOICES = (
     (STATUS_REJECTED, _('Rejected')),)
 
 
+
 class Msg(models.Model):
     """
     A message between a User and another User or an AnonymousUser.
     """
     SUBJECT_MAX_LENGTH = 120
+
+    TRUE_VALUES = set(('t', 'T', 'true', 'True', 'TRUE', '1', 1, True))
+    FALSE_VALUES = set(('f', 'F', 'false', 'False', 'FALSE', '0', 0, 0.0, False))
 
     subject = models.CharField(_("subject"), max_length=30)
     body = models.TextField(_("body"), blank=True)
@@ -64,13 +68,46 @@ class Msg(models.Model):
     def is_new(self):
         """Tell if the recipient has not yet read the message."""
         return self.read_at is None
+        # return True
+
+    @is_new.setter
+    def is_new(self, value):
+        if not self.read_at and value in self.FALSE_VALUES:
+            self.read_at = datetime.datetime.now()
+            self.save()
+        elif value in self.TRUE_VALUES:
+            self.read_at = None
+            self.save()
 
     @property
     def is_replied(self):
         """Tell if the recipient has written a reply to the message."""
         return self.replied_at is not None
 
-    def set_read(self, date):
-        if not self.read_at:
-            self.read_at = date
+    @property
+    def sender_deleted(self):
+        """Tell if the recipient has written a reply to the message."""
+        return self.sender_deleted_at is not None
+
+    @sender_deleted.setter
+    def sender_deleted(self, value):
+        if not self.sender_deleted_at and value in self.TRUE_VALUES:
+            self.sender_deleted_at = datetime.datetime.now()
+            self.save()
+        elif value in self.FALSE_VALUES:
+            self.sender_deleted_at = None
+            self.save()
+
+    @property
+    def recipient_deleted(self):
+        """Tell if the recipient has written a reply to the message."""
+        return self.recipient_deleted_at is not None
+
+    @recipient_deleted.setter
+    def recipient_deleted(self, value):
+        if not self.recipient_deleted and value in self.TRUE_VALUES:
+            self.recipient_deleted = datetime.datetime.now()
+            self.save()
+        elif value in self.FALSE_VALUES:
+            self.recipient_deleted = None
             self.save()
