@@ -516,3 +516,6 @@ html {
   /** Quiet padding because dont exist footer */
   padding-bottom: 0px !important;
 }
+.page-content {
+  margin-bottom: 0px;
+}
