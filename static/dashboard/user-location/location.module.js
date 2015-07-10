@@ -11,5 +11,5 @@
         .module('dashBoardApp.userLocation.controllers', ['ngDialog']);
 
     angular
-        .module('dashBoardApp.userLocation.services', ['ngResource']);
+        .module('dashBoardApp.userLocation.services', []);
 })();

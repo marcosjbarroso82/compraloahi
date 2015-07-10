@@ -8,12 +8,10 @@
             'angular.snackbar',
             'ui.router',
             '720kb.tooltips',
-            'ngResource',
             'cgBusy',
             'angularValidator',
             'nsPopover',
             'ng-currency',
-            //'ngSanitize',
             'uiGmapgoogle-maps',
             'ngTable',
             // My lib

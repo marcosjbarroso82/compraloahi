@@ -9,14 +9,12 @@
         .module('dashBoardApp.ad.controllers')
         .controller('AdCreateCtrl', AdCreateCtrl);
 
-    AdCreateCtrl.$inject = ['$scope', 'Ad', 'AlertNotification', '$timeout', 'UserLocations', '$state'];
+    AdCreateCtrl.$inject = ['$scope', 'Ad', 'AlertNotification', 'UserLocations', '$state', 'Authentication'];
 
     /**
      * @namespace AdCreateCtrl
      */
-    function AdCreateCtrl($scope, Ad, AlertNotification, $timeout, UserLocations, $state) {
-
-
+    function AdCreateCtrl($scope, Ad, AlertNotification, UserLocations, $state, Authentication) {
         var vm = this;
 
         // Declare functions
@@ -43,21 +41,19 @@
                 ["Maximize"]
             ]
         };
-
+        vm.user_locations = [];
+        vm.categories_selected = [];
 
         $scope.map = {center: {latitude: -31.4179952, longitude: -64.1890513 }, zoom: 15 };
         $scope.options = {scrollwheel: false};
 
         $scope.location_places = {};
-
-        vm.user_locations = [];
-
-        vm.categories_selected = [];
-
         $scope.location = {center: {latitude: -31.4179952, longitude: -64.1890513 }};
 
 
-        init();
+
+
+        activate();
 
         function changeLocationSelected(){
             vm.location.center = angular.copy(vm.location_selected.center);
@@ -84,13 +80,15 @@
             }
         });
 
-        function nextStep(){
-            vm.step ++;
-            if(vm.maxStep < vm.step){
-                vm.maxStep = angular.copy(vm.step);
+        $scope.$watch('location_places', function(val, old_val){
+            if($scope.location_places.geometry){
+                vm.location.center = {};
+                vm.location.center.latitude = angular.copy($scope.location_places.geometry.location.lat());
+                vm.location.center.longitude = angular.copy($scope.location_places.geometry.location.lng());
             }
+        });
 
-        }
+
 
         function selectCategory(category){
             if(category.selected){
@@ -103,7 +101,7 @@
 
 
 
-        function init(){
+        function activate(){
             vm.promiseRequestCategories = Ad.getCategories().then(getCategoriesSuccess, getCategoriesError);
 
             function getCategoriesSuccess(data){
@@ -164,12 +162,15 @@
             vm.ad.locations[0].lat = vm.ad.locations[0].center.latitude;
             vm.ad.locations[0].lng = vm.ad.locations[0].center.longitude;
 
-            vm.promiseRequest = Ad.create(vm.ad, $scope.interface.getFiles($scope.interface.FILE_TYPES.VALID)).then(createSuccess, createError);
+            vm.ad.images = vm.images;
+
+            vm.promiseRequest = Ad.create(vm.ad, vm.images).then(createSuccess, createError);
 
             function createSuccess(data){
                 if(vm.save_location && vm.custom_location == 'custom'){
-                    UserLocations.save(vm.ad.locations[0]);
+                    UserLocations.create(vm.ad.locations[0]);
                 }
+                Authentication.has_ads = true;
                 AlertNotification.success("El aviso se creo correctamente para ver el detalle presione <a href='http://compraloahi.com.ar' target='_blank'>aqui</a>.");
                 $state.go('my-ads');
             }
@@ -178,70 +179,17 @@
             }
         }
 
-        $scope.$watch('location_places', function(val, old_val){
-            if($scope.location_places.geometry){
-                vm.location.center = {};
-                vm.location.center.latitude = angular.copy($scope.location_places.geometry.location.lat());
-                vm.location.center.longitude = angular.copy($scope.location_places.geometry.location.lng());
+
+        function nextStep(){
+            vm.step ++;
+            if(vm.maxStep < vm.step){
+                vm.maxStep = angular.copy(vm.step);
             }
-        });
+            if(vm.maxStep == 4){
+                //google.maps.event.trigger($scope.map, 'resize');
+            }
+        }
 
-
-        /**
-         * @property interface
-         * @type {Object}
-         */
-        $scope.interface = {};
-
-        /**
-         * @property uploadCount
-         * @type {Number}
-         */
-        $scope.uploadCount = 0;
-
-        /**
-         * @property success
-         * @type {Boolean}
-         */
-        $scope.success = false;
-
-        /**
-         * @property error
-         * @type {Boolean}
-         */
-        $scope.error = false;
-
-        // Listen for when the interface has been configured.
-        $scope.$on('$dropletReady', function whenDropletReady() {
-
-            $scope.interface.allowedExtensions(['png', 'jpg']);
-            $scope.interface.setRequestUrl('upload.html');
-            $scope.interface.defineHTTPSuccess([/2.{2}/]);
-            $scope.interface.useArray(false);
-
-        });
-
-        // Listen for when the files have been successfully uploaded.
-        $scope.$on('$dropletSuccess', function onDropletSuccess(event, response, files) {
-
-            $scope.uploadCount = files.length;
-            $scope.success     = true;
-            $timeout(function timeout() {
-                $scope.success = false;
-            }, 5000);
-
-        });
-
-        // Listen for when the files have failed to upload.
-        $scope.$on('$dropletError', function onDropletError(event, response) {
-
-            $scope.error = true;
-
-            $timeout(function timeout() {
-                $scope.error = false;
-            }, 5000);
-
-        });
 
     }
 })();

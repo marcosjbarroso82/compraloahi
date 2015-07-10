@@ -11,5 +11,5 @@
         .module('dashBoardApp.message.controllers', ['ngDialog']);
 
     angular
-        .module('dashBoardApp.message.services', ['ngResource']);
+        .module('dashBoardApp.message.services', []);
 })();

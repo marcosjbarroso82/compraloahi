@@ -112,6 +112,7 @@
             function getAdDetailSuccess(data){
                 vm.ad = data.data;
                 vm.request = true;
+                vm.location.center = vm.ad.locations[0].center;
                 vm.promiseRequestCategories = Ad.getCategories().then(getCategoriesSuccess, getCategoriesError);
             }
 

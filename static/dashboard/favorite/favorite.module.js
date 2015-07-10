@@ -11,5 +11,5 @@
         .module('dashBoardApp.favorite.controllers', ['ngDialog']);
 
     angular
-        .module('dashBoardApp.favorite.services', ['ngResource', 'djangoRESTResources']);
+        .module('dashBoardApp.favorite.services', []);
 })();
