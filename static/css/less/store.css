@@ -232,7 +232,7 @@ html {
 }
 .container-store .item-store .item-content .title,
 .container-store .item-store .item-content .description {
-  min-height: 50px;
+  min-height: 40px;
 }
 .container-store .item-store .item-content .title a {
   color: #074e7c;

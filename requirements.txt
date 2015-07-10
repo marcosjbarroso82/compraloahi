@@ -21,4 +21,5 @@ simplejson==3.6.5
 six==1.9.0
 sorl-thumbnail==12.2
 urllib3==1.10.2
-django-cors-headers (1.0.0)
+django-cors-headers==1.0.0
+django-jsonify==0.3.0
