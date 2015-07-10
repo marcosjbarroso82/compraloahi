@@ -14,7 +14,7 @@
                     <li><a ui-sref="messages({'folder': 'trash'})" ui-sref-active="active">Eliminados</a></li>
                 </ul>
             </li>
-            <li ng-class="{active: ('my-ads' | includedByState) || ('ad-create' | includedByState)}">
+            <li ng-class="{active: ('my-ads' | includedByState) || ('ad-create' | includedByState) || ('ad-update' | includedByState)}">
                 <a ui-sref="my-ads"><span class="menu-icon fa fa-bullhorn"></span><p>Mis avisos</p></a>
             </li>
             <li ng-class="{active: ('my-locations' | includedByState)}">

@@ -61,7 +61,7 @@
 
 
         function loadAds(page_nro){
-            vm.promiseRequest = Ad.getAll().then(getSuccess, getError);
+            vm.promiseRequest = Ad.list().then(getSuccess, getError);
 
             function getSuccess(data){
                 vm.ads = data.data.results;

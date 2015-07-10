@@ -61,7 +61,7 @@
                 AlertNotification.error("Se produjo un error en el servidor.");
             }
 
-            vm.promiseRequestAds = Ad.getAll().then(getAdSuccess, getAdError);
+            vm.promiseRequestAds = Ad.list().then(getAdSuccess, getAdError);
 
             function getAdSuccess(data){
                 vm.configs.ads = data.data.results;
@@ -90,7 +90,7 @@
             function submitSuccess(data){
                 // TODO: make url with data response slug
                 var slug = data.data.slug;
-                AlertNotification.success("La tienda se configuro con exito. Ahora puedes ver tu tienda haciendo click <a href='/tienda/"+ slug +"'>AQUI</a>");
+                AlertNotification.success("La tienda se configuro con exito. Ahora puedes ver tu tienda haciendo click <a href='/tienda/"+ slug +"' target='_blanck'>AQUI</a>");
             }
 
             function submitError(data){

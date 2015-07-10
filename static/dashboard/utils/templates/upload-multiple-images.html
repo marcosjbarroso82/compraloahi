@@ -1,9 +1,59 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title></title>
-</head>
-<body>
+<style>
+    .fileUpload {
+        overflow: hidden;
+        width: 150px;;
+        cursor: pointer;
+        display: block;
+        clear: left;
+    }
+    .fileUpload input.upload {
+        font-size: 20px;
+        position: absolute;
+        opacity: 0;
+        filter: alpha(opacity=0);
+        width: 100%;
+        height: 100%;
+    }
+    .fileUpload label{
+        display: block;
+    }
 
-</body>
-</html>
+    .uploaded-img{
+        width: 90px;
+        padding: 5px;
+        text-align: center;
+        float: left;
+        margin: 5px;
+        border: solid 1px;
+        position: relative;
+    }
+    .container-delete{
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(222, 222, 222, 0.80);
+        z-index: 10;
+    }
+    .btn-delete{
+        border-radius: 50%;
+        margin-top: 15px;
+    }
+</style>
+<ul style="list-style: none;">
+    <li ng-repeat="image in vm.images" class="uploaded-img" ng-if="!image.deleted">
+        <div class="container-delete" ng-show="image.focus" ng-mouseleave="image.focus = false;">
+            <button type="button" class="btn btn-xs btn-danger btn-delete" ng-click="vm.imageDelete(image)"><i class="fa fa-times"></i></button>
+        </div>
+        <div style="width: 100%; text-align: center" ng-mouseover="image.focus = true;" >
+            <img src="{{ image.image }}" alt="50" style="height: 50px;"/>
+        </div>
+        <input type="checkbox" ng-change="vm.changeDefaultImage(image)" ng-model="image.default"/> <label for="">Por defecto</label>
+    </li>
+    <li class="fileUpload btn btn-default">
+        <span><i class="fa fa-plus fa-2x"></i></span>
+        <input type="file" class="upload" onchange="angular.element(this).scope().setFiles(this)" accept="image/*"/>
+        <label for="">Agrega mas imagenes</label>
+    </li>
+</ul>

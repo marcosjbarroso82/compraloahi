@@ -25,7 +25,6 @@
         vm.selectCategory = selectCategory;
         vm.changeLocationSelected = changeLocationSelected;
 
-        vm.maxStep = 1;
         // Define vars
         vm.ad = {};
         vm.ad.categories = [];
@@ -46,18 +45,16 @@
         };
 
 
-        vm.options = {scrollwheel: false};
-
-        $scope.map = { zoom: 12};
+        $scope.map = {center: {latitude: -31.4179952, longitude: -64.1890513 }, zoom: 15 };
+        $scope.options = {scrollwheel: false};
 
         $scope.location_places = {};
 
         vm.user_locations = [];
 
         vm.categories_selected = [];
-        ////////// Functions
 
-        $scope.location = {center: {}};
+        $scope.location = {center: {latitude: -31.4179952, longitude: -64.1890513 }};
 
 
         init();
@@ -107,7 +104,7 @@
 
 
         function init(){
-            vm.promiseRequestCategories = Ad.getAllCategories().then(getCategoriesSuccess, getCategoriesError);
+            vm.promiseRequestCategories = Ad.getCategories().then(getCategoriesSuccess, getCategoriesError);
 
             function getCategoriesSuccess(data){
                 vm.categories = data.data;

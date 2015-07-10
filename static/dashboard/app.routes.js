@@ -91,16 +91,30 @@
 
             // ADS CREATE
             .state('ad-create', {
-                url: '/aviso/crear/',
+                url: '/mis-aviso/crear/',
                 templateUrl: '/static/dashboard/ad/templates/create.html',
                 controller: 'AdCreateCtrl',
                 controllerAs: 'vm',
                 data:{
                     breadcumbs: [
-                        {url: 'my-ads', name:'Mis avisos'},
+                        { url: 'my-ads', name:'Mis avisos'},
                         { url: 'ad-create', name:'Crear avisos'}
                     ],
                     title: "Crea un avisos en 4 pasos"
+                }
+            })
+
+            .state('ad-update', {
+                url: '/mis-aviso/update/:id',
+                templateUrl: '/static/dashboard/ad/templates/update.html',
+                controller: 'AdUpdateCtrl',
+                controllerAs: 'vm',
+                data:{
+                    breadcumbs: [
+                        { url: 'my-ads', name:'Mis avisos'},
+                        { url: 'ad-update', name:'Editando avisos'}
+                    ],
+                    title: "Editando aviso"
                 }
             })
 
