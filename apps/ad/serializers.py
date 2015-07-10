@@ -12,16 +12,18 @@ class CategorySerializer(serializers.ModelSerializer):
 class AdImageSerializer(serializers.ModelSerializer):
     thumbnail_110x110 = serializers.SerializerMethodField()
     thumbnail_800x800 = serializers.SerializerMethodField()
+
     class Meta:
         model = AdImage
         #fields = ('title',)
-        exclude = ('id', 'ad_id')
+        exclude = ('ad_id' , )
 
     def get_thumbnail_110x110(self, obj):
         return get_thumbnail(obj.image, '110x110', crop='center', quality=99).url
 
     def get_thumbnail_800x800(self, obj):
         return get_thumbnail(obj.image, '800x800', crop='center', quality=99).url
+
 
 class AdLocationSerializer(serializers.ModelSerializer):
     center = serializers.SerializerMethodField()
