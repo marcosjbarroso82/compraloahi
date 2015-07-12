@@ -185,11 +185,6 @@
             if(vm.maxStep < vm.step){
                 vm.maxStep = angular.copy(vm.step);
             }
-            if(vm.maxStep == 4){
-                //google.maps.event.trigger($scope.map, 'resize');
-            }
         }
-
-
     }
 })();

@@ -100,7 +100,7 @@
                         { url: 'my-ads', name:'Mis avisos'},
                         { url: 'ad-create', name:'Crear avisos'}
                     ],
-                    title: "Crea un avisos en 4 pasos"
+                    title: "Crea tu avisos en 4 pasos"
                 }
             })
 

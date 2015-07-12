@@ -19,10 +19,16 @@ class AdImageSerializer(serializers.ModelSerializer):
         exclude = ('ad_id' , )
 
     def get_thumbnail_110x110(self, obj):
-        return get_thumbnail(obj.image, '110x110', crop='center', quality=99).url
+        try:
+            return get_thumbnail(obj.image, '110x110', crop='center', quality=99).url
+        except:
+            return ""
 
     def get_thumbnail_800x800(self, obj):
-        return get_thumbnail(obj.image, '800x800', crop='center', quality=99).url
+        try:
+            return get_thumbnail(obj.image, '800x800', crop='center', quality=99).url
+        except:
+            return ""
 
 
 class AdLocationSerializer(serializers.ModelSerializer):
@@ -30,8 +36,7 @@ class AdLocationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = AdLocation
-        fields = ['title', 'ad', 'lat', 'lng', 'center']
-
+        fields = ('title', 'ad', 'lat', 'lng', 'center', 'id')
 
     def get_center(self, obj):
         return obj.center()

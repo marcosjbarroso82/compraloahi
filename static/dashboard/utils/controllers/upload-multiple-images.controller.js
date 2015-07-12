@@ -28,9 +28,16 @@
                 fileReader.readAsDataUrl(element.files[0], $scope)
                     .then(function(result) {
                         image.image = result;
+                        image.name = element.files[0].name;
                         image.file = element.files[0];
+
                     });
                 $scope.$apply(function(scope) {
+                    console.log("CARGANDO IMAEGN");
+                        console.log(scope.vm.images);
+                        if(scope.vm.images.length == 0){
+                            image.default = true;
+                        }
                     scope.vm.images.push(image);
                 });
             }

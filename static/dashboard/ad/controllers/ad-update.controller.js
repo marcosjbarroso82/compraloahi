@@ -60,31 +60,36 @@
 
         activate();
 
+
+        /**
+         * Function to select user locations.
+         */
         function changeLocationSelected(){
             vm.location.center = angular.copy(vm.location_selected.center);
-
         }
 
-
+        /**
+         *  When fails gps, or denied permissions, set defaul locations.
+         */
         function setDefaultLocation(){
-            console.log("set default location");
             vm.location.center = {};
             vm.location.center.latitude = -13.30272;
             vm.location.center.longitude = -87.144107;
         }
 
+        /**
+         * When change set location, change center map, and marker.
+         */
         $scope.$watch('vm.location.center', function(location, old_location){
-            console.log("CAMBIO LOCATION");
             if(vm.location.center.latitude && vm.location.center.longitude){
-                console.log(vm.location);
                 $scope.map.center = angular.copy(vm.location.center);
                 $scope.location.center = angular.copy(vm.location.center);
-
-                console.log("MAP LOCATION");
-                console.log(vm.location);
             }
         });
 
+        /**
+         * When select location places, set center on location.
+         */
         $scope.$watch('location_places', function(val, old_val){
             if($scope.location_places.geometry){
                 vm.location.center = {};
@@ -107,12 +112,16 @@
          */
         function activate(){
 
+            // Get detail ad. TODO: Add cache on service.
             vm.promiseRequest = Ad.detail($stateParams.id).then(getAdDetailSuccess, getAdDetailError);
 
             function getAdDetailSuccess(data){
                 vm.ad = data.data;
                 vm.request = true;
-                vm.location.center = vm.ad.locations[0].center;
+                vm.location.center = angular.copy(vm.ad.locations[0].center);
+                vm.images = angular.copy(vm.ad.images)
+
+                // Get categories
                 vm.promiseRequestCategories = Ad.getCategories().then(getCategoriesSuccess, getCategoriesError);
             }
 
@@ -127,6 +136,7 @@
                     for(var c=0; c < vm.categories.length; c++){
                         if(vm.ad.categories[i] == vm.categories[c].id){
                             vm.categories[c].selected = true;
+                            vm.categories_selected.push(vm.categories[c].id);
                             break;
                         }
                     }
@@ -147,14 +157,13 @@
                 vm.location.center = {};
                 vm.location.center.latitude = angular.copy(position.coords.latitude);
                 vm.location.center.longitude = angular.copy(position.coords.longitude);
-
-
             }
 
             function getError(err) {
                 setDefaultLocation();
             }
 
+            // Get user locations.
             UserLocations.list().then(userLocationSuccess, userLocationError);
 
             function userLocationSuccess(data){
@@ -167,33 +176,28 @@
         }
 
         function submit(){
-
             for(var i=0; i < vm.categories.length; i++){
                 if(vm.categories[i].selected){
                     vm.ad.categories.push(vm.categories[i].id);
                 }
             }
 
-            vm.ad.locations = [];
-            if(vm.custom_location == 'custom'){
-                vm.ad.locations.push(vm.location);
-            }else{
-                vm.ad.locations.push(vm.location_selected);
-            }
-
+            vm.ad.locations[0].center = vm.location.center;
             vm.ad.locations[0].lat = vm.ad.locations[0].center.latitude;
             vm.ad.locations[0].lng = vm.ad.locations[0].center.longitude;
 
-            vm.promiseRequest = Ad.create(vm.ad).then(createSuccess, createError);
+            vm.ad.images = vm.images;
 
-            function createSuccess(data){
+            vm.promiseRequest = Ad.update(vm.ad, vm.images).then(updateSuccess, updateError);
+
+            function updateSuccess(data){
                 if(vm.save_location && vm.custom_location == 'custom'){
-                    UserLocations.save(vm.ad.locations[0]);
+                    UserLocations.create(vm.ad.locations[0]);
                 }
-                AlertNotification.success("El aviso se creo correctamente para ver el detalle presione <a href='http://compraloahi.com.ar' target='_blank'>aqui</a>.");
+                AlertNotification.success("El aviso se modifico correctamente para ver el detalle presione <a href='http://compraloahi.com.ar' target='_blank'>aqui</a>.");
                 $state.go('my-ads');
             }
-            function createError(data){
+            function updateError(data){
                 AlertNotification.error("Error al intentar crear el aviso");
             }
         }

@@ -150,7 +150,7 @@
                     <input type="hidden"
                            name="images"
                            ng-model="vm.categories_selected"
-                           validator="interface.getFiles(interface.FILE_TYPES.VALID).length > 0"
+                           validator="vm.images.length > 0"
                            invalid-message="'Es requerido cargar al menos una imagen.'"/>
 
                     <div ng-if="vm.request">
@@ -236,7 +236,7 @@
                                maxlength="100"
                                ng-disabled="vm.custom_location == 'user_location'"
                                ng-model="vm.location.title"
-                               ng-required="vm.custom_location == 'custom'"
+                               ng-required="vm.custom_location == 'custom && vm.save_location == true'"
                                name="location_title"
                                placeholder="Nombre de la ubicacion. Ej: Mi trabajo."
                                required-message="'Si carga una ubicacion personalizada el titulo es requerido.'"

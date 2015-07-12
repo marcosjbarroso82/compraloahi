@@ -62,7 +62,7 @@
             angular.forEach(images, function (val, key) {
                 fd.append(key, val.file);
             });
-            return $http.post('/api/v1/my-ads/' + ad.id + '/', fd, {
+            return $http.put('/api/v1/my-ads/' + ad.id + '/', fd, {
                 headers: {'Content-Type': undefined},
                 withCredentials: true,
                 transformRequest: angular.identity

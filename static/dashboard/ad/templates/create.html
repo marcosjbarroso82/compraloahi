@@ -1,6 +1,5 @@
-<div class="panel panel-white">
-<div class="panel-body" id="container-ad-create-data">
-<div class="col-xs-12" >
+<div id="container-ad-create-data">
+<div class="col-xs-12" style="z-index: 10; margin-top: 10px;">
     <!-- TABS STEP -->
     <ul class="nav nav-pills nav-justified thumbnail setup-panel" ng-init="vm.step=1; vm.maxStep = 1;">
         <li ng-class="{active: vm.step == 1 }">
@@ -31,131 +30,126 @@
 </div>
 
 <!-- STEP 1 -->
-<div class="row setup-content" id="step-1" ng-show="vm.step == 1">
-    <div class="col-xs-12">
-        <form class="col-md-12 well" novalidate angular-validator angular-validator-submit="vm.nextStep()" name="formStep1" enctype="multipart/form-data">
+<form class="panel panel-white" ng-if="vm.step == 1" novalidate angular-validator angular-validator-submit="vm.nextStep()" name="formStep1" enctype="multipart/form-data">
+
+    <div class="panel-body">
+        <!-- TITLE -->
+        <div class="form-group">
+            <label class="control-label" for="title">Titulo</label>
+            <input type="text"
+                   name="title"
+                   class="form-control"
+                   ng-model="vm.ad.title"
+                   placeholder="Titulo. Ej: Celular Galaxy GIT"
+                   ng-minlength="3"
+                   ng-maxlength="40"
+                   required="required"
+                   invalid-message="'El minimo de caracteres es de 3 y el maximo es de 40'"
+                   required-message="'El titulo del anuncio es requerido!'">
+        </div>
 
 
+        <!-- SHORT DESCRIPTION -->
+        <div class="form-group">
+            <label class="control-label" for="short_description">Descripcion corta</label>
+            <input type="text"
+                   class="form-control"
+                   ng-model="vm.ad.short_description"
+                   maxlength="100"
+                   name="short_description"
+                   placeholder="Escriba una descripcion corta."
+                   required-message="'La descripcion corta es requerida'"
+                   required="required">
 
-            <!-- TITLE -->
-            <div class="form-group">
-                <label class="control-label" for="title">Titulo</label>
-                <input type="text"
-                       name="title"
-                       class="form-control"
-                       ng-model="vm.ad.title"
-                       placeholder="Titulo. Ej: Celular Galaxy GIT"
-                       ng-minlength="3"
-                       ng-maxlength="40"
-                       required="required"
-                       invalid-message="'El minimo de caracteres es de 3 y el maximo es de 40'"
-                       required-message="'El titulo del anuncio es requerido!'">
-            </div>
+            <!-- POPOVER SHORT DESCRIPTION HELP -->
+            <script type="text/ng-template" id="popover">
+                        <div class="triangle"></div>
+                        <div class="ns-popover-tooltip" style="max-width: 400px; padding: 10px;">
+                            <img src="/static/image/help/short-description.png" class="img-thumbnail"  />
+                            <p>La descripcion corta del anuncio te permite tener mas posibilidades de ser encontrado, y ademas
+                                es la primer descripcion de tu anuncio que el usuario lee.</p>
+                        </div>
+                    </script>
+                    <span class="help" >¿Porque es importante que el anuncio tenga una descripcion corta?.
+                        <a ns-popover
+                           ns-popover-template="popover"
+                           ns-popover-trigger="click"
+                           ns-popover-hide-on-outside-click="true"
+                           ns-popover-hide-on-button-click="true"
+                           ns-popover-template="menu"
+                           ns-popover-theme="ns-popover-list-theme"
+                           ns-popover-placement="top"
+                           ns-popover-placement="bottom">Ayuda</a></span>
+        </div>
 
+        <!-- PRICE -->
+        <div class="form-group">
+            <label class="control-label" for="price-flag">Precio</label>
 
-            <!-- SHORT DESCRIPTION -->
-            <div class="form-group">
-                <label class="control-label" for="short_description">Descripcion corta</label>
-                <input type="text"
-                       class="form-control"
-                       ng-model="vm.ad.short_description"
-                       maxlength="100"
-                       name="short_description"
-                       placeholder="Escriba una descripcion corta."
-                       required-message="'La descripcion corta es requerida'"
-                       required="required">
-
-                <!-- POPOVER SHORT DESCRIPTION HELP -->
-                <script type="text/ng-template" id="popover">
-                    <div class="triangle"></div>
-                    <div class="ns-popover-tooltip" style="max-width: 400px; padding: 10px;">
-                        <img src="/static/image/help/short-description.png" class="img-thumbnail"  />
-                        <p>La descripcion corta del anuncio te permite tener mas posibilidades de ser encontrado, y ademas
-                            es la primer descripcion de tu anuncio que el usuario lee.</p>
-                    </div>
-                </script>
-                <span class="help" >¿Porque es importante que el anuncio tenga una descripcion corta?.
-                    <a ns-popover
-                       ns-popover-template="popover"
-                       ns-popover-trigger="click"
-                       ns-popover-hide-on-outside-click="true"
-                       ns-popover-hide-on-button-click="true"
-                       ns-popover-template="menu"
-                       ns-popover-theme="ns-popover-list-theme"
-                       ns-popover-placement="top"
-                       ns-popover-placement="bottom">Ayuda</a></span>
-            </div>
-
-            <!-- PRICE -->
-            <div class="form-group">
-                <label class="control-label" for="price-flag">Precio</label>
-
-                <div class="input-group">
-                    <span class="input-group-addon">$</span>
-                    <input class="form-control"
-                           ng-model="vm.ad.price"
-                           name="price"
-                           type="text"
-                           ng-currency
-                            >
-                </div>
-                <!-- POPOVER SHORT DESCRIPTION HELP -->
-                <script type="text/ng-template" id="popover">
-                    <div class="triangle"></div>
-                    <div class="ns-popover-tooltip" style="max-width: 400px; padding: 10px;">
-                        <img src="/static/image/help/short-description.png" class="img-thumbnail"  />
-                        <p>El precio del anuncio te permite tener mas posibilidades de ser encontrado a la hora que el
-                            usuario filtra por precio.</p>
-                    </div>
-
-                </script>
-                <span class="help" >¿Porque es importante que el anuncio tenga un precio?.
-                    <a ns-popover
-                       ns-popover-template="popover"
-                       ns-popover-trigger="click"
-                       ns-popover-hide-on-outside-click="true"
-                       ns-popover-hide-on-button-click="true"
-                       ns-popover-template="menu"
-                       ns-popover-theme="ns-popover-list-theme"
-                       ns-popover-placement="top"
-                       ns-popover-placement="bottom">Ayuda</a></span>
-
-                <input type="hidden"
-                       name="price-flag"
+            <div class="input-group">
+                <span class="input-group-addon">$</span>
+                <input class="form-control"
                        ng-model="vm.ad.price"
-                       placeholder="Price"
-                       required="required"
-                       title=""
-                       required-message="'El precio es requerido'"/>
+                       name="price"
+                       type="text"
+                       ng-currency
+                        >
+            </div>
+            <!-- POPOVER SHORT DESCRIPTION HELP -->
+            <script type="text/ng-template" id="popover">
+                        <div class="triangle"></div>
+                        <div class="ns-popover-tooltip" style="max-width: 400px; padding: 10px;">
+                            <img src="/static/image/help/short-description.png" class="img-thumbnail"  />
+                            <p>El precio del anuncio te permite tener mas posibilidades de ser encontrado a la hora que el
+                                usuario filtra por precio.</p>
+                        </div>
 
-            </div>
-            <!-- CATEGORIES SELECT -->
-            <div class="form-group">
-                <label class="control-label" for="categories">Elige las categorias a las que corresponde tu anuncio.</label>
-                <ul class="categories" cg-busy="vm.promiseRequestCategories">
-                    <li ng-repeat="category in vm.categories">
-                        <input type="checkbox" ng-change="vm.selectCategory(category)" ng-model="category.selected"/> {{ category.name }}
-                    </li>
-                </ul>
-                <input type="hidden"
-                       name="categories"
-                       ng-model="vm.categories_selected"
-                       validator="vm.categories_selected.length > 0"
-                       invalid-message="'Es requerido elegir al menos una categoria.'"/>
-            </div>
-            <button type="submit" class="btn btn-primary btn-lg pull-right">Siguiente > </button>
-        </form>
+                    </script>
+                    <span class="help" >¿Porque es importante que el anuncio tenga un precio?.
+                        <a ns-popover
+                           ns-popover-template="popover"
+                           ns-popover-trigger="click"
+                           ns-popover-hide-on-outside-click="true"
+                           ns-popover-hide-on-button-click="true"
+                           ns-popover-template="menu"
+                           ns-popover-theme="ns-popover-list-theme"
+                           ns-popover-placement="top"
+                           ns-popover-placement="bottom">Ayuda</a></span>
+
+            <input type="hidden"
+                   name="price-flag"
+                   ng-model="vm.ad.price"
+                   placeholder="Price"
+                   required="required"
+                   title=""
+                   required-message="'El precio es requerido'"/>
+
+        </div>
+        <!-- CATEGORIES SELECT -->
+        <div class="form-group">
+            <label class="control-label" for="categories">Elige las categorias a las que corresponde tu anuncio.</label>
+            <ul class="categories" cg-busy="vm.promiseRequestCategories">
+                <li ng-repeat="category in vm.categories">
+                    <input type="checkbox" ng-change="vm.selectCategory(category)" ng-model="category.selected"/> {{ category.name }}
+                </li>
+            </ul>
+            <input type="hidden"
+                   name="categories"
+                   ng-model="vm.categories_selected"
+                   validator="vm.categories_selected.length > 0"
+                   invalid-message="'Es requerido elegir al menos una categoria.'"/>
+        </div>
     </div>
-</div>
+    <div class="panel-footer">
+        <button type="submit" class="btn btn-primary pull-right">Siguiente > </button>
+    </div>
+</form>
 
 <!-- STEP 2 -->
-<div class="row setup-content" id="step-2" ng-show="vm.step == 2">
-    <div class="col-xs-12">
-        <form class="col-md-12 well" novalidate angular-validator angular-validator-submit="vm.nextStep()" name="formStep2" enctype="multipart/form-data">
-            <div class="col-md-12">
-
-                <p>¡Tu producto es el protagonista! No incluyas logos, banners, textos promocionales, bordes ni marcas de agua.</p>
-                <script type="text/ng-template" id="helpimage">
+<form class="panel panel-white" ng-if="vm.step == 2" novalidate angular-validator angular-validator-submit="vm.nextStep()" name="formStep2" enctype="multipart/form-data">
+    <div class="panel-body">
+        <p>¡Tu producto es el protagonista! No incluyas logos, banners, textos promocionales, bordes ni marcas de agua.</p>
+        <script type="text/ng-template" id="helpimage">
                     <div class="triangle"></div>
                     <div class="ns-popover-tooltip" style="max-width: 400px; padding: 10px;">
                         <img src="/static/image/help/first-image.png" class="img-thumbnail"  />
@@ -173,144 +167,140 @@
                        ns-popover-theme="ns-popover-list-theme"
                        ns-popover-placement="bottom"
                        ns-popover-placement="bottom">Ayuda</a></span>
-                <input type="hidden"
-                       name="images"
-                       ng-model="vm.categories_selected"
-                       validator="vm.images.length > 0"
-                       invalid-message="'Es requerido cargar al menos una imagen.'"/>
+        <input type="hidden"
+               name="images"
+               ng-model="vm.categories_selected"
+               validator="vm.images.length > 0"
+               invalid-message="'Es requerido cargar al menos una imagen.'"/>
 
-                <upload-images uploaded-images="{{ vm.ad.images }}" files-model="images">
+        <upload-images uploaded-images="{{ vm.ad.images }}" files-model="images">
 
-                </upload-images>
-            </div>
-            <button type="submit" class="btn btn-primary btn-lg pull-right">Siguiente > </button>
-        </form>
+        </upload-images>
+    </div>
+    <div class="panel-footer">
+        <button type="submit" class="btn btn-primary pull-right">Siguiente > </button>
+    </div>
 
-    </div>i
-</div>
+
+</form>
 
 <!-- STEP 3 -->
-<div class="row setup-content" id="step-3" ng-show="vm.step == 3">
-    <div class="col-xs-12">
-        <form class="col-md-12 well" novalidate angular-validator angular-validator-submit="vm.nextStep()" name="formStep3" enctype="multipart/form-data">
-            <script type="text/ng-template" id="helpbody">
-                <div class="triangle"></div>
-                <div class="ns-popover-tooltip" style="max-width: 400px; padding: 10px;">
-                    <img src="/static/image/help/description.png" class="img-thumbnail"  />
-                    <p>La descripcion del anuncio aparece en el detalle del mismo, es recomendable describir cada especificacion....</p>
-                </div>
-            </script>
-            <p class="help" >¿Para que sirve la descripcion?.
-                <a ns-popover
-                   ns-popover-template="helpbody"
-                   ns-popover-trigger="click"
-                   ns-popover-hide-on-outside-click="true"
-                   ns-popover-hide-on-button-click="true"
-                   ns-popover-template="menu"
-                   ns-popover-theme="ns-popover-list-theme"
-                   ns-popover-placement="bottom"
-                   ns-popover-placement="bottom">Ayuda</a></p>
-            <div class="form-group" >
-                <textarea ckeditor="vm.editorOptions"
-                          ng-model="vm.ad.body"
-                          class="form-control"
-                          name="body"
-                          placeholder="Descripcion"
-                          ng-minlength="50"
-                          required="required"
-                          invalid-message="'La descripcion debe tener minimo 50 caracteres.'"
-                          required-message="'La descripcion del anuncio es requerida!'"
-                        >
-                </textarea>
-            </div>
-            <button type="submit" class="btn btn-primary btn-lg pull-right">Siguiente > </button>
-        </form>
+<form class="panel panel-white" ng-if="vm.step == 3" novalidate angular-validator angular-validator-submit="vm.nextStep()" name="formStep3" enctype="multipart/form-data">
+    <div class="panel-body">
+        <script type="text/ng-template" id="helpbody">
+                    <div class="triangle"></div>
+                    <div class="ns-popover-tooltip" style="max-width: 400px; padding: 10px;">
+                        <img src="/static/image/help/description.png" class="img-thumbnail"  />
+                        <p>La descripcion del anuncio aparece en el detalle del mismo, es recomendable describir cada especificacion....</p>
+                    </div>
+                </script>
+        <p class="help" >¿Para que sirve la descripcion?.
+            <a ns-popover
+               ns-popover-template="helpbody"
+               ns-popover-trigger="click"
+               ns-popover-hide-on-outside-click="true"
+               ns-popover-hide-on-button-click="true"
+               ns-popover-template="menu"
+               ns-popover-theme="ns-popover-list-theme"
+               ns-popover-placement="bottom"
+               ns-popover-placement="bottom">Ayuda</a></p>
+        <div class="form-group" >
+            <textarea ckeditor="vm.editorOptions"
+                      ng-model="vm.ad.body"
+                      class="form-control"
+                      name="body"
+                      placeholder="Descripcion"
+                      ng-minlength="50"
+                      required="required"
+                      invalid-message="'La descripcion debe tener minimo 50 caracteres.'"
+                      required-message="'La descripcion del anuncio es requerida!'"
+                    >
+            </textarea>
+        </div>
     </div>
-</div>
+    <div class="panel-footer">
+        <button type="submit" class="btn btn-primary pull-right">Siguiente > </button>
+    </div>
+</form>
 
 <!-- STEP 4 -->
-<div class="row setup-content" id="step-4" ng-show="vm.step == 4">
-    <div class="col-xs-12">
-        <form class="col-md-12 well" novalidate angular-validator angular-validator-submit="vm.submit()" name="formStep4" enctype="multipart/form-data" ng-init="vm.custom_location = 'user_location';">
-            <!-- COL LOCATION FORM -->
-            <div class="col-md-6 col-sm-12" style="min-height: 400px; max-height: 480px;">
-                <h3>Ingresa una ubicacion donde estara disponible este anuncio.</h3>
+<form class="panel panel-white" ng-if="vm.step == 4" novalidate angular-validator angular-validator-submit="vm.submit()" name="formStep4" enctype="multipart/form-data" ng-init="vm.custom_location = 'user_location';">
+    <div class="panel-body">
+        <!-- COL LOCATION FORM -->
+        <div class="col-md-6 col-sm-12" style="min-height: 400px; max-height: 480px;">
+            <h3>Ingresa una ubicacion donde estara disponible este anuncio.</h3>
 
 
-                <div class="form-group">
-                    <input type="radio" ng-model="vm.custom_location" value="user_location"><label>Selecciona una de tus ubicaciones guardadas</label>
-                </div>
-                <div class="form-group col-md-12" >
-                    <select name="location_select"
-                            ng-model="vm.location_selected"
-                            ng-change="vm.changeLocationSelected()"
-                            class="form-control"
-                            ng-disabled="vm.custom_location == 'custom'"
-                            ng-required="vm.custom_location != 'custom'"
-                            required-message="'Selecciona una ubicacion o ingresala manualmente.'"
-                            data-ng-options="obj as obj.title for obj in vm.user_locations">
-                    </select>
-                </div>
-                <div class="form-group">
-                    <input type="radio" ng-model="vm.custom_location" value="custom"/> <label for="">Cargar una ubicacion personalizada</label>
+            <div class="form-group">
+                <input type="radio" ng-model="vm.custom_location" value="user_location"><label>Selecciona una de tus ubicaciones guardadas</label>
+            </div>
+            <div class="form-group col-md-12" >
+                <select name="location_select"
+                        ng-model="vm.location_selected"
+                        ng-change="vm.changeLocationSelected()"
+                        class="form-control"
+                        ng-disabled="vm.custom_location == 'custom'"
+                        ng-required="vm.custom_location != 'custom'"
+                        required-message="'Selecciona una ubicacion o ingresala manualmente.'"
+                        data-ng-options="obj as obj.title for obj in vm.user_locations">
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="radio" ng-model="vm.custom_location" value="custom"/> <label for="">Cargar una ubicacion personalizada</label>
 
-                </div>
-                <div class="form-group col-md-12">
-                    <label class="control-label" for="location_title">Nombre de la nueva ubicacion</label>
-                    <input class="form-control"
-                           maxlength="100"
-                           ng-disabled="vm.custom_location == 'user_location'"
-                           ng-model="vm.location.title"
-                           ng-required="vm.custom_location == 'custom'"
-                           name="location_title"
-                           placeholder="Nombre de la ubicacion. Ej: Mi trabajo."
-                           required-message="'Si carga una ubicacion personalizada el titulo es requerido.'"
-                           title=""
-                           type="text">
-                </div>
-                <div class="form-group col-md-12">
-                    <input type="checkbox" ng-model="vm.save_location" ng-disabled="vm.custom_location == 'user_location'"/> <span>¿Guardar esta ubicacion como una de mis ubicaciones?</span>
-                </div>
-                <div class="col-md-12" >
-                    <hr/>
-                    <h5>Informacion General :</h5>
-                    <ul>
-                        <li>
-                            <b>Latitude </b> {{ vm.location.center.latitude }}
-                        </li>
-                        <li>
-                            <b>Longitude </b> {{ vm.location.center.longitude }}
-                        </li>
-                    </ul>
+            </div>
+            <div class="form-group col-md-12">
+                <label class="control-label" for="location_title">Nombre de la nueva ubicacion</label>
+                <input class="form-control"
+                       maxlength="100"
+                       ng-disabled="vm.custom_location == 'user_location'"
+                       ng-model="vm.location.title"
+                       ng-required="vm.custom_location == 'custom'"
+                       name="location_title"
+                       placeholder="Nombre de la ubicacion. Ej: Mi trabajo."
+                       required-message="'Si carga una ubicacion personalizada el titulo es requerido.'"
+                       title=""
+                       type="text">
+            </div>
+            <div class="form-group col-md-12">
+                <input type="checkbox" ng-model="vm.save_location" ng-disabled="vm.custom_location == 'user_location'"/> <span>¿Guardar esta ubicacion como una de mis ubicaciones?</span>
+            </div>
+            <div class="col-md-12" >
+                <hr/>
+                <h5>Informacion General :</h5>
+                <ul>
+                    <li>
+                        <b>Latitude </b> {{ vm.location.center.latitude }}
+                    </li>
+                    <li>
+                        <b>Longitude </b> {{ vm.location.center.longitude }}
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- COL MAP -->
+        <div class="col-md-5 col-sm-12 col-md-offset-1" style="height: 400px;">
+
+            <div id="data-position-form" class="col-md-12">
+                <!-- Address -->
+                <div class="input-group col-md-12" ng-show="vm.custom_location == 'custom'">
+                    <google-places location=location_places map=map></google-places>
+                    <input type="hidden"
+                           name="location"
+                           ng-model="location_places"
+                           validator="vm.location.center.latitude"
+                           invalid-message="'Ingresa la direccion exacta, o selecciona una de las que ya tienes.'"/>
                 </div>
             </div>
 
-            <!-- COL MAP -->
-            <div class="col-md-5 col-sm-12 col-md-offset-1" style="height: 400px;">
-
-                <div id="data-position-form" class="col-md-12">
-                    <!-- Address -->
-                    <div class="input-group col-md-12" ng-show="vm.custom_location == 'custom'">
-                        <google-places location=location_places map=map></google-places>
-                        <input type="hidden"
-                               name="location"
-                               ng-model="location_places"
-                               validator="vm.location.center.latitude"
-                               invalid-message="'Ingresa la direccion exacta, o selecciona una de las que ya tienes.'"/>
-                    </div>
-                </div>
-
-                <ui-gmap-google-map id="location-map"  center="map.center" zoom="map.zoom" draggable="false" options="options">
-                    <ui-gmap-marker idkey="1" coords="location.center" draggable="true"></ui-gmap-marker>
-                </ui-gmap-google-map>
-            </div>
-            <div class="col-md-12">
-                <button type="submit" class="btn btn-primary btn-lg pull-right">Guardar <i class="fa fa-floppy-o"></i></button>
-            </div>
-        </form>
+            <ui-gmap-google-map id="location-map"  center="map.center" zoom="map.zoom" draggable="false" options="options">
+                <ui-gmap-marker idkey="1" coords="location.center" draggable="true"></ui-gmap-marker>
+            </ui-gmap-google-map>
+        </div>
     </div>
-</div>
-
-
-</div>
+    <div class="panel-footer">
+        <button type="submit" class="btn btn-primary pull-right">Guardar <i class="fa fa-floppy-o"></i></button>
+    </div>
+</form>
 </div>
