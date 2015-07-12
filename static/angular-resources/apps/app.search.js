@@ -1,7 +1,6 @@
 var App = angular.module('App', [
         // Third lib
         'ui.router',
-        'ngResource',
         'ngSanitize',
         'uiGmapgoogle-maps',
         // My lib
@@ -16,7 +15,7 @@ var App = angular.module('App', [
               minDuration: 1000,
               wrapperClass: 'cg-busy cg-busy-backdrop'
         })
-    .config(function ($interpolateProvider, $httpProvider, $resourceProvider, $locationProvider) {
+    .config(function ($interpolateProvider, $httpProvider, $locationProvider) {
 
         // Force angular to use square brackets for template tag
         // The alternative is using {% verbatim %}
@@ -28,7 +27,6 @@ var App = angular.module('App', [
 
         // This only works in angular 3!
         // It makes dealing with Django slashes at the end of everything easier.
-        $resourceProvider.defaults.stripTrailingSlashes = false;
 
         $locationProvider.html5Mode(true).hashPrefix('!');
         // Django expects jQuery like headers
