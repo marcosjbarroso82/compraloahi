@@ -235,9 +235,9 @@ $( document ).ready(function() {
     
     
     // Slimscroll Required theme/plugins/jquery-slimscroll/jquery.slimscroll.min.js
-    /*$('.slimscroll').slimscroll({
+    $('.slimscroll').slimscroll({
         allowPageScroll: true
-    });*/
+    });
     
     // Layout Settings
     var fixedHeaderCheck = document.querySelector('.fixed-header-check'),
@@ -290,12 +290,12 @@ $( document ).ready(function() {
                 hoverMenuCheck.click();
                 alert("Fixed sidebar isn't compatible with hover menu mode. Modern will set accordion mode on menu.");
             };
-            //$('body').toggleClass('page-sidebar-fixed');
-            //if ($('body').hasClass('.page-sidebar-fixed')) {
-            //    $('.page-sidebar-inner').slimScroll({
-            //        destroy:true
-            //    });
-            //};
+            $('body').toggleClass('page-sidebar-fixed');
+            if ($('body').hasClass('.page-sidebar-fixed')) {
+                $('.page-sidebar-inner').slimScroll({
+                    destroy:true
+                });
+            };
             $('.page-sidebar-inner').slimScroll();
             sidebarAndContentHeight();
         },
@@ -303,8 +303,8 @@ $( document ).ready(function() {
             $('body').toggleClass('compact-menu');
             sidebarAndContentHeight();
         };
-    
-    //$('.page-sidebar-fixed .page-sidebar-inner').slimScroll();
+    // TODO: When add slim scroll cant see
+    //$('.container-scroll').slimScroll();
     
     
     // Logo text on Collapsed Sidebar
@@ -413,9 +413,9 @@ $( document ).ready(function() {
         } else if(e.which == 13) {
             return;
         }
-        $('.chat').slimscroll({
-            allowPageScroll: true
-        });
+        //$('.chat').slimscroll({
+        //    allowPageScroll: true
+        //});
     });
         }
 });
