@@ -39,7 +39,7 @@ $( document ).ready(function() {
     
     
     // Waves
-    Waves.displayEffect();
+    //Waves.displayEffect();
     
     // tooltips
     $( '[data-toggle~="tooltip"]' ).tooltip({
@@ -107,8 +107,8 @@ $( document ).ready(function() {
         }
     });
     
-    // sortable
-    $(".sortable").sortable({
+    // sortable required js ui
+    /*$(".sortable").sortable({
         connectWith: '.sortable',
         items: '.panel',
         helper: 'original',
@@ -117,15 +117,15 @@ $( document ).ready(function() {
         forcePlaceholderSize: true,
         opacity: 0.95,
         cursor: 'move'
-    });
+    });*/
     
-    // Uniform
-    var checkBox = $("input[type=checkbox]:not(.switchery), input[type=radio]:not(.no-uniform)");
-    if (checkBox.size() > 0) {
-        checkBox.each(function() {
-            $(this).uniform();
-        });
-    };
+    // Uniform required jquery uniform
+//    var checkBox = $("input[type=checkbox]:not(.switchery), input[type=radio]:not(.no-uniform)");
+//    if (checkBox.size() > 0) {
+//        checkBox.each(function() {
+//            $(this).uniform();
+//        });
+//    };
     
     // .toggleAttr() Function
     $.fn.toggleAttr = function(a, b) {
@@ -234,10 +234,10 @@ $( document ).ready(function() {
     window.onresize = sidebarAndContentHeight;
     
     
-    // Slimscroll
-    $('.slimscroll').slimscroll({
+    // Slimscroll Required theme/plugins/jquery-slimscroll/jquery.slimscroll.min.js
+    /*$('.slimscroll').slimscroll({
         allowPageScroll: true
-    });
+    });*/
     
     // Layout Settings
     var fixedHeaderCheck = document.querySelector('.fixed-header-check'),
@@ -290,12 +290,12 @@ $( document ).ready(function() {
                 hoverMenuCheck.click();
                 alert("Fixed sidebar isn't compatible with hover menu mode. Modern will set accordion mode on menu.");
             };
-            $('body').toggleClass('page-sidebar-fixed');
-            if ($('body').hasClass('.page-sidebar-fixed')) {
-                $('.page-sidebar-inner').slimScroll({
-                    destroy:true
-                });
-            };
+            //$('body').toggleClass('page-sidebar-fixed');
+            //if ($('body').hasClass('.page-sidebar-fixed')) {
+            //    $('.page-sidebar-inner').slimScroll({
+            //        destroy:true
+            //    });
+            //};
             $('.page-sidebar-inner').slimScroll();
             sidebarAndContentHeight();
         },
@@ -304,7 +304,7 @@ $( document ).ready(function() {
             sidebarAndContentHeight();
         };
     
-    $('.page-sidebar-fixed .page-sidebar-inner').slimScroll();
+    //$('.page-sidebar-fixed .page-sidebar-inner').slimScroll();
     
     
     // Logo text on Collapsed Sidebar
