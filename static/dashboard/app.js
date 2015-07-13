@@ -7,7 +7,7 @@
             // Third lib
             'angular.snackbar',
             'ui.router',
-            '720kb.tooltips',
+            'tooltip',
             'cgBusy',
             'angularValidator',
             'nsPopover',

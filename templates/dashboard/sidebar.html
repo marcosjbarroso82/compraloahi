@@ -25,11 +25,9 @@
             </li>
             <li ng-class="{active: ('config-store' | includedByState)}" >
                 <i class="fa fa-info sidebar-alert"
-                   tooltips
-                    tooltip-title="Debes cargar anuncios antes de poder activar tu tienda"
-                    tooltip-side="rigth"
-                    tooltip-show-trigger="mouseover click"
-                    ng-show="!vm.has_ads"></i>
+                   tooltip="'Debes cargar anuncios antes de poder activar tu tienda'"
+                   placement="rigth"
+                   ng-show="!vm.has_ads"></i>
                 <a ui-sref="config-store" ng-class="{disabled: !vm.has_ads }" ><span class="menu-icon fa fa-home "></span><p>Mi tienda</p></a>
             </li>
         </ul>
