@@ -29,11 +29,14 @@ compraloahi/
             modules/ -----------------> Angular modules to individual pages
         bower_components/ ------------> Third libraries to frontend install by bower
         css/ -------------------------> Custom style to all the site
+            theme/ -------------------> Css theme implement
+            less/ --------------------> Custom style with less
         dashboard/ -------------------> Angular app and modules to dashboard
         image/ -----------------------> Folder to all static image by all site
         js/ --------------------------> My js script to sites
+            theme/ -------------------> Js theme
         templates-utils/ -------------> Utils template to site (ex. loading template)
-        theme/ -----------------------> theme implemented on all site
+
     templates/
         dashboard/ -------------------> Layout to dashboard
         layout/ ----------------------> Layout to site
