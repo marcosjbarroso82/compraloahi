@@ -39,7 +39,7 @@ def send_notification(request):
 
 
 class HomeView(TemplateView):
-    template_name = 'dashboard/base.html'
+    template_name = '404.html'
 
     def dispatch(self, request, *args, **kwargs):
         return redirect('/ad/search/?q=')
