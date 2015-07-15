@@ -153,7 +153,7 @@ input-group-custom-addon examples:
 .search-form .search-input,
 .search-form .input-group {
   height: 40px !important;
-  margin-bottom: 10px !important;
+  /*margin-bottom: 10px !important;*/
 }
 .nav-user-dropdown-responsive {
   position: absolute;

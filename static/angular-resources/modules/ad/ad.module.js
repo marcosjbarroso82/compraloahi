@@ -3,6 +3,9 @@
 
     angular
         .module('App.ad', [
+            'ngSanitize',
+            'uiGmapgoogle-maps',
+            'dashBoardApp.util',
             'App.ad.controllers',
             'App.ad.services'
         ]);

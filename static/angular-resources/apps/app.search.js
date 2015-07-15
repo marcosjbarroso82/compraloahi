@@ -1,11 +1,9 @@
 var App = angular.module('App', [
         // Third lib
         'ui.router',
-        'ngSanitize',
-        'uiGmapgoogle-maps',
+
         // My lib
-        'App.ad',
-        'dashBoardApp.util'
+        'App.ad'
 
     ]).value('cgBusyDefaults',{
               message:'Procesando solicitud...',
