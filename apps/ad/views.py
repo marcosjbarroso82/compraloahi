@@ -17,7 +17,6 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from rest_framework.parsers import FileUploadParser, MultiPartParser, FormParser
 
-from apps.comment_notification.models import CommentNotification
 from apps.rating.models import OverallRating
 from apps.userProfile.models import UserProfile, UserLocation
 from apps.adLocation.models import AdLocation
@@ -203,9 +202,6 @@ class DetailAdView(DetailView):
     model = Ad
 
     def get(self, request, *args, **kwargs):
-        # We delete all Unread Comment Notification for this Ad
-        # TODO: volver a descomentar desp
-        #CommentNotification.objects.filter(ad=self.get_object()).delete()
         return super(DetailAdView, self).get(request)
 
     def get_context_data(self, **kwargs):

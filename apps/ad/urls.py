@@ -4,8 +4,6 @@ from haystack.query import SearchQuerySet
 from .views import DetailAdView, AdFacetedSearchView
 from .forms import AdSearchForm
 
-from apps.comment_notification import receivers
-
 sqs = SearchQuerySet().facet('categories').facet('localities').facet('provinces')
 
 urlpatterns = patterns('',
