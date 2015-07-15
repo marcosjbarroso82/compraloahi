@@ -44,6 +44,8 @@
         vm.user_locations = [];
         vm.categories_selected = [];
 
+        vm.channel_set_location = 'userlocations'; // Flag to defined where is channel to set locations
+
         $scope.map = {center: {latitude: -31.4179952, longitude: -64.1890513 }, zoom: 15 };
         $scope.options = {scrollwheel: false};
 
@@ -134,11 +136,14 @@
             UserLocations.list().then(userLocationSuccess, userLocationError);
 
             function userLocationSuccess(data){
-                vm.user_locations = data;
+                vm.user_locations = data.data;
+                if(vm.user_locations.length  == 0){
+                    vm.channel_set_location = 'custom';
+                }
             }
 
             function userLocationError(data){
-                vm.custom_location = true; //Set true by havent user locations
+                vm.channel_set_location = 'custom'; //Set true by havent user locations
             }
 
 
@@ -153,7 +158,7 @@
             }
 
             vm.ad.locations = [];
-            if(vm.custom_location == 'custom'){
+            if(vm.channel_set_location == 'custom'){
                 vm.ad.locations.push(vm.location);
             }else{
                 vm.ad.locations.push(vm.location_selected);
@@ -162,12 +167,13 @@
             vm.ad.locations[0].lat = vm.ad.locations[0].center.latitude;
             vm.ad.locations[0].lng = vm.ad.locations[0].center.longitude;
 
+            // TODO: remove image file on json
             vm.ad.images = vm.images;
 
             vm.promiseRequest = Ad.create(vm.ad, vm.images).then(createSuccess, createError);
 
             function createSuccess(data){
-                if(vm.save_location && vm.custom_location == 'custom'){
+                if(vm.save_location && vm.channel_set_location == 'custom'){
                     UserLocations.create(vm.ad.locations[0]);
                 }
                 Authentication.has_ads = true;

@@ -20,8 +20,6 @@
         vm.imageDelete = imageDelete;
         vm.changeDefaultImage = changeDefaultImage;
 
-        //vm.images = [];
-
         $scope.setFiles = function(element) {
             if (element.files[0] && 'name' in element.files[0]){
                 var image = {is_new: true};
@@ -33,8 +31,6 @@
 
                     });
                 $scope.$apply(function(scope) {
-                    console.log("CARGANDO IMAEGN");
-                        console.log(scope.vm.images);
                         if(scope.vm.images.length == 0){
                             image.default = true;
                         }
@@ -45,9 +41,23 @@
 
 
         function imageDelete(image){
+            // If image delete is default change default by next image.
+            if(image.default){
+                if(vm.images.length > 1){
+                    var index = vm.images.indexOf(image);
+                    for(var i=0; i < vm.images.length; i++){
+                        if(i != index){
+                            console.log(vm.images[i].deleted);
+                            if(!vm.images[i].deleted){
+                                vm.images[i].default = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
             if(image.is_new){
                 vm.images.splice(vm.images.indexOf(image), 1);
-
             }else{
                 image.deleted = true;
             }

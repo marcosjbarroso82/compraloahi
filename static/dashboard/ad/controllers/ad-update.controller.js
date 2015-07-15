@@ -44,6 +44,7 @@
             ]
         };
 
+        vm.channel_set_location = 'userlocations'; // Flag to defined where is channel to set locations
 
         $scope.map = {zoom: 15 }; // Var to map
         $scope.options = {scrollwheel: false}; // Var to options map
@@ -167,11 +168,14 @@
             UserLocations.list().then(userLocationSuccess, userLocationError);
 
             function userLocationSuccess(data){
-                vm.user_locations = data;
+                vm.user_locations = data.data;
+                if(vm.user_locations.length  == 0){
+                    vm.channel_set_location = 'custom';
+                }
             }
 
             function userLocationError(data){
-                vm.custom_location = true; //Set true by havent user locations
+                vm.channel_set_location = 'custom'; //Set true by havent user locations
             }
         }
 
@@ -186,12 +190,13 @@
             vm.ad.locations[0].lat = vm.ad.locations[0].center.latitude;
             vm.ad.locations[0].lng = vm.ad.locations[0].center.longitude;
 
+            // TODO: remove image file on json
             vm.ad.images = vm.images;
 
             vm.promiseRequest = Ad.update(vm.ad, vm.images).then(updateSuccess, updateError);
 
             function updateSuccess(data){
-                if(vm.save_location && vm.custom_location == 'custom'){
+                if(vm.save_location && vm.channel_set_location == 'custom'){
                     UserLocations.create(vm.ad.locations[0]);
                 }
                 AlertNotification.success("El aviso se modifico correctamente para ver el detalle presione <a href='http://compraloahi.com.ar' target='_blank'>aqui</a>.");

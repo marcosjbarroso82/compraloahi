@@ -284,7 +284,7 @@ class AdUserViewSet(viewsets.ModelViewSet):
         return Response({'message': "ERROR"}, status=status.HTTP_400_BAD_REQUEST)
 
     def update(self, request, *args, **kwargs):
-        if request.data and request.data.get('data') and len(request.FILES) > 0:
+        if request.data and request.data.get('data'):
             ad_data = json.loads(request.data.get('data'))
             ad_data['author'] = request.user.id
             try:
@@ -310,31 +310,36 @@ class AdUserViewSet(viewsets.ModelViewSet):
                         except:
                             return Response({"Error al intentar guardar la ubicacion"},
                                             status=status.HTTP_400_BAD_REQUEST)
-                    try:
-                        # TODO: Whats happen if images change default or any images set default?
-                        for image_data in ad_data['images']:
-                            if not image_data.get('deleted', False) or image_data.get('is_new', False) \
-                                    and image_data.get('name'):
-                                for key, image in request.FILES.items():
-                                    if image_data.get('name', '') == image.name:
-                                        AdImage(image=image, ad_id=ad_serializer.instance,
-                                                default=image_data.get('default', False)).save()
-                                        break
-                            else:
-                                if image_data.get('deleted'):
-                                    try:
-                                        AdImage.objects.get(id=image_data.get('id')).delete()
-                                    except AdImage.DoesNotExist:
-                                        pass
 
-                    except:
-                        return Response({"Error al intentar guardar las imagenes"}, status=status.HTTP_400_BAD_REQUEST)
+                    # TODO: Whats happen if images change default or any images set default?
+                    if len(request.FILES) > 0:
+                        try:
+
+                            for image_data in ad_data['images']:
+                                if not image_data.get('deleted', False) or image_data.get('is_new', False) \
+                                        and image_data.get('name'):
+                                    for key, image in request.FILES.items():
+                                        if image_data.get('name', '') == image.name:
+                                            AdImage(image=image, ad_id=ad_serializer.instance,
+                                                    default=image_data.get('default', False)).save()
+                                            break
+                                else:
+                                    if image_data.get('deleted'):
+                                        try:
+                                            AdImage.objects.get(id=image_data.get('id')).delete()
+                                        except AdImage.DoesNotExist:
+                                            pass
+
+                        except:
+                            return Response({"Error al intentar guardar las imagenes"},
+                                            status=status.HTTP_400_BAD_REQUEST)
 
                     return Response({'message': "SUCCESS"})
                 else:
                     ad_serializer.run_validation(ad_data)
             except Ad.DoesNotExist:
-                return Response({'message': "The ad instance doesnt exist"}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({'message': "The ad instance doesnt exist"},
+                                status=status.HTTP_400_BAD_REQUEST)
 
         return Response({'message': "ERROR"}, status=status.HTTP_400_BAD_REQUEST)
 

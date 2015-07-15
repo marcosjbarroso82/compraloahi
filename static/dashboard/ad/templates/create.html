@@ -224,38 +224,41 @@
 </form>
 
 <!-- STEP 4 -->
-<form class="panel panel-white" ng-if="vm.step == 4" novalidate angular-validator angular-validator-submit="vm.submit()" name="formStep4" enctype="multipart/form-data" ng-init="vm.custom_location = 'user_location';">
+<form class="panel panel-white" ng-if="vm.step == 4" novalidate angular-validator angular-validator-submit="vm.submit()" name="formStep4" enctype="multipart/form-data">
     <div class="panel-body">
         <!-- COL LOCATION FORM -->
         <div class="col-md-6 col-sm-12" style="min-height: 400px; max-height: 480px;">
             <h3>Ingresa una ubicacion donde estara disponible este anuncio.</h3>
 
+            <div ng-show="vm.user_locations.length > 0">
+                <div class="form-group">
+                    <input type="radio" ng-model="vm.channel_set_location" value="userlocations" ><label>Selecciona una de tus ubicaciones guardadas</label>
+                </div>
+                <div class="form-group col-md-12" >
+                    <select name="location_select"
+                            ng-model="vm.location_selected"
+                            ng-change="vm.changeLocationSelected()"
+                            class="form-control"
+                            ng-disabled="vm.channel_set_location == 'custom'"
+                            ng-required="vm.channel_set_location != 'custom'"
+                            required-message="'Selecciona una ubicacion o ingresala manualmente.'"
+                            data-ng-options="obj as obj.title for obj in vm.user_locations">
+                    </select>
+                </div>
 
-            <div class="form-group">
-                <input type="radio" ng-model="vm.custom_location" value="user_location"><label>Selecciona una de tus ubicaciones guardadas</label>
+                <div class="form-group">
+                    <input type="radio" ng-model="vm.channel_set_location" value="custom"/>
+                    <label for="">Cargar una ubicacion personalizada</label>
+                </div>
             </div>
-            <div class="form-group col-md-12" >
-                <select name="location_select"
-                        ng-model="vm.location_selected"
-                        ng-change="vm.changeLocationSelected()"
-                        class="form-control"
-                        ng-disabled="vm.custom_location == 'custom'"
-                        ng-required="vm.custom_location != 'custom'"
-                        required-message="'Selecciona una ubicacion o ingresala manualmente.'"
-                        data-ng-options="obj as obj.title for obj in vm.user_locations">
-                </select>
-            </div>
-            <div class="form-group">
-                <input type="radio" ng-model="vm.custom_location" value="custom"/> <label for="">Cargar una ubicacion personalizada</label>
 
-            </div>
             <div class="form-group col-md-12">
                 <label class="control-label" for="location_title">Nombre de la nueva ubicacion</label>
                 <input class="form-control"
                        maxlength="100"
-                       ng-disabled="vm.custom_location == 'user_location'"
+                       ng-disabled="vm.channel_set_location != 'custom'"
                        ng-model="vm.location.title"
-                       ng-required="vm.custom_location == 'custom'"
+                       ng-required="vm.channel_set_location == 'custom' && vm.save_location"
                        name="location_title"
                        placeholder="Nombre de la ubicacion. Ej: Mi trabajo."
                        required-message="'Si carga una ubicacion personalizada el titulo es requerido.'"
@@ -263,7 +266,7 @@
                        type="text">
             </div>
             <div class="form-group col-md-12">
-                <input type="checkbox" ng-model="vm.save_location" ng-disabled="vm.custom_location == 'user_location'"/> <span>¿Guardar esta ubicacion como una de mis ubicaciones?</span>
+                <input type="checkbox" ng-model="vm.save_location" ng-disabled="vm.channel_set_location !='custom'"/> <span>¿Guardar esta ubicacion como una de mis ubicaciones?</span>
             </div>
             <div class="col-md-12" >
                 <hr/>
@@ -284,7 +287,7 @@
 
             <div id="data-position-form" class="col-md-12">
                 <!-- Address -->
-                <div class="input-group col-md-12" ng-show="vm.custom_location == 'custom'">
+                <div class="input-group col-md-12" ng-show="vm.channel_set_location == 'custom'">
                     <google-places location=location_places map=map></google-places>
                     <input type="hidden"
                            name="location"
