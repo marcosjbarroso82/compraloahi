@@ -75,7 +75,6 @@ class Store(models.Model):
         return self.name
 
     def clean_slug(self):
-        print("ENTRO AL CLEAN SLUG")
         if self.name != '':
             if Store.objects.get(slug= self.slug).count() > 0:
                 raise ValidationError('Error, fields name is unique')

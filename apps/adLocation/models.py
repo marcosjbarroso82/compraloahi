@@ -19,9 +19,7 @@ class AdLocation(models.Model):
 
     def save(self, *args, **kwargs):
         url = 'http://maps.googleapis.com/maps/api/geocode/json?latlng='+ str(self.lat) + ',' + str(self.lng) +'&sensor=true'
-        print(url)
         response = urllib.request.urlopen(url)
-        print(response)
         json_response = response.read()
 
         obj = json.loads(json_response.decode("utf-8"))

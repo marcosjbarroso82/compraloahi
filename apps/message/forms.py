@@ -17,7 +17,6 @@ class CustomWriteForm(BaseWriteForm):
                                  date=datetime_now())
 
         if self.mc.already_exist():
-            print("no existe")
             return super(CustomWriteForm, self).clean()
         raise forms.ValidationError('Ya hay una solicitud pendiente')
 
@@ -31,7 +30,6 @@ class CustomWriteForm(BaseWriteForm):
 
 
     def save(self, *args, **kwargs):
-        print("save")
         super(CustomWriteForm, self).save(self, *args, **kwargs)
         self.mc.save()
 

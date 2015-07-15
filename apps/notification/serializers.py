@@ -48,8 +48,6 @@ class NotificationSerializer(serializers.ModelSerializer):
 class jsonField(serializers.DictField):
 
     def get_attribute(self, instance, *args, **kwargs):
-        print(args)
-        print(kwargs)
         return instance.config
 
     def to_representation(self, value):

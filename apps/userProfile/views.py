@@ -33,7 +33,6 @@ class StoreModelViewSet(ModelViewSet):
         if request.DATA.get('ads'):
             for ad_data in request.DATA.get('ads'):
                 try:
-                    print(ad_data['store_published'])
                     ad = Ad.objects.get(pk=ad_data['id'], author=request.user)
                     ad.store_published = ad_data.get('store_published', False)
                     ad.save()
