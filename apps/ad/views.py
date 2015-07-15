@@ -204,7 +204,8 @@ class DetailAdView(DetailView):
 
     def get(self, request, *args, **kwargs):
         # We delete all Unread Comment Notification for this Ad
-        CommentNotification.objects.filter(ad=self.get_object()).delete()
+        # TODO: volver a descomentar desp
+        #CommentNotification.objects.filter(ad=self.get_object()).delete()
         return super(DetailAdView, self).get(request)
 
     def get_context_data(self, **kwargs):
