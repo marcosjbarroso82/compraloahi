@@ -26,3 +26,4 @@ django-jsonify==0.3.0
 django-pgjson==0.2.3
 djmail==0.10.0
 psycopg2==2.6
+django-push-notifications==1.2.1
