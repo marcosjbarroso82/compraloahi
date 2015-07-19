@@ -149,10 +149,24 @@ input-group-custom-addon examples:
     margin-left: 15%;
   }
 }
-.search-form .search-input,
 .search-form .input-group {
-  height: 40px !important;
-  /*margin-bottom: 10px !important;*/
+  height: 50px;
+}
+.search-form .input-group input {
+  color: #5f5f5f;
+  border: 1px solid #c8c8c8;
+  box-shadow: none;
+  border-radius: 0;
+  background: 0 0;
+  line-height: 60px;
+  font-size: 16px;
+  padding-left: 20px !important;
+  padding-bottom: 5px !important;
+  height: 100% !important;
+  width: 100%;
+  position: absolute;
+  top: 0px;
+  left: 0px;
 }
 .nav-user-dropdown-responsive {
   position: absolute;
