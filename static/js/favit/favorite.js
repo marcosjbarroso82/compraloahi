@@ -60,9 +60,9 @@ $(document).ready(function() {
              target_object_id: target_id},
       success: function(response) {
           if (response.status == 'added') {
-            $obj.children().removeClass('glyphicon-heart-empty').addClass('glyphicon-heart');}
+            $obj.children().removeClass('fa-heart-o').addClass('fa-heart');}
           else {
-            $obj.children().removeClass('glyphicon-heart').addClass('glyphicon-heart-empty');
+            $obj.children().removeClass('fa-heart').addClass('fa-heart-o');
           }
           $obj.parent('.favit').children('.fav-count').text(response.fav_count);
           $obj.prop('disabled', false);

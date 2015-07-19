@@ -1,6 +1,6 @@
 <div class="favit">
   <button class="btn favorite" href="{% url 'favit.views.add_or_remove' %}" model="{{ target_model }}" id="target_{{ target_object_id }}">
-    <i class="icon-heart{% if not undo %}-empty{% endif %}"></i>
+    <i class="fa fa-heart{% if not undo %}-o{% endif %}"></i>
   </button>
   <span class="fav-count">{{ fav_count }}</span>
 </div>

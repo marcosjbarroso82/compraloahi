@@ -52,3 +52,8 @@ Packages update:
    pip install django-debug-toolbar --upgrade
    pip install git+https://github.com/django/django-contrib-comments
    pip install git+https://github.com/danirus/django-comments-xtd.git
+
+Run migrate:
+ manage.py migrate sites
+ manage.py migrate auth
+ manage.py migrate

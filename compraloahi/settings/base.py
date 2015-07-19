@@ -11,7 +11,7 @@ DJANGO_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
-    #'django.contrib.messages',
+    'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'django_comments',
@@ -29,8 +29,7 @@ THIRD_PARTY_APPS = (
     'sorl.thumbnail',
     'django_comments_xtd', # Need packages: django.contrib.comments
     'haystack',
-    'ckeditor',
-    'postman',
+    #'postman',
     'rest_framework',
     'favit',
     'corsheaders',
@@ -49,7 +48,7 @@ LOCAL_APPS = (
     'apps.adLocation',
     'apps.userProfile',
     'apps.user',
-    'apps.message',
+    #'apps.message',
     'apps.notification',
     'apps.rating',
     'apps.favorite'
@@ -125,7 +124,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     # allauth specific context processors
     "allauth.account.context_processors.account",
     "allauth.socialaccount.context_processors.socialaccount",
-    "postman.context_processors.inbox",
+    #"postman.context_processors.inbox",
 
 )
 
