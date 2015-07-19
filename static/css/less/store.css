@@ -18,6 +18,12 @@ html .modal-backdrop,
 body .modal-backdrop {
   z-index: 999;
 }
+html .navbar,
+body .navbar {
+  -webkit-box-shadow: 0.5px 0.5px 1px 0.3px #b2b2b2;
+  -moz-box-shadow: 0.5px 0.5px 1px 0.3px #b2b2b2;
+  box-shadow: 0.5px 0.5px 1px 0.3px #b2b2b2;
+}
 html .input-group-custom-addon.icon-addon.addon-sm,
 body .input-group-custom-addon.icon-addon.addon-sm {
   position: relative;
