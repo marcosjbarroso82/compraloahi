@@ -1,6 +1,6 @@
 from django.views.generic import TemplateView
 from django.utils.decorators import method_decorator
-from django.contrib.comments.views.comments import post_comment
+from django_comments.views.comments import post_comment
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
@@ -65,7 +65,6 @@ class DashBoardView(TemplateView):
 
 
 def comment_post_wrapper(request):
-    # Clean the request to prevent form spoofing
     if request.user.is_authenticated():
         # In case of a reply, check that the user is answering a comment of his own ad
         object_pk = request.POST.get('object_pk', '')

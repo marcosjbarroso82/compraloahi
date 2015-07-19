@@ -40,3 +40,15 @@ compraloahi/
     templates/
         dashboard/ -------------------> Layout to dashboard
         layout/ ----------------------> Layout to site
+
+
+
+
+Soluciones al actualizar django 1.8
+
+Packages update:
+   pip install --upgrade django
+   pip install django-taggit --upgrade
+   pip install django-debug-toolbar --upgrade
+   pip install git+https://github.com/django/django-contrib-comments
+   pip install git+https://github.com/danirus/django-comments-xtd.git

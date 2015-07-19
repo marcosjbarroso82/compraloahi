@@ -1,22 +1,16 @@
-from django.contrib.auth.decorators import login_required
-from django.utils.decorators import method_decorator
-from django.views.generic import CreateView, DetailView, ListView
-
-from .models import UserProfile, UserLocation, Store
-from .forms import UserProfileForm, Phone_inline_formset
-
-from rest_framework.viewsets import ModelViewSet
-
-from .serializers import ProfileSerializer, UserLocationSeralizer, StoreSerializer
-from rest_framework.response import Response
+from django.views.generic import DetailView
 
 from rest_framework import status
 from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework.viewsets import ModelViewSet
 
 from sorl.thumbnail import get_thumbnail
 
 from apps.ad.models import Ad
 
+from .models import UserProfile, UserLocation, Store
+from .serializers import ProfileSerializer, UserLocationSeralizer, StoreSerializer
 
 
 class StoreModelViewSet(ModelViewSet):
