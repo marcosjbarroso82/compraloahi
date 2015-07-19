@@ -90,7 +90,7 @@ body input[type='range']::-moz-range-thumb {
   width: 20px;
 }
 #logo {
-  height: 50px;
+  height: 45px;
 }
 @media (max-width: 767px) {
   #logo {
