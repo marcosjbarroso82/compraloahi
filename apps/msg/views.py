@@ -28,8 +28,8 @@ class IsRecipient(permissions.BasePermission):
 
 import pdb
 class MsgViewSet(viewsets.ModelViewSet):
-    # TODO: set serializer for Reciepient and Sender
     serializer_class = MsgSerializer
+    paginate_by = 10
 
     def get_serializer(self, *args, **kwargs):
         if "data" in kwargs and isinstance(kwargs["data"], list):
