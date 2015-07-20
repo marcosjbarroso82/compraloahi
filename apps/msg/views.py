@@ -11,7 +11,7 @@ from rest_framework import permissions
 from rest_framework.decorators import permission_classes
 from apps.ad.models import Ad
 from django.contrib.contenttypes.models import ContentType
-
+from django.db.models import Q
 
 class IsRecipient(permissions.BasePermission):
     """
@@ -62,6 +62,13 @@ class MsgViewSet(viewsets.ModelViewSet):
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+    @detail_route(methods=['get'])
+    def thread(self, request, pk):
+        # TODO: Replace this with a custom object manager in the model
+        msgs = models.Msg.objects.all().filter(Q(thread=pk) | Q(pk=pk))
+        serializer = self.get_serializer(msgs, many=True)
+        return Response(serializer.data)
 
     @list_route(methods=['put', 'patch'])
     def bulk(self, request):
