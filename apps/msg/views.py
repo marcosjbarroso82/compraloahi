@@ -6,12 +6,11 @@ from .serializers import MsgSerializer
 from . import models
 from datetime import datetime
 from rest_framework import status
-
 from rest_framework import permissions
-from rest_framework.decorators import permission_classes
 from apps.ad.models import Ad
 from django.contrib.contenttypes.models import ContentType
 from django.db.models import Q
+
 
 class IsRecipient(permissions.BasePermission):
     """
@@ -26,7 +25,6 @@ class IsRecipient(permissions.BasePermission):
         return False
 
 
-import pdb
 class MsgViewSet(viewsets.ModelViewSet):
     serializer_class = MsgSerializer
     paginate_by = 10
@@ -53,8 +51,11 @@ class MsgViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         # TODO: what if ad doesn't exists, how to handle exception ? How to make it generic for any model?
-        recipient = Ad.objects.get(pk=serializer.validated_data['object_id']).author
-        serializer.save(sender=self.request.user, recipient=recipient)
+        if 'object_id' in serializer.validated_data:
+            recipient = Ad.objects.get(pk=serializer.validated_data['object_id']).author
+            serializer.save(sender=self.request.user, recipient=recipient)
+        else:
+            serializer.save(sender=self.request.user)
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -62,6 +63,29 @@ class MsgViewSet(viewsets.ModelViewSet):
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+    @detail_route(methods=['post'])
+    def reply(self, request, pk=None):
+        data = request.data
+
+        parent = models.Msg.objects.get(pk=pk)
+        parent.is_replied = True
+        parent.save()
+
+        thread = parent if not parent.parent else parent.thread
+
+        if 'subject' not in data:
+            data['subject'] = 'RE:' + parent.subject
+        data['parent'] = parent.pk
+        data['recipient'] = parent.sender.pk
+        data['thread'] = parent.pk if not parent.thread else parent.thread.pk
+
+        serializer = self.get_serializer(data=data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
 
     @detail_route(methods=['get'])
     def thread(self, request, pk):

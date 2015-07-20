@@ -46,8 +46,8 @@
             return $http.get('/api/v1/msgs/' + id);
         }
 
-        function reply(msg){
-            return $http.post('/api/v1/msgs/', msg);
+        function reply(msg, parent){
+            return $http.post('/api/v1/msgs/' + parent + '/reply/', msg);
 
         }
 

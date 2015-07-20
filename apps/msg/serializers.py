@@ -1,6 +1,5 @@
 from . import models
 from rest_framework import serializers
-
 class MsgSerializer(serializers.ModelSerializer):
     is_new = serializers.BooleanField(required=False)
     sender_deleted = serializers.BooleanField(required=False)
@@ -12,7 +11,7 @@ class MsgSerializer(serializers.ModelSerializer):
         model = models.Msg
         read_only_fields = ('sent_at', 'read_at', 'replied_at', 'sender_archived', 'recipient_archived',
                             'sender_deleted_at', 'sender_deleted', 'is_new', 'recipient_deleted',
-                            'recipient_deleted_at', 'moderation_status', 'parent', 'thread', 'moderation_reason',
+                            'recipient_deleted_at', 'moderation_status', 'moderation_reason',
                             'moderation_date')
 
     def __init__(self, *args, **kwargs):
@@ -42,7 +41,7 @@ class MsgSerializer(serializers.ModelSerializer):
             not_allowed_to_show = ( 'read_at', 'is_new', 'replied_at', 'is_replied', 'recipient_deleted',
                                     'recipient_archived', 'recipient_deleted_at')
             self.fields['recipient'].write_only = True
-        if action == 'create':
+        if action == 'create' or action == 'reply':
             self.fields['is_new'].read_only = True
             self.fields['sender_deleted'].read_only = True
             self.fields['recipient_deleted'].read_only = True

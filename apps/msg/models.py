@@ -93,6 +93,15 @@ class Msg(models.Model):
         """Tell if the recipient has written a reply to the message."""
         return self.replied_at is not None
 
+    @is_replied.setter
+    def is_replied(self, value):
+        if not self.replied_at and value in self.TRUE_VALUES:
+            self.replied_at = datetime.datetime.now()
+            self.save()
+        elif value in self.FALSE_VALUES:
+            self.replied_at = None
+            self.save()
+
     @property
     def sender_deleted(self):
         """Tell if the recipient has written a reply to the message."""
