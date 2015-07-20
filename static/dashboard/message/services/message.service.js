@@ -39,7 +39,7 @@
         }
 
         function getMsgThread(id){
-            return $http.get('/api/v1/msgs/thread/' + id);
+            return $http.get('/api/v1/msgs/' + id + '/thread/');
         }
 
         function getMsg(id){
@@ -52,7 +52,10 @@
         }
 
         function delete_bulk(messages){
-            return $http.patch('/api/v1/msgs/delete-bulk/', messages);
+            messages.forEach(function(part, index, theArray) {
+                theArray[index]['recipient_deleted'] = true;
+            });
+            return $http.patch('/api/v1/msgs/bulk/', messages);
         }
         
         function set_read_bulk(messages){

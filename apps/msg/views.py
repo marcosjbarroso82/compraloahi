@@ -77,7 +77,7 @@ class MsgViewSet(viewsets.ModelViewSet):
 
     @list_route(methods=['get'])
     def inbox(self, request):
-        inbox = models.Msg.objects.all().filter(recipient=request.user)
+        inbox = models.Msg.objects.all().filter(recipient=request.user, recipient_deleted_at__isnull=True)
 
         page = self.paginate_queryset(inbox)
         if page is not None:
@@ -85,6 +85,19 @@ class MsgViewSet(viewsets.ModelViewSet):
             return self.get_paginated_response(serializer.data)
 
         serializer = self.get_serializer(inbox, many=True)
+        return Response(serializer.data)
+
+    @list_route(methods=['get'])
+    def trash(self, request):
+        # TODO: a better way for this queryset? maybe a custom object manager for Msg model
+        trash = models.Msg.objects.all().filter(recipient=request.user, recipient_deleted_at__isnull=False)
+
+        page = self.paginate_queryset(trash)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(trash, many=True)
         return Response(serializer.data)
 
     @list_route(methods=['get'])

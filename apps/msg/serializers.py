@@ -25,9 +25,9 @@ class MsgSerializer(serializers.ModelSerializer):
         user_type = None
         # raise Exception(action)
         try:
-            if user == self.instance.recipient or action == 'inbox' or action == 'list':
+            if action == 'inbox' or action == 'list' or action == 'trash' or user == self.instance.recipient:
                 user_type = 'recipient'
-            elif user == self.instance.sender or action == 'sent':
+            elif action == 'sent' or user == self.instance.sender:
                 user_type = 'sender'
             else:
                 raise Exception("User is neither sender nor recipient")
