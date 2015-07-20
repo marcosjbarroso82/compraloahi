@@ -12,37 +12,37 @@
 {% endblock %}
 
 {% block css_header_block %}
-<link rel="stylesheet" href="{{ STATIC_URL }}css/less/ad-detail.css" >
-<link rel="stylesheet" href="{{ STATIC_URL }}css/cloud-zoom.css" type="text/css">
-<link rel="stylesheet" href="{{ STATIC_URL }}css/favit/favorite.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/less/ad-detail.css" >
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/cloud-zoom.css" type="text/css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/favit/favorite.css">
 {% endblock %}
 
 {% block body_block %}
-<div id="main-wrapper" class="container-fluid">
+    <div id="main-wrapper" class="container-fluid">
     <div class="row">
         <div class="col-md-12 ad-detail-page">
             <div class="section">
                 <!-- Thumnails -->
                 <div class="col-md-1 col-md-offset-1">
                     {% for images in ad.images.all %}
-                    {% thumbnail images.image "800x800" crop="center" as im %}
-                    <a id="{{ images.pk }}" class="ad-image-gallery" data-image="{{ im.url }}">
+                        {% thumbnail images.image "800x800" crop="center" as im %}
+                            <a id="{{ images.pk }}" class="ad-image-gallery" data-image="{{ im.url }}">
                         {% endthumbnail %}
-                        {% thumbnail images.image "110x110" crop="center" as im %}
+                    {% thumbnail images.image "110x110" crop="center" as im %}
                         <img class="img-thumbnail" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
-                        {% endthumbnail %}
+                    {% endthumbnail %}
                     </a>
                     {% endfor %}
                 </div>
                 <!-- Main Image -->
                 <div class="col-md-4" >
                     {% with ad.images.all|first as image %}
-                    {% thumbnail image.image "800x800" crop="center" as im %}
-                    <!-- TODO: make cloud zoom responsive -->
-                    <a id="main-image-link" href="{{ im.url }}" class="cloud-zoom" rel=" adjustY:0, adjustX:30, zoomWidth:535 ">
-                        <img id="main-image" class="img-thumbnail" src="{{ im.url }}">
-                    </a>
-                    {% endthumbnail %}
+                        {% thumbnail image.image "800x800" crop="center" as im %}
+                            <!-- TODO: make cloud zoom responsive -->
+                            <a id="main-image-link" href="{{ im.url }}" class="cloud-zoom" rel=" adjustY:0, adjustX:30, zoomWidth:535 ">
+                                <img id="main-image" class="img-thumbnail" src="{{ im.url }}">
+                            </a>
+                        {% endthumbnail %}
                     {% endwith %}
                 </div>
                 <!-- Ad Summery -->
@@ -60,21 +60,22 @@
                         <!-- ######## CONTACT ############# -->
                         <div class="col-md-6">
                             {% if user.is_authenticated %}
-                            <!-- BUTTON OPEN --->
-                            {% if user != ad.author %}
-                            <button data-toggle="modal" class="btn btn-success pull-right" id="btn-contact" data-target="#modalMessage">
-                                <i class=""></i> Contactar
-                            </button>
-                            {% endif %}
+                                <!-- BUTTON OPEN --->
+                                {% if user != ad.author %}
+                                    <button data-toggle="modal" class="btn btn-success pull-right" id="btn-contact" data-target="#modalMessage">
+                                        <i class=""></i> Contactar
+                                    </button>
+                                {% endif %}
 
                             {% else %}
-                            <a class="btn btn-success pull-right" href="/accounts/login/?next=/ad/{{ ad.slug }}">
-                                <i class=""></i> Contactar
-                            </a>
+                                <a class="btn btn-success pull-right" href="/accounts/login/?next=/ad/{{ ad.slug }}">
+                                    <i class=""></i> Contactar
+                                </a>
                             {% endif %}
                         </div>
                         <!-- /.modal compose message -->
                         <div class="modal" id="modalMessage">
+                            {% include 'msgs/write-modal.html' %}
                         </div>
                         <!-- ######## END CONTACT ############# -->
                         <div class="col-md-12">
@@ -82,18 +83,18 @@
                         </div>
                         <div class="social">
                             {% if user.is_authenticated %}
-                            <div class="col-md-4">
-                                <p>Favorito:</p>
-                                {% favorite_button ad %}
-                            </div>
-                            <div class="col-md-8">
-                                {% else %}
-                                <div class="col-md-8 col-md-offset-4">
-                                    {% endif %}
-                                    <p>Compartir en:</p>
-                                    <a class="btn btn-twitter m-b-sm pull-right popup " href="http://twitter.com/share"><i class="fa fa-twitter"></i> Twitter</a>
-                                    <a class="btn btn-facebook  m-b-sm pull-right popup" href="https://www.facebook.com/sharer/sharer.php?app_id=1507071816215188&amp;u={{ request.get_full_path|urlencode }}&amp;display=popup&amp;ref=plugin"><i class="fa fa-facebook"></i> Facebook</a>
+                                <div class="col-md-4">
+                                    <p>Favorito:</p>
+                                    {% favorite_button ad %}
                                 </div>
+                                <div class="col-md-8">
+                            {% else %}
+                                <div class="col-md-8 col-md-offset-4">
+                            {% endif %}
+                            <p>Compartir en:</p>
+                            <a class="btn btn-twitter m-b-sm pull-right popup " href="http://twitter.com/share"><i class="fa fa-twitter"></i> Twitter</a>
+                            <a class="btn btn-facebook  m-b-sm pull-right popup" href="https://www.facebook.com/sharer/sharer.php?app_id=1507071816215188&amp;u={{ request.get_full_path|urlencode }}&amp;display=popup&amp;ref=plugin"><i class="fa fa-facebook"></i> Facebook</a>
+                            </div>
 
                             </div>
                         </div>
@@ -136,30 +137,30 @@
                 <!-- Comment Form -->
                 <div class="section">
                     {% if user.is_authenticated %}
-            <span id="form-comment-list">
-            <div class="comment-form container col-md-10 col-md-offset-1">
-                <div class="panel panel-default widget">
-                    <div class="panel-heading">
-                        Ingresa tu Pregunta
-                    </div>
-                    <div class="panel-body">
+                        <span id="form-comment-list">
+                            <div class="comment-form container col-md-10 col-md-offset-1">
+                                <div class="panel panel-default widget">
+                                    <div class="panel-heading">
+                                        Ingresa tu Pregunta
+                                    </div>
+                                    <div class="panel-body">
 
-                        {% render_comment_form for ad %}
-                    </div>
-                </div>
-            </div>
-            </span>
-                    <script>
-                        var content_comment_form = $("#form-comment-list");
-                        submit_comment_ajax(content_comment_form);
-                    </script>
+                                        {% render_comment_form for ad %}
+                                    </div>
+                                </div>
+                            </div>
+                        </span>
+                        <script>
+                            var content_comment_form = $("#form-comment-list");
+                            submit_comment_ajax(content_comment_form);
+                        </script>
                     {% else %}
-                    <div class="container col-md-10 col-md-offset-1">
-                        <a class="btn btn-success pull-right" href="/accounts/login/?next=/ad/{{ ad.slug }}">
-                            <i class=""></i> Ingresar para Preguntar
-                        </a>
+                        <div class="container col-md-10 col-md-offset-1">
+                            <a class="btn btn-success pull-right" href="/accounts/login/?next=/ad/{{ ad.slug }}">
+                                <i class=""></i> Ingresar para Preguntar
+                            </a>
 
-                    </div>
+                        </div>
                     {% endif %}
                 </div>
 
@@ -167,10 +168,10 @@
         </div><!-- Row -->
     </div><!-- Main Wrapper -->
 
-    {% endblock %}
+{% endblock %}
 
 
-    {% block js_footer_block %}
+{% block js_footer_block %}
     <script type="text/javascript" src="{{ STATIC_URL }}js/cloud-zoom.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/favit/favorite.js"></script>
 
@@ -179,4 +180,4 @@
     </script>
 
     <script type="text/javascript" src="{{ STATIC_URL }}js/ad/detail.js"></script>
-    {% endblock %}
+{% endblock %}

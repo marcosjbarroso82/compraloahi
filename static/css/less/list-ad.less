@@ -20,11 +20,9 @@
 }
 
 #map-container{
-	position: fixed;
-	left: 0px;
-	width: @map-width;
     height: @map-heigth;
-
+  padding: 0px;
+  position: relative;
 	#mapa, .angular-google-map, .angular-google-map-container{
 		width: @map-width;
 		height: @map-heigth;
@@ -34,8 +32,11 @@
 
 
 #data-filter-map{
-	position: fixed;
-	margin-top: 10px;
+	position: absolute;
+    z-index: 100;
+    left: 10px;
+    width: 100%;
+    padding: 10px;
 
 	#data-position-form{
 		.mixin-shadow-bottom(1px, 1px, 2px, .5px, #626060);
@@ -86,7 +87,8 @@
             margin-right: 5px;
             width: 25px;
             height: 25px;
-
+            border-radius: 50px;
+            padding: 3px;
         }
 
         .user-location-list{
@@ -165,7 +167,6 @@
 
 	#header-list{
 		background-color: #C5C5C5;
-		margin-bottom: 20px;
 		height: 45px;
 		padding: 5px 0px;
 
@@ -203,6 +204,7 @@
     #ad-list{
       overflow: hidden;
       height: auto;
+      padding-top: 20px;
     }
 
       .item-ads-list{

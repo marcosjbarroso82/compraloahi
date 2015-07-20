@@ -10,7 +10,6 @@ from .views import HomeView, DashBoardView, log, send_notification
 
 from .settings import base as settings
 
-
 urlpatterns = patterns('',
                        url(r'^$', HomeView.as_view()),
 
@@ -61,11 +60,6 @@ urlpatterns = patterns('',
                        # App Allauth (social authentication)
                        (r'^accounts/', include('allauth.urls')),
 
-                       # Package Postman Messages
-                       (r'^messages/', include('postman.urls')),
-
-                       # Override package postman
-                       (r'^message/', include('apps.message.urls', namespace="message")),
 
                        # Parche comments
                        (r'^comments/post/$',

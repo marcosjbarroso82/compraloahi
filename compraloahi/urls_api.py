@@ -5,7 +5,6 @@ from rest_framework.authtoken.views import obtain_auth_token
 
 from apps.ad.views import AdUserViewSet, AdPublicViewSet, SearchViewSet, CategoriesListAPIView
 from apps.favorite.views import FavoriteAdViewSet, proximityFavorityApiView
-from apps.message.views import MessageDetail, MessageModelViewSet
 from apps.notification.views import NotificationListApiView, NotificationRetrieveApiView, \
     RegisterGCMNotification, UnregisterGCMNotification, NotificationMarkBulkReadApiView, ConfigNotificationModelViewSet
 from apps.user.views import ChangePasswordUpdateAPIView
@@ -88,34 +87,6 @@ urlpatterns = patterns('',
                        url(r'^',
                            include('rest_framework.urls',
                                    namespace='rest_framework')),
-
-                       # API Message List
-                       url(r'^messages/thread/(?P<pk>\d+)/$',
-                           MessageModelViewSet.as_view({'get': 'retrieve'})),
-
-                       url(r'^messages/(?P<pk>\d+)/$',
-                           MessageDetail.as_view()),
-
-                       url(r'^messages/(?P<folder>\w+)/$',
-                           MessageModelViewSet.as_view({'get': 'list'}),
-                           name='api-message-list'),
-
-                       url(r'^messages/$',
-                           MessageModelViewSet.as_view({'get': 'list_all', 'post': 'create'}),
-                           name='api-message-list-all'),
-
-                       url(r'^messages/delete-bulk/$',
-                           'apps.message.views.message_bulk_delete',
-                           name='api-message-delete-bulk'),
-
-
-                       url(r'^messages/set-read-bulk/$',
-                           'apps.message.views.message_bulk_set_read',
-                           name='api-message-set-read-bulk'),
-
-                       url(r'^messages/unread-count/$',
-                           'apps.message.views.get_unread_count',
-                           name='api-message-get-unread-count'),
 
                        url(r'^change-logo/$',
                            'apps.userProfile.views.upload_logo_store', name='api-store-change-logo'),

@@ -1,0 +1,58 @@
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times"></i></button>
+            <h4 class="modal-title">Contactar al anunciante</h4>
+        </div>
+
+        <div class="modal-body">
+            <!--<div class="form-group">
+                <label class="form-label" for="subject">Subject:</label>
+                <input type="text" class="form-control" id="id_subject"/>
+            </div>-->
+
+            <div class="form-group">
+                <!--<label class="form-label" for="id_body">Body:</label>-->
+                <textarea name="" class="form-control" id="id_body" cols="30" rows="8" placeholder="Dejale tu consulta al anunciante..."></textarea>
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-primary" id="submitMessage">Send <i class="fa fa-arrow-circle-right fa-lg"></i></button>
+        </div>
+        <script type="text/javascript">
+
+
+
+        </script>
+    </div>
+    <!-- /.modal-content -->
+</div>
+
+
+<script>
+    $('#submitMessage').click(function(){
+    //var subject = $('#id_subject').val();
+    var body = $('#id_body').val();
+    var subject = body.slice(1, 25) + "...";
+    var ad_id = ad.id;
+    $.post("/api/v1/msgs/", {body: body, subject: subject, object_id: ad_id, content_type: 27},
+    function(data) {
+        var content_modal = '<div class="modal-dialog">' +
+            '<div class="modal-content">' +
+            '<div class="modal-header">' +
+            '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>' +
+            '<h4 class="modal-title">Contactar al anunciante</h4>' +
+            '</div>' +
+            '<div class="modal-body">' +
+            '<p> El mensaje fue enviado con exito</p>' +
+            '</div></div></div>';
+        $('#modalMessage').html(content_modal);
+    }
+    ).done(function(){
+        //$('#modalMessage').class = 'modal';
+    });
+
+});
+</script>

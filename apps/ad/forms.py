@@ -1,11 +1,7 @@
 from django import forms
-from django.forms.models import inlineformset_factory
-from ckeditor.widgets import CKEditorWidget
+
 from haystack.forms import FacetedSearchForm
 from haystack.utils.geo import Point, D
-
-from .models import Ad, AdImage, Category
-from apps.adLocation.models import AdLocation
 
 
 class AdSearchForm(FacetedSearchForm):
