@@ -2,6 +2,7 @@
  * MessageThreadCtrl
  * @namespace dashBoardApp.MessageThreadCtrl.controllers
  */
+var debug = {};
 (function () {
     'use strict';
 
@@ -18,8 +19,10 @@
         var vm = this;
         vm.thread = [];
         vm.msgReply = {};
+        vm.message_id;
 
         vm.loadMessageThread = function(id){
+            vm.message_id = id;
             vm.promiseRequest = Message.getMsgThread(id).then(getSuccess, getError);
 
             function getSuccess(data){
@@ -32,8 +35,7 @@
         }
 
         vm.reply = function(){
-            vm.msgReply['parent'] = vm.thread[vm.thread.length -1]['id'];
-            Message.reply(vm.msgReply)
+            Message.reply(vm.msgReply, vm.message_id)
                 .then(replySuccess, replyError);
 
             function replySuccess(data){

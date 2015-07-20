@@ -10,6 +10,7 @@ from apps.notification.views import NotificationListApiView, NotificationRetriev
     RegisterGCMNotification, UnregisterGCMNotification, NotificationMarkBulkReadApiView, ConfigNotificationModelViewSet
 from apps.user.views import ChangePasswordUpdateAPIView
 from apps.userProfile.views import UserLocationViewSet, UserProfileModelView, StoreModelViewSet
+from apps.msg.views import MsgViewSet
 
 from .views import generate_all_auth_token
 
@@ -20,6 +21,7 @@ router.register(r'ads', AdPublicViewSet, base_name='ads')
 router.register(r'user-locations', UserLocationViewSet, base_name='location-by-user')
 router.register(r'favorites', FavoriteAdViewSet, base_name='favorites')
 router.register(r'ad-search', SearchViewSet, base_name='search') #/ad-search/?q=algo&latitude=-31&longitude=-64&km=33
+router.register(r'msgs', MsgViewSet, base_name='msgs')
 
 
 urlpatterns = patterns('',

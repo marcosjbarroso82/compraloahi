@@ -28,35 +28,38 @@
 
         function getMsgs(folder, page){
             if(page == 0){
-                return $http.get('/api/v1/messages/' + folder);
+                return $http.get('/api/v1/msgs/' + folder);
             }else{
-                return $http.get('/api/v1/messages/' + folder + "/?page=" + page);
+                return $http.get('/api/v1/msgs/' + folder + "/?page=" + page);
             }
         }
 
         function getUnreadCount(){
-            return $http.get('/api/v1/messages/unread-count/');
+            return $http.get('/api/v1/msgs/unread-count/');
         }
 
         function getMsgThread(id){
-            return $http.get('/api/v1/messages/thread/' + id);
+            return $http.get('/api/v1/msgs/' + id + '/thread/');
         }
 
         function getMsg(id){
-            return $http.get('/api/v1/messages/' + id);
+            return $http.get('/api/v1/msgs/' + id);
         }
 
-        function reply(msg){
-            return $http.post('/api/v1/messages/', msg);
+        function reply(msg, parent){
+            return $http.post('/api/v1/msgs/' + parent + '/reply/', msg);
 
         }
 
         function delete_bulk(messages){
-            return $http.patch('/api/v1/messages/delete-bulk/', messages);
+            messages.forEach(function(part, index, theArray) {
+                theArray[index]['recipient_deleted'] = true;
+            });
+            return $http.patch('/api/v1/msgs/bulk/', messages);
         }
         
         function set_read_bulk(messages){
-           return $http.patch('/api/v1/messages/set-read-bulk/', messages);
+           return $http.patch('/api/v1/msgs/set-read-bulk/', messages);
         }
 
 
