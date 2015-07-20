@@ -52,7 +52,7 @@ LOCAL_APPS = (
     'apps.message',
     'apps.notification',
     'apps.rating',
-    'apps.favorite'
+    'apps.msg'
 )
 
 # All aplication
@@ -269,3 +269,7 @@ PUSH_NOTIFICATIONS_SETTINGS = {
         #"APNS_CERTIFICATE": "/path/to/your/certificate.pem",
 }
 GCM_POST_URL = 'https://android.googleapis.com/gcm/send'
+
+MSG_RELATED_APP_LABEL = 'app.ad'
+MSG_RELATED_MODEL = 'Ad'
+MSG_RELATED_OBJ_ID = 'pk'

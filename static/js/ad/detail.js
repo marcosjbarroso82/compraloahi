@@ -21,7 +21,7 @@ $('#btn-contact').click(function(){
                     body = $('#id_body').val();
                     ad_id = ad.id;
                     csrfmiddlewaretoken = $("input[name='csrfmiddlewaretoken']").val();
-                    $.post("/api/v1/messages/", {body: body, subject: subject, ad_id: ad_id, csrfmiddlewaretoken: csrfmiddlewaretoken},
+                    $.post("/api/v1/msgs/", {body: body, subject: subject, object_id: ad_id, content_type: 27, csrfmiddlewaretoken: csrfmiddlewaretoken},
                         function(data) {
                             var content_modal = '<div class="modal-dialog">' +
                                 '<div class="modal-content">' +
