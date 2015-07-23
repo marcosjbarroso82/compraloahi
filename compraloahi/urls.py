@@ -10,6 +10,7 @@ from .views import HomeView, DashBoardView, log, send_notification
 
 from .settings import base as settings
 
+
 urlpatterns = patterns('',
                        url(r'^$', HomeView.as_view()),
 
@@ -32,6 +33,8 @@ urlpatterns = patterns('',
                            GoogleLogin.as_view(),
                            name='goo_login'),
 
+                        # Add authentication by django rest client
+                        #url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
                         # TODO : This url belong to api
                        url(r'^rest-auth/', include('rest_auth.urls')),
                        url(r'^rest-auth/registration/', include('rest_auth.registration.urls')),

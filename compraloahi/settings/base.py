@@ -29,7 +29,6 @@ THIRD_PARTY_APPS = (
     'sorl.thumbnail',
     'django_comments_xtd', # Need packages: django.contrib.comments
     'haystack',
-    #'postman',
     'rest_framework',
     'favit',
     'corsheaders',
@@ -48,7 +47,6 @@ LOCAL_APPS = (
     'apps.adLocation',
     'apps.userProfile',
     'apps.user',
-    #'apps.message',
     'apps.notification',
     'apps.rating',
     'apps.msg'
