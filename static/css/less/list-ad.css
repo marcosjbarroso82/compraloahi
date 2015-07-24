@@ -17,7 +17,11 @@ body {
 }
 html .modal-backdrop,
 body .modal-backdrop {
-  z-index: 999;
+  z-index: 1100;
+}
+html .modal-footer button,
+body .modal-footer button {
+  margin-left: 10px;
 }
 html .navbar,
 body .navbar {
@@ -221,6 +225,10 @@ html {
 .page-footer {
   position: relative !important;
 }
+.Tooltip {
+  z-index: 2000;
+  position: absolute;
+}
 #page-ads-list,
 #map-container,
 #container-ad-list {
@@ -235,14 +243,13 @@ html {
   position: relative;
 }
 #map-container #mapa,
-#map-container .angular-google-map,
-#map-container .angular-google-map-container {
+#map-container .angular-map-container {
   width: 100%;
   height: 100%;
 }
 #data-filter-map {
   position: absolute;
-  z-index: 100;
+  z-index: 1001;
   left: 10px;
   width: 100%;
   padding: 10px;
@@ -254,8 +261,16 @@ html {
   background-color: rgba(255, 255, 255, 0.8);
   padding-left: 0px;
   padding-right: 0px;
+  padding-bottom: 5px;
   float: left;
   width: 410px;
+  position: relative;
+  min-height: 70px;
+}
+#data-filter-map #data-position-form #flag-custom-location {
+  position: absolute;
+  left: 45px;
+  bottom: 4px;
 }
 #data-filter-map #data-position-form .input-group-custom-addon.icon-addon.addon-sm {
   color: #4e6c83;
@@ -293,7 +308,7 @@ html {
   width: 25px;
   height: 25px;
   border-radius: 50px;
-  padding: 3px;
+  padding: 2px;
 }
 #data-filter-map #data-position-form .user-location-list {
   padding: 10px;

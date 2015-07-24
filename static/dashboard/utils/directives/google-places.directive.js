@@ -32,8 +32,8 @@
                         //$scope.location.center.latitude = place.geometry.location.lat();
                         //$scope.location.center.longitude = place.geometry.location.lng();
 
-                        $scope.map.center.latitude = angular.copy(place.geometry.location.A);
-                        $scope.map.center.longitude = angular.copy(place.geometry.location.F);
+                        //$scope.map.center.latitude = angular.copy(place.geometry.location.A);
+                        //$scope.map.center.longitude = angular.copy(place.geometry.location.F);
 
                         $scope.$apply();
                     }

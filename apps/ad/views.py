@@ -84,7 +84,6 @@ class SearchViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
             #qs = qs.filter_and(title__contains=self.request.query_params.get('q'))
             qs = qs.auto_query(self.request.query_params.get('q'))
 
-
         distance = None
         try:
             for k,v in self.request.QUERY_PARAMS.items():
@@ -105,12 +104,13 @@ class SearchViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
             qs = qs.dwithin('location', point, D(**distance)).distance('location', point)
 
         try:
-            bottom_left = Point( float( self.request.QUERY_PARAMS['w'] ), float( self.request.QUERY_PARAMS['s']) )
-            top_right = Point( float(self.request.QUERY_PARAMS['e']), float( self.request.QUERY_PARAMS['n']) )
-            qs = qs.within('location', bottom_left, top_right)
+            if self.request.QUERY_PARAMS.get('w') and self.request.QUERY_PARAMS.get('s')\
+                    and self.request.QUERY_PARAMS.get('n'):
+                bottom_left = Point( float( self.request.QUERY_PARAMS['w'] ), float( self.request.QUERY_PARAMS['s']) )
+                top_right = Point( float(self.request.QUERY_PARAMS['e']), float( self.request.QUERY_PARAMS['n']) )
+                qs = qs.within('location', bottom_left, top_right)
         except:
             pass
-
 
         try:
             param_facet_url = list(self.request.query_params.getlist('selected_facets', []))
@@ -168,7 +168,6 @@ class SearchViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
         result_serializer = SearchResultSerializer(instance=results)
 
         return Response(result_serializer.data)
-
 
 
 

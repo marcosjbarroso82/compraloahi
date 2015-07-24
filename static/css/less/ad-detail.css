@@ -16,7 +16,11 @@ body {
 }
 html .modal-backdrop,
 body .modal-backdrop {
-  z-index: 999;
+  z-index: 1100;
+}
+html .modal-footer button,
+body .modal-footer button {
+  margin-left: 10px;
 }
 html .navbar,
 body .navbar {
@@ -219,6 +223,10 @@ html {
 }
 .page-footer {
   position: relative !important;
+}
+.Tooltip {
+  z-index: 2000;
+  position: absolute;
 }
 .product {
   font-family: Ubuntu, Arial, sans-serif;

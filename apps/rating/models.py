@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 
 
-from apps.message.models import MessageChannel
+#from apps.message.models import MessageChannel
 
 try:
     from django.contrib.contenttypes.generic import GenericForeignKey
@@ -81,7 +81,7 @@ def notification_to_calification(sender, *args, **kwargs):
         OverallRating.update(rating=rating)
 
 
-@receiver(post_save, sender=MessageChannel)
+#@receiver(post_save, sender=)
 def init_rating(sender, *args, **kwargs):
     """
         Created instance rating when update status transaccion approved

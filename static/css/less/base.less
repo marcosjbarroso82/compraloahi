@@ -34,7 +34,12 @@ html, body{
   height: 100%;
 
   .modal-backdrop{
-    z-index: 999;
+    z-index: 1100;
+  }
+  .modal-footer{
+    button{
+      margin-left: 10px;
+    }
   }
 
   .navbar{
@@ -254,4 +259,9 @@ html{
 
 .page-footer{
   position: relative !important;
+}
+
+.Tooltip{
+  z-index: 2000;
+  position: absolute;
 }

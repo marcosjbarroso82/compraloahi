@@ -32,14 +32,14 @@ class AdImageSerializer(serializers.ModelSerializer):
 
 
 class AdLocationSerializer(serializers.ModelSerializer):
-    center = serializers.SerializerMethodField()
+    #center = serializers.SerializerMethodField()
 
     class Meta:
         model = AdLocation
-        fields = ('title', 'ad', 'lat', 'lng', 'center', 'id')
+        fields = ('title', 'lat', 'lng', 'id')
 
-    def get_center(self, obj):
-        return obj.center()
+    # def get_center(self, obj):
+    #     return obj.center()
 
 
 class AdSerializer(serializers.ModelSerializer):
@@ -94,8 +94,8 @@ class AdsSearchSerializer(serializers.Serializer):
     def get_center(self, obj):
         location = AdLocation.objects.filter(ad=obj.object).first()
         center = {}
-        center['latitude'] = location.lat
-        center['longitude'] = location.lng
+        center['lat'] = location.lat
+        center['lng'] = location.lng
         return center
 
     def get_images(self, obj):

@@ -10,55 +10,571 @@
         .module('App.ad.controllers')
         .controller('AdCtrl', AdCtrl);
 
-    AdCtrl.$inject = ['$scope', 'Ad', 'AdSearch', '$location'];
+    AdCtrl.$inject = ['$scope', 'AdSearch', '$location', 'leafletEvents', 'leafletData']; //
 
     /**
      * @namespace AdCtrl
      */
-    function AdCtrl($scope, Ad, AdSearch, $location) {
-        $scope.ads = {};
+    function AdCtrl($scope, AdSearch, $location, leafletEvents, leafletData) {
 
-        $scope.orderings = [{'name': 'price', selected: false}, {'name': 'distance', selected: false}];
-        $scope.selected_ordering = {};
+        var vm = this;
 
-        $scope.facets = {};
-        $scope.selected_facets = [];
-        //$scope.selected_facets['facets'] = selected_facets;
-        $scope.selected_facets['changed'] = false;
+        // Defined vars ------------------------------------------------
 
-        $scope.search_location = search_location;
-        $scope.search_location.changed = false;
-        $scope.search_location.stroke = {color: '#1e617d', weight: 1, opacity: 0.4 };
-        $scope.search_location.fill = {color: '#ececec', weight: 2, opacity: 0.08 };
+        vm.ads = []; //List ads
 
-        $scope.user_locations = user_locations;
-        $scope.user_location_selected = {};
+        vm.orderings = [{'name': 'price', selected: false}, {'name': 'distance', selected: false}]; // Orderings
+        vm.selected_ordering = {};
 
-        $scope.collapsabled = false;
+        vm.geoLocation = {}; // Save user gps location
 
-        $scope.page_nro = 1;
+
+        vm.facets = [];
+        vm.selected_facets = [];
+        vm.selected_facets['changed'] = false;
+
+        vm.map = {
+            center: {
+                autoDiscover: true, // Request locations by browser
+                zoom: 14
+            },
+            events: {
+                markers: {
+                    enable: leafletEvents.getAvailableMarkerEvents()
+                }
+            },
+            defaults: {
+                tileLayer: "http://otile2.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png",
+                maxZoom: 14,
+                minZoom: 13,
+                path: {
+                    weight: 10,
+                    color: '#800000',
+                    opacity: 1
+                },
+                zoomControl: false
+            },
+            markers: {}
+        };
+
+        // Vars to template
+        vm.collapsabled = false; // Defined is list ads collapse
+
+
+
+        // Defined functions ------------------------------------------
+
+        vm.getAdsByPage = getAdsByPage;
+        // Functions ads list
+        vm.centerMap = centerMap;
+        vm.selectAd = selectAd;
+        vm.deselectAd = deselectAd;
+
+        // Functions facets
+        vm.changeFacet = changeFacet;
+
+        vm.refreshResults = refreshResults;
+
+        // User locations
+        vm.submitNewLocation = submitNewLocation;
+
+
+        vm.search_location = {};
+        vm.search_location.changed = false;
+
+        vm.user_locations = [];
+        vm.user_location_selected = {};
+
+        vm.page_nro = 1;
 
         //Var to save location when search on google places
         $scope.location_search_places = {};
 
 
-        //var cache_history = [];
+        vm.changeFlagCustomRadius = changeFlagCustomRadius;
+
+        vm.setGeoLocation = setGeoLocation;
+
+
 
         // Initialize Controller
         activate();
 
-
-
         function activate(){
-            console.log("INIT");
-            //Get ads init
-            $scope.q = getUrlParameter('q');
+            vm.q = getUrlParameter('q');
+
+            vm.user_locations = user_locations;
+
+            initMap();
+        }
+
+        /**
+         * Function show/hide radius on map.
+         */
+        function changeFlagCustomRadius(){
+            if(vm.flag_custom_radius){
+                vm.map.radius = L.circle([vm.search_location.location.lat, vm.search_location.location.lng], angular.copy(vm.search_location.radius)).addTo(vm.map.instance);
+            }else{
+                vm.map.instance.removeLayer(vm.map.radius);
+            }
+        }
+
+        /**
+         * Function to search if exist equals title locations and return boolean
+         * @param title
+         * @returns {boolean}
+         */
+        function existsLocationTitle(title) {
+            for (var i=0; i < vm.user_locations.length; i++) {
+                if (vm.user_locations[i].title === vm.search_location.title) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /**
+         * Function to save new locations
+         */
+        function submitNewLocation() {
+            // TODO: How about validating the others fields?
+            if (vm.search_location.title && !existsLocationTitle(vm.search_location.title) ) {
+                $.post("/api/v1/user-locations/",
+                    {
+                        title: vm.search_location.title,
+                        lat: vm.search_location.location.lat,
+                        lng: vm.search_location.location.lng,
+                        radius: vm.search_location.radius,
+                        csrfmiddlewaretoken: csrf
+                    },
+                    function(data) {
+                        vm.user_locations.push({
+                            lat: data.lat,
+                            lng: data.lng,
+                            radius: data.radius,
+                            pk: data.id,
+                            title: data.title
+                        });
+                        $('#modalNewLocation').modal('hide');
+
+                        vm.user_location_selected = {};
+
+                        // TODO: this should select the option in the html selct. Bu it's not working
+                        $scope.$apply(function(){
+                            // TODO: It would be better to use some kind of id
+                            $('#user-locations-select option[label="'+ data.title +'"]').attr("selected", "selected");
+                        });
+                        vm.search_location.changed = false;
+                        vm.search_location.title= "";
+                    })
+                    .fail(function(){
+                        $('#modalNewLocation .modal-body').html("Ocurrio un error al guardar su ubicación");
+                    });
+            } else {
+                // TODO: manage this in a better way
+                window.alert("Ingrese un nombre que no exista ya");
+            }
+        }
+
+
+        // Event to watch change search location find by google places
+        $scope.$watch('location_search_places', function(val, old_val){
+            if($scope.location_search_places.geometry){
+
+                vm.search_location.location.lat = angular.copy($scope.location_search_places.geometry.location.lat());
+                vm.search_location.location.lng = angular.copy($scope.location_search_places.geometry.location.lng());
+
+                //vm.search_location.title = angular.copy($scope.location_search_places.formatted_address);
+                vm.search_location.changed = false;
+            }
+        });
+
+        function addEventUserLocationSelected(){
+            // Change select user's locations
+
+            $scope.$watch('vm.user_location_selected',function(val,old){
+                if (vm.user_location_selected.lat
+                    && vm.user_location_selected.lng
+                    && vm.user_location_selected.radius) {
+
+                    vm.search_location.location.lat = angular.copy(vm.user_location_selected.lat);
+                    vm.search_location.location.lng = angular.copy(vm.user_location_selected.lng);
+                    vm.search_location.radius = parseInt(angular.copy(vm.user_location_selected.radius));
+
+                    getAdsearch(getUrlParams());
+                }
+            });
+        }
+
+        function addEventSearchLocationChange(){
+            // This watch is for range input which returns text instead of number
+            $scope.$watch('vm.search_location.radius',function(val,old){
+                vm.search_location.radius = parseInt(val);
+
+                if(vm.flag_custom_radius){
+                    vm.map.radius.setRadius(vm.search_location.radius);
+                }
+
+                if (vm.search_location.radius != vm.user_location_selected.radius
+                    && vm.search_location.changed != true) {
+                    // TODO: este evento se esta llamando dos veces por problemas de formato de entero y flotante en el radio
+                    searchLocationChanged();
+                }
+            });
+
+            $scope.$watch('vm.search_location.location.lat',function(val,old){
+                vm.map.center.lat = angular.copy(vm.search_location.location.lat);
+
+                if(vm.flag_custom_radius){
+                    vm.map.radius.setLatLng([vm.search_location.location.lat, vm.search_location.location.lng]);
+                }
+                if(vm.map.markers['center']){
+                    vm.map.markers['center'].lat = angular.copy(vm.search_location.location.lat);
+                }
+
+                if (vm.search_location.location.lat != vm.user_location_selected.lat
+                    && vm.search_location.changed!=true) {
+                    searchLocationChanged();
+                }
+            });
+            $scope.$watch('vm.search_location.location.lng',function(val,old){
+                vm.map.center.lng = angular.copy(vm.search_location.location.lng);
+
+                if(vm.flag_custom_radius){
+                    vm.map.radius.setLatLng([vm.search_location.location.lat, vm.search_location.location.lng]);
+                }
+
+                if(vm.map.markers['center']){
+                    vm.map.markers['center'].lng = angular.copy(vm.search_location.location.lng);
+                }
+
+                if (vm.search_location.location.lng != vm.user_location_selected.lng
+                    && vm.search_location.changed!=true) {
+                    searchLocationChanged();
+                }
+            });
+        }
+
+        function searchLocationChanged() {
+            if (typeof vm.user_location_selected.lat !== vm.search_location.location.lat
+                && typeof vm.user_location_selected.lng !== vm.search_location.location.lng
+                && typeof vm.user_location_selected.radius !== vm.search_location.location.radius ){
+                vm.search_location.changed = true;
+                vm.user_location_selected = {};
+            }
+        }
+
+        /**
+         * Function Event, execute when selected (mouse over) ad on list.
+         * @param ad
+         */
+        function selectAd(ad) {
+            ad.selected = true;
+            setMarkerSelected(ad);
+        }
+
+        /**
+         * Function Event, excecute when deselected (mouse outer) ad on list.
+         * @param ad
+         */
+        function  deselectAd(ad) {
+            ad.selected = false;
+            setMarkerSelected(ad);
+        }
+
+        /**
+         * Function Event, execute when click on ad. Centered markers belong ad selected on map
+         * @param position
+         */
+        function centerMap(position) {
+            vm.map.center.lat = angular.copy(position.lat);
+            vm.map.center.lng = angular.copy(position.lng);
+        }
+
+        /**
+         * Function to add event mouse over, mouse out and click on all markers
+         */
+        function addEvenMarkerssMaps(){
+            var markerEvents = leafletEvents.getAvailableMarkerEvents();
+            var current_event = ""; //Flag to current markers event on maps
+            var current_event_id_ad = ""; //Flag to current ad id to markers event
+
+            for (var k in markerEvents){
+                $scope.$on('leafletDirectiveMarker.mouseout', function(event, args){
+                    if(current_event != 'mouseout' && args['modelName'] != 'center'){
+                        current_event = 'mouseout';
+                        vm.map.markers[args['modelName']]['icon']['markerColor'] = 'red';
+                        for(var i=0; i < vm.ads.length; i++){
+                            if(String(vm.ads[i]['id']) == args['modelName']){
+                                vm.ads[i]['selected'] = false;
+                                break;
+                            }
+                        }
+                    }
+                });
+
+                $scope.$on('leafletDirectiveMarker.mouseover', function(event, args){
+                    if(current_event != 'mouseover' && args['modelName'] != 'center'){
+                        current_event = 'mouseover';
+                        vm.map.markers[args['modelName']]['icon']['markerColor'] = 'blue';
+                        for(var i=0; i < vm.ads.length; i++){
+                            if(String(vm.ads[i]['id']) == args['modelName']){
+                                vm.ads[i]['selected'] = true;
+                                break;
+                            }
+                        }
+                    }
+                });
+
+                $scope.$on('leafletDirectiveMarker.click', function(event, args){
+                    if(current_event != 'click' && args['modelName'] != 'center'){
+                        current_event = 'click';
+                        if(current_event_id_ad != args['modelName']){
+                            current_event_id_ad = args['modelName'];
+                            var scrollPane = $('#container-ads');
+                            var offsetTop = 120;
+                            var scrollTarget = $("#ad-anchor-" + args['modelName']);
+                            scrollPane.animate({
+                                scrollTop : scrollTarget.offset().top + scrollPane.scrollTop() - parseInt(offsetTop)
+                            }, 1200);
+                        }
+                    }
+                });
+
+                /*$scope.$on('leafletDirectiveMarker.drag', function(event, args){
+                 if(args['modelName'] == 'center'){
+                 console.log("DRAGGGG");
+                 }
+                 });*/
+            }
+        }
+
+        /**
+         * Set style marker when ad selected
+         * @param ad
+         */
+        function setMarkerSelected(ad){
+            if(ad.selected){
+                vm.map.markers[String(ad.id)]['icon']['markerColor'] = 'blue';
+            }else{
+                vm.map.markers[String(ad.id)]['icon']['markerColor'] = 'red';
+            }
+        }
+
+        /**
+         * Create marker to represents ads
+         */
+        function createMarkers(){
+            vm.map.markers = {};
+            createLocationSearchMarker();
+
+            for(var i=0; i < vm.ads.length; i++){
+                var marker = vm.ads[i]['center'];
+                marker['message'] = vm.ads[i]['short_description'];
+                //marker['layer'] = 'ads';
+                marker['icon'] = {
+                    type: 'awesomeMarker',
+                    html: String(i + 1),
+                    markerColor: 'red'
+                };
+                vm.map.markers[String(vm.ads[i]['id'])] = marker;
+            }
+        }
+
+        /**
+         * Create marker to represent search location
+         */
+        function createLocationSearchMarker(){
+            vm.map.markers['center'] = {
+                lat: angular.copy(vm.search_location.location.lat),
+                lng: angular.copy(vm.search_location.location.lng),
+                icon: {
+                    iconUrl: '/static/image/compraloahi_marker.svg',
+                    shadowUrl: '/static/image/markers-shadow.png',
+                    iconSize: [35, 45],  // size of the icon
+                    iconAnchor:   [17, 42], // point of the icon which will correspond to marker's location
+                    popupAnchor: [1, -32], // point from which the popup should open relative to the iconAnchor
+                    shadowAnchor: [10, 12], // the same for the shadow
+                    shadowSize: [36, 16] // size of the shadow
+                }
+            };
+        }
+
+
+        function setGeoLocation(){
+            vm.search_location.location = angular.copy(vm.geoLocation);
             getAdsearch(getUrlParams());
+        }
+
+
+
+        /**
+         * Get instance to map.
+         */
+        function initMap(){
+            leafletData.getMap().then(function(map) {
+                vm.map.instance = map;
+
+                vm.search_location.location = {};
+
+                if(map._initialCenter){
+                    vm.geoLocation['lat'] = angular.copy(map._initialCenter.lat);
+                    vm.geoLocation['lng'] = angular.copy(map._initialCenter.lng);
+
+                    //vm.search_location.location['lat'] = angular.copy(map._initialCenter.lat);
+                    //vm.search_location.location['lng'] = angular.copy(map._initialCenter.lng);
+                }else{
+                    // TODO: Quitar ubicacion por defecto en caso que no tenga acceso a la ubicacion del navegador y
+                    // en caso de seleccionar geoLocation volver a preguntar pedir permisos al navegador si aun no lo tiene.
+                    vm.geoLocation['lat'] = -31.4179952;
+                    vm.geoLocation['lat'] = -64.1890513;
+                }
+
+                vm.search_location.radius = 6000;
+
+                initSearch();
+
+
+
+            });
+        }
+
+        function initSearch(){
+            var lat = 0;
+            var lng = 0;
+            var m = 0;
+
+            var sPageURL = window.location.search.substring(1);
+            var sURLVariables = sPageURL.split('&');
+            var has_param_location = 0;
+            for (var i = 1; i < sURLVariables.length; i++){
+                var sParameterName = sURLVariables[i].split('=');
+                switch(sParameterName[0]){
+                    case "lat":
+                        lat = Number(sParameterName[1]);
+                        has_param_location ++;
+                        break;
+                    case "lng":
+                        lng = Number(sParameterName[1]);
+                        has_param_location ++;
+                        break;
+                    case "m":
+                        m = Number(sParameterName[1]);
+                        has_param_location ++;
+                        break;
+                    case "q":
+                        vm.q = sParameterName[0];
+                        break;
+                }
+            }
+            if(has_param_location == 3){
+                vm.search_location.location.lat = lat;
+                vm.search_location.location.lng = lng;
+                vm.search_location.radius = m;
+                getAdsearch(sPageURL.substring(2));
+            }else{
+                setGeoLocation();
+            }
+
+            addEvenMarkerssMaps();
+            addEventUserLocationSelected();
+            addEventSearchLocationChange();
 
         }
 
-        function getUrlParameter(sParam)
-        {
+        /**
+         * Search ads
+         * @param q
+         */
+        function getAdsearch(q){
+            vm.promiseRequestAds =  AdSearch.search(q).then(getAdSearchSuccess, getAdSearchError);
+            function getAdSearchSuccess(data){
+                vm.ads = data.data.results;
+
+                createMarkers();
+
+                vm.facets = data.data.facets;
+
+                vm.next_page = data.data.next;
+                vm.prev_page = data.data.previous;
+                vm.page_nro = 1;
+
+                vm.search_location.changed = false;
+
+                // Remplace path by new query path
+                $location.search('q='+ q);
+
+            }
+            function getAdSearchError(data){
+                console.log("Error al traer los mensajes");
+            }
+        }
+
+        /**
+         * Function to get ads by page
+         * @param nro_page
+         */
+        function getAdsByPage(nro_page){
+            vm.page_nro = nro_page;
+            getAdsearch(getUrlParams());
+        }
+
+        /**
+         * Function to refresh result..
+         */
+        function refreshResults(){
+            getAdsearch(getUrlParams());
+        }
+
+
+        /**
+         * Function to change status facet
+         * @param facet is Object Facet change
+         * @param detail is Detail to facet
+         * @param value is value to change activated= True, desactivated = false
+         */
+        function changeFacet(facet, detail, value){
+            facet.activated = value;
+            detail.activated = value;
+            getAdsearch(getUrlParams());
+        }
+
+        /**
+         * Function to make params url
+         * @returns {string}
+         */
+        function getUrlParams(){
+            var url = '&m=' + vm.search_location.radius +
+                '&lat=' + String(vm.search_location.location.lat) +
+                '&lng=' + vm.search_location.location.lng;
+
+            if(vm.q != '' && vm.q != undefined){
+                url += '&q=' + vm.q;
+            }
+
+            for(var i=0; i < vm.facets.length; i++){
+                if(vm.facets[i].activated){
+                    url += '&selected_facets=';
+                    for(var iv=0; iv < vm.facets[i].values.length; iv++){
+                        if(vm.facets[i].values[iv].activated == true){
+                            url += vm.facets[i].name + "_exact:" + vm.facets[i].values[iv].name;
+                        }
+                    }
+                }
+            }
+            if (vm.selected_ordering && vm.selected_ordering['name']) {
+                url += '&order_by=' + vm.selected_ordering['name'];
+            }
+
+            if(vm.page_nro > 0){
+                url += '&page=' + String(vm.page_nro);
+            }
+
+            return url;
+        }
+
+
+        function getUrlParameter(sParam){
             var sPageURL = window.location.search.substring(1);
             var sURLVariables = sPageURL.split('&');
             for (var i = 0; i < sURLVariables.length; i++)
@@ -69,307 +585,8 @@
                     return sParameterName[1];
                 }
             }
+            return "";
         }
-
-        // ############ SAVE LOCATION ##############
-        $scope.existsLocationTitle = function (title) {
-            for (var i=0; i < $scope.user_locations.length; i++) {
-                if ($scope.user_locations[i].title === $scope.search_location.title) {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        $scope.submitNewLocation= function () {
-            // TODO: How about validating the others fields?
-            if ($scope.search_location.title && !$scope.existsLocationTitle($scope.search_location.title) ) {
-                $.post("/api/v1/user-locations/",
-                    {
-                        title: $scope.search_location.title,
-                        lat: $scope.search_location.location.latitude,
-                        lng: $scope.search_location.location.longitude,
-                        radius: $scope.search_location.radius,
-                        csrfmiddlewaretoken: csrf
-                    },
-                    function(data) {
-                        $scope.user_locations.push({
-                            latitude: data.lat,
-                            longitude: data.lng,
-                            radius: data.radius,
-                            pk: data.id,
-                            title: data.title
-                        });
-                        $('#modalNewLocation').modal('hide');
-
-                        $scope.user_location_selected = {};
-
-                        // TODO: this should select the option in the html selct. Bu it's not working
-                        $scope.$apply(function(){
-                            // TODO: It would be better to use some kind of id
-                            $('#user-locations-select option[label="'+ data.title +'"]').attr("selected", "selected");
-                        });
-
-                        $scope.search_location.changed = false;
-                        $scope.search_location.title= "";
-                        $("#search_location_name").val("");
-                    })
-                    .fail(function(){
-                        $('#modalNewLocation .modal-body').html("Ocurrio un error al guardar su ubicación");
-                    });
-            } else {
-                // TODO: manage this in a better way
-                window.alert("Ingrese un nombre que no exista ya");
-            }
-        }
-// ############ END SAVE LOCATION ##############
-
-
-// ################## MAP ################################
-
-        // Event to watch change search location find by google places
-         $scope.$watch('location_search_places', function(val, old_val){
-           if($scope.location_search_places.geometry){
-               $scope.search_location.location.latitude = angular.copy($scope.location_search_places.geometry.location.lat());
-               $scope.search_location.location.longitude = angular.copy($scope.location_search_places.geometry.location.lng());
-               $scope.search_location.title = angular.copy($scope.location_search_places.formatted_address);
-               $scope.search_location.location.center = {};
-               $scope.search_location.location.center.latitude = angular.copy($scope.location_search_places.geometry.location.lat());
-               $scope.search_location.location.center.longitude = angular.copy($scope.location_search_places.geometry.location.lng());
-               $scope.search_location.changed = false;
-
-           }
-        });
-
-        // Change select user's locations
-        $scope.$watch('user_location_selected',function(val,old){
-            //  this IF makes sure the code is no executed right when its loaded
-            if ($scope.user_location_selected.latitude
-                && $scope.user_location_selected.longitude
-                && $scope.user_location_selected.radius) {
-
-                $scope.search_location.location.latitude = $scope.user_location_selected.latitude;
-                $scope.search_location.location.longitude = $scope.user_location_selected.longitude;
-                $scope.search_location.radius = $scope.user_location_selected.radius;
-                $scope.search_location.changed = false;
-
-                getAdsearch(getUrlParams());
-            }
-        });
-
-        // This watch is for range input which returns text instead of number
-        $scope.$watch('search_location.radius',function(val,old){
-            $scope.search_location.radius = parseInt(val);
-            if ($scope.search_location.radius != $scope.user_location_selected.radius
-                && $scope.search_location.changed != true) {
-                // TODO: este evento se esta llamando dos veces por problemas de formato de entero y flotante en el radio
-                searchLocationChanged();
-            }
-        });
-
-        $scope.$watch('search_location.location.latitude',function(val,old){
-            if ($scope.search_location.location.latitude != $scope.user_location_selected.latitude
-                && $scope.search_location.changed!=true) {
-                searchLocationChanged();
-            }
-        });
-        $scope.$watch('search_location.location.longitude',function(val,old){
-            if ($scope.search_location.location.longitude != $scope.user_location_selected.longitude
-                && $scope.search_location.changed!=true) {
-                searchLocationChanged();
-            }
-        });
-
-        function searchLocationChanged() {
-            if (typeof $scope.user_location_selected.latitude !== search_location.location.latitude
-                && typeof $scope.user_location_selected.longitude !== search_location.location.longitude
-                && typeof $scope.user_location_selected.radius !== search_location.location.radius ){
-                $scope.search_location.changed = true;
-                $scope.user_location_selected = {};
-            }
-        }
-
-        $scope.map = {
-            // TODO: define a proper location initialization
-            center: {
-                latitude: -31.4179952,
-                longitude: -64.1890513
-            },
-            zoom: 13,
-            options: {},
-            control: {},
-            circle_events: {
-                click: function (marker, eventName, args) {
-                    $('html, body').animate({
-                        scrollTop: $("#ad-anchor-" + args.$parent.ad.id).offset().top - 70
-                    }, 1000);
-                },
-                mouseover: function (marker, eventName, args) {
-                    args.$parent.ad.selected = true;
-                },
-                mouseout: function (marker, eventName, args) {
-                    args.$parent.ad.selected = false;
-                }
-            }
-        };
-
-        $scope.location_options = {
-            draggable: false, // optional: defaults to false
-            clickable: true, // optional: defaults to true
-            editable: false, // optional: defaults to false
-            visible: true // optional: defaults to true
-        }
-
-        // Define circle map event, when click on circle event vertical aling ad.
-        $scope.circle_events = {
-            click: function (marker, eventName, args) {
-                var container = $("#container-ad-list");
-                var item = $("#ad-anchor-" + args.$parent.ad.id);
-                $('html, body, #container-ad-list').animate({
-                    scrollTop: item.offset().top - container.offset().top + container.scrollTop() - 70
-                }, 1000);
-
-            },
-            mouseover: function (marker, eventName, args) {
-                args.$parent.ad.selected = true;
-            },
-            mouseout: function (marker, eventName, args) {
-                args.$parent.ad.selected = false;
-            }
-        };
-
-        /**
-         * Define style to ad on map
-         * @param ad
-         */
-        function setCircleStyle(ad){
-            if (ad.selected) {
-                ad.stroke = {color: '#1e617d', weight: 0, opacity: 0.9 };
-                ad.fill = {color: '#1e617d', weight: 2, opacity: 0.9 };
-            } else {
-                ad.stroke = {color: '#ff6600', weight: 0, opacity:0.6 };
-                ad.fill = {color: '#ff6600', weight: 2, opacity: 0.6 };
-            }
-        }
-// ################## END MAP ################################
-
-
-
-
-// ######## LIST ADS ##########
-
-         // Function to center on location ad.
-        $scope.centerMap = function(position) {
-            $scope.map.control.getGMap().panTo(new google.maps.LatLng(position.latitude, position.longitude));
-        }
-
-        $scope.selectAd = function (ad) {
-            ad.selected = true;
-            setCircleStyle(ad);
-        }
-
-        $scope.deselectAd = function (ad) {
-            ad.selected = false;
-            setCircleStyle(ad);
-        }
-
-        function getAdsearch(q){
-            AdSearch.search(q).then(getAdSearchSuccess, getAdSearchError);
-            function getAdSearchSuccess(data){
-                $scope.ads = data.data.results;
-                $scope.facets = data.data.facets;
-                $scope.next_page = data.data.next;
-                $scope.prev_page = data.data.previous;
-                $scope.page_nro = 1;
-
-                // Remplace path by new query path
-                $location.search('q='+ q);
-                //$location.replace();
-
-                // set Circle style for each ad
-                $.each($scope.ads,function(index, ad){
-                    setCircleStyle(ad);
-                });
-            }
-            function getAdSearchError(data){
-                console.log("Error al traer los mensajes");
-            }
-        }
-
-        $scope.get_ads_page = function(nro_page){
-            $scope.page_nro = nro_page;
-            getAdsearch(getUrlParams());
-        }
-// ######## END LIST ADS ##########
-
-
-
-// ######## FACETS ##########
-
-        /**
-         * Function to change status facet
-         * @param facet is Object Facet change
-         * @param detail is Detail to facet
-         * @param value is value to change activated= True, desactivated = false
-         */
-        $scope.changeFacet = function(facet, detail, value){
-            facet.activated = value;
-            detail.activated = value;
-            getAdsearch(getUrlParams());
-        }
-
-
-        $scope.refreshResults = function(){
-            getAdsearch(getUrlParams());
-        };
-
-// ######## END FACETS ##########
-
-
-
-        /**
-         * Function to make params url
-         * @returns {string}
-         */
-        function getUrlParams(){
-            var url = '&km=' + $scope.search_location.radius +
-                '&lat=' + String($scope.search_location.location.latitude) +
-                '&lng=' + $scope.search_location.location.longitude;
-
-            if($scope.q != '' && $scope.q != undefined){
-                url += '&q=' + $scope.q;
-            }
-
-            for(var i=0; i < $scope.facets.length; i++){
-                if($scope.facets[i].activated){
-                    url += '&selected_facets=';
-                    for(var iv=0; iv < $scope.facets[i].values.length; iv++){
-                        if($scope.facets[i].values[iv].activated == true){
-                            url += $scope.facets[i].name + "_exact:" + $scope.facets[i].values[iv].name;
-                        }
-                    }
-                }
-            }
-            if ($scope.selected_ordering && $scope.selected_ordering['name']) {
-                url += '&order_by=' + $scope.selected_ordering['name'];
-            }
-
-            if($scope.page_nro > 0){
-                url += '&page=' + String($scope.page_nro);
-            }
-
-            return url;
-        }
-
-
- /**
-         * Function to change location, selecting user location
-         * @param location
-
-        $scope.change_select_location = function(location){
-            $scope.user_location_selected = location;
-        }*/
-
 
         // Process Current URL to get the selected Facets and Ordering Parameter
 
@@ -378,7 +595,7 @@
 
             // Get Selected Facets
             var facet_re_process = url.match(/(selected_facets=)([^&]+)/gi);
-            $scope.selected_facets['facets'] = [];
+            vm.selected_facets['facets'] = [];
             if (facet_re_process) {
                 facet_re_process.forEach(function(element, index, array) {
                     var re = /selected_facets=(.*):(.*)/;
@@ -387,20 +604,17 @@
                     facet['filter'] = aux[1];
                     facet['value'] = aux[2];
                     facet['enabled'] = true;
-                    $scope.selected_facets['facets'].push(facet);
+                    vm.selected_facets['facets'].push(facet);
                 });
             }
             // Get Ordering Parameter
             var ordering_process = url.match(/(order_by=)([^&]+)/i);
             if (ordering_process && ordering_process[2]) {
-                $scope.selected_ordering = $scope.orderings.filter(function( obj ) {
+                vm.selected_ordering = vm.orderings.filter(function( obj ) {
                     return obj.name == ordering_process[2];
                 })[0];
-                $scope.selected_ordering.selected = true;
+                vm.selected_ordering.selected = true;
             }
         }
-
-
-        //processCurrentURL();
     }
 })();
