@@ -26,7 +26,21 @@
         vm.orderings = [{'name': 'price', selected: false}, {'name': 'distance', selected: false}]; // Orderings
         vm.selected_ordering = {};
 
-        vm.geoLocation = {}; // Save user gps location
+        vm.search_location = {};
+        vm.search_location.changed = false; // Flag to represent
+        vm.search_location.radius = 6000; // Custom radius location
+        vm.search_location.current_location = {}; // Center current location search location search
+        vm.search_location.bounds = {}; // Bounds maps
+        vm.search_location.geo_location = {}; // Represent to geo location
+
+
+        vm.user_locations = [];
+        vm.user_location_selected = {};
+
+        vm.page_nro = 1;
+
+        //Var to save location when search on google places
+        $scope.location_search_places = {};
 
 
         vm.facets = [];
@@ -43,15 +57,16 @@
                     enable: leafletEvents.getAvailableMarkerEvents()
                 }
             },
+            bounds: {},
             defaults: {
                 tileLayer: "http://otile2.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png",
                 maxZoom: 14,
                 minZoom: 13,
-                path: {
+                /*path: {
                     weight: 10,
                     color: '#800000',
                     opacity: 1
-                },
+                },*/
                 zoomControl: false
             },
             markers: {}
@@ -78,19 +93,6 @@
         // User locations
         vm.submitNewLocation = submitNewLocation;
 
-
-        vm.search_location = {};
-        vm.search_location.changed = false;
-
-        vm.user_locations = [];
-        vm.user_location_selected = {};
-
-        vm.page_nro = 1;
-
-        //Var to save location when search on google places
-        $scope.location_search_places = {};
-
-
         vm.changeFlagCustomRadius = changeFlagCustomRadius;
 
         vm.setGeoLocation = setGeoLocation;
@@ -113,7 +115,7 @@
          */
         function changeFlagCustomRadius(){
             if(vm.flag_custom_radius){
-                vm.map.radius = L.circle([vm.search_location.location.lat, vm.search_location.location.lng], angular.copy(vm.search_location.radius)).addTo(vm.map.instance);
+                vm.map.radius = L.circle([vm.search_location.current_location.lat, vm.search_location.current_location.lng], angular.copy(vm.search_location.radius)).addTo(vm.map.instance);
             }else{
                 vm.map.instance.removeLayer(vm.map.radius);
             }
@@ -142,8 +144,8 @@
                 $.post("/api/v1/user-locations/",
                     {
                         title: vm.search_location.title,
-                        lat: vm.search_location.location.lat,
-                        lng: vm.search_location.location.lng,
+                        lat: vm.search_location.current_location.lat,
+                        lng: vm.search_location.current_location.lng,
                         radius: vm.search_location.radius,
                         csrfmiddlewaretoken: csrf
                     },
@@ -181,8 +183,8 @@
         $scope.$watch('location_search_places', function(val, old_val){
             if($scope.location_search_places.geometry){
 
-                vm.search_location.location.lat = angular.copy($scope.location_search_places.geometry.location.lat());
-                vm.search_location.location.lng = angular.copy($scope.location_search_places.geometry.location.lng());
+                vm.search_location.current_location.lat = angular.copy($scope.location_search_places.geometry.location.lat());
+                vm.search_location.current_location.lng = angular.copy($scope.location_search_places.geometry.location.lng());
 
                 //vm.search_location.title = angular.copy($scope.location_search_places.formatted_address);
                 vm.search_location.changed = false;
@@ -197,8 +199,8 @@
                     && vm.user_location_selected.lng
                     && vm.user_location_selected.radius) {
 
-                    vm.search_location.location.lat = angular.copy(vm.user_location_selected.lat);
-                    vm.search_location.location.lng = angular.copy(vm.user_location_selected.lng);
+                    vm.search_location.current_location.lat = angular.copy(vm.user_location_selected.lat);
+                    vm.search_location.current_location.lng = angular.copy(vm.user_location_selected.lng);
                     vm.search_location.radius = parseInt(angular.copy(vm.user_location_selected.radius));
 
                     getAdsearch(getUrlParams());
@@ -222,33 +224,33 @@
                 }
             });
 
-            $scope.$watch('vm.search_location.location.lat',function(val,old){
-                vm.map.center.lat = angular.copy(vm.search_location.location.lat);
+            $scope.$watch('vm.search_location.current_location.lat',function(val,old){
+                vm.map.center.lat = angular.copy(vm.search_location.current_location.lat);
 
                 if(vm.flag_custom_radius){
-                    vm.map.radius.setLatLng([vm.search_location.location.lat, vm.search_location.location.lng]);
+                    vm.map.radius.setLatLng([vm.search_location.current_location.lat, vm.search_location.current_location.lng]);
                 }
                 if(vm.map.markers['center']){
-                    vm.map.markers['center'].lat = angular.copy(vm.search_location.location.lat);
+                    vm.map.markers['center'].lat = angular.copy(vm.search_location.current_location.lat);
                 }
 
-                if (vm.search_location.location.lat != vm.user_location_selected.lat
+                if (vm.search_location.current_location.lat != vm.user_location_selected.lat
                     && vm.search_location.changed!=true) {
                     searchLocationChanged();
                 }
             });
-            $scope.$watch('vm.search_location.location.lng',function(val,old){
-                vm.map.center.lng = angular.copy(vm.search_location.location.lng);
+            $scope.$watch('vm.search_location.current_location.lng',function(val,old){
+                vm.map.center.lng = angular.copy(vm.search_location.current_location.lng);
 
                 if(vm.flag_custom_radius){
-                    vm.map.radius.setLatLng([vm.search_location.location.lat, vm.search_location.location.lng]);
+                    vm.map.radius.setLatLng([vm.search_location.current_location.lat, vm.search_location.current_location.lng]);
                 }
 
                 if(vm.map.markers['center']){
-                    vm.map.markers['center'].lng = angular.copy(vm.search_location.location.lng);
+                    vm.map.markers['center'].lng = angular.copy(vm.search_location.current_location.lng);
                 }
 
-                if (vm.search_location.location.lng != vm.user_location_selected.lng
+                if (vm.search_location.current_location.lng != vm.user_location_selected.lng
                     && vm.search_location.changed!=true) {
                     searchLocationChanged();
                 }
@@ -256,9 +258,9 @@
         }
 
         function searchLocationChanged() {
-            if (typeof vm.user_location_selected.lat !== vm.search_location.location.lat
-                && typeof vm.user_location_selected.lng !== vm.search_location.location.lng
-                && typeof vm.user_location_selected.radius !== vm.search_location.location.radius ){
+            if (typeof vm.user_location_selected.lat !== vm.search_location.current_location.lat
+                && typeof vm.user_location_selected.lng !== vm.search_location.current_location.lng
+                && typeof vm.user_location_selected.radius !== vm.search_location.current_location.radius ){
                 vm.search_location.changed = true;
                 vm.user_location_selected = {};
             }
@@ -386,8 +388,8 @@
          */
         function createLocationSearchMarker(){
             vm.map.markers['center'] = {
-                lat: angular.copy(vm.search_location.location.lat),
-                lng: angular.copy(vm.search_location.location.lng),
+                lat: angular.copy(vm.search_location.current_location.lat),
+                lng: angular.copy(vm.search_location.current_location.lng),
                 icon: {
                     iconUrl: '/static/image/compraloahi_marker.svg',
                     shadowUrl: '/static/image/markers-shadow.png',
@@ -402,7 +404,7 @@
 
 
         function setGeoLocation(){
-            vm.search_location.location = angular.copy(vm.geoLocation);
+            vm.search_location.current_location = angular.copy(vm.search_location.geo_location);
             getAdsearch(getUrlParams());
         }
 
@@ -412,25 +414,26 @@
          * Get instance to map.
          */
         function initMap(){
-            leafletData.getMap().then(function(map) {
+            leafletData.getMap("searchMap").then(function(map) {
                 vm.map.instance = map;
 
-                vm.search_location.location = {};
+                vm.search_location.current_location = {};
 
                 if(map._initialCenter){
-                    vm.geoLocation['lat'] = angular.copy(map._initialCenter.lat);
-                    vm.geoLocation['lng'] = angular.copy(map._initialCenter.lng);
+                    vm.search_location.geo_location['lat'] = angular.copy(map._initialCenter.lat);
+                    vm.search_location.geo_location['lng'] = angular.copy(map._initialCenter.lng);
 
-                    //vm.search_location.location['lat'] = angular.copy(map._initialCenter.lat);
-                    //vm.search_location.location['lng'] = angular.copy(map._initialCenter.lng);
+                    //vm.search_location.current_location['lat'] = angular.copy(map._initialCenter.lat);
+                    //vm.search_location.current_location['lng'] = angular.copy(map._initialCenter.lng);
                 }else{
                     // TODO: Quitar ubicacion por defecto en caso que no tenga acceso a la ubicacion del navegador y
                     // en caso de seleccionar geoLocation volver a preguntar pedir permisos al navegador si aun no lo tiene.
-                    vm.geoLocation['lat'] = -31.4179952;
-                    vm.geoLocation['lat'] = -64.1890513;
+                    vm.search_location.geo_location['lat'] = -31.4179952;
+                    vm.search_location.geo_location['lat'] = -64.1890513;
                 }
 
-                vm.search_location.radius = 6000;
+                vm.map.bounds = vm.map.instance.getBounds();
+                //vm.search_location.bounds = vm.map.instance.getBounds();
 
                 initSearch();
 
@@ -439,6 +442,12 @@
             });
         }
 
+        $scope.$watch('vm.map.bounds', function(new_val, old_val){
+            vm.search_location.bounds = angular.copy(vm.map.bounds);
+            vm.search_location.changed_bounds = true;
+            vm.search_location.changed = true;
+        });
+
         function initSearch(){
             var lat = 0;
             var lng = 0;
@@ -446,30 +455,64 @@
 
             var sPageURL = window.location.search.substring(1);
             var sURLVariables = sPageURL.split('&');
-            var has_param_location = 0;
+
+            var has_param_bounds = 0;
+            var has_current_location = 0;
+            vm.map.bounds['northEast'] = {};
+            vm.map.bounds['southWest'] = {};
             for (var i = 1; i < sURLVariables.length; i++){
                 var sParameterName = sURLVariables[i].split('=');
                 switch(sParameterName[0]){
                     case "lat":
                         lat = Number(sParameterName[1]);
-                        has_param_location ++;
+                        has_current_location ++;
                         break;
                     case "lng":
                         lng = Number(sParameterName[1]);
-                        has_param_location ++;
+                        has_current_location ++;
                         break;
                     case "m":
                         m = Number(sParameterName[1]);
-                        has_param_location ++;
+                        has_current_location ++;
                         break;
                     case "q":
                         vm.q = sParameterName[0];
                         break;
+                    case "n":
+                        vm.map.bounds['northEast']['lat'] = sParameterName[0];
+                        has_param_bounds ++;
+                        break;
+                    case "s":
+                        vm.map.bounds['southWest']['lat'] = sParameterName[0];
+                        has_param_bounds ++;
+                        break;
+                    case "e":
+                        vm.map.bounds['northEast']['lng'] = sParameterName[0];
+                        has_param_bounds ++;
+                        break;
+                    case "w":
+                        vm.map.bounds['southWest']['lng'] = sParameterName[0];
+                        has_param_bounds ++;
+                        break;
                 }
             }
-            if(has_param_location == 3){
-                vm.search_location.location.lat = lat;
-                vm.search_location.location.lng = lng;
+
+            if(has_param_bounds == 4){
+
+                if(lat != '' && lng != ''){
+                    vm.search_location.current_location.lat = angular.copy(lat);
+                    vm.search_location.current_location.lng = angular.copy(lng);
+                }else{
+                    var map_center = vm.map.instance.getCenter();
+
+                    vm.search_location.current_location.lat = angular.copy(map_center.lat);
+                    vm.search_location.current_location.lng = angular.copy(map_center.lng);
+                }
+
+                getAdsearch(sPageURL.substring(2));
+            }else if(has_current_location == 3){
+                vm.search_location.current_location.lat = lat;
+                vm.search_location.current_location.lng = lng;
                 vm.search_location.radius = m;
                 getAdsearch(sPageURL.substring(2));
             }else{
@@ -523,6 +566,14 @@
          * Function to refresh result..
          */
         function refreshResults(){
+
+            if(vm.search_location.changed_bounds){
+                var map_center = vm.map.instance.getCenter();
+
+                vm.search_location.current_location.lat = angular.copy(map_center.lat);
+                vm.search_location.current_location.lng = angular.copy(map_center.lng);
+            }
+
             getAdsearch(getUrlParams());
         }
 
@@ -544,9 +595,18 @@
          * @returns {string}
          */
         function getUrlParams(){
-            var url = '&m=' + vm.search_location.radius +
-                '&lat=' + String(vm.search_location.location.lat) +
-                '&lng=' + vm.search_location.location.lng;
+            var url = "";
+            if(!vm.flag_custom_radius){
+                    url = '&n=' + String(vm.search_location.bounds['northEast']['lat']) + '&s=' +
+                        String(vm.search_location.bounds['southWest']['lat']) + '&e=' +
+                        String(vm.search_location.bounds['northEast']['lng']) + '&w=' +
+                        String(vm.search_location.bounds['southWest']['lng']);
+                }else{
+                url = '&m=' + vm.search_location.radius;
+            }
+
+            url += '&lat=' + String(vm.search_location.current_location.lat) +
+                '&lng=' + vm.search_location.current_location.lng;
 
             if(vm.q != '' && vm.q != undefined){
                 url += '&q=' + vm.q;

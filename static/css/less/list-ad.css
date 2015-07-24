@@ -28,6 +28,16 @@ body .navbar {
   -webkit-box-shadow: 0.5px 0.5px 1px 0.3px #b2b2b2;
   -moz-box-shadow: 0.5px 0.5px 1px 0.3px #b2b2b2;
   box-shadow: 0.5px 0.5px 1px 0.3px #b2b2b2;
+  z-index: 10 !important;
+  background-color: #E5E5E5;
+}
+html .navbar .topmenu-outer,
+body .navbar .topmenu-outer {
+  background-color: #E5E5E5;
+}
+html .horizontal-bar,
+body .horizontal-bar {
+  z-index: 9;
 }
 html .input-group-custom-addon.icon-addon.addon-sm,
 body .input-group-custom-addon.icon-addon.addon-sm {
@@ -100,13 +110,6 @@ body input[type='range']::-moz-range-thumb {
   #logo {
     margin-left: 15px;
   }
-}
-.navbar,
-.topmenu-outer {
-  background-color: #E5E5E5;
-}
-.navbar {
-  z-index: 400 !important;
 }
 .search-form {
   z-index: 500 !important;
@@ -249,7 +252,7 @@ html {
 }
 #data-filter-map {
   position: absolute;
-  z-index: 1001;
+  z-index: 2;
   left: 10px;
   width: 100%;
   padding: 10px;
@@ -259,18 +262,15 @@ html {
   -moz-box-shadow: 1px 1px 2px 0.5px #626060;
   box-shadow: 1px 1px 2px 0.5px #626060;
   background-color: rgba(255, 255, 255, 0.8);
-  padding-left: 0px;
-  padding-right: 0px;
-  padding-bottom: 5px;
+  padding: 0px;
   float: left;
   width: 410px;
   position: relative;
   min-height: 70px;
 }
 #data-filter-map #data-position-form #flag-custom-location {
-  position: absolute;
-  left: 45px;
-  bottom: 4px;
+  float: right;
+  margin-top: 4px;
 }
 #data-filter-map #data-position-form .input-group-custom-addon.icon-addon.addon-sm {
   color: #4e6c83;

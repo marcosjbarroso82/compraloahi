@@ -44,7 +44,17 @@ html, body{
 
   .navbar{
     .mixin-shadow-bottom(.5px, .5px, 1px, .3px, #B2B2B2);
+    z-index: 10 !important;
+    background-color: #E5E5E5;
+    .topmenu-outer{
+      background-color: #E5E5E5;
+    }
   }
+
+  .horizontal-bar{
+    z-index: 9;
+  }
+
 
   .input-group-custom-addon.icon-addon.addon-sm{
     position: relative;
@@ -124,13 +134,7 @@ html, body{
   }
 }
 
-.navbar, .topmenu-outer{
-  background-color: #E5E5E5;
-}
 
-.navbar{
-  z-index: 400 !important;
-}
 .search-form{
   z-index: 500 !important;
 }

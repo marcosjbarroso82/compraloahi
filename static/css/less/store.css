@@ -27,6 +27,16 @@ body .navbar {
   -webkit-box-shadow: 0.5px 0.5px 1px 0.3px #b2b2b2;
   -moz-box-shadow: 0.5px 0.5px 1px 0.3px #b2b2b2;
   box-shadow: 0.5px 0.5px 1px 0.3px #b2b2b2;
+  z-index: 10 !important;
+  background-color: #E5E5E5;
+}
+html .navbar .topmenu-outer,
+body .navbar .topmenu-outer {
+  background-color: #E5E5E5;
+}
+html .horizontal-bar,
+body .horizontal-bar {
+  z-index: 9;
 }
 html .input-group-custom-addon.icon-addon.addon-sm,
 body .input-group-custom-addon.icon-addon.addon-sm {
@@ -99,13 +109,6 @@ body input[type='range']::-moz-range-thumb {
   #logo {
     margin-left: 15px;
   }
-}
-.navbar,
-.topmenu-outer {
-  background-color: #E5E5E5;
-}
-.navbar {
-  z-index: 400 !important;
 }
 .search-form {
   z-index: 500 !important;

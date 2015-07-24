@@ -30,8 +30,8 @@
             </span>
         </div><!-- Input Group -->
         <input type="hidden" name="radius" ng-value="vm.search_location.radius"/>
-        <input type="hidden" name="lat" ng-value="vm.search_location.location.lat"/>
-        <input type="hidden" name="lng" ng-value="vm.search_location.location.lng"/>
+        <input type="hidden" name="lat" ng-value="vm.search_location.current_location.lat"/>
+        <input type="hidden" name="lng" ng-value="vm.search_location.current_location.lng"/>
     </form><!-- Search Form -->
 
 {% endblock %}
@@ -60,90 +60,91 @@
                 <google-places location="location_search_places" map="map" ></google-places>
 
                 <!-- RADIUS -->
-                <div ng-show="vm.flag_custom_radius">
-                    <div class="range range-success">
+                    <div class="range range-success" ng-show="vm.flag_custom_radius">
                         <input id="map_radius" class="col-md-8" type="range" name="map_radius" min="1000" max="6000" ng-model="vm.search_location.radius" >
                     </div>
-                    <div class="form-inline pull-right">
-                        <label class="label-dist" for="range">Distancia :</label>
-                        <output id="range" class="form-control">{{ vm.search_location.radius }}</output>
-                        <label class="label-dist">Mtrs</label>
+
+                    <div class="pull-right" style="width: 33%">
+                        <div  ng-show="vm.flag_custom_radius" class="form-inline">
+                            <label class="label-dist" for="range">Distancia :</label>
+                            <output id="range" class="form-control">{{ vm.search_location.radius }}</output>
+                            <label class="label-dist">Mtrs</label>
+                        </div>
                     </div>
-                </div>
-                <div id="flag-custom-location" >
-                    <input type="checkbox" ng-model="vm.flag_custom_radius" ng-change="vm.changeFlagCustomRadius()"/>
-                    <label for="">Rango avanzado</label>
-                </div>
-                {% endverbatim %}
 
-                <button class="btn btn-xs btn-info btn-data-position pull-right"
-                            tooltip="'Actualizar resultados'"
-                            placement="top"
-                            ng-show="vm.search_location.changed"
-                            ng-click="vm.refreshResults()">
-                        <i class="fa fa-refresh"></i>
-                </button>
 
-                <button class="btn btn-xs btn-success btn-data-position pull-right"
-                            tooltip="'Buscar en mi ubicacion actual'"
-                            placement="top"
-                            ng-click="vm.setGeoLocation()"
-                            ng-show="vm.geoLocation != vm.search_location.location">
-                        <i class="fa fa-map-marker"></i>
-                </button>
+                <div style="width: 65%" class="pull-left">
 
-                {% if user.is_authenticated %}
-                    {% verbatim %}
-                    <!-- ########################## USER LOCATIONS ########################## -->
-                    <div class="btn-group pull-left dropdown">
-                        <a class="btn btn-xs btn-data-position btn-primary dropdown-toggle waves-effect waves-button waves-classic" data-toggle="dropdown">
-                            <i class="fa fa-list-ul"
-                               tooltip="'Mis ubicaciones'"
-                               placement="top">
-                            </i>
-                        </a>
-
-                        <ul class="dropdown-menu dropdown-list user-location-list" role="menu" >
-                            <li role="presentation" ng-repeat="user_location in vm.user_locations" for="{{user_location}}" >
-                                <input type="radio"
-                                       name="selte"
-                                       ng-model="vm.user_location_selected"
-                                       ng-value="user_location"
-                                       id="{{user_location}}"
-                                        >
-                                {{ user_location.title }}
-                            </li>
-                            <li ng-if="vm.user_locations.lenght == 0">No tienes ubicaciones guardadas.</li>
-                            <li ng-if="vm.user_locations.lenght == 0">
-                                <span style="cursor: pointer"
-                                      class="btn-link"
-                                      data-toggle="modal"
-                                      data-target="#modalNewLocation"
-                                      tooltip="'Guarda tu ubicacion'"
-                                      placement="top"
-                                      ng-show="vm.search_location.changed">
-                                    Guardar ubicación actual
-                                </span>
-                            </li>
-                        </ul>
+                    <div id="flag-custom-location" >
+                        <input type="checkbox" ng-model="vm.flag_custom_radius" ng-change="vm.changeFlagCustomRadius()"/>
+                        <label for="">Rango avanzado</label>
                     </div>
-                    <!-- ########################## END USER LOCATIONS ########################## -->
+                    {% endverbatim %}
 
-                    <!-- ########################## SAVE NEW LOCATION ########################## -->
-
-                    <!-- BUTTON SAVE NEW LOCATION -->
-                    <button data-toggle="modal"
-                            class="btn btn-xs btn-primary btn-data-position pull-right"
-                            data-target="#modalNewLocation"
-                            tooltip="'Guarda la ubicacion'"
-                            ng-show="vm.search_location.changed">
-                        <i class="fa fa-floppy-o"></i>
+                    <button class="btn btn-xs btn-info btn-data-position pull-right"
+                                tooltip="'Actualizar resultados'"
+                                placement="top"
+                                ng-show="vm.search_location.changed"
+                                ng-click="vm.refreshResults()">
+                            <i class="fa fa-refresh"></i>
                     </button>
 
-                    <!-- END MODAL SAVE NEW LOCATION -->
-                    <!-- ########################## END SAVE NEW LOCATION ########################## -->
-                    {% endverbatim %}
-                {% endif %}
+                    <button class="btn btn-xs btn-success btn-data-position pull-right"
+                                tooltip="'Buscar en mi ubicacion actual'"
+                                placement="top"
+                                ng-click="vm.setGeoLocation()"
+                                ng-show="vm.search_location.current_location.lat != vm.search_location.geo_location.lat || vm.search_location.current_location.lng != vm.search_location.geo_location.lng">
+                            <i class="fa fa-map-marker"></i>
+                    </button>
+
+                    {% if user.is_authenticated %}
+                        {% verbatim %}
+                        <!-- ########################## USER LOCATIONS ########################## -->
+                        <div class="btn-group  dropdown">
+                            <a class="btn btn-xs btn-data-position btn-primary dropdown-toggle waves-effect waves-button waves-classic" data-toggle="dropdown">
+                                <i class="fa fa-list-ul"> </i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-list user-location-list" role="menu" >
+                                <li role="presentation" ng-repeat="user_location in vm.user_locations" for="{{user_location}}" >
+                                    <input type="radio"
+                                           name="{{user_location}}"
+                                           ng-model="vm.user_location_selected"
+                                           ng-value="user_location"
+                                           id="{{user_location}}">
+                                    <label for="{{user_location}}">{{ user_location.title }}</label>
+                                </li>
+                                <li ng-if="vm.user_locations.lenght == 0">No tienes ubicaciones guardadas.</li>
+                                <li ng-if="vm.user_locations.lenght == 0">
+                                    <span style="cursor: pointer"
+                                          class="btn-link"
+                                          data-toggle="modal"
+                                          data-target="#modalNewLocation"
+                                          tooltip="'Guarda tu ubicacion'"
+                                          placement="top"
+                                          ng-show="vm.search_location.changed">
+                                        Guardar ubicación actual
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- ########################## END USER LOCATIONS ########################## -->
+
+                        <!-- ########################## SAVE NEW LOCATION ########################## -->
+
+                        <!-- BUTTON SAVE NEW LOCATION -->
+                        <button data-toggle="modal"
+                                class="btn btn-xs btn-primary btn-data-position pull-right"
+                                data-target="#modalNewLocation"
+                                tooltip="'Guarda la ubicacion'"
+                                ng-show="vm.search_location.changed">
+                            <i class="fa fa-floppy-o"></i>
+                        </button>
+
+                        <!-- END MODAL SAVE NEW LOCATION -->
+                        <!-- ########################## END SAVE NEW LOCATION ########################## -->
+                        {% endverbatim %}
+                    {% endif %}
+                </div>
             </div>
             <!-- END DATA POSITION FORM -->
 
@@ -187,7 +188,7 @@
         </section>
 
 
-        <leaflet center="vm.map.center" defaults="vm.map.defaults" event-broadcast="vm.map.events" markers="vm.map.markers" width="100%" height="100%">
+        <leaflet id="searchMap" center="vm.map.center" defaults="vm.map.defaults" bounds="vm.map.bounds" event-broadcast="vm.map.events" markers="vm.map.markers" width="100%" height="100%">
 
         </leaflet>
 
@@ -286,8 +287,8 @@
                         <div class="form group">
                             <label for="">Datos de la ubicacion</label>
                             <ul>
-                                <li><strong>Latitude: </strong> {{ vm.search_location.location.lat }}</li>
-                                <li><strong>Longitude: </strong> {{ vm.search_location.location.lng }}</li>
+                                <li><strong>Latitude: </strong> {{ vm.search_location.current_location.lat }}</li>
+                                <li><strong>Longitude: </strong> {{ vm.search_location.current_location.lng }}</li>
                             </ul>
                         </div>
                     </div>
