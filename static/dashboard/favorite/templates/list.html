@@ -28,7 +28,7 @@
                     <td class="v-align-middle col-md-1" data-title="'Price'" sortable="'price'"> {{ ad.price| currency:"$" }}</td>
                     <td class="v-align-middle col-md-1" data-title="'Actions'">
                         <!-- delete -->
-                        <button class="btn btn-sm btn-default text-danger btn-actions"
+                        <button class="btn btn-sm btn-default text-danger btn-table"
                                 ng-really-message="Estas seguro que deseas quitar de favoritos el aviso {{ ad.title }} ?"
                                 ng-really-click="vm.remove_favorite(ad)"
                                 item="ad">

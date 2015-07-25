@@ -261,13 +261,6 @@ html {
 #container-profile-data #contact-number-list .input-contact-number {
   width: 175px;
 }
-#container-profile-data .btn-actions {
-  margin-top: 10px;
-}
-#container-profile-data .btn-actions button {
-  margin-bottom: 10px;
-  clear: right;
-}
 #container-locations-data {
   min-height: 480px;
 }
@@ -467,4 +460,45 @@ hr {
   -webkit-box-shadow: 0.5px 0.5px 1px 0.2px #dfdfdf;
   -moz-box-shadow: 0.5px 0.5px 1px 0.2px #dfdfdf;
   box-shadow: 0.5px 0.5px 1px 0.2px #dfdfdf;
+}
+.page-sidebar-inner .menu-icon {
+  font-size: 17px !important;
+}
+.page-sidebar-inner #btn-add-ad {
+  margin: 10px !important;
+  height: auto;
+  background-color: #fada44;
+  padding: 5px;
+  -webkit-box-shadow: 0.5px 0.5px 1px 0.2px #dfdfdf;
+  -moz-box-shadow: 0.5px 0.5px 1px 0.2px #dfdfdf;
+  box-shadow: 0.5px 0.5px 1px 0.2px #dfdfdf;
+  position: absolute;
+  left: 0px;
+}
+@media (max-width: 767px) {
+  .page-sidebar-inner #btn-add-ad {
+    width: 40px;
+    position: relative;
+  }
+  .page-sidebar-inner #btn-add-ad a {
+    text-align: center;
+  }
+}
+.page-sidebar-inner #btn-add-ad a {
+  padding: 5px !important;
+  width: 100%;
+  /*@media (max-width: 767px)*/
+}
+.page-sidebar-inner #btn-add-ad a span {
+  font-size: 20px !important;
+  margin-bottom: 0px !important;
+}
+.page-sidebar-inner #btn-add-ad a:hover {
+  color: #000000;
+  font-weight: bolder;
+}
+.btn-table {
+  border-radius: 50%;
+  height: 35px;
+  width: 35px;
 }

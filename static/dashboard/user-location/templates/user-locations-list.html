@@ -1,11 +1,7 @@
 <style>
-    .angular-google-map-container{
-        min-height: 400px !important;
-        width: 100%;
-    }
-
     .selected{
-        background-color: red;
+        background-color: #857bb8 !important;
+        color: white !important;
     }
 </style>
 
@@ -86,15 +82,15 @@
                     <td class="col-md-3">Acciones</td>
                     </thead>
                     <tbody>
-                    <tr ng-click="vm.selectLocation(loc)" ng-class="{'selected': vm.location == loc }" ng-repeat="loc in vm.locations" >
+                    <tr ng-click="vm.selectLocation(loc)" ng-class="{'selected': vm.isSelected(loc) }" ng-repeat="loc in vm.locations" >
                         <td class="col-md-9">{{ loc.title }}</td>
                         <td class="col-md-3">
-                            <button type="button" class="btn btn-sm btn-default" ng-click="vm.edit(loc)">
+                            <button type="button" class="btn btn-sm btn-default btn-table" ng-click="vm.edit(loc)">
                                 <i class="fa fa-pencil"
                                         tooltip="'Editar ubicacion'"
                                       placement="top"></i>
                             </button>
-                            <button type="button" class="btn btn-sm btn-default"
+                            <button type="button" class="btn btn-sm btn-default btn-table"
                                     ng-really-click="vm.delete(loc)"
                                     ng-really-message="Are you sure ?" >
                                 <i class="fa fa-trash-o"

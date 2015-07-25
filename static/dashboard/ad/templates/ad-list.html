@@ -46,18 +46,18 @@
 
                             <!-- view detail -->
                             <a href="/ad/{{ ad.slug }}"
-                               class="btn btn-sm btn-default text-success btn-actions"
+                               class="btn btn-sm btn-default text-success btn-table"
                                     tooltip="'Ir al detalle'" placement="top">
                                 <span class="fa fa-eye"></span>
                             </a>
                             <!-- update -->
                             <button ui-sref="ad-update({id:{{ ad.id }}})"
-                               class="btn btn-sm text-warning btn-default btn-actions"
+                               class="btn btn-sm text-warning btn-default btn-table"
                                     tooltip="'Editar aviso'" placement="top">
                                 <span class="fa fa-pencil"></span>
                             </button>
                             <!-- delete -->
-                            <button class="btn btn-sm btn-default text-danger btn-actions"
+                            <button class="btn btn-sm btn-default text-danger btn-table"
                                     ng-really-message="Estas seguro que deseas borrar el aviso {{ ad.title }} ?"
                                     ng-really-click="vm.destroy(ad)"
                                     item="ad">
