@@ -276,6 +276,7 @@ html {
   top: 0px;
   left: 0px;
   position: absolute;
+  height: 400px;
 }
 #container-locations-data #content-header-forms-location {
   height: 35px;

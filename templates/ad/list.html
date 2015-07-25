@@ -64,28 +64,29 @@
                         <input id="map_radius" class="col-md-8" type="range" name="map_radius" min="1000" max="6000" ng-model="vm.search_location.radius" >
                     </div>
 
-                    <div class="pull-right" style="width: 33%">
+                    <div class="pull-right" style="width: 20%">
                         <div  ng-show="vm.flag_custom_radius" class="form-inline">
-                            <label class="label-dist" for="range">Distancia :</label>
+                            <!--<label class="label-dist" for="range">Distancia :</label>-->
                             <output id="range" class="form-control">{{ vm.search_location.radius }}</output>
                             <label class="label-dist">Mtrs</label>
                         </div>
                     </div>
 
 
-                <div style="width: 65%" class="pull-left">
+                <div style="width: 77%" class="pull-left">
 
                     <div id="flag-custom-location" >
                         <input type="checkbox" ng-model="vm.flag_custom_radius" ng-change="vm.changeFlagCustomRadius()"/>
-                        <label for="">Rango avanzado</label>
+                        <label for="">Distancia avanzada</label>
                     </div>
                     {% endverbatim %}
 
                     <button class="btn btn-xs btn-info btn-data-position pull-right"
                                 tooltip="'Actualizar resultados'"
                                 placement="top"
-                                ng-show="vm.search_location.changed"
+
                                 ng-click="vm.refreshResults()">
+                        <!--ng-show="vm.search_location.changed || vm.search_location.changed_bounds" TODO: Verificar porq Siembre es true-->
                             <i class="fa fa-refresh"></i>
                     </button>
 
@@ -105,26 +106,15 @@
                                 <i class="fa fa-list-ul"> </i>
                             </a>
                             <ul class="dropdown-menu dropdown-list user-location-list" role="menu" >
-                                <li role="presentation" ng-repeat="user_location in vm.user_locations" for="{{user_location}}" >
+                                <li role="presentation" ng-repeat="user_location in vm.user_locations" for="{{::user_location}}" >
                                     <input type="radio"
-                                           name="{{user_location}}"
+                                           name="{{::user_location}}"
                                            ng-model="vm.user_location_selected"
                                            ng-value="user_location"
-                                           id="{{user_location}}">
-                                    <label for="{{user_location}}">{{ user_location.title }}</label>
+                                           id="{{::user_location}}">
+                                    <label for="{{::user_location}}">{{ user_location.title }}</label>
                                 </li>
-                                <li ng-if="vm.user_locations.lenght == 0">No tienes ubicaciones guardadas.</li>
-                                <li ng-if="vm.user_locations.lenght == 0">
-                                    <span style="cursor: pointer"
-                                          class="btn-link"
-                                          data-toggle="modal"
-                                          data-target="#modalNewLocation"
-                                          tooltip="'Guarda tu ubicacion'"
-                                          placement="top"
-                                          ng-show="vm.search_location.changed">
-                                        Guardar ubicación actual
-                                    </span>
-                                </li>
+                                <li role="presentation" ng-if="vm.user_locations.length == 0">No tienes ubicaciones guardadas.</li>
                             </ul>
                         </div>
                         <!-- ########################## END USER LOCATIONS ########################## -->
@@ -136,7 +126,7 @@
                                 class="btn btn-xs btn-primary btn-data-position pull-right"
                                 data-target="#modalNewLocation"
                                 tooltip="'Guarda la ubicacion'"
-                                ng-show="vm.search_location.changed">
+                                ng-show="vm.canSaveLocation()">
                             <i class="fa fa-floppy-o"></i>
                         </button>
 
@@ -242,19 +232,17 @@
                     <span class="price-ads-list pull-right">${{ ad.price }}<sup>99</sup></span>
                     <a class="locate-it btn" ng-click="vm.centerMap(ad.center)" ><span style="font-size: 20px; color: #07355b;">{{ $index + 1 }}</span></a>
                 </div>
-                <div class="col-md-12">
+                <div class="col-md-12" ng-show="vm.ads.length == 0">
                     <p>No hay avisos con los en la ubicacion elegida..</p>
                 </div>
 
             </div>
 
             <!-- PAGINATION ADs LIST -->
-            <div class="pagination pull-right" id="pagination">
-                <div class="pagination">
-                    <li class="pull-right"><a ng-disabled="!vm.next_page" ng-click="vm.getAdsByPage(vm.next_page)" class="btn btn-default">Pagina siguiente {{ next_page }} <i class="glyphicon glyphicon-chevron-right"></i>  </a></li>
-                    <li  class="pull-right"><a ng-disabled="!vm.prev_page" ng-click="vm.getAdsByPage(vm.prev_page)" class="btn btn-default"> <i class="glyphicon glyphicon-chevron-left"></i> Pagina anterior {{ prev_page }}</a></li>
-                </div>
-            </div>
+            <ul class="pagination col-md-12" id="pagination" class="col-md-12 row">
+                <li class="pull-right"><a ng-disabled="!vm.next_page" ng-click="vm.getAdsByPage(vm.next_page)" class="btn btn-default">Pagina siguiente {{ next_page }} <i class="glyphicon glyphicon-chevron-right"></i>  </a></li>
+                <li  class="pull-left"><a ng-disabled="!vm.prev_page" ng-click="vm.getAdsByPage(vm.prev_page)" class="btn btn-default"> <i class="glyphicon glyphicon-chevron-left"></i> Pagina anterior {{ prev_page }}</a></li>
+            </ul>
         </div>
         {% endverbatim %}
 

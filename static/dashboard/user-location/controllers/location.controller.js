@@ -9,15 +9,15 @@
         .module('dashBoardApp.userLocation.controllers')
         .controller('UserLocationCtrl', UserLocationCtrl);
 
-    UserLocationCtrl.$inject = ['$scope', 'UserLocations', 'AlertNotification'];
+    UserLocationCtrl.$inject = ['$scope', 'UserLocations', 'AlertNotification', 'leafletEvents', 'leafletData', 'ngDialog'];
 
     /**
      * @namespace UserLocationCtrl
      */
-    function UserLocationCtrl($scope, UserLocations, AlertNotification) {
+    function UserLocationCtrl($scope, UserLocations, AlertNotification, leafletEvents, leafletData, ngDialog) {
         var vm = this;
-        
-        
+
+
         // Declare functions
         vm.submit = submit;
         vm.edit = edit;
@@ -31,27 +31,28 @@
 
         vm.locations = [];
         vm.location = {};
-        
-        // TODO: provide a proper map center location
-        $scope.map = {center: {latitude: -31.4179952, longitude: -64.1890513 }, zoom: 9 };
-        $scope.options = {scrollwheel: false};
 
-        vm.location_options = {
-            stroke: {
-                color: '#08B21F',
-                weight: 2,
-                opacity: 1
+
+        vm.map = {
+            center: {
+                autoDiscover: true, // Request locations by browser
+                zoom: 14
             },
-            fill: {
-                color: '#08B21F',
-                opacity: 0.5
+            events: {
+                markers: {
+                    enable: leafletEvents.getAvailableMarkerEvents()
+                }
             },
-            geodesic: true, // optional: defaults to false
-            draggable: true, // optional: defaults to false
-            clickable: true, // optional: defaults to true
-            editable: true, // optional: defaults to false
-            visible: true // optional: defaults to true
+            bounds: {},
+            defaults: {
+                maxZoom: 14,
+                minZoom: 12,
+                tileLayer: "http://otile2.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png",
+                zoomControl: false
+            },
+            markers: {}
         };
+
 
         $scope.location_places = {};
 
@@ -59,11 +60,12 @@
         activate();
 
         function activate(){
+
             vm.promiseRequest = UserLocations.list().then(getLocationsSuccess, getLocationsError);
 
             function getLocationsSuccess(data){
                 vm.locations = data.data;
-                resetLocations();
+                initMap();
             }
 
             function getLocationsError(data){
@@ -71,22 +73,74 @@
             }
         }
 
+        function initMap(){
+            leafletData.getMap("location-map").then(function(map) {
+                vm.map.instance = map;
+
+                vm.geo_location = {};
+                if(map._initialCenter){
+                    vm.geo_location['lat'] = angular.copy(map._initialCenter.lat);
+                    vm.geo_location['lng'] = angular.copy(map._initialCenter.lng);
+                }else{
+                    // TODO: Quitar ubicacion por defecto en caso que no tenga acceso a la ubicacion del navegador y
+                    // en caso de seleccionar geoLocation volver a preguntar pedir permisos al navegador si aun no lo tiene.
+                    vm.search_location.geo_location['lat'] = -31.4179952;
+                    vm.search_location.geo_location['lat'] = -64.1890513;
+                }
+                createMapLocation(vm.locations[0]['lat'], vm.locations[0]['lng'], vm.locations[0]['radius']);
+            });
+        }
+
+        function createMapLocation(lat, lng, radius){
+            vm.selected_loc = angular.copy(vm.locations[0]);
+            var marker = {
+                lat: lat,
+                lng: lng,
+                icon: {
+                    iconUrl: '/static/image/compraloahi_marker.svg',
+                    shadowUrl: '/static/image/markers-shadow.png',
+                    iconSize: [35, 45],  // size of the icon
+                    iconAnchor:   [17, 42], // point of the icon which will correspond to marker's location
+                    popupAnchor: [1, -32], // point from which the popup should open relative to the iconAnchor
+                    shadowAnchor: [10, 12], // the same for the shadow
+                    shadowSize: [36, 16] // size of the shadow
+                }
+            };
+            vm.map.markers["loc_selected"] = marker;
+            vm.map.center.lat = angular.copy(lat);
+            vm.map.center.lng = angular.copy(lng);
+
+            vm.map.radius = L.circle([lat, lng], angular.copy(radius)).addTo(vm.map.instance);
+        }
+
+        vm.selectLocation = selectLocation;
+
+        function selectLocation(loc){
+
+            vm.location = angular.copy(loc);
+            vm.map.markers['loc_selected']['lat'] = angular.copy(loc['lat']);
+            vm.map.markers['loc_selected']['lng'] = angular.copy(loc['lng']);
+
+            vm.map.center.lat = angular.copy(loc.lat);
+            vm.map.center.lng = angular.copy(loc.lng);
+
+            vm.map.radius.setRadius(angular.copy(loc['radius']));
+            vm.map.radius.setLatLng([angular.copy(loc['lat']), angular.copy(loc['lng'])]);
+
+        }
+
+
         $scope.$watch('location_places', function(val, old_val){
-           if($scope.location_places.geometry){
-               vm.location.lat = angular.copy($scope.location_places.geometry.location.lat());
-               vm.location.lng = angular.copy($scope.location_places.geometry.location.lng());
-               //vm.location.title = angular.copy($scope.location_places.formatted_address);
-               vm.location.center = {};
-               vm.location.center.latitude = angular.copy($scope.location_places.geometry.location.lat());
-               vm.location.center.longitude = angular.copy($scope.location_places.geometry.location.lng());
-           }
+            if($scope.location_places.geometry){
+                vm.location.lat = angular.copy($scope.location_places.geometry.location.lat());
+                vm.location.lng = angular.copy($scope.location_places.geometry.location.lng());
+                //vm.location.title = angular.copy($scope.location_places.formatted_address);
+                vm.location.center = {};
+                vm.location.center.latitude = angular.copy($scope.location_places.geometry.location.lat());
+                vm.location.center.longitude = angular.copy($scope.location_places.geometry.location.lng());
+            }
         });
 
-        function hideLocations() {
-            for (var i=0; i < vm.locations.length; i++) {
-                vm.locations[i].visible = false;
-            }
-        }
 
         function resetLocations() {
             // clean search places text box
@@ -120,15 +174,44 @@
             resetLocations();
         }
 
+        $scope.$watch('vm.location.radius',function(val,old){
+            if(val != old){
+                vm.location.radius = parseInt(val);
+
+                vm.map.radius.setRadius(vm.location.radius);
+            }
+        });
+
         function add(){
             vm.flag_create = true;
-            hideLocations();
-            vm.location = {radius: 10000, center: {}};
-            vm.location.center.latitude = $scope.map.center.latitude;
-            vm.location.center.longitude = $scope.map.center.longitude;
-            vm.location.visible = true;
-            vm.location.draggable = true;
-            vm.location.editable = true;
+
+            vm.selected_loc = angular.copy(vm.geo_location);
+            vm.map.markers['loc_selected']['lat'] = angular.copy(vm.geo_location['lat']);
+            vm.map.markers['loc_selected']['lng'] = angular.copy(vm.geo_location['lng']);
+
+            vm.map.center.lat = angular.copy(vm.geo_location.lat);
+            vm.map.center.lng = angular.copy(vm.geo_location.lng);
+
+            vm.map.radius.setRadius(angular.copy(6000));
+            vm.map.radius.setLatLng([angular.copy(vm.geo_location['lat']), angular.copy(vm.geo_location['lng'])]);
+
+            /*ngDialog.openConfirm({
+                className: 'ngdialog-theme-plain',
+                template: '<div class="dialog-contents">\
+                            <p><i class="fa fa-question-circle"> </i> ¿Desea utilizar su ubicacion?</p>\
+                            <div class="ngdialog-buttons">\
+                                <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog(0)">CANCEL</button>\
+                                <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="confirm(1)">OK</button>\
+                            </div> </div>',
+                plain: true
+            }).then(function (data) {
+                if(data == 1){
+                    console.log("USAR UBICACION");
+                }else{
+                    console.log("NO USAR UBICACION");
+                }
+            });*/
+
         }
 
         function cancelLocation(){
@@ -158,7 +241,7 @@
 
             function submitError(data){
                 if(vm.flag_update){
-                     AlertNotification.error("Error al intentar editar la ubicacion seleccionada");
+                    AlertNotification.error("Error al intentar editar la ubicacion seleccionada");
                 }else{
                     AlertNotification.error("Error al intentar agregar una nueva ubicacion");
                 }
@@ -170,18 +253,7 @@
          * @Desc
          *
          */
-        function edit(location){
-            resetLocations();
-            hideLocations();
-            location.lat_original = location.lat;
-            location.lng_original = location.lng;
-            location.radius_original = location.radius;
-            vm.location = location;
-            $scope.map.center.latitude = vm.location.center.latitude;
-            $scope.map.center.longitude = vm.location.center.longitude;
-            location.draggable = true;
-            location.editable = true;
-            location.visible = true;
+        function edit(){
             vm.flag_update = true;
         }
 

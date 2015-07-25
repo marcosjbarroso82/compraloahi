@@ -12,8 +12,9 @@
             'angularValidator',
             'nsPopover',
             'ng-currency',
-            'uiGmapgoogle-maps',
             'ngTable',
+            'leaflet-directive',
+
             // My lib
             'dashBoardApp.authentication',
             'dashBoardApp.layout',

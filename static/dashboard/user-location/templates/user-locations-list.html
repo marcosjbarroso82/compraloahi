@@ -3,6 +3,10 @@
         min-height: 400px !important;
         width: 100%;
     }
+
+    .selected{
+        background-color: red;
+    }
 </style>
 
 <div class="panel panel-white">
@@ -39,18 +43,19 @@
                 <!-- Radius -->
                 <div class="col-md-12" >
                     <div class="range range-success">
-                        <input id="map-radius" class="col-md-8" type="range" name="map_radius" min="1000" max="10000" ng-model="location.radius" >
+                        <input id="map-radius" class="col-md-8" type="range" name="map_radius" min="1000" max="10000" ng-model="vm.location.radius" >
                     </div>
                     <div class="form-inline pull-right col-md-12">
-                        <p class="data-point pull-left"><strong>Lat :</strong> {{ location.center.latitude | number : 4}} || <strong>Log :</strong> {{ location.center.longitude | number : 4}}</p>
+                        <p class="data-point pull-left"><strong>Lat :</strong> {{ vm.location.lat | number : 4}} || <strong>Log :</strong> {{ vm.location.lng | number : 4}}</p>
 
                         <label class="label-dist pull-right">Mtrs</label>
-                        <output id="range" class="form-control pull-right">{{ location.radius }}</output>
+                        <output id="range" class="form-control pull-right">{{ vm.location.radius }}</output>
                         <label class="label-dist pull-right" for="range">Distancia :</label>
                     </div>
                 </div>
             </div>
-            <ui-gmap-google-map id="location-map"  center="map.center" zoom="map.zoom" draggable="true" options="options">
+
+            <!--<ui-gmap-google-map id="location-map"  center="map.center" zoom="map.zoom" draggable="true" options="options">
                 <ui-gmap-circle ng-repeat="location in vm.locations track by location.id"
                                 center="location.center"
 
@@ -64,7 +69,12 @@
                                 clickable="vm.location_options.clickable">
 
                 </ui-gmap-circle>
-            </ui-gmap-google-map>
+            </ui-gmap-google-map>-->
+
+
+            <leaflet id="location-map" center="vm.map.center" defaults="vm.map.defaults" bounds="vm.map.bounds" event-broadcast="vm.map.events" markers="vm.map.markers">
+
+            </leaflet>
         </div>
 
         <div class="col-md-6">
@@ -76,7 +86,7 @@
                     <td class="col-md-3">Acciones</td>
                     </thead>
                     <tbody>
-                    <tr ng-class-odd="'odd'" ng-class-even="'even'" ng-repeat="loc in vm.locations" ng-click="vm.location = loc;">
+                    <tr ng-click="vm.selectLocation(loc)" ng-class="{'selected': vm.location == loc }" ng-repeat="loc in vm.locations" >
                         <td class="col-md-9">{{ loc.title }}</td>
                         <td class="col-md-3">
                             <button type="button" class="btn btn-sm btn-default" ng-click="vm.edit(loc)">
