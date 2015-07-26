@@ -370,6 +370,8 @@
             }
         }
 
+
+
         /**
          * Create marker to represents ads
          */
@@ -402,7 +404,7 @@
                     shadowUrl: '/static/image/markers-shadow.png',
                     iconSize: [35, 45],  // size of the icon
                     iconAnchor:   [17, 42], // point of the icon which will correspond to marker's location
-                    popupAnchor: [1, -32], // point from which the popup should open relative to the iconAnchor
+                    popupAnchor: [1, -32], // point from whtich the popup should open relative to the iconAnchor
                     shadowAnchor: [10, 12], // the same for the shadow
                     shadowSize: [36, 16] // size of the shadow
                 }

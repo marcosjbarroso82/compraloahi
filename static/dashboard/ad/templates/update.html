@@ -254,10 +254,10 @@
                         <h5>Informacion General :</h5>
                         <ul>
                             <li>
-                                <b>Latitude </b> {{ vm.location.center.latitude }}
+                                <b>Latitude </b> {{ vm.location.lat }}
                             </li>
                             <li>
-                                <b>Longitude </b> {{ vm.location.center.longitude }}
+                                <b>Longitude </b> {{ vm.location.lng }}
                             </li>
                         </ul>
                     </div>
@@ -273,14 +273,14 @@
                             <input type="hidden"
                                    name="location"
                                    ng-model="location_places"
-                                   validator="vm.location.center.latitude"
+                                   validator="vm.location.lat"
                                    invalid-message="'Ingresa la direccion exacta, o selecciona una de las que ya tienes.'"/>
                         </div>
                     </div>
 
-                    <ui-gmap-google-map id="location-map"  center="map.center" zoom="map.zoom" draggable="false" options="options">
-                        <ui-gmap-marker idkey="1" coords="location.center" draggable="true"></ui-gmap-marker>
-                    </ui-gmap-google-map>
+                    <leaflet id="location-map" center="vm.map.center" defaults="vm.map.defaults" bounds="vm.map.bounds" event-broadcast="vm.map.events" markers="vm.map.markers" width="100%" height="100%">
+
+                    </leaflet>
                 </div>
             </div>
         </div>

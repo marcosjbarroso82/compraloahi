@@ -36,7 +36,7 @@ class AdLocationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = AdLocation
-        fields = ('title', 'lat', 'lng', 'id')
+        fields = ('title', 'lat', 'lng', 'id', 'ad')
 
     # def get_center(self, obj):
     #     return obj.center()

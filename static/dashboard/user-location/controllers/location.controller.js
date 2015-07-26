@@ -47,7 +47,7 @@
             },
             bounds: {},
             defaults: {
-                maxZoom: 14,
+                maxZoom: 15,
                 minZoom: 12,
                 tileLayer: "http://otile2.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png",
                 zoomControl: false
@@ -96,7 +96,6 @@
                     createMapLocation(vm.locations[0]['lat'], vm.locations[0]['lng'], vm.locations[0]['radius']);
                     vm.location = angular.copy(vm.locations[0]);
                 }
-
             });
         }
 

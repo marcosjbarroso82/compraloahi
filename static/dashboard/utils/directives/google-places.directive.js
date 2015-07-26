@@ -23,19 +23,10 @@
                 var autocomplete = new google.maps.places.Autocomplete($("#google_places_ac")[0], {});
                 google.maps.event.addListener(autocomplete, 'place_changed', function() {
                     var place = autocomplete.getPlace();
-
                     if(place.geometry){
-                        $scope.location = angular.copy(place);
-                        //$scope.location.lat = place.geometry.location.lat();
-                        //$scope.location.lng = place.geometry.location.lng();
-                        //$scope.location.center = {};
-                        //$scope.location.center.latitude = place.geometry.location.lat();
-                        //$scope.location.center.longitude = place.geometry.location.lng();
-
-                        //$scope.map.center.latitude = angular.copy(place.geometry.location.A);
-                        //$scope.map.center.longitude = angular.copy(place.geometry.location.F);
-
-                        $scope.$apply();
+                        $scope.$apply(function(){
+                            $scope.location = angular.copy(place);
+                        });
                     }
 
                 });
