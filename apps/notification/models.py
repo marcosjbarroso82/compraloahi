@@ -127,7 +127,11 @@ def notification_post_save(sender, *args, **kwargs):
 
         if config and config.has_perm(notification.type, 'email'):
             print("Enviando email.....")
-            html_content = notification.message
+            url = notification.extras.get('url')
+            if url:
+                html_content = notification.message + "\b" + "Ingresa a el siguiente link para ver la notificacion http:://compraloahi.com.ar/" + url
+            else:
+                html_content = notification.message
             msg = EmailMultiAlternatives('Compraloahi - Notifications',
                                               html_content,
                                               'notification@compraloahi.com.ar',
@@ -145,6 +149,20 @@ def create_config_notification(sender, *args, **kwargs):
         ConfigNotification(user=user, config=CONFIG_NOTIFICATION).save()
 
 
+#TODO: De aca para abajo hay que eliminarlo cuando se pueda ejecutar el archivo receiver de este modulo
+from apps.ad.models import Ad
+from django_comments_xtd.models import XtdComment
 
+
+@receiver(post_save, sender=XtdComment, dispatch_uid='XTDCommentPostSave')
+def handle_xtd_comment_post_save(sender, *args, **kwargs):
+    comment = kwargs['instance']
+    if (comment.level == 0 and not kwargs['created']):
+
+        ad = Ad.objects.get(pk=comment.object_pk)
+        url =  'ad/' + str(ad.slug) + '/'
+
+        Notification(receiver=ad.author, type='cmmt', message="Nuevo comentario en el aviso " + str(ad.title),
+                     extras={"comment": str(comment), "url": url, "ad": comment.object_pk }).save()
 
 

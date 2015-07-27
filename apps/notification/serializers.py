@@ -4,7 +4,7 @@ from rest_framework import serializers
 from push_notifications.models import GCMDevice
 
 
-from .models import Notification, ConfigNotification, TYPE_NOTIFICATION, CANAL_NOTIFICATION
+from .models import Notification, ConfigNotification, TYPE_NOTIFICATION
 
 
 class DeviceSerializer(serializers.ModelSerializer):
