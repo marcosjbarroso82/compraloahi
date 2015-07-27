@@ -9,7 +9,7 @@
     </div>
     <div class="col-md-2">
         <ul class="list-unstyled mailbox-nav">
-            <li><a ui-sref="messages({'folder': 'inbox'})" ><i class="fa fa-inbox"></i>Bandeja <span class="badge badge-success pull-right">4</span></a></li>
+            <li><a ui-sref="messages({'folder': 'inbox'})" ><i class="fa fa-inbox"></i>Bandeja <span class="badge badge-success pull-right">{{ vm.msgs_unread_count }}</span></a></li>
             <li><a ui-sref="messages({'folder': 'sent'})"><i class="fa fa-sign-out"></i>Enviados</a></li>
             <li><a ui-sref="messages({'folder': 'trash'})" ><i class="fa fa-trash"></i>Papelera</a></li>
         </ul>

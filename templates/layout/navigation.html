@@ -10,14 +10,16 @@
         </div><!-- Logo Box -->
         <div class="nav-user-dropdown-responsive ">
             <a class="waves-effect waves-button waves-classic a">
+            {% load msg_tags %}
                 {% if user.is_authenticated %}
+
                     <div class="nav-user-dropdown-responsive dropdown">
                         <a href="#" class="a dropdown-toggle waves-effect waves-button waves-classic" data-toggle="dropdown">
                             <img class="img-circle avatar" src="{{ user.profile.image.url }}" width="40" height="40" alt="">
                         </a>
                         <ul class="dropdown-menu dropdown-menu-right dropdown-list" role="menu">
                             <li role="presentation"><a href="/panel/user/profile/"><i class="fa fa-user"></i>Perfil</a></li>
-                            <li role="presentation"><a href="/panel/mensajes/?folder=inbox"><i class="fa fa-envelope"></i>Bandeja<span class="badge badge-success pull-right">4</span></a></li>
+                            <li role="presentation"><a href="/panel/mensajes/?folder=inbox"><i class="fa fa-envelope"></i>Bandeja<span class="badge badge-success pull-right">{% get_msgs_unread_count %}</span></a></li>
                             <li role="presentation" class="divider"></li>
                             <li role="presentation"><a href="{% url 'my-user:my-logout' %}"><i class="fa fa-sign-out m-r-xs"></i>Salir</a></li>
                         </ul>
@@ -42,7 +44,7 @@
                     </li>-->
 
                     {% if user.is_authenticated %}
-                        {% load msg_tags %}
+
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle waves-effect waves-button waves-classic" data-toggle="dropdown"><i class="fa fa-envelope"></i><span class="badge badge-success pull-right">{% get_msgs_unread_count %}</span></a>
                             <ul class="dropdown-menu title-caret dropdown-lg" role="menu">
@@ -112,7 +114,7 @@
                             </a>
                             <ul class="dropdown-menu dropdown-list" role="menu">
                                 <li role="presentation"><a href="/panel/user/profile/"><i class="fa fa-user"></i>Perfil</a></li>
-                                <li role="presentation"><a href="/panel/mensajes/?folder=inbox"><i class="fa fa-envelope"></i>Bandeja<span class="badge badge-success pull-right">4</span></a></li>
+                                <li role="presentation"><a href="/panel/mensajes/?folder=inbox"><i class="fa fa-envelope"></i>Bandeja<span class="badge badge-success pull-right">{% get_msgs_unread_count %}</span></a></li>
                                 <li role="presentation" class="divider"></li>
                                 <li role="presentation"><a href="{% url 'my-user:my-logout' %}"><i class="fa fa-sign-out m-r-xs"></i>Salir</a></li>
                             </ul>

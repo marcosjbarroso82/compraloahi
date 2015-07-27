@@ -10,16 +10,18 @@ var debug = {};
         .module('dashBoardApp.message.controllers')
         .controller('MessageThreadCtrl', MessageThreadCtrl);
 
-    MessageThreadCtrl.$inject = ['Message', '$stateParams', 'AlertNotification'];
+    MessageThreadCtrl.$inject = ['Message', '$stateParams', 'AlertNotification', 'Authentication'];
 
     /**
      * @namespace MessageThreadCtrl
      */
-    function MessageThreadCtrl(Message, $stateParams, AlertNotification) {
+    function MessageThreadCtrl(Message, $stateParams, AlertNotification, Authentication) {
         var vm = this;
         vm.thread = [];
         vm.msgReply = {};
-        vm.message_id;
+        vm.message_id = "";
+
+        vm.msgs_unread_count = Authentication.msg_unread;
 
         vm.loadMessageThread = function(id){
             vm.message_id = id;

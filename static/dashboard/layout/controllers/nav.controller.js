@@ -24,7 +24,6 @@
         vm.profile = Authentication.profile;
 
         function logout(){
-            console.log("LOGOUT");
             Authentication.unauthenticate();
             window.location = '/users/logout/';
         }

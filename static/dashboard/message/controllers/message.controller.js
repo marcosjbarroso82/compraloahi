@@ -9,12 +9,12 @@
         .module('dashBoardApp.message.controllers')
         .controller('MessageCtrl', MessageCtrl);
 
-    MessageCtrl.$inject = ['Message', 'AlertNotification', '$stateParams'];
+    MessageCtrl.$inject = ['Message', 'AlertNotification', '$stateParams', 'Authentication'];
 
     /**
      * @namespace MessageCtrl
      */
-    function MessageCtrl(Message, AlertNotification, $stateParams) {
+    function MessageCtrl(Message, AlertNotification, $stateParams, Authentication) {
         var vm = this;
 
         // Declare functions
@@ -24,7 +24,7 @@
         vm.delete_bulk = delete_bulk;
         vm.set_read_bulk = set_read_bulk;
 
-
+        vm.msgs_unread_count = Authentication.msg_unread;
         // Declare vars
         vm.messages = [];
         vm.message = {};
