@@ -20,6 +20,7 @@
         vm.logout = logout;
 
         vm.msg_unread = Authentication.msg_unread;
+        vm.notification_unread = Authentication.notification_unread;
         vm.profile = Authentication.profile;
 
         function logout(){

@@ -40,80 +40,69 @@
                     <!--<li>
                         <a href="javascript:void(0);" class="waves-effect waves-button waves-classic show-search"><i class="fa fa-search"></i></a>
                     </li>-->
+
                     {% if user.is_authenticated %}
+                        {% load msg_tags %}
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle waves-effect waves-button waves-classic" data-toggle="dropdown"><i class="fa fa-envelope"></i><span class="badge badge-success pull-right">4</span></a>
+                            <a href="#" class="dropdown-toggle waves-effect waves-button waves-classic" data-toggle="dropdown"><i class="fa fa-envelope"></i><span class="badge badge-success pull-right">{% get_msgs_unread_count %}</span></a>
                             <ul class="dropdown-menu title-caret dropdown-lg" role="menu">
-                                <li><p class="drop-title">You have 4 new  messages !</p></li>
+                                <li><p class="drop-title">Tienes {% get_msgs_unread_count %} mensajes nuevos !</p></li>
                                 <li class="dropdown-menu-list slimscroll messages">
                                     <ul class="list-unstyled">
-                                        <li>
-                                            <a href="#">
-                                                <div class="msg-img"><div class="online off"></div><img class="img-circle" src="/static/image/img-default-profile.jpg" alt=""></div>
-                                                <p class="msg-name">Christopher Palmer</p>
-                                                <p class="msg-text">See you soon !</p>
-                                                <p class="msg-time">56 minutes ago</p>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <div class="msg-img"><div class="online on"></div><img class="img-circle" src="/static/image/img-default-profile.jpg" alt=""></div>
-                                                <p class="msg-name">Nick Doe</p>
-                                                <p class="msg-text">Nice to meet you</p>
-                                                <p class="msg-time">2 hours ago</p>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <div class="msg-img"><div class="online on"></div><img class="img-circle" src="/static/image/img-default-profile.jpg" alt=""></div>
-                                                <p class="msg-name">Sandra Smith</p>
-                                                <p class="msg-text">Hey ! I'm working on your project</p>
-                                                <p class="msg-time">5 hours ago</p>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <div class="msg-img"><div class="online off"></div><img class="img-circle" src="/static/image/img-default-profile.jpg" alt=""></div>
-                                                <p class="msg-name">Amily Lee</p>
-                                                <p class="msg-text">Hi David !</p>
-                                                <p class="msg-time">9 hours ago</p>
-                                            </a>
-                                        </li>
+                                        {% get_msgs_unread_list %}
+                                        {% if msgs %}
+                                            {% for msg in msgs %}
+                                                 <li>
+                                                    <a href="http://127.0.0.1:8000/panel/mensajes/hilo/{% if msg.thread %}{{ msg.thread }}{% else %}{{ msg.id }}{% endif %}">
+                                                        <div class="msg-img"><div class="online off"></div><img class="img-circle" src="/static/image/img-default-profile.jpg" alt=""></div>
+                                                        <p class="msg-name">{{ msg.sender }}</p>
+                                                        <p class="msg-text">{{ msg.subject }}</p>
+                                                        <p class="msg-time">{{ msg.sent_at }}</p>
+                                                    </a>
+                                                </li>
+                                            {% endfor %}
+                                        {% endif %}
                                     </ul>
                                 </li>
-                                <li class="drop-all"><a href="#" class="text-center">All Messages</a></li>
+                                <li class="drop-all"><a href="/panel/mensajes/?folder=inbox" class="text-center">Todos los mensajes</a></li>
                             </ul>
                         </li>
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle waves-effect waves-button waves-classic" data-toggle="dropdown"><i class="fa fa-bell"></i><span class="badge badge-success pull-right">3</span></a>
+                            {% load notification_tags %}
+                            <a href="#" class="dropdown-toggle waves-effect waves-button waves-classic" data-toggle="dropdown"><i class="fa fa-bell"></i><span class="badge badge-success pull-right">{% get_notifications_unread_count %}</span></a>
                             <ul class="dropdown-menu title-caret dropdown-lg" role="menu">
-                                <li><p class="drop-title">You have 3 pending tasks !</p></li>
+                                <li><p class="drop-title">Tienes {% get_notifications_unread_count %} notificaciones nuevas !</p></li>
                                 <li class="dropdown-menu-list slimscroll tasks">
                                     <ul class="list-unstyled">
-                                        <li>
-                                            <a href="#">
-                                                <div class="task-icon badge badge-success"><i class="icon-user"></i></div>
-                                                <span class="badge badge-roundless badge-default pull-right">1min ago</span>
-                                                <p class="task-details">New user registered.</p>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <div class="task-icon badge badge-danger"><i class="icon-energy"></i></div>
-                                                <span class="badge badge-roundless badge-default pull-right">24min ago</span>
-                                                <p class="task-details">Database error.</p>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <div class="task-icon badge badge-info"><i class="icon-heart"></i></div>
-                                                <span class="badge badge-roundless badge-default pull-right">1h ago</span>
-                                                <p class="task-details">Reached 24k likes</p>
-                                            </a>
-                                        </li>
+                                        {% get_notificacions_unread_list %}
+                                        {% if notifications %}
+                                            {% for notification in notifications %}
+                                                 <li>
+                                                    <a href="/{{ notification.get_url }}">
+                                                        <div class="task-icon badge badge-success">
+                                                            <i class="fa
+                                                            {% if notification.type == 'cmmt' %}
+                                                                fa-comment
+                                                            {% elif notification.type == 'msg' %}
+                                                                fa-inbox
+                                                            {% elif notification.type == 'fav' %}
+                                                                fa-heart
+                                                            {% elif notification.type == 'cal' %}
+                                                                fa-bus
+                                                            {% else %}
+                                                                fa-bell
+                                                            {% endif %}
+                                                            "></i>
+                                                        </div>
+                                                        <span class="badge badge-roundless badge-default pull-right">{{ notification.created }}</span>
+                                                        <p class="task-details">{{ notification.message }}</p>
+                                                    </a>
+                                                </li>
+                                            {% endfor %}
+                                        {% endif %}
                                     </ul>
                                 </li>
-                                <li class="drop-all"><a href="#" class="text-center">All Tasks</a></li>
+                                <li class="drop-all"><a href="#" class="text-center">Todas las notificaciones</a></li>
                             </ul>
                         </li>
                         <li class="dropdown">

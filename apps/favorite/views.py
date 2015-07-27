@@ -61,7 +61,7 @@ class HasFavoriteNearApiView(APIView):
                     b = float(ad.locations.first().lng) - float(loc_data['longitude'])
                     dist = math.sqrt(math.pow(a,2)) + math.pow(b,2)
                     if dist < 0.05:
-                        Notification(receiver=user, type='prox', message="Avisos cerca", extras={'location': loc_data }).save()
+                        Notification(receiver=user, type='prox', message="Estas cerca de avisos de tu interes", extras={'location': loc_data }).save()
                         return Response({"message": "Hay notificaciones"})
 
         return Response({"message": "No hay nada"})
@@ -72,7 +72,8 @@ class proximityFavorityApiView(APIView):
     authentication_classes = (TokenAuthentication, SessionAuthentication)
 
     def get(self, request, *args, **kwargs):
-        result = ads = Ad.objects.filter(id__in=Favorite.objects.for_user(self.request.user.id, model=Ad).values_list('target_object_id'))
+        result = []
+        ads = Ad.objects.filter(id__in=Favorite.objects.for_user(self.request.user.id, model=Ad).values_list('target_object_id'))
 
         if kwargs['lat'] and kwargs['lng']:
             if ads.count() > 0:

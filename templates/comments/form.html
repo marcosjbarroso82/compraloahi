@@ -39,35 +39,11 @@
         <!-- Form actions -->
         <div class="form-group">
             <div class="col-md-12 text-right">
-                <button type="button" id="btn-post-comment btn btn-success" name="post" class="btn btn-md" >Enviar</button>
-                <!--<input type="submit" name="post" class="btn btn-primary btn-lg" value="{% trans "Post" %}" />-->
-                <!--<input type="submit" name="preview" class="btn btn-primary btn-lg" value="{% trans "Preview" %}" />-->
+                <button type="button" id="btn-post-comment" name="post" class="btn btn-md" >Enviar</button>
             </div>
         </div>
     </fieldset>
 </form>
-
-<!--
-<form action="{% comment_form_target %}" method="post">{% csrf_token %}
-  {% if next %}<div><input type="hidden" name="next" value="{{ next }}" /></div>{% endif %}
-  {% for field in form %}
-    {% if field.is_hidden %}
-      <div>{{ field }}</div>
-    {% else %}
-      {% if field.errors %}{{ field.errors }}{% endif %}
-      <p
-        {% if field.errors %} class="error"{% endif %}
-        {% ifequal field.name "comment" %} style="display:none;"{% endifequal %}>
-        {{ field.label_tag }} {{ field }}
-      </p>
-    {% endif %}
-  {% endfor %}
-  <p class="submit">
-    <input type="submit" name="post" class="submit-post" value="{% trans "Post" %}" />
-    <input type="submit" name="preview" class="submit-preview" value="{% trans "Preview" %}" />
-  </p>
-</form>
--->
 
 
 <div class="modal" id="modalMsg">

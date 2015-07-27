@@ -27,13 +27,14 @@
         <div class="topmenu-outer">
             <div class="top-menu">
                 <ul class="nav navbar-nav navbar-right">
+
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle waves-effect waves-button waves-classic" data-toggle="dropdown"><i class="fa fa-envelope"></i><span class="badge badge-success pull-right">{{ vm.msg_unread }}</span></a>
                         <ul class="dropdown-menu title-caret dropdown-lg" role="menu">
                             <li><p class="drop-title">Tienes {{ vm.msg_unread }} mensajes nuevos!</p></li>
                             <li class="dropdown-menu-list slimscroll messages">
                                 <ul class="list-unstyled">
-                                    <li>
+                                   <!-- <li>
                                         <a href="#">
                                             <div class="msg-img"><div class="online on"></div><img class="img-circle" src="/static/image/img-default-profile.jpg" alt=""></div>
                                             <p class="msg-name">Sandra Smith</p>
@@ -49,50 +50,19 @@
                                             <p class="msg-time">8 minutes ago</p>
                                         </a>
                                     </li>
-                                    <li>
-                                        <a href="#">
-                                            <div class="msg-img"><div class="online off"></div><img class="img-circle" src="/static/image/img-default-profile.jpg" alt=""></div>
-                                            <p class="msg-name">Christopher Palmer</p>
-                                            <p class="msg-text">See you soon !</p>
-                                            <p class="msg-time">56 minutes ago</p>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <div class="msg-img"><div class="online on"></div><img class="img-circle" src="/static/image/img-default-profile.jpg" alt=""></div>
-                                            <p class="msg-name">Nick Doe</p>
-                                            <p class="msg-text">Nice to meet you</p>
-                                            <p class="msg-time">2 hours ago</p>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <div class="msg-img"><div class="online on"></div><img class="img-circle" src="/static/image/img-default-profile.jpg" alt=""></div>
-                                            <p class="msg-name">Sandra Smith</p>
-                                            <p class="msg-text">Hey ! I'm working on your project</p>
-                                            <p class="msg-time">5 hours ago</p>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <div class="msg-img"><div class="online off"></div><img class="img-circle" src="/static/image/img-default-profile.jpg" alt=""></div>
-                                            <p class="msg-name">Amily Lee</p>
-                                            <p class="msg-text">Hi David !</p>
-                                            <p class="msg-time">9 hours ago</p>
-                                        </a>
-                                    </li>
+                                   -->
                                 </ul>
                             </li>
-                            <li class="drop-all"><a href="#" class="text-center">All Messages</a></li>
+                            <li class="drop-all"><a ui-sref="messages({'folder': 'inbox'})" class="text-center">Todos los mensajes</a></li>
                         </ul>
                     </li>
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle waves-effect waves-button waves-classic" data-toggle="dropdown"><i class="fa fa-bell"></i><span class="badge badge-success pull-right">3</span></a>
+                        <a href="#" class="dropdown-toggle waves-effect waves-button waves-classic" data-toggle="dropdown"><i class="fa fa-bell"></i><span class="badge badge-success pull-right">{{ vm.notification_unread }}</span></a>
                         <ul class="dropdown-menu title-caret dropdown-lg" role="menu">
-                            <li><p class="drop-title">You have 3 pending tasks !</p></li>
+                            <li><p class="drop-title">Tienes {{ vm.notification_unread }} notificaciones nuevas !</p></li>
                             <li class="dropdown-menu-list slimscroll tasks">
                                 <ul class="list-unstyled">
-                                    <li>
+                                    <!--<li>
                                         <a href="#">
                                             <div class="task-icon badge badge-success"><i class="icon-user"></i></div>
                                             <span class="badge badge-roundless badge-default pull-right">1min ago</span>
@@ -112,10 +82,10 @@
                                             <span class="badge badge-roundless badge-default pull-right">1h ago</span>
                                             <p class="task-details">Reached 24k likes</p>
                                         </a>
-                                    </li>
+                                    </li>-->
                                 </ul>
                             </li>
-                            <li class="drop-all"><a href="#" class="text-center">All Tasks</a></li>
+                            <li class="drop-all"><a href="#" class="text-center">Todas las notificaciones</a></li>
                         </ul>
                     </li>
                     <li class="dropdown">
@@ -125,7 +95,7 @@
                         </a>
                         <ul class="dropdown-menu dropdown-list" role="menu">
                             <li role="presentation"><a href="/panel/user/profile"><i class="fa fa-user"></i>Perfil</a></li>
-                            <li role="presentation"><a href="/panel/mensajes/?folder=inbox"><i class="fa fa-envelope"></i>Bandeja<span class="badge badge-success pull-right">4</span></a></li>
+                            <li role="presentation"><a href="/panel/mensajes/?folder=inbox"><i class="fa fa-envelope"></i>Bandeja<span class="badge badge-success pull-right">{{ vm.msg_unread }}</span></a></li>
                             <li role="presentation" class="divider"></li>
                             <li role="presentation"><a href="/users/logout/"><i class="fa fa-sign-out m-r-xs"></i>Salir</a></li>
                         </ul>

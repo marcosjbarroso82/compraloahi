@@ -5,14 +5,11 @@ from django.utils.timezone import now as datetime_now
 from django.dispatch import receiver
 from django.db.models.signals import post_save
 
-import ast
-
 from push_notifications.models import GCMDevice
 from django.core.mail import EmailMultiAlternatives
 from django.conf import settings
 
 from django_pgjson.fields import JsonField
-
 
 
 AUTH_USER_MODEL = getattr(settings, 'AUTH_USER_MODEL', 'auth.User')
@@ -79,8 +76,7 @@ class Notification(models.Model):
     message = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
     receiver = models.ForeignKey(User)
-    extras = models.TextField()
-    #extras = models.JsonField # Implement fields json with postgres
+    extras = JsonField()
     read = models.DateTimeField(blank=True, null=True)
 
     objects = NotificationManager.as_manager()
@@ -98,18 +94,14 @@ class Notification(models.Model):
         verbose_name_plural = "Ads"
         ordering = ["-created"]
 
-    def save(self, *args, **kwargs):
-        self.extras =  str(self.extras) # When change extras fields to json, remove this
-        super(Notification, self).save(*args, **kwargs)
-
     def get_user(self):
-        return ast.literal_eval(self.extras).get('user', "")
+        return self.extras.get('user', "")
 
     def get_object_id(self):
-        return ast.literal_eval(self.extras).get('id', 0)
+        return self.extras.get('id', 0)
 
     def get_url(self):
-        return ast.literal_eval(self.extras).get('url', "")
+        return self.extras.get('url', "")
 
 
 @receiver(post_save, sender=Notification)
@@ -151,5 +143,8 @@ def create_config_notification(sender, *args, **kwargs):
     if kwargs['created']:
         user = kwargs['instance']
         ConfigNotification(user=user, config=CONFIG_NOTIFICATION).save()
+
+
+
 
 

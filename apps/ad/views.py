@@ -195,12 +195,18 @@ class AdFacetedSearchView(FacetedSearchView):
         return context
 
 
+from apps.notification.models import Notification
+
 class DetailAdView(DetailView):
     template_name = "ad/details.html"
     excluded = ('created', '')
     model = Ad
 
     def get(self, request, *args, **kwargs):
+        ad = self.get_object()
+        if ad.author == request.user:
+            for notification in Notification.objects.filter(receiver=ad.author, type='cmmt', read=None):
+                notification.marked_read()
         return super(DetailAdView, self).get(request)
 
     def get_context_data(self, **kwargs):

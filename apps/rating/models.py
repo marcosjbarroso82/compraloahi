@@ -74,9 +74,9 @@ def notification_to_calification(sender, *args, **kwargs):
     rating = kwargs['instance']
     if kwargs['created']:
 
-        url = "www.compraloahi.com.ar" + reverse('rating:califications', kwargs={"pk": rating.id})
+        url = reverse('rating:califications', kwargs={"pk": rating.id})
         message = 'Califica al usuario accediendo a ' + url
-        Notification(receiver=rating.voter, type='cal', message=message, extras={'user': rating.voted.id, 'url': url }).save()
+        Notification(receiver=rating.voter, type='cal', message=message, extras={'user': rating.voted.id, 'url': url, 'obj_id': rating.id }).save()
     else:
         OverallRating.update(rating=rating)
 
