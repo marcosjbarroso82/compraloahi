@@ -92,10 +92,8 @@
          * When change set location, change center map, and marker.
          */
         $scope.$watch('vm.location', function(new_val, old_val){
-            console.log("CHANGE LOCATION");
             if(vm.location.lat && vm.location.lng){
                 if(vm.location){
-                    console.log("CHANGE LOCATION");
                     if(new_val.lat != old_val.lat){
                         if(vm.map.markers['location']){
                             vm.map.markers["location"]['lat'] = vm.location.lat;
@@ -117,7 +115,6 @@
          * When select location places, set center on location.
          */
         $scope.$watch('location_places', function(val, old_val){
-            console.log("LOCATION PLACE CHANGE");
             if($scope.location_places.geometry){
                 vm.location.lat = angular.copy($scope.location_places.geometry.location.lat());
                 vm.location.lng = angular.copy($scope.location_places.geometry.location.lng());
@@ -222,7 +219,6 @@
         }
 
         function createMarker(lat, lng){
-            console.log("CREATE MARKER");
             var marker = {
                 lat: lat,
                 lng: lng,

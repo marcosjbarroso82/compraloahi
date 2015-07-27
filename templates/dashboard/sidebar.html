@@ -29,7 +29,7 @@
             <li ng-class="{active: ('config-store' | includedByState)}" >
                 <i class="fa fa-info sidebar-alert"
                    tooltip="'Debes cargar anuncios antes de poder activar tu tienda'"
-                   placement="rigth"
+                   placement="right"
                    ng-show="!vm.has_ads"></i>
                 <a ui-sref="config-store" ng-class="{disabled: !vm.has_ads }" ><span class="menu-icon fa fa-home "></span><p>Mi tienda</p></a>
             </li>
