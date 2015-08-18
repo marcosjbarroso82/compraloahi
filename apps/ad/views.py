@@ -140,20 +140,24 @@ class SearchViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
 
     def list(self, request, *args, **kwargs):
         ads = self.get_queryset()
-
-        paginator = Paginator(ads, 10)
+        paginated_by = 10
+        paginator = Paginator(ads, paginated_by)
         page = self.request.query_params.get('page')
         try:
             results = paginator.page(page)
         except PageNotAnInteger:
             # If page is not an integer, deliver first page
-            results = paginator.page(1)
+            page = 1
+            results = paginator.page(page)
         except EmptyPage:
             # If page is out of range, deliver last page
-            results = paginator.page(paginator.num_pages)
+            page = paginator.num_pages
+            results = paginator.page(paginator.page)
 
+        results.page = page
         results.facets = self.facets
         results.count = paginator.count
+        results.paginated_by = paginated_by
 
         if results.has_next():
             results.next = results.next_page_number()
