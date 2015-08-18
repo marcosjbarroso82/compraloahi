@@ -117,6 +117,8 @@ class AdsSearchSerializer(serializers.Serializer):
 class SearchResultSerializer(serializers.Serializer):
     facets = serializers.ListField()
     count = serializers.IntegerField()
+    paginated_by = serializers.IntegerField()
+    page = serializers.IntegerField()
     next = serializers.IntegerField()
     previous = serializers.IntegerField()
     results = AdsSearchSerializer(many=True, source='object_list')
