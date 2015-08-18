@@ -113,10 +113,17 @@ class AdsSearchSerializer(serializers.Serializer):
                return obj.object.is_favorite(request.user)
            else:
                return False
+        else:
+            return False
 
 class SearchResultSerializer(serializers.Serializer):
     facets = serializers.ListField()
     count = serializers.IntegerField()
     next = serializers.IntegerField()
     previous = serializers.IntegerField()
-    results = AdsSearchSerializer(many=True, source='object_list')
+    #results = AdsSearchSerializer(many=True, source='object_list')
+
+    def __init__(self, *args, **kwargs):
+        super(SearchResultSerializer, self).__init__(*args, **kwargs)
+        self.fields['results'] = AdsSearchSerializer(many=True, source='object_list', context=self.context)
+
