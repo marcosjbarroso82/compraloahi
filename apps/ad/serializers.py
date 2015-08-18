@@ -71,6 +71,8 @@ class AdPublicSerializer(serializers.ModelSerializer):
                return obj.is_favorite(request.user)
            else:
                return False
+        else:
+            return False
 
 
 class DistanceSerializer(serializers.Serializer):

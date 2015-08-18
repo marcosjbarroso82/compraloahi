@@ -15,8 +15,8 @@ DEBUG = True
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'dbcompraloahi',
-        'USER': 'postgres',
+        'NAME': 'compraloahi',
+        'USER': 'compraloahi',
         'PASSWORD': 'laserjet1',
         'HOST': 'localhost',
         'PORT': '',
