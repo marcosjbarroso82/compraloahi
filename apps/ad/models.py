@@ -25,6 +25,10 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+STATUS_AD = (
+    ('Active', 1),
+    ('Delete', 0)
+)
 
 class Ad(models.Model):
     title = models.CharField(max_length=40)
@@ -37,6 +41,8 @@ class Ad(models.Model):
     tags = TaggableManager(blank=True)
     author = models.ForeignKey(User, related_name='ads')
     categories = models.ManyToManyField(Category)
+
+    status = models.IntegerField(choices=STATUS_AD, default=1)
 
     short_description = models.CharField(max_length=100, blank=False)
     price = models.DecimalField(default='0.00',
