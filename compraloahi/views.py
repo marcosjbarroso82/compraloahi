@@ -68,7 +68,7 @@ def comment_post_wrapper(request):
     if request.user.is_authenticated():
         # In case of a reply, check that the user is answering a comment of his own ad
         object_pk = request.POST.get('object_pk', '')
-        if int( request.POST.get('reply_to') ) > 0:
+        if int( request.POST.get('reply_to', 0) ) > 0:
             if ( Ad.objects.get(pk=object_pk).author == request.user):
                 return post_comment(request) # VER SI ESTE ES EL POST, o EL DE COMMENT XTD
         else:

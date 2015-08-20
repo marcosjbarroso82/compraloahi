@@ -169,7 +169,7 @@ class SearchViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
         else:
             results.previous = None
 
-        result_serializer = SearchResultSerializer(instance=results)
+        result_serializer = SearchResultSerializer(instance=results, context={"request": request})
 
         return Response(result_serializer.data)
 

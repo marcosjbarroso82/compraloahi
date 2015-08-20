@@ -59,10 +59,11 @@ class AdSerializer(serializers.ModelSerializer):
 class AdPublicSerializer(serializers.ModelSerializer):
     images = AdImageSerializer(many=True, read_only=True)
     is_favorite = serializers.SerializerMethodField()
+    locations = AdLocationSerializer(many=True, read_only=True)
 
     class Meta:
         model= Ad
-        fields = ('id','title', 'body', 'pub_date', 'categories', 'short_description', 'price', 'is_favorite', 'images')
+        fields = ('id','title', 'body', 'pub_date', 'categories', 'short_description', 'price', 'is_favorite', 'images', 'locations')
 
     def get_is_favorite(self, obj):
         request = self.context.get('request', None)
@@ -80,6 +81,7 @@ class DistanceSerializer(serializers.Serializer):
     m = serializers.FloatField()
     mi = serializers.FloatField()
     ft = serializers.FloatField()
+
 
 class AdsSearchSerializer(serializers.Serializer):
     id = serializers.IntegerField(source='pk')
@@ -113,6 +115,8 @@ class AdsSearchSerializer(serializers.Serializer):
                return obj.object.is_favorite(request.user)
            else:
                return False
+        else:
+            return False
 
 class SearchResultSerializer(serializers.Serializer):
     facets = serializers.ListField()
@@ -121,4 +125,9 @@ class SearchResultSerializer(serializers.Serializer):
     page = serializers.IntegerField()
     next = serializers.IntegerField()
     previous = serializers.IntegerField()
-    results = AdsSearchSerializer(many=True, source='object_list')
+    #results = AdsSearchSerializer(many=True, source='object_list')
+
+    def __init__(self, *args, **kwargs):
+        super(SearchResultSerializer, self).__init__(*args, **kwargs)
+        self.fields['results'] = AdsSearchSerializer(many=True, source='object_list', context=self.context)
+
