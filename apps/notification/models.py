@@ -90,8 +90,8 @@ class Notification(models.Model):
         return self.message
 
     class Meta:
-        verbose_name = "Ad"
-        verbose_name_plural = "Ads"
+        verbose_name = "Notification"
+        verbose_name_plural = "Notifications"
         ordering = ["-created"]
 
     def get_user(self):
@@ -120,14 +120,14 @@ def notification_post_save(sender, *args, **kwargs):
                 # TODO: Caputar error : GCMError: {'failure': 1, 'canonical_ids': 0, 'multicast_id': 7630349632432802077, 'results': [{'error': 'NotRegistered'}], 'success': 0}
                 print("Enviando alerta.....")
                 devices = GCMDevice.objects.filter(user= notification.receiver)
-                devices.send_message(notification.message , extra={'type': notification.type , 'id': notification.get_user()})
+                devices.send_message(notification.message , extra={'type': notification.type , 'id': notification.receiver.id})
                 print("Alerta enviada!")
             except:
                 print("Error al intentar enviar alerta")
 
         if config and config.has_perm(notification.type, 'email'):
             print("Enviando email.....")
-            url = notification.extras.get('url')
+            url = notification.get_url()
             if url:
                 html_content = notification.message + "\b" + "Ingresa a el siguiente link para ver la notificacion http:://compraloahi.com.ar/" + url
             else:
