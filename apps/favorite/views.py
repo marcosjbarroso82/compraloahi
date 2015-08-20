@@ -1,5 +1,7 @@
 from django.contrib.auth.models import User
 from rest_framework.authentication import TokenAuthentication, SessionAuthentication
+from rest_framework.permissions import AllowAny
+
 from apps.ad.serializers import AdSerializer
 from favit.models import Favorite
 from apps.ad.models import Ad
@@ -15,8 +17,23 @@ class FavoriteAdViewSet(viewsets.ModelViewSet):
     queryset = Ad.objects.all()
 
     def get_queryset(self):
+            lat = self.request.GET.get('lat', None)
+            lng = self.request.GET.get('lng', None)
+
             # TODO: mejorar query de avisos favoritos (usar manager favorites)
-            return Ad.objects.filter(id__in=Favorite.objects.for_user(self.request.user, model=Ad).values_list('target_object_id'))
+            ads =  Ad.objects.filter(id__in=Favorite.objects.for_user(self.request.user, model=Ad).values_list('target_object_id'))
+            result = ads
+
+            # Filter by distance
+            if lat and lng:
+                if ads.count() > 0:
+                    for ad in ads:
+                        a = float(ad.locations.first().lat) - float(lat)
+                        b = float(ad.locations.first().lng) - float(lng)
+                        dist = math.sqrt(math.pow(a,2)) + math.pow(b,2)
+                        if dist > 0.085:
+                            result = result.exclude(pk=ad.pk)
+            return result
 
     def create(self, request, *args, **kwargs):
         if request.DATA.get('target_object_id'):
@@ -44,10 +61,10 @@ class FavoriteAdViewSet(viewsets.ModelViewSet):
 
 class HasFavoriteNearApiView(APIView):
     serializer_class = AdSerializer
-    authentication_classes = (TokenAuthentication,)
+    permission_classes = (AllowAny,)
 
-    def get_queryset(self):
-        return Ad.objects.filter(id__in=Favorite.objects.for_user(self.request.user, model=Ad).values_list('target_object_id'))
+    # def get_queryset(self):
+    #     return Ad.objects.filter(id__in=Favorite.objects.for_user(self.request.user, model=Ad).values_list('target_object_id'))
 
     def post(self, request, *args, **kwargs):
         # = request.DATA.get('token')
@@ -65,27 +82,6 @@ class HasFavoriteNearApiView(APIView):
                         return Response({"message": "Hay notificaciones"})
 
         return Response({"message": "No hay nada"})
-
-
-class proximityFavorityApiView(APIView):
-    serializer_class = AdSerializer
-    authentication_classes = (TokenAuthentication, SessionAuthentication)
-
-    def get(self, request, *args, **kwargs):
-        result = []
-        ads = Ad.objects.filter(id__in=Favorite.objects.for_user(self.request.user.id, model=Ad).values_list('target_object_id'))
-
-        if kwargs['lat'] and kwargs['lng']:
-            if ads.count() > 0:
-                result = []
-                for ad in ads:
-                    a = float(ad.locations.first().lat) - float(kwargs['lat'])
-                    b = float(ad.locations.first().lng) - float(kwargs  ['lng'])
-                    dist = math.sqrt(math.pow(a,2)) + math.pow(b,2)
-                    if dist < 0.85:
-                        result.append(ad)
-
-        return Response(AdSerializer(result, many=True).data)
 
 
 
