@@ -240,6 +240,18 @@ class AdUserViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         return Ad.objects.filter(author= self.request.user)
 
+    def destroy(self, request, *args, **kwargs):
+        try:
+            ad = Ad.objects.get(id=kwargs['pk'])
+            ad.status = 0
+            ad.save()
+
+            return Response(status=status.HTTP_200_OK)
+        except KeyError:
+            return Response({"message": "Param is incorrect"}, status=status.HTTP_400_BAD_REQUEST)
+        except Ad.DoesNotExist:
+            return Response({"message": "Error ad doesnt exist"}, status=status.HTTP_400_BAD_REQUEST)
+
     def create(self, request, *args, **kwargs):
         if request.data and request.data.get('data') and len(request.FILES) > 0:
 
