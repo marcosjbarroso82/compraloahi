@@ -171,6 +171,15 @@
   padding: 0px;
   border-left: .1px solid @input-border;
 
+  @media (max-width: 767px){
+      min-height: initial;
+      height: 180px;
+      width: 100%;
+      bottom: 0px;
+      position: absolute;
+      left: 0px;
+    }
+
   #container-ads{
     .mixin-shadow-bottom(0px, -0.3px, 1px, 0.3px, #4F4F4F);
   }
@@ -185,6 +194,8 @@
       width: 20px;
       margin-top: 2px;
       padding: 4px;
+      float: left;
+      margin-left: 5px;
     }
 
     p{
@@ -199,6 +210,14 @@
     .order-by-container{
       float: right;
       margin-right: 15px;
+
+      @media (max-width: 767px){
+        label{
+          display: none;
+        }
+
+      }
+
     }
     .order-by-container-collapse{
       float: right;

@@ -387,6 +387,16 @@ html {
   padding: 0px;
   border-left: 0.1px solid #c3c3c3;
 }
+@media (max-width: 767px) {
+  #container-ad-list {
+    min-height: initial;
+    height: 180px;
+    width: 100%;
+    bottom: 0px;
+    position: absolute;
+    left: 0px;
+  }
+}
 #container-ad-list #container-ads {
   -webkit-box-shadow: 0px -0.3px 1px 0.3px #4f4f4f;
   -moz-box-shadow: 0px -0.3px 1px 0.3px #4f4f4f;
@@ -401,6 +411,8 @@ html {
   width: 20px;
   margin-top: 2px;
   padding: 4px;
+  float: left;
+  margin-left: 5px;
 }
 #container-ad-list #header-list p {
   float: left;
@@ -413,6 +425,11 @@ html {
 #container-ad-list #header-list .order-by-container {
   float: right;
   margin-right: 15px;
+}
+@media (max-width: 767px) {
+  #container-ad-list #header-list .order-by-container label {
+    display: none;
+  }
 }
 #container-ad-list #header-list .order-by-container-collapse {
   float: right;
