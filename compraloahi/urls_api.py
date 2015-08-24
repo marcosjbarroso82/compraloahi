@@ -4,7 +4,7 @@ from rest_framework.routers import DefaultRouter
 from rest_framework.authtoken.views import obtain_auth_token
 
 from apps.ad.views import AdUserViewSet, AdPublicViewSet, SearchViewSet, CategoriesListAPIView
-from apps.favorite.views import FavoriteAdViewSet, proximityFavorityApiView
+from apps.favorite.views import FavoriteAdViewSet
 from apps.notification.views import NotificationListApiView, NotificationRetrieveApiView, \
     RegisterGCMNotification, UnregisterGCMNotification, NotificationMarkBulkReadApiView, ConfigNotificationModelViewSet
 from apps.user.views import ChangePasswordUpdateAPIView
@@ -25,10 +25,6 @@ router.register(r'msgs', MsgViewSet, base_name='msgs')
 
 urlpatterns = patterns('',
                        url(r'^categories/$', CategoriesListAPIView.as_view(), name='categories'),
-
-                       url(r'^favorites/(?P<lat>[a-zA-Z0-9_.-]+)/(?P<lng>[a-zA-Z0-9_.-]+)/$',
-                           proximityFavorityApiView.as_view() ,
-                           name='proximity-favorite'),
 
                        url(r'^store-config/$',
                            StoreModelViewSet.as_view({'get': 'retrieve', 'put': 'update'}),
