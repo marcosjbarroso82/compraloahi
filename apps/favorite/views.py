@@ -10,6 +10,8 @@ from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 import math
+from datetime import date, timedelta
+
 
 class FavoriteAdViewSet(viewsets.ModelViewSet):
     serializer_class= AdSerializer
@@ -78,8 +80,12 @@ class HasFavoriteNearApiView(APIView):
                     b = float(ad.locations.first().lng) - float(loc_data['longitude'])
                     dist = math.sqrt(math.pow(a,2)) + math.pow(b,2)
                     if dist < 0.05:
-                        Notification(receiver=user, type='prox', message="Estas cerca de avisos de tu interes", extras={'location': loc_data }).save()
-                        return Response({"message": "Hay notificaciones"})
+                        # TODO: Filter correctly to check if similar notification exists
+                        if not Notification.objects.all().filter(receiver=user, type='prox',
+                                                                 created__gt=date.today() - timedelta(minutes=2)).exists():
+                            # if Notification.objects.filter(receiver=user, type='prox', ).exists():
+                            Notification(receiver=user, type='prox', message="Estas cerca de avisos de tu interes", extras={'location': loc_data }).save()
+                            return Response({"message": "Hay notificaciones"})
 
         return Response({"message": "No hay nada"})
 
