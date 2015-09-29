@@ -26,8 +26,8 @@ class Category(models.Model):
         return self.name
 
 STATUS_AD = (
-    ('Active', 1),
-    ('Delete', 0)
+    ('1', 'Active'),
+    ('0', 'Delete')
 )
 
 class Ad(models.Model):
