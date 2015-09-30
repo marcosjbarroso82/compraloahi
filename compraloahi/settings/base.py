@@ -31,7 +31,6 @@ THIRD_PARTY_APPS = (
     'django_comments_xtd', # Need packages: django.contrib.comments
     'haystack',
     'rest_framework',
-    'favit',
     'corsheaders',
     'rest_framework.authtoken',
     'push_notifications',
@@ -49,7 +48,9 @@ LOCAL_APPS = (
     'apps.user',
     'apps.notification',
     'apps.rating',
-    'apps.msg'
+    'apps.msg',
+    'apps.favorite',
+    'apps.faq'
 )
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -84,8 +85,8 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
 
-                "allauth.account.context_processors.account",
-                "allauth.socialaccount.context_processors.socialaccount"
+                #"allauth.account.context_processors.account",
+                #"allauth.socialaccount.context_processors.socialaccount"
             ],
         },
     },

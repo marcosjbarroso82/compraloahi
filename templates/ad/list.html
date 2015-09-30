@@ -190,7 +190,7 @@
     <div id="container-ad-list" ng-class="{'col-md-5': !vm.collapsabled, 'col-md-2': vm.collapsabled}">
         <div id="header-list" class="col-md-12">
             <button type="button" id="btn-collapse" class="btn" ng-click="vm.collapsabled = !vm.collapsabled; vm.map.instance.invalidateSize(true);"> <i class="glyphicon " ng-class="{'glyphicon-chevron-left': vm.collapsabled, 'glyphicon-chevron-right': !vm.collapsabled}"></i> </button>
-            <p ng-show="!vm.collapsabled">Mostrando 20 de 300 resultados.</p>
+            <p ng-show="!vm.collapsabled">Mostrando 10 de {{ vm.result_count }} resultados.</p>
             <div class="form-inline " ng-class="{'order-by-container': !vm.collapsabled, 'order-by-container-collapse': vm.collapsabled}">
                 <label ng-show="!vm.collapsabled" for="order_by">Ordenar por</label>
                 <select
@@ -227,7 +227,7 @@
                         <a href="/ad/{{ ad.slug }}" ><h4 >{{ ad.title }}</h4></a>
                         <small> Publicado el {{ ad.pub_date }} </small>
                         <p> {{ ad.short_description }} </p>
-
+                        <i class="fa fa-2x" ng-click="vm.toggleFavorite(ad)" ng-class="{'fa-heart': ad.is_favorite, 'fa-heart-o': !ad.is_favorite}"></i>
                     </div>
                     <span class="price-ads-list pull-right">${{ ad.price }}<sup>99</sup></span>
                     <a class="locate-it btn" ng-click="vm.centerMap(ad.center)" ><span style="font-size: 20px; color: #07355b;">{{ $index + 1 }}</span></a>
@@ -339,18 +339,19 @@
     <script type="text/javascript" src="{% static 'bower_components/Leaflet.awesome-markers/dist/leaflet.awesome-markers.js' %}"></script>
 
     <!-- angular resources -->
-    <script type="text/javascript" src="{% static 'bower_components/angular/angular.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bower_components/angular/angular.min.js' %}"></script>
 
-    <script type="text/javascript" src="{% static 'bower_components/angular-leaflet/dist/angular-leaflet-directive.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bower_components/angular-leaflet/dist/angular-leaflet-directive.min.js' %}"></script>
 
     <script type="text/javascript" src="{% static 'bower_components/angular-tooltip-master/src/tooltip.js' %}"></script>
 
     <!-- ###################### END IMPORT ###################### -->
 
+
     <!-- ###################### DASHBOARD APP - MODULE UTILS ###################### -->
-    <script type="text/javascript" src="{% static 'dashboard/utils/util.module.js' %}"></script>
-    <script type="text/javascript" src="{% static 'dashboard/utils/directives/google-places.directive.js' %}"></script>
-    <script type="text/javascript" src="{% static 'dashboard/utils/directives/ng-enter.directive.js' %}"></script>
+    <script type="text/javascript" src="{% static 'angular-resources/modules/utils/util.module.js' %}"></script>
+    <script type="text/javascript" src="{% static 'angular-resources/modules/utils/directives/google-places.directive.js' %}"></script>
+    <script type="text/javascript" src="{% static 'angular-resources/modules/utils/directives/ng-enter.directive.js' %}"></script>
     <!-- ###################### END DASHBOARD APP - MODULE UTILS ###################### -->
 
 

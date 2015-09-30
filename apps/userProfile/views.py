@@ -43,7 +43,7 @@ class StoreModelViewSet(ModelViewSet):
 
 class StoreView(DetailView):
     model = Ad
-    template_name = 'userProfile/store.html'
+    template_name = 'userProfile/shop.html'
     context_object_name = 'store'
     paginate_by = 12
 

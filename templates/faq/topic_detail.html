@@ -1,22 +1,39 @@
-{% extends "faq/base.html" %}
+{% extends "faq/base_list.html" %}
 
 
 
 {% block title %}{{ block.super }}: {{ topic }}{% endblock %}
 
-{% block body %}
-<h3>{{ topic }}</h3>
-<dl>
-{% for question in questions %}
-  <dt>{{ question.text }}</dt>
-  <dd class="answer">{{ question.answer }}</dd>
-  <p class="caption"> Was this question helpful?
-    <span id="feedback-helpful">
-    <a href="{% url 'question_helpful' question.slug %}?q=y" class="feedback-helpful" data="y">Yes</a> or
-    <a href="{% url 'question_helpful' question.slug %}?q=n" class="feedback-helpful" data="n">No</a>
-    </span>
-</p>
-{% endfor %}
-</dl>
+{% block breadcrumb %}
+    {{ block.super }}
+    <li class="active">{{ topic }}</li>
+{% endblock %}
 
+{% block topic_title %}{{ topic }}{% endblock %}
+{% block container_list %}
+    <h2 class="m-t-xxl m-b-lg">Preguntas: </h2>
+    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+        {% for question in questions %}
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="headingOne{{ question.id }}">
+                    <h4 class="panel-title">
+                        <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#{{ question.id }}" aria-expanded="false" aria-controls="{{ question.slug }}">
+                            {{ question.text }}
+                        </a>
+                    </h4>
+                </div>
+                <div id="{{ question.id }}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne{{ question.id }}">
+                    <div class="panel-body">
+                        <p>{{ question.answer }}</p>
+                        <p class="caption"> Fue útil esta pregunta?
+                            <span id="feedback-helpful">
+                                <a href="/faq/detail/{{ topic.slug }}/{{ question.slug }}/helpful/?q=y" class="feedback-helpful" data="y">Si</a> or
+                                <a href="/faq/detail/{{ topic.slug }}/{{ question.slug }}/helpful/?q=n" class="feedback-helpful" data="n">No</a>
+                            </span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}

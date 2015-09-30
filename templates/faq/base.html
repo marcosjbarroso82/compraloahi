@@ -1,14 +1,19 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset=utf-8 /> 
-  <title>{% block title %}Django Fack {% endblock %}</title>	
-</head>
-<body>
-  {% for message in messages %}
-    <p class="message">{{ message }}</p>
-  {% endfor %}
-  {% block body %}{% endblock %}
-</body>
-</html>
+{% extends "layout/base.html" %}
+{% block css_header_block %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/less/base.css" >
+{% endblock %}
+{% block body_block %}
 
+    <div class="container-fluid" style="margin-top: 60px;">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="section">
+                    {% for message in messages %}
+                        <p class="message">{{ message }}</p>
+                    {% endfor %}
+                    {% block body %}{% endblock %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

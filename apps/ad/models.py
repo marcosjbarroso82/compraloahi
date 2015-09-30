@@ -11,6 +11,8 @@ from django.dispatch.dispatcher import receiver
 
 from favit.models import Favorite
 
+import datetime
+
 
 class AdQuerySet(models.QuerySet):
 
@@ -60,6 +62,12 @@ class Ad(models.Model):
         verbose_name = "Ad"
         verbose_name_plural = "Ads"
         ordering = ["-created"]
+
+    def is_new(self):
+        if (self.pub_date.date() + datetime.timedelta(days=30)) >= datetime.date.today():
+            return True
+        else:
+            return False
 
     def save(self, *args, **kwargs):
         self.created = datetime_now()

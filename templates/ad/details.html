@@ -14,7 +14,7 @@
 {% block css_header_block %}
     <link rel="stylesheet" href="{{ STATIC_URL }}css/less/ad-detail.css" >
     <link rel="stylesheet" href="{{ STATIC_URL }}css/cloud-zoom.css" type="text/css">
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/favit/favorite.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}favorite/css/favorite.css">
 {% endblock %}
 
 {% block body_block %}
@@ -173,7 +173,7 @@
 
 {% block js_footer_block %}
     <script type="text/javascript" src="{{ STATIC_URL }}js/cloud-zoom.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/favit/favorite.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}favorite/js/favorite.js"></script>
 
     <script>
         var ad = {id: {{ad.id}} };

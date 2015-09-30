@@ -25,7 +25,7 @@ class Topic(models.Model):
     updated_on = models.DateTimeField(_('updated on'), auto_now=True)
     created_by = models.ForeignKey(User, verbose_name=_('created by'), null=True, blank=True, related_name="+")
     updated_by = models.ForeignKey(User, verbose_name=_('updated by'), null=True, blank=True, related_name="+")
-
+    description = models.CharField(max_length=255)
     objects = models.Manager()
     site_objects = SiteTopicManager()
 

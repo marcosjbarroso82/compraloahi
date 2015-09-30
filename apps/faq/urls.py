@@ -6,10 +6,10 @@ from . import views
 from django.views.generic import TemplateView
 
 urlpatterns = patterns('',
-    url(r'^$',
+    url(r'^faq/$',
         views.TopicList.as_view(),
         name='faq_topic_list'),
-    url(r'^faq/$',
+    url(r'^$',
         views.FaqIndexView.as_view(),
         name='faq_index'),
     url(r'^search/$',

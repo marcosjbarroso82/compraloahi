@@ -27,7 +27,10 @@
                             <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
                             {% endif %}
                             {% csrf_token %}
-                            {% bootstrap_form form %}
+                         {% bootstrap_field form.login %}
+                        {% bootstrap_field form.password %}
+                        {% bootstrap_field form.remember %}
+{#                            {% bootstrap_form form %}#}
 
                             <button type="submit" class="btn btn-success btn-block">Entrar</button>
                             <a href="{% url 'account_reset_password' %}" class="display-block text-center m-t-md text-sm">Olvido la contraseña?</a>

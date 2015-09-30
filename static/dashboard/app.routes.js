@@ -54,7 +54,8 @@
 
             // MESSAGE
             .state('messages', {
-                url: 'mensajes/?:folder',
+                url: 'mensajes/:folder',
+                defaultParams: {folder: 'inbox'},
                 templateUrl: '/static/dashboard/message/templates/messages-app.html',
                 controller: 'MessageCtrl',
                 controllerAs: 'vm',
