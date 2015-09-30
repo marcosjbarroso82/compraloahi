@@ -1,0 +1,13 @@
+{% extends "faq/base.html" %}
+
+{% block title %}{{ block.super }}: Search - {{ query|truncatewords:30}}{% endblock %}
+
+{% block body %}
+    <h2>Search results for "{{query}}"</h2>
+    <br/>
+    <ul>
+        {% for question in questions %}
+            <li><a href="{{question.get_absolute_url}}">{{question}}</a></li>
+        {% endfor %}
+    </ul>
+{% endblock %}

@@ -20,6 +20,8 @@ urlpatterns = patterns('',
                        # TODO: Esta url no va en produccion
                        url(r'^log/', log),
 
+                       url('^faq/', include('apps.faq.urls')),
+
                         # Include API
                        (r'^api/v1/', include('compraloahi.urls_api', namespace='api')),
 
@@ -42,7 +44,7 @@ urlpatterns = patterns('',
                        # TODO: Esta url no va en produccion
                        url(r'^send_notification/', send_notification),
 
-                       url(r'^favit/' , include('favit.urls')),
+                       url(r'^favorite/' , include('apps.favorite.urls', namespace='favorite')),
 
                        # URL load dashboard
                        url(r'^panel/.*$', DashBoardView.as_view(), name='dashboard'),
