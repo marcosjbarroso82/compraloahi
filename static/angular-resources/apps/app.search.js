@@ -1,6 +1,9 @@
-var App = angular.module('App', [
-        'App.ad'
-    ])
+(function () {
+    'use strict';
+
+    angular.module('App', [
+            'App.ad'
+        ])
     .config(function ($interpolateProvider, $httpProvider, $locationProvider) {
         $interpolateProvider.startSymbol('{{').endSymbol('}}');
 
@@ -11,3 +14,11 @@ var App = angular.module('App', [
         $locationProvider.html5Mode(true).hashPrefix('!');
 
     });
+
+    angular
+        .module('App')
+        .run(function(){
+
+        });
+
+})();

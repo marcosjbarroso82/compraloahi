@@ -6,7 +6,7 @@
     'use strict';
 
     angular
-        .module('dashBoardApp.util.directives')
+        .module('util.directives')
         .directive('ngEnter', ngEnter);
 
     ngEnter.$inject = [];

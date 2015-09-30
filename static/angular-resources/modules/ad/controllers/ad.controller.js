@@ -10,12 +10,12 @@
         .module('App.ad.controllers')
         .controller('AdCtrl', AdCtrl);
 
-    AdCtrl.$inject = ['$scope', 'AdSearch', '$location', 'leafletEvents', 'leafletData']; //
+    AdCtrl.$inject = ['$scope', 'AdSearch', '$location', 'leafletEvents', 'leafletData', '$http']; //
 
     /**
      * @namespace AdCtrl
      */
-    function AdCtrl($scope, AdSearch, $location, leafletEvents, leafletData) {
+    function AdCtrl($scope, AdSearch, $location, leafletEvents, leafletData, $http) {
 
         var vm = this;
 
@@ -38,6 +38,8 @@
         vm.user_location_selected = {};
 
         vm.page_nro = 1;
+
+        vm.result_count = 0;
 
         //Var to save location when search on google places
         $scope.location_search_places = {};
@@ -63,10 +65,10 @@
                 maxZoom: 14,
                 minZoom: 13,
                 /*path: {
-                    weight: 10,
-                    color: '#800000',
-                    opacity: 1
-                },*/
+                 weight: 10,
+                 color: '#800000',
+                 opacity: 1
+                 },*/
                 zoomControl: false
             },
             markers: {}
@@ -110,6 +112,19 @@
 
             initMap();
         }
+
+        vm.toggleFavorite = function(ad){
+            // TODO: Validate if authenticated before send toggle favorite
+            $http.post('/api/v1/favorites/', {target_object_id: ad.id}).success(function(data){
+                if (ad.is_favorite){
+                    ad.is_favorite = false;
+                }else{
+                    ad.is_favorite = true;
+                }
+            }).error(function(error){
+                console.log("removeFavorite Error");
+            });
+        };
 
         /**
          * Function show/hide radius on map.
@@ -187,7 +202,7 @@
                 vm.search_location.current_location.lat = angular.copy($scope.location_search_places.geometry.location.lat());
                 vm.search_location.current_location.lng = angular.copy($scope.location_search_places.geometry.location.lng());
 
-               flag_places_changed = true;
+                flag_places_changed = true;
             }
         });
 
@@ -567,6 +582,8 @@
                 vm.prev_page = data.data.previous;
                 vm.page_nro = 1;
 
+                vm.result_count = data.data.count;
+
                 vm.search_location.changed = false;
 
                 // Remplace path by new query path
@@ -621,11 +638,11 @@
         function getUrlParams(){
             var url = "";
             if(!vm.flag_custom_radius){
-                    url = '&n=' + String(vm.search_location.bounds['northEast']['lat']) + '&s=' +
-                        String(vm.search_location.bounds['southWest']['lat']) + '&e=' +
-                        String(vm.search_location.bounds['northEast']['lng']) + '&w=' +
-                        String(vm.search_location.bounds['southWest']['lng']);
-                }else{
+                url = '&n=' + String(vm.search_location.bounds['northEast']['lat']) + '&s=' +
+                    String(vm.search_location.bounds['southWest']['lat']) + '&e=' +
+                    String(vm.search_location.bounds['northEast']['lng']) + '&w=' +
+                    String(vm.search_location.bounds['southWest']['lng']);
+            }else{
                 url = '&m=' + vm.search_location.radius;
             }
 

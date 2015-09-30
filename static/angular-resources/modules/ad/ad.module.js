@@ -5,7 +5,7 @@
         .module('App.ad', [
             'leaflet-directive',
             'tooltip',
-            'dashBoardApp.util',
+            'util',
             'App.ad.controllers',
             'App.ad.services'
         ]);
