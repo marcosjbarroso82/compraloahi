@@ -9,7 +9,7 @@ from taggit.managers import TaggableManager
 from django.db.models.signals import pre_delete
 from django.dispatch.dispatcher import receiver
 
-from favit.models import Favorite
+from apps.favorite.models import Favorite
 
 import datetime
 

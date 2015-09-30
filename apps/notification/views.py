@@ -16,7 +16,8 @@ class RegisterGCMNotification(CreateAPIView):
     def create(self, request, *args, **kwargs):
         try:
             device_id = int(str(request.DATA['device_id']), 16)
-            gcm = GCMDevice.objects.get(user=request.user,device_id= device_id) #registration_id= request.DATA['registration_id'],
+            # gcm = GCMDevice.objects.get(user=request.user,device_id= device_id) #registration_id= request.DATA['registration_id'],
+            gcm = GCMDevice.objects.get(registration_id = request.DATA['registration_id'])
             gcm.active = True
             gcm.registration_id = request.DATA['registration_id']
             gcm.device_id = device_id

@@ -91,6 +91,10 @@ class MsgViewSet(viewsets.ModelViewSet):
     def thread(self, request, pk):
         # TODO: Replace this with a custom object manager in the model
         msgs = models.Msg.objects.all().filter(Q(thread=pk) | Q(pk=pk))
+        for msg in msgs:
+            if msg.recipient_deleted_at == request.user:
+                msg.is_new = False
+                msg.save()
         serializer = self.get_serializer(msgs, many=True)
         return Response(serializer.data)
 
