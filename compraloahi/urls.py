@@ -14,6 +14,8 @@ from .settings import base as settings
 urlpatterns = patterns('',
                        url(r'^$', HomeView.as_view()),
 
+                       url(r'^report-error/$', 'apps.report_error.views.report_error', name='report-error'),
+
                        # TODO : This url belong to api
                        url(r'^favorites/near/$', HasFavoriteNearApiView.as_view() , name='favorite-near'),
 
