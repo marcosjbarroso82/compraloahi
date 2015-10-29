@@ -14,16 +14,11 @@
      * @namespace Select countries
      */
     function fileModel($parse) {
-        /**
-         * @name directive
-         * @desc The directive to be returned
-         * @memberOf dashBoardApp.util.directives.fileModel
-         */
+
         var directive = {
             restrict: 'A',
             link: link
         };
-
 
         function link(scope, element, attrs) {
             var model = $parse(attrs.fileModel);

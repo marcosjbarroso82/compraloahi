@@ -10,7 +10,7 @@
 
         <link rel="icon" type="image/png" href="/static/image/compraloahi-iso-logo-icon.png">
 
-        {% include 'dashboard/stylesheets.html' %}
+        {% include 'dashboard/stylesheets_prod.html' %}
 
         <!--<script src="/static/assets/plugins/3d-bold-navigation/js/modernizr.js"></script>-->
 
@@ -26,7 +26,7 @@
     </head>
     <body class="page-horizontal-bar page-header-fixed page-sidebar-fixed">
         <div class="overlay"></div>
-        <form class="search-form" action="/ad/search/" method="GET">
+        <form class="search-form" action="/item/search/" method="GET">
             <div class="input-group">
                 <input type="text" name="q" class="search-input" placeholder="Encontra muy cerca lo que buscas...">
                 <span class="input-group-btn">
@@ -84,8 +84,8 @@
 
 
 
-
         {% include 'dashboard/javascripts.html' %}
+        {% include 'layout/report.html' %}
 
     </body>
 </html>

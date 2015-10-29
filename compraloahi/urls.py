@@ -55,7 +55,7 @@ urlpatterns = patterns('',
                        url(r'^admin/', include(admin.site.urls)),
 
                        # My apps Ad
-                       url(r'^ad/', include("apps.ad.urls", namespace="ad")),
+                       url(r'^item/', include("apps.ad.urls", namespace="ad")),
 
                        # My apps User
                        (r'^users/',

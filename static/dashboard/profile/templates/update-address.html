@@ -1,0 +1,90 @@
+<form class="panel panel-white" cg-busy="vm.promiseRequest" novalidate angular-validator angular-validator-submit="vm.submit()" name="formProfileAddressUpdate" enctype="multipart/form-data" cg-busy="vm.promiseRequest">
+    <div class="panel-body" id="container-profile-data">
+        <div class="col-md-12 body-container" >
+            <div class="col-md-12">
+                <div class="alert alert-danger alert-dismissible" role="alert" ng-if="vm.redirect != 'profile-detail'">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    Para poder cargar un anuncio debes tener configurada tu direccion de usuario.
+                </div>
+                <div class="alert alert-warning alert-dismissible" role="alert" >
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    Cuidado!. Al modificar la direccion de perfil, se modificara la ubicacion disponible de todos tus avisos publicados.
+                </div>
+                <div class="col-md-6 col-sm-12" style="min-height: 400px; max-height: 480px;">
+                    <h3>Configura tu ubicacion, tene en cuenta que todos los anuncios que carges estaran asignados a la misma.</h3>
+                    <hr/>
+                    <button class="btn btn-block btn-info" type="button" ng-click="vm.autorozired_location()">Usar la ubicacion actual</button>
+                    <hr/>
+                    <div class="form-group col-md-12">
+
+                        <label class="control-label" for="location_title">Nombre de la ubicacion</label>
+                        <input class="form-control"
+                               maxlength="100"
+                               ng-model="vm.location.title"
+                               ng-required="true"
+                               name="location_title"
+                               placeholder="Nombre de la ubicacion. Ej: Mi trabajo."
+                               required-message="'Si carga una ubicacion personalizada el titulo es requerido.'"
+                               title=""
+                               type="text">
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label class="contrl-label" for="location_address">Calle</label>
+                        <input class="form-control" type="text" ng-model="vm.location.address.address" ng-required="true"/>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label class="contrl-label" for="location_address">Numero</label>
+                        <input class="form-control" type="number" ng-model="vm.location.address.nro" ng-required="true"/>
+                    </div>
+                    <div class="col-md-12" >
+                        <hr/>
+                        <h5>Informacion General :</h5>
+                        <ul>
+                            <li>
+                                <b>Latitude </b> {{ vm.location.lat }}
+                            </li>
+                            <li>
+                                <b>Longitude </b> {{ vm.location.lng }}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- COL MAP -->
+                <div class="col-md-5 col-sm-12 col-md-offset-1" id="container-map-with-search" cg-busy="vm.promiseRequestLocation" >
+
+                    <div id="data-position-form" class="col-md-12">
+                        <!-- Itemdress -->
+                        <div class="input-group col-md-12">
+                            <google-places location=location_places map=map></google-places>
+                            <input type="hidden"
+                                   name="location"
+                                   ng-model="location_places"
+                                   validator="vm.location.lat"
+                                   invalid-message="'Ingresa la direccion exacta, o selecciona una de las que ya tienes.'"/>
+                        </div>
+                    </div>
+
+                    <leaflet id="location-map" center="vm.map.center" defaults="vm.map.defaults" bounds="vm.map.bounds" event-broadcast="vm.map.events" markers="vm.map.markers">
+
+                    </leaflet>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="alert alert-warning alert-dismissible" role="alert" >
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+                            Cuidado!. Al modificar la direccion de perfil, se modificara la ubicacion disponible de todos tus avisos publicados.
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+    <div class="panel-footer">
+        <button type="submit" class="btn btn-success pull-right" ><i class="fa fa-check"></i> Aceptar</button>
+        <button class="btn btn-warning pull-right" ui-sref="profile-detail"><i class="fa fa-times"></i> Cancelar</button>
+    </div>
+</form>

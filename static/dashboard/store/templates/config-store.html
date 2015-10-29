@@ -177,24 +177,24 @@
                 <div class="panel-heading">
                     <h3 class="panel-title">Elije los productos que quieres mostrar en tu tienda</h3>
                 </div>
-                <div class="col-md-12" cg-busy="vm.promiseRequestAds">
+                <div class="col-md-12" cg-busy="vm.promiseRequestItems">
                     <ul class="media-list">
-                        <li class="media" ng-repeat="ad in vm.configs.ads" ng-click="ad.store_published = !ad.store_published;">
+                        <li class="media" ng-repeat="item in vm.configs.items" ng-click="item.store_published = !ad.store_published;">
                             <div class="media-left">
                                 <a href="#">
-                                    <img class="media-object" src="{{ ad.images[0].thumbnail_110x110 }}" alt="60">
+                                    <img class="media-object" src="{{ item.images[0].thumbnail_110x110 }}" alt="60">
                                 </a>
                             </div>
                             <div class="media-body">
-                                <h4 class="media-heading"> {{ ad.title }}</h4>
-                                <input class="pull-right" type="checkbox" ng-model="ad.store_published"/>
+                                <h4 class="media-heading"> {{ item.title }}</h4>
+                                <input class="pull-right" type="checkbox" ng-model="item.store_published"/>
                             </div>
                         </li>
                     </ul>
                     <input type="hidden"
-                           name="ads-selects"
-                           ng-model="vm.configs.ads"
-                           validator="vm.validateAdsSelect()"
+                           name="items-selects"
+                           ng-model="vm.configs.items"
+                           validator="vm.validateItemsSelect()"
                            invalid-message="'Para poder activar tu tienda es requerido tener al menos un producto.'"/>
                 </div>
             </div>

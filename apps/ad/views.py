@@ -1,7 +1,8 @@
 import json
 import logging
 
-from django.contrib.gis.measure import *
+from django.contrib.gis.measure import D
+#from haystack.utils.geo import Point, D
 from django.contrib.gis.geos import Point
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
@@ -24,6 +25,7 @@ from apps.adLocation.models import AdLocation
 from .models import Ad, Category, AdImage
 from .serializers import SearchResultSerializer, AdSerializer, AdPublicSerializer, AdsSearchSerializer, CategorySerializer, AdLocationSerializer
 from rest_framework import status
+from apps.notification.models import Notification
 
 
 logger = logging.getLogger('debug')
@@ -78,7 +80,7 @@ class SearchViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
     def get_queryset(self, *args, **kwargs):
         # Init queryset
         qs = SearchQuerySet().all()
-        qs = qs.facet('categories').facet('provinces').facet('localities')
+        qs = qs.facet('categories')
 
         if self.request.query_params.get('q'):
             #qs = qs.filter_and(title__contains=self.request.query_params.get('q'))
@@ -92,6 +94,9 @@ class SearchViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
 
         except Exception as e:
             logging.error(e)
+
+
+
         point = None
 
         try:
@@ -103,12 +108,14 @@ class SearchViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
             qs = qs or SearchQuerySet()
             qs = qs.dwithin('location', point, D(**distance)).distance('location', point)
 
+
         try:
             if self.request.QUERY_PARAMS.get('w') and self.request.QUERY_PARAMS.get('s')\
-                    and self.request.QUERY_PARAMS.get('n'):
+                    and self.request.QUERY_PARAMS.get('n') and self.request.QUERY_PARAMS.get('e'):
                 bottom_left = Point( float( self.request.QUERY_PARAMS['w'] ), float( self.request.QUERY_PARAMS['s']) )
                 top_right = Point( float(self.request.QUERY_PARAMS['e']), float( self.request.QUERY_PARAMS['n']) )
                 qs = qs.within('location', bottom_left, top_right)
+            #else:
         except:
             pass
 
@@ -199,12 +206,13 @@ class AdFacetedSearchView(FacetedSearchView):
         return context
 
 
-from apps.notification.models import Notification
+
 
 class DetailAdView(DetailView):
     template_name = "ad/details.html"
     excluded = ('created', '')
     model = Ad
+    context_object_name = 'item'
 
     def get(self, request, *args, **kwargs):
         ad = self.get_object()
@@ -216,7 +224,7 @@ class DetailAdView(DetailView):
     def get_context_data(self, **kwargs):
         context = super(DetailAdView, self).get_context_data(**kwargs)
         try:
-            context['rating'] = OverallRating.objects.get(user=context['ad'].author).rate
+            context['rating'] = OverallRating.objects.get(user=context['item'].author).rate
         except OverallRating.DoesNotExist:
             context['rating'] = ""
         try:
@@ -230,15 +238,13 @@ class AdUserViewSet(viewsets.ModelViewSet):
     paginate_by = 100
     queryset = Ad.objects.all()
     serializer_class = AdSerializer
-    #filter_backends = (filters.DjangoFilterBackend,)
-    #filter_fields = ('title', 'slug', 'id')
     parser_classes = (MultiPartParser, FormParser, FileUploadParser )
 
     def pre_save(self, obj):
         obj.author = self.request.user
 
     def get_queryset(self):
-        return Ad.objects.filter(author= self.request.user)
+        return Ad.objects.filter(author= self.request.user, status=1)
 
     def destroy(self, request, *args, **kwargs):
         try:
@@ -261,21 +267,34 @@ class AdUserViewSet(viewsets.ModelViewSet):
 
             if ad_serializer.is_valid():
                 ad_serializer.save()
-                location_serializer = {}
-                for location_data in ad_data['locations']:
-                    location_data['ad'] = ad_serializer.instance.id
-                    location_serializer = AdLocationSerializer(data=location_data)
-                    location_serializer.run_validation(location_data)
+                loc = UserLocation.objects.filter(is_address=True, userProfile__user=request.user).first()
 
-                    try:
-                        if location_serializer.is_valid():
-                            location_serializer.save()
-                        else:
-                            raise Exception
-                    except:
-                        ad_serializer.instance.delete()
-                        return Response({"Error al intentar guardar la ubicacion"},
-                                        status=status.HTTP_400_BAD_REQUEST)
+                location = AdLocation()
+                location.lat = loc.lat
+                location.lng = loc.lng
+                location.address = loc.address
+                location.title = loc.title
+                location.nro = loc.nro
+
+                location.ad = ad_serializer.instance
+
+                location.save()
+
+                # location_serializer = {}
+                # for location_data in ad_data['locations']:
+                #     location_data['ad'] = ad_serializer.instance.id
+                #     location_serializer = AdLocationSerializer(data=location_data)
+                #     location_serializer.run_validation(location_data)
+                #
+                #     try:
+                #         if location_serializer.is_valid():
+                #             location_serializer.save()
+                #         else:
+                #             raise Exception
+                #     except:
+                #         ad_serializer.instance.delete()
+                #         return Response({"Error al intentar guardar la ubicacion"},
+                #                         status=status.HTTP_400_BAD_REQUEST)
 
                 images = []
                 try:
@@ -288,7 +307,8 @@ class AdUserViewSet(viewsets.ModelViewSet):
                                 break
                 except:
                     ad_serializer.instance.delete()
-                    location_serializer.instance.delete()
+                    #location_serializer.instance.delete()
+                    location.delete()
                     for img in images:
                         img.delete()
 
@@ -311,23 +331,23 @@ class AdUserViewSet(viewsets.ModelViewSet):
 
                 if ad_serializer.is_valid():
                     ad_serializer.save()
-                    for location_data in ad_data['locations']:
-                        try:
-                            ad_location = AdLocation.objects.get(id= location_data.get('id'))
-                            location_data['ad'] = ad_serializer.instance.id
-                            location_serializer = AdLocationSerializer(data=location_data,
-                                                                       instance=ad_location)
-                            location_serializer.run_validation(location_data)
-                            try:
-                                if location_serializer.is_valid():
-                                    location_serializer.save()
-                                else:
-                                    raise Exception
-                            except:
-                                raise Exception
-                        except:
-                            return Response({"Error al intentar guardar la ubicacion"},
-                                            status=status.HTTP_400_BAD_REQUEST)
+                    # for location_data in ad_data['locations']:
+                    #     try:
+                    #         ad_location = AdLocation.objects.get(id= location_data.get('id'))
+                    #         location_data['ad'] = ad_serializer.instance.id
+                    #         location_serializer = AdLocationSerializer(data=location_data,
+                    #                                                    instance=ad_location)
+                    #         location_serializer.run_validation(location_data)
+                    #         try:
+                    #             if location_serializer.is_valid():
+                    #                 location_serializer.save()
+                    #             else:
+                    #                 raise Exception
+                    #         except:
+                    #             raise Exception
+                    #     except:
+                    #         return Response({"Error al intentar guardar la ubicacion"},
+                    #                         status=status.HTTP_400_BAD_REQUEST)
 
                     # TODO: Whats happen if images change default or any images set default?
                     if len(request.FILES) > 0:

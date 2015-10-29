@@ -55,6 +55,9 @@ class Ad(models.Model):
 
     objects = AdQuerySet.as_manager()
 
+    def show_location(self):
+        return self.author.profile.privacy_settings.get('show_address')
+
     def __str__(self):
         return self.title
 

@@ -5,93 +5,9 @@
 
 {% block css_header_block %}
     <link rel="stylesheet" href="{{ STATIC_URL }}css/less/home.css" >
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/animate/animate.min.css" >
 {% endblock %}
 
 {% block body_block %}
-    <!--<div style="text-align: center">
-       <i class="fa fa-arrow-circle-up fa-5x"></i>
-   </div>-->
-    <div class="col-md-12 text-center" id="home-animation">
-        <!--<img class="animated infinite bounce" src="{{ STATIC_URL }}image/personaje-20.png">
-        <img class="animated infinite rubberBand" src="{{ STATIC_URL }}image/personaje-20.png">
-        <img class="animated infinite tada" src="{{ STATIC_URL }}image/personaje-20.png">
-        <img class="animated infinite wobble" src="{{ STATIC_URL }}image/personaje-20.png">
-        -->
-        <a href="{% url 'ad:create' %}" id="btnAddAd" class="btn btn-success btn-lg pull-right"><span class="glyphicon glyphicon-bullhorn"></span> Agrega tu aviso</a>
-        <a href="/static/compraloahi.apk" id="btnAddAd" class="btn btn-info btn-lg pull-left"><i class="fa fa-android"></i> Usalo en tu telefono</a>
-
-        <img id="img-hand"  src="{{ STATIC_URL }}image/hand-phone.png" style="display: none;"> <!-- class="animated infinite pulse"-->
-
-        <img src="{{ STATIC_URL }}image/personaje-20.png" id="result1" class="result-search animated bounce" alt="" style="right: 10%; bottom: 35%;"/>
-        <img src="{{ STATIC_URL }}image/personaje-20.png" id="result2" class="result-search animated bounce" alt="" style="right: 80%; bottom: 64%;"/>
-        <img src="{{ STATIC_URL }}image/personaje-20.png" id="result3" class="result-search animated bounce" alt="" style="right: 40%; bottom: 50%;"/>
-        <img src="{{ STATIC_URL }}image/personaje-20.png" id="result4" class="result-search animated bounce" alt="" style="right: 50%; bottom: 90%;"/>
-        <div class="result-search" id="result5" style="right: 20%; bottom: 70%; text-align: center">
-            <img src="{{ STATIC_URL }}image/personaje-sin-sombra.png"  class="animated infinite rubberBand" alt="" style="width: 100%"/>
-            <img src="{{ STATIC_URL }}image/sombra-personaje.png" alt="" style="width: 50%; margin-top: -25px;"/>
-            <img src="{{ STATIC_URL }}image/search-success.png" id="result-success" class="result-search" alt="" style="right: -65px; top: -50px; width: 60px !important"/>
-        </div>
-
-
-    </div>
-
-    <script>
-
-        var imghand = $("#img-hand");
-
-        var result1 = $("#result1");
-        var result2 = $("#result2");
-        var result3 = $("#result3");
-        var result4 = $("#result4");
-        var result5 = $("#result5");
-        var result_success = $("#result-success");
-
-
-        function resetElement(){
-            imghand.css('display', 'none').removeClass("infinite pulse");
-            imghand.css("display", "block").addClass('animated fadeInUp');
-            result1.css('display', 'none').removeClass("fadeInDown");
-            result2.css('display', 'none').removeClass("fadeInDown");
-            result3.css('display', 'none').removeClass("fadeInDown");
-            result4.css('display', 'none').removeClass("fadeInDown");
-            result5.css('display', 'none').removeClass("fadeInDown");
-            result_success.css('display', 'none');
-        }
-
-        function animation(){
-
-            setTimeout(function() { imghand.removeClass('fadeInUp').addClass('infinite pulse'); }, 500);
-            setTimeout(function() { result1.css('display', 'block').addClass('animated fadeInDown'); }, 3000);
-            setTimeout(function() { result2.css('display', 'block').addClass('animated fadeInDown'); }, 3500);
-            setTimeout(function() { result3.css('display', 'block').addClass('animated fadeInDown'); }, 3800);
-            setTimeout(function() { result4.css('display', 'block').addClass('animated fadeInDown'); }, 4200);
-            setTimeout(function() { result5.css('display', 'block'); }, 4600);
-            setTimeout(function() {
-                result_success.css('display', 'block').addClass('animated pulse');
-
-                setTimeout(function(){
-                    resetElement();
-                    animation();
-                }, 7000)
-
-
-            }, 4800);
-        }
-
-        imghand.load(
-                function(){
-                    imghand.css("display", "block").addClass('animated fadeInUp');
-                    animation();
-
-                }
-
-
-
-        )
-
-
-    </script>
 
 
 

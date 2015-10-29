@@ -19,7 +19,7 @@
                         <div>
                             {{ comment.submit_date }}&nbsp;-&nbsp;
                             {% if comment.url %}<a href="{{ comment.url }}" target="_new">{% endif %}{{ comment.name }}{% if comment.url %}</a>{% endif %}{% if comment.allow_thread %}&nbsp;-&nbsp;
-                                 {% if ad.author == user %}
+                                 {% if item.author == user %}
                                     <!-- BUTTON REPLY -->
                                 <button data-toggle="modal" class="btn btn-xs btn-success btn-reply-comment" data-target="#modalReplyComment" data-comment-id="{{ comment.id }}">
                                     Contestar
@@ -49,7 +49,7 @@
             {% endfor %}
     </ul>
         <a id="more-comments-btn" class="btn btn-primary btn-sm btn-block" role="button"
-               href="/ad/{{ object.slug }}/?comments_limit={{ comments_limit|add:5 }}">
+               href="/item/{{ object.slug }}/?comments_limit={{ comments_limit|add:5 }}">
             <span class="glyphicon glyphicon-refresh"></span> More</a>
 
 </div>

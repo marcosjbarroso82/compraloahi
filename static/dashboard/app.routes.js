@@ -38,6 +38,19 @@
                     title: "Editar perfil"
                 }
             })
+            .state('profile-address', {
+                url: '/profile-address?redirect',
+                templateUrl: '/static/dashboard/profile/templates/update-address.html',
+                controller: 'ProfileAddressUpdateController',
+                controllerAs: 'vm',
+                data:{
+                    breadcumbs: [
+                        { url: 'profile-detail', name:'Perfil'},
+                        { url: 'profile-address', name:'My ubicacion'}
+                    ],
+                    title: "Editar ubicacion"
+                }
+            })
             .state('change-password', {
                 url: '/usuario/cambiar-contrasena/',
                 templateUrl: '/static/dashboard/profile/templates/change-password.html',
@@ -52,9 +65,23 @@
                 }
             })
 
+            .state('config-privacity', {
+                url: '/configuracion-privacidad/',
+                templateUrl: '/static/dashboard/profile/templates/config-privacity.html',
+                controller: 'ConfigPrivacityController',
+                controllerAs: 'vm',
+                data:{
+                    breadcumbs: [
+                        { url: 'profile-detail', name:'Perfil'},
+                        { url: 'change-password', name:'Configura tu privacidad'}
+                    ],
+                    title: "Configura tu privacidad"
+                }
+            })
+
             // MESSAGE
             .state('messages', {
-                url: 'mensajes/:folder',
+                url: '/mensajes/:folder',
                 defaultParams: {folder: 'inbox'},
                 templateUrl: '/static/dashboard/message/templates/messages-app.html',
                 controller: 'MessageCtrl',
@@ -65,7 +92,7 @@
                 }
             })
             .state('message-thread', {
-                url: 'mensajes/hilo/:id',
+                url: '/mensajes/hilo/:id',
                 templateUrl: '/static/dashboard/message/templates/messages-thread.html',
                 controller: 'MessageThreadCtrl',
                 controllerAs: 'vm',
@@ -79,41 +106,41 @@
             })
 
             // ADS
-            .state('my-ads', {
+            .state('my-items', {
                 url: '/mis-avisos/',
-                templateUrl: '/static/dashboard/ad/templates/ad-list.html',
-                controller: 'AdCtrl',
+                templateUrl: '/static/dashboard/item/templates/item-list.html',
+                controller: 'ItemCtrl',
                 controllerAs: 'vm',
                 data:{
-                    breadcumbs: [{url: 'my-ads', name:'Mis avisos'}],
+                    breadcumbs: [{url: 'my-items', name:'Mis avisos'}],
                     title: "Mis avisos"
                 }
             })
 
             // ADS CREATE
-            .state('ad-create', {
+            .state('item-create', {
                 url: '/mis-aviso/crear/',
-                templateUrl: '/static/dashboard/ad/templates/create.html',
-                controller: 'AdCreateCtrl',
+                templateUrl: '/static/dashboard/item/templates/create.html',
+                controller: 'ItemCreateCtrl',
                 controllerAs: 'vm',
                 data:{
                     breadcumbs: [
-                        { url: 'my-ads', name:'Mis avisos'},
-                        { url: 'ad-create', name:'Crear avisos'}
+                        { url: 'my-items', name:'Mis avisos'},
+                        { url: 'item-create', name:'Crear avisos'}
                     ],
                     title: "Crea tu avisos en 4 pasos"
                 }
             })
 
-            .state('ad-update', {
+            .state('item-update', {
                 url: '/mis-aviso/update/:id',
-                templateUrl: '/static/dashboard/ad/templates/update.html',
-                controller: 'AdUpdateCtrl',
+                templateUrl: '/static/dashboard/item/templates/update.html',
+                controller: 'ItemUpdateCtrl',
                 controllerAs: 'vm',
                 data:{
                     breadcumbs: [
-                        { url: 'my-ads', name:'Mis avisos'},
-                        { url: 'ad-update', name:'Editando avisos'}
+                        { url: 'my-items', name:'Mis avisos'},
+                        { url: 'item-update', name:'Editando avisos'}
                     ],
                     title: "Editando aviso"
                 }

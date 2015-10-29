@@ -1,5 +1,7 @@
 from . import models
 from rest_framework import serializers
+
+
 class MsgSerializer(serializers.ModelSerializer):
     is_new = serializers.BooleanField(required=False)
     sender_deleted = serializers.BooleanField(required=False)
@@ -34,13 +36,15 @@ class MsgSerializer(serializers.ModelSerializer):
             # TODO: if its an empty list, it fails
             # TODO: change this
             user_type = 'sender'
+
         if user_type == 'recipient':
             not_allowed_to_show = ('recipient', 'sender_archived', 'sender_deleted_at', 'sender', 'sender_deleted',
                                    'moderation_status', 'moderation_reason', 'moderation_date')
         elif user_type == 'sender':
-            not_allowed_to_show = ( 'read_at', 'is_new', 'replied_at', 'is_replied', 'recipient_deleted',
+            not_allowed_to_show = ( 'read_at', 'replied_at', 'is_replied', 'recipient_deleted',
                                     'recipient_archived', 'recipient_deleted_at')
             self.fields['recipient'].write_only = True
+
         if action == 'create' or action == 'reply':
             self.fields['is_new'].read_only = True
             self.fields['sender_deleted'].read_only = True
@@ -51,4 +55,3 @@ class MsgSerializer(serializers.ModelSerializer):
 
         for field_name in not_allowed_to_show:
             self.fields.pop(field_name)
-

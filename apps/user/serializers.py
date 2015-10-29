@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from rest_framework import serializers
 
 from apps.ad.models import Ad
-from apps.userProfile.serializers import ProfileSerializer
+from apps.userProfile.serializers import ProfileSerializer, UserLocation
 from apps.msg.models import Msg
 from apps.notification.models import Notification
 
@@ -16,17 +16,24 @@ class UserSerializer(serializers.ModelSerializer):
 
 class UserAuthenticationSerializer(serializers.ModelSerializer):
     profile = serializers.SerializerMethodField(read_only=True)
-    has_ads = serializers.SerializerMethodField(read_only=True)
+    has_items = serializers.SerializerMethodField(read_only=True)
     msg_unread = serializers.SerializerMethodField(read_only=True)
     notification_unread = serializers.SerializerMethodField(read_only=True)
+    has_address = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = User
         depth = 2
-        fields = ('profile', 'has_ads', 'msg_unread', 'notification_unread')
+        fields = ('profile', 'has_items', 'msg_unread', 'notification_unread', 'has_address')
 
-    def get_has_ads(self, obj):
+    def get_has_items(self, obj):
         if Ad.objects.filter(author=obj.id).count() > 0:
+            return True
+        else:
+            return False
+
+    def get_has_address(self, obj):
+        if UserLocation.objects.filter(is_address=True, userProfile__user=obj.id).count():
             return True
         else:
             return False

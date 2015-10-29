@@ -164,7 +164,7 @@ ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = False
 SITE_ID = 1
 SITE_URL = "http://www.compraloahi.com.ar/"
 
-DEFAULT_FROM_EMAIL = 'notification@compraloahi.com.ar'
+DEFAULT_FROM_EMAIL = 'notificacion@compraloahi.com.ar'
 
 EMAIL_BACKEND="djmail.backends.async.EmailBackend"
 DJMAIL_REAL_BACKEND="django.core.mail.backends.smtp.EmailBackend"
@@ -173,7 +173,7 @@ DJMAIL_REAL_BACKEND="django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = 'smtp.zoho.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = DEFAULT_FROM_EMAIL
-EMAIL_HOST_PASSWORD = '1j3uUk9X82g8d7imFgcFRgqV3'
+EMAIL_HOST_PASSWORD = 'laserjet_1'
 EMAIL_USE_TLS = True
 
 

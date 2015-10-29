@@ -3,6 +3,7 @@ from django.conf import settings
 from django.utils.translation import ugettext as _
 from django.contrib.contenttypes import generic
 from django.conf import settings
+from datetime import datetime
 
 import datetime
 # moderation constants
@@ -87,6 +88,7 @@ class Msg(models.Model):
         elif value in self.TRUE_VALUES:
             self.read_at = None
             self.save()
+
 
     @property
     def is_replied(self):

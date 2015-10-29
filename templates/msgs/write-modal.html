@@ -10,7 +10,6 @@
                 <label class="form-label" for="subject">Subject:</label>
                 <input type="text" class="form-control" id="id_subject"/>
             </div>-->
-
             <div class="form-group">
                 <!--<label class="form-label" for="id_body">Body:</label>-->
                 <textarea name="" class="form-control" id="id_body" cols="30" rows="8" placeholder="Dejale tu consulta al anunciante..."></textarea>
@@ -32,27 +31,72 @@
 
 
 <script>
+
+
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie != '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
     $('#submitMessage').click(function(){
     //var subject = $('#id_subject').val();
     var body = $('#id_body').val();
     var subject = body.slice(1, 25) + "...";
-    var ad_id = ad.id;
-    $.post("/api/v1/msgs/", {body: body, subject: subject, object_id: ad_id, content_type: 27},
-    function(data) {
-        var content_modal = '<div class="modal-dialog">' +
-            '<div class="modal-content">' +
-            '<div class="modal-header">' +
-            '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>' +
-            '<h4 class="modal-title">Contactar al anunciante</h4>' +
-            '</div>' +
-            '<div class="modal-body">' +
-            '<p> El mensaje fue enviado con exito</p>' +
-            '</div></div></div>';
-        $('#modalMessage').html(content_modal);
-    }
-    ).done(function(){
-        //$('#modalMessage').class = 'modal';
-    });
+    var item_id = item.id;
+
+    $.ajax({
+            url: "/api/v1/msgs/",
+            type: 'POST',
+            beforeSend: function(xhr, settings){
+                if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                    // Only send the token to relative URLs i.e. locally.
+                    xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+                }
+            },
+            data: {
+                body: body, subject: subject, object_id: item_id, content_type: 27
+            },
+            success: function(response) {
+                var content_modal = '<div class="modal-dialog">' +
+                                    '<div class="modal-content">' +
+                                    '<div class="modal-header">' +
+                                    '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>' +
+                                    '<h4 class="modal-title">Contactar al anunciante</h4>' +
+                                    '</div>' +
+                                    '<div class="modal-body">' +
+                                    '<p> El mensaje fue enviado con exito</p>' +
+                                    '</div></div></div>';
+                $('#modalMessage').html(content_modal);
+            }
+        });
+
+{#    $.post("/api/v1/msgs/", {body: body, subject: subject, object_id: item_id, content_type: 27},#}
+{#    function(data) {#}
+{#        var content_modal = '<div class="modal-dialog">' +#}
+{#            '<div class="modal-content">' +#}
+{#            '<div class="modal-header">' +#}
+{#            '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>' +#}
+{#            '<h4 class="modal-title">Contactar al anunciante</h4>' +#}
+{#            '</div>' +#}
+{#            '<div class="modal-body">' +#}
+{#            '<p> El mensaje fue enviado con exito</p>' +#}
+{#            '</div></div></div>';#}
+{#        $('#modalMessage').html(content_modal);#}
+{#    }#}
+{#    ).done(function(){#}
+{#        //$('#modalMessage').class = 'modal';#}
+{#    });#}
 
 });
 </script>

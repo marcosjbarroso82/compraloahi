@@ -40,14 +40,6 @@
          */
         function activate() {
             vm.profile = angular.copy(Authentication.profile);
-
-            /*Profile.detail().then(detailSuccess, detailError);
-            function detailSuccess(data){
-                vm.profile = data.data;
-            }
-            function detailError(data){
-                AlertNotification.error("Error al cargar los datos de su perfil. Intente cargar de nuevo la pagina");
-            }*/
         }
 
         /**
@@ -90,7 +82,7 @@
             phone.id = vm.profile.phones[(vm.profile.phones.length -1)] + 1;
             phone.type = "";
             phone.number = 0;
-            //Add new obj phone to array phones
+            //Itemd new obj phone to array phones
             vm.profile.phones.push(phone);
         }
 

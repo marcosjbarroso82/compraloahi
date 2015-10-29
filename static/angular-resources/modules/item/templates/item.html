@@ -1,0 +1,23 @@
+<div>
+    <a ng-click="callControl()">Call Control</a><br/>
+<ui-gmap-google-map id="mapa" class="capas img-thumbnail" center="map.center" zoom="map.zoom" draggable="true" options="options" control="control"
+        panControl="true"
+        zoomControl="true">
+    <ui-gmap-circle ng-repeat="item in items track by item.pk"
+                    center="item.center"
+                    stroke="item.stroke"
+                    fill="item.fill"
+                    radius="item.radius"
+                    visible="true"
+                    geodesic="location_options.geodesic"
+                    editable="location_options.editable"
+                    draggable="location_options.draggable"
+                    clickable="location_options.clickable"
+                    events="circle_events"
+            >
+    </ui-gmap-circle>
+</ui-gmap-google-map>
+
+</div>
+
+

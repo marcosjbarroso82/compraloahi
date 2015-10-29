@@ -1,0 +1,315 @@
+<style>
+    .panel-heading{
+        margin-bottom: 10px;
+    }
+
+    .container-categories{
+        height: 110px;
+        overflow-y: auto;
+        border-bottom: 1px solid #c3c3c3;
+        border-right: 1px solid #c3c3c3;
+        border-left: 1px solid #c3c3c3;
+    }
+    .categories{
+        padding: 5px;
+    }
+    .categories .category{
+        width: 33%;
+        float: left;
+        list-style: none;
+    }
+</style>
+<form class="panel panel-white" cg-busy="vm.promiseRequest"  novalidate angular-validator angular-validator-submit="vm.submit()" name="formStep4" enctype="multipart/form-data">
+
+<div class="panel-body" id="container-item-create-data">
+
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            Descripcion general
+        </h3>
+    </div>
+    <div class="panel-body">
+        <!-- TITLE -->
+        <div class="form-group">
+            <label class="control-label" for="title">Titulo</label>
+            <input type="text"
+                   name="title"
+                   class="form-control"
+                   ng-model="vm.item.title"
+                   placeholder="Titulo. Ej: Celular Galaxy GIT"
+                   ng-minlength="3"
+                   ng-maxlength="40"
+                   required="required"
+                   invalid-message="'El minimo de caracteres es de 3 y el maximo es de 40'"
+                   required-message="'El titulo del anuncio es requerido!'">
+        </div>
+
+        <!-- SHORT DESCRIPTION -->
+        <div class="form-group">
+            <label class="control-label" for="short_description">Descripcion corta</label>
+            <input type="text"
+                   class="form-control"
+                   ng-model="vm.item.short_description"
+                   maxlength="100"
+                   name="short_description"
+                   placeholder="Escriba una descripcion corta."
+                   required-message="'La descripcion corta es requerida'"
+                   required="required">
+
+            <!-- POPOVER SHORT DESCRIPTION HELP -->
+            <script type="text/ng-template" id="popover">
+                        <div class="triangle"></div>
+                        <div class="ns-popover-tooltip" style="max-width: 400px; padding: 10px;">
+                            <img src="/static/image/help/short-description.png" class="img-thumbnail"  />
+                            <p>La descripcion corta del anuncio te permite tener mas posibilidades de ser encontrado, y ademas
+                                es la primer descripcion de tu anuncio que el usuario lee.</p>
+                        </div>
+                    </script>
+                    <span class="help" >¿Porque es importante que el anuncio tenga una descripcion corta?.
+                        <a ns-popover
+                           ns-popover-template="popover"
+                           ns-popover-trigger="click"
+                           ns-popover-hide-on-outside-click="true"
+                           ns-popover-hide-on-button-click="true"
+                           ns-popover-template="menu"
+                           ns-popover-theme="ns-popover-list-theme"
+                           ns-popover-placement="top"
+                           ns-popover-placement="bottom">Ayuda</a></span>
+        </div>
+
+        <!-- PRICE -->
+        <div class="form-group">
+            <label class="control-label" for="price-flag">Precio</label>
+
+            <div class="input-group">
+                <span class="input-group-addon">$</span>
+                <input class="form-control"
+                       ng-model="vm.item.price"
+                       name="price"
+                       type="text"
+                       ng-currency>
+            </div>
+            <!-- POPOVER SHORT DESCRIPTION HELP -->
+            <script type="text/ng-template" id="popover">
+                        <div class="triangle"></div>
+                        <div class="ns-popover-tooltip" style="max-width: 400px; padding: 10px;">
+                            <img src="/static/image/help/short-description.png" class="img-thumbnail"  />
+                            <p>El precio del anuncio te permite tener mas posibilidades de ser encontrado a la hora que el
+                                usuario filtra por precio.</p>
+                        </div>
+
+                    </script>
+                    <span class="help" >¿Porque es importante que el anuncio tenga un precio?.
+                        <a ns-popover
+                           ns-popover-template="popover"
+                           ns-popover-trigger="click"
+                           ns-popover-hide-on-outside-click="true"
+                           ns-popover-hide-on-button-click="true"
+                           ns-popover-template="menu"
+                           ns-popover-theme="ns-popover-list-theme"
+                           ns-popover-placement="top"
+                           ns-popover-placement="bottom">Ayuda</a></span>
+
+            <input type="hidden"
+                   name="price-flag"
+                   ng-model="vm.item.price"
+                   placeholder="Price"
+                   required="required"
+                   title=""
+                   required-message="'El precio es requerido'"/>
+
+        </div>
+        <!-- CATEGORIES SELECT -->
+        <div class="form-group">
+            <div class="input-group">
+                <input type="text" ng-model="vm.search_category.title" class="form-control input-sm" maxlength="64" placeholder="Busca la categoria de tu producto" />
+                <span  class="input-group-addon"><i class="fa fa-search"></i></span>
+            </div>
+            <div class="container-categories">
+                <ul class="categories" cg-busy="vm.promiseRequestCategories" >
+                    <li ng-repeat="category in vm.categories|filter:vm.search_category.title | orderBy:'name'" class="category">
+                        <input type="radio" value="{{ category.id }}" ng-model="vm.categories_selected"
+                                >
+                        {{ category.name }}
+                    </li>
+                </ul>
+            </div>
+            <input type="hidden"
+                   name="categories"
+                   ng-model="vm.categories_selected"
+                   validator="vm.categories_selected.length > 0"
+                   invalid-message="'Es requerido elegir al menos una categoria.'"/>
+        </div>
+    </div>
+</div>
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            Imagenes
+        </h3>
+    </div>
+    <div class="panel-body">
+        <div class="form-group">
+            <p>¡Tu producto es el protagonista! No incluyas logos, banners, textos promocionales, bordes ni marcas de agua.</p>
+            <script type="text/ng-template" id="helpimage">
+                        <div class="triangle"></div>
+                        <div class="ns-popover-tooltip" style="max-width: 400px; padding: 10px;">
+                            <img src="/static/image/help/first-image.png" class="img-thumbnail"  />
+                            <p>La imagen por defecto es importante ya que es la primera imagen que se ve de tu anuncio. Es la imagen
+                        con la cual tu producto compite con otros.</p>
+                        </div>
+                    </script>
+                    <span class="help" >¿Porque es importante la imagen por defecto?.
+                        <a ns-popover
+                           ns-popover-template="helpimage"
+                           ns-popover-trigger="click"
+                           ns-popover-hide-on-outside-click="true"
+                           ns-popover-hide-on-button-click="true"
+                           ns-popover-template="menu"
+                           ns-popover-theme="ns-popover-list-theme"
+                           ns-popover-placement="bottom"
+                           ns-popover-placement="bottom">Ayuda</a></span>
+            <input type="hidden"
+                   name="images"
+                   ng-model="vm.categories_selected"
+                   validator="vm.images.length > 0"
+                   invalid-message="'Es requerido cargar al menos una imagen.'"/>
+
+            <div ng-if="vm.request">
+                <upload-images uploaded-images="{{ vm.item.images }}" files-model="images">
+
+                </upload-images>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            Descripcion detallada
+        </h3>
+    </div>
+    <div class="panel-body">
+        <script type="text/ng-template" id="helpbody">
+                    <div class="triangle"></div>
+                    <div class="ns-popover-tooltip" style="max-width: 400px; padding: 10px;">
+                        <img src="/static/image/help/description.png" class="img-thumbnail"  />
+                        <p>La descripcion del anuncio aparece en el detalle del mismo, es recomendable describir cada especificacion....</p>
+                    </div>
+                </script>
+        <p class="help" >¿Para que sirve la descripcion?.
+            <a ns-popover
+               ns-popover-template="helpbody"
+               ns-popover-trigger="click"
+               ns-popover-hide-on-outside-click="true"
+               ns-popover-hide-on-button-click="true"
+               ns-popover-template="menu"
+               ns-popover-theme="ns-popover-list-theme"
+               ns-popover-placement="bottom"
+               ns-popover-placement="bottom">Ayuda</a></p>
+        <div class="form-group" >
+            <textarea ckeditor="vm.editorOptions"
+                      ng-model="vm.item.body"
+                      class="form-control"
+                      name="body"
+                      placeholder="Descripcion"
+                      ng-minlength="50"
+                      required="required"
+                      invalid-message="'La descripcion debe tener minimo 50 caracteres.'"
+                      required-message="'La descripcion del anuncio es requerida!'">
+            </textarea>
+        </div>
+    </div>
+</div>
+<!--<div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    Ubicacion
+                </h3>
+            </div>
+            <div class="panel-body">
+                <!-- COL LOCATION FORM -
+                <div class="col-md-6 col-sm-12" style="min-height: 400px; max-height: 480px;">
+                    <h3>Ingresa una ubicacion donde estara disponible este anuncio.</h3>
+
+                    <div ng-show="vm.user_locations.length > 0">
+                        <div class="form-group">
+                            <input type="radio" ng-model="vm.channel_set_location" value="userlocations" ><label>Selecciona una de tus ubicaciones guardadas</label>
+                        </div>
+                        <div class="form-group col-md-12" >
+                            <select name="location_select"
+                                    ng-model="vm.location_selected"
+                                    ng-change="vm.changeLocationSelected()"
+                                    class="form-control"
+                                    ng-disabled="vm.channel_set_location == 'custom'"
+                                    ng-required="vm.channel_set_location != 'custom'"
+                                    required-message="'Selecciona una ubicacion o ingresala manualmente.'"
+                                    data-ng-options="obj as obj.title for obj in vm.user_locations">
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <input type="radio" ng-model="vm.channel_set_location" value="custom"/>
+                            <label for="">Cargar una ubicacion personalizada</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-12">
+                        <label class="control-label" for="location_title">Nombre de la nueva ubicacion</label>
+                        <input class="form-control"
+                               maxlength="100"
+                               ng-disabled="vm.channel_set_location != 'custom'"
+                               ng-model="vm.location.title"
+                               ng-required="vm.channel_set_location == 'custom' && vm.save_location"
+                               name="location_title"
+                               placeholder="Nombre de la ubicacion. Ej: Mi trabajo."
+                               required-message="'Si carga una ubicacion personalizada el titulo es requerido.'"
+                               title=""
+                               type="text">
+                    </div>
+                    <div class="form-group col-md-12">
+                        <input type="checkbox" ng-model="vm.save_location" ng-disabled="vm.channel_set_location !='custom'"/> <span>¿Guardar esta ubicacion como una de mis ubicaciones?</span>
+                    </div>
+                    <div class="col-md-12" >
+                        <hr/>
+                        <h5>Informacion General :</h5>
+                        <ul>
+                            <li>
+                                <b>Latitude </b> {{ vm.location.lat }}
+                            </li>
+                            <li>
+                                <b>Longitude </b> {{ vm.location.lng }}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- COL MAP
+                <div class="col-md-5 col-sm-12 col-md-offset-1" id="container-map-with-search">
+
+                    <div id="data-position-form" class="col-md-12">
+                        <!-- Itemdress
+                        <div class="input-group col-md-12" ng-show="vm.channel_set_location == 'custom'">
+                            <google-places location=location_places map=map></google-places>
+                            <input type="hidden"
+                                   name="location"
+                                   ng-model="location_places"
+                                   validator="vm.location.lat"
+                                   invalid-message="'Ingresa la direccion exacta, o selecciona una de las que ya tienes.'"/>
+                        </div>
+                    </div>
+
+                    <leaflet id="location-map" center="vm.map.center" defaults="vm.map.defaults" bounds="vm.map.bounds" event-broadcast="vm.map.events" markers="vm.map.markers">
+
+                    </leaflet>
+                </div>
+            </div>
+        </div>-->
+</div>
+<div class="panel-footer">
+    <button type="submit" class="btn btn-primary pull-right"><i class="fa fa-floppy-o"></i> Guardar</button>
+    <button class="btn btn-warning pull-right" ui-sref="my-items"><i class="fa fa-times"></i> Cancelar</button>
+</div>
+</form>

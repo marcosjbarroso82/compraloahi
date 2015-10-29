@@ -2,7 +2,7 @@
     'use strict';
 
     angular.module('App', [
-            'App.ad'
+            'App.item'
         ])
     .config(function ($interpolateProvider, $httpProvider, $locationProvider) {
         $interpolateProvider.startSymbol('{{').endSymbol('}}');

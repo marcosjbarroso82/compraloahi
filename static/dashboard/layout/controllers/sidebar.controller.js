@@ -17,8 +17,7 @@
     function SidebarCtrl(Authentication) {
         var vm = this;
 
-        vm.has_ads = Authentication.has_ads;
-
+        vm.has_items = Authentication.has_items;
     }
 
 })();

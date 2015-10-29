@@ -36,7 +36,14 @@ class AdLocationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = AdLocation
-        fields = ('title', 'lat', 'lng', 'id', 'ad')
+        fields = ('title', 'lat', 'lng', 'id', 'ad', 'address')
+
+    def __init__(self, *args, **kwargs):
+        super(AdLocationSerializer, self).__init__(*args, **kwargs)
+
+        if not self.instance or not self.instance.ad.show_location():
+            self.fields.pop('address')
+
 
     # def get_center(self, obj):
     #     return obj.center()
@@ -74,6 +81,7 @@ class AdPublicSerializer(serializers.ModelSerializer):
                return False
         else:
             return False
+
 
 
 class DistanceSerializer(serializers.Serializer):

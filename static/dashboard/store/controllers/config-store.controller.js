@@ -9,21 +9,21 @@
         .module('dashBoardApp.store.controllers')
         .controller('StoreConfigCtrl', StoreConfigCtrl);
 
-    StoreConfigCtrl.$inject = ['Store', 'AlertNotification', '$scope', 'Ad'];
+    StoreConfigCtrl.$inject = ['Store', 'AlertNotification', '$scope', 'Item'];
 
     /**
      * @namespace ShopConfigCtrl
      */
-    function StoreConfigCtrl(Store, AlertNotification, $scope, Ad) {
+    function StoreConfigCtrl(Store, AlertNotification, $scope, Item) {
         var vm = this;
 
         vm.submit = submit;
         vm.changeStoreName = changeStoreName;
         vm.nextStep = nextStep;
-        vm.validateAdsSelect = validateAdsSelect;
+        vm.validateItemsSelect = validateItemsSelect;
 
         vm.configs = {};
-        vm.configs.ads = [];
+        vm.configs.items = [];
         vm.logo = {};
 
         vm.name_unique = false;
@@ -61,21 +61,21 @@
                 AlertNotification.error("Se produjo un error en el servidor.");
             }
 
-            vm.promiseRequestAds = Ad.list().then(getAdSuccess, getAdError);
+            vm.promiseRequestItems = Item.list().then(getItemSuccess, getItemError);
 
-            function getAdSuccess(data){
-                vm.configs.ads = data.data.results;
+            function getItemSuccess(data){
+                vm.configs.items = data.data.results;
             }
 
-            function getAdError(data){
-                console.log("Error request ads");
+            function getItemError(data){
+                console.log("Error request items");
             }
         }
 
-        function validateAdsSelect(){
-            if(vm.configs.ads){
-                for(var i=0; i < vm.configs.ads.length; i++){
-                    if(vm.configs.ads[i].store_published){
+        function validateItemsSelect(){
+            if(vm.configs.items){
+                for(var i=0; i < vm.configs.items.length; i++){
+                    if(vm.configs.items[i].store_published){
                         return true;
                     }
                 }
@@ -133,7 +133,4 @@
 
 
     }
-
-
-
 })();

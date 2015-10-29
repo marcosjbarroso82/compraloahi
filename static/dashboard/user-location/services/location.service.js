@@ -1,5 +1,5 @@
 /**
- * Ad
+ * Item
  * @namespace dashBoardApp.location.services
  */
 (function () {
@@ -42,4 +42,4 @@
 
         return userLocation;
     }
-})()
+})();

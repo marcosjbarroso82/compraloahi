@@ -8,5 +8,4 @@
 
     angular
         .module('dashBoardApp.layout.controllers', []);
-
 })();

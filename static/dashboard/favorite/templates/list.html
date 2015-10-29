@@ -13,25 +13,25 @@
             </div>
             </div>
             <table class="table table-bordred table-striped" ng-table="vm.tableParams" >
-                <tr id="ad-row-{{ ad.id }}" ng-class-odd="'odd'" ng-class-even="'even'" ng-repeat="ad in $data">
+                <tr id="item-row-{{ item.id }}" ng-class-odd="'odd'" ng-class-even="'even'" ng-repeat="item in $data">
                     <td class="v-align-middle col-md-1"
                         data-title="'Image'">
-                        <img id="media-object" class="img-rounded" ng-src="{{ ad.images[0].thumbnail_110x110 }}" width="90" height="90">
+                        <img id="media-object" class="img-rounded" ng-src="{{ item.images[0].thumbnail_110x110 }}" width="90" height="90">
                     </td>
                     <td class="v-align-middle col-md-9"
-                        data-title="'Ads'"
+                        data-title="'Items'"
                         sortable="'title'">
-                        <h4><strong>{{ ad.title }}</strong></h4>
-                        <p>{{ ad.short_description }}</p>
-                        <small><strong>Fecha de publicacion : </strong>{{ ad.pub_date }} </small>
+                        <h4><strong>{{ item.title }}</strong></h4>
+                        <p>{{ item.short_description }}</p>
+                        <small><strong>Fecha de publicacion : </strong>{{ item.pub_date }} </small>
                     </td>
-                    <td class="v-align-middle col-md-1" data-title="'Price'" sortable="'price'"> {{ ad.price| currency:"$" }}</td>
+                    <td class="v-align-middle col-md-1" data-title="'Price'" sortable="'price'"> {{ item.price| currency:"$" }}</td>
                     <td class="v-align-middle col-md-1" data-title="'Actions'">
                         <!-- delete -->
                         <button class="btn btn-sm btn-default text-danger btn-table"
-                                ng-really-message="Estas seguro que deseas quitar de favoritos el aviso {{ ad.title }} ?"
-                                ng-really-click="vm.remove_favorite(ad)"
-                                item="ad">
+                                ng-really-message="Estas seguro que deseas quitar de favoritos el aviso {{ item.title }} ?"
+                                ng-really-click="vm.remove_favorite(item)"
+                                item="item">
                             <span class="fa fa-times"
                                   tooltip="'Quita el aviso de mis favoritos'"
                                   placement="top"></span>

@@ -11,6 +11,7 @@ class NotificationUnreadCount(Node):
 def get_notifications_unread_count(parser, token):
     return NotificationUnreadCount()
 
+
 class NotificacionUnreadList(Node):
     def render(self, context):
         notifications = Notification.objects.filter(receiver=context['user'], read=None)

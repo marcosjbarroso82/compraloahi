@@ -24,7 +24,11 @@
             create: create,
             upload_img: upload_img,
             is_username_valid: is_username_valid,
-            set_profile: set_profile
+            set_profile: set_profile,
+            get_address: get_address,
+            update_address: update_address,
+            get_config_privacity: getConfigPrivacity,
+            set_config_privacity: setConfigPrivacity
         };
 
         var profile_cache = {};
@@ -97,7 +101,6 @@
             fd.append('user', angular.toJson(profile.user));
             fd.append('phones', angular.toJson(profile.phones));
             fd.append('image', profile.image);
-            console.log(profile);
             return $http.post('/api/v1/profile/create/', fd, {
                 headers: {'Content-Type': undefined},
                 withCredentials: true,
@@ -114,6 +117,23 @@
             profile_cache = profile;
         }
 
+        function get_address(){
+            return $http.get('/api/v1/profile/address/');
+        }
+
+        function update_address(location){
+            return $http.put('/api/v1/profile/address/', location);
+        }
+
+
+        function getConfigPrivacity(){
+            return $http.get('/api/v1/config-privacity/');
+        }
+
+        function setConfigPrivacity(config){
+            return $http.put('/api/v1/config-privacity/', config);
+        }
+
         return Profile;
     }
-})()
+})();

@@ -8,18 +8,18 @@ from apps.favorite.views import FavoriteAdViewSet
 from apps.notification.views import NotificationListApiView, NotificationRetrieveApiView, \
     RegisterGCMNotification, UnregisterGCMNotification, NotificationMarkBulkReadApiView, ConfigNotificationModelViewSet
 from apps.user.views import ChangePasswordUpdateAPIView
-from apps.userProfile.views import UserLocationViewSet, UserProfileModelView, StoreModelViewSet
+from apps.userProfile.views import UserLocationViewSet, UserProfileModelView, StoreModelViewSet, ProfileLocationViewSet, ConfigPrivacityViewSet
 from apps.msg.views import MsgViewSet
 
 from .views import generate_all_auth_token
 
 
 router = DefaultRouter()
-router.register(r'my-ads', AdUserViewSet, base_name='ad-by-user')
-router.register(r'ads', AdPublicViewSet, base_name='ads')
+router.register(r'my-items', AdUserViewSet, base_name='ad-by-user')
+router.register(r'items', AdPublicViewSet, base_name='ads')
 router.register(r'user-locations', UserLocationViewSet, base_name='location-by-user')
 router.register(r'favorites', FavoriteAdViewSet, base_name='favorites')
-router.register(r'ad-search', SearchViewSet, base_name='search') #/ad-search/?q=algo&latitude=-31&longitude=-64&km=33
+router.register(r'item-search', SearchViewSet, base_name='search') #/ad-search/?q=algo&latitude=-31&longitude=-64&km=33
 router.register(r'msgs', MsgViewSet, base_name='msgs')
 
 
@@ -57,6 +57,12 @@ urlpatterns = patterns('',
                        url(r'^api-generate-all-token-auth/', generate_all_auth_token),
 
                        url(r'^api-token-auth/', obtain_auth_token),
+
+                       # Config user privacity
+                       url(r'^config-privacity/$', ConfigPrivacityViewSet.as_view({'get': 'retrieve', 'put': 'update'})),
+
+                       # Update Address profile
+                       url(r'^profile/address/$', ProfileLocationViewSet.as_view({'get': 'retrieve', 'put': 'update'})),
 
                        # Detail Profile
                        url(r'^profile/$',
