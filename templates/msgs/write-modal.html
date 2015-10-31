@@ -31,24 +31,6 @@
 
 
 <script>
-
-
-    function getCookie(name) {
-        var cookieValue = null;
-        if (document.cookie && document.cookie != '') {
-            var cookies = document.cookie.split(';');
-            for (var i = 0; i < cookies.length; i++) {
-                var cookie = jQuery.trim(cookies[i]);
-                // Does this cookie string begin with the name we want?
-                if (cookie.substring(0, name.length + 1) == (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
-                }
-            }
-        }
-        return cookieValue;
-    }
-
     $('#submitMessage').click(function(){
     //var subject = $('#id_subject').val();
     var body = $('#id_body').val();
@@ -68,17 +50,15 @@
                 body: body, subject: subject, object_id: item_id, content_type: 27
             },
             success: function(response) {
-                var content_modal = '<div class="modal-dialog">' +
-                                    '<div class="modal-content">' +
-                                    '<div class="modal-header">' +
-                                    '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>' +
-                                    '<h4 class="modal-title">Contactar al anunciante</h4>' +
-                                    '</div>' +
-                                    '<div class="modal-body">' +
-                                    '<p> El mensaje fue enviado con exito</p>' +
-                                    '</div></div></div>';
-                $('#modalMessage').html(content_modal);
-            }
+
+                $('#modalMessage').modal('hide');
+                $('#container-item-detail-page').prepend(alert('Se ha enviado el mensaje con exito.', 'success'));
+            },
+            error: function(data){
+                        $('#modalMessage').modal('hide');
+                        $("#container-item-detail-page").prepend(alert("Error al intentar contactarse con el anunciante, vuelva a intentarlo mas tarde.", 'danger'));
+                    }
+
         });
 
 {#    $.post("/api/v1/msgs/", {body: body, subject: subject, object_id: item_id, content_type: 27},#}
