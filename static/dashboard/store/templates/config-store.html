@@ -179,7 +179,7 @@
                 </div>
                 <div class="col-md-12" cg-busy="vm.promiseRequestItems">
                     <ul class="media-list">
-                        <li class="media" ng-repeat="item in vm.configs.items" ng-click="item.store_published = !ad.store_published;">
+                        <li class="media" ng-repeat="item in vm.configs.items" ng-click="item.store_published = !item.store_published;">
                             <div class="media-left">
                                 <a href="#">
                                     <img class="media-object" src="{{ item.images[0].thumbnail_110x110 }}" alt="60">
