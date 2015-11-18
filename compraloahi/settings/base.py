@@ -38,6 +38,7 @@ THIRD_PARTY_APPS = (
     'rest_auth.registration',
     'djmail',
     'jsonify',
+    'termsandconditions',
 )
 
 LOCAL_APPS = (

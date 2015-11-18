@@ -6,7 +6,7 @@ from apps.favorite.views import HasFavoriteNearApiView
 from apps.userProfile.views import StoreView
 from apps.user.views import FacebookLogin, GoogleLogin
 
-from .views import HomeView, DashBoardView, log, send_notification
+from .views import HomeView, DashBoardView, log, send_notification, TermAndConditionView
 
 from .settings import base as settings
 
@@ -23,6 +23,11 @@ urlpatterns = patterns('',
                        url(r'^log/', log),
 
                        url('^faq/', include('apps.faq.urls')),
+
+                       url('^terminosycondiciones/(?P<template>.*)$', TermAndConditionView.as_view()),
+
+                       # Terms and Conditions
+                       url(r'^terms/', include('termsandconditions.urls')),
 
                         # Include API
                        (r'^api/v1/', include('compraloahi.urls_api', namespace='api')),

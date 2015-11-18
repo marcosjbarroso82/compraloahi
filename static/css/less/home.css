@@ -239,27 +239,28 @@ html {
   z-index: 2000;
   position: absolute;
 }
-body {
-  overflow: hidden;
-}
-#container-arrow {
-  width: 60px;
-  margin: auto;
-  margin-top: 10px;
-}
-#home-animation {
-  background-image: url("../../image/background-map.png");
-  height: 100%;
-  overflow: hidden;
-}
-#img-hand {
+#btn-download-app,
+#btn-download-app1 {
   position: absolute;
-  right: 25%;
-  width: 50%;
-  bottom: -100px;
+  bottom: 0px;
+  font-size: 1.3em;
+  -webkit-box-shadow: 1px 1px 2px 0.3px rgba(64, 64, 64, 0.71);
+  -moz-box-shadow: 1px 1px 2px 0.3px rgba(64, 64, 64, 0.71);
+  box-shadow: 1px 1px 2px 0.3px rgba(64, 64, 64, 0.71);
+  border: 1px solid #009691;
 }
-.result-search {
-  width: 30px;
-  position: absolute;
-  display: none;
+#btn-download-app {
+  left: 240px;
+}
+#btn-download-app1 {
+  left: 35px;
+}
+.description .panel-title {
+  text-align: center;
+  width: 100%;
+  font-size: 18px !important;
+}
+.ventajas-title {
+  font-size: 1.8em;
+  margin-top: 30px;
 }

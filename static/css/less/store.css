@@ -239,57 +239,61 @@ html {
   z-index: 2000;
   position: absolute;
 }
-.container-store .header {
+.header {
   height: 100px;
   margin: 30px 15px;
 }
-.container-store .header .logo {
+.header .logo {
   float: right;
   margin-right: 15px;
   max-width: 300px;
   max-height: 100px;
 }
-.container-store .header .title {
+.header .title {
   max-width: 60%;
   font-size: 28px;
   margin-top: 20px;
   font-weight: bold;
 }
-.container-store .header .slogan {
+.header .slogan {
   font-size: 15px;
 }
-.container-store .item-store {
-  margin-bottom: 30px;
+.cant-column-3 {
+  width: 30% !important;
+  margin-left: 2% !important;
+  margin-right: 0px !important;
 }
-.container-store .item-store .item-content {
-  border: 1px solid #c3b3b3;
-  padding: 10px;
-  background-color: #F9F9F9;
+.cant-column-2 {
+  width: 40% !important;
+  margin-left: 6% !important;
+  margin-right: 0px !important;
 }
-.container-store .item-store .item-content:hover {
-  border: 2px solid #466178;
+.cant-column-1 {
+  width: 70% !important;
+  margin-left: 15% !important;
+  margin-right: 0px !important;
 }
-.container-store .item-store .item-content .title,
-.container-store .item-store .item-content .description {
-  min-height: 40px;
+.cant-column-4 .cd-item-wrapper {
+  min-height: 126px;
 }
-.container-store .item-store .item-content .title a {
-  color: #074e7c;
+.cant-column-3 .cd-item-wrapper {
+  min-height: 171px;
 }
-.container-store .item-store .item-content .price {
-  font-weight: bold;
-  color: #c0272b;
+.cant-column-2 .cd-item-wrapper {
+  min-height: 230px;
+}
+#logoshop {
   position: absolute;
-  top: 15px;
-  right: 15px;
-  font-size: 30px;
-  text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+  top: 30px;
+  right: 30px;
+  bottom: auto;
+  max-width: 130px;
+  max-height: 100px;
 }
-.container-store .item-store .item-content .description {
-  min-height: 60px;
-  color: #888888;
+.cd-dots {
+  position: absolute;
+  margin-left: 48%;
 }
-.container-store .item-store .one-column .price {
-  bottom: 15px;
-  top: auto;
+.cd-price {
+  color: #e54f4f !important;
 }

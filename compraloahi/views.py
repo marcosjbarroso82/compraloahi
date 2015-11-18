@@ -39,12 +39,22 @@ def send_notification(request):
 
 
 class HomeView(TemplateView):
-    template_name = '404.html'
+    template_name = 'index.html'
 
-    def dispatch(self, request, *args, **kwargs):
-        return redirect('/item/search/?q=')
+    #def dispatch(self, request, *args, **kwargs):
+    #    return redirect('/item/search/?q=')
 
+class TermAndConditionView(TemplateView):
+    template_name = 'termcondition/index.html'
 
+    def get_template_names(self):
+        print(self.kwargs)
+        print(self.args)
+        print(self.request.GET)
+        if self.kwargs.get('template'):
+            return 'termcondition/%s.html' %(self.kwargs['template'])
+        else:
+            return super(TermAndConditionView, self).get_template_names()
 
 class DashBoardView(TemplateView):
     """

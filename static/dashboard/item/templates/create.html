@@ -1,3 +1,20 @@
+<style>
+    .container-categories{
+        height: 110px;
+        overflow-y: auto;
+        border-bottom: 1px solid #c3c3c3;
+        border-right: 1px solid #c3c3c3;
+        border-left: 1px solid #c3c3c3;
+    }
+    .categories{
+        padding: 5px;
+    }
+    .categories .category{
+        width: 33%;
+        float: left;
+        list-style: none;
+    }
+</style>
 <div id="container-item-create-data" cg-busy="vm.promiseRequest">
 <div class="col-xs-12" style="z-index: 2; margin-top: 10px;">
     <!-- TABS STEP -->
@@ -127,12 +144,19 @@
         </div>
         <!-- CATEGORIES SELECT -->
         <div class="form-group">
-            <label class="control-label" for="categories">Elige las categorias a las que corresponde tu anuncio.</label>
-            <ul class="categories" cg-busy="vm.promiseRequestCategories">
-                <li ng-repeat="category in vm.categories">
-                    <input type="checkbox" ng-change="vm.selectCategory(category)" ng-model="category.selected"/> {{ category.name }}
-                </li>
-            </ul>
+            <div class="input-group">
+                <input type="text" ng-model="vm.search_category.title" class="form-control input-sm" maxlength="64" placeholder="Busca la categoria de tu producto" />
+                <span  class="input-group-addon"><i class="fa fa-search"></i></span>
+            </div>
+            <div class="container-categories">
+                <ul class="categories" cg-busy="vm.promiseRequestCategories" >
+                    <li ng-repeat="category in vm.categories|filter:vm.search_category.title | orderBy:'name'" class="category">
+                        <input type="radio" value="{{ category.id }}" ng-model="vm.categories_selected"
+                                >
+                        {{ category.name }}
+                    </li>
+                </ul>
+            </div>
             <input type="hidden"
                    name="categories"
                    ng-model="vm.categories_selected"

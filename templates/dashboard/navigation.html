@@ -14,7 +14,7 @@
             <a class="waves-effect waves-button waves-classic a">
                 <div class="nav-user-dropdown-responsive dropdown">
                     <a href="#" class="a dropdown-toggle waves-effect waves-button waves-classic" data-toggle="dropdown">
-                        <img class="img-circle avatar" src="{{ vm.profile.thumbnail_200x200 }}" width="40" height="40" alt="">
+                        <img class="img-circle avatar" ng-src="{{ vm.profile.thumbnail_200x200 }}" width="40" height="40" alt="">
                     </a>
                     <ul class="dropdown-menu dropdown-menu-right dropdown-list" role="menu">
                         <li role="presentation"><a href="/panel/user/profile/"><i class="fa fa-user"></i>Perfil</a></li>
@@ -102,7 +102,7 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle waves-effect waves-button waves-classic" data-toggle="dropdown">
                             <span class="user-name">{{ vm.profile.user.username }}<i class="fa fa-angle-down"></i></span>
-                            <img class="img-circle avatar" src="{{ vm.profile.thumbnail_200x200 }}" width="40" height="40" alt="">
+                            <img class="img-circle avatar" ng-src="{{ vm.profile.thumbnail_200x200 }}" width="40" height="40" alt="">
                         </a>
                         <ul class="dropdown-menu dropdown-list" role="menu">
                             <li role="presentation"><a href="/panel/user/profile"><i class="fa fa-user"></i>Perfil</a></li>
