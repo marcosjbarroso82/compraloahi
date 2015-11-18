@@ -27,7 +27,7 @@ urlpatterns = patterns('',
                        url('^terminosycondiciones/(?P<template>.*)$', TermAndConditionView.as_view()),
 
                        # Terms and Conditions
-                       url(r'^terms/', include('termsandconditions.urls')),
+                       #url(r'^terms/', include('termsandconditions.urls')),
 
                         # Include API
                        (r'^api/v1/', include('compraloahi.urls_api', namespace='api')),
