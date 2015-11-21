@@ -17,7 +17,7 @@ INFO_ADDRESS = {
     'administrative_area_level_2': '',
     'locality': ''
 }
-REQUIRED_INFO_ADDRESS = ['lat', 'lng', 'address', 'nro']
+REQUIRED_INFO_ADDRESS = ['address', 'nro']
 
 
 class AdLocation(models.Model):
@@ -38,12 +38,9 @@ class AdLocation(models.Model):
 
     def save(self, *args, **kwargs):
 
-        if self.ad.show_location():
-            self.lat = self.address.get('lat')
-            self.lng = self.address.get('lng')
-        else:
-            self.lat = self.address.get('lat') + 10 # TODO: Ofuscar ubicacion
-            self.lng = self.address.get('lng') + 10
+        if not self.ad.show_location():
+            self.lat = self.lat + 10 # TODO: Ofuscar ubicacion
+            self.lng = self.lng + 10
         super(AdLocation, self).save(*args, **kwargs)
 
 

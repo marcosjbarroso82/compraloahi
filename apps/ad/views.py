@@ -268,13 +268,13 @@ class AdUserViewSet(viewsets.ModelViewSet):
             if ad_serializer.is_valid():
                 ad_serializer.save()
                 loc = UserLocation.objects.filter(is_address=True, userProfile__user=request.user).first()
-
+                #import ipdb; ipdb.set_trace()
                 location = AdLocation()
                 location.lat = loc.lat
                 location.lng = loc.lng
                 location.address = loc.address
                 location.title = loc.title
-                location.nro = loc.nro
+                #location.nro = loc.address.get('nro', 0)
 
                 location.ad = ad_serializer.instance
 
