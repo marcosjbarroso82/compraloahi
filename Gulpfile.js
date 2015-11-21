@@ -128,6 +128,7 @@ gulp.task('js-search', function(){
         'static/bower_components/angular/angular.js',
         'static/bower_components/angular-leaflet/dist/angular-leaflet-directive.js',
         'static/bower_components/angular-tooltip-master/src/tooltip.js',
+        'static/bower_components/angular-snackbar/angular.snackbar.min.js'
     ];
 
     gulp.src(js_array)
@@ -143,7 +144,8 @@ gulp.task('css-search', function ()
         'static/css/less/list-item.css',
         'static/bower_components/leaflet/dist/leaflet.css',
         'static/bower_components/Leaflet.awesome-markers/dist/leaflet.awesome-markers.css',
-        'static/bower_components/angular-tooltip-master/src/tooltip.css'
+        'static/bower_components/angular-tooltip-master/src/tooltip.css',
+        'static/bower_components/angular-snackbar/css/angular.snackbar.css'
     ];
     gulp.src(css_array)
         .pipe(concatCss("concat.css"))

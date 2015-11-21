@@ -12,7 +12,7 @@
         .module('util.controllers', []);
 
     angular
-        .module('util.directives', []);
+        .module('util.directives', ['angular.snackbar']);
 
 })();
 

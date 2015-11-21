@@ -6,7 +6,7 @@
 <head>
 
     <!-- Title -->
-    <title>CompraloAhí</title>
+    <title> {% block title %} Compraloahí {% endblock %}</title>
 
     <meta content="width=device-width, initial-scale=1" name="viewport"/>
     <meta charset="UTF-8">
@@ -61,7 +61,10 @@
             {% block footer %}
                 <div class="page-footer">
                     <div class="container">
-                        <p class="no-s">2015 &copy; Compraloahi by <a href="http://www.context.com.ar" target="_blank">Context</a></p>
+                        <p class="no-s">2015 &copy; Compraloahi echo por <a href="http://www.context.com.ar" target="_blank">Context</a>   |
+                            <a href="/faq/">Terminos y condiciones</a> | <a href="/faq/">Politicas y privacidad</a> | <a
+                                    href="/faq/">Ayuda</a>
+                        </p>
                     </div>
                 </div>
             {% endblock %}

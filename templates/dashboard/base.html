@@ -10,7 +10,7 @@
 
         <link rel="icon" type="image/png" href="/static/image/compraloahi-iso-logo-icon.png">
 
-        {% include 'dashboard/stylesheets_prod.html' %}
+        {% include 'dashboard/stylesheets.html' %}
 
         <!--<script src="/static/assets/plugins/3d-bold-navigation/js/modernizr.js"></script>-->
 
@@ -78,6 +78,16 @@
 
                 </div><!-- Page Inner -->
             {% endverbatim %}
+
+            <a ng-show="!('item-create' | includedByState)"
+               ui-sref="item-create"
+               id="btn-add-item"
+               class="btn-circle btn-lg btn-warning"
+               tooltip="'Agregar un aviso'"
+               placement="left">
+                <span class="fa fa-plus fa-2x"></span>
+                <p>Aviso</p>
+            </a>
         </main><!-- Page Content -->
         <div class="cd-overlay"></div>
         <div class="snackbar-container" data-snackbar="true"></div>

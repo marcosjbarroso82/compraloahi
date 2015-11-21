@@ -10,12 +10,12 @@
         .module('App.item.controllers')
         .controller('ItemCtrl', ItemCtrl);
 
-    ItemCtrl.$inject = ['$scope', 'ItemSearch', '$location', 'leafletEvents', 'leafletData', '$http']; //
+    ItemCtrl.$inject = ['$scope', 'ItemSearch', '$location', 'leafletEvents', 'leafletData', '$http', 'AlertNotification']; //
 
     /**
      * @namespace ItemCtrl
      */
-    function ItemCtrl($scope, ItemSearch, $location, leafletEvents, leafletData, $http) {
+    function ItemCtrl($scope, ItemSearch, $location, leafletEvents, leafletData, $http, AlertNotification) {
 
         var vm = this;
 
@@ -117,8 +117,11 @@
             $http.post('/api/v1/favorites/', {target_object_id: item.id}).success(function(data){
                 if (item.is_favorite){
                     item.is_favorite = false;
+                    AlertNotification.success("El aviso " + item.title + " fue quitado de favoritos.");
                 }else{
                     item.is_favorite = true;
+                    console.log("ESTO ANDA");
+                    AlertNotification.success("El aviso " + item.title + " fue agregado de favoritos.");
                 }
             }).error(function(error){
                 console.log("removeFavorite Error");
@@ -326,7 +329,7 @@
                 $scope.$on('leafletDirectiveMarker.mouseout', function(event, args){
                     if(current_event != 'mouseout' && args['modelName'] != 'center'){
                         current_event = 'mouseout';
-                        vm.map.markers[args['modelName']]['icon']['markerColor'] = 'red';
+                        vm.map.markers[args['modelName']]['icon']['markerColor'] = 'yellow';
                         for(var i=0; i < vm.items.length; i++){
                             if(String(vm.items[i]['id']) == args['modelName']){
                                 vm.items[i]['selected'] = false;
@@ -380,7 +383,7 @@
             if(item.selected){
                 vm.map.markers[String(item.id)]['icon']['markerColor'] = 'blue';
             }else{
-                vm.map.markers[String(item.id)]['icon']['markerColor'] = 'red';
+                vm.map.markers[String(item.id)]['icon']['markerColor'] = 'yellow';
             }
         }
 
@@ -400,7 +403,7 @@
                 marker['icon'] = {
                     type: 'awesomeMarker',
                     html: String(i + 1),
-                    markerColor: 'red'
+                    markerColor: 'yellow'
                 };
                 vm.map.markers[String(vm.items[i]['id'])] = marker;
             }

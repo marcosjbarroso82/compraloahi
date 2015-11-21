@@ -76,7 +76,7 @@
                     </div>
                     {% endverbatim %}
 
-                    <button class="btn btn-xs btn-info btn-data-position pull-right"
+                    <button class="btn btn-xs btn-tools btn-refresh pull-right"
                             tooltip="'Actualizar resultados'"
                             placement="top"
 
@@ -85,7 +85,7 @@
                         <i class="fa fa-refresh"></i>
                     </button>
 
-                    <button class="btn btn-xs btn-success btn-data-position pull-right"
+                    <button class="btn btn-xs btn-tools btn-data-position pull-right"
                             tooltip="'Buscar en mi ubicacion actual'"
                             placement="top"
                             ng-click="vm.setGeoLocation()"
@@ -97,10 +97,11 @@
                         {% verbatim %}
                         <!-- ########################## USER LOCATIONS ########################## -->
                         <div class="btn-group  dropdown">
-                            <a class="btn btn-xs btn-data-position btn-primary dropdown-toggle waves-effect waves-button waves-classic" data-toggle="dropdown">
+                            <a class="btn btn-xs btn-tools btn-user-locations dropdown-toggle waves-effect waves-button waves-classic" data-toggle="dropdown">
                                 <i class="fa fa-list-ul"> </i>
                             </a>
                             <ul class="dropdown-menu dropdown-list user-location-list" role="menu" >
+                                <li><h4>Mis ubicaciones:</h4></li>
                                 <li role="presentation" ng-repeat="user_location in vm.user_locations" for="{{::user_location}}" >
                                     <input type="radio"
                                            name="{{::user_location}}"
@@ -118,7 +119,7 @@
 
                         <!-- BUTTON SAVE NEW LOCATION -->
                         <button data-toggle="modal"
-                                class="btn btn-xs btn-primary btn-data-position pull-right"
+                                class="btn btn-xs btn-tools btn-data-position pull-right"
                                 data-target="#modalNewLocation"
                                 tooltip="'Guarda la ubicacion'"
                                 ng-show="vm.canSaveLocation()">
@@ -222,10 +223,10 @@
                         <a href="/item/{{ item.slug }}" ><h4 >{{ item.title }}</h4></a>
                         <small> Publicado el {{ item.pub_date }} </small>
                         <p> {{ item.short_description }} </p>
-                        <i class="fa fa-2x" ng-click="vm.toggleFavorite(item)" ng-class="{'fa-heart': item.is_favorite, 'fa-heart-o': !item.is_favorite}"></i>
+                        <i class="fa fa-2x favit" ng-click="vm.toggleFavorite(item)" ng-class="{'fa-heart': item.is_favorite, 'fa-heart-o': !item.is_favorite}"></i>
                     </div>
                     <span class="price-items-list pull-right">${{ item.price }}<sup>99</sup></span>
-                    <a class="locate-it btn" ng-click="vm.centerMap(item.center)" ><span style="font-size: 20px; color: #07355b;">{{ $index + 1 }}</span></a>
+                    <a class="locate-it btn" ng-click="vm.centerMap(item.center)" ><span style="font-size: 20px; color: white;">{{ $index + 1 }}</span></a>
                 </div>
                 <div class="col-md-12" ng-show="vm.items.length == 0">
                     <p>No hay avisos con los en la ubicacion elegida..</p>
@@ -289,7 +290,7 @@
         </div>
         {% endverbatim %}
     {% endif %}
-
+    <div class="snackbar-container" data-snackbar="true"></div>
     <!-- END BLOCK BODY -->
 {% endblock %}
 
@@ -336,6 +337,7 @@
     <script type="text/javascript" src="{% static 'angular-resources/modules/utils/util.module.js' %}"></script>
     <script type="text/javascript" src="{% static 'angular-resources/modules/utils/directives/google-places.directive.js' %}"></script>
     <script type="text/javascript" src="{% static 'angular-resources/modules/utils/directives/ng-enter.directive.js' %}"></script>
+    <script type="text/javascript" src="{% static 'angular-resources/modules/utils/directives/alert-notification.directive.js' %}"></script>
     <!-- ###################### END DASHBOARD APP - MODULE UTILS ###################### -->
 
 

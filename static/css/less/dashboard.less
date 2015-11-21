@@ -206,38 +206,9 @@ hr{
     font-size: 17px !important;
   }
 
-  #btn-add-item{
-    margin: 10px !important;
-    height: auto;
-    background-color: #fada44;
-    padding: 5px;
-    .mixin-shadow-bottom(.5px, .5px, 1px, .2px, #DFDFDF);
-    position: absolute;
-    left: 0px;
-    @media (max-width: 767px){
-      width: 40px;
-      position: relative;
-      a{
-        text-align: center;
-      }
-    }
 
-    a{
-      padding: 5px !important;
-      width: 100%;
-      span{
-        font-size: 20px !important;
-        margin-bottom: 0px !important;
-      }
 
-      /*@media (max-width: 767px)*/
 
-    }
-    a:hover{
-      color: #000000;
-      font-weight: bolder;
-    }
-  }
 }
 
 .btn-table{
@@ -336,4 +307,23 @@ hr{
 
 .has-error, .validationMessage{
   color: #f65355;
+}
+
+#btn-add-item{
+  position: absolute;
+  right: 40px;
+  bottom: 10px;
+  height: 60px;
+  width: 60px;
+  border-radius: 50%;
+  text-align: center;
+  color: #282828;
+  p{
+    font-size: 1.3em;
+    font-weight: bolder;
+    color: #282828;
+  }
+  &:hover{
+    color: #282828 !important;
+  }
 }

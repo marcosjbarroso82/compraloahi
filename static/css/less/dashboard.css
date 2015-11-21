@@ -88,7 +88,7 @@ html input[type='range']::-webkit-slider-thumb,
 body input[type='range']::-webkit-slider-thumb {
   -webkit-appearance: none !important;
   border-radius: 20px;
-  background-color: #4e6c83;
+  background-color: #635a9a;
   border: 1px solid #bab5ba;
   height: 20px;
   width: 20px;
@@ -97,7 +97,7 @@ html input[type='range']::-moz-range-thumb,
 body input[type='range']::-moz-range-thumb {
   -moz-appearance: none;
   border-radius: 20px;
-  background-color: #4e6c83;
+  background-color: #635a9a;
   border: 1px solid #bab5ba;
   height: 20px;
   width: 20px;
@@ -238,6 +238,14 @@ html {
 .Tooltip {
   z-index: 2000;
   position: absolute;
+}
+.btn-favit-favorite {
+  background-color: none !important;
+  border: none;
+}
+.btn-favit-favorite .fa-heart {
+  color: #7a6fbe;
+  /* TODO: This color is primary */
 }
 #container-profile-data .body-container {
   margin-top: 25px;
@@ -382,39 +390,6 @@ hr {
 .page-sidebar-inner .menu-icon {
   font-size: 17px !important;
 }
-.page-sidebar-inner #btn-add-item {
-  margin: 10px !important;
-  height: auto;
-  background-color: #fada44;
-  padding: 5px;
-  -webkit-box-shadow: 0.5px 0.5px 1px 0.2px #dfdfdf;
-  -moz-box-shadow: 0.5px 0.5px 1px 0.2px #dfdfdf;
-  box-shadow: 0.5px 0.5px 1px 0.2px #dfdfdf;
-  position: absolute;
-  left: 0px;
-}
-@media (max-width: 767px) {
-  .page-sidebar-inner #btn-add-item {
-    width: 40px;
-    position: relative;
-  }
-  .page-sidebar-inner #btn-add-item a {
-    text-align: center;
-  }
-}
-.page-sidebar-inner #btn-add-item a {
-  padding: 5px !important;
-  width: 100%;
-  /*@media (max-width: 767px)*/
-}
-.page-sidebar-inner #btn-add-item a span {
-  font-size: 20px !important;
-  margin-bottom: 0px !important;
-}
-.page-sidebar-inner #btn-add-item a:hover {
-  color: #000000;
-  font-weight: bolder;
-}
 .btn-table {
   border-radius: 50%;
   height: 35px;
@@ -444,10 +419,10 @@ hr {
   z-index: 10;
 }
 #container-map-with-search #data-position-form .input-group-custom-addon.icon-addon.addon-sm {
-  color: #4e6c83;
+  color: #635a9a;
 }
 #container-map-with-search #data-position-form .input-group-custom-addon.icon-addon.addon-sm .glyphicon {
-  border-color: #4e6c83;
+  border-color: #635a9a;
 }
 #container-map-with-search #data-position-form input[type="text"] {
   border: none;
@@ -467,7 +442,7 @@ hr {
 }
 #container-map-with-search #data-position-form .form-inline #range {
   font-weight: bold;
-  color: #4e6c83;
+  color: #635a9a;
   padding: 6px 4px;
 }
 #container-map-with-search #data-position-form .form-inline .label-dist {
@@ -500,4 +475,22 @@ hr {
 .has-error,
 .validationMessage {
   color: #f65355;
+}
+#btn-add-item {
+  position: absolute;
+  right: 40px;
+  bottom: 10px;
+  height: 60px;
+  width: 60px;
+  border-radius: 50%;
+  text-align: center;
+  color: #282828;
+}
+#btn-add-item p {
+  font-size: 1.3em;
+  font-weight: bolder;
+  color: #282828;
+}
+#btn-add-item:hover {
+  color: #282828 !important;
 }

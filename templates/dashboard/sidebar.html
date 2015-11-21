@@ -2,9 +2,6 @@
 <div class="page-sidebar sidebar horizontal-bar" ng-controller="SidebarCtrl as vm">
     <div class="page-sidebar-inner">
         <ul class="menu accordion-menu">
-            <li class="btn" id="btn-add-item" ng-show="!('item-create' | includedByState)">
-                <a ui-sref="item-create"><span class="menu-icon fa fa-plus "></span><p>Agrega tu aviso</p></a>
-            </li>
             <li class="nav-heading"><span>Navigation</span></li>
             <li ng-class="{active: ('profile-detail' | includedByState) || ('profile-update' | includedByState) || ('change-password' | includedByState ) || ('config-notification' | includedByState) || ('profile-address' | includedByState) }">
                 <a ui-sref="profile-detail"><span class="menu-icon fa fa-user"></span><p>Perfil</p></a>

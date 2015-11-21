@@ -7,7 +7,7 @@ from apps.userProfile.views import StoreView
 from apps.user.views import FacebookLogin, GoogleLogin
 
 from .views import HomeView, DashBoardView, log, send_notification, TermAndConditionView
-
+from django.views.generic import TemplateView
 from .settings import base as settings
 
 
@@ -18,6 +18,10 @@ urlpatterns = patterns('',
 
                        # TODO : This url belong to api
                        url(r'^favorites/near/$', HasFavoriteNearApiView.as_view() , name='favorite-near'),
+
+                       url(r'^oportunidades-anunciante/$', TemplateView.as_view(template_name='oportunidades-anunciante.html')),
+
+                       url(r'^oportunidades-interesado/$', TemplateView.as_view(template_name='oportunidades-interesado.html')),
 
                        # TODO: Esta url no va en produccion
                        url(r'^log/', log),

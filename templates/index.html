@@ -1,10 +1,12 @@
 {% extends 'layout/base.html' %}
 {% load bootstrap3 %}
 
-{% block title %}Lista de avisos {% endblock %}
+{% block title %}Compraloahí, donde encontras productos y servicios cerca. {% endblock %}
 
 {% block css_header_block %}
     <link rel="stylesheet" href="{{ STATIC_URL }}css/less/home.css" >
+
+
 {% endblock %}
 
 {% block body_block %}
@@ -12,27 +14,33 @@
         <div class="row">
             <div id="container-item-detail-page" class="col-md-12 ">
                 <div class="col-md-10 col-md-offset-1">
-                    <h1 class="text-center">Animate y busca algun producto cerca tuyo</h1>
+                    <div class="row tex-center">
+                        <p class="text-center"><i class="fa fa-5x fa-arrow-up text-center"></i></p>
+
+                    </div>
+                    <h1 class="text-center">Animate busca productos o servicios cerca tuyo</h1>
                     <div class="row">
                         <hr>
                     </div>
-                    <div class="col-md-6 description">
+                    <div class="col-md-12 description">
                         <div class="panel panel-blue">
                             <div class="panel-heading">
-                                <h3 class="panel-title">¿Que es?</h3>
+                                <h2 class="panel-title">¿Que es?</h2>
                             </div>
                             <div class="panel-body">
-                                <p>Mauris sollicitudin fermentum libero. Praesent ut ligula non mi varius sagittis. Integer tincidunt.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 description">
-                        <div class="panel panel-blue">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">¿Para que sirve?</h3>
-                            </div>
-                            <div class="panel-body">
-                                <p>Mauris sollicitudin fermentum libero. Praesent ut ligula non mi varius sagittis. Integer tincidunt.</p>
+                                <p>
+                                    Compraloahí es una plataforma de avisos, centrada en la ubicacion de los mismos.
+                                    Con Compraloahí vas a poder dar a conocer tus avisos ampliando oportunidades.
+                                    Con un mapa interactivo te podes enterar de oportunidades a tu alrededor, muy facil.
+                                    ¿Que estas esperando? Es totalmente gratis!
+                                </p>
+
+                                <a class="btn btn-lg btn-warning pull-left" href="/oportunidades-anunciante/">
+                                    ¡Oportunidades para anunciantes!
+                                </a>
+                                <a class="btn btn-lg btn-primary pull-right" href="/oportunidades-interesado/">
+                                    ¡Oportunidades para interesados!
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -41,49 +49,64 @@
                         <button type="button" id="btn-download-app" class="btn btn-success btn-addon m-b-sm btn-rounded btn-lg"><i class="fa fa-android fa-2x"></i> Descarga la app</button>
                         <button type="button" id="btn-download-app1" class="btn btn-default btn-addon m-b-sm btn-rounded btn-lg">Descarga la app <i class="fa fa-apple fa-2x"></i></button>
                     </div>
+                    <div class="col-md-12">
+                    <hr/>
 
+                    </div>
                     <div class="col-md-6">
                         <h3 class="text-center ventajas-title">Ventaja para vender</h3>
                         <div class="panel-group" id="accordion22" role="tablist" aria-multiselectable="true">
                             <div class="panel panel-warning">
                                 <div class="panel-heading" role="tab" id="headingOne12">
                                     <h4 class="panel-title">
-                                        <a data-toggle="collapse" data-parent="#accordion22" href="#12" aria-expanded="true" aria-controls="collapseOne">
-                                            Renova y amplia tu negocio
+                                        <a data-toggle="collapse" data-parent="#accordion22" href="#12" aria-expanded="true" aria-controls="collapseOne" style="color: black;">
+                                            <img src="/static/image/home/icon-lupa-1.png" alt="icon-position" width="30px"/> Renova y amplia tu negocio
                                         </a>
                                     </h4>
                                 </div>
                                 <div id="12" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne12">
                                     <div class="panel-body">
                                         Llevando tu negocio a internet podras competir con los servicios de compra/venta online.
+
+                                        <p class="text-center" style="margin-top: 20px">
+                                            <img src="/static/image/home/icon-lupa.png" alt="icon-position" width="80px"/>
+                                        </p>
                                     </div>
                                 </div>
                             </div>
                             <div class="panel panel-warning">
                                 <div class="panel-heading" role="tab" id="headingTwo22">
                                     <h4 class="panel-title">
-                                        <a class="collapsed" data-toggle="collapse" data-parent="#accordion22" href="#22" aria-expanded="false" aria-controls="collapseTwo">
-                                            Vende sin intermediario
+                                        <a class="collapsed" data-toggle="collapse" data-parent="#accordion22" href="#22" aria-expanded="false" aria-controls="collapseTwo" style="color: black;">
+                                            <img src="/static/image/home/icon-vendedor-1.png" alt="icon-position" width="30px"/> Vende sin intermediario
                                         </a>
                                     </h4>
                                 </div>
                                 <div id="22" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo22">
                                     <div class="panel-body">
                                         Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum
+
+                                        <p class="text-center" style="margin-top: 20px">
+                                            <img src="/static/image/home/icon-vendedor.png" alt="icon-position" width="80px"/>
+                                        </p>
                                     </div>
                                 </div>
                             </div>
                             <div class="panel panel-warning">
                                 <div class="panel-heading" role="tab" id="headingThree32">
                                     <h4 class="panel-title">
-                                        <a class="collapsed" data-toggle="collapse" data-parent="#accordion22" href="#32" aria-expanded="false" aria-controls="collapseThree">
-                                            Diferencia tu tienda online
+                                        <a class="collapsed" data-toggle="collapse" data-parent="#accordion22" href="#32" aria-expanded="false" aria-controls="collapseThree" style="color: black;">
+                                            <img src="/static/image/home/icon-shop-1.png" alt="icon-position" width="30px"/> Diferencia tu tienda online
                                         </a>
                                     </h4>
                                 </div>
                                 <div id="32" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree32">
                                     <div class="panel-body">
                                         Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum
+
+                                        <p class="text-center" style="margin-top: 20px">
+                                            <img src="/static/image/home/icon-shop.png" alt="icon-position" width="80px"/>
+                                        </p>
                                     </div>
                                 </div>
                             </div>
@@ -97,13 +120,19 @@
                                 <div class="panel-heading" role="tab" id="headingOne1">
                                     <h4 class="panel-title">
                                         <a data-toggle="collapse" data-parent="#accordion2" href="#1" aria-expanded="true" aria-controls="collapseOne">
-                                            Busca oportunidades cerca
+                                            <img src="/static/image/home/icon-position-1.png" alt="icon-position" width="30px"/> Busca oportunidades cerca
                                         </a>
                                     </h4>
                                 </div>
                                 <div id="1" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne1">
                                     <div class="panel-body">
                                         Con compraloahi vas a poder encontrar productos y servicios por proximidad, mostrandote informacion relevante de acuerdo a tus intereses.
+
+                                        <p class="text-center" style="margin-top: 20px">
+                                            <img src="/static/image/home/icon-position.png" alt="icon-position" width="80px"/>
+                                        </p>
+
+
                                     </div>
                                 </div>
                             </div>
@@ -111,13 +140,17 @@
                                 <div class="panel-heading" role="tab" id="headingTwo2">
                                     <h4 class="panel-title">
                                         <a class="collapsed" data-toggle="collapse" data-parent="#accordion2" href="#2" aria-expanded="false" aria-controls="collapseTwo">
-                                            Enterate con alertas inteligentes
+                                            <img src="/static/image/home/icon-ring-1.png" alt="icon-position" width="30px"/> Enterate con alertas inteligentes
                                         </a>
                                     </h4>
                                 </div>
                                 <div id="2" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo2">
                                     <div class="panel-body">
                                         Agregando productos o servicios a favoritos, Compraloahi te alerta a tu celular cuando estes cerca de estos, y... ¡No te preocupes!, podes activar y desactivar estas alertas cuando quieras estar atento.
+
+                                        <p class="text-center" style="margin-top: 20px">
+                                            <img src="/static/image/home/icon-ring.png" alt="icon-position" width="80px"/>
+                                        </p>
                                     </div>
                                 </div>
                             </div>
@@ -125,13 +158,16 @@
                                 <div class="panel-heading" role="tab" id="headingThree3">
                                     <h4 class="panel-title">
                                         <a class="collapsed" data-toggle="collapse" data-parent="#accordion2" href="#3" aria-expanded="false" aria-controls="collapseThree">
-                                            Concretá la compra personalmente
+                                            <img src="/static/image/home/icon-mano-1.png" alt="icon-position" width="30px"/> Concretá la compra personalmente
                                         </a>
                                     </h4>
                                 </div>
                                 <div id="3" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree3">
                                     <div class="panel-body">
                                         A traves de nuestro canal de comunicacion consulta stock, formas de pago y cualquier duda que tengas sobre tu producto o servicio antes de retirarlo personalmente.
+                                        <p class="text-center" style="margin-top: 20px">
+                                            <img src="/static/image/home/icon-mano.png" alt="icon-position" width="80px"/>
+                                        </p>
                                     </div>
                                 </div>
                             </div>
@@ -142,6 +178,8 @@
             </div>
         </div>
     </div><!-- Main Wrapper -->
+
+
 
 
 {% endblock %}

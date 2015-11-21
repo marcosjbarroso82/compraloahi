@@ -239,6 +239,14 @@ html {
   z-index: 2000;
   position: absolute;
 }
+.btn-favit-favorite {
+  background-color: none;
+  border: none;
+}
+.btn-favit-favorite .fa-heart {
+  color: #7a6fbe;
+  /* TODO: This color is primary */
+}
 .header {
   height: 100px;
   margin: 30px 15px;

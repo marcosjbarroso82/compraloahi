@@ -6,13 +6,8 @@
 @map-width: 100%;
 @map-heigth: 100%;
 
-//@color-location: #065378;
-@color-filter: #507dba;
 
-
-
-
-#page-items-list, #map-container, #container-ad-list{
+#page-items-list, #map-container, #container-item-list{
   max-height: 100%;
   min-height: 100%;
   height: 100%;
@@ -87,8 +82,7 @@
       }
     }
 
-    .btn-data-position{
-      //border-radius: 20%;
+    .btn-tools{
       margin-top: 5px;
       margin-left: 5px;
       margin-right: 3px;
@@ -96,8 +90,17 @@
       height: 25px;
       border-radius: 50px;
       padding: 2px;
+      color: white;
+      &.btn-data-position{
+        background-color: @color-location;
+      }
+      &.btn-user-locations{
+        background-color: @color-location;
+      }
+      &.btn-refresh{
+        background-color: @color-info;
+      }
     }
-
     .user-location-list{
       padding: 10px;
       padding-left: 30px;
@@ -105,26 +108,10 @@
       margin-top: 10px;
     }
 
-    #btn-data-position-items-list{
-      background-color: @color-location;
-    }
-  }
-
-
-
-  #btn-my-locations{
-    margin-left: 10px;
-    background-color: @color-location;
-    .mixin-shadow-bottom(1px, 1px, 2px, 1px, #434343);
-  }
-
-  #btn-save-location {
-    margin-left: 10px;
-    .mixin-shadow-bottom(1px, 1px, 2px, 1px, #434343);
   }
 
   #btn-filter-facet{
-    background-color: #577aba;
+    background-color: @color-success;
     width: 120px;
 
     font-size: 1.1em;
@@ -140,7 +127,7 @@
     list-style: none;
     .active-filter{
       .mixin-shadow-bottom(1px, 1px, 2px, 1px, #434343);
-      background-color: #577aba;
+      background-color: @color-success;
       margin-top: 10px;
       color: white;
       font-size: .9em;
@@ -244,6 +231,10 @@
     padding: 10px;
     height: 130px;
 
+    .favit.fa-heart{
+      color: @color-primary;
+    }
+
     .container-img{
       padding: 0px;
       min-height: 100px;
@@ -275,13 +266,15 @@
       top: 10px;
       right: 10px;
       .mixin-shadow-bottom(-1px, 1px, 1px, 1px, #ccc);
-      background-color: white;
+      background-color: #D03C29;
+      color: white;
       border-radius: 50%;
-      width: 40px;
-      height: 40px;
-      padding: 5px;
+      width: 30px;
+      height: 30px;
+      padding: 0px;
       &:hover{
-        .mixin-shadow-bottom(1px, 1px, 3px, 4px, #1e617d);
+        .mixin-shadow-bottom(1px, 1px, 3px, 4px, @color-logo);
+        background-color: @color-logo;
       }
     }
 
@@ -311,7 +304,7 @@
   }
 
   .items-list-item-hover {
-    .mixin-shadow-bottom(1px, 1px, 3px, 4px, #1e617d);
+    .mixin-shadow-bottom(1px, 1px, 3px, 4px, @color-logo);
   }
 
   #pagination{
@@ -360,7 +353,7 @@
           color: #000;
         }
         .badge{
-          background-color: #aa4400;
+          background-color: @color-success;
           float: right;
           position: relative;
         }
@@ -435,4 +428,9 @@
 
 .page-content{
   margin-bottom: 0px;
+}
+
+.snackbar-container{
+  right: auto;
+  left: 20px;
 }
