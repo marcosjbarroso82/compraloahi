@@ -117,11 +117,11 @@
             $http.post('/api/v1/favorites/', {target_object_id: item.id}).success(function(data){
                 if (item.is_favorite){
                     item.is_favorite = false;
-                    AlertNotification.success("El aviso " + item.title + " fue quitado de favoritos.");
+                    AlertNotification.error("Se quito de favoritos : " + item.title);
                 }else{
                     item.is_favorite = true;
                     console.log("ESTO ANDA");
-                    AlertNotification.success("El aviso " + item.title + " fue agregado de favoritos.");
+                    AlertNotification.success("Se agrego a favoritos : " + item.title);
                 }
             }).error(function(error){
                 console.log("removeFavorite Error");
@@ -416,6 +416,7 @@
             vm.map.markers['center'] = {
                 lat: angular.copy(vm.search_location.current_location.lat),
                 lng: angular.copy(vm.search_location.current_location.lng),
+                message: "Estoy aquí!",
                 icon: {
                     iconUrl: '/static/image/map52.svg',
                     shadowUrl: '/static/image/markers-shadow.png',
@@ -463,7 +464,6 @@
                 vm.search_location.bounds = angular.copy(vm.map.bounds);
 
                 $scope.$watch('vm.map.bounds', function(new_val, old_val){
-                    console.log("MAP BOUNDS");
                     vm.search_location.bounds = angular.copy(vm.map.bounds);
                     vm.search_location.changed_bounds = true;
 

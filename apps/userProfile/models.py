@@ -160,6 +160,15 @@ class Store(models.Model):
             if not key in self.style or not self.style[key]:
                 self.style[key] = value
 
+        if self.name and not self.slug:
+            from django.template.defaultfilters import slugify
+            slug = slugify(self.name)
+           
+            while Store.objects.filter(slug=slug).count() != 0:
+                slug += '1'
+            
+            self.slug = slug
+
         if self.name != '':
             self.status = 1
         else:

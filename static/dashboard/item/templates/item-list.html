@@ -5,7 +5,7 @@
         <div class="content-data col-md-12" ng-show="vm.items.length > 0">
             <div class="col-md-12 body-header">
                 <div class="col-md-8">
-                    <a ui-sref="item-create" class="btn btn-success"><span class="fa fa-plus"></span> Agrega tu aviso</a>
+                    <a ui-sref="item-create" class="btn btn-warning" style="color: black;"><span class="fa fa-plus"></span> Agrega tu aviso</a>
                 </div>
                 <div class="col-md-4">
                     <div class="input-group">
@@ -53,6 +53,40 @@
                                       tooltip="'Eliminar aviso'"
                                       placement="top"></span>
                         </button>
+                        
+                        <!-- SHARE FACEBOOK -->
+                        <a href="#"
+                        class="btn btn-sm btn-facebook btn-table" 
+                            socialshare
+                            socialshare-provider="facebook"
+                            socialshare-text="Compraloahí - Encontra productos y servicios cerca."
+                            socialshare-url="http://compraloahi.com.ar/item/{{ item.slug }}">
+                            <i class="fa fa-facebook" tooltip="'Compartir en Facebook'"
+                                      placement="top"></i>
+                            </a>
+                        
+                        <!-- SHARE TWITTER -->
+                        <a href="#"
+                        class="btn btn-sm btn-twitter btn-table" 
+                            socialshare
+                            socialshare-provider="twitter"
+                            socialshare-text="Compraloahí - Encontra productos y servicios cerca."
+                            socialshare-url="http://compraloahi.com.ar/item/{{ item.slug }}">
+                            <i class="fa fa-twitter" tooltip="'Compartir en Twitter'"
+                                      placement="top"></i>
+                            </a>
+                        
+                        <!-- SHARE GOOGLE+ -->
+                        <a href="#"
+                        class="btn btn-sm btn-google btn-table" 
+                            socialshare
+                            socialshare-provider="google+"
+                            socialshare-text="Compraloahí - Encontra productos y servicios cerca."
+                            socialshare-url="http://compraloahi.com.ar/item/{{ item.slug }}">
+                            <i class="fa fa-google-plus" tooltip="'Compartir en Google+'"
+                                      placement="top"></i>
+                            </a>
+
                     </td>
                 </tr>
                 </tbody>

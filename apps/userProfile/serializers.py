@@ -15,6 +15,7 @@ class StoreSerializer(ModelSerializer):
     class Meta:
         model = Store
         fields = ('name', 'style', 'logo', 'slug', 'slogan')
+        read_only_fields = ('slug',)
 
     def get_logo(self, obj):
         if obj.logo:

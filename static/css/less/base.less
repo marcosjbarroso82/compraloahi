@@ -308,4 +308,70 @@ html{
     color: @color-primary; /* TODO: This color is primary */
   }
 }
-    
+
+
+
+
+.pagination > .active > a,
+.pagination > .active > span,
+.pagination > .active > a:hover,
+.pagination > .active > span:hover,
+.pagination > .active > a:focus,
+.pagination > .active > span:focus {
+    background: @color-logo; 
+    border-color: @color-logo;
+}
+
+
+.timeline-options a:hover {
+    color: @color-logo;
+}
+
+.post-options a:hover {
+    color: @color-logo;
+}
+
+
+.menu.accordion-menu > li > a:hover {
+    color: @color-logo;
+}
+
+.menu.accordion-menu > li.active > a,
+.menu.accordion-menu > li.active.open > a,
+.menu.accordion-menu > li.open > a {
+    color: @color-logo;
+}
+
+.menu.accordion-menu ul li a:hover,
+.menu.accordion-menu ul li.active a {
+    color: @color-logo;
+}
+
+.navbar ul li.open > a {
+    color: @color-logo;
+}
+
+body:not(.page-horizontal-bar).compact-menu .menu > li.active,
+body:not(.page-horizontal-bar).compact-menu .menu > li.open {
+    border-left: 3px solid @color-logo;
+}
+
+.menu.accordion-menu ul li a:hover,
+.menu.accordion-menu ul li.active a {
+    color: @color-logo;
+}
+
+
+.pace .pace-progress {
+    background: @color-logo;
+}
+
+.pace .pace-progress-inner {
+    box-shadow: 0 0 10px @color-logo, 0 0 5px @color-logo;
+}
+
+.pace .pace-activity {
+    border-top-color: @color-logo;
+    border-left-color: @color-logo;
+    margin-top: 60px;
+}

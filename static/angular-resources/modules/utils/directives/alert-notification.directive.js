@@ -33,23 +33,23 @@
         ////////////////////
 
         function error(content, options) {
-            snackbar.create('<i class="fa fa-times-circle" style="color: #CD4945;"> </i> Error : ' + content);
+            snackbar.create('<i class="fa fa-times-circle" style="color: #CD4945;"> </i> ' + content);
            //$notification.error('Error!', content);
         }
 
         function success(content, options) {
-            snackbar.create('<i class="fa fa-check-circle" style="color: #0DAD9E;"> </i> Success : ' + content);
+            snackbar.create('<i class="fa fa-check-circle" style="color: #0DAD9E;"> </i> ' + content);
 
             //$notification.success('Success!', content);
         }
 
         function warning(content, options) {
-            snackbar.create('<i class="fa fa-exclamation-circle" style="color: #CFAE45;"> </i> warning : ' + content);
+            snackbar.create('<i class="fa fa-exclamation-circle" style="color: #CFAE45;"> </i> ' + content);
             //$notification.warning('Warning!!', content);
         }
 
         function info(content, options) {
-            snackbar.create('<i class="fa fa-info-circle" style="color: #2B6A94;"> </i> Info : ' + content, 5000);
+            snackbar.create('<i class="fa fa-info-circle" style="color: #2B6A94;"> </i> ' + content, 5000);
             //$notification.info('Info!', content);
         }
 

@@ -13,6 +13,7 @@
             'ng-currency',
             'ngTable',
             'leaflet-directive',
+            '720kb.socialshare',
 
             'dashBoardApp.config',
             'dashBoardApp.routes',
