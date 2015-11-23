@@ -88,7 +88,7 @@ html input[type='range']::-webkit-slider-thumb,
 body input[type='range']::-webkit-slider-thumb {
   -webkit-appearance: none !important;
   border-radius: 20px;
-  background-color: #4e6c83;
+  background-color: #635a9a;
   border: 1px solid #bab5ba;
   height: 20px;
   width: 20px;
@@ -97,7 +97,7 @@ html input[type='range']::-moz-range-thumb,
 body input[type='range']::-moz-range-thumb {
   -moz-appearance: none;
   border-radius: 20px;
-  background-color: #4e6c83;
+  background-color: #635a9a;
   border: 1px solid #bab5ba;
   height: 20px;
   width: 20px;
@@ -246,6 +246,55 @@ html {
 .btn-favit-favorite .fa-heart {
   color: #7a6fbe;
   /* TODO: This color is primary */
+}
+.pagination > .active > a,
+.pagination > .active > span,
+.pagination > .active > a:hover,
+.pagination > .active > span:hover,
+.pagination > .active > a:focus,
+.pagination > .active > span:focus {
+  background: #018ba3;
+  border-color: #018ba3;
+}
+.timeline-options a:hover {
+  color: #018ba3;
+}
+.post-options a:hover {
+  color: #018ba3;
+}
+.menu.accordion-menu > li > a:hover {
+  color: #018ba3;
+}
+.menu.accordion-menu > li.active > a,
+.menu.accordion-menu > li.active.open > a,
+.menu.accordion-menu > li.open > a {
+  color: #018ba3;
+}
+.menu.accordion-menu ul li a:hover,
+.menu.accordion-menu ul li.active a {
+  color: #018ba3;
+}
+.navbar ul li.open > a {
+  color: #018ba3;
+}
+body:not(.page-horizontal-bar).compact-menu .menu > li.active,
+body:not(.page-horizontal-bar).compact-menu .menu > li.open {
+  border-left: 3px solid #018ba3;
+}
+.menu.accordion-menu ul li a:hover,
+.menu.accordion-menu ul li.active a {
+  color: #018ba3;
+}
+.pace .pace-progress {
+  background: #018ba3;
+}
+.pace .pace-progress-inner {
+  box-shadow: 0 0 10px #018ba3, 0 0 5px #018ba3;
+}
+.pace .pace-activity {
+  border-top-color: #018ba3;
+  border-left-color: #018ba3;
+  margin-top: 60px;
 }
 .product {
   font-family: Ubuntu, Arial, sans-serif;

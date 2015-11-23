@@ -248,6 +248,55 @@ html {
   color: #7a6fbe;
   /* TODO: This color is primary */
 }
+.pagination > .active > a,
+.pagination > .active > span,
+.pagination > .active > a:hover,
+.pagination > .active > span:hover,
+.pagination > .active > a:focus,
+.pagination > .active > span:focus {
+  background: #018ba3;
+  border-color: #018ba3;
+}
+.timeline-options a:hover {
+  color: #018ba3;
+}
+.post-options a:hover {
+  color: #018ba3;
+}
+.menu.accordion-menu > li > a:hover {
+  color: #018ba3;
+}
+.menu.accordion-menu > li.active > a,
+.menu.accordion-menu > li.active.open > a,
+.menu.accordion-menu > li.open > a {
+  color: #018ba3;
+}
+.menu.accordion-menu ul li a:hover,
+.menu.accordion-menu ul li.active a {
+  color: #018ba3;
+}
+.navbar ul li.open > a {
+  color: #018ba3;
+}
+body:not(.page-horizontal-bar).compact-menu .menu > li.active,
+body:not(.page-horizontal-bar).compact-menu .menu > li.open {
+  border-left: 3px solid #018ba3;
+}
+.menu.accordion-menu ul li a:hover,
+.menu.accordion-menu ul li.active a {
+  color: #018ba3;
+}
+.pace .pace-progress {
+  background: #018ba3;
+}
+.pace .pace-progress-inner {
+  box-shadow: 0 0 10px #018ba3, 0 0 5px #018ba3;
+}
+.pace .pace-activity {
+  border-top-color: #018ba3;
+  border-left-color: #018ba3;
+  margin-top: 60px;
+}
 #page-items-list,
 #map-container,
 #container-item-list {
