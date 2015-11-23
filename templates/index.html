@@ -14,6 +14,16 @@
         <div class="row">
             <div id="container-item-detail-page" class="col-md-12 ">
                 <div class="col-md-10 col-md-offset-1">
+                    {% if messages %}
+                        <div class="container">
+                            {% for message in messages %}
+                                <div class="alert{% if message.tags %} alert-{{ message.tags }}{% endif %}">
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
                     <div class="row tex-center">
                         <p class="text-center"><i class="fa fa-5x fa-arrow-up text-center"></i></p>
 
@@ -25,21 +35,19 @@
                     <div class="col-md-12 description">
                         <div class="panel panel-blue">
                             <div class="panel-heading">
-                                <h2 class="panel-title">¿Que es?</h2>
+                                <h2 class="panel-title">¿Que es Compralo<strong>ahí</strong>?</h2>
                             </div>
                             <div class="panel-body">
                                 <p>
-                                    Compraloahí es una plataforma de avisos, centrada en la ubicacion de los mismos.
-                                    Con Compraloahí vas a poder dar a conocer tus avisos ampliando oportunidades.
-                                    Con un mapa interactivo te podes enterar de oportunidades a tu alrededor, muy facil.
-                                    ¿Que estas esperando? Es totalmente gratis!
+                                    Compralo<strong>ahí</strong> es una plataforma de avisos clasificados de productos y servicios. La búsqueda de estos avisos se realiza por medio de un mapa interactivo, notificando de acuerdo a tu <strong>proximidad</strong> a los avisos clasificados que indiques. <br>
+                                    Esta plataforma es una <strong>ventaja</strong> para la búsqueda de oportunidades cerca, reduciendo tiempos y siendo un nexo entre los comercios y sus clientes sin quitarle la posibilidad al comercio de hacer la venta directa. 
                                 </p>
 
                                 <a class="btn btn-lg btn-warning pull-left" href="/oportunidades-anunciante/">
-                                    ¡Enterate de oportunidades para vender!
+                                    ¡Enterate de las posibilidades en la venta!
                                 </a>
                                 <a class="btn btn-lg btn-primary pull-right" href="/oportunidades-interesado/">
-                                    ¡Enterate de oportunidades para comprar!
+                                    ¡Enterate de las posibilidades en la compra!
                                 </a>
                             </div>
                         </div>
@@ -84,8 +92,7 @@
                                 </div>
                                 <div id="22" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo22">
                                     <div class="panel-body">
-                                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum
-
+                                        Compralo<strong>ahí</strong> te permite combinar la venta online con la vena personal, donde podrás anunciar tu producto y/o servicio por medio de internet y realizar la entrega y cobro personalmente.
                                         <p class="text-center" style="margin-top: 20px">
                                             <img src="/static/image/home/icon-vendedor.png" alt="icon-position" width="80px"/>
                                         </p>
@@ -102,7 +109,7 @@
                                 </div>
                                 <div id="32" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree32">
                                     <div class="panel-body">
-                                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum
+                                        Genera un catalogo con tus productos, pudiendo elegir la manera y estilo  en que se muestre tu negocio online, pudiendo darle tu toque personal, con todo lo que identifique a tu negocio como: logo,color,eslogan,etc.
 
                                         <p class="text-center" style="margin-top: 20px">
                                             <img src="/static/image/home/icon-shop.png" alt="icon-position" width="80px"/>

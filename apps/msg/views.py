@@ -58,10 +58,11 @@ class MsgViewSet(viewsets.ModelViewSet):
     @detail_route(methods=['patch'], permission_classes=[IsRecipient])
     def set_read(self, request, pk=None):
         msg = self.get_object()
-        #self.serializer_class = MsgSerializer
-        #msg.set_read(datetime.now()).save() # TODO: This property or method not exist
-        msg.read_at = datetime.now()
-        msg.save()
+        if msg.recipient == request.user and msg.is_new:
+            #self.serializer_class = MsgSerializer
+            #msg.set_read(datetime.now()).save() # TODO: This property or method not exist
+            msg.read_at = datetime.now()
+            msg.save()
 
         serializer = self.get_serializer(msg)
         return Response(serializer.data)
@@ -94,7 +95,12 @@ class MsgViewSet(viewsets.ModelViewSet):
         if 'subject' not in data:
             data['subject'] = 'RE:' + parent.subject
         data['parent'] = parent.pk
-        data['recipient'] = parent.sender.pk
+
+        # TODO: Esto repara el bug de cuando un mismo usuario envia mas de un mensaje seguido por el mismo canal
+        if thread.sender != request.user:
+            data['recipient'] = thread.sender.pk
+        else:
+            data['recipient'] = thread.recipient.pk
         data['thread'] = parent.pk if not parent.thread else parent.thread.pk
 
         serializer = self.get_serializer(data=data)
@@ -107,7 +113,7 @@ class MsgViewSet(viewsets.ModelViewSet):
     @detail_route(methods=['get'])
     def thread(self, request, pk):
         # TODO: Replace this with a custom object manager in the model
-        msgs = Msg.objects.all().filter(Q(thread=pk) | Q(pk=pk))
+        msgs = Msg.objects.all().filter(Q(thread=pk) | Q(pk=pk)).order_by('sent_at')
         for msg in msgs:
             if msg.recipient_deleted_at == request.user:
                 msg.is_new = False
@@ -129,9 +135,27 @@ class MsgViewSet(viewsets.ModelViewSet):
 
     @list_route(methods=['get'])
     def inbox(self, request):
-        inbox = Msg.objects.all().filter(recipient=request.user, recipient_deleted_at__isnull=True)
-
-        page = self.paginate_queryset(inbox)
+        #inbox = Msg.objects.all().filter(recipient=request.user, recipient_deleted_at__isnull=True, thread__isnull=False)
+        inbox = Msg.objects.filter(recipient=request.user, recipient_deleted_at__isnull=True, thread__isnull=False).order_by('msg_child_messages__pk', 'sent_at').distinct('msg_child_messages__pk')
+        msgs_without_thread = Msg.objects.filter(recipient=request.user, recipient_deleted_at__isnull=True, thread__isnull=True).exclude(id=inbox.values_list('thread__id'))
+        # TODO: Se resuelve el problema de ordenarlo por fecha en el cliente.
+        from itertools import chain
+        results = list(chain(msgs_without_thread, inbox))
+        #from django.db.models import Q
+        #msgs_without_thread = Msg.objects.filter(recipient=request.user, recipient_deleted_at__isnull=True, thread__isnull=True).values_list('id')
+        #print(30*"MMMMMMMMMMM")
+        #print(msgs_without_thread)
+        #q_msgs_child_thread = Q(thread__id__in=msgs_without_thread)
+        #q_msgs_parent_thread = Q(id__in=(msgs_without_thread))
+        #res = Msg.objects.filter(id__in=(msgs_without_thread).exclude(thread__id__in=msgs_without_thread))
+        #print(30*"==RES")
+        #print(res)
+        #res2 = Msg.objects.filter(thread__id__in=msgs_without_thread, recipient=request.user, recipient_deleted_at__isnull=True).order_by('msg_child_messages__pk', '-sent_at').distinct('msg_child_messages__pk')
+        #print(30*"==RES2aaaa")
+        #print(res2)
+        #from itertools import chain
+        #results = list(chain(res, res2))
+        page = self.paginate_queryset(results)
         if page is not None:
             serializer = self.get_serializer(page, many=True)
             return self.get_paginated_response(serializer.data)

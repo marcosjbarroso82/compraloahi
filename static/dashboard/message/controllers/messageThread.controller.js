@@ -35,13 +35,16 @@ var debug = {};
                 vm.thread = data.data;
 
                 var msg = vm.thread[vm.thread.length - 1];
-                if(msg && msg.is_new == true){
-                    Message.set_read(msg).then(getReadSuccess);
+                for(var i=0; i < vm.thread.length; i++){
+                    if(vm.thread[i] && vm.thread[i].is_new == true){
+                        Message.set_read(vm.thread[i]).then(getReadSuccess);
+                    }
                 }
             }
 
             function getReadSuccess(data){
-                Authentication.set_msg_read([{'id': vm.message_id}]);
+                console.log(data);
+                Authentication.set_msg_read([{'id': data.data.id}]);
             }
 
             function getError(data){
