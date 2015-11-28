@@ -30,6 +30,7 @@ gulp.task('js-dashboard-app', function()
         'static/dashboard/profile/controllers/update-profile.controller.js',
         'static/dashboard/profile/controllers/change-password.controller.js',
         'static/dashboard/profile/controllers/update-address.controller.js',
+        'static/dashboard/profile/controllers/config-privacity.controller.js',
         'static/dashboard/item/item.module.js',
         'static/dashboard/item/services/item.service.js',
         'static/dashboard/item/controllers/item.controller.js',

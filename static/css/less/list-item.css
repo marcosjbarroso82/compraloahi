@@ -572,6 +572,12 @@ body:not(.page-horizontal-bar).compact-menu .menu > li.open {
   -moz-box-shadow: 1px 1px 3px 4px #018ba3;
   box-shadow: 1px 1px 3px 4px #018ba3;
 }
+#container-item-list .items-list-item-hover .locate-it {
+  -webkit-box-shadow: 1px 1px 3px 4px #018ba3 !important;
+  -moz-box-shadow: 1px 1px 3px 4px #018ba3 !important;
+  box-shadow: 1px 1px 3px 4px #018ba3 !important;
+  background-color: #018ba3 !important;
+}
 #container-item-list #pagination {
   padding-left: 20px;
 }

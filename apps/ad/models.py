@@ -58,6 +58,9 @@ class Ad(models.Model):
     def show_location(self):
         return self.author.profile.privacy_settings.get('show_address')
 
+    def get_user_loc(self):
+        return self.author.profile.locations.filter(is_address=True).first()
+
     def __str__(self):
         return self.title
 
