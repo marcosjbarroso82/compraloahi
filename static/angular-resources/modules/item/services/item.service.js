@@ -1,12 +1,12 @@
 /**
  * Item
- * @namespace App.item.services
+ * @namespace appSearch.item.services
  */
 (function () {
     'use strict';
 
     angular
-        .module('App.item.services')
+        .module('appSearch.item.services')
         .factory('ItemSearch', ItemSearch);
 
     ItemSearch.$inject = ['$http'];
@@ -20,13 +20,13 @@
             search: search
         };
 
-        return ItemSearch;
-
         function search(q){
             return $http.get('/api/v1/item-search/?' + q);
 
         }
+
+        return ItemSearch;
     }
 
 
-})()
+})();

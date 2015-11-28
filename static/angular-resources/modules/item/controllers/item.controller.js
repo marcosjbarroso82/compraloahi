@@ -1,13 +1,13 @@
 /**
  * ItemCtrl
- * @namespace App.item.controllers
+ * @namespace appSearch.item.controllers
  */
 
 (function () {
     'use strict';
 
     angular
-        .module('App.item.controllers')
+        .module('appSearch.item.controllers')
         .controller('ItemCtrl', ItemCtrl);
 
     ItemCtrl.$inject = ['$scope', 'ItemSearch', '$location', 'leafletEvents', 'leafletData', '$http', 'AlertNotification']; //

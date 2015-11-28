@@ -27,19 +27,25 @@
             function Authentication(){
                 // Print user data with django
                 var user = {{ user_data|jsonify }};
+
+                var _unread_msg = user.msg_unread;
+
                 var Authentication = {
                     setProfile: setProfile,
                     profile: user.profile,
                     has_items: user.has_items,
                     notification_unread: user.notification_unread,
-                    msg_unread: user.msg_unread,
+                    msg_unread: get_msgs_unread,
                     unauthenticate: unauthenticate,
+                    set_msg_read: set_read_msgs,
                     has_address: user.has_address
-                }
+                };
 
                 function getProfile(){
                     return user.profile;
                 }
+
+
                 function setProfile(profile){
                     user.profile = profile;
                 }
@@ -48,8 +54,22 @@
                     delete user;
                 }
 
-                return Authentication;
+                function set_read_msgs(arra_msg_unread){
+                    if(arra_msg_unread && arra_msg_unread.length > 0){
+                        for(var i =0; i < arra_msg_unread.length; i++){
+                            _unread_msg = _unread_msg -1;
+                            angular.element('#msg-unread-' + String(arra_msg_unread[i]['id'])).remove()
+                        }
+                    }
+                }
+
+                function get_msgs_unread(){
+                    return _unread_msg;
+                }
+
+                return Authentication
             }
 </script>
+
 
 <script type="application/javascript" src="{% static 'production/dashboard/concat-app.js' %}"></script>

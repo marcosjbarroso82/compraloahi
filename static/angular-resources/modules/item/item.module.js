@@ -2,17 +2,14 @@
     'use strict';
 
     angular
-        .module('App.item', [
-            'leaflet-directive',
-            'tooltip',
-            'util',
-            'App.item.controllers',
-            'App.item.services'
+        .module('appSearch.item', [
+            'appSearch.item.controllers',
+            'appSearch.item.services'
         ]);
 
     angular
-        .module('App.item.controllers', []);
+        .module('appSearch.item.controllers', []);
 
     angular
-        .module('App.item.services', []);
+        .module('appSearch.item.services', []);
 })();

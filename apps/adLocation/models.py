@@ -22,7 +22,7 @@ REQUIRED_INFO_ADDRESS = ['address', 'nro']
 
 class AdLocation(models.Model):
     title = models.CharField(max_length=40)
-    ad = models.ForeignKey(Ad, related_name='locations', on_delete='cascade')#, unique=True)
+    ad = models.ForeignKey(Ad, related_name='locations', on_delete=models.CASCADE)#, unique=True)
     lat = models.FloatField()
     lng = models.FloatField()
 

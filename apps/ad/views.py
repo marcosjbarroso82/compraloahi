@@ -267,19 +267,23 @@ class AdUserViewSet(viewsets.ModelViewSet):
 
             if ad_serializer.is_valid():
                 ad_serializer.save()
-                loc = UserLocation.objects.filter(is_address=True, userProfile__user=request.user).first()
-                #import ipdb; ipdb.set_trace()
-                location = AdLocation()
-                location.lat = loc.lat
-                location.lng = loc.lng
-                location.address = loc.address
-                location.title = loc.title
-                #location.nro = loc.address.get('nro', 0)
+                try:
+                    loc = UserLocation.objects.filter(is_address=True, userProfile__user=request.user).first()
+                    #import ipdb; ipdb.set_trace()
+                    location = AdLocation()
+                    location.lat = loc.lat
+                    location.lng = loc.lng
+                    location.address = loc.address
+                    location.title = loc.title
+                    #location.nro = loc.address.get('nro', 0)
 
-                location.ad = ad_serializer.instance
+                    location.ad = ad_serializer.instance
 
-                location.save()
-
+                    location.save()
+                except:
+                    ad_serializer.instance.delete()
+                    return Response({"Error al intentar guardar la ubicacion"},
+                                    status=status.HTTP_400_BAD_REQUEST)
                 # location_serializer = {}
                 # for location_data in ad_data['locations']:
                 #     location_data['ad'] = ad_serializer.instance.id
@@ -308,9 +312,9 @@ class AdUserViewSet(viewsets.ModelViewSet):
                 except:
                     ad_serializer.instance.delete()
                     #location_serializer.instance.delete()
-                    location.delete()
-                    for img in images:
-                        img.delete()
+                    #location.delete()
+                    #for img in images:
+                    #    img.delete()
 
                     return Response({"Error al intentar guardar las imagenes"},
                                     status=status.HTTP_400_BAD_REQUEST)

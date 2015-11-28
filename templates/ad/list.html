@@ -11,7 +11,7 @@
 {% endblock %}
 
 {% block angular_app_declare_block %}
-    ng-app="App" ng-controller="ItemCtrl as vm"
+    ng-controller="ItemCtrl as vm"
     cg-busy="itemPromise"
 {% endblock %}
 
@@ -331,28 +331,6 @@
     <script type="text/javascript" src="http://maps.google.com/maps/api/js?libraries=places&language=es-AR"></script>
 
     <script type="text/javascript" src="{% static 'production/search/concat.js' %}"></script>
-
-
-    <!-- ###################### DASHBOARD APP - MODULE UTILS ###################### -->
-    <script type="text/javascript" src="{% static 'angular-resources/modules/utils/util.module.js' %}"></script>
-    <script type="text/javascript" src="{% static 'angular-resources/modules/utils/directives/google-places.directive.js' %}"></script>
-    <script type="text/javascript" src="{% static 'angular-resources/modules/utils/directives/ng-enter.directive.js' %}"></script>
-    <script type="text/javascript" src="{% static 'angular-resources/modules/utils/directives/alert-notification.directive.js' %}"></script>
-    <!-- ###################### END DASHBOARD APP - MODULE UTILS ###################### -->
-
-
-
-    <!-- ###################### angular-resources APP - MODULE AD ###################### -->
-    <script type="text/javascript" src="{% static 'angular-resources/modules/item/item.module.js' %}"></script>
-    <script type="text/javascript" src="{% static 'angular-resources/modules/item/services/item.service.js' %}"></script>
-    <script type="text/javascript" src="{% static 'angular-resources/modules/item/controllers/item.controller.js' %}"></script>
-    <!-- ###################### END angular-resources APP - MODULE AD ###################### -->
-
-    <!-- ###################### angular-resources APP ###################### -->
-    <script type="text/javascript" src="{% static 'angular-resources/apps/app.search.js' %}"></script>
-    <!-- ###################### END angular-resources APP ###################### -->
-
-
 
 {% endblock %}
 

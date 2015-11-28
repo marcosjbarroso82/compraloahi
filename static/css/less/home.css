@@ -304,7 +304,7 @@ body:not(.page-horizontal-bar).compact-menu .menu > li.open {
   -webkit-box-shadow: 1px 1px 2px 0.3px rgba(64, 64, 64, 0.71);
   -moz-box-shadow: 1px 1px 2px 0.3px rgba(64, 64, 64, 0.71);
   box-shadow: 1px 1px 2px 0.3px rgba(64, 64, 64, 0.71);
-  border: 1px solid #009691;
+  border: 1px solid #858a81;
 }
 #btn-download-app {
   left: 240px;

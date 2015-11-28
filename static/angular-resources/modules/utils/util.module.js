@@ -2,17 +2,17 @@
     'use strict';
 
     angular
-        .module('util', [
-            'util.controllers',
-            'util.directives'
+        .module('appSearch.util', [
+            'appSearch.util.controllers',
+            'appSearch.util.directives'
         ]);
 
 
     angular
-        .module('util.controllers', []);
+        .module('appSearch.util.controllers', []);
 
     angular
-        .module('util.directives', ['angular.snackbar']);
+        .module('appSearch.util.directives', ['angular.snackbar']);
 
 })();
 

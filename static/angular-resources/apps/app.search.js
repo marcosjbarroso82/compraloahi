@@ -1,24 +1,22 @@
 (function () {
     'use strict';
 
-    angular.module('App', [
-            'App.item'
-        ])
-    .config(function ($interpolateProvider, $httpProvider, $locationProvider) {
-        $interpolateProvider.startSymbol('{{').endSymbol('}}');
-
-        // CSRF Support
-        $httpProvider.defaults.xsrfCookieName = 'csrftoken';
-        $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
-
-        $locationProvider.html5Mode(true).hashPrefix('!');
-
-    });
+    angular.module('appSearch', [
+            'appSearch.config',
+            'leaflet-directive',
+            'tooltip',
+            'appSearch.util',
+            'appSearch.item'
+        ]);
 
     angular
-        .module('App')
-        .run(function(){
+        .module('appSearch.config', []);
 
+
+    angular
+        .module('appSearch')
+        .run(function(){
         });
 
+    angular.bootstrap(document, ['appSearch']);
 })();

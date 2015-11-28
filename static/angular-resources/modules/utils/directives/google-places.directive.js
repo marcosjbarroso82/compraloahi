@@ -1,12 +1,12 @@
 /**
  * Google Places
- * @namespace dashBoardApp.util.directives
+ * @namespace appSearch.util.directives
  */
 (function () {
     'use strict';
 
     angular
-        .module('util.directives')
+        .module('appSearch.util.directives')
         .directive('googlePlaces', googlePlaces);
 
     googlePlaces.$inject = [];

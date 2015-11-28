@@ -84,7 +84,8 @@ gulp.task('js-dashboard-lib', function(){
         'static/bower_components/angular-busy/dist/angular-busy.js',
         'static/bower_components/ng-ckeditor/ng-ckeditor.js',
         'static/bower_components/ng-currency/dist/ng-currency.js',
-        'static/bower_components/angular-tooltip-master/src/tooltip.js'
+        'static/bower_components/angular-tooltip-master/src/tooltip.js',
+        'static/bower_components/angularjs-socialshare/src/js/angular-socialshare.js'
     ];
 
     gulp.src(js_array)
@@ -128,7 +129,20 @@ gulp.task('js-search', function(){
         'static/bower_components/angular/angular.js',
         'static/bower_components/angular-leaflet/dist/angular-leaflet-directive.js',
         'static/bower_components/angular-tooltip-master/src/tooltip.js',
-        'static/bower_components/angular-snackbar/angular.snackbar.min.js'
+        'static/bower_components/angular-snackbar/angular.snackbar.min.js',
+
+        'static/angular-resources/modules/utils/util.module.js',
+        'static/angular-resources/modules/utils/directives/google-places.directive.js',
+        'static/angular-resources/modules/utils/directives/ng-enter.directive.js',
+        'static/angular-resources/modules/utils/directives/alert-notification.directive.js',
+
+        'static/angular-resources/modules/item/item.module.js',
+        'static/angular-resources/modules/item/services/item.service.js',
+        'static/angular-resources/modules/item/controllers/item.controller.js',
+
+        'static/angular-resources/apps/app.search.js',
+        'static/angular-resources/apps/app-search.config.js'
+
     ];
 
     gulp.src(js_array)

@@ -95,7 +95,7 @@ class Ad(models.Model):
 
 
 class AdImage(models.Model):
-    ad_id = models.ForeignKey(Ad, related_name='images')
+    ad_id = models.ForeignKey(Ad, related_name='images', on_delete=models.CASCADE)
     image = models.ImageField(upload_to='ad', null=False, blank=False, )
     default = models.BooleanField(default=False)
 
