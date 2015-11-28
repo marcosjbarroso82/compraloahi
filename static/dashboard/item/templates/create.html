@@ -18,7 +18,7 @@
 <div id="container-item-create-data" cg-busy="vm.promiseRequest">
 <div class="col-xs-12" style="z-index: 2; margin-top: 10px;">
     <!-- TABS STEP -->
-    <ul class="nav nav-pills nav-justified thumbnail setup-panel" ng-init="vm.step=1; vm.maxStep = 1;">
+    <ul class="nav nav-pills  nav-justified thumbnail setup-panel" ng-init="vm.step=1; vm.maxStep = 1;">
         <li ng-class="{active: vm.step == 1 }">
             <a ng-click="vm.step = 1;">
                 <h4 class="list-group-item-heading">Paso 1</h4>
@@ -89,6 +89,7 @@
                     </script>
                     <span class="help" >¿Porque es importante que el anuncio tenga una descripcion corta?.
                         <a ns-popover
+                           class="a-popover"
                            ns-popover-template="popover"
                            ns-popover-trigger="click"
                            ns-popover-hide-on-outside-click="true"
@@ -124,6 +125,7 @@
                     </script>
                     <span class="help" >¿Porque es importante que el anuncio tenga un precio?.
                         <a ns-popover
+                           class="a-popover"
                            ns-popover-template="popover"
                            ns-popover-trigger="click"
                            ns-popover-hide-on-outside-click="true"
@@ -183,6 +185,7 @@
                 </script>
                 <span class="help" >¿Porque es importante la imagen por defecto?.
                     <a ns-popover
+                       class="a-popover"
                        ns-popover-template="helpimage"
                        ns-popover-trigger="click"
                        ns-popover-hide-on-outside-click="true"
@@ -220,6 +223,7 @@
                 </script>
         <p class="help" >¿Para que sirve la descripcion?.
             <a ns-popover
+               class="a-popover"
                ns-popover-template="helpbody"
                ns-popover-trigger="click"
                ns-popover-hide-on-outside-click="true"

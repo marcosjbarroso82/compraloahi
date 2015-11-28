@@ -128,7 +128,7 @@
                         { url: 'my-items', name:'Mis avisos'},
                         { url: 'item-create', name:'Crear avisos'}
                     ],
-                    title: "Crea tu avisos en 4 pasos"
+                    title: "Crea tu avisos en 3 pasos"
                 }
             })
 

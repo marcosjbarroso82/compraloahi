@@ -544,3 +544,6 @@ hr {
 #btn-add-item:hover {
   color: #282828 !important;
 }
+.a-popover:hover {
+  cursor: pointer;
+}
