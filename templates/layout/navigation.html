@@ -31,7 +31,6 @@
                                 <a href="/accounts/login/">Entra</a>
                             </div>
                         </div>
-
                     </div>
                 {% endif %}
             </a>
@@ -115,14 +114,16 @@
                             <ul class="dropdown-menu dropdown-list" role="menu">
                                 <li role="presentation"><a href="/panel/user/profile/"><i class="fa fa-user"></i>Perfil</a></li>
                                 <li role="presentation"><a href="/panel/mensajes/inbox"><i class="fa fa-envelope"></i>Bandeja<span class="badge badge-success pull-right">{% get_msgs_unread_count %}</span></a></li>
+                                <li role="presentation"><a href="/faq/"><i class="fa fa-question-circle"></i> Ayuda</a></li>
                                 <li role="presentation" class="divider"></li>
                                 <li role="presentation"><a href="{% url 'my-user:my-logout' %}"><i class="fa fa-sign-out m-r-xs"></i>Salir</a></li>
                             </ul>
                         </li>
                     {% else %}
                         <ul class="nav navbar-nav navbar-right">
-                            <li><a href="/accounts/signup/" >Registrate</a></li>
+                            <li><a href="/accounts/signup/" ><button class="btn btn-warning" style="margin-top: -4px; font-weight: bold;">Registrate</button></a></li>
                             <li><a href="/accounts/login/">Entra</a></li>
+                            <li><a href="/faq/"><i class="fa fa-question-circle"></i></a></li>
                         </ul>
                     {% endif %}
 
