@@ -12,11 +12,12 @@ class Interested(models.Model):
         return self.email
 
 
-class Pq(models.Model):
-    identification = models.CharField()
-    whereis = models.CharField()
+class CounterWhered(models.Model):
+    whered = models.CharField(max_length=100, unique=True)
     counter = models.IntegerField()
 
     def __str__(self):
-        return self.whereis
+        return self.whered
+
+
 

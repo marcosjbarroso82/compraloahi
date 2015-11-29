@@ -17,7 +17,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 from apps.ad.models import Ad
 from apps.user.serializers import UserAuthenticationSerializer
-
+from apps.marketing.forms import RegisterInterestedForm
 
 import logging
 
@@ -40,6 +40,11 @@ def send_notification(request):
 
 class HomeView(TemplateView):
     template_name = 'index.html'
+
+    def get_context_data(self, *args, **kwargs):
+        cxt = super(HomeView, self).get_context_data(*args, **kwargs)
+        cxt['form'] = RegisterInterestedForm()
+        return cxt
 
     #def dispatch(self, request, *args, **kwargs):
     #    return redirect('/item/search/?q=')

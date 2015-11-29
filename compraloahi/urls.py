@@ -9,12 +9,16 @@ from apps.user.views import FacebookLogin, GoogleLogin
 from .views import HomeView, DashBoardView, log, send_notification, TermAndConditionView
 from django.views.generic import TemplateView
 from .settings import base as settings
-
+from apps.marketing.views import RegisterInterested, TemplateMessage
 
 urlpatterns = patterns('',
                        url(r'^$', HomeView.as_view()),
 
                        url(r'^report-error/$', 'apps.report_error.views.report_error', name='report-error'),
+
+                       url('^interested/$', RegisterInterested.as_view(), name='interested-app'),
+                       url('^dynamic-message/$', TemplateMessage.as_view(), name='dynamic-message'),
+                       url(r'^face/$', 'apps.marketing.views.register_count_whered', {'whered': 'facebook'}),
 
                        # TODO : This url belong to api
                        url(r'^favorites/near/$', HasFavoriteNearApiView.as_view() , name='favorite-near'),
