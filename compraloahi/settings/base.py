@@ -52,7 +52,8 @@ LOCAL_APPS = (
     'apps.msg',
     'apps.favorite',
     'apps.faq',
-    'apps.report_error'
+    'apps.report_error',
+    'apps.marketing'
 )
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
