@@ -28,6 +28,28 @@ class UserProfile(models.Model):
     def __str__(self):
         return 'profile ' + self.user.username
 
+    def __init__(self, *args, **kwargs):
+        super(UserProfile, self).__init__(*args, **kwargs)
+        self.privacy_settings_old = self.privacy_settings
+
+
+    def change_privacity(self):
+        if self.privacy_settings.get('show_address', True) == self.privacy_settings_old.get('show_address', True):
+            return False
+        else:
+            return True
+
+    def get_can_show_location(self):
+        return self.privacy_settings.get('show_address', True)
+
+    def save(self, *args, **kwargs):
+        obj = super(UserProfile, self).save(*args, **kwargs)
+        print(30*"==change_privacity==")
+        print(self.change_privacity())
+        if self.change_privacity():
+            self.locations.filter(is_address=True).first().save()
+
+        return obj
     # def clean(self):
     #     # Validate if has all config
     #     for key, value in CONFIG_PRIVACY.items():
@@ -72,23 +94,25 @@ class UserLocation(models.Model):
         return address
 
     def save(self, *args, **kwargs):
-        url = 'http://maps.googleapis.com/maps/api/geocode/json?latlng='+ \
-              str(self.lat) + ',' + str(self.lng) +'&sensor=true'
+        try:
+            url = 'http://maps.googleapis.com/maps/api/geocode/json?latlng='+ \
+                  str(self.lat) + ',' + str(self.lng) +'&sensor=true'
 
-        response = urllib.request.urlopen(url)
-        json_response = response.read()
-
-        obj = json.loads(json_response.decode("utf-8"))
-        if len(obj['results']):
-            for district in obj["results"][0]["address_components"]:
-                if "locality" in district["types"]:
-                    self.address['locality'] = district["long_name"]
-                elif "administrative_area_level_2" in district["types"]:
-                    self.address['administrative_area_level_2'] = district["long_name"]
-                elif "administrative_area_level_1" in district["types"]:
-                    self.address['administrative_area_level_1'] = district["long_name"]
-                elif "country" in district["types"]:
-                    self.address['country'] = district["long_name"]
+            response = urllib.request.urlopen(url)
+            json_response = response.read()
+            obj = json.loads(json_response.decode("utf-8"))
+            if len(obj['results']):
+                for district in obj["results"][0]["address_components"]:
+                    if "locality" in district["types"]:
+                        self.address['locality'] = district["long_name"]
+                    elif "administrative_area_level_2" in district["types"]:
+                        self.address['administrative_area_level_2'] = district["long_name"]
+                    elif "administrative_area_level_1" in district["types"]:
+                        self.address['administrative_area_level_1'] = district["long_name"]
+                    elif "country" in district["types"]:
+                        self.address['country'] = district["long_name"]
+        except:
+            pass
 
         return super(UserLocation, self).save(*args, **kwargs)
 
@@ -96,19 +120,19 @@ class UserLocation(models.Model):
         return self.title
 
 
+
+
 @receiver(post_save, sender=UserLocation)
 def user_location_post_save(sender, *args, **kwargs):
     loc = kwargs['instance']
-    if loc.is_address: # TODO: Warning, when save this with default and fail, all location has default false
-        for ad in Ad.objects.filter(author=loc.userProfile.user).prefetch_related('locations'):
-            ad_loc = ad.locations.first()
+    if loc.is_address:
+        #if loc.is_address: # TODO: Warning, when save this with default and fail, all location has default false
+        for ad in Ad.objects.filter(author=loc.userProfile.user): #.prefetch_related('locations'):
+            ad_loc = ad.locations.first() # TODO: Cuando un aviso tenga la posibilidad de tener mas de una ubicacion, esta query deja de servir
             if ad_loc:
-                ad_loc.title = loc.title
-                ad_loc.address = loc.get_address()
+                ad_loc.save(loc=loc, can_show=loc.userProfile.get_can_show_location())
 
-                ad_loc.save()
-
-        for location in UserLocation.objects.filter(is_address=True, userProfile=loc.userProfile).exclude(id=loc.id):
+        for location in UserLocation.objects.filter(is_address=True, userProfile=loc.userProfile).exclude(pk=loc.pk):
             location.is_address = False
             location.save()
 

@@ -269,36 +269,13 @@ class AdUserViewSet(viewsets.ModelViewSet):
                 ad_serializer.save()
                 try:
                     loc = UserLocation.objects.filter(is_address=True, userProfile__user=request.user).first()
-                    #import ipdb; ipdb.set_trace()
                     location = AdLocation()
-                    location.lat = loc.lat
-                    location.lng = loc.lng
-                    location.address = loc.address
-                    location.title = loc.title
-                    #location.nro = loc.address.get('nro', 0)
-
                     location.ad = ad_serializer.instance
-
-                    location.save()
+                    location.save(loc=loc, can_show=loc.userProfile.get_can_show_location())
                 except:
                     ad_serializer.instance.delete()
                     return Response({"Error al intentar guardar la ubicacion"},
                                     status=status.HTTP_400_BAD_REQUEST)
-                # location_serializer = {}
-                # for location_data in ad_data['locations']:
-                #     location_data['ad'] = ad_serializer.instance.id
-                #     location_serializer = AdLocationSerializer(data=location_data)
-                #     location_serializer.run_validation(location_data)
-                #
-                #     try:
-                #         if location_serializer.is_valid():
-                #             location_serializer.save()
-                #         else:
-                #             raise Exception
-                #     except:
-                #         ad_serializer.instance.delete()
-                #         return Response({"Error al intentar guardar la ubicacion"},
-                #                         status=status.HTTP_400_BAD_REQUEST)
 
                 images = []
                 try:

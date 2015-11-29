@@ -73,6 +73,8 @@
 
             function getAddressSuccess(data){
                 vm.location = data.data;
+                console.log(vm.location);
+                createMarker(vm.location.lat, vm.location.lng);
             }
 
             function getAddressError(data){
@@ -179,7 +181,7 @@
                 lat: lat,
                 lng: lng,
                 icon: {
-                    iconUrl: '/static/image/compraloahi_marker.svg',
+                    iconUrl: '/static/image/map52.svg',
                     shadowUrl: '/static/image/markers-shadow.png',
                     iconSize: [35, 45],  // size of the icon
                     iconAnchor:   [17, 42], // point of the icon which will correspond to marker's location

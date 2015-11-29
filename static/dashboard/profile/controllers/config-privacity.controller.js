@@ -1,7 +1,3 @@
-/**
- * ConfigPrivacityController
- * @namespace dashBoardApp.profile.controllers
- */
 (function () {
     'use strict';
 
