@@ -19,7 +19,7 @@
 
     <form class="search-form" >
         <div class="input-group">
-            <input type="text" name="q" ng-model="vm.q" ng-enter="vm.refreshResults()" class="search-input" placeholder="Search...">
+            <input type="text" name="q" ng-model="vm.q" ng-enter="vm.refreshResults()" class="search-input" placeholder="Busca productos y servicios cerca">
             <span class="input-group-btn">
                 <button class="btn btn-default close-search " ng-click="vm.refreshResults()" type="button"><i class="fa fa-search"></i></button>
             </span>
@@ -297,25 +297,19 @@
     <!-- END BLOCK BODY -->
 {% endblock %}
 
-
+{% load jsonify %}
 
 {% block js_footer_block %}
-
+    <div class="buscandouserloc">
+        {{ user_locations|jsonify }}
+    </div>
     <script>
 
         var csrf = "{{ csrf_token }}";
         // Set user locations
+        var user_locs = {{ user_locations|jsonify }};
         var user_locations = [
-            {% for user_location in user_locations %}
-                {% if not forloop.first %},{% endif %}
-                {
-                    pk:{{ user_location.pk }},
-                    title:"{{ user_location.title }}",
-                    lat:{{ user_location.lat }},
-                    lng:{{ user_location.lng }},
-                    radius:{{ user_location.radius }}
-                }
-            {% endfor %}
+
         ];
 
         /**

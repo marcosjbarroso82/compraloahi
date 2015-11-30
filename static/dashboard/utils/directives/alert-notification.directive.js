@@ -10,12 +10,12 @@
         .factory('AlertNotification', AlertNotification);
 
 
-    AlertNotification.$inject = ['snackbar'];
+    AlertNotification.$inject = [];
 
     /**
      * @namespace AlertNotification
      */
-    function AlertNotification(snackbar) {
+    function AlertNotification() {
         /**
          * @name AlertNotification
          * @desc The factory to be returned
@@ -33,23 +33,23 @@
         ////////////////////
 
         function error(content, options) {
-            snackbar.create('<i class="fa fa-times-circle" style="color: #CD4945;"> </i> Error : ' + content);
+            toastr.error(content);
            //$notification.error('Error!', content);
         }
 
         function success(content, options) {
-            snackbar.create('<i class="fa fa-check-circle" style="color: #0DAD9E;"> </i> Success : ' + content);
+            toastr.success(content);
 
             //$notification.success('Success!', content);
         }
 
         function warning(content, options) {
-            snackbar.create('<i class="fa fa-exclamation-circle" style="color: #CFAE45;"> </i> warning : ' + content);
+            toastr.warning(content);
             //$notification.warning('Warning!!', content);
         }
 
         function info(content, options) {
-            snackbar.create('<i class="fa fa-info-circle" style="color: #2B6A94;"> </i> Info : ' + content, 5000);
+            toastr.info(content);
             //$notification.info('Info!', content);
         }
 

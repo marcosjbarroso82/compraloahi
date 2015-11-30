@@ -80,7 +80,6 @@ gulp.task('js-dashboard-lib', function(){
         'static/bower_components/nsPopover/src/nsPopover.js',
         'static/bower_components/tg-angular-validator/dist/angular-validator.js',
         'static/bower_components/ng-table/dist/ng-table.js',
-        'static/bower_components/angular-snackbar/angular.snackbar.js',
         'static/bower_components/ngDialog/js/ngDialog.js',
         'static/bower_components/angular-busy/dist/angular-busy.js',
         'static/bower_components/ng-ckeditor/ng-ckeditor.js',
@@ -106,7 +105,6 @@ gulp.task('css-dashboard', function ()
         'static/bower_components/bootstrap-datepicker/css/datepicker3.css',
         'static/bower_components/ngDialog/css/ngDialog.css',
         'static/bower_components/ngDialog/css/ngDialog-theme-plain.css',
-        'static/bower_components/angular-snackbar/css/angular.snackbar.css',
         'static/bower_components/angular-busy/dist/angular-busy.css',
         'static/bower_components/ng-table/dist/ng-table.css',
         'static/bower_components/nsPopover/less/ns-popover.css',
@@ -130,7 +128,6 @@ gulp.task('js-search', function(){
         'static/bower_components/angular/angular.js',
         'static/bower_components/angular-leaflet/dist/angular-leaflet-directive.js',
         'static/bower_components/angular-tooltip-master/src/tooltip.js',
-        'static/bower_components/angular-snackbar/angular.snackbar.min.js',
 
         'static/angular-resources/modules/utils/util.module.js',
         'static/angular-resources/modules/utils/directives/google-places.directive.js',
@@ -159,8 +156,7 @@ gulp.task('css-search', function ()
         'static/css/less/list-item.css',
         'static/bower_components/leaflet/dist/leaflet.css',
         'static/bower_components/Leaflet.awesome-markers/dist/leaflet.awesome-markers.css',
-        'static/bower_components/angular-tooltip-master/src/tooltip.css',
-        'static/bower_components/angular-snackbar/css/angular.snackbar.css'
+        'static/bower_components/angular-tooltip-master/src/tooltip.css'
     ];
     gulp.src(css_array)
         .pipe(concatCss("concat.css"))

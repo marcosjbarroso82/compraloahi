@@ -12,7 +12,7 @@
         .module('appSearch.util.controllers', []);
 
     angular
-        .module('appSearch.util.directives', ['angular.snackbar']);
+        .module('appSearch.util.directives', []);
 
 })();
 

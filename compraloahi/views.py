@@ -17,7 +17,9 @@ from django.views.decorators.csrf import csrf_exempt
 
 from apps.ad.models import Ad
 from apps.user.serializers import UserAuthenticationSerializer
-from apps.marketing.forms import RegisterInterestedForm
+from apps.util.forms import RegisterInterestedForm
+
+
 
 import logging
 
@@ -76,7 +78,6 @@ class DashBoardView(TemplateView):
 
         context['user_data'] = UserAuthenticationSerializer(instance=self.request.user).data
         return context
-
 
 
 def comment_post_wrapper(request):

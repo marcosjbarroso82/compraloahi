@@ -4,7 +4,6 @@
     angular.module('dashBoardApp', [
 
             // Third lib
-            'angular.snackbar',
             'ui.router',
             'tooltip',
             'cgBusy',

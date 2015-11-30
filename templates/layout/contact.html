@@ -1,0 +1,51 @@
+<a href="#" id="modal-contact">Contactenos</a>
+<div class="modal fade" tabindex="-1" id="modalContact" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Contactenos</h4>
+            </div>
+            <div class="modal-body" id="modal-body">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-success" id="btn-submit-contact">Enviar</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<script>
+
+    $("#modal-contact").click(function(){
+        $("#modalContact").modal('show');
+        $.ajax({
+            url: "/contactenos/",
+            type: 'GET',
+            success: function(response) {
+                $("#modalContact").find('#modal-body').html(response);
+            }
+        });
+    });
+
+
+    $('#btn-submit-contact').click(function(){
+        $.ajax({
+            url: "/contactenos/",
+            type: 'POST',
+            data: $("#modalContact").find('#modal-body').find('form').serialize(),
+            beforeSend: function(xhr, settings){
+                if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                    // Only send the token to relative URLs i.e. locally.
+                    xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+                }
+            },
+            success: function(response) {
+                $("#modalContact").find('#modal-body').html(response);
+                $('#btn-submit-contact').css('display', 'none');
+            }
+        });
+    })
+
+
+</script>

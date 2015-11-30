@@ -120,7 +120,6 @@
                     AlertNotification.error("Se quito de favoritos : " + item.title);
                 }else{
                     item.is_favorite = true;
-                    console.log("ESTO ANDA");
                     AlertNotification.success("Se agrego a favoritos : " + item.title);
                 }
             }).error(function(error){
@@ -176,7 +175,7 @@
                             title: data.title
                         });
                         $('#modalNewLocation').modal('hide');
-
+                        AlertNotification.success('La ubicacion ' + vm.search_location.title + ' se guardo con exito.')
                         vm.user_location_selected = {};
 
                         // TODO: this should select the option in the html selct. Bu it's not working
