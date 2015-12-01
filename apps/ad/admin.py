@@ -14,7 +14,7 @@ class AdImageInline(admin.TabularInline):
 
 
 class AdAdmin(admin.ModelAdmin):
-    inlines = [AdImageInline, AdLocationInline]
+    inlines = [AdImageInline]
     readonly_fields = ['author', ]
 
     def has_change_permission(self, request, obj=None):
