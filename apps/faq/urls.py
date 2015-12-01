@@ -20,8 +20,8 @@ urlpatterns = patterns('',
         views.QuestionOverviewList.as_view(),
         name='faq_question_list',),
 
-    url(r'^detail/(?P<topic_slug>[\w-]+)/(?P<slug>[\w-]+)/helpful$',
-        views.QuestionHelpfulVote.as_view(),
+    url(r'^detail/(?P<topic_slug>[\w-]+)/(?P<slug>[\w-]+)/helpful/$',
+        'apps.faq.views.question_help_full_vote',
         name='question_helpful'
     ),
     url(r'^submit/$',

@@ -31,9 +31,9 @@ urlpatterns = patterns('',
                        # TODO: Esta url no va en produccion
                        url(r'^log/', log),
 
-                       url('^faq/', include('apps.faq.urls')),
+                       url('^faq/', include('apps.faq.urls', namespace='faq')),
 
-                       url('^terminosycondiciones/(?P<template>.*)$', TermAndConditionView.as_view()),
+                       url('^terminosycondiciones/(?P<template>.*)$', TermAndConditionView.as_view(), name='termsandcondition'),
 
                        # Terms and Conditions
                        #url(r'^terms/', include('termsandconditions.urls')),

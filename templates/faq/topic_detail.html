@@ -27,8 +27,8 @@
                         <p>{{ question.answer }}</p>
                         <p class="caption"> Fue útil esta pregunta?
                             <span id="feedback-helpful">
-                                <a href="/faq/detail/{{ topic.slug }}/{{ question.slug }}/helpful/?q=y" class="feedback-helpful" data="y">Si</a> or
-                                <a href="/faq/detail/{{ topic.slug }}/{{ question.slug }}/helpful/?q=n" class="feedback-helpful" data="n">No</a>
+                                <a href="/faq/detail/{{ topic.slug }}/{{ question.slug }}/helpful/?q=y&redirect={{ request.get_full_path }}" class="feedback-helpful" data="y">Si</a> or
+                                <a href="/faq/detail/{{ topic.slug }}/{{ question.slug }}/helpful/?q=n&redirect={{ request.get_full_path }}" class="feedback-helpful" data="n">No</a>
                             </span>
                         </p>
                     </div>

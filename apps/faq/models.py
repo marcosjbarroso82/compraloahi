@@ -39,7 +39,7 @@ class Topic(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        return ('faq_topic_detail', [self.slug])
+        return ('faq:faq_topic_detail', [self.slug])
 
     def add_view(self):
         self.nr_views += 1

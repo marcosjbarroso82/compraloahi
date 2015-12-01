@@ -9,7 +9,7 @@
         <ol class="breadcrumb container">
             {% block breadcrumb %}
                 <li><a href="/">Inicio</a></li>
-                <li><a href="/faq/faq/">Preguntas frecuentes</a></li>
+                <li><a href="{% url 'faq:faq_index' %}">Preguntas frecuentes</a></li>
             {% endblock %}
         </ol>
     </div>
@@ -35,7 +35,7 @@
                             </div>
                         </form>
                         <a href="/faq/submit/" class="btn btn-success m-b-xs">Hacer nueva pregunta</a>
-                        <a href="contact.html" class="btn btn-success m-b-xs">Contactanos</a>
+{#                        <a href="contact.html" class="btn btn-success m-b-xs">Contactanos</a>#}
 
                         {% block container_list %}
                         {% endblock %}

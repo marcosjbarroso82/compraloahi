@@ -138,8 +138,7 @@ gulp.task('js-search', function(){
         'static/angular-resources/modules/item/services/item.service.js',
         'static/angular-resources/modules/item/controllers/item.controller.js',
 
-        'static/angular-resources/apps/app.search.js',
-        'static/angular-resources/apps/app-search.config.js'
+        'static/angular-resources/apps/app.search.js'
 
     ];
 

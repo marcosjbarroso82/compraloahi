@@ -213,7 +213,47 @@ class SubmitFAQThanks(TemplateView):
     template_name = "faq/submit_thanks.html"
 
 
+from django.shortcuts import redirect
+from django.contrib import messages
+
+
+def question_help_full_vote(request, topic_slug, slug):
+    if request.GET:
+        topic = Topic.site_objects.get(slug=topic_slug)
+        question = Question.site_objects.filter(slug=slug, topic=topic)[0]
+        data = {}
+        user = request.user
+        ip_address = request.META.get('REMOTE_ADDR', '')
+
+        if user.is_authenticated():
+            qs_user = user
+            qs_done = True if len(QuestionScore.objects.filter(question = question, user = user))>0 else False
+        else:
+            qs_user = None
+            qs_done = True if len(QuestionScore.objects.filter(question = question, ip_address = ip_address, user = None))>0 else False
+
+        # optimistic positive score
+        if "n" == request.GET.get("q"):
+            qs_score = 0
+        else:
+            qs_score = 1
+
+        if not qs_done:
+            question_score = QuestionScore()
+            question_score.question = question
+            question_score.user = qs_user
+            question_score.score = qs_score
+            question_score.ip_address = ip_address
+            question_score.save()
+
+            messages.success(request, 'Gracias por ayudarnos, su voto fue registrado.')
+        else:
+            messages.info(request, 'Ya hemos registrado un voto.')
+
+        return redirect(request.GET.get("redirect"))
+
 class QuestionHelpfulVote(View):
+
     def post(self, request, topic_slug, slug):
         """
         Scores a question.  The question can only be scored by 0 (not helpful) and 1 (helpful).  A user can score a question
@@ -224,6 +264,8 @@ class QuestionHelpfulVote(View):
         :param request:
         :return: a json response
         """
+        print(40*"======")
+        print(request.GET)
         topic = Topic.site_objects.get(slug=topic_slug)
         question = Question.site_objects.filter(slug=slug, topic=topic)[0]
         data = {}

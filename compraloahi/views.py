@@ -55,9 +55,6 @@ class TermAndConditionView(TemplateView):
     template_name = 'termcondition/index.html'
 
     def get_template_names(self):
-        print(self.kwargs)
-        print(self.args)
-        print(self.request.GET)
         if self.kwargs.get('template'):
             return 'termcondition/%s.html' %(self.kwargs['template'])
         else:

@@ -74,7 +74,43 @@
 
 <script type="text/javascript" src="{% static 'bower_components/angularjs-socialshare/dist/angular-socialshare.min.js' %}"></script>
 
+<script type="text/javascript" src="{% static 'bower_components/toastr/toastr.js' %}"></script>
+
 <!-- ###################### END IMPORT ###################### -->
+
+<script>
+    toastr.options = {
+      "closeButton": true,
+      "debug": false,
+      "newestOnTop": false,
+      "progressBar": true,
+      "positionClass": "toast-bottom-left",
+      "preventDuplicates": false,
+      "onclick": null,
+      "showDuration": "300",
+      "hideDuration": "1000",
+      "timeOut": "5000",
+      "extendedTimeOut": "1000",
+      "showEasing": "swing",
+      "hideEasing": "linear",
+      "showMethod": "fadeIn",
+      "hideMethod": "fadeOut"
+    };
+    {% if messages %}
+        {% for message in messages %}
+            {% if message.tags and message.tags == 'success' %}
+                toastr.success('{{ message }}');
+            {% elif message.tags and message.tags == 'warning' %}
+                toastr.warning('{{ message }}');
+            {% elif message.tags and message.tags == 'error' %}
+                toastr.error('{{ message }}');
+            {% else %}
+                toastr.info('{{ message }}');
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+
+</script>
 
 
 {% load jsonify %}
