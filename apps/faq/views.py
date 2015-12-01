@@ -183,7 +183,7 @@ class SubmitFAQ(CreateView):
     model = Question
     form_class = SubmitFAQForm
     template_name = "faq/submit_question.html"
-    success_view_name = "faq_submit_thanks"
+    success_view_name = "faq:faq_submit_thanks"
 
     def get_form_kwargs(self):
         kwargs = super(SubmitFAQ, self).get_form_kwargs()
@@ -195,7 +195,7 @@ class SubmitFAQ(CreateView):
     def form_valid(self, form):
         response = super(SubmitFAQ, self).form_valid(form)
         messages.success(self.request,
-            _("Your question was submitted and will be reviewed by for inclusion in the FAQ."),
+            _("Su pregunta fue presentado y será revisada por la inclusión en -Preguntas Frecuentes-."),
             fail_silently=True,
         )
         return response

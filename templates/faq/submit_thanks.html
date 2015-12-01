@@ -5,7 +5,7 @@
     <div class="page-breadcrumb">
         <ol class="breadcrumb container">
             <li><a href="index.html">Inicio</a></li>
-            <li class="active">Preguntas frecuentes</li>
+            <li class="active"><a href="{% url 'faq:faq_index' %}">Preguntas frecuentes</a></li>
         </ol>
     </div>
     <div id="main-wrapper" class="container">
@@ -15,7 +15,7 @@
                     <div class="panel-body">
                         <h3>Gracias por ayudarnos a crecer!</h3>
                         <p>Con tu ayuda, otras personas se beneficiaran con la informacion.</p>
-                        <a href="/faq/faq/" class="btn btn-success m-b-xs pull-right">Volver a preguntas frecuentes</a>
+                        <a href="{% url 'faq:faq_index' %}" class="btn btn-success m-b-xs pull-right">Volver a preguntas frecuentes</a>
                     </div>
                 </div>
             </div>
