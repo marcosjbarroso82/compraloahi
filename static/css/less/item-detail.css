@@ -243,9 +243,12 @@ html {
   background-color: none !important;
   border: none;
 }
-.btn-favit-favorite .fa-heart {
+.favit .fa-heart,
+.favit .fa-heart-o {
   color: #7a6fbe;
-  /* TODO: This color is primary */
+}
+.favit:hover {
+  cursor: pointer !important;
 }
 .pagination > .active > a,
 .pagination > .active > span,

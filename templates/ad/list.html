@@ -213,8 +213,11 @@
                     <div class="container-img" ng-class="{'col-md-3': !vm.collapsabled, 'col-md-12': vm.collapsabled}">
                         <a id="item-anchor-{{ item.id }}"></a> <!-- This tag is used for animation, It could be replaced -->
                         <!-- TODO: Add directive "imageonload" on img element -->
-                        <img class="img-responsive"
+                        <a href="/item/{{ item.slug }}">
+                            <img class="img-responsive"
                              ng-src="{{ item.image }}">
+                        </a>
+
 
                     </div>
 

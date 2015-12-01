@@ -69,18 +69,12 @@
                                 </div>
                             </div><!-- Row -->
                         </div><!-- Main Wrapper -->
-                        <div class="page-footer">
-                            <div class="container">
-                               <p class="no-s">2015 &copy; Compraloahi hecho por <a href="http://www.context.com.ar" target="_blank">Context</a>   |
-                            <a href="/faq/">Terminos y condiciones</a> | <a href="/faq/">Politicas de privacidad</a> | <a
-                                    href="/faq/">Ayuda</a>
-                        </p>
-                            </div>
-                        </div>
+                        {% endverbatim %}
+                        {% include 'layout/footer.html' %}
                     </div>
 
                 </div><!-- Page Inner -->
-            {% endverbatim %}
+
 
             <a ng-show="!('item-create' | includedByState)"
                ui-sref="item-create"

@@ -244,9 +244,14 @@ html {
   background-color: none !important;
   border: none;
 }
-.btn-favit-favorite .fa-heart {
+.favit .fa-heart,
+.favit .fa-heart-o,
+.favit.fa-heart-o,
+.favit.fa-heart {
   color: #7a6fbe;
-  /* TODO: This color is primary */
+}
+.favit:hover {
+  cursor: pointer !important;
 }
 .pagination > .active > a,
 .pagination > .active > span,
@@ -503,9 +508,6 @@ body:not(.page-horizontal-bar).compact-menu .menu > li.open {
   margin-bottom: 10px;
   padding: 10px;
   height: 130px;
-}
-#container-item-list .item-items-list .favit.fa-heart {
-  color: #7a6fbe;
 }
 #container-item-list .item-items-list .container-img {
   padding: 0px;
