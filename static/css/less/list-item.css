@@ -548,6 +548,12 @@ body:not(.page-horizontal-bar).compact-menu .menu > li.open {
   box-shadow: 1px 1px 3px 4px #018ba3;
   background-color: #018ba3;
 }
+#container-item-list .item-items-list .locate-it:hover .locate-it-mira {
+  display: inherit;
+}
+#container-item-list .item-items-list .locate-it-mira {
+  display: none;
+}
 #container-item-list .item-items-list .price-items-list {
   font-size: 1.3em;
   color: #e54f4f;
