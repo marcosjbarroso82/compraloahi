@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.db import models, migrations
+from django.db import migrations, models
+import django_pgjson.fields
 
 
 class Migration(migrations.Migration):
@@ -14,14 +15,11 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='AdLocation',
             fields=[
-                ('id', models.AutoField(primary_key=True, serialize=False, verbose_name='ID', auto_created=True)),
+                ('id', models.AutoField(serialize=False, auto_created=True, verbose_name='ID', primary_key=True)),
                 ('title', models.CharField(max_length=40)),
-                ('lat', models.FloatField(null=True)),
-                ('lng', models.FloatField(null=True)),
-                ('country', models.CharField(null=True, blank=True, max_length=40)),
-                ('administrative_area_level_1', models.CharField(null=True, blank=True, max_length=40)),
-                ('administrative_area_level_2', models.CharField(null=True, blank=True, max_length=40)),
-                ('locality', models.CharField(null=True, blank=True, max_length=40)),
+                ('lat', models.FloatField()),
+                ('lng', models.FloatField()),
+                ('address', django_pgjson.fields.JsonField(default={'nro': '', 'administrative_area_level_1': '', 'address': '', 'locality': '', 'administrative_area_level_2': '', 'country': '', 'lng': '', 'lat': ''})),
                 ('ad', models.ForeignKey(to='ad.Ad', related_name='locations')),
             ],
         ),
