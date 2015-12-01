@@ -144,11 +144,13 @@
 
 
         function submit(){
-            for(var i=0; i < vm.categories.length; i++){
-                if(vm.categories[i].selected){
-                    vm.item.categories.push(vm.categories[i].id);
-                }
-            }
+            //for(var i=0; i < vm.categories.length; i++){
+            //    if(vm.categories[i].selected){
+            //        vm.item.categories.push(vm.categories[i].id);
+            //    }
+            //}
+
+            vm.item.categories = [vm.category_selected,];
             //vm.item.locations = [];
 
             //vm.item.locations.push({lat: vm.location.lat , lng: vm.location.lng, title: (vm.location.title && vm.location.title != '') ? vm.location.title : 'Sin titulo' } );

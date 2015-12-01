@@ -54,6 +54,7 @@ class AdSerializer(serializers.ModelSerializer):
     is_favorite = serializers.SerializerMethodField()
     price = serializers.DecimalField(decimal_places=2, max_digits=10, coerce_to_string=False)
     locations = AdLocationSerializer(many=True, read_only=True)
+    # TODO: Falta validar que si o si halla una categoria
 
     class Meta:
         model = Ad

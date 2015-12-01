@@ -131,16 +131,16 @@
             <div class="container-categories">
                 <ul class="categories" cg-busy="vm.promiseRequestCategories" >
                     <li ng-repeat="category in vm.categories|filter:vm.search_category.title | orderBy:'name'" class="category">
-                        <input type="radio" value="{{ category.id }}" ng-model="vm.categories_selected"
+                        <input type="radio" id="category_{{ category.id }}" value="{{ category.id }}" ng-model="vm.category_selected"
                                 >
-                        {{ category.name }}
+                         <label for="category_{{ category.id }}">{{ category.name }}</label>
                     </li>
                 </ul>
             </div>
             <input type="hidden"
                    name="categories"
-                   ng-model="vm.categories_selected"
-                   validator="vm.categories_selected.length > 0"
+                   ng-model="vm.category_selected"
+                   validator="vm.category_selected"
                    invalid-message="'Es requerido elegir al menos una categoria.'"/>
         </div>
     </div>

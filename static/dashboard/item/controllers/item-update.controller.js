@@ -9,12 +9,12 @@
         .module('dashBoardApp.item.controllers')
         .controller('ItemUpdateCtrl', ItemUpdateCtrl);
 
-    ItemUpdateCtrl.$inject = ['$scope', 'Item', 'AlertNotification', 'UserLocations', '$stateParams']; //, 'leafletEvents'];
+    ItemUpdateCtrl.$inject = ['$state', 'Item', 'AlertNotification', 'UserLocations', '$stateParams']; //, 'leafletEvents'];
 
     /**
      * @namespace ItemUpdateCtrl
      */
-    function ItemUpdateCtrl($scope, Item, AlertNotification, UserLocations, $stateParams){ //, leafletEvents) {
+    function ItemUpdateCtrl($state, Item, AlertNotification, UserLocations, $stateParams){ //, leafletEvents) {
 
 
         var vm = this;
@@ -165,7 +165,9 @@
 
             function getCategoriesSuccess(data){
                 vm.categories = data.data;
-                for(var i=0; i < vm.item.categories.length; i++){
+                console.log(vm.categories);
+                vm.category_selected = angular.copy(vm.item.categories[0]);
+                /*for(var i=0; i < vm.item.categories.length; i++){
                     for(var c=0; c < vm.categories.length; c++){
                         if(vm.item.categories[i] == vm.categories[c].id){
                             vm.categories[c].selected = true;
@@ -173,7 +175,7 @@
                             break;
                         }
                     }
-                }
+                }*/
             }
 
             function getCategoriesError(data){
@@ -198,12 +200,12 @@
         }
 
         function submit(){
-            for(var i=0; i < vm.categories.length; i++){
-                if(vm.categories[i].selected){
-                    vm.item.categories.push(vm.categories[i].id);
-                }
-            }
-
+            //for(var i=0; i < vm.categories.length; i++){
+            //    if(vm.categories[i].selected){
+            //        vm.item.categories.push(vm.categories[i].id);
+            //    }
+            //}
+            vm.item.categories = [vm.category_selected,];
             //vm.item.locations[0].lat = vm.location.lat;
             //vm.item.locations[0].lng = vm.location.lng;
 
