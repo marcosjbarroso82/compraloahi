@@ -223,7 +223,7 @@ def question_help_full_vote(request, topic_slug, slug):
         question = Question.site_objects.filter(slug=slug, topic=topic)[0]
         data = {}
         user = request.user
-        ip_address = request.META.get('REMOTE_ADDR', '')
+        ip_address = request.META.get('HTTP_X_FORWARDED_FOR', '')
 
         if user.is_authenticated():
             qs_user = user
