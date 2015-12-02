@@ -2,10 +2,8 @@
     'use strict';
 
     angular.module('dashBoardApp', [
-            'dashBoardApp.config',
-            'dashBoardApp.routes',
+
             // Third lib
-            'angular.snackbar',
             'ui.router',
             'tooltip',
             'cgBusy',
@@ -14,12 +12,16 @@
             'ng-currency',
             'ngTable',
             'leaflet-directive',
+            '720kb.socialshare',
+
+            'dashBoardApp.config',
+            'dashBoardApp.routes',
 
             // My lib
-            'dashBoardApp.authentication',
+            'authentication',
             'dashBoardApp.layout',
             'dashBoardApp.profile',
-            'dashBoardApp.ad',
+            'dashBoardApp.item',
             'dashBoardApp.message',
             'dashBoardApp.userLocation',
             'dashBoardApp.util',

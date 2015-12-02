@@ -49,7 +49,9 @@
                     <div class="col-md-2">
                         <label for="">Logo</label>
                         <div cg-busy="vm.promise_img" ng-mouseover="vm.focus_img = true;" ng-mouseleave="vm.focus_img = false;">
-                            <img style="max-width: 100%; max-height: 100%;" id="item-display" src="{{ vm.configs.logo }}">
+
+                            <img ng-if="vm.configs.logo" id="item-display" src="{{ vm.configs.logo }}" style="max-width: 100%; max-height: 100%; min-height: 100px; min-width: 100px;" >
+                            <img ng-if="!vm.configs.logo" id="item-display" src="/static/image/images-default.jpeg" style="max-width: 100%; max-height: 100%; min-height: 100px; min-width: 100px;" />
                             <div class="fileUpload btn btn-primary btn-xs" ng-show="vm.focus_img">
                                 <span><i class="fa fa-upload"></i></span>
                                 <input name="logo" id="logo" type="file" class="upload" file-model='logo' accept="image/*"/>
@@ -88,6 +90,7 @@
                                 <span class="help">
                                     A tener en cuenta: El nombre de la tienda se representara en la direccion del sitio cambiando los espacios en blanco por - (guiones medios)
                                     <a ns-popover
+                                       class="a-popover"
                                        ns-popover-template="helpnamestore"
                                        ns-popover-trigger="click"
                                        ns-popover-hide-on-outside-click="true"
@@ -119,6 +122,7 @@
                                 <span class="help">
                                     ¿Para que sirve el slogan? ¿ Donde se verá?
                                     <a ns-popover
+                                       class="a-popover"
                                        ns-popover-template="helpnamestore"
                                        ns-popover-trigger="click"
                                        ns-popover-hide-on-outside-click="true"
@@ -171,28 +175,28 @@
                 </div>
             </div>
 
-            <div class="panel panel-primary col-md-6">
+            <div class="panel panel-warning col-md-6">
                 <div class="panel-heading">
                     <h3 class="panel-title">Elije los productos que quieres mostrar en tu tienda</h3>
                 </div>
-                <div class="col-md-12" cg-busy="vm.promiseRequestAds">
+                <div class="col-md-12" cg-busy="vm.promiseRequestItems">
                     <ul class="media-list">
-                        <li class="media" ng-repeat="ad in vm.configs.ads" ng-click="ad.store_published = !ad.store_published;">
+                        <li class="media" ng-repeat="item in vm.configs.items" ng-click="item.store_published = !item.store_published;">
                             <div class="media-left">
                                 <a href="#">
-                                    <img class="media-object" src="{{ ad.images[0].thumbnail_110x110 }}" alt="60">
+                                    <img class="media-object" src="{{ item.images[0].thumbnail_110x110 }}" alt="60">
                                 </a>
                             </div>
                             <div class="media-body">
-                                <h4 class="media-heading"> {{ ad.title }}</h4>
-                                <input class="pull-right" type="checkbox" ng-model="ad.store_published"/>
+                                <h4 class="media-heading"> {{ item.title }}</h4>
+                                <input class="pull-right" type="checkbox" ng-model="item.store_published"/>
                             </div>
                         </li>
                     </ul>
                     <input type="hidden"
-                           name="ads-selects"
-                           ng-model="vm.configs.ads"
-                           validator="vm.validateAdsSelect()"
+                           name="items-selects"
+                           ng-model="vm.configs.items"
+                           validator="vm.validateItemsSelect()"
                            invalid-message="'Para poder activar tu tienda es requerido tener al menos un producto.'"/>
                 </div>
             </div>

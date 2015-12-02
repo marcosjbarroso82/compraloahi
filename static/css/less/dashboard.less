@@ -80,61 +80,6 @@
 
     }
   }
-
-
-
-  #data-position-form{
-    .mixin-shadow-bottom(1px, 1px, 2px, .5px, #626060);
-    background-color: rgba(255,255,255,0.8);
-    padding-left: 0px;
-    padding-right: 0px;
-    float: left;
-    margin-top: 10px;
-    z-index: 10;
-
-    .input-group-custom-addon.icon-addon.addon-sm{
-      color: @color-location;
-      .glyphicon {
-        border-color: @color-location;
-      }
-    }
-
-    input[type="text"]{
-      border: none;
-      border-bottom: 1px solid @input-border;
-    }
-
-
-
-    .range{
-      margin-top: 10px;
-    }
-
-    #range{
-      border: none;
-    }
-    #map-radius{
-      z-index: 10;
-    }
-    .form-inline{
-      margin-right : 5px;
-      #range{
-        font-weight: bold;
-        color: @color-location;
-        padding: 6px 4px;
-      }
-
-      .label-dist{
-        font-size: .8em;
-        vertical-align: bottom;
-        margin-top: 13px;
-      }
-      .data-point{
-        font-size: .8em;
-        margin: 13px 5px 0px 0px;
-      }
-    }
-  }
 }
 //---- END USER LOCATIONS -------
 
@@ -142,49 +87,6 @@
 //------ CREATE ADS ------------
 
 #container-ad-create-data{
-  #mapa{
-    height: 500px;
-    margin: 20px;
-  }
-  #search-places{
-    width: 90%;
-    height: 35px !important;
-  }
-  #location-map{
-    width: 100%;
-    top: 0px;
-    left: 0px;
-    position: absolute;
-
-  }
-
-  #data-position-form{
-    .mixin-shadow-bottom(1px, 1px, 2px, .5px, #626060);
-    background-color: rgba(255,255,255,0.8);
-    padding-left: 0px;
-    padding-right: 0px;
-    float: left;
-    margin-top: 10px;
-    z-index: 10;
-    width: 100%;
-
-
-    .input-group{
-      width: 100%;
-    }
-
-    .input-group-custom-addon.icon-addon.addon-sm{
-      color: @color-location;
-      .glyphicon {
-        border-color: @color-location;
-      }
-    }
-
-    input[type="text"]{
-      border: none;
-      border-bottom: 1px solid @input-border;
-    }
-  }
 
   .categories{
     min-height: 100px;
@@ -204,14 +106,6 @@
 .body-header{
   padding: 5px 15px 20px;
 }
-
-
-
-.angular-google-map-container{
-  min-height: 400px !important;
-  width: 100%;
-}
-
 
 
 .disabled {
@@ -312,42 +206,130 @@ hr{
     font-size: 17px !important;
   }
 
-  #btn-add-ad{
-    margin: 10px !important;
-    height: auto;
-    background-color: #fada44;
-    padding: 5px;
-    .mixin-shadow-bottom(.5px, .5px, 1px, .2px, #DFDFDF);
-    position: absolute;
-    left: 0px;
-    @media (max-width: 767px){
-      width: 40px;
-      position: relative;
-      a{
-        text-align: center;
-      }
-    }
 
-    a{
-      padding: 5px !important;
-      width: 100%;
-      span{
-        font-size: 20px !important;
-        margin-bottom: 0px !important;
-      }
 
-      /*@media (max-width: 767px)*/
 
-    }
-    a:hover{
-      color: #000000;
-      font-weight: bolder;
-    }
-  }
 }
 
 .btn-table{
   border-radius: 50%;
   height: 35px;
   width: 35px;
+  margin-top: 5px;
 }
+
+
+#container-map-with-search{
+  #search-places{
+    width: 90%;
+    height: 35px !important;
+    margin: auto;
+  }
+  #location-map{
+    width: 100%;
+    top: 0px;
+    left: 0px;
+    position: absolute;
+    height: 400px;
+
+  }
+  #data-position-form{
+    .mixin-shadow-bottom(1px, 1px, 2px, .5px, #626060);
+    background-color: rgba(255,255,255,0.8);
+    padding-left: 0px;
+    padding-right: 0px;
+    float: left;
+    margin-top: 10px;
+    z-index: 10;
+
+
+    .input-group-custom-addon.icon-addon.addon-sm{
+      color: @color-location;
+      .glyphicon {
+        border-color: @color-location;
+      }
+    }
+
+    input[type="text"]{
+      border: none;
+      border-bottom: 1px solid @input-border;
+    }
+
+    .range{
+      margin-top: 10px;
+    }
+
+    #range{
+      border: none;
+    }
+    #map-radius{
+      z-index: 10;
+    }
+    .form-inline{
+      margin-right : 5px;
+      #range{
+        font-weight: bold;
+        color: @color-location;
+        padding: 6px 4px;
+      }
+
+      .label-dist{
+        font-size: .8em;
+        vertical-align: bottom;
+        margin-top: 13px;
+      }
+      .data-point{
+        font-size: .8em;
+        margin: 13px 5px 0px 0px;
+      }
+    }
+  }
+}
+
+.fileUpload {
+  overflow: hidden;
+  margin: 10px;
+  position: absolute;
+  right: 10px;
+  top: -6px;
+
+  input.upload {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0);
+  }
+}
+
+.has-error, .validationMessage{
+  color: #f65355;
+}
+
+#btn-add-item{
+  position: absolute;
+  right: 40px;
+  bottom: 10px;
+  height: 60px;
+  width: 60px;
+  border-radius: 50%;
+  text-align: center;
+  color: #282828;
+  p{
+    font-size: 1.3em;
+    font-weight: bolder;
+    color: #282828;
+  }
+  &:hover{
+    color: #282828 !important;
+  }
+}
+
+.a-popover:hover{
+   cursor: pointer;
+}
+

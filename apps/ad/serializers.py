@@ -36,7 +36,14 @@ class AdLocationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = AdLocation
-        fields = ('title', 'lat', 'lng', 'id', 'ad')
+        fields = ('title', 'lat', 'lng', 'id', 'ad', 'address')
+
+    def __init__(self, *args, **kwargs):
+        super(AdLocationSerializer, self).__init__(*args, **kwargs)
+
+        if not self.instance or not self.instance.ad.show_location():
+            self.fields.pop('address')
+
 
     # def get_center(self, obj):
     #     return obj.center()
@@ -47,6 +54,7 @@ class AdSerializer(serializers.ModelSerializer):
     is_favorite = serializers.SerializerMethodField()
     price = serializers.DecimalField(decimal_places=2, max_digits=10, coerce_to_string=False)
     locations = AdLocationSerializer(many=True, read_only=True)
+    # TODO: Falta validar que si o si halla una categoria
 
     class Meta:
         model = Ad
@@ -74,6 +82,7 @@ class AdPublicSerializer(serializers.ModelSerializer):
                return False
         else:
             return False
+
 
 
 class DistanceSerializer(serializers.Serializer):

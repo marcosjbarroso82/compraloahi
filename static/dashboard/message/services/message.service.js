@@ -1,6 +1,6 @@
 /**
- * Ad
- * @namespace dashBoardApp.ad.services
+ * Item
+ * @namespace dashBoardApp.item.services
  */
 (function () {
     'use strict';
@@ -23,7 +23,8 @@
             getMsg: getMsg,
             reply: reply,
             delete_bulk: delete_bulk,
-            set_read_bulk: set_read_bulk
+            set_read_bulk: set_read_bulk,
+            set_read: set_read
         };
 
         function getMsgs(folder, page){
@@ -59,10 +60,14 @@
         }
         
         function set_read_bulk(messages){
-           return $http.patch('/api/v1/msgs/set-read-bulk/', messages);
+           return $http.patch('/api/v1/msgs/set_read_bulk/', messages);
+        }
+
+        function set_read(message){
+           return $http.patch('/api/v1/msgs/'+ message.id +'/set_read/', message);
         }
 
 
         return msgs;
     }
-})()
+})();

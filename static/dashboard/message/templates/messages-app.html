@@ -30,10 +30,9 @@
                 <table class="table" cg-busy="vm.promiseRequest">
                     <thead>
                     <tr>
-                        <th colspan="1" class="hidden-xs" ng-click="vm.select_all_messages()">
+                        <th colspan="1" class="hidden-xs" >
                             <span>
-                                <input type="checkbox" ng-model="vm.messages_select_all" ng-change="vm.selectt_all_messages()" />
-                                <!--<input ng-model="vm.messages_select_all" ng-change="vm.select_all_messages()" type="checkbox" class="check-mail-all" />-->
+                                <input type="checkbox" ng-model="vm.messages_select_all" ng-change="vm.select_all_messages()" class="check-mail-all"/>
                             </span>
                         </th>
                         <th class="text-right" colspan="5">
@@ -41,7 +40,7 @@
                             <!--<a class="btn btn-default m-r-sm" data-toggle="tooltip" data-placement="top" title="Refresh"><i class="fa fa-refresh"></i></a>-->
                             <div class="btn-group m-r-sm" ng-if="vm.folder == 'inbox' || vm.folder == 'sent'">
                                 <a class="btn btn-default"
-                                   ng-really-message="Are you sure ?"
+                                   ng-really-message="¿ Estas seguro ?"
                                    ng-really-click="vm.delete_bulk()"
                                    ng-disabled="vm.messages_selected.length == 0">
                                     <i class="fa fa-trash"
@@ -67,25 +66,28 @@
                                         <span class="caret"></span>
                                     </a>
                                     <ul class="dropdown-menu dropdown-menu-right" role="menu">
-                                        <li><a ng-really-message="Are you sure ?"
+                                        <li><a ng-really-message="¿ Estas seguro ?"
                                                ng-really-click="vm.delete_bulk()">Papelera</a></li>
                                     </ul>
                                 </div>
 
                             </div>
                             <div class="btn-group">
-                                <a ng-disabled="!vm.next_page" ng-click="vm.loadMessages(vm.next_page)" class="btn btn-default"><i class="fa fa-angle-left"></i></a>
-                                <a ng-disabled="!vm.prev_page" ng-click="vm.loadMessages(vm.prev_page)" class="btn btn-default"><i class="fa fa-angle-right"></i></a>
+                                <a ng-disabled="!vm.prev_page" ng-click="vm.loadMessages(vm.prev_page)" class="btn btn-default"><i class="fa fa-angle-left"></i></a>
+                                <a ng-disabled="!vm.next_page" ng-click="vm.loadMessages(vm.next_page)" class="btn btn-default"><i class="fa fa-angle-right"></i></a>
                             </div>
                         </th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr class="unread" ng-repeat="message in vm.messages" ng-class="{'unread': message.read_at == null, 'read': message.read_at}">
+                    <tr class="unread" ng-repeat="message in vm.messages| orderBy : 'sent_at'" ng-class="{'unread': message.read_at == null, 'read': message.read_at}">
                         <td class="hidden-xs">
                             <span><input ng-click="vm.select_message(message)" value="message.id" ng-model="message.selected" type="checkbox" class="checkbox-mail"></span>
                         </td>
-                        <td class="hidden-xs" ui-sref="message-thread({id:{{ message.id }}})">
+                        <td ng-if="message.thread == null" class="hidden-xs" ui-sref="message-thread({id:{{ message.id }}})">
+                            {{ message.subject }}
+                        </td>
+                        <td ng-if="message.thread != null" class="hidden-xs" ui-sref="message-thread({id:{{ message.thread }}})">
                             {{ message.subject }}
                         </td>
                         <td ui-sref="message-thread({id:{{ message.id }}})">

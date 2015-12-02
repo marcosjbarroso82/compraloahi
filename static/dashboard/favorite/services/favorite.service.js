@@ -6,7 +6,7 @@
     'use strict';
 
     angular
-        .module('dashBoardApp.ad.services')
+        .module('dashBoardApp.item.services')
         .factory('Favorite', Favorite);
 
     Favorite.$inject = ['$http'];
@@ -38,4 +38,4 @@
 
         return Favorite;
     }
-})()
+})();

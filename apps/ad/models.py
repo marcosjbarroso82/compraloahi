@@ -9,7 +9,9 @@ from taggit.managers import TaggableManager
 from django.db.models.signals import pre_delete
 from django.dispatch.dispatcher import receiver
 
-from favit.models import Favorite
+from apps.favorite.models import Favorite
+
+import datetime
 
 
 class AdQuerySet(models.QuerySet):
@@ -26,8 +28,8 @@ class Category(models.Model):
         return self.name
 
 STATUS_AD = (
-    ('Active', 1),
-    ('Delete', 0)
+    (1, 'Active'),
+    (0, 'Delete')
 )
 
 class Ad(models.Model):
@@ -53,6 +55,12 @@ class Ad(models.Model):
 
     objects = AdQuerySet.as_manager()
 
+    def show_location(self):
+        return self.author.profile.privacy_settings.get('show_address')
+
+    def get_user_loc(self):
+        return self.author.profile.locations.filter(is_address=True).first()
+
     def __str__(self):
         return self.title
 
@@ -60,6 +68,12 @@ class Ad(models.Model):
         verbose_name = "Ad"
         verbose_name_plural = "Ads"
         ordering = ["-created"]
+
+    def is_new(self):
+        if (self.pub_date.date() + datetime.timedelta(days=30)) >= datetime.date.today():
+            return True
+        else:
+            return False
 
     def save(self, *args, **kwargs):
         self.created = datetime_now()
@@ -84,7 +98,7 @@ class Ad(models.Model):
 
 
 class AdImage(models.Model):
-    ad_id = models.ForeignKey(Ad, related_name='images')
+    ad_id = models.ForeignKey(Ad, related_name='images', on_delete=models.CASCADE)
     image = models.ImageField(upload_to='ad', null=False, blank=False, )
     default = models.BooleanField(default=False)
 

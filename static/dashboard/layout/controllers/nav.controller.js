@@ -9,17 +9,22 @@
         .module('dashBoardApp.layout.controllers')
         .controller('NavCtrl', NavCtrl);
 
-    NavCtrl.$inject = ['Authentication'];
+    NavCtrl.$inject = ['Authentication', '$scope'];
 
     /**
      * @namespace NavCtrl
      */
-    function NavCtrl(Authentication) {
+    function NavCtrl(Authentication, $scope) {
         var vm = this;
 
         vm.logout = logout;
 
-        vm.msg_unread = Authentication.msg_unread;
+
+
+        $scope.$watch( function () { return Authentication.msg_unread(); }, function (data) {
+            vm.msg_unread = Authentication.msg_unread();
+          }, true);
+
         vm.notification_unread = Authentication.notification_unread;
         vm.profile = Authentication.profile;
 

@@ -10,18 +10,22 @@ var debug = {};
         .module('dashBoardApp.message.controllers')
         .controller('MessageThreadCtrl', MessageThreadCtrl);
 
-    MessageThreadCtrl.$inject = ['Message', '$stateParams', 'AlertNotification', 'Authentication'];
+    MessageThreadCtrl.$inject = ['Message', '$stateParams', 'AlertNotification', 'Authentication', '$scope'];
 
     /**
      * @namespace MessageThreadCtrl
      */
-    function MessageThreadCtrl(Message, $stateParams, AlertNotification, Authentication) {
+    function MessageThreadCtrl(Message, $stateParams, AlertNotification, Authentication, $scope) {
         var vm = this;
         vm.thread = [];
         vm.msgReply = {};
         vm.message_id = "";
 
-        vm.msgs_unread_count = Authentication.msg_unread;
+
+
+        $scope.$watch( function () { return Authentication.msg_unread(); }, function (data) {
+            vm.msgs_unread_count = Authentication.msg_unread();
+          }, true);
 
         vm.loadMessageThread = function(id){
             vm.message_id = id;
@@ -29,6 +33,18 @@ var debug = {};
 
             function getSuccess(data){
                 vm.thread = data.data;
+
+                var msg = vm.thread[vm.thread.length - 1];
+                for(var i=0; i < vm.thread.length; i++){
+                    if(vm.thread[i] && vm.thread[i].is_new == true){
+                        Message.set_read(vm.thread[i]).then(getReadSuccess);
+                    }
+                }
+            }
+
+            function getReadSuccess(data){
+                console.log(data);
+                Authentication.set_msg_read([{'id': data.data.id}]);
             }
 
             function getError(data){

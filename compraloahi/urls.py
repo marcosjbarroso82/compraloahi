@@ -6,19 +6,37 @@ from apps.favorite.views import HasFavoriteNearApiView
 from apps.userProfile.views import StoreView
 from apps.user.views import FacebookLogin, GoogleLogin
 
-from .views import HomeView, DashBoardView, log, send_notification
-
+from .views import HomeView, DashBoardView, log, send_notification, TermAndConditionView
+from django.views.generic import TemplateView
 from .settings import base as settings
-
+from apps.util.views import RegisterInterested, TemplateMessage, ContactFormView
 
 urlpatterns = patterns('',
                        url(r'^$', HomeView.as_view()),
 
+                       url(r'^report-error/$', 'apps.report_error.views.report_error', name='report-error'),
+
+                       url('^interested/$', RegisterInterested.as_view(), name='interested-app'),
+                       url('^dynamic-message/$', TemplateMessage.as_view(), name='dynamic-message'),
+                       url(r'^face/$', 'apps.util.views.register_count_whered', {'whered': 'facebook'}),
+                       url(r'^contactenos/$', ContactFormView.as_view(), name='contact'),
+
                        # TODO : This url belong to api
                        url(r'^favorites/near/$', HasFavoriteNearApiView.as_view() , name='favorite-near'),
 
+                       url(r'^oportunidades-anunciante/$', TemplateView.as_view(template_name='oportunidades-anunciante.html')),
+
+                       url(r'^oportunidades-interesado/$', TemplateView.as_view(template_name='oportunidades-interesado.html')),
+
                        # TODO: Esta url no va en produccion
                        url(r'^log/', log),
+
+                       url('^faq/', include('apps.faq.urls', namespace='faq')),
+
+                       url('^terminosycondiciones/(?P<template>.*)$', TermAndConditionView.as_view(), name='termsandcondition'),
+
+                       # Terms and Conditions
+                       #url(r'^terms/', include('termsandconditions.urls')),
 
                         # Include API
                        (r'^api/v1/', include('compraloahi.urls_api', namespace='api')),
@@ -42,7 +60,7 @@ urlpatterns = patterns('',
                        # TODO: Esta url no va en produccion
                        url(r'^send_notification/', send_notification),
 
-                       url(r'^favit/' , include('favit.urls')),
+                       url(r'^favorite/' , include('apps.favorite.urls', namespace='favorite')),
 
                        # URL load dashboard
                        url(r'^panel/.*$', DashBoardView.as_view(), name='dashboard'),
@@ -51,7 +69,7 @@ urlpatterns = patterns('',
                        url(r'^admin/', include(admin.site.urls)),
 
                        # My apps Ad
-                       url(r'^ad/', include("apps.ad.urls", namespace="ad")),
+                       url(r'^item/', include("apps.ad.urls", namespace="ad")),
 
                        # My apps User
                        (r'^users/',

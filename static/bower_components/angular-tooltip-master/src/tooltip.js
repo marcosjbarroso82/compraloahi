@@ -130,6 +130,13 @@ function(Popup, $parse, $timeout, $rootScope) {
                 Popup.close();
             })
 
+            // TODO: This my patch by tooltip close when change state
+            $rootScope.$on('$stateChangeStart', function(event, toState, toParams) {
+                clearTimeout = true
+                Popup.close();
+            });
+
+
             $rootScope.$on('tooltip:show', function() {
                 clearTimeout = true
                 Popup.close();

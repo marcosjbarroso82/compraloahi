@@ -2,11 +2,8 @@
 <div class="page-sidebar sidebar horizontal-bar" ng-controller="SidebarCtrl as vm">
     <div class="page-sidebar-inner">
         <ul class="menu accordion-menu">
-            <li class="btn" id="btn-add-ad" ng-show="!('ad-create' | includedByState)">
-                <a ui-sref="ad-create"><span class="menu-icon fa fa-plus "></span><p>Agrega tu aviso</p></a>
-            </li>
             <li class="nav-heading"><span>Navigation</span></li>
-            <li ng-class="{active: ('profile-detail' | includedByState) || ('profile-update' | includedByState) || ('change-password' | includedByState ) || ('config-notification' | includedByState) }">
+            <li ng-class="{active: ('profile-detail' | includedByState) || ('profile-update' | includedByState) || ('change-password' | includedByState ) || ('config-notification' | includedByState) || ('profile-address' | includedByState) }">
                 <a ui-sref="profile-detail"><span class="menu-icon fa fa-user"></span><p>Perfil</p></a>
             </li>
             <li class="droplink" ng-class="{active: ('messages' | includedByState) || ('message-thread' | includedByState)}">
@@ -17,8 +14,8 @@
                     <li><a ui-sref="messages({'folder': 'trash'})" ui-sref-active="active">Eliminados</a></li>
                 </ul>
             </li>
-            <li ng-class="{active: ('my-ads' | includedByState) || ('ad-create' | includedByState) || ('ad-update' | includedByState)}">
-                <a ui-sref="my-ads"><span class="menu-icon fa fa-bullhorn"></span><p>Mis avisos</p></a>
+            <li ng-class="{active: ('my-items' | includedByState) || ('item-create' | includedByState) || ('item-update' | includedByState)}">
+                <a ui-sref="my-items"><span class="menu-icon fa fa-bullhorn"></span><p>Mis avisos</p></a>
             </li>
             <li ng-class="{active: ('my-locations' | includedByState)}">
                 <a ui-sref="my-locations"><span class="menu-icon fa fa-map-marker"></span><p>Mis ubicaciones</p></a>
@@ -30,8 +27,8 @@
                 <i class="fa fa-info sidebar-alert"
                    tooltip="'Debes cargar anuncios antes de poder activar tu tienda'"
                    placement="right"
-                   ng-show="!vm.has_ads"></i>
-                <a ui-sref="config-store" ng-class="{disabled: !vm.has_ads }" ><span class="menu-icon fa fa-home "></span><p>Mi tienda</p></a>
+                   ng-show="!vm.has_items"></i>
+                <a ui-sref="config-store" ng-class="{disabled: !vm.has_items }" ><span class="menu-icon fa fa-home "></span><p>Mi tienda</p></a>
             </li>
         </ul>
     </div><!-- Page Sidebar Inner -->

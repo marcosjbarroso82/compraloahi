@@ -5,12 +5,14 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
+from rest_framework.generics import UpdateAPIView
+
 from sorl.thumbnail import get_thumbnail
 
 from apps.ad.models import Ad
 
 from .models import UserProfile, UserLocation, Store
-from .serializers import ProfileSerializer, UserLocationSeralizer, StoreSerializer
+from .serializers import ProfileSerializer, UserLocationSeralizer, StoreSerializer, ProfileLocationSerializer, ConfigPrivacitySerializer
 
 
 class StoreModelViewSet(ModelViewSet):
@@ -24,8 +26,8 @@ class StoreModelViewSet(ModelViewSet):
 
 
     def update(self, request, *args, **kwargs):
-        if request.DATA.get('ads'):
-            for ad_data in request.DATA.get('ads'):
+        if request.DATA.get('items'):
+            for ad_data in request.DATA.get('items'):
                 try:
                     ad = Ad.objects.get(pk=ad_data['id'], author=request.user)
                     ad.store_published = ad_data.get('store_published', False)
@@ -43,7 +45,7 @@ class StoreModelViewSet(ModelViewSet):
 
 class StoreView(DetailView):
     model = Ad
-    template_name = 'userProfile/store.html'
+    template_name = 'userProfile/shop.html'
     context_object_name = 'store'
     paginate_by = 12
 
@@ -117,9 +119,48 @@ class UserLocationViewSet(ModelViewSet):
     serializer_class = UserLocationSeralizer
 
     def get_queryset(self):
-        return UserLocation.objects.filter(userProfile__user= self.request.user)
+        return UserLocation.objects.filter(userProfile__user= self.request.user, is_address=False)
 
 
 
+# class ProfileLocationUpdateAPI(UpdateAPIView):
+#     serializer_class = ProfileLocationSerializer
+#     queryset = UserLocation.objects.filter(is_address=True)
+#
+#     def get_object(self):
+#         print(30*"====")
+#         print("GET OBJECT")
+#         try:
+#             return UserLocation.objects.get(is_address=True)
+#         except UserLocation.DoesNotExist:
+#             return {}
+#         #except:
+#             # Save exception to revision
+#         #    return UserLocation.objects.filter(is_address=True).first()
 
+
+class ProfileLocationViewSet(ModelViewSet):
+    """
+        ModelViewSet to abm for address to profile user
+    """
+    queryset = UserLocation.objects.filter(is_address=True)
+    serializer_class = ProfileLocationSerializer
+
+    def get_queryset(self):
+        return self.queryset.filter(userProfile__user= self.request.user)
+
+    def get_object(self):
+        try:
+            return UserLocation.objects.get(is_address=True, userProfile__user= self.request.user)
+        except UserLocation.DoesNotExist:
+            return {}
+
+
+
+class ConfigPrivacityViewSet(ModelViewSet):
+    queryset = UserProfile.objects.all()
+    serializer_class = ConfigPrivacitySerializer
+
+    def get_object(self):
+        return self.request.user.profile
 

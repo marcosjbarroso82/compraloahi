@@ -17,6 +17,8 @@ from django.views.decorators.csrf import csrf_exempt
 
 from apps.ad.models import Ad
 from apps.user.serializers import UserAuthenticationSerializer
+from apps.util.forms import RegisterInterestedForm
+
 
 
 import logging
@@ -39,12 +41,24 @@ def send_notification(request):
 
 
 class HomeView(TemplateView):
-    template_name = '404.html'
+    template_name = 'index.html'
 
-    def dispatch(self, request, *args, **kwargs):
-        return redirect('/ad/search/?q=')
+    def get_context_data(self, *args, **kwargs):
+        cxt = super(HomeView, self).get_context_data(*args, **kwargs)
+        cxt['form'] = RegisterInterestedForm()
+        return cxt
 
+    #def dispatch(self, request, *args, **kwargs):
+    #    return redirect('/item/search/?q=')
 
+class TermAndConditionView(TemplateView):
+    template_name = 'termcondition/index.html'
+
+    def get_template_names(self):
+        if self.kwargs.get('template'):
+            return 'termcondition/%s.html' %(self.kwargs['template'])
+        else:
+            return super(TermAndConditionView, self).get_template_names()
 
 class DashBoardView(TemplateView):
     """
@@ -61,7 +75,6 @@ class DashBoardView(TemplateView):
 
         context['user_data'] = UserAuthenticationSerializer(instance=self.request.user).data
         return context
-
 
 
 def comment_post_wrapper(request):

@@ -1,132 +1,114 @@
-<style>
-    .fileUpload {
-        overflow: hidden;
-        margin: 10px;
-        position: absolute;
-        right: 10px;
-        top: -6px;
-    }
-    .fileUpload input.upload {
-        position: absolute;
-        top: 0;
-        right: 0;
-        margin: 0;
-        padding: 0;
-        font-size: 20px;
-        cursor: pointer;
-        opacity: 0;
-        filter: alpha(opacity=0);
-    }
-</style>
-
 <form class="panel panel-white" novalidate angular-validator angular-validator-submit="vm.submit()" name="formProfileUpdate" enctype="multipart/form-data" cg-busy="vm.promiseRequest">
     <div class="panel-body" id="container-profile-data">
         <div class="col-md-12 body-container" >
-            <div class="col-md-3" cg-busy="vm.promise_img" ng-mouseover="vm.focus_img = true;" ng-mouseleave="vm.focus_img = false;">
-                <img class="img-responsive img-circle" id="item-display" src="{{ vm.profile.thumbnail_200x200 }}">
-                <div class="fileUpload btn btn-primary btn-xs" ng-show="vm.focus_img">
-                    <span><i class="fa fa-upload"></i></span>
-                    <input type="file"  class="upload" file-model='img_profile'  accept="image/*"/>
+            <div class="row">
+                <div class="col-md-3" cg-busy="vm.promise_img" ng-mouseover="vm.focus_img = true;" ng-mouseleave="vm.focus_img = false;">
+                    <img class="img-responsive img-circle" id="item-display" src="{{ vm.profile.thumbnail_200x200 }}">
+                    <div class="fileUpload btn btn-primary btn-xs" ng-show="vm.focus_img">
+                        <span><i class="fa fa-upload"></i></span>
+                        <input type="file"  class="upload" file-model='img_profile'  accept="image/*"/>
+                    </div>
                 </div>
-            </div>
-            <!-- PROFILE UPDATE -->
-            <div class="col-md-9">
-                <div class="form-group">
-                    <label for="first-name">Nombre</label>
-                    <input class="form-control"
-                           id="first-name"
-                           name="first-name"
-                           ng-model="vm.profile.user.first_name"
-                           type="text"
-                           ng-minlength="3"
-                           required="required"
-                           invalid-message="'El nombre necesita un minimo de 3 caracteres'"
-                           required-message="'El nombre es requerido!'"/>
-                </div>
-                <div class="form-group">
-                    <label for="last-name">Apellido</label>
-                    <input class="form-control"
-                           id="last-name"
-                           name="last-name"
-                           ng-model="vm.profile.user.last_name"
-                           type="text"
-                           ng-minlength="3"
-                           required="required"
-                           invalid-message="'El apellido necesita un minimo de 3 caracteres.'"
-                           required-message="'El apellido es requerido!'"/>
-                </div>
-                <div class="form-group" style="position: relative;">
-                    <label for="username">Nombre de usuario</label>
+                <!-- PROFILE UPDATE -->
+                <div class="col-md-9">
+                    <div class="form-group">
+                        <label for="first-name">Nombre</label>
+                        <input class="form-control"
+                               id="first-name"
+                               name="first-name"
+                               ng-model="vm.profile.user.first_name"
+                               type="text"
+                               ng-minlength="3"
+                               required="required"
+                               invalid-message="'El nombre necesita un minimo de 3 caracteres'"
+                               required-message="'El nombre es requerido!'"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="last-name">Apellido</label>
+                        <input class="form-control"
+                               id="last-name"
+                               name="last-name"
+                               ng-model="vm.profile.user.last_name"
+                               type="text"
+                               ng-minlength="3"
+                               required="required"
+                               invalid-message="'El apellido necesita un minimo de 3 caracteres.'"
+                               required-message="'El apellido es requerido!'"/>
+                    </div>
+                    <div class="form-group" style="position: relative;">
+                        <label for="username">Nombre de usuario</label>
 
-                    <!-- CHECK VALIDATE IS UNIQUE -->
-                    <i class="fa fa-check check-field"
+                        <!-- CHECK VALIDATE IS UNIQUE -->
+                        <i class="fa fa-check check-field"
                            tooltip="'El username esta habilitado.'"
                            placement="top"
                            ng-if="vm.username_is_valid">
                         </i>
-                    <input class="form-control"
-                           id="username"
-                           name="username"
-                           ng-model="vm.profile.user.username"
-                           type="text"
-                           ng-minlength="3"
-                           required="required"
-                           ng-model-options="{ updateOn: 'blur' }"
-                           invalid-message="'El Nombre de usuario ya existe.'"
-                           validator = "!vm.username_unique"
-                           required-message="'El nombre de usuario es requerido!'"
-                            validate-on="dirty"/>
-                </div>
-                <div class="form-group">
-                    <label for="birth-date">Fecha de nacimiento</label>
-
-                    <div class='input-group date' id='datetimepicker1'>
-                        <input type="text"
-                           class="form-control"
-                           id="birth-date"
-                           name="birth-date"
-                           ng-model="vm.profile.birth_date"
-                           data-date-format="yyyy-mm-dd"
-                           data-date-viewmode="years"
-                           placeholder="Selecciona la fecha de nacimiento"
-                           data-provide="datepicker"
-                           validator="vm.profile.birth_date != ''"
-                           invalid-message="'La fecha de nacimiento es requerida!'"
-                           />
-                        <span class="input-group-addon">
-                            <span class="fa fa-calendar"></span>
-                        </span>
+                        <input class="form-control"
+                               id="username"
+                               name="username"
+                               ng-model="vm.profile.user.username"
+                               type="text"
+                               ng-minlength="3"
+                               required="required"
+                               ng-model-options="{ updateOn: 'blur' }"
+                               invalid-message="'El Nombre de usuario ya existe.'"
+                               validator = "!vm.username_unique"
+                               required-message="'El nombre de usuario es requerido!'"
+                               validate-on="dirty"/>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label for="user-email">Email</label>
-                    <input type="email"
-                           id="user-email"
-                           name="user-email"
-                           ng-model="vm.profile.user.email"
-                           class="form-control"
-                           required="required"
-                           required-message="'El email es requerido!'"/>
-                </div>
-                <div class="form-group required">
-                    <label for="numbers-contact">Number Contact : </label>
-                    <button type="button" class="btn btn-primary btn-addon m-b-sm btn-xs pull-right" ng-if="vm.profile.phones.length < 3" ng-click="vm.addPhone()"><i class="fa fa-plus"></i> Nro de contacto</button>
-                    <ul id="contact-number-list">
-                        <li ng-repeat="phone in vm.profile.phones">
-                            <div class="form-inline">
-                                <label for="">Tipo : </label>
-                                <select ng-model="phone.type" class="form-control" ng-required="true">
-                                    <option></option>
-                                    <option id="TEL">TEL</option>
-                                    <option id="CEL">CEL</option>
-                                    <option id="FAX">FAX</option>
-                                </select>
-                                <label for="">Numero : </label>
-                                <input class="form-control input-contact-number" type="number" ng-model="phone.number" ng-required="true"/>
-                                <button type="button" class="btn btn-danger btn-addon m-b-sm btn-xs" ng-click="vm.removePhone(phone)"><i class="fa fa-times"></i> Eliminar</button>
-                            </div>
-                        </li>
-                    </ul>
+                    <div class="form-group">
+                        <label for="birth-date">Fecha de nacimiento</label>
+
+                        <div class='input-group date' id='datetimepicker1'>
+                            <input type="text"
+                                   class="form-control"
+                                   id="birth-date"
+                                   name="birth-date"
+                                   ng-model="vm.profile.birth_date"
+                                   data-date-format="yyyy-mm-dd"
+                                   data-date-viewmode="years"
+                                   placeholder="Selecciona la fecha de nacimiento"
+                                   data-provide="datepicker"
+                                   validator="vm.profile.birth_date != ''"
+                                   invalid-message="'La fecha de nacimiento es requerida!'"
+                                    />
+                            <span class="input-group-addon">
+                                <span class="fa fa-calendar"></span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="user-email">Email</label>
+                        <input type="email"
+                               id="user-email"
+                               name="user-email"
+                               ng-model="vm.profile.user.email"
+                               class="form-control"
+                               required="required"
+                               required-message="'El email es requerido!'"/>
+                    </div>
+                    <div class="form-group required">
+                        <label for="numbers-contact">Number Contact : </label>
+                        <button type="button" class="btn btn-primary btn-addon m-b-sm btn-xs pull-right" ng-if="vm.profile.phones.length < 3" ng-click="vm.addPhone()"><i class="fa fa-plus"></i> Nro de contacto</button>
+                        <ul id="contact-number-list" ng-if="vm.profile.phones.length > 0">
+                            <li ng-repeat="phone in vm.profile.phones">
+                                <div class="form-inline">
+                                    <label for="">Tipo : </label>
+                                    <select ng-model="phone.type" class="form-control" ng-required="true">
+                                        <option></option>
+                                        <option id="TEL">TEL</option>
+                                        <option id="CEL">CEL</option>
+                                        <option id="FAX">FAX</option>
+                                    </select>
+                                    <label for="">Numero : </label>
+                                    <input class="form-control input-contact-number" type="number" ng-model="phone.number" ng-required="true"/>
+                                    <button type="button" class="btn btn-danger btn-addon m-b-sm btn-xs" ng-click="vm.removePhone(phone)"><i class="fa fa-times"></i> Eliminar</button>
+                                </div>
+                            </li>
+                        </ul>
+                        <p ng-if="vm.profile.phones.length == 0">No tienes ningun numero de contacto cargado.</p>
+                    </div>
                 </div>
             </div>
         </div>

@@ -1,0 +1,96 @@
+{% extends 'layout/base.html' %}
+{% load bootstrap3 %}
+
+{% block title %}Oportunidades para interesados {% endblock %}
+
+{% block css_header_block %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/less/home.css" >
+    <link rel="stylesheet" href="{{ STATIC_URL }}packages-theme/vertical-timeline/css/style.css" >
+{% endblock %}
+
+{% block body_block %}
+    <div id="main-wrapper" class="container-fluid">
+        <div class="row">
+            <div id="container-item-detail-page" class="col-md-12 ">
+                <h2 class="text-center">¡Oportunidades para interesados!</h2>
+                <section id="cd-timeline" class="cd-container">
+                    <div class="cd-timeline-block">
+                        <div class="cd-timeline-img cd-success">
+                            <i class="fa fa-circle-o-notch"></i>
+                        </div> <!-- cd-timeline-img -->
+
+                        <div class="cd-timeline-content">
+                            <h2>
+                                Conocé tu alrededor
+                            </h2>
+                            <p>
+                                Conociendo lo que hay en nuestro alrededor podremos aprovechar más y mejores oportunidades sin dejarlas pasar.
+                            </p>
+                        </div> <!-- cd-timeline-content -->
+                    </div> <!-- cd-timeline-block -->
+
+                    <div class="cd-timeline-block">
+                        <div class="cd-timeline-img cd-danger">
+                            <i class="fa fa-bell"></i>
+                        </div> <!-- cd-timeline-img -->
+
+                        <div class="cd-timeline-content">
+                            <h2>Enterate de las ultimas oportunidades cerca.</h2>
+                            <p>
+                                Con alertas inteligentes, podes saber cuando estas cerca de un producto o servicio de tu interés, pudiendo siempre activarlas y desactivarlas cuando quieras.
+                            </p>
+                        </div> <!-- cd-timeline-content -->
+                    </div> <!-- cd-timeline-block -->
+
+                    <div class="cd-timeline-block">
+                        <div class="cd-timeline-img cd-info bounce-in">
+                            <i class="fa fa-calendar"></i>
+                        </div> <!-- cd-timeline-img -->
+
+                        <div class="cd-timeline-content bounce-in">
+                            <h2>Lo que querés al instante</h2>
+                            <p>Vos decidís cuándo ir a buscar lo que querés, basta de esperar envíos que tardan días en llegar.Compra en tu ciudad como siempre lo hiciste,aprovechando nuevas oportunidades.
+                            </p>
+                        </div> <!-- cd-timeline-content -->
+                    </div> <!-- cd-timeline-block -->
+
+                    <div class="cd-timeline-block">
+                        <div class="cd-timeline-img cd-info bounce-in">
+                            <i class="fa fa-info"></i>
+                        </div> <!-- cd-timeline-img -->
+
+                        <div class="cd-timeline-content bounce-in">
+                            <h2>Información única</h2>
+                            <p>Con la información que te proporcionamos podés apreciar oportunidades únicas y realizar compras de manera inteligente.</p>
+                        </div> <!-- cd-timeline-content -->
+                    </div> <!-- cd-timeline-block -->
+
+                    <div class="cd-timeline-block">
+                        <div class="cd-timeline-img cd-warning bounce-in">
+                            <i class="fa fa-check"></i>
+                        </div> <!-- cd-timeline-img -->
+
+                        <div class="cd-timeline-content bounce-in">
+                            <h2>Fácil e intuitivo</h2>
+                            <p>Buscá, informate, comunicate, comprá y disfrutá de una manera fácil e intuitiva por medio de las funcionalidades pensadas exclusivamente para estas acciones.</p>
+                        </div> <!-- cd-timeline-content -->
+                    </div> <!-- cd-timeline-block -->
+
+
+                </section>
+                <div class="col-md-12 text-center">
+                    <hr/>
+                    <a href="/oportunidades-anunciante/" class="text-center btn btn-lg btn-warning">Mira las oportunidades que tenes como anunciante</a>
+                </div>
+
+
+            </div>
+        </div>
+    </div><!-- Main Wrapper -->
+
+
+{% endblock %}
+
+{% block js_footer_block %}
+    <script src="{{ STATIC_URL }}packages-theme/vertical-timeline/js/main.js"></script>
+{% endblock %}

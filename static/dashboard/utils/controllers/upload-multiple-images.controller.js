@@ -47,7 +47,6 @@
                     var index = vm.images.indexOf(image);
                     for(var i=0; i < vm.images.length; i++){
                         if(i != index){
-                            console.log(vm.images[i].deleted);
                             if(!vm.images[i].deleted){
                                 vm.images[i].default = true;
                                 break;

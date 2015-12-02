@@ -1,15 +1,19 @@
 from django.contrib.auth.models import User
+from django.core.mail import EmailMultiAlternatives
+from django.core.urlresolvers import reverse
+from django.conf import settings
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.utils.timezone import now as datetime_now
 
-from django.dispatch import receiver
-from django.db.models.signals import post_save
-
 from push_notifications.models import GCMDevice
-from django.core.mail import EmailMultiAlternatives
-from django.conf import settings
 
 from django_pgjson.fields import JsonField
+
+from django_comments_xtd.models import XtdComment
+
+from apps.ad.models import Ad
 
 
 AUTH_USER_MODEL = getattr(settings, 'AUTH_USER_MODEL', 'auth.User')
@@ -140,7 +144,7 @@ def notification_post_save(sender, *args, **kwargs):
                 html_content = notification.message
             msg = EmailMultiAlternatives('Compraloahi - Notifications',
                                               html_content,
-                                              'notification@compraloahi.com.ar',
+                                              'notificacion@compraloahi.com.ar',
                                               [notification.receiver.email])
             msg.attach_alternative(html_content, 'text/html')
             msg.send()
@@ -155,18 +159,19 @@ def create_config_notification(sender, *args, **kwargs):
         ConfigNotification(user=user, config=CONFIG_NOTIFICATION).save()
 
 
-#TODO: De aca para abajo hay que eliminarlo cuando se pueda ejecutar el archivo receiver de este modulo
-from apps.ad.models import Ad
-from django_comments_xtd.models import XtdComment
 
 
 @receiver(post_save, sender=XtdComment, dispatch_uid='XTDCommentPostSave')
 def handle_xtd_comment_post_save(sender, *args, **kwargs):
+    """
+        Generate notification when comment on detail ad.
+    """
     comment = kwargs['instance']
     if (comment.level == 0 and not kwargs['created']):
 
         ad = Ad.objects.get(pk=comment.object_pk)
-        url =  'ad/' + str(ad.slug) + '/'
+        url = reverse('ad:detail', args=[ad.slug])
+        #url =  'item/' + str(ad.slug) + '/'
 
         Notification(receiver=ad.author, type='cmmt', message="Nuevo comentario en el aviso " + str(ad.title),
                      extras={"comment": str(comment), "url": url, "ad": comment.object_pk }).save()

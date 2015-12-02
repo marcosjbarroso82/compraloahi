@@ -25,7 +25,25 @@
 
 @color-input-custom-addon: #ce4f00;
 
-@color-location: #4e6c83;
+@color-location: #635a9a;
+
+@color-probando: rgb(255, 44, 0);
+
+@color-price: #e54f4f;
+
+@color-default: #f1f1f1;
+
+@color-primary: #7a6fbe;
+
+@color-info: #12AFCB;
+
+@color-success: #22BAA0;
+
+@color-warning: #f6d433;
+
+@color-danger: #f25656;
+
+@color-logo: #018ba3;
 
 // ----- END COLOR VAR ---
 
@@ -279,4 +297,85 @@ html{
 .Tooltip{
   z-index: 2000;
   position: absolute;
+}
+
+
+
+.btn-favit-favorite{
+  background-color: none !important;
+  border: none;
+}
+
+.favit .fa-heart, .favit .fa-heart-o, .favit.fa-heart-o, .favit.fa-heart{
+      color: @color-primary;
+}
+
+.favit:hover{
+  cursor: pointer !important;
+}
+
+
+
+.pagination > .active > a,
+.pagination > .active > span,
+.pagination > .active > a:hover,
+.pagination > .active > span:hover,
+.pagination > .active > a:focus,
+.pagination > .active > span:focus {
+    background: @color-logo; 
+    border-color: @color-logo;
+}
+
+
+.timeline-options a:hover {
+    color: @color-logo;
+}
+
+.post-options a:hover {
+    color: @color-logo;
+}
+
+
+.menu.accordion-menu > li > a:hover {
+    color: @color-logo;
+}
+
+.menu.accordion-menu > li.active > a,
+.menu.accordion-menu > li.active.open > a,
+.menu.accordion-menu > li.open > a {
+    color: @color-logo;
+}
+
+.menu.accordion-menu ul li a:hover,
+.menu.accordion-menu ul li.active a {
+    color: @color-logo;
+}
+
+.navbar ul li.open > a {
+    color: @color-logo;
+}
+
+body:not(.page-horizontal-bar).compact-menu .menu > li.active,
+body:not(.page-horizontal-bar).compact-menu .menu > li.open {
+    border-left: 3px solid @color-logo;
+}
+
+.menu.accordion-menu ul li a:hover,
+.menu.accordion-menu ul li.active a {
+    color: @color-logo;
+}
+
+
+.pace .pace-progress {
+    background: @color-logo;
+}
+
+.pace .pace-progress-inner {
+    box-shadow: 0 0 10px @color-logo, 0 0 5px @color-logo;
+}
+
+.pace .pace-activity {
+    border-top-color: @color-logo;
+    border-left-color: @color-logo;
+    margin-top: 60px;
 }

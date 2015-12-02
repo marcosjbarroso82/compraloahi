@@ -30,9 +30,9 @@
             </div>
 
         </div>
-        <div class="col-md-6" >
+        <div class="col-md-6" id="container-map-with-search">
             <div id="data-position-form" ng-show="vm.flag_update || vm.flag_create" class="col-md-10">
-                <!-- Address -->
+                <!-- Itemdress -->
                 <div class="input-group col-md-12">
                     <google-places location=location_places map=map ng-show="vm.flag_update || vm.flag_create"></google-places>
                 </div>
@@ -92,7 +92,7 @@
                             </button>
                             <button type="button" class="btn btn-sm btn-default btn-table"
                                     ng-really-click="vm.delete(loc)"
-                                    ng-really-message="Are you sure ?" >
+                                    ng-really-message="¿ Esta seguro de eliminar la ubicacion {{ loc.title }} ?" >
                                 <i class="fa fa-trash-o"
                                    tooltip="'Eliminar ubicacion'"
                                       placement="top"></i>

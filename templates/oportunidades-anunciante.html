@@ -1,0 +1,114 @@
+{% extends 'layout/base.html' %}
+{% load bootstrap3 %}
+
+{% block title %}Oportunidades para anunciantes {% endblock %}
+
+{% block css_header_block %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/less/home.css" >
+    <link rel="stylesheet" href="{{ STATIC_URL }}packages-theme/vertical-timeline/css/style.css" >
+{% endblock %}
+
+{% block body_block %}
+    <div id="main-wrapper" class="container-fluid">
+        <div class="row">
+            <div id="container-item-detail-page" class="col-md-12 ">
+                <h2 class="text-center">¡Oportunidades para anunciantes!</h2>
+                <section id="cd-timeline" class="cd-container">
+                    <div class="cd-timeline-block">
+                        <div class="cd-timeline-img cd-success">
+                            <i class="fa fa-bullhorn"></i>
+
+                        </div> <!-- cd-timeline-img -->
+
+                        <div class="cd-timeline-content">
+                            <h2>Subi tus productos o servicios</h2>
+                            <p>
+                                Podes subir tus anuncios con su foto, descripción, precio y características que desees, las posibilidades son infinitas. Verás como aumenta tu notoriedad online y las ventas en tu negocio.
+                            </p>
+                        </div> <!-- cd-timeline-content -->
+                    </div> <!-- cd-timeline-block -->
+
+                    <div class="cd-timeline-block">
+                        <div class="cd-timeline-img cd-danger">
+                            <i class="fa fa-eye"></i>
+                        </div> <!-- cd-timeline-img -->
+
+                        <div class="cd-timeline-content">
+                            <h2>
+                                Tu comercio a la vista de todos
+                            </h2>
+                            <p>
+                                Aumenta las vidrieras de tu negocio, ahora tu negocio llega a tu público online y offline, por medio de los avisos que cargues, tus clientes se podrán enterar de ellos y acercarse a tu negocio a efectivizar la compra.
+                            </p>
+                        </div> <!-- cd-timeline-content -->
+                    </div> <!-- cd-timeline-block -->
+
+                    <div class="cd-timeline-block">
+                        <div class="cd-timeline-img cd-info bounce-in">
+                            <i class="fa fa-star"></i>
+                        </div> <!-- cd-timeline-img -->
+
+                        <div class="cd-timeline-content bounce-in">
+                            <h2>La personalidad marca la diferencia</h2>
+                            <p>
+                                Personalizar tu negocio es esencial, así tendrás mayor reconocimiento de tu local cuando se acerquen a él.Agrega tu logo,colores, la forma en la que queres que se muestran tus avisos y ¡listo!
+                            </p>
+                        </div> <!-- cd-timeline-content -->
+                    </div> <!-- cd-timeline-block -->
+
+                    <div class="cd-timeline-block">
+                        <div class="cd-timeline-img cd-info bounce-in">
+                            <i class="fa fa-comments"></i>
+                        </div> <!-- cd-timeline-img -->
+
+                        <div class="cd-timeline-content bounce-in">
+                            <h2>
+                                La comunicación lo es todo
+                            </h2>
+                            <p>
+                                Dispone de tu propio canal de comunicación con tus clientes, en una conversación totalmente privada entre ustedes, donde estos podrán hacer consultas de tus productos o servicios. Recordá mientras más rápida es tu respuesta aumenta la posibilidad de que vayan a tu negocio.
+                            </p>
+                        </div> <!-- cd-timeline-content -->
+                    </div> <!-- cd-timeline-block -->
+
+                    <div class="cd-timeline-block">
+                        <div class="cd-timeline-img cd-warning bounce-in">
+                            <i class="fa fa-diamond"></i>
+                        </div> <!-- cd-timeline-img -->
+
+                        <div class="cd-timeline-content bounce-in">
+                            <h2>
+                                No necesitas ser un experto
+                            </h2>
+                            <p>
+                                Es fácil de usar e intuitivo, no necesitas ser un experto en tecnología para disfrutar sus beneficios y ante cualquier problema contamos con un equipo de profesionales a tu disposición, lo único que tenes que hacer es contactarte por la vía de comunicación que te sea más cómoda.</p>
+                        </div> <!-- cd-timeline-content -->
+                    </div> <!-- cd-timeline-block -->
+
+                    <div class="cd-timeline-block">
+                        <div class="cd-timeline-img cd-primary bounce-in">
+                            <i class="fa fa-child"></i>
+                        </div> <!-- cd-timeline-img -->
+
+                        <div class="cd-timeline-content bounce-in">
+                            <h2>¡Relajate!
+                            </h2>
+                            <p>Sobre todo, relajate, solo tenes que cargar tus productos y verás más clientes en tu negocio, nosotros te avisamos ante cualquier irregularidad.</p>
+                        </div> <!-- cd-timeline-content -->
+                    </div> <!-- cd-timeline-block -->
+                </section>
+                <div class="col-md-12 text-center">
+                    <hr/>
+                    <a href="/oportunidades-interesado/" class="text-center btn btn-lg btn-primary">Mira las oportunidades que tenes como interesado</a>
+                </div>
+
+            </div>
+        </div>
+    </div><!-- Main Wrapper -->
+
+
+{% endblock %}
+
+{% block js_footer_block %}
+    <script src="{{ STATIC_URL }}packages-theme/vertical-timeline/js/main.js"></script>
+{% endblock %}

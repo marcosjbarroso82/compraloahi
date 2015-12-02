@@ -1,3 +1,4 @@
+
 {% verbatim %}
 <div class="navbar" ng-controller="NavCtrl as vm">
     <div class="navbar-inner container-fluid">
@@ -7,24 +8,25 @@
             </a>
         </div>
         <div class="logo-box">
-            <a href="#" class="logo-text"><span><img  id="logo" src="/static/image/compraloahi-logo.png"/> </span></a>
+            <a href="/" class="logo-text"><span><img  id="logo" src="/static/image/compraloahi-logo.png"/> </span></a>
         </div><!-- Logo Box -->
         <div class="nav-user-dropdown-responsive ">
             <a class="waves-effect waves-button waves-classic a">
                 <div class="nav-user-dropdown-responsive dropdown">
                     <a href="#" class="a dropdown-toggle waves-effect waves-button waves-classic" data-toggle="dropdown">
-                        <img class="img-circle avatar" src="{{ vm.profile.thumbnail_200x200 }}" width="40" height="40" alt="">
+                        <img class="img-circle avatar" ng-src="{{ vm.profile.thumbnail_200x200 }}" width="40" height="40" alt="">
                     </a>
                     <ul class="dropdown-menu dropdown-menu-right dropdown-list" role="menu">
                         <li role="presentation"><a href="/panel/user/profile/"><i class="fa fa-user"></i>Perfil</a></li>
-                        <li role="presentation"><a href="/panel/mensajes/?folder=inbox"><i class="fa fa-envelope"></i>Bandeja<span class="badge badge-success pull-right">4</span></a></li>
+                        <li role="presentation"><a href="/panel/mensajes/inbox"><i class="fa fa-envelope"></i>Bandeja<span class="badge badge-success pull-right">4</span></a></li>
+                        <li role="presentation"><a href="/faq/"><i class="fa fa-question-circle"></i> Ayuda</a></li>
                         <li role="presentation" class="divider"></li>
                         <li role="presentation"><a href="/users/logout/"><i class="fa fa-sign-out m-r-xs"></i>Salir</a></li>
                     </ul>
                 </div>
             </a>
         </div>
-        <div class="topmenu-outer">
+        <div class="topmenu-outer" id="nav-menu" style="display: none;">
             <div class="top-menu">
                 <ul class="nav navbar-nav navbar-right">
 
@@ -34,55 +36,65 @@
                             <li><p class="drop-title">Tienes {{ vm.msg_unread }} mensajes nuevos!</p></li>
                             <li class="dropdown-menu-list slimscroll messages">
                                 <ul class="list-unstyled">
-                                   <!-- <li>
-                                        <a href="#">
-                                            <div class="msg-img"><div class="online on"></div><img class="img-circle" src="/static/image/img-default-profile.jpg" alt=""></div>
-                                            <p class="msg-name">Sandra Smith</p>
-                                            <p class="msg-text">Hey ! I'm working on your project</p>
-                                            <p class="msg-time">3 minutes ago</p>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <div class="msg-img"><div class="online off"></div><img class="img-circle" src="/static/image/img-default-profile.jpg" alt=""></div>
-                                            <p class="msg-name">Amily Lee</p>
-                                            <p class="msg-text">Hi David !</p>
-                                            <p class="msg-time">8 minutes ago</p>
-                                        </a>
-                                    </li>
-                                   -->
+                                   {% endverbatim %}
+                                        {% load msg_tags %}
+                                        {% get_msgs_unread_list %}
+                                        {% if msgs %}
+                                            {% for msg in msgs %}
+                                                 <li id="msg-unread-{% if msg.thread %}{{ msg.thread.id }}{% else %}{{ msg.id }}{% endif %}">
+                                                    <a ui-sref="message-thread({id:{% if msg.thread %}{{ msg.thread.id }}{% else %}{{ msg.id }}{% endif %}})" >
+                                                        <div class="msg-img"><div class="online off"></div><img class="img-circle" src="/static/image/img-default-profile.jpg" alt=""></div>
+                                                        <p class="msg-name">{{ msg.sender }}</p>
+                                                        <p class="msg-text">{{ msg.subject }}</p>
+                                                        <p class="msg-time">{{ msg.sent_at }}</p>
+                                                    </a>
+                                                </li>
+                                            {% endfor %}
+                                        {% endif %}
+
+                                    {% verbatim %}
                                 </ul>
                             </li>
                             <li class="drop-all"><a ui-sref="messages({'folder': 'inbox'})" class="text-center">Todos los mensajes</a></li>
                         </ul>
                     </li>
                     <li class="dropdown">
+
                         <a href="#" class="dropdown-toggle waves-effect waves-button waves-classic" data-toggle="dropdown"><i class="fa fa-bell"></i><span class="badge badge-success pull-right">{{ vm.notification_unread }}</span></a>
                         <ul class="dropdown-menu title-caret dropdown-lg" role="menu">
                             <li><p class="drop-title">Tienes {{ vm.notification_unread }} notificaciones nuevas !</p></li>
                             <li class="dropdown-menu-list slimscroll tasks">
                                 <ul class="list-unstyled">
-                                    <!--<li>
-                                        <a href="#">
-                                            <div class="task-icon badge badge-success"><i class="icon-user"></i></div>
-                                            <span class="badge badge-roundless badge-default pull-right">1min ago</span>
-                                            <p class="task-details">New user registered.</p>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <div class="task-icon badge badge-danger"><i class="icon-energy"></i></div>
-                                            <span class="badge badge-roundless badge-default pull-right">24min ago</span>
-                                            <p class="task-details">Database error.</p>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <div class="task-icon badge badge-info"><i class="icon-heart"></i></div>
-                                            <span class="badge badge-roundless badge-default pull-right">1h ago</span>
-                                            <p class="task-details">Reached 24k likes</p>
-                                        </a>
-                                    </li>-->
+                                    {% endverbatim %}
+                                        {% load notification_tags %}
+                                        {% get_notificacions_unread_list %}
+                                        {% if notifications %}
+                                            {% for notification in notifications %}
+                                                 <li>
+                                                    <a href="{{ notification.get_url }}">
+                                                        <div class="task-icon badge badge-success">
+                                                            <i class="fa
+                                                            {% if notification.type == 'cmmt' %}
+                                                                fa-comment
+                                                            {% elif notification.type == 'msg' %}
+                                                                fa-inbox
+                                                            {% elif notification.type == 'fav' %}
+                                                                fa-heart
+                                                            {% elif notification.type == 'cal' %}
+                                                                fa-bus
+                                                            {% else %}
+                                                                fa-bell
+                                                            {% endif %}
+                                                            "></i>
+                                                        </div>
+                                                        <span class="badge badge-roundless badge-default pull-right">{{ notification.created }}</span>
+                                                        <p class="task-details">{{ notification.message }}</p>
+                                                    </a>
+                                                </li>
+                                            {% endfor %}
+                                        {% endif %}
+
+                                    {% verbatim %}
                                 </ul>
                             </li>
                             <li class="drop-all"><a href="#" class="text-center">Todas las notificaciones</a></li>
@@ -91,11 +103,12 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle waves-effect waves-button waves-classic" data-toggle="dropdown">
                             <span class="user-name">{{ vm.profile.user.username }}<i class="fa fa-angle-down"></i></span>
-                            <img class="img-circle avatar" src="{{ vm.profile.thumbnail_200x200 }}" width="40" height="40" alt="">
+                            <img class="img-circle avatar" ng-src="{{ vm.profile.thumbnail_200x200 }}" width="40" height="40" alt="">
                         </a>
                         <ul class="dropdown-menu dropdown-list" role="menu">
                             <li role="presentation"><a href="/panel/user/profile"><i class="fa fa-user"></i>Perfil</a></li>
-                            <li role="presentation"><a href="/panel/mensajes/?folder=inbox"><i class="fa fa-envelope"></i>Bandeja<span class="badge badge-success pull-right">{{ vm.msg_unread }}</span></a></li>
+                            <li role="presentation"><a href="/panel/mensajes/inbox"><i class="fa fa-envelope"></i>Bandeja<span class="badge badge-success pull-right">{{ vm.msg_unread }}</span></a></li>
+                            <li role="presentation"><a href="/faq/"><i class="fa fa-question-circle"></i> Ayuda</a></li>
                             <li role="presentation" class="divider"></li>
                             <li role="presentation"><a href="/users/logout/"><i class="fa fa-sign-out m-r-xs"></i>Salir</a></li>
                         </ul>

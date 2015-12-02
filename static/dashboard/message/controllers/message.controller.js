@@ -9,12 +9,12 @@
         .module('dashBoardApp.message.controllers')
         .controller('MessageCtrl', MessageCtrl);
 
-    MessageCtrl.$inject = ['Message', 'AlertNotification', '$stateParams', 'Authentication'];
+    MessageCtrl.$inject = ['Message', 'AlertNotification', '$stateParams', 'Authentication', '$scope'];
 
     /**
      * @namespace MessageCtrl
      */
-    function MessageCtrl(Message, AlertNotification, $stateParams, Authentication) {
+    function MessageCtrl(Message, AlertNotification, $stateParams, Authentication, $scope) {
         var vm = this;
 
         // Declare functions
@@ -24,7 +24,6 @@
         vm.delete_bulk = delete_bulk;
         vm.set_read_bulk = set_read_bulk;
 
-        vm.msgs_unread_count = Authentication.msg_unread;
         // Declare vars
         vm.messages = [];
         vm.message = {};
@@ -35,6 +34,10 @@
         vm.folder = 'inbox';
 
 
+        $scope.$watch( function () { return Authentication.msg_unread(); }, function (data) {
+            vm.msgs_unread_count = Authentication.msg_unread();
+        }, true);
+
         init();
 
         function init(){
@@ -43,20 +46,19 @@
         }
 
         function loadMessages(page_nro){
-            page_nro = typeof page_nro !== 'undefined' ? page_nro : 0;
-            vm.promiseRequest = Message.getMsgs(vm.folder, page_nro).then(getMessagesByFolderSuccess, getMessagesByFolderError);
-            vm.folder = vm.folder;
-            vm.page = page_nro;
+            page_nro = typeof page_nro !== 'undefined' ? page_nro : 1;
+            if(page_nro){
+                vm.promiseRequest = Message.getMsgs(vm.folder, page_nro).then(getMessagesByFolderSuccess, getMessagesByFolderError);
+                vm.folder = vm.folder;
+                vm.page = page_nro;
+            }
+
         }
 
-         function select_all_messages(){
+        function select_all_messages(){
 
-
-            vm.messages_select_all = !vm.messages_select_all; // Fixed: checkbox input cant change ng-model value
 
             angular.forEach(vm.messages, function(message){
-                console.log(vm.messages_select_all);
-                console.log(message);
                 message.selected = vm.messages_select_all;
 
             });
@@ -66,11 +68,9 @@
             }else{
                 vm.messages_selected = [];
             }
-
-             console.log(vm.messages);
         }
-        
-         function select_message(message){
+
+        function select_message(message){
             // If message has state selected add to array messages_selected, else, remove.
             if(message.selected){
                 vm.messages_selected.push(message);
@@ -106,17 +106,42 @@
                 AlertNotification.error("Error al intentar eliminar mensajes seleccionados");
             }
         }
-        
-         function set_read_bulk(){
-            Message.set_read_bulk(vm.messages_selected).then(setReadSuccess);
 
-            function setReadSuccess(data, headers, status){
+        function set_read_bulk(){
+            //var msgs_set_read = [];
+//            angular.forEach(vm.messages_selected, function(message){
+//                if(message.read_at == null){
+//                    var msg = angular.copy(message);
+//                    msgs_set_read.push(msg);
+//                }
+//
+//            });
+            Message.set_read_bulk(vm.messages_selected).then(setReadBulkSuccess, setReadBulkError);
+
+            function setReadBulkSuccess(data, headers, status){
                 AlertNotification.success("Los seleccionados mensajes fueron marcados como leido.");
+                var read_msgs = [];
                 for(var i=0; i < vm.messages_selected.length; i++){
-                    vm.messages_selected[i].read_at = "Leido";
+                    if(vm.messages_selected[i].read_at == null){
+                        vm.messages_selected[i].read_at = "Leido";
+                        read_msgs.push(vm.messages_selected[i]);
+                    }
                     vm.messages_selected[i].selected = false;
                 }
+
+                Authentication.set_msg_read(read_msgs);
+
+
+                // Clear array to selected messages
                 vm.messages_selected = [];
+                // Clear Checkbox to select all
+                vm.messages_select_all = false;
+
+
+            }
+
+            function setReadBulkError(data){
+                AlertNotification.error("Error al intentar marcar todos los mensajes como leido. Intente nuevamente");
             }
         }
 
@@ -124,7 +149,5 @@
 
 
     }
-
-
 
 })();

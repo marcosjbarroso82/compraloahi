@@ -88,7 +88,7 @@ html input[type='range']::-webkit-slider-thumb,
 body input[type='range']::-webkit-slider-thumb {
   -webkit-appearance: none !important;
   border-radius: 20px;
-  background-color: #4e6c83;
+  background-color: #635a9a;
   border: 1px solid #bab5ba;
   height: 20px;
   width: 20px;
@@ -97,7 +97,7 @@ html input[type='range']::-moz-range-thumb,
 body input[type='range']::-moz-range-thumb {
   -moz-appearance: none;
   border-radius: 20px;
-  background-color: #4e6c83;
+  background-color: #635a9a;
   border: 1px solid #bab5ba;
   height: 20px;
   width: 20px;
@@ -239,27 +239,86 @@ html {
   z-index: 2000;
   position: absolute;
 }
-body {
-  overflow: hidden;
+.btn-favit-favorite {
+  background-color: none !important;
+  border: none;
 }
-#container-arrow {
-  width: 60px;
-  margin: auto;
-  margin-top: 10px;
+.btn-favit-favorite .fa-heart {
+  color: #7a6fbe;
+  /* TODO: This color is primary */
 }
-#home-animation {
-  background-image: url("../../image/background-map.png");
-  height: 100%;
-  overflow: hidden;
+.pagination > .active > a,
+.pagination > .active > span,
+.pagination > .active > a:hover,
+.pagination > .active > span:hover,
+.pagination > .active > a:focus,
+.pagination > .active > span:focus {
+  background: #018ba3;
+  border-color: #018ba3;
 }
-#img-hand {
+.timeline-options a:hover {
+  color: #018ba3;
+}
+.post-options a:hover {
+  color: #018ba3;
+}
+.menu.accordion-menu > li > a:hover {
+  color: #018ba3;
+}
+.menu.accordion-menu > li.active > a,
+.menu.accordion-menu > li.active.open > a,
+.menu.accordion-menu > li.open > a {
+  color: #018ba3;
+}
+.menu.accordion-menu ul li a:hover,
+.menu.accordion-menu ul li.active a {
+  color: #018ba3;
+}
+.navbar ul li.open > a {
+  color: #018ba3;
+}
+body:not(.page-horizontal-bar).compact-menu .menu > li.active,
+body:not(.page-horizontal-bar).compact-menu .menu > li.open {
+  border-left: 3px solid #018ba3;
+}
+.menu.accordion-menu ul li a:hover,
+.menu.accordion-menu ul li.active a {
+  color: #018ba3;
+}
+.pace .pace-progress {
+  background: #018ba3;
+}
+.pace .pace-progress-inner {
+  box-shadow: 0 0 10px #018ba3, 0 0 5px #018ba3;
+}
+.pace .pace-activity {
+  border-top-color: #018ba3;
+  border-left-color: #018ba3;
+  margin-top: 60px;
+}
+#btn-download-app,
+#btn-download-app1 {
   position: absolute;
-  right: 25%;
-  width: 50%;
-  bottom: -100px;
+  bottom: 0px;
+  font-size: 1.3em;
+  -webkit-box-shadow: 1px 1px 2px 0.3px rgba(64, 64, 64, 0.71);
+  -moz-box-shadow: 1px 1px 2px 0.3px rgba(64, 64, 64, 0.71);
+  box-shadow: 1px 1px 2px 0.3px rgba(64, 64, 64, 0.71);
+  border: 1px solid #858a81;
 }
-.result-search {
-  width: 30px;
-  position: absolute;
-  display: none;
+#btn-download-app {
+  left: 240px;
+}
+#btn-download-app1 {
+  left: 35px;
+}
+.description .panel-title {
+  text-align: center;
+  width: 100%;
+  font-size: 18px !important;
+}
+.ventajas-title {
+  font-size: 1.8em;
+  margin-top: 30px;
+  margin-bottom: 20px;
 }

@@ -31,7 +31,6 @@ THIRD_PARTY_APPS = (
     'django_comments_xtd', # Need packages: django.contrib.comments
     'haystack',
     'rest_framework',
-    'favit',
     'corsheaders',
     'rest_framework.authtoken',
     'push_notifications',
@@ -39,6 +38,7 @@ THIRD_PARTY_APPS = (
     'rest_auth.registration',
     'djmail',
     'jsonify',
+    #'termsandconditions',
 )
 
 LOCAL_APPS = (
@@ -49,7 +49,11 @@ LOCAL_APPS = (
     'apps.user',
     'apps.notification',
     'apps.rating',
-    'apps.msg'
+    'apps.msg',
+    'apps.favorite',
+    'apps.faq',
+    'apps.report_error',
+    'apps.util'
 )
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -84,8 +88,8 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
 
-                "allauth.account.context_processors.account",
-                "allauth.socialaccount.context_processors.socialaccount"
+                #"allauth.account.context_processors.account",
+                #"allauth.socialaccount.context_processors.socialaccount"
             ],
         },
     },
@@ -99,7 +103,7 @@ WSGI_APPLICATION = 'compraloahi.wsgi.application'
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es'
 
 TIME_ZONE = 'UTC'
 
@@ -126,10 +130,15 @@ MEDIA_URL = "/media/"
 
 
 LOGIN_URL = '/accounts/login'
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/panel/mis-avisos/'
 
 #SOCIALACCOUNT_QUERY_EMAIL = True
-
+AUTHENTICATION_BACKENDS = (
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
 ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
 
 ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'https'
@@ -150,6 +159,9 @@ SOCIALACCOUNT_PROVIDERS = {
 }
 
 SOCIALACCOUNT_EMAIL_VERIFICATION=True
+
+ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = '/panel/mis-aviso/crear/'
+
 """
 ACCOUNT_EMAIL_REQUIRED=False
 ACCOUNT_CONFIRM_EMAIL_ON_GET=False
@@ -162,7 +174,7 @@ ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = False
 SITE_ID = 1
 SITE_URL = "http://www.compraloahi.com.ar/"
 
-DEFAULT_FROM_EMAIL = 'notification@compraloahi.com.ar'
+DEFAULT_FROM_EMAIL = 'notificacion@compraloahi.com.ar'
 
 EMAIL_BACKEND="djmail.backends.async.EmailBackend"
 DJMAIL_REAL_BACKEND="django.core.mail.backends.smtp.EmailBackend"
@@ -171,7 +183,7 @@ DJMAIL_REAL_BACKEND="django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = 'smtp.zoho.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = DEFAULT_FROM_EMAIL
-EMAIL_HOST_PASSWORD = '1j3uUk9X82g8d7imFgcFRgqV3'
+EMAIL_HOST_PASSWORD = 'laserjet_1'
 EMAIL_USE_TLS = True
 
 
@@ -206,16 +218,21 @@ CORS_ALLOW_HEADERS = (
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 
+########### PUSH NOTIFICATIONS CONFIG ###############
 PUSH_NOTIFICATIONS_SETTINGS = {
         "GCM_API_KEY": "AIzaSyA_KurD4JmJdMSj12Mh0ZhjAI-LDJlNybI", #"AIzaSyD-750iceKvjKVno9p1Z4W6guATHMPJoak",
         #"APNS_CERTIFICATE": "/path/to/your/certificate.pem",
 }
 GCM_POST_URL = 'https://android.googleapis.com/gcm/send'
 
+
+########## MESSAGES APP CONFIG ###############
 MSG_RELATED_APP_LABEL = 'app.ad'
 MSG_RELATED_MODEL = 'Ad'
 MSG_RELATED_OBJ_ID = 'pk'
 
+
+########## HAYSTACK CONFIG #############
 HAYSTACK_CONNECTIONS = {
     'default': {
         'ENGINE': 'haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine',
@@ -227,6 +244,8 @@ HAYSTACK_CONNECTIONS = {
 #HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
 HAYSTACK_SEARCH_RESULTS_PER_PAGE = 10
 
+
+######### COMMENT CONFIG ##################
 COMMENTS_XTD_MAX_THREAD_LEVEL = 2
 COMMENTS_APP = "django_comments_xtd"
 COMMENTS_XTD_CONFIRM_EMAIL = False

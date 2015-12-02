@@ -1,3 +1,4 @@
+/compraloahi.log
 # Python bytecode
 *.py[co]
 *.pyc
@@ -7,6 +8,5 @@
 
 .codeintel/
 .codeintel/*
-
-compraloahi/media/cache/
-compraloahi/media/cache/*
+/.directory
+/compraloahi/media/cache
