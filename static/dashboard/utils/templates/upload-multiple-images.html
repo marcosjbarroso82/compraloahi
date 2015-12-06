@@ -28,6 +28,7 @@
     .uploaded-img{
         width: 150px;
         padding: 5px;
+        min-height: 142px;
         text-align: center;
         float: left;
         margin: 5px;
@@ -79,7 +80,8 @@
             <button type="button" ng-show="!image.default" class="btn btn-sm btn-info btn-block btn-action" ng-click="vm.changeDefaultImage(image)">Destacar</button>
         </div>
         <div style="width: 100%; text-align: center" ng-mouseover="image.focus = true;" >
-            <img src="{{ image.image }}" id="img-{{ image.key_prov }}" alt="{{ image.name }}" class="img-thumb"/>
+            <img ng-if="image.thumbnail_110x110" ng-src="{{ image.thumbnail_110x110 }}" id="img-{{ image.key_prov }}" alt="{{ image.name }}" class="img-thumb"/>
+            <img ng-if="!image.thumbnail_110x110" ng-src="{{ image.image }}" id="img-{{ image.key_prov }}" alt="{{ image.name }}" class="img-thumb"/>
         </div>
         <i class="fa fa-check fa-2x" ng-show="image.default" style="z-index: 100; position: absolute; border-radius: 50%; right: 10px; bottom: 10px; color: white; background-color: #12AFCB"></i>
 
