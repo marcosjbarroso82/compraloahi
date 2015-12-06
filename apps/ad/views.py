@@ -11,21 +11,22 @@ from django.views.generic import DetailView
 from haystack.views import FacetedSearchView
 from haystack.query import SearchQuerySet
 
-from rest_framework.generics import ListAPIView
+from rest_framework.generics import ListAPIView, CreateAPIView, DestroyAPIView
 from rest_framework import viewsets
 from rest_framework import mixins
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
-from rest_framework.parsers import FileUploadParser, MultiPartParser, FormParser
+from rest_framework.parsers import FileUploadParser
 
 from apps.rating.models import OverallRating
 from apps.userProfile.models import UserProfile, UserLocation
-from apps.adLocation.models import AdLocation
 
 from .models import Ad, Category, AdImage
-from .serializers import SearchResultSerializer, AdSerializer, AdPublicSerializer, AdsSearchSerializer, CategorySerializer, AdLocationSerializer
+from .serializers import SearchResultSerializer, AdSerializer, AdPublicSerializer, AdsSearchSerializer, \
+    CategorySerializer, ImageSerializer
 from rest_framework import status
 from apps.notification.models import Notification
+from rest_framework.decorators import list_route, detail_route, parser_classes
 
 
 logger = logging.getLogger('debug')
@@ -181,7 +182,6 @@ class SearchViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
         return Response(result_serializer.data)
 
 
-
 class AdFacetedSearchView(FacetedSearchView):
     def extra_context(self, **kwargs):
         context = super(AdFacetedSearchView, self).extra_context(**kwargs)
@@ -205,6 +205,56 @@ class AdFacetedSearchView(FacetedSearchView):
         context['q'] = self.request.GET.get('q', '')
         return context
 
+
+class AdImageModelViewSet(viewsets.ModelViewSet):
+    serializer_class = ImageSerializer
+    #parser_classes = (FileUploadParser, )
+
+    def get_queryset(self):
+        return AdImage.objects.filter(ad__author=self.request.user.pk)
+
+    @parser_classes((FileUploadParser,))
+    def create(self, request, *args, **kwargs):
+        return super(AdImageModelViewSet, self).create(request, *args, **kwargs)
+
+    #def destroy(self, request, *args, **kwargs):
+        #if json.loads(request.data.get('data')).get('secure'):
+        #    return super(AdImageModelViewSet, self).destroy(request, *args, **kwargs)
+        #else:
+        # try:
+        #     img = self.get_object().get(pk=kwargs['pk'])
+        #     if AdImage.objects.filter(ad=img.ad).count() > 1:
+        #         return self.destroy(request, *args, **kwargs)
+        #     else:
+        #         return Response({"message": "Error, the ad required a image. Add other image and before remove this."}, status=status.HTTP_400_BAD_REQUEST)
+        # except AdImage.DoesNotExist:
+        #     return Response({"message": "Error"}, status=status.HTTP_401_UNAUTHORIZED)
+        # except:
+        #     return Response({"message": "Error"}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class AdUserViewSet(viewsets.ModelViewSet):
+    paginate_by = 100
+    queryset = Ad.objects.all()
+    serializer_class = AdSerializer
+
+    def perform_create(self, serializer):
+        return serializer.save(author=self.request.user)
+
+    def get_queryset(self):
+        return Ad.objects.filter(author= self.request.user).exclude(status=0)
+
+
+class AdPublicViewSet(viewsets.ModelViewSet):
+    queryset = Ad.objects.all()
+    serializer_class = AdPublicSerializer
+    permission_classes = (AllowAny,)
+    paginate_by = 10
+
+
+class CategoriesListAPIView(ListAPIView):
+    serializer_class = CategorySerializer
+    queryset = Category.objects.all()
 
 
 
@@ -232,144 +282,3 @@ class DetailAdView(DetailView):
         except:
             context['comments_limit'] = 5
         return context
-
-
-class AdUserViewSet(viewsets.ModelViewSet):
-    paginate_by = 100
-    queryset = Ad.objects.all()
-    serializer_class = AdSerializer
-    parser_classes = (MultiPartParser, FormParser, FileUploadParser )
-
-    def pre_save(self, obj):
-        obj.author = self.request.user
-
-    def get_queryset(self):
-        return Ad.objects.filter(author= self.request.user, status=1)
-
-    def destroy(self, request, *args, **kwargs):
-        try:
-            ad = Ad.objects.get(id=kwargs['pk'])
-            ad.status = 0
-            ad.save()
-
-            return Response(status=status.HTTP_200_OK)
-        except KeyError:
-            return Response({"message": "Param is incorrect"}, status=status.HTTP_400_BAD_REQUEST)
-        except Ad.DoesNotExist:
-            return Response({"message": "Error ad doesnt exist"}, status=status.HTTP_400_BAD_REQUEST)
-
-    def create(self, request, *args, **kwargs):
-        if request.data and request.data.get('data') and len(request.FILES) > 0:
-
-            ad_data = json.loads(request.data.get('data'))
-            ad_data['author'] = request.user.id
-            ad_serializer = AdSerializer(data=ad_data)
-
-            if ad_serializer.is_valid():
-                ad_serializer.save()
-                try:
-                    loc = UserLocation.objects.filter(is_address=True, userProfile__user=request.user).first()
-                    location = AdLocation()
-                    location.ad = ad_serializer.instance
-                    location.save(loc=loc, can_show=loc.userProfile.get_can_show_location())
-                except:
-                    ad_serializer.instance.delete()
-                    return Response({"Error al intentar guardar la ubicacion"},
-                                    status=status.HTTP_400_BAD_REQUEST)
-
-                images = []
-                try:
-                    # TODO: Whats happen if any images set default or more to one images are default?
-                    for image_data in ad_data['images']:
-                        for key, image in request.FILES.items():
-                            if image_data['name'] == image.name:
-                                images.append(AdImage(image=image, ad_id=ad_serializer.instance,
-                                                      default=image_data.get('default', False)).save())
-                                break
-                except:
-                    ad_serializer.instance.delete()
-                    #location_serializer.instance.delete()
-                    #location.delete()
-                    #for img in images:
-                    #    img.delete()
-
-                    return Response({"Error al intentar guardar las imagenes"},
-                                    status=status.HTTP_400_BAD_REQUEST)
-
-                return Response({'message': "SUCCESS"})
-            else:
-                ad_serializer.run_validation(ad_data)
-
-        return Response({'message': "ERROR"}, status=status.HTTP_400_BAD_REQUEST)
-
-    def update(self, request, *args, **kwargs):
-        if request.data and request.data.get('data'):
-            ad_data = json.loads(request.data.get('data'))
-            ad_data['author'] = request.user.id
-            try:
-                ad = Ad.objects.get(id= ad_data.get('id'))
-                ad_serializer = AdSerializer(data=ad_data, instance=ad)
-
-                if ad_serializer.is_valid():
-                    ad_serializer.save()
-                    # for location_data in ad_data['locations']:
-                    #     try:
-                    #         ad_location = AdLocation.objects.get(id= location_data.get('id'))
-                    #         location_data['ad'] = ad_serializer.instance.id
-                    #         location_serializer = AdLocationSerializer(data=location_data,
-                    #                                                    instance=ad_location)
-                    #         location_serializer.run_validation(location_data)
-                    #         try:
-                    #             if location_serializer.is_valid():
-                    #                 location_serializer.save()
-                    #             else:
-                    #                 raise Exception
-                    #         except:
-                    #             raise Exception
-                    #     except:
-                    #         return Response({"Error al intentar guardar la ubicacion"},
-                    #                         status=status.HTTP_400_BAD_REQUEST)
-
-                    # TODO: Whats happen if images change default or any images set default?
-                    if len(request.FILES) > 0:
-                        try:
-
-                            for image_data in ad_data['images']:
-                                if not image_data.get('deleted', False) or image_data.get('is_new', False) \
-                                        and image_data.get('name'):
-                                    for key, image in request.FILES.items():
-                                        if image_data.get('name', '') == image.name:
-                                            AdImage(image=image, ad_id=ad_serializer.instance,
-                                                    default=image_data.get('default', False)).save()
-                                            break
-                                else:
-                                    if image_data.get('deleted'):
-                                        try:
-                                            AdImage.objects.get(id=image_data.get('id')).delete()
-                                        except AdImage.DoesNotExist:
-                                            pass
-
-                        except:
-                            return Response({"Error al intentar guardar las imagenes"},
-                                            status=status.HTTP_400_BAD_REQUEST)
-
-                    return Response({'message': "SUCCESS"})
-                else:
-                    ad_serializer.run_validation(ad_data)
-            except Ad.DoesNotExist:
-                return Response({'message': "The ad instance doesnt exist"},
-                                status=status.HTTP_400_BAD_REQUEST)
-
-        return Response({'message': "ERROR"}, status=status.HTTP_400_BAD_REQUEST)
-
-
-class AdPublicViewSet(viewsets.ModelViewSet):
-    queryset = Ad.objects.all()
-    serializer_class = AdPublicSerializer
-    permission_classes = (AllowAny,)
-    paginate_by = 10
-
-
-class CategoriesListAPIView(ListAPIView):
-    serializer_class = CategorySerializer
-    queryset = Category.objects.all()

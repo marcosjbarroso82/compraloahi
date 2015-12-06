@@ -22,11 +22,27 @@
             link: link,
             scope: {
                 filesModel: '@',
-                uploadedImages: '@'
+                uploadedImages: '@',
+                itemId: '@'
             }
         };
 
         function link(scope, element, attrs) {
+            scope.vm.itemId = attrs.itemId;
+//            console.log("INIT DIREc");
+//            console.log(scope.vm.itemId);
+
+//            scope.$watch(attrs.itemId, function (value, new_val){
+//                scope.vm.itemId = value;
+//                console.log("CAMBIO");
+//                console.log(value);
+//                console.log(new_val);
+//            });
+//
+//            attrs.$observe('itemId', function(value) {
+//                console.log("CAMBIO1");
+//                console.log(value);
+//            });
 
             if(attrs.uploadedImages){
                 scope.vm.images = eval(attrs.uploadedImages);

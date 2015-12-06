@@ -35,11 +35,11 @@
 <div class="overlay"></div>
 
 {% block search_nav %}
-<form class="search-form" action="/item/search/" method="GET">
+<form class="search-form" action="{% url 'ad:search-facet' %}" method="GET">
     <div class="input-group">
         <input type="text" name="q" class="search-input" placeholder="Busca productos y servicio cerca.">
                 <span class="input-group-btn">
-                    <button class="btn btn-default close-search" type="submit"><i class="fa fa-search"></i></button>
+                    <button class="btn btn-default icon-search" type="submit"><i class="fa fa-search"></i></button>
                 </span>
     </div><!-- Input Group -->
 </form><!-- Search Form -->

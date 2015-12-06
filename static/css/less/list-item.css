@@ -180,15 +180,21 @@ input-group-custom-addon examples:
   box-shadow: none;
   border-radius: 0;
   background: 0 0;
-  line-height: 60px;
-  font-size: 16px;
-  padding-left: 20px !important;
-  padding-bottom: 5px !important;
+  line-height: 55px;
+  font-size: 20px;
+  /*padding-left: 20px !important;
+      padding-bottom: 5px !important;*/
+  padding: 0px 10px !important;
   height: 100% !important;
   width: 100%;
   position: absolute;
   top: 0px;
   left: 0px;
+}
+.search-form .input-group .icon-search {
+  padding: 0px !important;
+  margin-right: 10px !important;
+  margin-bottom: 2px !important;
 }
 .nav-user-dropdown-responsive {
   position: absolute;

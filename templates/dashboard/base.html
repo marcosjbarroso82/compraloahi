@@ -12,8 +12,6 @@
 
         {% include 'dashboard/stylesheets_prod.html' %}
 
-        <!--<script src="/static/assets/plugins/3d-bold-navigation/js/modernizr.js"></script>-->
-
         <base href="/panel/" />
 
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -26,11 +24,11 @@
     </head>
     <body class="page-horizontal-bar page-header-fixed page-sidebar-fixed">
         <div class="overlay"></div>
-        <form class="search-form" action="/item/search/" method="GET">
+        <form class="search-form" action="{% url 'ad:search-facet' %}" method="GET">
             <div class="input-group">
                 <input type="text" name="q" class="search-input" placeholder="Busca productos y servicios cerca.">
                 <span class="input-group-btn">
-                    <button class="btn btn-default close-search" type="submit"><i class="fa fa-search"></i></button>
+                    <button class="btn btn-default icon-search" type="submit"><i class="fa fa-search"></i></button>
                 </span>
             </div><!-- Input Group -->
         </form><!-- Search Form -->
@@ -93,6 +91,7 @@
 
         {% include 'dashboard/javascripts_prod.html' %}
         {% include 'layout/report.html' %}
+
 
     </body>
 </html>

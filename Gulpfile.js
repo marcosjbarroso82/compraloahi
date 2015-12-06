@@ -22,6 +22,7 @@ gulp.task('js-dashboard-app', function()
         'static/dashboard/utils/directives/alert-notification.directive.js',
         'static/dashboard/utils/directives/upload-file-model.directive.js',
         'static/dashboard/utils/directives/upload-file-client.directive.js',
+        'static/dashboard/utils/services/upload-multiple-images.service.js',
         'static/dashboard/utils/directives/upload-multiple-image.directive.js',
         'static/dashboard/utils/controllers/upload-multiple-images.controller.js',
         'static/dashboard/profile/profile.module.js',
