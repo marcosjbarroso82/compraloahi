@@ -59,21 +59,18 @@ class Base64ImageField(serializers.ImageField):
 
         return extension
 
+
 class ImageSerializer(serializers.ModelSerializer):
     image = Base64ImageField(max_length=None, use_url=True,)
-    # TODO: Validar que solo se pueda agregar el atributo 'ad' cuando se crea. Y que los avisos solo sean del mismo autor
+    # TODO: Validar que los avisos solo sean del mismo autor
 
     def __init__(self, *args, **kwargs):
         super(ImageSerializer, self).__init__(*args, **kwargs)
         action = self.context['view'].action
-        print(30*"============INIT")
-        print(action)
         if not action == 'create' and not action == 'update':
-            #self.fields['image'] = Base64ImageField(max_length=None, use_url=True,)
-            #else:
             self.fields['image'].read_only = True
 
-        if action == 'update' or action == 'partial_update':
+        if action != 'create':
             self.fields['ad'].read_only = True
 
     class Meta:

@@ -54,7 +54,7 @@
                                         {% if msgs %}
                                             {% for msg in msgs %}
                                                  <li>
-                                                    <a href="http://127.0.0.1:8000/panel/mensajes/hilo/{% if msg.thread %}{{ msg.thread }}{% else %}{{ msg.id }}{% endif %}">
+                                                    <a href="/panel/mensajes/hilo/{% if msg.thread %}{{ msg.thread.id }}{% else %}{{ msg.id }}{% endif %}">
                                                         <div class="msg-img"><div class="online off"></div><img class="img-circle" src="/static/image/img-default-profile.jpg" alt=""></div>
                                                         <p class="msg-name">{{ msg.sender }}</p>
                                                         <p class="msg-text">{{ msg.subject }}</p>

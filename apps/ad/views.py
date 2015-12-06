@@ -12,10 +12,9 @@ from haystack.views import FacetedSearchView
 from haystack.query import SearchQuerySet
 
 from rest_framework.generics import ListAPIView, CreateAPIView, DestroyAPIView
-from rest_framework import viewsets
-from rest_framework import mixins
+from rest_framework import viewsets, permissions, mixins
 from rest_framework.response import Response
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, BasePermission
 from rest_framework.parsers import FileUploadParser
 
 from apps.rating.models import OverallRating
@@ -206,8 +205,17 @@ class AdFacetedSearchView(FacetedSearchView):
         return context
 
 
+class IsAdImageIsUser(BasePermission):
+
+    def has_object_permission(self, request, view, obj):
+        if obj.ad.author == request.user:
+            return True
+        return False
+
+
 class AdImageModelViewSet(viewsets.ModelViewSet):
     serializer_class = ImageSerializer
+    permissions_class = (IsAdImageIsUser, )
     #parser_classes = (FileUploadParser, )
 
     def get_queryset(self):

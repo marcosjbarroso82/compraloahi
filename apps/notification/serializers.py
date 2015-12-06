@@ -1,4 +1,3 @@
-import ast
 from rest_framework import serializers
 
 from push_notifications.models import GCMDevice

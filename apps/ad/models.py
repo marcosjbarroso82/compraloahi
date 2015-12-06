@@ -118,9 +118,8 @@ def ad_image_post_save(sender, *args, **kwargs):
 @receiver(post_delete, sender=AdImage)
 def ad_image_post_delete(sender, *args, **kwargs):
     image = kwargs['instance']
-    print(30*"¿¿¿ENTRA ACA???")
-    if not len(image.ad.images.all()):
-        image.ad.status = 0
+    if not len(AdImage.objects.filter(ad=image.ad).exclude(pk=image.pk)):
+        image.ad.status = 2
         image.ad.save()
 
 #@receiver(pre_delete, sender=AdImage)

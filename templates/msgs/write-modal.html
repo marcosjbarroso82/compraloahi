@@ -17,8 +17,8 @@
 
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancel</button>
-            <button type="submit" class="btn btn-primary" id="submitMessage">Send <i class="fa fa-arrow-circle-right fa-lg"></i></button>
+            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-primary" id="submitMessage">Enviar</button>
         </div>
         <script type="text/javascript">
 
@@ -32,12 +32,11 @@
 
 <script>
     $('#submitMessage').click(function(){
-    //var subject = $('#id_subject').val();
-    var body = $('#id_body').val();
-    var subject = body.slice(1, 25) + "...";
-    var item_id = item.id;
+        var body = $('#id_body').val();
+        var subject = body.slice(1, 25) + "...";
+        var item_id = item.id;
 
-    $.ajax({
+        $.ajax({
             url: "/api/v1/msgs/",
             type: 'POST',
             beforeSend: function(xhr, settings){
@@ -52,31 +51,13 @@
             success: function(response) {
 
                 $('#modalMessage').modal('hide');
-                $('#container-item-detail-page').prepend(alert('Se ha enviado el mensaje con exito.', 'success'));
+                toastr.success('Se ha enviado el mensaje con exito.');
             },
             error: function(data){
-                        $('#modalMessage').modal('hide');
-                        $("#container-item-detail-page").prepend(alert("Error al intentar contactarse con el anunciante, vuelva a intentarlo mas tarde.", 'danger'));
-                    }
+                $('#modalMessage').modal('hide');
+                toastr.error('Error al intentar contactarse con el anunciante, vuelva a intentarlo mas tarde.');
+            }
 
         });
-
-{#    $.post("/api/v1/msgs/", {body: body, subject: subject, object_id: item_id, content_type: 27},#}
-{#    function(data) {#}
-{#        var content_modal = '<div class="modal-dialog">' +#}
-{#            '<div class="modal-content">' +#}
-{#            '<div class="modal-header">' +#}
-{#            '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>' +#}
-{#            '<h4 class="modal-title">Contactar al anunciante</h4>' +#}
-{#            '</div>' +#}
-{#            '<div class="modal-body">' +#}
-{#            '<p> El mensaje fue enviado con exito</p>' +#}
-{#            '</div></div></div>';#}
-{#        $('#modalMessage').html(content_modal);#}
-{#    }#}
-{#    ).done(function(){#}
-{#        //$('#modalMessage').class = 'modal';#}
-{#    });#}
-
-});
+    });
 </script>

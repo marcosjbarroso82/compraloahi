@@ -16,7 +16,7 @@
                     {% if field.name == "comment" %}
                         <div class="form-group">
                             <div class="col-md-12">
-                                {{field|addcss:"form-control"}}
+                                <textarea class="form-control" cols="40" id="id_{{ field.name }}" maxlength="3000" name="{{ field.name }}" placeholder="Deja tu comentario.." rows="10"></textarea>
                             </div>
                         </div>
                     {% endif %}
@@ -93,29 +93,25 @@
                     },
                     data: obj,
                     success: function(data) {
-                        console.log("SUCCESS");
                         container_to_search.find("#frm-post-comment").find("#id_comment").val("");
                             //var msg = "<p>El comentario se creo correctamente, en breve sera publicado</p>";
                             //$("#form-comment-list").
                             //        $('#modalMsg').find("#content").html(msg);
                             //$('#modalMsg').modal('show');
-                            $("#container-comment-list").append(alert("El comentario se creo correctamente, en breve sera publicado", 'success'));
+                            toastr.success('El comentario se creo correctamente, en breve sera publicado');
 
                             if(container_to_search.attr("id") == 'modalReplyComment'){
                                 container_to_search.modal('hide');
                             }
                     },
                     error: function(data){
-                        $("#container-comment-list").append(alert("Error al publicar el comentario, vuelva a intentarlo mas tarde", 'danger'));
+                        toastr.error('Error al publicar el comentario, vuelva a intentarlo mas tarde');
                     }
                 });
 
 
             }else{
-                var msg = "<p>You need complete comment body.</p>";
-                $('#modalMsg').find("#content").html(msg);
-                $('#modalMsg').modal('show');
-
+                 container_to_search.find("#frm-post-comment").append(alert("Es necesario dejar un comentario antes de enviarlo.", 'danger'));
             }
         });
     }
