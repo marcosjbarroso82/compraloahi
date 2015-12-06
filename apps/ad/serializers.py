@@ -62,6 +62,7 @@ class Base64ImageField(serializers.ImageField):
 
 class ImageSerializer(serializers.ModelSerializer):
     image = Base64ImageField(max_length=None, use_url=True,)
+    thumbnail_110x110 = serializers.SerializerMethodField()
     # TODO: Validar que los avisos solo sean del mismo autor
 
     def __init__(self, *args, **kwargs):
@@ -73,9 +74,15 @@ class ImageSerializer(serializers.ModelSerializer):
         if action != 'create':
             self.fields['ad'].read_only = True
 
+    def get_thumbnail_110x110(self, obj):
+        try:
+            return get_thumbnail(obj.image, '110x110', crop='center', quality=99).url
+        except:
+            return ""
+
     class Meta:
         model = AdImage
-        fields = ('image', 'id', 'ad', 'default')
+        fields = ('image', 'id', 'ad', 'default', 'thumbnail_110x110')
         read_only_fields = ('id',)
 
 
