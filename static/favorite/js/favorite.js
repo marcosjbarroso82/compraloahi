@@ -21,9 +21,12 @@ $(document).ready(function() {
             },
             success: function(response) {
                 if (response.status == 'added') {
-                    $obj.children().removeClass('fa-heart-o').addClass('fa-heart');}
+                    $obj.children().removeClass('fa-heart-o').addClass('fa-heart');
+                    toastr.success('Se ah agregado el aviso a favoritos.');
+                }
                 else {
                     $obj.children().removeClass('fa-heart').addClass('fa-heart-o');
+                    toastr.info('Se ah quitado el aviso de favoritos.');
                 }
                 if(has_count == 'True'){
                     $obj.parent('.favit').children('.fav-count').text(response.fav_count);
