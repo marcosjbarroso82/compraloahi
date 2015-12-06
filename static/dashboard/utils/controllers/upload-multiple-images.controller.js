@@ -155,7 +155,7 @@
                     message = '¿Estas seguro que desea eliminar la imagen?';
                 }
             }else{
-                message = 'Al eliminar todas las imagenes de un anuncio, este quedara inactivo \n ¿Estas seguro?';
+                message = 'Al eliminar todas las imagenes de un aviso, este quedara inactivo \n ¿Estas seguro?';
             }
 
             if(message != ''){
@@ -191,7 +191,7 @@
             ngDialog.openConfirm({
                     className: 'ngdialog-theme-plain',
                     template: '<div class="dialog-contents">\
-                                <p><i class="fa fa-question-circle"> </i>A seleccionar una imagen como destacada, sera la imagen que tu anuncio compite con otros anuncios. ¿Estas seguro de cambiarla?</p>\
+                                <p><i class="fa fa-question-circle"> </i>A seleccionar una imagen como destacada, sera la imagen que tu aviso compite con otros avisos. ¿Estas seguro de cambiarla?</p>\
                                 <div class="ngdialog-buttons">\
                                     <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog(0)">CANCEL</button>\
                                     <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="confirm(1)">OK</button>\
