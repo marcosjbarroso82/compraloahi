@@ -78,7 +78,6 @@ class Ad(models.Model):
         if secure:
             return super(Ad, self).delete(using)
         else:
-            print(30*"=== DELETE ===")
             self.status = 0
             return self.save()
 

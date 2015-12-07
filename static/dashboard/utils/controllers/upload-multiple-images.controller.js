@@ -94,7 +94,6 @@
 
             function successUpload(data){
                 AlertNotification.success("La imagen se cargo correctamente");
-                    console.log(data.data);
                     for(var i=0; i < vm.images.length; i++){
                         if(vm.images[i].name == image.name){
                             vm.images[i] = data.data;

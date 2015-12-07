@@ -43,8 +43,6 @@ class UserProfile(models.Model):
 
     def save(self, *args, **kwargs):
         obj = super(UserProfile, self).save(*args, **kwargs)
-        print(30*"==change_privacity==")
-        print(self.change_privacity())
         if self.change_privacity():
             self.locations.filter(is_address=True).first().save()
 

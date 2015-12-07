@@ -43,7 +43,6 @@ var debug = {};
             }
 
             function getReadSuccess(data){
-                console.log(data);
                 Authentication.set_msg_read([{'id': data.data.id}]);
             }
 

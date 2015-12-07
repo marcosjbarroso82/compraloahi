@@ -67,14 +67,16 @@
             if($stateParams.redirect){
                 vm.redirect = $stateParams.redirect;
             }
-
-
             vm.promiseRequest = Profile.get_address().then(getAddressSuccess, getAddressError);
 
             function getAddressSuccess(data){
                 vm.location = data.data;
-                console.log(vm.location);
-                createMarker(vm.location.lat, vm.location.lng);
+                if(vm.location.lat && vm.location.lng){
+                    createMarker(vm.location.lat, vm.location.lng);
+                }else{
+                    autorozired_location();
+                }
+
             }
 
             function getAddressError(data){
