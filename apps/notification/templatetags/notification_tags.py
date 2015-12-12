@@ -5,7 +5,7 @@ register = Library()
 
 class NotificationUnreadCount(Node):
     def render(self, context):
-        notifications = Notification.objects.filter(receiver=context['user'], read=None)
+        notifications = Notification.objects.filter(receiver=context['user'], read=None, type="cmmt")
         return str(notifications.count())
 
 def get_notifications_unread_count(parser, token):
@@ -14,7 +14,7 @@ def get_notifications_unread_count(parser, token):
 
 class NotificacionUnreadList(Node):
     def render(self, context):
-        notifications = Notification.objects.filter(receiver=context['user'], read=None)
+        notifications = Notification.objects.filter(receiver=context['user'], read=None, type="cmmt")
         context['notifications'] = notifications
         return ""
 

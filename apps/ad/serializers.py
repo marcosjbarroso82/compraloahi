@@ -207,13 +207,16 @@ class AdsSearchSerializer(serializers.Serializer):
         return AdImageSerializer(AdImage.objects.filter(ad=obj.object).first()).data['thumbnail_110x110']
 
     def get_is_favorite(self, obj):
-        request = self.context.get('request', None)
-        if request is not None:
-           if request.user.is_authenticated():
-               return obj.object.is_favorite(request.user)
-           else:
-               return False
-        else:
+        try:
+            request = self.context.get('request', None)
+            if request is not None:
+               if request.user.is_authenticated():
+                   return obj.object.is_favorite(request.user)
+               else:
+                   return False
+            else:
+                return False
+        except:
             return False
 
 class SearchResultSerializer(serializers.Serializer):

@@ -137,6 +137,9 @@
                 if($scope.$$childTail.location_places.geometry){
                     vm.location.lat = angular.copy($scope.$$childTail.location_places.geometry.location.lat());
                     vm.location.lng = angular.copy($scope.$$childTail.location_places.geometry.location.lng());
+
+                    vm.map.center.lat = vm.location.lat;
+                    vm.map.center.lng = vm.location.lng;
                 }
             }
         }, true);
