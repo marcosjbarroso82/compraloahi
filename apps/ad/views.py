@@ -246,6 +246,15 @@ class AdUserViewSet(viewsets.ModelViewSet):
     queryset = Ad.objects.all()
     serializer_class = AdSerializer
 
+    def destroy(self, request, pk=None):
+        try:
+            ad = Ad.objects.get(pk=pk, author=request.user.pk)
+            ad.status = 0
+            ad.save()
+            return Response({'message': 'Success deleted'}, status=status.HTTP_200_OK)
+        except:
+            return Response({'message': 'Error'}, status=status.HTTP_400_BAD_REQUEST)
+
     def perform_create(self, serializer):
         return serializer.save(author=self.request.user)
 

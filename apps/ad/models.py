@@ -74,12 +74,12 @@ class Ad(models.Model):
         else:
             return False
 
-    def delete(self, using=None, secure=False):
-        if secure:
-            return super(Ad, self).delete(using)
-        else:
-            self.status = 0
-            return self.save()
+    # def delete(self, using=None, secure=False):
+    #     if secure:
+    #         return super(Ad, self).delete(using)
+    #     else:
+    #         self.status = 0
+    #         return self.save()
 
     def is_favorite(self, user):
         if Favorite.objects.get_favorite(user, self):

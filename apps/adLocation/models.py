@@ -89,5 +89,5 @@ def ad_post_save(sender, *args, **kwargs):
             location.ad = ad
             location.save(loc=loc, can_show=loc.userProfile.get_can_show_location())
         except:
-            ad.delete(secure=True)
+            ad.delete()
             raise

@@ -63,7 +63,6 @@ class Base64ImageField(serializers.ImageField):
 class ImageSerializer(serializers.ModelSerializer):
     image = Base64ImageField(max_length=None, use_url=True,)
     thumbnail_110x110 = serializers.SerializerMethodField()
-    # TODO: Validar que los avisos solo sean del mismo autor
 
     def __init__(self, *args, **kwargs):
         super(ImageSerializer, self).__init__(*args, **kwargs)
@@ -144,7 +143,6 @@ class AdSerializer(serializers.ModelSerializer):
         request = self.context.get('request', None)
         return obj.is_favorite(request.user)
 
-
     def __init__(self, *args, **kwargs):
         super(AdSerializer, self).__init__(*args, **kwargs)
         action = self.context['view'].action
@@ -194,30 +192,28 @@ class AdsSearchSerializer(serializers.Serializer):
     image = serializers.SerializerMethodField()
 
     def get_center(self, obj):
-        location = AdLocation.objects.filter(ad=obj.object).first()
+        location = AdLocation.objects.filter(ad=obj.pk).first()
         center = {}
         center['lat'] = location.lat
         center['lng'] = location.lng
         return center
 
     def get_images(self, obj):
-        return AdImageSerializer(AdImage.objects.filter(ad=obj.object), many=True).data
+        return AdImageSerializer(AdImage.objects.filter(ad=obj.pk), many=True).data
 
     def get_image(self, obj):
-        return AdImageSerializer(AdImage.objects.filter(ad=obj.object).first()).data['thumbnail_110x110']
+        return AdImageSerializer(AdImage.objects.filter(ad=obj.pk).first()).data['thumbnail_110x110']
 
     def get_is_favorite(self, obj):
-        try:
-            request = self.context.get('request', None)
-            if request is not None:
-               if request.user.is_authenticated():
-                   return obj.object.is_favorite(request.user)
-               else:
-                   return False
-            else:
-                return False
-        except:
+        request = self.context.get('request', None)
+        if request is not None:
+           if request.user.is_authenticated():
+               return Ad.objects.get(pk=obj.pk).is_favorite(request.user)
+           else:
+               return False
+        else:
             return False
+
 
 class SearchResultSerializer(serializers.Serializer):
     facets = serializers.ListField()
