@@ -47,7 +47,10 @@ class AdIndex(indexes.SearchIndex, indexes.Indexable):
     def get_model(self):
         return Ad
 
+
+
     def index_queryset(self, using=None):
         """Used when the entire index for model is updated."""
-        return self.get_model().objects.filter(pub_date__lte=datetime.datetime.now())
+        # return self.get_model().objects.filter(pub_date__lte=datetime.datetime.now())
+        return self.get_model().objects.filter(pub_date__lte=datetime.datetime.now()).filter(status=1)
 
