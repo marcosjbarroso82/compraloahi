@@ -19,7 +19,9 @@
                         </a>
                         <ul class="dropdown-menu dropdown-menu-right dropdown-list" role="menu">
                             <li role="presentation"><a href="/panel/user/profile/"><i class="fa fa-user"></i>Perfil</a></li>
-                            <li role="presentation"><a href="/panel/mensajes/inbox"><i class="fa fa-envelope"></i>Bandeja<span class="badge badge-success pull-right">{% get_msgs_unread_count %}</span></a></li>
+                            <li role="presentation"><a href="/panel/mensajes/inbox"><i class="fa fa-envelope"></i>Bandeja<span class="badge badge-success" style="position: absolute; right: 10px;">{% get_msgs_unread_count %}</span></a></li>
+                            <li role="presentation"><a href="/panel/mis-avisos/"><i class="fa fa-bullhorn"></i> Mis Avisos</a></li>
+                            <li role="presentation"><a href="/faq/"><i class="fa fa-question-circle"></i> Ayuda</a></li>
                             <li role="presentation" class="divider"></li>
                             <li role="presentation"><a href="{% url 'my-user:my-logout' %}"><i class="fa fa-sign-out m-r-xs"></i>Salir</a></li>
                         </ul>
@@ -54,7 +56,7 @@
                                         {% if msgs %}
                                             {% for msg in msgs %}
                                                  <li>
-                                                    <a href="http://127.0.0.1:8000/panel/mensajes/hilo/{% if msg.thread %}{{ msg.thread }}{% else %}{{ msg.id }}{% endif %}">
+                                                    <a href="/panel/mensajes/hilo/{% if msg.thread %}{{ msg.thread.id }}{% else %}{{ msg.id }}{% endif %}">
                                                         <div class="msg-img"><div class="online off"></div><img class="img-circle" src="/static/image/img-default-profile.jpg" alt=""></div>
                                                         <p class="msg-name">{{ msg.sender }}</p>
                                                         <p class="msg-text">{{ msg.subject }}</p>
@@ -65,7 +67,7 @@
                                         {% endif %}
                                     </ul>
                                 </li>
-                                <li class="drop-all"><a href="/panel/mensajes/?folder=inbox" class="text-center">Todos los mensajes</a></li>
+                                <li class="drop-all"><a href="/panel/mensajes/inbox" class="text-center">Todos los mensajes</a></li>
                             </ul>
                         </li>
                         <li class="dropdown">
@@ -113,7 +115,8 @@
                             </a>
                             <ul class="dropdown-menu dropdown-list" role="menu">
                                 <li role="presentation"><a href="/panel/user/profile/"><i class="fa fa-user"></i>Perfil</a></li>
-                                <li role="presentation"><a href="/panel/mensajes/inbox"><i class="fa fa-envelope"></i>Bandeja<span class="badge badge-success pull-right">{% get_msgs_unread_count %}</span></a></li>
+                                <li role="presentation"><a href="/panel/mensajes/inbox"><i class="fa fa-envelope"></i>Bandeja<span class="badge badge-success" style="position: absolute; right: 10px;" >{% get_msgs_unread_count %}</span></a></li>
+                                <li role="presentation"><a href="/panel/mis-avisos/"><i class="fa fa-bullhorn"></i> Mis Avisos</a></li>
                                 <li role="presentation"><a href="/faq/"><i class="fa fa-question-circle"></i> Ayuda</a></li>
                                 <li role="presentation" class="divider"></li>
                                 <li role="presentation"><a href="{% url 'my-user:my-logout' %}"><i class="fa fa-sign-out m-r-xs"></i>Salir</a></li>

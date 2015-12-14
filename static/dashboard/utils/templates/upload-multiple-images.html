@@ -1,13 +1,15 @@
 <style>
     .fileUpload {
-        width: 90px;
+        width: 150px;
+        height: 142px;
         padding: 5px;
         text-align: center;
         float: left;
         margin: 5px;
         border: solid 1px;
         position: relative;
-        height: 105px;
+        top: 0px;
+        margin-left: 15px;
     }
     .fileUpload input.upload {
         font-size: 20px;
@@ -24,8 +26,9 @@
     }
 
     .uploaded-img{
-        width: 90px;
+        width: 150px;
         padding: 5px;
+        min-height: 142px;
         text-align: center;
         float: left;
         margin: 5px;
@@ -40,25 +43,53 @@
         height: 100%;
         background-color: rgba(222, 222, 222, 0.80);
         z-index: 10;
+        padding: 5px;;
     }
-    .btn-delete{
-        border-radius: 50%;
-        margin-top: 15px;
+    .btn-action{
+        margin-top: 10px !important;
+    }
+    .img-thumb{
+        max-height: 130px;
+        max-width: 130px;
+    }
+
+    .select-default:hover{
+        cursor: pointer;
+    }
+    .load-img-upload{
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 100;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(255, 255, 255, .8);
+    }
+    .txt-alert{
+        color: red; width: 100%; margin-top: 20px;
+        clear: left;
     }
 </style>
 <ul style="list-style: none;">
     <li ng-repeat="image in vm.images" class="uploaded-img" ng-if="!image.deleted">
+        <div class="load-img-upload" ng-show="image.promise">
+            <i class="fa fa-spinner fa-pulse fa-2x" style="text-align: center; margin-top: 10px;"></i>
+        </div>
         <div class="container-delete" ng-show="image.focus" ng-mouseleave="image.focus = false;">
-            <button type="button" class="btn btn-xs btn-danger btn-delete" ng-click="vm.imageDelete(image)"><i class="fa fa-times"></i></button>
+            <button type="button" class="btn btn-sm btn-danger btn-block btn-action" ng-click="vm.imageDelete(image)">Eliminar</button>
+            <button type="button" ng-show="!image.default" class="btn btn-sm btn-info btn-block btn-action" ng-click="vm.changeDefaultImage(image)">Destacar</button>
         </div>
         <div style="width: 100%; text-align: center" ng-mouseover="image.focus = true;" >
-            <img src="{{ image.image }}" alt="50" style="height: 50px;"/>
+            <img ng-if="image.thumbnail_110x110" ng-src="{{ image.thumbnail_110x110 }}" id="img-{{ image.key_prov }}" alt="{{ image.name }}" class="img-thumb"/>
+            <img ng-if="!image.thumbnail_110x110" ng-src="{{ image.image }}" id="img-{{ image.key_prov }}" alt="{{ image.name }}" class="img-thumb"/>
         </div>
-        <input type="checkbox" ng-change="vm.changeDefaultImage(image)" ng-model="image.default"/> <label for="">Por defecto</label>
+        <i class="fa fa-check fa-2x" ng-show="image.default" style="z-index: 100; position: absolute; border-radius: 50%; right: 10px; bottom: 10px; color: white; background-color: #12AFCB"></i>
+
     </li>
     <li class="fileUpload btn btn-default">
-        <span><i class="fa fa-plus fa-2x"></i></span>
+        <span><i class="fa fa-plus fa-3x" style="margin-top: 15px; margin-bottom: 10px; "></i></span>
         <input type="file" class="upload" onchange="angular.element(this).scope().setFiles(this)" accept="image/*"/>
         <p>Agregar imagen</p>
     </li>
 </ul>
+<p class="txt-alert" ng-show="vm.images.length == 0">Para poder activar el aviso, debe tener al menos una imagen.</p>

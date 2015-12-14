@@ -60,8 +60,6 @@ class ConfigNotification(models.Model):
             return False
 
 
-
-
 class NotificationManager(models.QuerySet):
 
     def unread(self):
@@ -139,7 +137,7 @@ def notification_post_save(sender, *args, **kwargs):
             print("Enviando email.....")
             url = notification.get_url()
             if url:
-                html_content = notification.message + "\b" + "Ingresa a el siguiente link para ver la notificacion http:://compraloahi.com.ar/" + url
+                html_content = notification.message + "\b" + "Ingresa a el siguiente link para ver la notificacion http://compraloahi.com.ar" + url
             else:
                 html_content = notification.message
             msg = EmailMultiAlternatives('Compraloahi - Notifications',
@@ -159,8 +157,6 @@ def create_config_notification(sender, *args, **kwargs):
         ConfigNotification(user=user, config=CONFIG_NOTIFICATION).save()
 
 
-
-
 @receiver(post_save, sender=XtdComment, dispatch_uid='XTDCommentPostSave')
 def handle_xtd_comment_post_save(sender, *args, **kwargs):
     """
@@ -171,7 +167,6 @@ def handle_xtd_comment_post_save(sender, *args, **kwargs):
 
         ad = Ad.objects.get(pk=comment.object_pk)
         url = reverse('ad:detail', args=[ad.slug])
-        #url =  'item/' + str(ad.slug) + '/'
 
         Notification(receiver=ad.author, type='cmmt', message="Nuevo comentario en el aviso " + str(ad.title),
                      extras={"comment": str(comment), "url": url, "ad": comment.object_pk }).save()

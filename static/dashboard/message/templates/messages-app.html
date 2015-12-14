@@ -80,7 +80,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr class="unread" ng-repeat="message in vm.messages| orderBy : 'sent_at'" ng-class="{'unread': message.read_at == null, 'read': message.read_at}">
+                    <tr class="unread" ng-repeat="message in vm.messages| orderBy : '-sent_at'" ng-class="{'unread': message.read_at == null, 'read': message.read_at}">
                         <td class="hidden-xs">
                             <span><input ng-click="vm.select_message(message)" value="message.id" ng-model="message.selected" type="checkbox" class="checkbox-mail"></span>
                         </td>

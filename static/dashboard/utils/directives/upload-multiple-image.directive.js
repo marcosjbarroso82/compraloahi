@@ -22,11 +22,13 @@
             link: link,
             scope: {
                 filesModel: '@',
-                uploadedImages: '@'
+                uploadedImages: '@',
+                itemId: '@'
             }
         };
 
         function link(scope, element, attrs) {
+            scope.vm.itemId = attrs.itemId;
 
             if(attrs.uploadedImages){
                 scope.vm.images = eval(attrs.uploadedImages);

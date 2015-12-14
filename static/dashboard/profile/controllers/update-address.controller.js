@@ -67,14 +67,16 @@
             if($stateParams.redirect){
                 vm.redirect = $stateParams.redirect;
             }
-
-
             vm.promiseRequest = Profile.get_address().then(getAddressSuccess, getAddressError);
 
             function getAddressSuccess(data){
                 vm.location = data.data;
-                console.log(vm.location);
-                createMarker(vm.location.lat, vm.location.lng);
+                if(vm.location.lat && vm.location.lng){
+                    createMarker(vm.location.lat, vm.location.lng);
+                }else{
+                    autorozired_location();
+                }
+
             }
 
             function getAddressError(data){
@@ -135,6 +137,9 @@
                 if($scope.$$childTail.location_places.geometry){
                     vm.location.lat = angular.copy($scope.$$childTail.location_places.geometry.location.lat());
                     vm.location.lng = angular.copy($scope.$$childTail.location_places.geometry.location.lng());
+
+                    vm.map.center.lat = vm.location.lat;
+                    vm.map.center.lng = vm.location.lng;
                 }
             }
         }, true);

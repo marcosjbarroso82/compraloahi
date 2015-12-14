@@ -3,19 +3,21 @@ from django.conf.urls import patterns, url, include
 from rest_framework.routers import DefaultRouter
 from rest_framework.authtoken.views import obtain_auth_token
 
-from apps.ad.views import AdUserViewSet, AdPublicViewSet, SearchViewSet, CategoriesListAPIView
+from apps.ad.views import AdUserViewSet, AdPublicViewSet, SearchViewSet, CategoriesListAPIView, AdImageModelViewSet
 from apps.favorite.views import FavoriteAdViewSet
 from apps.notification.views import NotificationListApiView, NotificationRetrieveApiView, \
     RegisterGCMNotification, UnregisterGCMNotification, NotificationMarkBulkReadApiView, ConfigNotificationModelViewSet
 from apps.user.views import ChangePasswordUpdateAPIView
-from apps.userProfile.views import UserLocationViewSet, UserProfileModelView, StoreModelViewSet, ProfileLocationViewSet, ConfigPrivacityViewSet
+from apps.userProfile.views import UserLocationViewSet, UserProfileModelView, StoreModelViewSet, \
+    ProfileLocationViewSet, ConfigPrivacityViewSet
 from apps.msg.views import MsgViewSet
 
 from .views import generate_all_auth_token
 
 
 router = DefaultRouter()
-router.register(r'my-items', AdUserViewSet, base_name='ad-by-user')
+router.register(r'user-items', AdUserViewSet, base_name='ad-by-user')
+router.register(r'user-items-images', AdImageModelViewSet, base_name='ad-images')
 router.register(r'items', AdPublicViewSet, base_name='ads')
 router.register(r'user-locations', UserLocationViewSet, base_name='location-by-user')
 router.register(r'favorites', FavoriteAdViewSet, base_name='favorites')

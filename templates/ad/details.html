@@ -81,7 +81,7 @@
                                     {% endif %}
 
                                 {% else %}
-                                    <a class="btn btn-success pull-right" href="/accounts/login/?next=/ad/{{ item.slug }}">
+                                    <a class="btn btn-success pull-right" href="/accounts/login/?next={% url 'ad:detail' item.slug %}">
                                         <i class=""></i> Contactar
                                     </a>
                                 {% endif %}
@@ -268,7 +268,7 @@
                 }
 
                 function getError(err) {
-                    console.log("ERROR al intentar recuperar la ubicacion");
+                    toastr.error('Error al intentar recuperar la ubicacion');
                 }
             }
         </script>

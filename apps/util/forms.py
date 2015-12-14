@@ -48,7 +48,7 @@ class ContactForm(forms.Form):
         html_content = "Datos de contactos : contacto : "+ name + " email : " + email +  " mensaje : " + message
         msg = EmailMultiAlternatives('Contact by page Compraloahi',
                                           html_content,
-                                          'contacto@compraloahi.com.ar',
+                                          'notificacion@compraloahi.com.ar',
                                           [ 'contextinformatic@gmail.com'])
         msg.attach_alternative(html_content, 'text/html')
         msg.send()

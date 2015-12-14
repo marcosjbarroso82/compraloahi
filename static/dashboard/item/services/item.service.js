@@ -28,45 +28,27 @@
         return Items;
 
         function list(){
-            return $http.get('/api/v1/my-items/');
+            return $http.get('/api/v1/user-items/');
         }
 
         function detail(id){
-            return $http.get('/api/v1/my-items/' + id + '/');
+            return $http.get('/api/v1/user-items/' + id + '/');
         }
 
         function destroy(id){
-            return $http.delete('/api/v1/my-items/' + id + '/');
+            return $http.delete('/api/v1/user-items/' + id + '/');
         }
 
         function getCategories(){
             return $http.get('/api/v1/categories/');
         }
 
-        function create(item, images){
-             var fd = new FormData();
-            fd.append('data', angular.toJson(item));
-            angular.forEach(images, function (val, key) {
-                fd.append(key, val.file);
-            });
-            return $http.post('/api/v1/my-items/', fd, {
-                headers: {'Content-Type': undefined},
-                withCredentials: true,
-                transformRequest: angular.identity
-            });
+        function create(item){
+            return $http.post('/api/v1/user-items/', item);
         }
 
-        function update(item, images){
-            var fd = new FormData();
-            fd.append('data', angular.toJson(item));
-            angular.forEach(images, function (val, key) {
-                fd.append(key, val.file);
-            });
-            return $http.put('/api/v1/my-items/' + item.id + '/', fd, {
-                headers: {'Content-Type': undefined},
-                withCredentials: true,
-                transformRequest: angular.identity
-            });
+        function update(item){
+            return $http.put('/api/v1/user-items/' + item.id + '/', item);
         }
 
     }

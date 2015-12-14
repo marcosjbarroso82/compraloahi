@@ -9,6 +9,82 @@ class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
 
+
+class Base64ImageField(serializers.ImageField):
+    """
+    A Django REST framework field for handling image-uploads through raw post data.
+    It uses base64 for encoding and decoding the contents of the file.
+
+    Heavily based on
+    https://github.com/tomchristie/django-rest-framework/pull/1268
+
+    Updated for Django REST framework 3.
+    """
+
+    def to_internal_value(self, data):
+        from django.core.files.base import ContentFile
+        import base64
+        import six
+        import uuid
+
+        # Check if this is a base64 string
+        if isinstance(data, six.string_types):
+            # Check if the base64 string is in the "data:" format
+            if 'data:' in data and ';base64,' in data:
+                # Break out the header from the base64 content
+                header, data = data.split(';base64,')
+
+            # Try to decode the file. Return validation error if it fails.
+            try:
+                decoded_file = base64.b64decode(data)
+            except TypeError:
+                self.fail('invalid_image')
+
+            # Generate file name:
+            file_name = str(uuid.uuid4())[:12] # 12 characters are more than enough.
+            # Get the file name extension:
+            file_extension = self.get_file_extension(file_name, decoded_file)
+
+            complete_file_name = "%s.%s" % (file_name, file_extension, )
+
+            data = ContentFile(decoded_file, name=complete_file_name)
+
+        return super(Base64ImageField, self).to_internal_value(data)
+
+    def get_file_extension(self, file_name, decoded_file):
+        import imghdr
+
+        extension = imghdr.what(file_name, decoded_file)
+        extension = "jpg" if extension == "jpeg" else extension
+
+        return extension
+
+
+class ImageSerializer(serializers.ModelSerializer):
+    image = Base64ImageField(max_length=None, use_url=True,)
+    thumbnail_110x110 = serializers.SerializerMethodField()
+
+    def __init__(self, *args, **kwargs):
+        super(ImageSerializer, self).__init__(*args, **kwargs)
+        action = self.context['view'].action
+        if not action == 'create' and not action == 'update':
+            self.fields['image'].read_only = True
+
+        if action != 'create':
+            self.fields['ad'].read_only = True
+
+    def get_thumbnail_110x110(self, obj):
+        try:
+            return get_thumbnail(obj.image, '110x110', crop='center', quality=99).url
+        except:
+            return ""
+
+    class Meta:
+        model = AdImage
+        fields = ('image', 'id', 'ad', 'default', 'thumbnail_110x110')
+        read_only_fields = ('id',)
+
+
 class AdImageSerializer(serializers.ModelSerializer):
     thumbnail_110x110 = serializers.SerializerMethodField()
     thumbnail_800x800 = serializers.SerializerMethodField()
@@ -16,7 +92,7 @@ class AdImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = AdImage
         #fields = ('title',)
-        exclude = ('ad_id' , )
+        #exclude = ('ad' , )
 
     def get_thumbnail_110x110(self, obj):
         try:
@@ -58,10 +134,21 @@ class AdSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Ad
+        fields = ('id', 'images', 'title', 'body', 'status', 'pub_date', 'price', 'slug', 'short_description',
+                  'author', 'categories', 'locations', 'is_favorite', 'status')
+        #exclude = ('author', 'created', 'modified',)
+        read_only_fields = ('pub_date', 'id', 'pub_date', 'slug', 'tags', 'author', 'status')
 
     def get_is_favorite(self, obj):
         request = self.context.get('request', None)
         return obj.is_favorite(request.user)
+
+    def __init__(self, *args, **kwargs):
+        super(AdSerializer, self).__init__(*args, **kwargs)
+        action = self.context['view'].action
+
+        if action == 'create':
+            self.fields.pop('status')
 
 
 class AdPublicSerializer(serializers.ModelSerializer):
@@ -105,27 +192,28 @@ class AdsSearchSerializer(serializers.Serializer):
     image = serializers.SerializerMethodField()
 
     def get_center(self, obj):
-        location = AdLocation.objects.filter(ad=obj.object).first()
+        location = AdLocation.objects.filter(ad=obj.pk).first()
         center = {}
         center['lat'] = location.lat
         center['lng'] = location.lng
         return center
 
     def get_images(self, obj):
-        return AdImageSerializer(AdImage.objects.filter(ad_id=obj.object), many=True).data
+        return AdImageSerializer(AdImage.objects.filter(ad=obj.pk), many=True).data
 
     def get_image(self, obj):
-        return AdImageSerializer(AdImage.objects.filter(ad_id=obj.object).first()).data['thumbnail_110x110']
+        return AdImageSerializer(AdImage.objects.filter(ad=obj.pk).first()).data['thumbnail_110x110']
 
     def get_is_favorite(self, obj):
         request = self.context.get('request', None)
         if request is not None:
            if request.user.is_authenticated():
-               return obj.object.is_favorite(request.user)
+               return Ad.objects.get(pk=obj.pk).is_favorite(request.user)
            else:
                return False
         else:
             return False
+
 
 class SearchResultSerializer(serializers.Serializer):
     facets = serializers.ListField()

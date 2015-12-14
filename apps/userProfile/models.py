@@ -3,7 +3,6 @@ from django.contrib.auth.models import User
 from django.dispatch import receiver
 from django.db.models.signals import post_save
 from django.core.exceptions import ValidationError
-from apps.ad.models import Ad
 from django_pgjson.fields import JsonField
 import urllib.request
 import json
@@ -44,8 +43,6 @@ class UserProfile(models.Model):
 
     def save(self, *args, **kwargs):
         obj = super(UserProfile, self).save(*args, **kwargs)
-        print(30*"==change_privacity==")
-        print(self.change_privacity())
         if self.change_privacity():
             self.locations.filter(is_address=True).first().save()
 
@@ -126,16 +123,9 @@ class UserLocation(models.Model):
 def user_location_post_save(sender, *args, **kwargs):
     loc = kwargs['instance']
     if loc.is_address:
-        #if loc.is_address: # TODO: Warning, when save this with default and fail, all location has default false
-        for ad in Ad.objects.filter(author=loc.userProfile.user): #.prefetch_related('locations'):
-            ad_loc = ad.locations.first() # TODO: Cuando un aviso tenga la posibilidad de tener mas de una ubicacion, esta query deja de servir
-            if ad_loc:
-                ad_loc.save(loc=loc, can_show=loc.userProfile.get_can_show_location())
-
         for location in UserLocation.objects.filter(is_address=True, userProfile=loc.userProfile).exclude(pk=loc.pk):
             location.is_address = False
             location.save()
-
 
 
 COLUMNS_STORE = (

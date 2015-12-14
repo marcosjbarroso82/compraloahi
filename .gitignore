@@ -1,3 +1,6 @@
+/compraloahi/whoosh_index
+migrations
+/compraloahi/media
 /compraloahi.log
 # Python bytecode
 *.py[co]
