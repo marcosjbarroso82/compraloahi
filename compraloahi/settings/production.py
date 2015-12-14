@@ -35,5 +35,20 @@ CELERYBEAT_SCHEDULE = {
         'schedule': crontab(minute=0, hour=0),
 
     },
+    'backup_profile_media': {
+        # 'task': 'tasks.debug_task',
+        'task': 'compraloahi.tasks.backup_profile_media',
+        # 'task': 'compraloahi.celery.debug_task',
+        # 'schedule': timedelta(seconds=5),
+        'schedule': crontab(minute=0, hour=0),
+    },
+    'backup_ad_media': {
+        # 'task': 'tasks.debug_task',
+        'task': 'compraloahi.tasks.backup_ad_media',
+        # 'task': 'compraloahi.celery.debug_task',
+        # 'schedule': timedelta(seconds=5),
+        'schedule': crontab(minute=0, hour=0),
+    },
+
 }
 CELERY_TIMEZONE = 'UTC'
