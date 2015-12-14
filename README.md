@@ -57,3 +57,15 @@ Run migrate:
  manage.py migrate sites
  manage.py migrate auth
  manage.py migrate
+
+Compilar archivos minimificados
+
+Instalar:
+npm install --save gulp-concat-css
+npm install --save gulp-minify-css
+npm install --save gulp-concat
+npm install --save gulp-notify
+npm install --save gulp-uglify
+
+Correr:
+gulp js-dashboard-app

@@ -1,8 +1,9 @@
 #!/bin/bash
-ENVNAME=enviroment                                                   # Name of virtualenv
-DJANGODIR=/webapps/owncommerce/owncommerce
-USER=owncommerce                                                                # the user to run as
-DJANGO_SETTINGS_MODULE=owncommerce.settings.custom                    # which settings file should Django use
+ENVNAME=env_compraloahi                                                   # Name of virtualenv
+DJANGODIR=/webapps/compraloahi/compraloahi
+USER=compraloahi                                                                # the user to run as
+GROUP=webapps                                                                   # the group to run as
+DJANGO_SETTINGS_MODULE=compraloahi.settings.production                    # which settings file should Django use
 
 # Activate the virtual environment
 cd $DJANGODIR
@@ -12,5 +13,5 @@ export PYTHONPATH=$DJANGODIR:$PYTHONPATH
       
 # Start your Django Unicorn
 # Programs meant to be run under supervisor should not daemonize themselves (do not use --daemon)
-exec celery -A owncommerce beat
+exec celery -A compraloahi beat
 
