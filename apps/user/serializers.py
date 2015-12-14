@@ -42,7 +42,7 @@ class UserAuthenticationSerializer(serializers.ModelSerializer):
         return Msg.objects.filter(recipient=obj.id, read_at=None).count()
 
     def get_notification_unread(self, obj):
-        return Notification.objects.filter(receiver=obj.id, read=None).count()
+        return Notification.objects.filter(receiver=obj.id, read=None, type='cmmt').count()
 
     def get_profile(self, obj):
         return ProfileSerializer(instance=obj.profile).data
