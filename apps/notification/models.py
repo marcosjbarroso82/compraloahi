@@ -133,11 +133,11 @@ def notification_post_save(sender, *args, **kwargs):
             except:
                 print("Error al intentar enviar alerta")
 
-        if config and config.has_perm(notification.type, 'email'):
+        if config and config.has_perm(notification.type, 'email') and notification.receiver.email:
             print("Enviando email.....")
             url = notification.get_url()
             if url:
-                html_content = notification.message + "\b" + "Ingresa a el siguiente link para ver la notificacion http://compraloahi.com.ar" + url
+                html_content = notification.message + "\b" + "Ingresa a el siguiente link para ver el detalle http://compraloahi.com.ar" + url
             else:
                 html_content = notification.message
             msg = EmailMultiAlternatives('Compraloahi - Notifications',
@@ -172,3 +172,17 @@ def handle_xtd_comment_post_save(sender, *args, **kwargs):
                      extras={"comment": str(comment), "url": url, "ad": comment.object_pk }).save()
 
 
+from apps.msg.models import Msg
+
+@receiver(post_save, sender=Msg)
+def msg_post_save(sender, *args, **kwargs):
+    if(kwargs['created']):
+        msg = kwargs['instance']
+        if msg.thread:
+            thread = msg.thread.id
+        else:
+            thread = msg.id
+        url = '/panel/mensajes/hilo/' + str(thread)
+
+        Notification(receiver=msg.recipient, type='msg', message="Tiene un nuevo mensaje",
+                     extras={ "url": url, "thread": thread, 'id': msg.id }).save()
