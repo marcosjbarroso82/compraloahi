@@ -137,7 +137,7 @@ def notification_post_save(sender, *args, **kwargs):
             print("Enviando email.....")
             url = notification.get_url()
             if url:
-                html_content = notification.message + "\b" + "Ingresa a el siguiente link para ver la notificacion http://compraloahi.com.ar" + url
+                html_content = notification.message + "\b" + "Ingresa a el siguiente link para ver el detalle http://compraloahi.com.ar" + url
             else:
                 html_content = notification.message
             msg = EmailMultiAlternatives('Compraloahi - Notifications',
