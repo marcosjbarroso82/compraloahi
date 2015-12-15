@@ -19,6 +19,7 @@ urlpatterns = patterns('',
                        url('^interested/$', RegisterInterested.as_view(), name='interested-app'),
                        url('^dynamic-message/$', TemplateMessage.as_view(), name='dynamic-message'),
                        url(r'^face/$', 'apps.util.views.register_count_whered', {'whered': 'facebook'}),
+                       url(r'^info/$', 'apps.util.views.register_count_whered', {'whered': 'folleto1'}),
                        url(r'^contactenos/$', ContactFormView.as_view(), name='contact'),
 
                        # TODO : This url belong to api

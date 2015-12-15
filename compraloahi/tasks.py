@@ -14,3 +14,26 @@ def backup():
     # print(cmd)
     r = subprocess.call(cmd, shell=True)
 
+@app.task
+@shared_task
+def backup_profile_media():
+    cmd = "tar -czvf " + settings.BACKUP_FOLDER  + "/media/profile/profile-" \
+          + datetime.datetime.now().strftime("%y-%m-%d-%H:%M:%S") + ".tgz " \
+          + "--directory=" + settings.MEDIA_ROOT + " profile"
+    r = subprocess.call(cmd, shell=True)
+
+@app.task
+@shared_task
+def backup_ad_media():
+    cmd = "tar -czvf " + settings.BACKUP_FOLDER  + "/media/ad/ad-" \
+          + datetime.datetime.now().strftime("%y-%m-%d-%H:%M:%S") + ".tgz " \
+          + "--directory=" + settings.MEDIA_ROOT + " ad"
+    r = subprocess.call(cmd, shell=True)
+
+
+@app.task
+@shared_task
+def update_index():
+    cmd = "./manage.py update_index --remove"
+    r = subprocess.call(cmd, shell=True)
+

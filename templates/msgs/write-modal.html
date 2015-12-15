@@ -33,7 +33,7 @@
 <script>
     $('#submitMessage').click(function(){
         var body = $('#id_body').val();
-        var subject = body.slice(1, 25) + "...";
+        var subject = body.slice(0, 25) + "...";
         var item_id = item.id;
 
         $.ajax({

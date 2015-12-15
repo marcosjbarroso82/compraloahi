@@ -1,9 +1,4 @@
 {% extends 'layout/base.html' %}
-{% block title %}Aviso {{ ad.title }}{% endblock %}
-
-
-{% block js_header_block %}
-{% endblock %}
 
 {% block css_header_block %}
     <link rel="stylesheet" href="{{ STATIC_URL }}css/less/base.css" >
@@ -13,13 +8,13 @@
     <div class="col-md-4 center">
         <h1 class="text-xxl text-primary text-center">404</h1>
         <div class="details">
-            <h3>Oops ! Something went wrong</h3>
+            <h3>Oops ! Algo salio mal</h3>
             <p>
-                We can't find the page you're looking for.
+                No hemos podido encontrar la página que estás buscando.
                 {% if user.is_authenticated %}
-                   Go your <a href="/panel/">Panel</a> or search.
+                   Ir al <a href="/panel/">Panel</a> o buscar.
                 {% else %}
-                    Search.
+                    Buscar.
                 {% endif %}
             </p>
         </div>
