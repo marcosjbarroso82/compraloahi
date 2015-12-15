@@ -30,3 +30,10 @@ def backup_ad_media():
           + "--directory=" + settings.MEDIA_ROOT + " ad"
     r = subprocess.call(cmd, shell=True)
 
+
+@app.task
+@shared_task
+def update_index():
+    cmd = "./manage.py update_index --remove"
+    r = subprocess.call(cmd, shell=True)
+

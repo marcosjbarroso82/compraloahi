@@ -28,26 +28,24 @@ BACKUP_FOLDER = os.path.join(PROJECT_ROOT, 'backups')
 
 CELERYBEAT_SCHEDULE = {
     'backup': {
-        # 'task': 'tasks.debug_task',
         'task': 'compraloahi.tasks.backup',
-        # 'task': 'compraloahi.celery.debug_task',
         # 'schedule': timedelta(seconds=5),
         'schedule': crontab(minute=0, hour=0),
 
     },
     'backup_profile_media': {
-        # 'task': 'tasks.debug_task',
         'task': 'compraloahi.tasks.backup_profile_media',
-        # 'task': 'compraloahi.celery.debug_task',
         # 'schedule': timedelta(seconds=5),
         'schedule': crontab(minute=0, hour=0),
     },
     'backup_ad_media': {
-        # 'task': 'tasks.debug_task',
         'task': 'compraloahi.tasks.backup_ad_media',
-        # 'task': 'compraloahi.celery.debug_task',
         # 'schedule': timedelta(seconds=5),
         'schedule': crontab(minute=0, hour=0),
+    },
+    'update_index': {
+        'task': 'compraloahi.tasks.update_index',
+        'schedule': timedelta(hours=1),
     },
 
 }
