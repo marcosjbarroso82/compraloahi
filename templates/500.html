@@ -18,7 +18,7 @@
                 {% endif %}
             </p>
         </div>
-        <form action="/ad/search/" method="GET">
+        <form action="{% url 'ad:search-facet' %}" method="GET">
             <div class="input-group">
                 <input type="text" name="q" class="form-control search-input" placeholder="Encontra muy cerca lo que buscas...">
                             <span class="input-group-btn">
