@@ -52,6 +52,7 @@ var debug = {};
         }
 
         vm.reply = function(){
+            vm.msgReply.subject = String(vm.msgReply.body).slice(0, 25) + "...";
             Message.reply(vm.msgReply, vm.message_id)
                 .then(replySuccess, replyError);
 
