@@ -87,6 +87,7 @@ class ImageSerializer(serializers.ModelSerializer):
 
 class AdImageSerializer(serializers.ModelSerializer):
     thumbnail_110x110 = serializers.SerializerMethodField()
+    thumbnail_300x300 = serializers.SerializerMethodField()
     thumbnail_800x800 = serializers.SerializerMethodField()
 
     class Meta:
@@ -97,6 +98,12 @@ class AdImageSerializer(serializers.ModelSerializer):
     def get_thumbnail_110x110(self, obj):
         try:
             return get_thumbnail(obj.image, '110x110', crop='center', quality=99).url
+        except:
+            return ""
+
+    def get_thumbnail_300x300(self, obj):
+        try:
+            return get_thumbnail(obj.image, '300x300', crop='center', quality=99).url
         except:
             return ""
 
