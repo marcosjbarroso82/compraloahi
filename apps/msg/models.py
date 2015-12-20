@@ -4,6 +4,9 @@ from django.utils.translation import ugettext as _
 from django.contrib.contenttypes import generic
 from django.conf import settings
 from datetime import datetime
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
 
 import datetime
 # moderation constants
@@ -131,3 +134,13 @@ class Msg(models.Model):
         elif value in self.FALSE_VALUES:
             self.recipient_deleted_at = None
             self.save()
+
+
+@receiver(post_save, sender=Msg)
+def msg_check_thread_post_save(sender, *args, **kwargs):
+    if(kwargs['created']):
+        msg = kwargs['instance']
+        # TODO: This resolve problem with get the last message by thread on inbox.
+        if not msg.thread:
+            msg.thread = msg
+            msg.save()

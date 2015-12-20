@@ -184,5 +184,6 @@ def msg_post_save(sender, *args, **kwargs):
             thread = msg.id
         url = '/panel/mensajes/hilo/' + str(thread)
 
-        Notification(receiver=msg.recipient, type='msg', message="Tiene un nuevo mensaje",
-                     extras={ "url": url, "thread": thread, 'id': msg.id }).save()
+        if msg.recipient:
+            Notification(receiver=msg.recipient, type='msg', message="Tiene un nuevo mensaje",
+                         extras={ "url": url, "thread": thread, 'id': msg.id }).save()

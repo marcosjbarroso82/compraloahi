@@ -136,11 +136,11 @@ class MsgViewSet(viewsets.ModelViewSet):
     @list_route(methods=['get'])
     def inbox(self, request):
         #inbox = Msg.objects.all().filter(recipient=request.user, recipient_deleted_at__isnull=True, thread__isnull=False)
-        inbox = Msg.objects.filter(recipient=request.user, recipient_deleted_at__isnull=True, thread__isnull=False).order_by('msg_child_messages__pk', 'sent_at').distinct('msg_child_messages__pk')
-        msgs_without_thread = Msg.objects.filter(recipient=request.user, recipient_deleted_at__isnull=True, thread__isnull=True).exclude(id=inbox.values_list('thread__id'))
+        inbox = Msg.objects.filter(recipient=request.user, recipient_deleted_at__isnull=True, thread__isnull=False).order_by('thread__pk', '-sent_at').distinct('thread__pk')
+        #msgs_without_thread = Msg.objects.filter(recipient=request.user, recipient_deleted_at__isnull=True, thread__isnull=True).exclude(id=inbox.values_list('thread__id'))
         # TODO: Se resuelve el problema de ordenarlo por fecha en el cliente.
-        from itertools import chain
-        results = list(chain(msgs_without_thread, inbox))
+        #from itertools import chain
+        #results = list(chain(msgs_without_thread, inbox))
         #from django.db.models import Q
         #msgs_without_thread = Msg.objects.filter(recipient=request.user, recipient_deleted_at__isnull=True, thread__isnull=True).values_list('id')
         #print(30*"MMMMMMMMMMM")
@@ -155,7 +155,7 @@ class MsgViewSet(viewsets.ModelViewSet):
         #print(res2)
         #from itertools import chain
         #results = list(chain(res, res2))
-        page = self.paginate_queryset(results)
+        page = self.paginate_queryset(inbox)
         if page is not None:
             serializer = self.get_serializer(page, many=True)
             return self.get_paginated_response(serializer.data)

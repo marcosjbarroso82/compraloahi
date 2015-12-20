@@ -3,7 +3,7 @@ from rest_framework import serializers
 
 
 class MsgSerializer(serializers.ModelSerializer):
-    is_new = serializers.BooleanField(required=False)
+    is_new = serializers.SerializerMethodField()
     sender_deleted = serializers.BooleanField(required=False)
     recipient_deleted = serializers.BooleanField(required=False)
     is_replied = serializers.BooleanField(read_only=True)
@@ -55,3 +55,14 @@ class MsgSerializer(serializers.ModelSerializer):
 
         for field_name in not_allowed_to_show:
             self.fields.pop(field_name)
+
+    def get_is_new(self, obj):
+        request = self.context.get('request', None)
+        if request is not None:
+            # TODO: Resuelve el problema de cuando se accede a un trhread el usuario que envio el mensaje no debe saber
+            # si el mensaje es nuevo, osea, el mensaje esta leido o no leido. En el caso que el sender entra al detalle
+            # del mensaje el atributo is_new es False
+            if request.user == obj.sender:
+                return False
+            else:
+                return obj.is_new
