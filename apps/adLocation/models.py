@@ -42,7 +42,7 @@ class AdLocation(models.Model):
 
 
     def save(self, loc, can_show, *args, **kwargs):
-        self.address = self.address
+        self.address = loc.address
 
         if not can_show: # TODO: Ofusca ubicacion
             min_random = 0.00000300
