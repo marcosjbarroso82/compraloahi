@@ -32,6 +32,9 @@ logger = logging.getLogger('debug')
 
 # Devolver un diccionario de filtros activos y un array de facets detallados
 def get_facet(params_url, facets_fields):
+    print(30*"==FACET==")
+    print(params_url)
+    print(facets_fields)
     # Var to all facets active
     facets_active = {}
     # Var to all facets
@@ -60,11 +63,17 @@ def get_facet(params_url, facets_fields):
             val['name'] = value[0]
             val['cant'] = value[1]
             val['activated'] = False
+
             if not facet['activated'] and facet_active.get('value', None):
                 if val['name'] == facet_active['value']:
                     facets_active[facet_active['name']] = facet_active['value']
                     facet['activated'] = True
                     val['activated'] = True
+                    if facet['name'] == 'categories':
+                        try:
+                            val['label'] = Category.objects.get(slug=val['name']).name
+                        except:
+                            val['label'] = val['name']
 
             facet['values'].append(val)
 
@@ -88,32 +97,35 @@ class SearchViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
 
         distance = None
         try:
-            for k,v in self.request.QUERY_PARAMS.items():
+            for k,v in self.request.query_params.items():
                 if k in D.UNITS.keys():
                     distance = {k:v}
 
         except Exception as e:
             logging.error(e)
 
-
-
         point = None
 
+        #import pdb; pdb.set_trace()
         try:
-            point = Point(float(self.request.QUERY_PARAMS['lng']), float(self.request.QUERY_PARAMS['lat']))
+            print(30*"LAT===")
+            print(float(self.request.query_params['lat']))
+            print(30*"=LNG=")
+            print(float(self.request.query_params['lng']))
+            point = Point(float(self.request.query_params['lng']), float(self.request.query_params['lat']))
         except Exception as e:
             logging.error(e)
 
+        #import ipdb; ipdb.set_trace()
         if distance and point:
             qs = qs or SearchQuerySet()
             qs = qs.dwithin('location', point, D(**distance)).distance('location', point)
 
-
         try:
-            if self.request.QUERY_PARAMS.get('w') and self.request.QUERY_PARAMS.get('s')\
-                    and self.request.QUERY_PARAMS.get('n') and self.request.QUERY_PARAMS.get('e'):
-                bottom_left = Point( float( self.request.QUERY_PARAMS['w'] ), float( self.request.QUERY_PARAMS['s']) )
-                top_right = Point( float(self.request.QUERY_PARAMS['e']), float( self.request.QUERY_PARAMS['n']) )
+            if self.request.query_params.get('w') and self.request.query_params.get('s')\
+                    and self.request.query_params.get('n') and self.request.query_params.get('e'):
+                bottom_left = Point( float( self.request.query_params['w'] ), float( self.request.query_params['s']) )
+                top_right = Point( float(self.request.query_params['e']), float( self.request.query_params['n']) )
                 qs = qs.within('location', bottom_left, top_right)
             #else:
         except:

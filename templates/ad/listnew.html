@@ -1,0 +1,383 @@
+{% extends 'layout/base.html' %}
+{% block title %}Lista de avisos {% endblock %}
+{% load thumbnail %}
+{% load common_tags %}
+{% load staticfiles %}
+
+{% block css_header_block %}
+    <base href="/item/search/">
+    <link rel="stylesheet" type="text/css" href="{% static 'production/search/concat.css' %}">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'bower_components/ngDialog/css/ngDialog.min.css' %}" />
+
+    <link rel="stylesheet" type="text/css" href="{% static 'bower_components/ngDialog/css/ngDialog-theme-plain.min.css' %}" />
+
+{% endblock %}
+
+{% block angular_app_declare_block %}
+    ng-controller="ItemCtrl as vm"
+    cg-busy="itemPromise"
+{% endblock %}
+
+{% block search_nav  %}
+
+    <form class="search-form" >
+        <div class="input-group">
+            <input type="text" name="q" ng-model="vm.params_search.q" ng-enter="vm.refreshResults()" class="search-input" placeholder="Busca productos y servicios cerca">
+            <span class="input-group-btn">
+                <button class="btn btn-default close-search " ng-click="vm.refreshResults()" type="button"><i class="fa fa-search"></i></button>
+            </span>
+        </div>
+    </form><!-- Search Form -->
+
+{% endblock %}
+
+
+
+{% block body_block %}
+
+    {% verbatim %}
+    <div id="loading" style="display: block;">
+        <i class="fa fa-spinner fa-pulse fa-2x loading-spinner"></i>
+    </div>
+
+    <div id="page-items-list" class="item-list" style="display: none;">
+
+    <!-- ########################## MAP ########################## -->
+
+    <div class="angular-map-container col-md-7" id="map-container">
+
+
+        <!-- ########################## SECTION DATA FILTER MAP ########################## -->
+        <section id="data-filter-map" style="height: 0px;" class="row">
+
+            <!-- ########################## FORM LOCATION INF ########################## -->
+            <div id="data-position-form" ng-init="vm.flag_custom_radius = false;" >
+                <!-- ADDRESS  GOOGLE PLACES-->
+                <google-places location="location_search_places" map="map" ></google-places>
+
+                <!-- RADIUS -->
+                <div class="range range-success" ng-show="vm.flag_custom_radius">
+                    <input id="map_radius" class="col-md-8" type="range" name="map_radius" min="10000" max="900000" ng-model="radius" ng-change="vm.changeRangeSearch(radius)">
+                </div>
+
+                <div class="pull-right" style="width: 20%">
+                    <div  ng-show="vm.flag_custom_radius" class="form-inline">
+                        <!--<label class="label-dist" for="range">Distancia :</label>-->
+                        <output id="range" class="form-control">{{ radius/10000| number:0 }}</output>
+                        <label class="label-dist">Cuadras</label>
+                    </div>
+                </div>
+
+
+                <div style="width: 77%" class="pull-left">
+
+                    <div id="flag-custom-location" >
+                        <input type="checkbox" ng-model="vm.flag_custom_radius" ng-change="vm.changeFlagCustomRadius(radius)"/>
+                        <label for="">Distancia avanzada</label>
+                    </div>
+                    {% endverbatim %}
+
+                    <button class="btn btn-xs btn-tools btn-refresh pull-right"
+                            tooltip="'Actualizar resultados'"
+                            placement="top"
+
+                            ng-click="vm.refreshResults()">
+                        <!--ng-show="vm.search_location.changed || vm.search_location.changed_bounds" TODO: Verificar porq Siembre es true-->
+                        <i class="fa fa-refresh"></i>
+                    </button>
+
+                    <button class="btn btn-xs btn-tools btn-data-position pull-right"
+                            tooltip="'Buscar en mi ubicacion actual'"
+                            placement="top"
+                            ng-click="vm.setGeoLocation()"
+                            >
+                        <i class="fa fa-crosshairs"></i>
+                    </button>
+
+                    {% if user.is_authenticated %}
+                        {% verbatim %}
+                        <!-- ########################## USER LOCATIONS ########################## -->
+                        <div class="btn-group  dropdown">
+                            <a class="btn btn-xs btn-tools btn-user-locations dropdown-toggle waves-effect waves-button waves-classic" data-toggle="dropdown">
+                                <i class="fa fa-list-ul"> </i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-list user-location-list" role="menu" >
+                                <li><h4>Mis ubicaciones:</h4></li>
+                                <li role="presentation" ng-repeat="user_location in vm.user_locations" for="{{::user_location}}" >
+                                    <input type="radio"
+                                           name="{{::user_location}}"
+                                           ng-model="vm.user_location_selected"
+                                           ng-value="user_location"
+                                           id="{{::user_location}}">
+                                    <label for="{{::user_location}}">{{ user_location.title }}</label>
+                                </li>
+                                <li role="presentation" ng-if="vm.user_locations.length == 0">No tienes ubicaciones guardadas.</li>
+                            </ul>
+                        </div>
+                        <!-- ########################## END USER LOCATIONS ########################## -->
+
+                        <!-- ########################## SAVE NEW LOCATION ########################## -->
+
+                        <!-- BUTTON SAVE NEW LOCATION -->
+                        <button data-toggle="modal"
+                                class="btn btn-xs btn-tools btn-data-position pull-right"
+                                data-target="#modalNewLocation"
+                                tooltip="'Guarda la ubicacion'"
+                                >
+                            <i class="fa fa-floppy-o"></i>
+                        </button>
+
+                        <!-- END MODAL SAVE NEW LOCATION -->
+                        <!-- ########################## END SAVE NEW LOCATION ########################## -->
+                        {% endverbatim %}
+                    {% endif %}
+                </div>
+            </div>
+            <!-- END DATA POSITION FORM -->
+
+            <!-- ########################## FILTER FACET ########################## -->
+            {% verbatim %}
+            <div class="pull-right">
+                <!-- BUTTON FACET -->
+                <div class="dropdown">
+                    <a id="btn-filter-facet" class="btn btn-success dropdown-toggle waves-effect waves-button waves-classic" data-toggle="dropdown">
+                        <i class="glyphicon glyphicon-filter"></i>  Filtros <span class="caret"></span>
+                    </a>
+                    <!-- LIST FACET -->
+                    <ul class="dropdown-menu dropdown-list" role="menu" id="modalFilterFacet">
+                        <li ng-repeat="facet in vm.facets" ng-if="!facet.activated" id="list-facet">
+                            <h5>{{ facet.name }}</h5>
+                            <ul>
+                                <li  ng-repeat="value in facet.values" ng-click="vm.changeFacet(facet, value, true)">
+                                    {{ value.name }}<span class="badge {{ value.name }}">{{ value.cant }}</span>
+                                </li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+            {% endverbatim %}
+            <!-- ########################## END FILTER FACET ########################## -->
+
+            <!-- ########################## BTN ACTIVE FILTER FACET ########################## -->
+            <ul id="list-filters-active">
+                {% verbatim %}
+                <li class="" ng-repeat="facet in vm.facets" ng-if="facet.activated" >
+                    <div class="active-filter {{ value.name }}"  ng-if="value.activated" ng-repeat="value in facet.values">
+                        <span>{{ value.label }}</span>
+                        <a ng-click="vm.changeFacet(facet, value, false)"> <i class="btn btn-xs glyphicon glyphicon-remove" id="btn-remove-filter"></i> </a>
+                    </div>
+                </li>
+                {% endverbatim %}
+            </ul>
+            <!-- ########################## END SECTION DATA FILTER MAP ########################## -->
+        </section>
+
+
+        <leaflet id="searchMap" center="vm.map.center" defaults="vm.map.defaults" bounds="vm.map.bounds" event-broadcast="vm.map.events" markers="vm.map.markers" width="100%" height="100%">
+
+        </leaflet>
+        <div class="footer_map">
+            <div class="form-inline">
+                <input type="checkbox" style="margin-top: 0px;" ng-model="vm.refresh_result_on_move" name="change_on_move" id="change_on_move" class="form-control"/>
+                <label for="change_on_move">Actualizar resultados al moverse</label>
+            </div>
+        </div>
+    </div>
+    <!-- ########################## END MAP ########################## -->
+
+    <!-- ########################## CONTAINER ADs LIST ########################## -->
+    {% verbatim %}
+    <div id="container-item-list" class="col-md-5">
+        <div id="header-list" class="col-md-12">
+            <!--<button type="button" id="btn-collapse" class="btn" ng-click="vm.collapsabled = !vm.collapsabled; vm.map.instance.invalidateSize();"> <i class="glyphicon " ng-class="{'glyphicon-chevron-left': vm.collapsabled, 'glyphicon-chevron-right': !vm.collapsabled}"></i> </button>-->
+            <p>Mostrando {{ vm.items.length }} de {{ vm.item_count }} resultados.</p>
+            <div class="form-inline order-by-container">
+                <label for="order_by">Ordenar por</label>
+                <select
+                        ng-change="vm.refreshResults()"
+                        ng-model="vm.selected_ordering"
+                        ng-options="ordering.name for ordering in vm.orderings"
+                        class="form-control">
+                    <option value="">Sin ordenar</option>
+                </select>
+            </div>
+        </div>
+
+        <div id="container-items" style="display: block; overflow-y: auto; max-height: 90%; position: relative; width: 100%" >
+            <div id="item-list" class="col-md-12" >
+
+                <!-- Items LIST -->
+                <div class="col-md-12 item-items-list"
+                     ng-if="vm.items.length > 0"
+                     ng-repeat="item in vm.items track by item.id"
+                     ng-mouseenter="vm.selectItem(item)"
+                     ng-mouseleave="vm.deselectItem(item)"
+                     ng-class="{'items-list-item-hover': item.selected == true}">
+
+                    <div class="container-img col-md-3" >
+                        <a id="item-anchor-{{ item.id }}"></a> <!-- This tag is used for animation, It could be replaced -->
+                        <!-- TODO: Add directive "imageonload" on img element -->
+                        <a href="/item/{{ item.slug }}">
+                            <img class="img-responsive"
+                                 ng-src="{{ item.image }}">
+                        </a>
+
+                    </div>
+
+                    <div class="col-md-8 container-text">
+
+                        <a href="/item/{{ item.slug }}" ><h4 >{{ item.title }}</h4></a>
+                        <small> Publicado el {{ item.pub_date }} </small>
+                        <p> {{ item.short_description }} </p>
+                        <i class="fa fa-2x favit" ng-click="vm.toggleFavorite(item)" ng-class="{'fa-heart': item.is_favorite, 'fa-heart-o': !item.is_favorite}"></i>
+                    </div>
+                    <span class="price-items-list pull-right">${{ item.price }}<sup>99</sup></span>
+                    <a class="locate-it btn {{ item.category }}" ng-click="vm.centerMap(item.center)" >
+                        <img src="/static/image/mira.png" class="locate-it-mira" alt="" width="30px" style="position: absolute; top: -1px; right: -1px;"/>
+                        <span style="font-size: 20px; color: white;">{{ $index + 1 }}</span>
+                    </a>
+                </div>
+                <div class="col-md-12" ng-show="vm.items.length == 0">
+                    <p>No hay avisos con los en la ubicacion elegida..</p>
+                </div>
+
+            </div>
+
+            <!-- PAGINATION Items LIST -->
+            <ul class="pagination col-md-12" id="pagination" class="col-md-12 row">
+                <li class="pull-right"><a ng-disabled="!vm.page_next" ng-click="vm.getItemsByPage(vm.page_next)" class="btn btn-default">Pagina siguiente {{ next_page }} <i class="glyphicon glyphicon-chevron-right"></i>  </a></li>
+                <li  class="pull-left"><a ng-disabled="!vm.page_previous" ng-click="vm.getItemsByPage(vm.page_previous)" class="btn btn-default"> <i class="glyphicon glyphicon-chevron-left"></i> Pagina anterior {{ prev_page }}</a></li>
+            </ul>
+        </div>
+        {% endverbatim %}
+
+
+    </div>
+    <!-- ########################## END CONTAINER Items LIST ########################## -->
+
+    <!-- END content -->
+    </div>
+
+    {% if user.is_authenticated %}
+        {% verbatim %}
+        <!-- MODAL SAVE NEW LOCATION -->
+        <div class="modal" id="modalNewLocation">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times"></i></button>
+                        <h4 class="modal-title">Guardar Ubicacion</h4>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Address -->
+                        <div class="form-group">
+                            <label>Nombre :</label>
+                            <input id="search_location_name"  class="form-control" type="text"
+                                   placeholder="Ingrese el nombre de la ubicación"
+                                   ng-model="vm.search_location.title" />
+
+                        </div>
+                        <div class="form group">
+                            <label for="">Datos de la ubicacion</label>
+                            <ul>
+                                <li><strong>Latitude: </strong> {{ vm.current_location.lat }}</li>
+                                <li><strong>Longitude: </strong> {{ vm.current_location.lng }}</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button ng-click="vm.submitNewLocation()" type="submit" class="btn btn-primary pull-right">
+                            <i class="fa fa-save"></i> Guardar
+                        </button>
+                        <button data-dismiss="modal" class="btn btn-warning pull-right">
+                            <i class="fa fa-times"></i> Cancelar
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        {% endverbatim %}
+    {% endif %}
+    <div class="snackbar-container" data-snackbar="true"></div>
+    <!-- END BLOCK BODY -->
+{% endblock %}
+
+{% load jsonify %}
+
+{% block js_footer_block %}
+    <script>
+        var csrf = "{{ csrf_token }}";
+        // Set user locations
+        var user_locations = [
+            {% for user_location in user_locations %}
+                {% if not forloop.first %},{% endif %}
+                {
+                    pk:{{ user_location.pk }},
+                    title:"{{ user_location.title }}",
+                    lat: {{ user_location.lat|safe }},
+                    lng:{{ user_location.lng|safe }} ,
+                    radius:{{ user_location.radius }}
+                }
+            {% endfor %}  ];
+
+        /**
+         * Loading when init app.
+         */
+        $( document ).ready(function() {
+            $("#loading").css('display', 'none');
+            $("#page-items-list").css('display', 'block');
+
+        });
+    </script>
+
+    <!-- ###################### IMPORT THIRD LIB ###################### -->
+
+    <!-- google mapp -->
+    <script type="text/javascript" src="http://maps.google.com/maps/api/js?libraries=places&language=es-AR"></script>
+
+    <script type="text/javascript" src="{% static 'bower_components/leaflet/dist/leaflet.js' %}"></script>
+
+    <script type="text/javascript" src="{% static 'bower_components/Leaflet.awesome-markers/dist/leaflet.awesome-markers.js' %}"></script>
+
+    <!-- angular resources -->
+    <script type="text/javascript" src="{% static 'bower_components/angular/angular.min.js' %}"></script>
+
+    <script type="text/javascript" src="{% static 'bower_components/angular-leaflet/dist/angular-leaflet-directive.min.js' %}"></script>
+
+    <script type="text/javascript" src="{% static 'bower_components/angular-tooltip-master/src/tooltip.js' %}"></script>
+
+    <script type="text/javascript" src="{% static 'bower_components/angular-resource/angular-resource.js' %}"></script>
+
+    <script type="text/javascript" src="{% static 'bower_components/ngDialog/js/ngDialog.min.js' %}"></script>
+
+    <!-- ###################### END IMPORT ###################### -->
+
+
+    <!-- ###################### DASHBOARD APP - MODULE UTILS ###################### -->
+    <script type="text/javascript" src="{% static 'angular-resources/modules/utils/util.module.js' %}"></script>
+    <script type="text/javascript" src="{% static 'angular-resources/modules/utils/directives/google-places.directive.js' %}"></script>
+    <script type="text/javascript" src="{% static 'angular-resources/modules/utils/directives/ng-enter.directive.js' %}"></script>
+    <script type="text/javascript" src="{% static 'angular-resources/modules/utils/directives/alert-notification.directive.js' %}"></script>
+
+    <!-- ###################### END DASHBOARD APP - MODULE UTILS ###################### -->
+
+
+
+    <!-- ###################### angular-resources APP - MODULE AD ###################### -->
+    <script type="text/javascript" src="{% static 'angular-resources/modules/item/item.module.js' %}"></script>
+    <script type="text/javascript" src="{% static 'angular-resources/modules/item/services/item_new.service.js' %}"></script>
+    <script type="text/javascript" src="{% static 'angular-resources/modules/item/controllers/item_new.controller.js' %}"></script>
+    <!-- ###################### END angular-resources APP - MODULE AD ###################### -->
+
+    <!-- ###################### angular-resources APP ###################### -->
+    <script type="text/javascript" src="{% static 'angular-resources/apps/app.search.js' %}"></script>
+    <!-- ###################### END angular-resources APP ###################### -->
+
+{% endblock %}
+
+{% block footer  %}
+{% endblock %}

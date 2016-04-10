@@ -197,6 +197,7 @@ class AdsSearchSerializer(serializers.Serializer):
     images = serializers.SerializerMethodField()
     center = serializers.SerializerMethodField()
     image = serializers.SerializerMethodField()
+    category = serializers.SerializerMethodField()
 
     def get_center(self, obj):
         location = AdLocation.objects.filter(ad=obj.pk).first()
@@ -221,6 +222,8 @@ class AdsSearchSerializer(serializers.Serializer):
         else:
             return False
 
+    def get_category(self, obj):
+        return obj.categories[0]
 
 class SearchResultSerializer(serializers.Serializer):
     facets = serializers.ListField()

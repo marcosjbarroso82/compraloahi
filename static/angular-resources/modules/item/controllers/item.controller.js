@@ -33,6 +33,8 @@
         vm.search_location.bounds = {}; // Bounds maps
         vm.search_location.geo_location = {}; // Represent to geo location
 
+        vm.user_current_location = {};
+
         vm.user_locations = [];
         vm.user_location_selected = {};
 
@@ -61,8 +63,8 @@
             bounds: {},
             defaults: {
                 tileLayer: "http://otile2.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png",
-                maxZoom: 14,
-                minZoom: 13,
+                maxZoom: 15,
+                minZoom: 12,
                 /*path: {
                  weight: 10,
                  color: '#800000',
@@ -195,15 +197,15 @@
             }
         }
 
-        var flag_places_changed = false;
 
         // Event to watch change search location find by google places
         $scope.$watch('location_search_places', function(val, old_val){
             if($scope.location_search_places.geometry){
+                vm.user_current_location.lat = angular.copy($scope.location_search_places.geometry.location.lat());
+                vm.user_current_location.lng = angular.copy($scope.location_search_places.geometry.location.lng());
+
                 vm.search_location.current_location.lat = angular.copy($scope.location_search_places.geometry.location.lat());
                 vm.search_location.current_location.lng = angular.copy($scope.location_search_places.geometry.location.lng());
-
-                flag_places_changed = true;
             }
         });
 
@@ -218,6 +220,9 @@
                     vm.search_location.current_location.lat = angular.copy(vm.user_location_selected.lat);
                     vm.search_location.current_location.lng = angular.copy(vm.user_location_selected.lng);
                     vm.search_location.radius = parseInt(angular.copy(vm.user_location_selected.radius));
+
+                    vm.user_current_location.lat = angular.copy(vm.user_location_selected.lat);
+                    vm.user_current_location.lng = angular.copy(vm.user_location_selected.lng);
 
                     getItemsearch(getUrlParams());
                 }
@@ -249,9 +254,9 @@
                     if(vm.flag_custom_radius){
                         vm.map.radius.setLatLng([vm.search_location.current_location.lat, vm.search_location.current_location.lng]);
                     }
-                    if(vm.map.markers['center']){
-                        vm.map.markers['center'].lat = angular.copy(vm.search_location.current_location.lat);
-                    }
+                    //if(vm.map.markers['center']){
+                    //    vm.map.markers['center'].lat = angular.copy(vm.search_location.current_location.lat);
+                    //}
 
                     if (vm.search_location.current_location.lat != vm.user_location_selected.lat
                         && vm.search_location.changed !=true ) {
@@ -267,9 +272,9 @@
                         vm.map.radius.setLatLng([vm.search_location.current_location.lat, vm.search_location.current_location.lng]);
                     }
 
-                    if(vm.map.markers['center']){
-                        vm.map.markers['center'].lng = angular.copy(vm.search_location.current_location.lng);
-                    }
+                    //if(vm.map.markers['center']){
+                    //    vm.map.markers['center'].lng = angular.copy(vm.search_location.current_location.lng);
+                    //}
 
                     if (vm.search_location.current_location.lng != vm.user_location_selected.lng
                         && vm.search_location.changed!=true) {
@@ -326,7 +331,7 @@
 
             for (var k in markerEvents){
                 $scope.$on('leafletDirectiveMarker.mouseout', function(event, args){
-                    if(current_event != 'mouseout' && args['modelName'] != 'center'){
+                    if(current_event != 'mouseout' && args['modelName'] != 'user_current_location'){
                         current_event = 'mouseout';
                         vm.map.markers[args['modelName']]['icon']['markerColor'] = 'yellow';
                         for(var i=0; i < vm.items.length; i++){
@@ -339,7 +344,7 @@
                 });
 
                 $scope.$on('leafletDirectiveMarker.mouseover', function(event, args){
-                    if(current_event != 'mouseover' && args['modelName'] != 'center'){
+                    if(current_event != 'mouseover' && args['modelName'] != 'user_current_location'){
                         current_event = 'mouseover';
                         vm.map.markers[args['modelName']]['icon']['markerColor'] = 'blue';
                         for(var i=0; i < vm.items.length; i++){
@@ -352,7 +357,7 @@
                 });
 
                 $scope.$on('leafletDirectiveMarker.click', function(event, args){
-                    if(current_event != 'click' && args['modelName'] != 'center'){
+                    if(current_event != 'click' && args['modelName'] != 'user_current_location'){
                         current_event = 'click';
                         if(current_event_id_item != args['modelName']){
                             current_event_id_item = args['modelName'];
@@ -412,9 +417,9 @@
          * Create marker to represent search location
          */
         function createLocationSearchMarker(){
-            vm.map.markers['center'] = {
-                lat: angular.copy(vm.search_location.current_location.lat),
-                lng: angular.copy(vm.search_location.current_location.lng),
+            vm.map.markers['user_current_location'] = {
+                lat: vm.user_current_location.lat,
+                lng: vm.user_current_location.lng,
                 message: "Estoy aquí!",
                 icon: {
                     iconUrl: '/static/image/map52.svg',
@@ -424,8 +429,11 @@
                     popupAnchor: [1, -32], // point from whtich the popup should open relative to the iconAnchor
                     shadowAnchor: [10, 12], // the same for the shadow
                     shadowSize: [36, 16] // size of the shadow
-                }
+                },
+                zIndexOffset: 100,
+                popupopen: true
             };
+
         }
 
 
@@ -434,7 +442,9 @@
             getItemsearch(getUrlParams());
         }
 
-
+        var flag_count_dragend = 0;
+        var flag_count_dragend_compare = 0;
+        vm.refresh_result_on_move = true;
 
         /**
          * Get instance to map.
@@ -462,7 +472,13 @@
                 vm.map.bounds['southWest'] = angular.copy(bounds['_southWest']);
                 vm.search_location.bounds = angular.copy(vm.map.bounds);
 
-                $scope.$watch('vm.map.bounds', function(new_val, old_val){
+
+                if(vm.search_location.geo_location['lat'] && vm.search_location.geo_location['lng']){
+                    vm.user_current_location.lat = angular.copy(vm.search_location.geo_location['lat']);
+                    vm.user_current_location.lng = angular.copy(vm.search_location.geo_location['lng']);
+                }
+
+               /* $scope.$watch('vm.map.bounds', function(new_val, old_val){
                     vm.search_location.bounds = angular.copy(vm.map.bounds);
                     vm.search_location.changed_bounds = true;
 
@@ -471,6 +487,18 @@
                         refreshResults();
                     }
                     //vm.search_location.changed = true;
+                });*/
+
+                $scope.$on('leafletDirectiveMap.dragend', function(event){
+                    if(vm.refresh_result_on_move){
+                        flag_count_dragend ++;
+                        setTimeout(function () {
+                            flag_count_dragend_compare ++;
+                            if(flag_count_dragend == flag_count_dragend_compare){
+                                refreshResults();
+                            }
+                        }, 1000);
+                    }
                 });
 
                 initSearch();

@@ -1,7 +1,7 @@
 from django.db import models
 from django.conf import settings
 from django.utils.translation import ugettext as _
-from django.contrib.contenttypes import generic
+from django.contrib.contenttypes import fields
 from django.conf import settings
 from datetime import datetime
 from django.db.models.signals import post_save
@@ -60,7 +60,7 @@ class Msg(models.Model):
     # objects = MessageManager()
     content_type = models.ForeignKey(ContentType, blank=True, null=True)
     object_id = models.PositiveIntegerField(blank=True, null=True)
-    related_obj = generic.GenericForeignKey('content_type', 'object_id')
+    related_obj = fields.GenericForeignKey('content_type', 'object_id')
 
     class Meta:
         verbose_name = _("message")

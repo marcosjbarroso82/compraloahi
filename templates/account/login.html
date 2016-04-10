@@ -2,7 +2,6 @@
 {% load bootstrap3 %}
 {% load i18n %}
 {% load account %}
-{% load url from future %}
 
 {% block title %}{% trans "Sign In" %}{% endblock %}
 
@@ -21,16 +20,12 @@
                             <!--<a href="#" class="btn btn-twitter"><i class="fa fa-twitter"></i> Twitter</a>-->
                             <a href="/accounts/google/login/?process=login" class="btn btn-google"><i class="fa fa-google-plus"></i> Google+</a>
                         </div>
-
                         <form class="m-t-md" role="form" method="POST" action="{% url 'account_login' %}">
                             {% if redirect_field_value %}
                             <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
                             {% endif %}
                             {% csrf_token %}
-                         {% bootstrap_field form.login %}
-                        {% bootstrap_field form.password %}
-                        {% bootstrap_field form.remember %}
-{#                            {% bootstrap_form form %}#}
+                           {% bootstrap_form form %}
 
                             <button type="submit" class="btn btn-success btn-block">Entrar</button>
                             <a href="{% url 'account_reset_password' %}" class="display-block text-center m-t-md text-sm">Olvido la contraseña?</a>

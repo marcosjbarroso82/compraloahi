@@ -11,7 +11,7 @@ urlpatterns = patterns('',
                        url(r'^search/$',
                            AdFacetedSearchView(form_class=AdSearchForm,
                                                searchqueryset=sqs,
-                                               template='ad/list.html'),
+                                               template='ad/listnew.html'),
                            name='search-facet'),
 
                        # Detail Ad

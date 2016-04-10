@@ -43,7 +43,7 @@
 
     <!-- ########################## MAP ########################## -->
 
-    <div class="angular-map-container" id="map-container" ng-class="{'col-md-7': !vm.collapsabled, 'col-md-10': vm.collapsabled}">
+    <div class="angular-map-container col-md-7" id="map-container" >
 
 
         <!-- ########################## SECTION DATA FILTER MAP ########################## -->
@@ -90,7 +90,7 @@
                             placement="top"
                             ng-click="vm.setGeoLocation()"
                             ng-show="vm.search_location.current_location.lat != vm.search_location.geo_location.lat || vm.search_location.current_location.lng != vm.search_location.geo_location.lng">
-                        <i class="fa fa-map-marker"></i>
+                        <i class="fa fa-crosshairs"></i>
                     </button>
 
                     {% if user.is_authenticated %}
@@ -177,18 +177,23 @@
         <leaflet id="searchMap" center="vm.map.center" defaults="vm.map.defaults" bounds="vm.map.bounds" event-broadcast="vm.map.events" markers="vm.map.markers" width="100%" height="100%">
 
         </leaflet>
-
+        <div style="position: absolute; height: 25px; bottom: 0px; left: 0px; z-index: 999; background-color: white; font-size: 1.1em;">
+            <div class="form-inline">
+                <label for="change_on_move">Actualizar resultados al moverse</label>
+                <input type="checkbox" style="margin-top: 0px;" ng-model="vm.refresh_result_on_move" name="change_on_move" id="change_on_move" class="form-control"/>
+            </div>
+        </div>
     </div>
     <!-- ########################## END MAP ########################## -->
 
     <!-- ########################## CONTAINER ADs LIST ########################## -->
     {% verbatim %}
-    <div id="container-item-list" ng-class="{'col-md-5': !vm.collapsabled, 'col-md-2': vm.collapsabled}">
+    <div id="container-item-list col-md-5">
         <div id="header-list" class="col-md-12">
-            <button type="button" id="btn-collapse" class="btn" ng-click="vm.collapsabled = !vm.collapsabled; vm.map.instance.invalidateSize();"> <i class="glyphicon " ng-class="{'glyphicon-chevron-left': vm.collapsabled, 'glyphicon-chevron-right': !vm.collapsabled}"></i> </button>
-            <p ng-show="!vm.collapsabled">Mostrando 10 de {{ vm.result_count }} resultados.</p>
-            <div class="form-inline " ng-class="{'order-by-container': !vm.collapsabled, 'order-by-container-collapse': vm.collapsabled}">
-                <label ng-show="!vm.collapsabled" for="order_by">Ordenar por</label>
+            <!--<button type="button" id="btn-collapse" class="btn" ng-click="vm.collapsabled = !vm.collapsabled; vm.map.instance.invalidateSize();"> <i class="glyphicon " ng-class="{'glyphicon-chevron-left': vm.collapsabled, 'glyphicon-chevron-right': !vm.collapsabled}"></i> </button>-->
+            <p >Mostrando 10 de {{ vm.result_count }} resultados.</p>
+            <div class="form-inline order-by-container">
+                <label for="order_by">Ordenar por</label>
                 <select
                         ng-change="vm.refreshResults()"
                         ng-model="vm.selected_ordering"
@@ -208,20 +213,17 @@
                      ng-repeat="item in vm.items track by item.id"
                      ng-mouseenter="vm.selectItem(item)"
                      ng-mouseleave="vm.deselectItem(item)"
-                     ng-class="{'items-list-item-hover': item.selected == true, 'collapsed': vm.collapsabled}">
+                     ng-class="{'items-list-item-hover': item.selected == true }">
 
-                    <div class="container-img" ng-class="{'col-md-3': !vm.collapsabled, 'col-md-12': vm.collapsabled}">
+                    <div class="container-img col-md-3">
                         <a id="item-anchor-{{ item.id }}"></a> <!-- This tag is used for animation, It could be replaced -->
-                        <!-- TODO: Add directive "imageonload" on img element -->
                         <a href="/item/{{ item.slug }}">
                             <img class="img-responsive"
                              ng-src="{{ item.image }}">
                         </a>
-
-
                     </div>
 
-                    <div class="col-md-8 container-text" ng-show="!vm.collapsabled">
+                    <div class="col-md-8 container-text">
 
                         <a href="/item/{{ item.slug }}" ><h4 >{{ item.title }}</h4></a>
                         <small> Publicado el {{ item.pub_date }} </small>
@@ -242,8 +244,8 @@
 
             <!-- PAGINATION Items LIST -->
             <ul class="pagination col-md-12" id="pagination" class="col-md-12 row">
-                <li class="pull-right"><a ng-disabled="!vm.next_page" ng-click="vm.getItemsByPage(vm.next_page)" class="btn btn-default">Pagina siguiente {{ next_page }} <i class="glyphicon glyphicon-chevron-right"></i>  </a></li>
-                <li  class="pull-left"><a ng-disabled="!vm.prev_page" ng-click="vm.getItemsByPage(vm.prev_page)" class="btn btn-default"> <i class="glyphicon glyphicon-chevron-left"></i> Pagina anterior {{ prev_page }}</a></li>
+                <li class="pull-right"><a ng-disabled="!vm.page_next" ng-click="vm.getItemsByPage(vm.next_page)" class="btn btn-default">Pagina siguiente {{ next_page }} <i class="glyphicon glyphicon-chevron-right"></i>  </a></li>
+                <li  class="pull-left"><a ng-disabled="!vm.page_prev" ng-click="vm.getItemsByPage(vm.prev_page)" class="btn btn-default"> <i class="glyphicon glyphicon-chevron-left"></i> Pagina anterior {{ prev_page }}</a></li>
             </ul>
         </div>
         {% endverbatim %}
@@ -333,7 +335,39 @@
     <!-- google mapp -->
     <script type="text/javascript" src="http://maps.google.com/maps/api/js?libraries=places&language=es-AR"></script>
 
-    <script type="text/javascript" src="{% static 'production/search/concat.js' %}"></script>
+     <script type="text/javascript" src="{% static 'bower_components/leaflet/dist/leaflet.js' %}"></script>
+
+    <script type="text/javascript" src="{% static 'bower_components/Leaflet.awesome-markers/dist/leaflet.awesome-markers.js' %}"></script>
+
+    <!-- angular resources -->
+    <script type="text/javascript" src="{% static 'bower_components/angular/angular.min.js' %}"></script>
+
+    <script type="text/javascript" src="{% static 'bower_components/angular-leaflet/dist/angular-leaflet-directive.min.js' %}"></script>
+
+    <script type="text/javascript" src="{% static 'bower_components/angular-tooltip-master/src/tooltip.js' %}"></script>
+
+    <!-- ###################### END IMPORT ###################### -->
+
+
+    <!-- ###################### DASHBOARD APP - MODULE UTILS ###################### -->
+    <script type="text/javascript" src="{% static 'angular-resources/modules/utils/util.module.js' %}"></script>
+    <script type="text/javascript" src="{% static 'angular-resources/modules/utils/directives/google-places.directive.js' %}"></script>
+    <script type="text/javascript" src="{% static 'angular-resources/modules/utils/directives/ng-enter.directive.js' %}"></script>
+     <script type="text/javascript" src="{% static 'angular-resources/modules/utils/directives/alert-notification.directive.js' %}"></script>
+
+    <!-- ###################### END DASHBOARD APP - MODULE UTILS ###################### -->
+
+
+
+    <!-- ###################### angular-resources APP - MODULE AD ###################### -->
+    <script type="text/javascript" src="{% static 'angular-resources/modules/item/item.module.js' %}"></script>
+    <script type="text/javascript" src="{% static 'angular-resources/modules/item/services/item.service.js' %}"></script>
+    <script type="text/javascript" src="{% static 'angular-resources/modules/item/controllers/item_new.controller.js' %}"></script>
+    <!-- ###################### END angular-resources APP - MODULE AD ###################### -->
+
+    <!-- ###################### angular-resources APP ###################### -->
+    <script type="text/javascript" src="{% static 'angular-resources/apps/app.search.js' %}"></script>
+    <!-- ###################### END angular-resources APP ###################### -->
 
 {% endblock %}
 

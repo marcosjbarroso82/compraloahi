@@ -6,16 +6,16 @@ DEBUG = True
 #TEMPLATE_DEBUG = DEBUG
 
 
-#INSTALLED_APPS = INSTALLED_APPS + (
-    #'django_extensions',   # for Ipython Notebook
-    #'debug_toolbar',
-#)
+INSTALLED_APPS = INSTALLED_APPS + (
+    'django_extensions',   # for Ipython Notebook
+    'debug_toolbar',
+)
 
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'compraloahi',
+        'NAME': 'compraloahi_new',
         'USER': 'compraloahi',
         'PASSWORD': 'laserjet1',
         'HOST': 'localhost',

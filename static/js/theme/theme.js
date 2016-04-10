@@ -107,27 +107,7 @@ $( document ).ready(function() {
         }
     });
     
-    // sortable required js ui
-    /*$(".sortable").sortable({
-        connectWith: '.sortable',
-        items: '.panel',
-        helper: 'original',
-        revert: true,
-        placeholder: 'panel-placeholder',
-        forcePlaceholderSize: true,
-        opacity: 0.95,
-        cursor: 'move'
-    });*/
-    
-    // Uniform required jquery uniform
-//    var checkBox = $("input[type=checkbox]:not(.switchery), input[type=radio]:not(.no-uniform)");
-//    if (checkBox.size() > 0) {
-//        checkBox.each(function() {
-//            $(this).uniform();
-//        });
-//    };
-    
-    // .toggleAttr() Function
+
     $.fn.toggleAttr = function(a, b) {
         var c = (b === undefined);
         return this.each(function() {
@@ -206,27 +186,7 @@ $( document ).ready(function() {
     
     // Makes .page-inner height same as .page-sidebar height
     var sidebarAndContentHeight = function () {
-        var content = $('.page-inner'),
-            sidebar = $('.page-sidebar'),
-            body = $('body'),
-            height,
-            footerHeight = $('.page-footer').outerHeight(),
-            pageContentHeight = $('.page-content').height();
-        
-        content.attr('style', 'min-height:' + sidebar.height() + 'px !important');
-        
-        if (body.hasClass('page-sidebar-fixed')) {
-            height = sidebar.height() + footerHeight;
-        } else {
-            height = sidebar.height() + footerHeight;
-            if (height  < $(window).height()) {
-                height = $(window).height();
-            }
-        }
-        
-        if (height >= content.height()) {
-            content.attr('style', 'min-height:' + height + 'px !important');
-        }
+
     };
     
     sidebarAndContentHeight();
@@ -345,13 +305,6 @@ $( document ).ready(function() {
         defaultOptions();
     });
     
-    // Color changer
-    $(".colorbox").click(function(){
-        var color =  $(this).attr('data-css');
-        $(".theme-color").attr('href', 'assets/css/themes/' + color + '.css');
-        return false;
-    });
-    
     // Fixed Sidebar Bug
     if(!($('body').hasClass('page-sidebar-fixed'))&&(fixedSidebarCheck.checked == 1)){
         $('body').addClass('page-sidebar-fixed');
@@ -379,43 +332,5 @@ $( document ).ready(function() {
         $('.horizontal-bar-check').prop('checked', true);
     }
     }
-    
-    
-    // Chat Sidebar
-    if($('.chat').length) {
-        var menuRight = document.getElementById( 'cbp-spmenu-s1' ),
-        showRight = document.getElementById( 'showRight' ),
-        closeRight = document.getElementById( 'closeRight' ),
-        menuRight2 = document.getElementById( 'cbp-spmenu-s2' ),
-        closeRight2 = document.getElementById( 'closeRight2' ),
-        body = document.body;
-    
-    showRight.onclick = function() {
-        classie.toggle( menuRight, 'cbp-spmenu-open' );
-    };
-    
-    closeRight.onclick = function() {
-        classie.toggle( menuRight, 'cbp-spmenu-open' );
-    };
-    
-    closeRight2.onclick = function() {
-        classie.toggle( menuRight2, 'cbp-spmenu-open' );
-    };
-    
-    $('.showRight2').click(function() {
-        classie.toggle( menuRight2, 'cbp-spmenu-open' );
-    });
-    
-    $(".chat-write form input").keypress(function (e) {
-        if ((e.which == 13)&&(!$(this).val().length == 0)) {
-            $('<div class="chat-item chat-item-right"><div class="chat-message">' + $(this).val() + '</div></div>').insertAfter(".chat .chat-item:last-child");
-            $(this).val('');
-        } else if(e.which == 13) {
-            return;
-        }
-        //$('.chat').slimscroll({
-        //    allowPageScroll: true
-        //});
-    });
-        }
+
 });

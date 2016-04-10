@@ -10,6 +10,6 @@
     "angularjs-socialshare": "~0.1.19"
   },
   "resolutions": {
-    "angular": "1.3.6"
+    "angular": "1.5.0"
   }
 }

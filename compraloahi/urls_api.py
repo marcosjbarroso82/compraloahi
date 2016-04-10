@@ -56,7 +56,7 @@ urlpatterns = patterns('',
                            name='not-unregister'),
 
                        # TODO : Esta url hay que desactivarla en produccion?
-                       url(r'^api-generate-all-token-auth/', generate_all_auth_token),
+                       #url(r'^api-generate-all-token-auth/', generate_all_auth_token),
 
                        url(r'^api-token-auth/', obtain_auth_token),
 
