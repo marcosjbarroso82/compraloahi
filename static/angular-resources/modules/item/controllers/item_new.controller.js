@@ -81,7 +81,7 @@
 
 
         // Define el tipo de ubicacion que se usa para buscar por el momento hay dos tipos (point, bounds)
-        var type_location_search = 'point';
+        var type_location_search = 'bounds';
 
         vm.flag_custom_radius = false;
 
@@ -115,7 +115,7 @@
                             flag_count_dragend_compare ++;
                             if(flag_count_dragend == flag_count_dragend_compare){
                                 if(!vm.flag_custom_radius){
-                                    getItemsearch(get_query(1));
+                                    set_params_bounds_to_map(true);
                                 }else{
                                     if(args['modelName'] == 'user_current_location'){
                                         getItemsearch(get_query(1));
@@ -243,7 +243,7 @@
             }
             if(commit){
                 changeTypeLocationSearch('point');
-                getItemsearch(get_query());
+                getItemsearch(get_query(1));
             }
 
         }
@@ -268,7 +268,13 @@
                         navigator.geolocation.getCurrentPosition(function(position){
                             current_location_geo.lat = position.coords.latitude;
                             current_location_geo.lng = position.coords.longitude;
-                            changeCurrentLocation({'lat': position.coords.latitude, 'lng': position.coords.longitude}, true);
+                            changeCurrentLocation({'lat': position.coords.latitude, 'lng': position.coords.longitude}, false);
+
+                            if(!vm.flag_custom_radius){
+                                console.log("ACA ENTRA???");
+                                console.log(type_location_search);
+                                set_params_bounds_to_map(true);
+                            }
                         }, function(){
                             AlertNotification.error("Error al intentar recuperar su ubicacion, vuelva a intentarlo, asegurese de tener habilitada la opcion de compartir su ubicacion");
                         });
@@ -387,9 +393,9 @@
 
                     }else{
                         changeCurrentLocation(args['model'], false);
-                        if(vm.refresh_result_on_move){
-                            getItemsearch(get_query());
-                        }
+                        //if(vm.refresh_result_on_move){
+                        getItemsearch(get_query());
+                        //}
                     }
                 }
             });
@@ -575,6 +581,19 @@
             bounds['southWest']['lng'] = params_search.w;
 
             return bounds;
+        }
+
+        function set_params_bounds_to_map(commit){
+            params_search.n = angular.copy(vm.map.bounds['northEast']['lat']);
+            params_search.s = angular.copy(vm.map.bounds['southWest']['lat']);
+            params_search.e = angular.copy(vm.map.bounds['northEast']['lng']);
+            params_search.w = angular.copy(vm.map.bounds['southWest']['lng']);
+
+            if(commit){
+                changeTypeLocationSearch('bounds');
+                getItemsearch(get_query(1));
+            }
+
         }
 
         /**

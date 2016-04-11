@@ -4,6 +4,7 @@ from django.dispatch import receiver
 from django.db.models.signals import post_save
 from django.core.exceptions import ValidationError
 from django_pgjson.fields import JsonField
+from django.core.urlresolvers import reverse
 import urllib.request
 import json
 
@@ -167,6 +168,9 @@ class Store(models.Model):
         if self.name != '':
             if Store.objects.get(slug= self.slug).count() > 0:
                 raise ValidationError('Error, fields name is unique')
+
+    def get_url(self):
+        return reverse('store', args=[self.slug])
 
     def save(self, *args, **kwargs):
         # Validate if has all config

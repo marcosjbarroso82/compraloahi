@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.db.models.signals import post_delete, post_save
 from django.dispatch.dispatcher import receiver
-
+from django.core.urlresolvers import reverse
 from taggit.managers import TaggableManager
 
 from apps.favorite.models import Favorite
@@ -74,6 +74,8 @@ class Ad(models.Model):
         else:
             return False
 
+    def get_absolute_url(self):
+        return reverse('ad:detail', [self.slug,])
     # def delete(self, using=None, secure=False):
     #     if secure:
     #         return super(Ad, self).delete(using)

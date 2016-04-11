@@ -231,10 +231,11 @@ html {
   overflow-y: auto;
   overflow-x: hidden;
   height: 100%;
+  min-height: 100%;
 }
-.page-content {
+/*.page-content{
   margin-bottom: 40px;
-}
+}*/
 .page-inner {
   padding-bottom: 0px !important;
 }
@@ -349,4 +350,14 @@ h1.product.title {
 .comment-form form .btn {
   color: white;
   background-color: #074e7c;
+}
+#map {
+  height: 400px;
+}
+#btn-show-user-location {
+  position: absolute;
+  top: 65px;
+  right: 30px;
+  background-color: #635a9a;
+  color: white;
 }

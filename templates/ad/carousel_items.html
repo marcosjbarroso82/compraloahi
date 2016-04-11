@@ -1,0 +1,61 @@
+{% load static common_tags item_tags %}
+<link rel="stylesheet" href="{% static 'bower_components/owl-carousel/owl-carousel/owl.carousel.css' %}">
+<style>
+
+    .owl-carousel{
+        margin-top: 20px;
+    }
+    .owl-carousel .item{
+        max-width: 200px;
+    }
+
+    .owl-carousel .item .panel .panel-body{
+        padding: 30px 5px;
+        min-height: 170px;
+        vertical-align: middle;
+        text-align: center;
+    }
+    .owl-carousel .item .panel .panel-body a img{
+        max-height: 110px;
+        margin: auto;
+    }
+    .owl-carousel .item .panel .panel-footer .price{
+        right: 60px;
+        position: absolute;
+        color: #e54f4f;
+        bottom: 37px;
+        font-weight: bolder;
+    }
+    .owl-carousel .item .panel .panel-footer p{
+        margin: 0px;
+        color: white;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 80%;
+    }
+</style>
+
+<div class="owl-carousel">
+    {% get_near_items item as items_nears %}
+    {% for item_near in items_nears %}
+        <div class="item" >
+            <div class="panel panel-white ">
+                <div class="panel-body">
+                    <a href="{% url 'ad:detail' item_near.slug %}">
+                        <img class="img-responsive" src="/media/{{ item_near.image1 }}">
+                    </a>
+                </div>
+                <div class="panel-footer panel-blue"><p>{{ item_near.title }}</p>
+                    <span class="price">${{ item_near.price|floatformat:"0" }}<sup>{{ item_near.price|float_decimal_part}}</sup></span>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+<script type="text/javascript" src="{% static 'bower_components/owl-carousel/owl-carousel/owl.carousel.min.js' %}"></script>
+
+<script>
+    $(".owl-carousel").owlCarousel();
+</script>

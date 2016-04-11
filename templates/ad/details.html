@@ -8,27 +8,12 @@
 {% load staticfiles %}
 {% block title %}Aviso {{ item.title }}{% endblock %}
 
-
-{% block js_header_block %}
-{% endblock %}
-
 {% block css_header_block %}
     <link rel="stylesheet" href="{{ STATIC_URL }}css/less/item-detail.css" >
     <link rel="stylesheet" href="{{ STATIC_URL }}css/cloud-zoom.css" type="text/css">
     <link rel="stylesheet" href="{{ STATIC_URL }}favorite/css/favorite.css">
-
     <link rel="stylesheet" href="{% static 'bower_components/leaflet/dist/leaflet.css' %}">
 
-    <style>
-        #map{
-            height: 400px;
-        }
-        #btn-show-user-location{
-            position: absolute;
-            top: 65px;
-            right: 30px;
-        }
-    </style>
 {% endblock %}
 
 {% block body_block %}
@@ -42,145 +27,149 @@
         }
     </script>
     <div id="main-wrapper" class="container-fluid">
-        <div class="row">
-            <div id="container-item-detail-page" class="col-md-12 item-detail-page">
-                <div class="section">
-                    <!-- Thumnails -->
-                    <div class="col-md-1 col-md-offset-1">
-                        {% for images in item.images.all %}
-                            {% thumbnail images.image "800x800" crop="center" as im %}
-                                <a id="{{ images.pk }}" class="item-image-gallery" data-image="{{ im.url }}">
-                            {% endthumbnail %}
-                        {% thumbnail images.image "110x110" crop="center" as im %}
-                            <img class="img-thumbnail" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
-                        {% endthumbnail %}
-                        </a>
-                        {% endfor %}
+    <div class="row">
+    <div id="container-item-detail-page" class="col-md-12 item-detail-page">
+    <div class="section">
+    <!-- Thumnails -->
+    <div class="col-md-1 col-md-offset-1">
+        {% for images in item.images.all %}
+            {% thumbnail images.image "800x800" crop="center" as im %}
+                <a id="{{ images.pk }}" class="item-image-gallery" data-image="{{ im.url }}">
+            {% endthumbnail %}
+        {% thumbnail images.image "110x110" crop="center" as im %}
+            <img class="img-thumbnail" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+        {% endthumbnail %}
+        </a>
+        {% endfor %}
+    </div>
+    <!-- Main Image -->
+    <div class="col-md-4" >
+        {% with item.images.all|first as image %}
+            {% thumbnail image.image "800x800" crop="center" as im %}
+                <!-- TODO: make cloud zoom responsive -->
+                <a id="main-image-link" href="{{ im.url }}" class="cloud-zoom" rel=" adjustY:0, adjustX:30, zoomWidth:535 ">
+                    <img id="main-image" class="img-thumbnail" src="{{ im.url }}">
+                </a>
+            {% endthumbnail %}
+        {% endwith %}
+    </div>
+    <!-- Item Summary -->
+    <div id="summery-section" class="col-md-5">
+        <h1 class=" product title">{{  item.title }}</h1 >
+        <div class="product price pull-right">${{ item.price|floatformat:"0" }}<sup>{{ item.price|float_decimal_part}}</sup></div>
+        <div class="product desc">{{ item.short_description }}</div>
+        <hr/>
+        <div class="publisher">
+            <div class="col-md-4">
+                <div >Puntaje de este Anunciante</div>
+                {{ rating }}
+            </div>
+
+            <!-- ######## CONTACT ############# -->
+            <div class="col-md-8">
+                {% if item.author.profile.store %}
+                    <a class="btn btn-warning pull-left" href="{{ item.author.profile.store.get_url }}">
+                        <i class="fa fa-shopping-cart"></i> Ver tienda
+                    </a>
+
+                {% endif %}
+                {% if user.is_authenticated %}
+                    <!-- BUTTON OPEN --->
+                    {% if user != item.author %}
+                        <button data-toggle="modal" class="btn btn-success pull-right" id="btn-contact" data-target="#modalMessage">
+                            <i class="fa fa-envelope"></i> Contactar
+                        </button>
+                    {% endif %}
+
+                {% else %}
+                    <a class="btn btn-success pull-right" href="/accounts/login/?next={% url 'ad:detail' item.slug %}">
+                        <i class="fa fa-envelope"></i> Contactar
+                    </a>
+                {% endif %}
+            </div>
+            <!-- /.modal compose message -->
+            <div class="modal" id="modalMessage">
+                {% include 'msgs/write-modal.html' %}
+            </div>
+            <!-- ######## END CONTACT ############# -->
+            <div class="col-md-12">
+                <hr/>
+            </div>
+
+            <div class="social">
+                {% if user.is_authenticated %}
+                    <div class="col-md-4">
+                        <p>Favorito:</p>
+                        {% favorite_button item %}
                     </div>
-                    <!-- Main Image -->
-                    <div class="col-md-4" >
-                        {% with item.images.all|first as image %}
-                            {% thumbnail image.image "800x800" crop="center" as im %}
-                                <!-- TODO: make cloud zoom responsive -->
-                                <a id="main-image-link" href="{{ im.url }}" class="cloud-zoom" rel=" adjustY:0, adjustX:30, zoomWidth:535 ">
-                                    <img id="main-image" class="img-thumbnail" src="{{ im.url }}">
-                                </a>
-                            {% endthumbnail %}
-                        {% endwith %}
+
+                {% endif %}
+                <div class="col-md-8 {% if not user.is_authenticated %}col-md-offset-4{% endif %}">
+                    <p>Compartir en:</p>
+                    <a class="btn btn-twitter m-b-sm pull-right popup " href="http://twitter.com/share"><i class="fa fa-twitter"></i> Twitter</a>
+                    <a class="btn btn-facebook  m-b-sm pull-right popup" href="https://www.facebook.com/sharer/sharer.php?app_id=1507071816215188&amp;u={{ request.get_full_path|urlencode }}&amp;display=popup&amp;ref=plugin"><i class="fa fa-facebook"></i> Facebook</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-12">
+        <hr/>
+    </div>
+
+    <!-- Item Details -->
+    <div class="section">
+        <div class="container col-md-10 col-md-offset-1">
+            <div class="panel panel-default">
+                <ul class="nav nav-tabs nav-justified" role="tablist">
+                    <li role="presentation" class="active"><a href="#tab21" role="tab" data-toggle="tab">Descripcion del Anuncio</a></li>
+                    <li role="presentation"><a href="#tab22" id="btn-show-map" role="tab" data-toggle="tab">Mostrar en el Mapa</a></li>
+                </ul>
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active fade in" id="tab21">
+                        {{ item.body|safe }}
                     </div>
-                    <!-- Item Summary -->
-                    <div id="summery-section" class="col-md-5">
-                        <h1 class=" product title">{{  item.title }}</h1 >
-                        <div class="product price pull-right">${{ item.price|floatformat:"0" }}<sup>{{ item.price|float_decimal_part}}</sup></div>
-                        <div class="product desc">{{ item.short_description }}</div>
+                    <div role="tabpanel" class="tab-pane fade" id="tab22">
+                        {% if item.show_location %}
+                            <p>
+                                <strong>Direccion :</strong> {{ item.locations.first.address.address }} |
+                                <strong>Nro :</strong> {{ item.locations.first.address.nro }}
+
+                            </p>
+                        {% else %}
+                            <h3>El anunciante no permite visualizar la ubicacion, se muestra una ubicacion aproximada.</h3>
+                        {% endif %}
+                        <button  id="btn-show-user-location" class="btn btn-sm btn-info pull-right"><i class="fa fa-crosshairs"></i> Mostrar mi ubicacion actual en el mapa</button>
                         <hr/>
-                        <div class="publisher">
-                            <div class="col-md-6">
-                                <div >Puntaje de este Anunciante</div>
-                                {{ rating }}
-                            </div>
+                        <div id="map" ></div>
 
-                            <!-- ######## CONTACT ############# -->
-                            <div class="col-md-6">
-                                {% if user.is_authenticated %}
-                                    <!-- BUTTON OPEN --->
-                                    {% if user != item.author %}
-                                        <button data-toggle="modal" class="btn btn-success pull-right" id="btn-contact" data-target="#modalMessage">
-                                            <i class=""></i> Contactar
-                                        </button>
-                                    {% endif %}
-
-                                {% else %}
-                                    <a class="btn btn-success pull-right" href="/accounts/login/?next={% url 'ad:detail' item.slug %}">
-                                        <i class=""></i> Contactar
-                                    </a>
-                                {% endif %}
-                            </div>
-                            <!-- /.modal compose message -->
-                            <div class="modal" id="modalMessage">
-                                {% include 'msgs/write-modal.html' %}
-                            </div>
-                            <!-- ######## END CONTACT ############# -->
-                            <div class="col-md-12">
-                                <hr/>
-                            </div>
-                            <div class="social">
-                                {% if user.is_authenticated %}
-                                    <div class="col-md-4">
-                                        <p>Favorito:</p>
-                                        {% favorite_button item %}
-                                    </div>
-                                    <div class="col-md-8">
-                                {% else %}
-                                    <div class="col-md-8 col-md-offset-4">
-                                {% endif %}
-                                <p>Compartir en:</p>
-                                <a class="btn btn-twitter m-b-sm pull-right popup " href="http://twitter.com/share"><i class="fa fa-twitter"></i> Twitter</a>
-                                <a class="btn btn-facebook  m-b-sm pull-right popup" href="https://www.facebook.com/sharer/sharer.php?app_id=1507071816215188&amp;u={{ request.get_full_path|urlencode }}&amp;display=popup&amp;ref=plugin"><i class="fa fa-facebook"></i> Facebook</a>
-                                </div>
-
-                                </div>
-                            </div>
-                        </div>
                     </div>
+                </div>
 
-                    <div class="col-md-12">
-                        <hr/>
-                    </div>
+            </div>
+        </div>
+    </div>
 
-                    <!-- Item Details -->
-                    <div class="section">
-                        <div class="container col-md-10 col-md-offset-1">
-                            <div class="panel panel-default">
-                                <ul class="nav nav-tabs nav-justified" role="tablist">
-                                    <li role="presentation" class="active"><a href="#tab21" role="tab" data-toggle="tab">Descripcion del Anuncio</a></li>
-                                    <li role="presentation"><a href="#tab22" id="btn-show-map" role="tab" data-toggle="tab">Mostrar en el Mapa</a></li>
-                                </ul>
-                                <!-- Tab panes -->
-                                <div class="tab-content">
-                                    <div role="tabpanel" class="tab-pane active fade in" id="tab21">
-                                        {{ item.body|safe }}
-                                    </div>
-                                    <div role="tabpanel" class="tab-pane fade" id="tab22">
-                                        {% if item.show_location %}
-                                            <p>
-                                                <strong>Direccion :</strong> {{ item.locations.first.address.address }} |
-                                                <strong>Nro :</strong> {{ item.locations.first.address.nro }}
+    <div class="col-md-12">
+        <hr/>
+    </div>
 
-                                            </p>
-                                        {% else %}
-                                            <h3>El anunciante no permite visualizar la ubicacion, se muestra una ubicacion aproximada.</h3>
-                                        {% endif %}
-                                        <button  id="btn-show-user-location" class="btn btn-sm btn-info pull-right">Mostrar mi ubicacion actual en el mapa</button>
-                                        <hr/>
-                                        <div id="map" ></div>
+    <!-- Listado de Comentarios / Preguntas -->
+    {% get_comment_count for object as comment_count %}
+    <!-- Comments  List -->
+    <div class="section">
+        <div id="container-comment-list" class="container col-md-10 col-md-offset-1">
+            {% get_comment_list for object as comment_list%}
 
-                                    </div>
-                                </div>
+            {% include "comments/list.html" %}
+        </div>
+    </div>
 
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-12">
-                        <hr/>
-                    </div>
-
-                    <!-- Listado de Comentarios / Preguntas -->
-                    {% get_comment_count for object as comment_count %}
-                    <!-- Comments  List -->
-                    <div class="section">
-                        <div id="container-comment-list" class="container col-md-10 col-md-offset-1">
-                            {% get_comment_list for object as comment_list%}
-
-                            {% include "comments/list.html" %}
-                        </div>
-                    </div>
-
-                    <!-- Comment Form -->
-                    <div class="section">
-                        {% if user.is_authenticated and user.id != item.author.id %}
-                            <span id="form-comment-list">
+    <!-- Comment Form -->
+    <div class="section">
+        {% if user.is_authenticated and user.id != item.author.id %}
+            <span id="form-comment-list">
                             <div id="comment-container-form" class="comment-form container col-md-10 col-md-offset-1">
                                 <div class="panel panel-default widget">
                                     <div class="panel-heading">
@@ -193,23 +182,38 @@
                                 </div>
                             </div>
                         </span>
-                            <script>
-                                var content_comment_form = $("#form-comment-list");
-                                submit_comment_ajax(content_comment_form);
-                            </script>
-                        {% else %}
-                            <div class="container col-md-10 col-md-offset-1">
-                                <a class="btn btn-success pull-right" href="/accounts/login/?next=/item/{{ item.slug }}">
-                                    <i class=""></i> Ingresar para Preguntar
-                                </a>
+            <script>
+                var content_comment_form = $("#form-comment-list");
+                submit_comment_ajax(content_comment_form);
+            </script>
+        {% else %}
+            <div class="container col-md-10 col-md-offset-1">
+                <a class="btn btn-success pull-right" href="/accounts/login/?next=/item/{{ item.slug }}">
+                    <i class=""></i> Ingresar para Preguntar
+                </a>
 
-                            </div>
-                        {% endif %}
-                    </div>
+            </div>
+        {% endif %}
+    </div>
 
+    <div class="col-md-12">
+        <hr/>
+    </div>
+
+    <div class="section">
+        <div class="col-md-12">
+            <div class="panel panel-info">
+                <div class="panel-heading">Otros productos cerca</div>
+                <div class="panel-body">
+                    {% include 'ad/carousel_items.html' with item=item %}
                 </div>
-            </div><!-- Row -->
+            </div>
         </div>
+    </div>
+    </div>
+    </div>
+
+    </div><!-- Row -->
     </div><!-- Main Wrapper -->
 
 {% endblock %}
@@ -219,10 +223,9 @@
     <script type="text/javascript" src="{{ STATIC_URL }}js/cloud-zoom.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}favorite/js/favorite.js"></script>
 
-
-
-
     <script type="text/javascript" src="{% static 'bower_components/leaflet/dist/leaflet.js' %}"></script>
+
+
 
     <script>
         var map = L.map('map', {
@@ -242,13 +245,13 @@
         });
 
         var personIcon = L.icon({
-            iconUrl: '/static/image/map52.svg',
-            shadowUrl: '/static/image/markers-shadow.png',
-            iconSize: [35, 45],  // size of the icon
-            iconAnchor:   [17, 42], // point of the icon which will correspond to marker's location
-            popupAnchor: [1, -32], // point from whtich the popup should open relative to the iconAnchor
-            shadowAnchor: [10, 12], // the same for the shadow
-            shadowSize: [36, 16] // size of the shadow
+            iconUrl: '/static/image/custom_position_marker.svg',
+            shadowUrl: '/static/image/custom_position_marker_shadow.png',
+            iconSize: [25, 25],  // size of the icon
+            iconAnchor:   [12, 12], // point of the icon which will correspond to marker's location
+            popupAnchor: [0, -10], // point from whtich the popup should open relative to the iconAnchor
+            shadowAnchor: [10, -6], // the same for the shadow
+            shadowSize: [25, 10] // size of the shadow
         });
 
         {#            L.tileLayer('http://otile2.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png', {#}
@@ -285,6 +288,8 @@
                 toastr.error('Error al intentar recuperar la ubicacion');
             }
         }
+
+
     </script>
 
 
