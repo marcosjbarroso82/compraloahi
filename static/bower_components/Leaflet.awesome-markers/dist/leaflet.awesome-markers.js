@@ -21,11 +21,10 @@
     L.AwesomeMarkers.Icon = L.Icon.extend({
         options: {
             iconSize: [25, 25],
-            iconAnchor:   [25, 25],
-            popupAnchor: [2, -5],
+            iconAnchor:   [12, 24],
+            popupAnchor: [12, 2],
             className: 'without-category',
             extraClasses: '',
-            icon: '',
             html: ""
         },
 
@@ -39,29 +38,26 @@
 
             div.innerHTML = "<p>" + options.html + "</p>";
 
+            console.log("CREAR");
+            console.log(options);
+            console.log(options.bgPos);
             if (options.bgPos) {
+                console.log("CREATE MARKER");
                 div.style.backgroundPosition =
                     (-options.bgPos.x) + 'px ' + (-options.bgPos.y) + 'px';
             }
 
-            this._setIconStyles(div, 'icon-' + options.markerColor);
+            this._setIconStyles(div);
             return div;
         },
 
-
-
-        _setIconStyles: function (img, name) {
+        _setIconStyles: function (img) {
             var options = this.options,
-                size = L.point(options['iconSize']),
-                anchor;
-
-            anchor = L.point(options.iconAnchor);
-
-            if (!anchor && size) {
-                anchor = size.divideBy(2, true);
-            }
+                size = L.point(options['iconSize']);
 
             img.className = "icon_categories " + options.className + " " + options.extraClasses;
+
+            var anchor = L.point(options.iconAnchor);
 
             if (anchor) {
                 img.style.marginLeft = (-anchor.x) + 'px';
@@ -72,7 +68,7 @@
                 img.style.width  = size.x + 'px';
                 img.style.height = size.y + 'px';
             }
-        },
+        }
 
 
     });

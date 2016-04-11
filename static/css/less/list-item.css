@@ -567,7 +567,7 @@ body:not(.page-horizontal-bar).compact-menu .menu > li.open {
   -webkit-box-shadow: 1px 1px 3px 4px #018ba3;
   -moz-box-shadow: 1px 1px 3px 4px #018ba3;
   box-shadow: 1px 1px 3px 4px #018ba3;
-  background-color: #018ba3;
+  /*background-color: @color-logo;*/
 }
 #container-item-list .item-items-list .locate-it:hover .locate-it-mira {
   display: inherit;
@@ -600,7 +600,9 @@ body:not(.page-horizontal-bar).compact-menu .menu > li.open {
   box-shadow: 1px 1px 3px 4px #018ba3;
 }
 #container-item-list .items-list-item-hover .locate-it {
-  background-color: #018ba3 !important;
+  -webkit-box-shadow: 1px 1px 3px 4px #018ba3 !important;
+  -moz-box-shadow: 1px 1px 3px 4px #018ba3 !important;
+  box-shadow: 1px 1px 3px 4px #018ba3 !important;
 }
 #container-item-list #pagination {
   padding-left: 20px;
@@ -689,11 +691,17 @@ body:not(.page-horizontal-bar).compact-menu .menu > li.open {
   text-align: center;
   margin: 0px !important;
   padding: 0px !important;
-  height: 20px;
-  width: 20px;
+  height: 25px;
+  width: 25px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: block;
 }
 .icon_categories.selected {
-  background-color: #018ba3 !important;
+  -webkit-box-shadow: 1px 1px 1px 1px #018ba3;
+  -moz-box-shadow: 1px 1px 1px 1px #018ba3;
+  box-shadow: 1px 1px 1px 1px #018ba3;
 }
 .icon_categories .without-category {
   background-color: white;
@@ -709,6 +717,6 @@ body:not(.page-horizontal-bar).compact-menu .menu > li.open {
   color: #000000;
 }
 .muebles {
-  background-color: #FF0000 !important;
-  color: #9A7B64;
+  background-color: #9A7B64 !important;
+  color: white;
 }
