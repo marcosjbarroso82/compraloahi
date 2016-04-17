@@ -12,8 +12,7 @@ from apps.userProfile.views import UserLocationViewSet, UserProfileModelView, St
     ProfileLocationViewSet, ConfigPrivacityViewSet
 from apps.msg.views import MsgViewSet
 
-from .views import generate_all_auth_token
-
+from apps.comments.views import ThreadedCommentViewSet
 
 router = DefaultRouter()
 router.register(r'user-items', AdUserViewSet, base_name='ad-by-user')
@@ -23,7 +22,7 @@ router.register(r'user-locations', UserLocationViewSet, base_name='location-by-u
 router.register(r'favorites', FavoriteAdViewSet, base_name='favorites')
 router.register(r'item-search', SearchViewSet, base_name='search') #/ad-search/?q=algo&latitude=-31&longitude=-64&km=33
 router.register(r'msgs', MsgViewSet, base_name='msgs')
-
+router.register(r'comments', ThreadedCommentViewSet, base_name='comment_api')
 
 urlpatterns = patterns('',
                        url(r'^categories/$', CategoriesListAPIView.as_view(), name='categories'),

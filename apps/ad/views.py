@@ -271,7 +271,7 @@ class AdUserViewSet(viewsets.ModelViewSet):
         return serializer.save(author=self.request.user)
 
     def get_queryset(self):
-        return Ad.objects.filter(author= self.request.user).exclude(status=0)
+        return Ad.objects.filter(author=self.request.user).exclude(status=0)
 
 
 class AdPublicViewSet(viewsets.ModelViewSet):

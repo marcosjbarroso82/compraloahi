@@ -9,7 +9,7 @@ from django_filters import FilterSet, MethodFilter
 from rest_framework import viewsets, filters
 from rest_framework.decorators import list_route
 
-from apps.program.models import Episode
+from apps.ad.models import Ad
 
 from .serializers import XtdCommentSerializer
 
@@ -31,7 +31,7 @@ class ThreadedCommentViewSet(viewsets.ModelViewSet):
     filter_class = XtdCommentFilter
 
     def perform_create(self, serializer):
-        content_object = Episode.objects.get(pk=self.request.data.get('object_pk', 0))
+        content_object = Ad.objects.get(pk=self.request.data.get('object_pk', 0))
         if self.request.user.is_authenticated():
             serializer.save(user=self.request.user,
                             content_object=content_object,
