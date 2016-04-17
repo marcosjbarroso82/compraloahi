@@ -54,19 +54,15 @@
             }
         });
 
-
         $scope.$watchCollection("vm.items", function () {
             vm.tableParams.reload();
-
-
         });
-
 
         function loadItems(page_nro){
             vm.promiseRequest = Item.list().then(getSuccess, getError);
 
             function getSuccess(data){
-                vm.items = data.data.results;
+                vm.items = data.data;
                 vm.request = true;
             }
 

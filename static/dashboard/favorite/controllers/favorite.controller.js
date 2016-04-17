@@ -17,13 +17,10 @@
     function FavoriteCtrl($scope, Favorite, AlertNotification, ngTableParams, $filter) {
         var vm = this;
 
-
         vm.favorites = [];
         vm.request = false;
 
-
         vm.remove_favorite = remove_favorite;
-
 
         getFavorites();
 
@@ -59,7 +56,7 @@
             vm.promiseRequest = Favorite.get_favorites().then(getFavoriteSuccess, getFavoriteError);
 
             function getFavoriteSuccess(data){
-                vm.favorites = data.data.results;
+                vm.favorites = data.data;
                 vm.request = true;
             }
 
@@ -75,7 +72,6 @@
 
 
         function remove_favorite(favorite){
-
             vm.promiseRequest = Favorite.toggle_favorites(favorite).then(removeFavoriteSuccess, removeFavoriteError);
 
             function removeFavoriteSuccess(data){
