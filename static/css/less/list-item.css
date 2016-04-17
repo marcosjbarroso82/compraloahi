@@ -564,9 +564,9 @@ body:not(.page-horizontal-bar).compact-menu .menu > li.open {
   padding: 0px;
 }
 #container-item-list .item-items-list .locate-it:hover {
-  -webkit-box-shadow: 1px 1px 3px 4px #018ba3;
-  -moz-box-shadow: 1px 1px 3px 4px #018ba3;
-  box-shadow: 1px 1px 3px 4px #018ba3;
+  -webkit-box-shadow: 0px 0px 2px 3px #018ba3;
+  -moz-box-shadow: 0px 0px 2px 3px #018ba3;
+  box-shadow: 0px 0px 2px 3px #018ba3;
   /*background-color: @color-logo;*/
 }
 #container-item-list .item-items-list .locate-it:hover .locate-it-mira {
@@ -699,9 +699,9 @@ body:not(.page-horizontal-bar).compact-menu .menu > li.open {
   display: block;
 }
 .icon_categories.selected {
-  -webkit-box-shadow: 1px 1px 1px 1px #018ba3;
-  -moz-box-shadow: 1px 1px 1px 1px #018ba3;
-  box-shadow: 1px 1px 1px 1px #018ba3;
+  -webkit-box-shadow: 0px 0px 2px 3px #018ba3;
+  -moz-box-shadow: 0px 0px 2px 3px #018ba3;
+  box-shadow: 0px 0px 2px 3px #018ba3;
 }
 .icon_categories .without-category {
   background-color: white;
