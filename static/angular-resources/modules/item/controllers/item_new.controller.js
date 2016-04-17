@@ -173,6 +173,27 @@
         }
 
 
+        $scope.$watch('location_search_places', function(val, old_val){
+            console.log("CHANGE LOCATION PLACES");
+            console.log(val);
+            console.log(old_val);
+            if($scope.location_search_places.geometry){
+                var location = {};
+                location['lat'] = angular.copy($scope.location_search_places.geometry.location.lat());
+                location['lng'] = angular.copy($scope.location_search_places.geometry.location.lng());
+                if(type_location_search == 'point'){
+                    changeCurrentLocation(location, true);
+                }else{
+                    vm.centerMap(location);
+                    changeCurrentLocation(location, false);
+                    setTimeout(function () {
+                          set_params_bounds_to_map(true);
+                    }, 500);
+                }
+            }
+        });
+
+
 
         vm.changeFacet = function(facet, value, bool){
             facet.activated = bool;
@@ -227,6 +248,9 @@
             params_search.lat = angular.copy(lat);
             params_search.lng = angular.copy(lng);
 
+            console.log("SET CURRENT LOCATION 1");
+            console.log(lat);
+            console.log(lng);
             current_location.lat = angular.copy(lat);
             current_location.lng = angular.copy(lng);
 
@@ -239,7 +263,10 @@
             }
 
             if(vm.flag_custom_radius && vm.map.radius){
-                vm.map.radius.setLatLng([ angular.copy(lat), angular.copy(lng)]);
+                console.log("SET LATLNG 1");
+                console.log(lat);
+                console.log(lng);
+                changeSearchRadiusPosition(lat, lng);
             }
             if(commit){
                 changeTypeLocationSearch('point');
@@ -287,8 +314,6 @@
         }
 
 
-
-
         var flag_change_range = 0;
         var flag_change_range_compare = 0;
 
@@ -307,6 +332,9 @@
             }, 1000);
         };
 
+        function changeSearchRadiusPosition(lat, lng){
+            vm.map.radius.setLatLng([ angular.copy(lat), angular.copy(lng)]);
+        }
 
         vm.changeFlagCustomRadius = toggleRangeSearch;
 
@@ -314,6 +342,10 @@
             $scope.radius = angular.copy(range);
             if(vm.flag_custom_radius){
                 changeTypeLocationSearch('point');
+                console.log("CREATE CIRCLE RANGE");
+                console.log(current_location.lat);
+                console.log(current_location.lng);
+                console.log(range);
                 vm.map.radius = L.circle([angular.copy(current_location.lat), angular.copy(current_location.lng)], angular.copy(range/100)).addTo(vm.map.instance);
             }else{
                 vm.map.instance.removeLayer(vm.map.radius);
@@ -336,7 +368,7 @@
             $scope.$on('leafletDirectiveMarker.mouseout', function(event, args){
                 if(current_event != 'mouseout' && args['modelName'] != 'user_current_location'){
                     current_event = 'mouseout';
-                    vm.map.markers[args['modelName']]['icon']['markerColor'] = 'yellow';
+                    vm.map.markers[args['modelName']]['icon']['extraClasses'] = '';
                     for(var i=0; i < vm.items.length; i++){
                         if(String(vm.items[i]['id']) == args['modelName']){
                             vm.items[i]['selected'] = false;
@@ -350,7 +382,7 @@
             $scope.$on('leafletDirectiveMarker.mouseover', function(event, args){
                 if(current_event != 'mouseover' && args['modelName'] != 'user_current_location'){
                     current_event = 'mouseover';
-                    vm.map.markers[args['modelName']]['icon']['markerColor'] = 'blue';
+                    vm.map.markers[args['modelName']]['icon']['extraClasses'] = 'selected';
                     for(var i=0; i < vm.items.length; i++){
                         if(String(vm.items[i]['id']) == args['modelName']){
                             vm.items[i]['selected'] = true;
@@ -409,10 +441,17 @@
                     vm.user_location_selected.lat &&
                     vm.user_location_selected.lng &&
                     vm.user_location_selected.radius) {
+                    params_search['m'] = angular.copy(vm.user_location_selected.radius);
+                    $scope.radius = angular.copy(vm.user_location_selected.radius);
+                    changeCurrentLocation(vm.user_location_selected, true);
+                    if(vm.flag_custom_radius){
+                        vm.map.radius.setRadius(angular.copy(vm.user_location_selected.radius/100));
+                        changeSearchRadiusPosition(vm.user_location_selected.lat, vm.user_location_selected.lng);
+                    }else{
+                        vm.flag_custom_radius = true;
+                        toggleRangeSearch(vm.user_location_selected.radius);
+                    }
 
-                    vm.flag_custom_radius = true;
-                    changeCurrentLocation(vm.user_location_selected, false);
-                    vm.changeCurrentLocation(vm.user_location_selected.radius);
 
                 }
             });
@@ -457,8 +496,8 @@
          */
         function createLocationSearchMarker(){
             vm.map.markers['user_current_location'] = {
-                lat: current_location.lat,
-                lng: current_location.lng,
+                lat: angular.copy(current_location.lat),
+                lng: angular.copy(current_location.lng),
                 message: "Estoy aquí!",
                 draggable:'true',
                 focus: true,
