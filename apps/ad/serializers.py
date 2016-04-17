@@ -142,9 +142,9 @@ class AdSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ad
         fields = ('id', 'images', 'title', 'body', 'status', 'pub_date', 'price', 'slug', 'short_description',
-                  'author', 'categories', 'locations', 'is_favorite', 'status')
+                  'author', 'categories', 'locations', 'is_favorite', 'status', 'store_published')
         #exclude = ('author', 'created', 'modified',)
-        read_only_fields = ('pub_date', 'id', 'pub_date', 'slug', 'tags', 'author', 'status')
+        read_only_fields = ('pub_date', 'id', 'pub_date', 'slug', 'tags', 'author', 'status', 'store_published')
 
     def get_is_favorite(self, obj):
         request = self.context.get('request', None)

@@ -64,7 +64,7 @@
             vm.promiseRequestItems = Item.list().then(getItemSuccess, getItemError);
 
             function getItemSuccess(data){
-                vm.configs.items = data.data.results;
+                vm.configs.items = data.data;
             }
 
             function getItemError(data){

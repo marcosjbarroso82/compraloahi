@@ -181,14 +181,14 @@
                 </div>
                 <div class="col-md-12" cg-busy="vm.promiseRequestItems">
                     <ul class="media-list">
-                        <li class="media" ng-repeat="item in vm.configs.items" ng-click="item.store_published = !item.store_published;">
+                        <li class="media" ng-repeat="item in vm.configs.items">
                             <div class="media-left">
-                                <a href="#">
-                                    <img class="media-object" src="{{ item.images[0].thumbnail_110x110 }}" alt="60">
+                                <a href="#" >
+                                    <img ng-click="item.store_published = !item.store_published;" class="media-object" src="{{ item.images[0].thumbnail_110x110 }}" alt="60">
                                 </a>
                             </div>
                             <div class="media-body">
-                                <h4 class="media-heading"> {{ item.title }}</h4>
+                                <h4 ng-click="item.store_published = !item.store_published;" class="media-heading"> {{ item.title }}</h4>
                                 <input class="pull-right" type="checkbox" ng-model="item.store_published"/>
                             </div>
                         </li>
