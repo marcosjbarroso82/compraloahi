@@ -21,7 +21,7 @@
     L.AwesomeMarkers.Icon = L.Icon.extend({
         options: {
             iconSize: [25, 25],
-            iconAnchor:   [12, 24],
+            iconAnchor:   [12, 12],
             popupAnchor: [12, 2],
             className: 'without-category',
             extraClasses: '',
@@ -38,11 +38,7 @@
 
             div.innerHTML = "<p>" + options.html + "</p>";
 
-            console.log("CREAR");
-            console.log(options);
-            console.log(options.bgPos);
             if (options.bgPos) {
-                console.log("CREATE MARKER");
                 div.style.backgroundPosition =
                     (-options.bgPos.x) + 'px ' + (-options.bgPos.y) + 'px';
             }

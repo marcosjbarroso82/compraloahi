@@ -80,21 +80,23 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr class="unread" ng-repeat="message in vm.messages| orderBy : '-sent_at'" ng-class="{'unread': message.read_at == null, 'read': message.read_at}">
+                    <tr class="unread" ng-repeat="message in vm.messages|
+                        orderBy : '-sent_at'" ng-class="{'unread':
+                        message.is_new, 'read': !message.is_new}">
                         <td class="hidden-xs">
                             <span><input ng-click="vm.select_message(message)" value="message.id" ng-model="message.selected" type="checkbox" class="checkbox-mail"></span>
                         </td>
-                        <td ng-if="message.thread == null" class="hidden-xs" ui-sref="message-thread({id:{{ message.id }}})">
+                        <td class="hidden-xs" ui-sref="message-thread({id:{{ message.thread }}})">
+                            <img class="img-thumbnail img-circle" ng-src="{{
+                            message.related_obj.images[0].thumbnail_110x110 }}"
+                            alt="" style="width: 90px;"/>
+                        </td>
+                        <td ui-sref="message-thread({id:{{ message.thread }}})"> 
+                            <i ng-if="message.is_new">Tienes un mensaje
+                                nuevo del aviso</i> <i ng-if="!message.is_new">
+                                Aviso: </i><b>{{
+                                message.related_obj.title }} </b><br/><br/>
                             {{ message.subject }}
-                        </td>
-                        <td ng-if="message.thread != null" class="hidden-xs" ui-sref="message-thread({id:{{ message.thread }}})">
-                            {{ message.subject }}
-                        </td>
-                        <td ui-sref="message-thread({id:{{ message.id }}})">
-                            <!-- TODO : En caso de que el mensaje sea nuevo, validar desde el servidor q no traiga todo el contenido -->
-                            {{ message.body | limitTo : 20 }} ...
-                        </td>
-                        <td>
                         </td>
                         <td>
                             {{ message.sent_at }}

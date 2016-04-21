@@ -68,7 +68,7 @@
             vm.promiseRequest = UserLocations.list().then(getLocationsSuccess, getLocationsError);
 
             function getLocationsSuccess(data){
-                vm.locations = data.data;
+                vm.locations = data.data.results;
                 initMap();
             }
 

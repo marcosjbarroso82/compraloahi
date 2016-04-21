@@ -62,7 +62,9 @@
             vm.promiseRequest = Item.list().then(getSuccess, getError);
 
             function getSuccess(data){
-                vm.items = data.data;
+                console.log("GET DATA");
+                console.log(data);
+                vm.items = data.data.results;
                 vm.request = true;
             }
 

@@ -56,7 +56,7 @@
             vm.promiseRequest = Favorite.get_favorites().then(getFavoriteSuccess, getFavoriteError);
 
             function getFavoriteSuccess(data){
-                vm.favorites = data.data;
+                vm.favorites = data.data.results;
                 vm.request = true;
             }
 

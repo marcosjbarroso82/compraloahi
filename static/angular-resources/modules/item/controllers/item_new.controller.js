@@ -16,15 +16,11 @@
      * @namespace ItemCtrl
      */
     function ItemCtrl($scope, ItemSearch, $location, leafletEvents, leafletData, $http, AlertNotification, ngDialog) {
-
         var vm = this;
 
         // Defined vars ------------------------------------------------
-
         vm.items = []; //List items
-
         vm.orderings = [{'name': 'price', selected: false}, {'name': 'distance', selected: false}]; // Orderings
-
         var current_location = {}; // representa la posicion del usuario en el mapa
         var current_location_geo = {}; // representa la posicion obtenida por geo localizacion
 
@@ -63,22 +59,12 @@
         // Var to save result when select google place
         $scope.location_search_places = {};
 
-
         // User list location
         vm.user_locations = [];
 
         vm.refresh_result_on_move = true; // Bandera que indica si se actualizan los resultados cuando se mueve el mapa
 
-        /**
-         * ¿Como manejar las ubicaciones? (ubicacion de busqueda, ubicacion seleccionada por google_place,
-         * ubicacion seleccionada de las ubicaciones del usuario, ubicacion de la posicion del usuario en el mapa, ubicaciones del mapa - center-)
-         * ¿Cuando ubicacion se identifica como "nueva" y se da la posibilidad de guardarla?
-         * ¿ Cual ubicacion es la que se guarda? ¿En caso que la busqueda sea por bounds, nuestra ubicacion representa
-         * un radio y un punto. ¿Que se haria en ese caso? ¿Se guarda el centro del mapa como punto y un radio estandar?
-         */
-
         init();
-
 
         // Define el tipo de ubicacion que se usa para buscar por el momento hay dos tipos (point, bounds)
         var type_location_search = 'bounds';
@@ -103,7 +89,6 @@
          */
         function initMap(){
             leafletData.getMap("searchMap").then(function(map) {
-                console.log("SE INICIO EL MAPA");
                 vm.map.instance = map;
                 initSearch();
 
@@ -124,9 +109,7 @@
                             }
                         }, 1000);
                     }
-
                 });
-
                 addEvenMarkerssMaps();
                 addEventUserLocationSelected();
             });
@@ -147,10 +130,8 @@
                     });
                 });
             }
-
             if(check_params(['n', 's', 'e', 'w'])){
                 changeTypeLocationSearch('bounds');
-                console.log("INIT: query by bounds");
 
                 var bounds = get_bounds_to_params();
                 vm.map.bounds = angular.copy(bounds);
@@ -167,16 +148,11 @@
                 }, 500);
 
             }else{
-                console.log("INIT: geo location");
                 get_geo_location();
             }
         }
 
-
         $scope.$watch('location_search_places', function(val, old_val){
-            console.log("CHANGE LOCATION PLACES");
-            console.log(val);
-            console.log(old_val);
             if($scope.location_search_places.geometry){
                 var location = {};
                 location['lat'] = angular.copy($scope.location_search_places.geometry.location.lat());
@@ -193,8 +169,6 @@
             }
         });
 
-
-
         vm.changeFacet = function(facet, value, bool){
             facet.activated = bool;
             value.activated = bool;
@@ -202,24 +176,16 @@
         };
 
         vm.selectItem = function(item){
-            console.log("SELECTED ITEM");
-            console.log(item);
             item.selected = true;
             setMarkerSelected(item);
         };
 
         vm.deselectItem = function(item){
-            console.log("DESELECTED ITEM");
-            console.log(item);
             item.selected = false;
             setMarkerSelected(item);
         };
 
-
-
         vm.toggleFavorite = function(item){
-            console.log("TOGGLE FAVORITE");
-            console.log(item);
             $http.post('/api/v1/favorites/', {target_object_id: item.id}).success(function(data){
                 if (item.is_favorite){
                     item.is_favorite = false;
@@ -248,9 +214,6 @@
             params_search.lat = angular.copy(lat);
             params_search.lng = angular.copy(lng);
 
-            console.log("SET CURRENT LOCATION 1");
-            console.log(lat);
-            console.log(lng);
             current_location.lat = angular.copy(lat);
             current_location.lng = angular.copy(lng);
 
@@ -263,18 +226,13 @@
             }
 
             if(vm.flag_custom_radius && vm.map.radius){
-                console.log("SET LATLNG 1");
-                console.log(lat);
-                console.log(lng);
                 changeSearchRadiusPosition(lat, lng);
             }
             if(commit){
                 changeTypeLocationSearch('point');
                 getItemsearch(get_query(1));
             }
-
         }
-
 
         function get_geo_location(){
             // Si existe una posicion guardada...
@@ -298,8 +256,6 @@
                             changeCurrentLocation({'lat': position.coords.latitude, 'lng': position.coords.longitude}, false);
 
                             if(!vm.flag_custom_radius){
-                                console.log("ACA ENTRA???");
-                                console.log(type_location_search);
                                 set_params_bounds_to_map(true);
                             }
                         }, function(){
@@ -313,14 +269,13 @@
             }
         }
 
-
         var flag_change_range = 0;
         var flag_change_range_compare = 0;
 
         vm.changeRangeSearch = function(range){
             flag_change_range ++;
 
-            vm.map.radius.setRadius(angular.copy(range/100));
+            vm.map.radius.setRadius(angular.copy(range));
 
             params_search.m = angular.copy(range);
             setTimeout(function () {
@@ -342,11 +297,7 @@
             $scope.radius = angular.copy(range);
             if(vm.flag_custom_radius){
                 changeTypeLocationSearch('point');
-                console.log("CREATE CIRCLE RANGE");
-                console.log(current_location.lat);
-                console.log(current_location.lng);
-                console.log(range);
-                vm.map.radius = L.circle([angular.copy(current_location.lat), angular.copy(current_location.lng)], angular.copy(range/100)).addTo(vm.map.instance);
+                vm.map.radius = L.circle([angular.copy(current_location.lat), angular.copy(current_location.lng)], angular.copy(range)).addTo(vm.map.instance);
             }else{
                 vm.map.instance.removeLayer(vm.map.radius);
                 changeTypeLocationSearch('bounds');
@@ -361,9 +312,7 @@
             var current_event = ""; //Flag to current markers event on maps
             var current_event_id_item = ""; //Flag to current item id to markers event
 
-            var markerEvents = leafletEvents.getAvailableMarkerEvents();
-            console.log("AVAILABLE MARKER EVENTS :");
-            console.log(markerEvents);
+            //var markerEvents = leafletEvents.getAvailableMarkerEvents();
             // Set listener to mouse out event on marker
             $scope.$on('leafletDirectiveMarker.mouseout', function(event, args){
                 if(current_event != 'mouseout' && args['modelName'] != 'user_current_location'){
@@ -431,7 +380,6 @@
                     }
                 }
             });
-
         }
 
         function addEventUserLocationSelected(){
@@ -445,14 +393,12 @@
                     $scope.radius = angular.copy(vm.user_location_selected.radius);
                     changeCurrentLocation(vm.user_location_selected, true);
                     if(vm.flag_custom_radius){
-                        vm.map.radius.setRadius(angular.copy(vm.user_location_selected.radius/100));
+                        vm.map.radius.setRadius(angular.copy(vm.user_location_selected.radius));
                         changeSearchRadiusPosition(vm.user_location_selected.lat, vm.user_location_selected.lng);
                     }else{
                         vm.flag_custom_radius = true;
                         toggleRangeSearch(vm.user_location_selected.radius);
                     }
-
-
                 }
             });
         }
@@ -462,9 +408,6 @@
          * @param q
          */
         function getItemsearch(q){
-            console.log("GET ITEM SEARCH");
-            console.log("Q:");
-            console.log(q);
             vm.promiseRequestItems = ItemSearch.query(q, function(data){
                 vm.items = data.results;
                 vm.facets = data.facets;
@@ -481,13 +424,11 @@
 
         vm.refreshResults = function(){
             params_search.page = 1;
-            console.log("REFRESH RESULT");
             getItemsearch(get_query());
         };
 
         vm.getItemByPage = function(page){
             params_search.page = page;
-            console.log("GET BY PAGE");
             getItemsearch(get_query());
         };
 
@@ -519,6 +460,7 @@
          * Create marker to represents items
          */
         function createMarkers(){
+            vm.map.markers = {};
             createLocationSearchMarker();
             for(var i=0; i < vm.items.length; i++){
                 var marker = vm.items[i]['center'];
@@ -532,7 +474,6 @@
                 vm.map.markers[String(vm.items[i]['id'])] = marker;
             }
         }
-
 
         /**
          * Set style marker when item selected
@@ -552,7 +493,6 @@
             }else{
                 type_location_search = type;
             }
-
         }
 
         function get_query(page){
@@ -593,7 +533,6 @@
                 }
             }
 
-
             if(params_search.q != ''){
                 query.q = params_search.q;
             }
@@ -632,7 +571,6 @@
                 changeTypeLocationSearch('bounds');
                 getItemsearch(get_query(1));
             }
-
         }
 
         /**
@@ -647,7 +585,5 @@
             }
             return true;
         }
-
-
     }
 })();

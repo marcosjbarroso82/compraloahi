@@ -52,19 +52,19 @@
         <section id="data-filter-map" style="height: 0px;" class="row">
 
             <!-- ########################## FORM LOCATION INF ########################## -->
-            <div id="data-position-form" ng-init="vm.flag_custom_radius = false; radius=900000;" >
+            <div id="data-position-form" ng-init="vm.flag_custom_radius = false; radius=9000;" >
                 <!-- ADDRESS  GOOGLE PLACES-->
                 <google-places location="location_search_places" map="map" ></google-places>
 
                 <!-- RADIUS -->
                 <div class="range range-success" ng-show="vm.flag_custom_radius">
-                    <input id="map_radius" class="col-md-8" type="range" name="map_radius" min="10000" max="900000" ng-model="radius" ng-change="vm.changeRangeSearch(radius)">
+                    <input id="map_radius" class="col-md-8" type="range" name="map_radius" min="100" max="9000" ng-model="radius" ng-change="vm.changeRangeSearch(radius)">
                 </div>
 
                 <div class="pull-right" style="width: 20%">
                     <div  ng-show="vm.flag_custom_radius" class="form-inline">
                         <!--<label class="label-dist" for="range">Distancia :</label>-->
-                        <output id="range" class="form-control">{{ radius/10000| number:0 }}</output>
+                        <output id="range" class="form-control">{{ radius/100| number:0 }}</output>
                         <label class="label-dist">Cuadras</label>
                     </div>
                 </div>

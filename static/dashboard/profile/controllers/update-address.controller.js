@@ -70,6 +70,8 @@
             vm.promiseRequest = Profile.get_address().then(getAddressSuccess, getAddressError);
 
             function getAddressSuccess(data){
+                console.log("GET DATA");
+                console.log(data.data);
                 vm.location = data.data;
                 if(vm.location.lat && vm.location.lng){
                     createMarker(vm.location.lat, vm.location.lng);

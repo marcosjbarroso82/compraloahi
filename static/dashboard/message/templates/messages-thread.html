@@ -34,8 +34,13 @@
                 <div class="col-md-12">
                     <hr/>
                 </div>
-                <div class="panel" ng-show="vm.is_reply">
+                <div class="panel col-md-12" ng-show="vm.is_reply">
                     <div class="panel-body">
+                        <div class="form-group">
+                            <label for="subject">Asunto:</label>
+                            <input class="form-control" id="subject" name="subject" type="text"
+                            ng-model="vm.msgReply.subject"/>
+                        </div>
                         <textarea ng-model="vm.msgReply.body" class="form-control"></textarea>
                         <hr/>
                     <button class="btn btn-info pull-right" ng-click="vm.reply()">Responder</button>

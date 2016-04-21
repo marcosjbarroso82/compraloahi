@@ -9,7 +9,7 @@ class XtdCommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = XtdComment
         exclude = ('ip_address', 'is_public', 'content_type', 'is_removed', 'site', 'user')
-        read_only_fields = ('submit_date')
+        read_only_fields = ('submit_date',)
         ordering = ('submit_date',)
 
     def get_user(self, obj):
