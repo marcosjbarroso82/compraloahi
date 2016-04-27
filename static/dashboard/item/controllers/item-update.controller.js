@@ -75,7 +75,7 @@
 
 
             function getCategoriesSuccess(data){
-                vm.categories = data.data;
+                vm.categories = data.data.results;
                 vm.category_selected = angular.copy(vm.item.categories[0]);
             }
 

@@ -15,7 +15,7 @@ INSTALLED_APPS = INSTALLED_APPS + (
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'compraloahi_new',
+        'NAME': 'db_compraloahi',
         'USER': 'compraloahi',
         'PASSWORD': 'laserjet1',
         'HOST': 'localhost',

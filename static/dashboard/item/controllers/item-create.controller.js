@@ -49,7 +49,7 @@
             }
 
             function getCategoriesSuccess(data){
-                vm.categories = data.data;
+                vm.categories = data.data.results;
             }
 
             function getCategoriesError(data){
@@ -65,6 +65,8 @@
 
             function createSuccess(data){
                 Authentication.has_items = true;
+                console.log("SUCCESS CREATE ITEM");
+                console.log(data);
                 vm.item = data.data;
                 AlertNotification.info("El aviso se creo correctamente, solo falta un paso.");
                 nextStep();
