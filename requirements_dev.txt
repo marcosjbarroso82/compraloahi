@@ -58,3 +58,4 @@ sqlparse==0.1.19
 terminado==0.5
 tornado==4.1
 urllib3==1.10.2
+django-colorful

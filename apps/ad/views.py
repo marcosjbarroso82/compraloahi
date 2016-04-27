@@ -196,7 +196,7 @@ class SearchViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
 class AdFacetedSearchView(FacetedSearchView):
     def extra_context(self, **kwargs):
         context = super(AdFacetedSearchView, self).extra_context(**kwargs)
-
+        context['categories'] = Category.objects.all()
         if (self.request.user.is_authenticated()):
             profile = UserProfile.objects.get(user=self.request.user)
             userLocations = UserLocation.objects.filter(userProfile=profile)

@@ -10,6 +10,7 @@ from django.core.urlresolvers import reverse
 from taggit.managers import TaggableManager
 
 from apps.favorite.models import Favorite
+from colorful.fields import RGBColorField
 
 
 class AdQuerySet(models.QuerySet):
@@ -21,6 +22,7 @@ class AdQuerySet(models.QuerySet):
 class Category(models.Model):
     name = models.CharField(max_length=40)
     slug = AutoSlugField(populate_from='name')
+    color = RGBColorField()
 
     def __str__(self):
         return self.name
