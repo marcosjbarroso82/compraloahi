@@ -11,7 +11,13 @@
     <link rel="stylesheet" type="text/css" href="{% static 'bower_components/ngDialog/css/ngDialog.min.css' %}" />
 
     <link rel="stylesheet" type="text/css" href="{% static 'bower_components/ngDialog/css/ngDialog-theme-plain.min.css' %}" />
-
+    <style>
+        {% for category in categories %}
+            .{{ category.slug }}{
+                background-color: {{ category.color }};
+            }
+        {% endfor %}
+    </style>
 {% endblock %}
 
 {% block angular_app_declare_block %}
