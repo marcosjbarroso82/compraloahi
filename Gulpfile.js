@@ -32,6 +32,12 @@ gulp.task('js-dashboard-app', function()
         'static/dashboard/profile/controllers/change-password.controller.js',
         'static/dashboard/profile/controllers/update-address.controller.js',
         'static/dashboard/profile/controllers/config-privacity.controller.js',
+        'static/dashboard/group/group.module.js',
+        'static/dashboard/group/services/group.service.js',
+        'static/dashboard/group/controllers/group.controller.js',
+        'static/dashboard/group/controllers/group-create.controller.js',
+        'static/dashboard/group/controllers/group-update.controller.js',
+
         'static/dashboard/item/item.module.js',
         'static/dashboard/item/services/item.service.js',
         'static/dashboard/item/controllers/item.controller.js',

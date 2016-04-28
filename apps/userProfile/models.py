@@ -8,6 +8,8 @@ from django.core.urlresolvers import reverse
 import urllib.request
 import json
 
+from apps.interest_group.models import InterestGroup
+
 TYPE_PHONE = (
     ('TEL', 'Telefono'),
     ('CEL', 'Celular'),
@@ -22,8 +24,8 @@ class UserProfile(models.Model):
     image = models.ImageField(upload_to='profile', null=False, blank=False, default="profile/default.jpg")
     birth_date = models.DateField(blank=True, null=True)
     user = models.OneToOneField(User, unique=True, related_name='profile')
-
     privacy_settings = JsonField(default=CONFIG_PRIVACY)
+    interest_groups = models.ManyToManyField(InterestGroup, related_name='members', null=True)
 
     def __str__(self):
         return 'profile ' + self.user.username

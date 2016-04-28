@@ -11,8 +11,8 @@ from apps.user.views import ChangePasswordUpdateAPIView
 from apps.userProfile.views import UserLocationViewSet, UserProfileModelView, StoreModelViewSet, \
     ProfileLocationViewSet, ConfigPrivacityViewSet
 from apps.msg.views import MsgViewSet
-
 from apps.comments.views import ThreadedCommentViewSet
+from apps.interest_group.views import InterestGroupViewSet
 
 router = DefaultRouter()
 router.register(r'user-items', AdUserViewSet, base_name='ad-by-user')
@@ -23,6 +23,7 @@ router.register(r'favorites', FavoriteAdViewSet, base_name='favorites')
 router.register(r'item-search', SearchViewSet, base_name='search') #/ad-search/?q=algo&latitude=-31&longitude=-64&km=33
 router.register(r'msgs', MsgViewSet, base_name='msgs')
 router.register(r'comments', ThreadedCommentViewSet, base_name='comment_api')
+router.register(r'interest-groups', InterestGroupViewSet, base_name='interest_group_api')
 
 urlpatterns = patterns('',
                        url(r'^categories/$', CategoriesListAPIView.as_view(), name='categories'),

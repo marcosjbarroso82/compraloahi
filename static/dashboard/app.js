@@ -22,6 +22,7 @@
             'dashBoardApp.layout',
             'dashBoardApp.profile',
             'dashBoardApp.item',
+            'dashBoardApp.group',
             'dashBoardApp.message',
             'dashBoardApp.userLocation',
             'dashBoardApp.util',

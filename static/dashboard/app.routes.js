@@ -195,6 +195,18 @@
                     ],
                     title: "Personalizar mi tienda"
                 }
+            })
+
+            // GROUPS
+            .state('my-groups', {
+                url: '/mis-grupos/',
+                templateUrl: '/static/dashboard/group/templates/my-group-list.html',
+                controller: 'GroupCtrl',
+                controllerAs: 'vm',
+                data:{
+                    breadcumbs: [{url: 'my-groups', name:'Mis Grupos'}],
+                    title: "Mis Grupos"
+                }
             });
 
             $urlRouterProvider.otherwise('/usuario/perfil/');
