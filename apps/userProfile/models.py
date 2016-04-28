@@ -172,7 +172,10 @@ class Store(models.Model):
                 raise ValidationError('Error, fields name is unique')
 
     def get_url(self):
-        return reverse('store', args=[self.slug])
+        if self.slug:
+            return reverse('store', args=[self.slug])
+        else:
+            return ''
 
     def save(self, *args, **kwargs):
         # Validate if has all config

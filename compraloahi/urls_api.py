@@ -11,6 +11,7 @@ from apps.user.views import ChangePasswordUpdateAPIView
 from apps.userProfile.views import UserLocationViewSet, UserProfileModelView, StoreModelViewSet, \
     ProfileLocationViewSet, ConfigPrivacityViewSet
 from apps.msg.views import MsgViewSet
+from apps.user.views import FacebookLogin, GoogleLogin
 from apps.comments.views import ThreadedCommentViewSet
 from apps.interest_group.views import InterestGroupViewSet
 
@@ -26,6 +27,23 @@ router.register(r'comments', ThreadedCommentViewSet, base_name='comment_api')
 router.register(r'interest-groups', InterestGroupViewSet, base_name='interest_group_api')
 
 urlpatterns = patterns('',
+                       ## START URL ACTUALIZADAS TODO: ESTAS URL SE PASARON AHORA, ACOMODAR EL CLIENTE:
+                       # TODO : This url belong to api
+                       url(r'^rest-auth/facebook/$',
+                           FacebookLogin.as_view(),
+                           name='fb_login'),
+
+                        # TODO : This url belong to api
+                       url(r'^rest-auth/google/$',
+                           GoogleLogin.as_view(),
+                           name='goo_login'),
+                        # Add authentication by django rest client
+                        #url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+                        # TODO : This url belong to api
+                       url(r'^rest-auth/', include('rest_auth.urls')),
+                       url(r'^rest-auth/registration/', include('rest_auth.registration.urls')),
+
+                        ### END URL ACTUALIZADAS
                        url(r'^categories/$', CategoriesListAPIView.as_view(), name='categories'),
 
                        url(r'^store-config/$',

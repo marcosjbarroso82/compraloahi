@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from . import models
+from .models import Ad, AdImage, Category
 from apps.adLocation.models import AdLocation
 
 
@@ -9,7 +9,7 @@ class AdLocationInline(admin.TabularInline):
 
 
 class AdImageInline(admin.TabularInline):
-    model = models.AdImage
+    model = AdImage
     extra = 4
 
 
@@ -28,14 +28,19 @@ class AdAdmin(admin.ModelAdmin):
 
     def get_queryset(self, request):
         if request.user.is_superuser:
-            return models.Ad.objects.all()
-        return models.Ad.objects.filter(author=request.user)
+            return Ad.objects.all()
+        return Ad.objects.filter(author=request.user)
 
     def save_model(self, request, obj, form, change):
         if not change:
             obj.author = request.user
         obj.save()
 
-admin.site.register(models.Category)
-admin.site.register(models.Ad, AdAdmin)
-admin.site.register(models.AdImage, admin.ModelAdmin)
+
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ["name", "color",]
+    list_editable = ["color",]
+
+admin.site.register(Category, CategoryAdmin)
+admin.site.register(Ad, AdAdmin)
+admin.site.register(AdImage, admin.ModelAdmin)
