@@ -204,8 +204,18 @@
                 controller: 'GroupCtrl',
                 controllerAs: 'vm',
                 data:{
-                    breadcumbs: [{url: 'my-groups', name:'Mis Grupos'}],
+                    breadcumbs: [{url: 'mis-grupos', name:'Mis Grupos'}],
                     title: "Mis Grupos"
+                }
+            })
+            .state('group-create', {
+                url: '/crear-grupo/',
+                templateUrl: '/static/dashboard/group/templates/create.html',
+                controller: 'GroupCreateCtrl',
+                controllerAs: 'vm',
+                data:{
+                    breadcumbs: [{url: 'crear-grupo', name:'Crear Grupo'}],
+                    title: "Crear Grupos"
                 }
             });
 

@@ -9,4 +9,7 @@ class InterestGroupViewSet(viewsets.ModelViewSet):
     queryset = InterestGroup.objects.all()
     serializer_class = InterestGroupSerializer
 
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
+
 

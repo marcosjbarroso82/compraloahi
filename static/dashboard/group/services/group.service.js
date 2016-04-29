@@ -40,10 +40,19 @@
         }
 
         function create(group){
-            return $http.post('/api/v1/interest-groups/', group);
+            var fd = new FormData();
+            fd.append('name', group.name);
+            fd.append('description', group.description);
+            fd.append('image', group.image);
+            return $http.post('/api/v1/interest-groups/', fd, {
+                headers: {'Content-Type': undefined},
+                withCredentials: true,
+                transformRequest: angular.identity
+            });
         }
 
         function update(group){
+            //TODO: Should be patch?
             return $http.put('/api/v1/interest-groups/' + group.id + '/', group);
         }
 
