@@ -21,11 +21,13 @@
                                 <div id="grid-gallery" class="grid-gallery">
                                     <section class="grid-wrap">
                                         <ul class="grid" style="display: table;">
-                                            <li  style="display: table-cell;" id="group-li-{{ item.id }}" ng-class-odd="'odd'" ng-class-even="'even'" ng-repeat="group in vm.groups">
-                                                <figure>
+                                            <li  style="display: inline-flex;" id="group-li-{{ group.id }}" ng-class-odd="'odd'" ng-class-even="'even'" ng-repeat="group in vm.groups">
+                                                <a ui-sref="group-update({id:{{ group.id }}})">
+                                                <figure style="display: inline-block">
                                                     <img ng-src="{{ group.thumbnail_250x160 }}" />
                                                     <figcaption><h3>{{ group.name }}</h3><p>{{ group.description }}</p></figcaption>
                                                 </figure>
+                                                    </a>
                                             </li>
                                         </ul>
                                     </section>

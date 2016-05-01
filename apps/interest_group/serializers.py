@@ -6,7 +6,7 @@ from apps.ad.serializers import Base64ImageField
 
 class InterestGroupSerializer(serializers.ModelSerializer):
     thumbnail_250x160 = serializers.SerializerMethodField()
-    image = Base64ImageField(max_length=None, use_url=True,)
+    image = Base64ImageField(max_length=None, use_url=True, required=False)
 
     class Meta:
         model = InterestGroup
@@ -16,6 +16,6 @@ class InterestGroupSerializer(serializers.ModelSerializer):
     def get_thumbnail_250x160(self, obj):
         try:
             return get_thumbnail(obj.image, '250x160', crop='center', quality=99).url
-        except:
+        except Exception as e:
             return ""
 

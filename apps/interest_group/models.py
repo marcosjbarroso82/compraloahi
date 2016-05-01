@@ -9,7 +9,8 @@ class InterestGroup(models.Model):
     name = models.CharField(max_length=20, unique=True)
     description = models.TextField(max_length=200)
     owner = models.ForeignKey(User)
-    image = models.ImageField(upload_to='groups', null=False, blank=False)
+    #TODO: Add upload_to and make sure thumbnails are still created
+    image = models.ImageField(default='default.png', null=False, blank=False)
     slug = models.SlugField(auto_created=True, editable=False)
 
     def clean_slug(self):

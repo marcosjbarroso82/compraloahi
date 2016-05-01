@@ -217,6 +217,16 @@
                     breadcumbs: [{url: 'crear-grupo', name:'Crear Grupo'}],
                     title: "Crear Grupos"
                 }
+            })
+            .state('group-update', {
+                url: '/editar-grupo/:id',
+                templateUrl: '/static/dashboard/group/templates/update.html',
+                controller: 'GroupUpdateCtrl',
+                controllerAs: 'vm',
+                data:{
+                    breadcumbs: [{url: 'editar-grupo', name:'Editar Grupo'}],
+                    title: "Editar Grupo"
+                }
             });
 
             $urlRouterProvider.otherwise('/usuario/perfil/');
