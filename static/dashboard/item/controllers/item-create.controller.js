@@ -9,12 +9,12 @@
         .module('dashBoardApp.item.controllers')
         .controller('ItemCreateCtrl', ItemCreateCtrl);
 
-    ItemCreateCtrl.$inject = ['Item', 'AlertNotification', '$state', 'Authentication'];
+    ItemCreateCtrl.$inject = ['Item', 'AlertNotification', '$state', 'Authentication', 'Group'];
 
     /**
      * @namespace ItemCreateCtrl
      */
-    function ItemCreateCtrl(Item, AlertNotification, $state, Authentication){
+    function ItemCreateCtrl(Item, AlertNotification, $state, Authentication, Group){
         var vm = this;
 
         // Declare functions
@@ -24,10 +24,16 @@
         vm.finish = finish;
 
         // Define vars
-        vm.item = {};
+        vm.item = {
+            body: '',
+            groups: []
+        };
         vm.item.categories = [];
 
         vm.categories_selected = [];
+
+        vm.groups = [];
+        vm.is_public = true;
 
         activate();
 
@@ -44,8 +50,18 @@
 
             if(Authentication.has_address){
                 vm.promiseRequestCategories = Item.getCategories().then(getCategoriesSuccess, getCategoriesError);
+
+                vm.promiseRequestGroup = Group.list().then(getGroupsSuccess, getGroupsError)
             }else{
                 $state.go('profile-address', {"redirect": 'item-create'});
+            }
+
+            function getGroupsSuccess(data){
+                vm.groups = data.data.results;
+            }
+
+            function getGroupsError(data){
+                AlertNotification.error("Error al generar el formulario, intente recargando la pagina nuevamente.");
             }
 
             function getCategoriesSuccess(data){
@@ -60,6 +76,13 @@
 
         function submit(){
             vm.item.categories = [vm.category_selected,];
+            if(!vm.is_public){
+                for(var i=0; i < vm.groups.length;i++){
+                    if(vm.groups[i].selected){
+                        vm.item.groups.push(vm.groups[i].id);
+                    }
+                }
+            }
 
             vm.promiseRequest = Item.create(vm.item).then(createSuccess, createError);
 

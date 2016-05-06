@@ -32,3 +32,14 @@ class InterestGroup(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Post(models.Model):
+    group = models.ForeignKey(InterestGroup, related_name='posts')
+    user = models.ForeignKey(User, related_name='posts')
+    content = models.TextField()
+    created = models.DateTimeField(auto_now_add=True, auto_created=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-created']

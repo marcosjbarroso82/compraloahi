@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import InterestGroup
+from .models import InterestGroup, Post
 from sorl.thumbnail import get_thumbnail
 from apps.ad.serializers import Base64ImageField
 
@@ -19,3 +19,18 @@ class InterestGroupSerializer(serializers.ModelSerializer):
         except Exception as e:
             return ""
 
+
+class PostSerializer(serializers.ModelSerializer):
+    user = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Post
+        fields = ('content', 'group', 'created', 'id', 'user')
+        read_only_fields = ('created', 'id', 'user')
+
+    def get_user(self, obj):
+        if obj.user:
+            return {
+                'username': obj.user.username,
+                'image': get_thumbnail(obj.user.profile.image, '250x160', crop='center', quality=99).url
+            }

@@ -54,6 +54,7 @@
             }
         });
 
+
         $scope.$watchCollection("vm.items", function () {
             vm.tableParams.reload();
         });

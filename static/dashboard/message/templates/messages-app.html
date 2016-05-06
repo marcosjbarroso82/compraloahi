@@ -99,7 +99,7 @@
                             {{ message.subject }}
                         </td>
                         <td>
-                            {{ message.sent_at }}
+                            {{ message.sent_at | date:'yyyy-MM-dd HH:mm' }}
                         </td>
                     </tr>
                     </tbody>

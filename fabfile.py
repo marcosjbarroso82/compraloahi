@@ -15,7 +15,7 @@ from fabric.context_managers import settings
 
 
 env.server_name = 'compraloahi.com.ar'
-env.hosts =  ['162.243.201.32']
+env.hosts =  ['107.170.52.17']
 env.user = 'root'
 env.user_path = '/webapps/compraloahi'
 env.project_name = 'compraloahi'
@@ -26,7 +26,7 @@ env.application_path = '%s/%s/%s' % (env.user_path, env.project_name, env.projec
 env.virtualenv_path = '%s/environment/bin/activate' % env.project_path
 env.repository_type = 'git'
 env.repository_url = 'git@bitbucket.org:contextdev/compraloahi.git'
-env.manage = "%s/environment/bin/python %s/manage.py" % (env.user_path, env.application_path)
+env.manage = "%s/environment/bin/python %s/manage.py" % (env.user_path, env.project_path)
 
 env.virtualenv_name = 'environment'
 env.django_settings_modules = 'compraloahi.settings.production'
@@ -81,7 +81,7 @@ SYSTEM_PACKAGES = [
     #'libpq-dev', # Required for work width postgres
 
     'python3-all-dev', # All python lib to work
-
+    'python3-pip',
     # Required for some python libs
     'build-essential',
     'autoconf',
@@ -180,7 +180,7 @@ def pip(modules):
     Install the Python modules passed as arguments with pip
     """
     with virtualenv():
-        run('pip install %s' % modules)
+        run('pip3 install %s' % modules)
 
 def log_call(func):
     @wraps(func)
@@ -292,8 +292,8 @@ def install_base():
     #    run('make')
     #    sudo('make install')
 
-    sudo('easy_install pip')
-    sudo('pip install virtualenv mercurial')
+    #sudo('easy_install pip')
+    sudo('pip3 install virtualenv')
 
     #run('echo -e "Host github.com\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config')
     #run('echo -e "Host bitbucket.org\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config')
@@ -342,7 +342,7 @@ def create():
         run("virtualenv %s" % env.virtualenv_name)
         with virtualenv():
             #run('pip install -r %s/requirements/_base.txt' % env.project_path)
-            run('pip install -r %s/requirements_dev.txt' % env.project_path)
+            run('pip3 install -r %s/requirements_dev.txt' % env.project_path)
 
     run('mkdir %s/bin' % env.project_path) # TODO THis line is patch because the folder bin doesnt exist on master branch
     upload_template_and_reload('gunicorn')
@@ -351,7 +351,7 @@ def create():
 
     with virtualenv(), prefix('export DJANGO_SETTINGS_MODULE="%s"' % env.django_settings_modules):
         manage('migrate --all')
-        manage("collectstatic -v 0 --noinput")
+        manage("collectstatic")
 
     change_own_folder_web_user()
     #if exists('%sgunicorn.pid'):

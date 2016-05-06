@@ -1,0 +1,197 @@
+{% extends 'layout/base.html' %}
+{% load bootstrap3 thumbnail static %}
+{% block title %}Grupo {{ group.title }}{% endblock %}
+
+{% block body_block %}
+    <link rel="stylesheet" type="text/css" href="{% static 'bower_components/angular-tooltip-master/src/tooltip.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'bower_components/froala-wysiwyg-editor/css/froala_editor.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'bower_components/froala-wysiwyg-editor/css/froala_style.css' %}" />
+
+    <style>
+        .profile-cover {
+            background: url(../../static/assets/images/profile-cover.png);
+            background-size: cover;
+            width: 100%;
+            height: 300px;
+            position: relative;
+        }
+
+        .timeline-item-post iframe{
+            max-width: 100%;
+        }
+        .timeline-item-post img{
+            width: 100% !important;
+        }
+    </style>
+    <div class="profile-cover">
+        <div class="container">
+            <div class="col-md-12 profile-info">
+                <div class="profile-info-value">
+                    <h3>{{ group.members.all|length }}</h3>
+                    <p>Usuarios</p>
+                </div>
+                <div class="profile-info-value">
+                    <h3>{{ group.items.all|length }}</h3>
+                    <p>Avisos</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="main-wrapper" class="container">
+        <div class="row">
+            <div class="col-md-3 user-profile">
+                <div class="profile-image-container">
+                    {% thumbnail group.image "220x220" crop="center" as im %}
+                        <img  src="{{ im.url }}">
+                    {% endthumbnail %}
+                </div>
+                <h3 class="text-center">{{ group.name }}</h3>
+
+                <hr>
+                <div class="panel panel-white">
+                    <div class="panel-heading">
+                        <div class="panel-title">Informacion del grupo</div>
+                    </div>
+                    <div class="panel-body">
+                        <p>{{ group.description }}</p>
+                    </div>
+                </div>
+                <div class="panel panel-white">
+                    <div class="panel-heading">
+                        <div class="panel-title">Invitar al grupo</div>
+                    </div>
+                    <div class="panel-body">
+                        <input type="text" class="form-control" placeholder="Ingresa el nombre de usuario o email..."/>
+                        <button class="btn btn-success pull-right">Invitar</button>
+                    </div>
+                </div>
+                <div class="panel panel-white">
+                    <div class="panel-heading">
+                        <div class="panel-title">Members</div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="team">
+                            {% for member in group.members.all %}
+                                <div class="team-member">
+                                    <div class="online on"></div>
+                                    {% thumbnail member.image "110x110" crop="center" as im %}
+                                        <img src="{{ im.url }}" alt="">
+                                    {% endthumbnail %}
+                                </div>
+                            {% endfor %}
+
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-white">
+                    <div class="panel-heading">
+                        <div class="panel-title">Some Info</div>
+                    </div>
+                    <div class="panel-body">
+                        <p>Nullam quis risus eget urna mollis ornare vel eu leo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam id dolor id nibh ultricies vehicula.</p>
+                    </div>
+                </div>
+                <div class="panel panel-white">
+                    <div class="panel-heading">
+                        <div class="panel-title">Skills</div>
+                    </div>
+                    <div class="panel-body">
+                        <p>HTML5</p>
+                        <div class="progress progress-xs">
+                            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%">
+                            </div>
+                        </div>
+                        <p>PHP</p>
+                        <div class="progress progress-xs">
+                            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
+                            </div>
+                        </div>
+                        <p>Javascript</p>
+                        <div class="progress progress-xs">
+                            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width: 70%">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9 m-t-lg" ng-controller="TimeLineCtrl as vm">
+
+                <div class="post" style="margin-bottom: 20px;">
+                    <textarea froala ng-model="vm.post.content"></textarea>
+                    <button ng-click="vm.submit()" class="btn btn-default pull-right"
+                            style="margin-top: -35px; margin-right: 5px; z-index: 5; position: relative;">Post</button>
+                </div>
+                {% verbatim %}
+                <div class="profile-timeline">
+                    <ul class="list-unstyled">
+                        <li class="timeline-item" ng-repeat="post in vm.posts">
+                            <div class="panel panel-white">
+                                <div class="panel-body">
+                                    <div class="timeline-item-header">
+                                        <img ng-src="{{ post.user.image }}" alt="">
+                                        <p>{{ post.user.username }} <span>Posted a Status</span></p>
+                                        <small>{{ post.created | date:'yyyy-MM-dd HH:mm' }}</small>
+                                    </div>
+                                    <div class="timeline-item-post">
+                                        <p ng-bind-html="vm.safeHtml(post.content)"></p>
+                                        <!--<div class="timeline-options">
+                                            <a href="#"><i class="icon-like"></i> Like (3)</a>
+                                            <a href="#"><i class="icon-bubble"></i> Comment (0)</a>
+                                            <a href="#"><i class="icon-share"></i> Share (2)</a>
+                                        </div>
+                                        <textarea class="form-control" placeholder="Write a comment..."></textarea>-->
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                {% endverbatim %}
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        var group = {{ group.id }};
+    </script>
+    <!-- ###################### IMPORT THIRD LIB ###################### -->
+
+    <script type="text/javascript" src="{% static 'bower_components/froala-wysiwyg-editor/js/froala_editor.min.js' %}"></script>
+
+    <!--<script type="text/javascript" src="{% static 'bower_components/froala-wysiwyg-editor/js/plugins/file.min.js' %}"></script>-->
+    <script type="text/javascript" src="{% static 'bower_components/froala-wysiwyg-editor/js/plugins/image.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bower_components/froala-wysiwyg-editor/js/plugins/video.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bower_components/froala-wysiwyg-editor/js/plugins/link.min.js' %}"></script>
+
+    <!-- angular resources -->
+    <script type="text/javascript" src="{% static 'bower_components/angular/angular.min.js' %}"></script>
+
+    <script type="text/javascript" src="{% static 'bower_components/angular-froala/src/angular-froala.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bower_components/angular-froala/src/froala-sanitize.js' %}"></script>
+
+    <script type="text/javascript" src="{% static 'bower_components/angular-resource/angular-resource.js' %}"></script>
+
+    <!-- ###################### END IMPORT ###################### -->
+
+
+    <!-- ###################### MODULE UTILS ###################### -->
+    <script type="text/javascript" src="{% static 'angular-resources/modules/utils/util.module.js' %}"></script>
+    <script type="text/javascript" src="{% static 'angular-resources/modules/utils/directives/alert-notification.directive.js' %}"></script>
+
+    <!-- ###################### MODULE UTILS ###################### -->
+
+    <!-- ###################### angular-resources APP - MODULE AD ###################### -->
+    <script type="text/javascript" src="{% static 'angular-resources/modules/group/group.module.js' %}"></script>
+    <script type="text/javascript" src="{% static 'angular-resources/modules/group/services/group.service.js' %}"></script>
+    <script type="text/javascript" src="{% static 'angular-resources/modules/group/services/post.service.js' %}"></script>
+    <script type="text/javascript" src="{% static 'angular-resources/modules/group/controllers/group-update.controller.js' %}"></script>
+    <script type="text/javascript" src="{% static 'angular-resources/modules/group/controllers/timeline.controller.js' %}"></script>
+    <!-- ###################### END angular-resources APP - MODULE AD ###################### -->
+
+    <!-- ###################### angular-resources APP ###################### -->
+    <script type="text/javascript" src="{% static 'angular-resources/apps/app.group.js' %}"></script>
+    <!-- ###################### END angular-resources APP ###################### -->
+
+
+{% endblock %}

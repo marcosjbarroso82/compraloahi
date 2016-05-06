@@ -27,9 +27,9 @@
                             {% thumbnail images.image "800x800" crop="center" as im %}
                                 <a id="{{ images.pk }}" class="item-image-gallery" data-image="{{ im.url }}">
                             {% endthumbnail %}
-                        {% thumbnail images.image "110x110" crop="center" as im %}
-                            <img class="img-thumbnail" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
-                        {% endthumbnail %}
+                            {% thumbnail images.image "110x110" crop="center" as im %}
+                                <img class="img-thumbnail" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+                            {% endthumbnail %}
                         </a>
                         {% endfor %}
                     </div>

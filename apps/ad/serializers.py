@@ -142,7 +142,7 @@ class AdSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ad
         fields = ('id', 'images', 'title', 'body', 'status', 'pub_date', 'price', 'slug', 'short_description',
-                  'author', 'categories', 'locations', 'is_favorite', 'status', 'store_published')
+                  'author', 'categories', 'locations', 'is_favorite', 'status', 'store_published', 'groups')
         #exclude = ('author', 'created', 'modified',)
         read_only_fields = ('pub_date', 'id', 'pub_date', 'slug', 'tags', 'author', 'status', 'store_published')
 

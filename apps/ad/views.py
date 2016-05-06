@@ -26,15 +26,12 @@ from .serializers import SearchResultSerializer, AdSerializer, AdPublicSerialize
 from rest_framework import status
 from apps.notification.models import Notification
 from rest_framework.decorators import list_route, detail_route, parser_classes
-
+from apps.interest_group.models import InterestGroup
 
 logger = logging.getLogger('debug')
 
 # Devolver un diccionario de filtros activos y un array de facets detallados
 def get_facet(params_url, facets_fields):
-    print(30*"==FACET==")
-    print(params_url)
-    print(facets_fields)
     # Var to all facets active
     facets_active = {}
     # Var to all facets
@@ -74,6 +71,11 @@ def get_facet(params_url, facets_fields):
                             val['label'] = Category.objects.get(slug=val['name']).name
                         except:
                             val['label'] = val['name']
+                    if facet['name'] == 'groups':
+                        try:
+                            val['label'] = InterestGroup.objects.get(slug=val['name']).name
+                        except:
+                            val['label'] = val['name']
 
             facet['values'].append(val)
 
@@ -89,7 +91,7 @@ class SearchViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
     def get_queryset(self, *args, **kwargs):
         # Init queryset
         qs = SearchQuerySet().all()
-        qs = qs.facet('categories')
+        qs = qs.facet('categories').facet('groups')
 
         if self.request.query_params.get('q'):
             #qs = qs.filter_and(title__contains=self.request.query_params.get('q'))
@@ -106,12 +108,7 @@ class SearchViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
 
         point = None
 
-        #import pdb; pdb.set_trace()
         try:
-            print(30*"LAT===")
-            print(float(self.request.query_params['lat']))
-            print(30*"=LNG=")
-            print(float(self.request.query_params['lng']))
             point = Point(float(self.request.query_params['lng']), float(self.request.query_params['lat']))
         except Exception as e:
             logging.error(e)
@@ -131,17 +128,17 @@ class SearchViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
         except:
             pass
 
-        try:
-            param_facet_url = list(self.request.query_params.getlist('selected_facets', []))
-        except:
-            param_facet_url = list(self.request.query_params.get('selected_facets', []))
-
-        for facet in param_facet_url:
-            if ":" not in facet:
+        #try:
+        #    param_facet_url = list(self.request.query_params.getlist('selected_facets', []))
+        #except:
+        param_facet_url = self.request.query_params.get('selected_facets', '').split(',')
+        for param_facet in param_facet_url:
+            if ":" not in param_facet:
                 continue
-            field, value = facet.split(":", 1)
+            field, value = param_facet.split(":", 1)
             if value and field.split('_')[1] == 'exact':
                 qs = qs.narrow('%s:"%s"' % (field, qs.query.clean(value)))
+
         try:
             self.facets = get_facet(param_facet_url, qs.facet_counts()['fields'].items())
         except:
@@ -196,22 +193,20 @@ class SearchViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
 class AdFacetedSearchView(FacetedSearchView):
     def extra_context(self, **kwargs):
         context = super(AdFacetedSearchView, self).extra_context(**kwargs)
-        context['categories'] = Category.objects.all()
+        context['categories'] = Category.objects.all() # This is for set color by category
+        #context['groups'] = InterestGroup.objects.all()
         if (self.request.user.is_authenticated()):
-            profile = UserProfile.objects.get(user=self.request.user)
-            userLocations = UserLocation.objects.filter(userProfile=profile)
-            context['user_locations'] = userLocations
+            #profile = UserProfile.objects.get(user=self.request.user)
+            #userLocations =
+            context['user_locations'] = UserLocation.objects.filter(userProfile=self.request.user.profile)
         else:
             context['user_locations'] = {}
 
         # TODO Se esta creando el json de facets antes de setearlo y las cantidades quedan mal generadas.
-        try:
-            param_facet_url = list(self.request.GET.getlist('selected_facets', []))
-        except:
-            param_facet_url = list(self.request.GET.get('selected_facets', []))
+
+        param_facet_url = self.request.GET.get('selected_facets', '').split(',')
 
         self.facets = get_facet(param_facet_url, self.searchqueryset.facet_counts()['fields'].items())
-
         context['clean_facets'] = json.dumps(self.facets)
         context['q'] = self.request.GET.get('q', '')
         return context

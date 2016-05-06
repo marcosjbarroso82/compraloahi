@@ -200,7 +200,7 @@
             // GROUPS
             .state('my-groups', {
                 url: '/mis-grupos/',
-                templateUrl: '/static/dashboard/group/templates/my-group-list.html',
+                templateUrl: '/static/dashboard/group/templates/list.html',
                 controller: 'GroupCtrl',
                 controllerAs: 'vm',
                 data:{

@@ -11,6 +11,7 @@ from taggit.managers import TaggableManager
 
 from apps.favorite.models import Favorite
 from colorful.fields import RGBColorField
+from apps.interest_group.models import InterestGroup
 
 
 class AdQuerySet(models.QuerySet):
@@ -53,6 +54,9 @@ class Ad(models.Model):
                                 max_digits=10)
 
     store_published = models.BooleanField(default=False)
+
+    #is_public = models.BooleanField(default=True)
+    groups = models.ManyToManyField(InterestGroup, related_name='items')
 
     objects = AdQuerySet.as_manager()
 

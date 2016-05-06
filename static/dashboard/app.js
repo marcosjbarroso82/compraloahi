@@ -13,7 +13,7 @@
             'ngTable',
             'leaflet-directive',
             '720kb.socialshare',
-
+            'froala',
             'dashBoardApp.config',
             'dashBoardApp.routes',
 
@@ -37,6 +37,12 @@
             delay: 100,
             minDuration: 500,
             wrapperClass: 'cg-busy cg-busy-backdrop'
+        })
+        .value('froalaConfig', {
+            toolbarInline: false,
+            placeholderText: 'Deja tu comentario...',
+            //toolbarButtons : ['insertLink', 'insertImage', 'insertVideo']
+            toolbarButtons : ['fullscreen', 'bold', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript', 'fontFamily', 'fontSize', '|', 'color', 'emoticons', 'inlineStyle', 'paragraphStyle', '|', 'paragraphFormat', 'align', 'formatOL', 'formatUL', 'outdent', 'indent', 'quote', 'insertHR', '-', 'insertLink', 'insertImage', 'insertVideo', 'insertFile', 'insertTable', 'undo', 'redo', 'clearFormatting', 'selectAll', 'html']
         });
 
     angular

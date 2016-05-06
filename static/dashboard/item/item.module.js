@@ -4,8 +4,7 @@
     angular
         .module('dashBoardApp.item', [
             'dashBoardApp.item.controllers',
-            'dashBoardApp.item.services',
-            'ngCkeditor'
+            'dashBoardApp.item.services'
         ]);
 
     angular

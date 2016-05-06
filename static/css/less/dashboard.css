@@ -231,10 +231,11 @@ html {
   overflow-y: auto;
   overflow-x: hidden;
   height: 100%;
+  min-height: 100%;
 }
-.page-content {
+/*.page-content{
   margin-bottom: 40px;
-}
+}*/
 .page-inner {
   padding-bottom: 0px !important;
 }
@@ -401,10 +402,13 @@ hr {
 }
 .table thead tr th {
   padding: 10px !important;
-  border-color: rgba(5, 0, 69, 0.76) !important;
+  border-color: #333333 !important;
 }
 .ng-table th.sortable.sort-asc {
-  background-color: rgba(35, 194, 0, 0.3) !important;
+  background-color: #f1f1f1 !important;
+}
+.ng-table th.sortable.sort-desc {
+  background-color: #E5E5E5 !important;
 }
 .cg-busy {
   top: 0px !important;
