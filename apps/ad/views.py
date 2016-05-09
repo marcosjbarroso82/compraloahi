@@ -11,73 +11,108 @@ from django.views.generic import DetailView
 from haystack.views import FacetedSearchView
 from haystack.query import SearchQuerySet
 
-from rest_framework.generics import ListAPIView, CreateAPIView, DestroyAPIView
-from rest_framework import viewsets, permissions, mixins
+from rest_framework.generics import ListAPIView
+from rest_framework import viewsets, mixins
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, BasePermission
 from rest_framework.parsers import FileUploadParser
 
 from apps.rating.models import OverallRating
-from apps.userProfile.models import UserProfile, UserLocation
+from apps.userProfile.models import UserLocation
 
 from .models import Ad, Category, AdImage
 from .serializers import SearchResultSerializer, AdSerializer, AdPublicSerializer, AdsSearchSerializer, \
     CategorySerializer, ImageSerializer
 from rest_framework import status
 from apps.notification.models import Notification
-from rest_framework.decorators import list_route, detail_route, parser_classes
+from rest_framework.decorators import parser_classes
 from apps.interest_group.models import InterestGroup
+from django.db.models import Q
 
 logger = logging.getLogger('debug')
 
 # Devolver un diccionario de filtros activos y un array de facets detallados
-def get_facet(params_url, facets_fields):
+def get_facet(params_url, facets_fields, user):
     # Var to all facets active
     facets_active = {}
     # Var to all facets
     facets = []
+    print(10*"#facets_fields#")
+    print(facets_fields)
+    print(10*"#params_url#")
+    print(params_url)
+
     for name, values in facets_fields:
         facet = {}
         facet['name'] = name
         facet['values'] = []
         facet['activated'] = False
 
-        facet_active = {}
-        if not facet['activated']:
-            for param_facet in params_url:
-                param_name = str(param_facet).split(':')[0]
-                # Valida si el parametro pertenece a un facet, y si el facet mismo ya esta activo
-                if param_name.split('_')[0] == name and facets_active.get(param_name.split('_')[0], True):
-                    if param_name.split('_')[1] != 'exact':
-                         break
-                    param_value = str(param_facet).split(':')[1]
-                    facet_active['value'] = param_value
-                    facet_active['name'] = param_name.split('_')[0]
-                    break
-
         for value in values:
-            val = {}
-            val['name'] = value[0]
-            val['cant'] = value[1]
-            val['activated'] = False
+            try:
+                value_serializer = {}
+                value_serializer['name'] = value[0]
+                value_serializer['cant'] = value[1]
+                value_serializer['activated'] = False
 
-            if not facet['activated'] and facet_active.get('value', None):
-                if val['name'] == facet_active['value']:
-                    facets_active[facet_active['name']] = facet_active['value']
-                    facet['activated'] = True
-                    val['activated'] = True
-                    if facet['name'] == 'categories':
-                        try:
-                            val['label'] = Category.objects.get(slug=val['name']).name
-                        except:
-                            val['label'] = val['name']
-                    if facet['name'] == 'groups':
-                        try:
-                            val['label'] = InterestGroup.objects.get(slug=val['name']).name
-                        except:
-                            val['label'] = val['name']
+                if facet['name'] == 'categories':
+                    value_serializer['label'] = Category.objects.get(slug=value_serializer['name']).name
+                if facet['name'] == 'groups':
+                    if value_serializer['name'] == 'public': raise InterestGroup.DoesNotExist
+                    value_serializer['label'] = InterestGroup.objects.get(slug=value_serializer['name'], members=user.profile).name #, members__in=user.pk
 
-            facet['values'].append(val)
+                for param_facet in params_url:
+                    if len(str(param_facet).split(':')) > 1:
+                        param_name = str(param_facet).split(':')[0]
+                        param_value = str(param_facet).split(':')[1]
+                        if param_name.split('_')[0] == name:
+                            if param_name.split('_')[1] != 'exact':
+                                 break
+                            if value_serializer['name'] == param_value:
+                                facet['activated'] = True
+                                value_serializer['activated'] = True
+
+                facet['values'].append(value_serializer)
+            except Category.DoesNotExist:
+                print("La categoria que se intenta usar como facets, no existe.")
+            except InterestGroup.DoesNotExist:
+                print("El grupo que se intenta usar como facet no existe, o no puede ser visualizado por el usuario autenticado.")
+        # if not facet['activated']:
+        #     for param_facet in params_url:
+        #         param_name = str(param_facet).split(':')[0]
+        #         # Valida si el parametro pertenece a un facet, y si el facet mismo ya esta activo
+        #         if param_name.split('_')[0] == name: #and facets_active.get(param_name.split('_')[0], True):
+        #             if param_name.split('_')[1] != 'exact':
+        #                  break
+        #             facet_active['value'] = str(param_facet).split(':')[1]
+        #             facet_active['name'] = param_name.split('_')[0]
+        #             break
+        #
+        # for value in values:
+        #     val = {}
+        #     val['name'] = value[0]
+        #     val['cant'] = value[1]
+        #     val['activated'] = False
+        #     #try:
+        #     if not facet['activated'] and facet_active.get('value', None):
+        #         if val['name'] == facet_active['value']:
+        #             facets_active[facet_active['name']] = facet_active['value']
+        #             facet['activated'] = True
+        #             val['activated'] = True
+        #             if facet['name'] == 'categories':
+        #                 try:
+        #                     val['label'] = Category.objects.get(slug=val['name']).name
+        #                 except:
+        #                     val['label'] = val['name']
+        #             if facet['name'] == 'groups':
+        #                 try:
+        #                     print(30*"====")
+        #                     print(user.pk)
+        #                     val['label'] = InterestGroup.objects.get(slug=val['name']).name #, members__in=user.pk
+        #                 except:
+        #                     val['label'] = val['name']
+        #
+        #     facet['values'].append(val)
 
         facets.append(facet)
 
@@ -91,7 +126,11 @@ class SearchViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
     def get_queryset(self, *args, **kwargs):
         # Init queryset
         qs = SearchQuerySet().all()
-        qs = qs.facet('categories').facet('groups')
+
+        qs = qs.facet('categories')
+
+        if self.request.user.is_authenticated():
+            qs = qs.facet('groups')
 
         if self.request.query_params.get('q'):
             #qs = qs.filter_and(title__contains=self.request.query_params.get('q'))
@@ -132,15 +171,33 @@ class SearchViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
         #    param_facet_url = list(self.request.query_params.getlist('selected_facets', []))
         #except:
         param_facet_url = self.request.query_params.get('selected_facets', '').split(',')
+        flag_group = False
         for param_facet in param_facet_url:
             if ":" not in param_facet:
                 continue
             field, value = param_facet.split(":", 1)
             if value and field.split('_')[1] == 'exact':
-                qs = qs.narrow('%s:"%s"' % (field, qs.query.clean(value)))
+                try:
+                    # Validate that the user belongs to the group
+                    if field.split('_')[0] == 'groups':
+                        print("ESTO ANDA=???????????")
+                        InterestGroup.objects.get(slug=value, members=self.request.user.profile) # , members__in=self.request.user.profile.pk
+                        flag_group = True
+
+                    print(30*"========")
+                    print("SET FACET IN QUERY")
+                    print(field)
+                    print(value)
+                    qs = qs.narrow('%s:"%s"' % (field, qs.query.clean(value)))
+                except InterestGroup.DoesNotExist:
+                    # The user hasnt permissiont to filter by this group.
+                    pass
+
 
         try:
-            self.facets = get_facet(param_facet_url, qs.facet_counts()['fields'].items())
+            print(20*"=1=")
+            self.facets = get_facet(param_facet_url, qs.facet_counts()['fields'].items(), self.request.user)
+            print(20*"=1.5=")
         except:
             self.facets = []
 
@@ -151,6 +208,11 @@ class SearchViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
                     qs = qs.order_by(self.request.query_params.get('order_by'))
             else:
                 qs = qs.order_by(self.request.query_params.get('order_by'))
+
+        print(20*"####")
+        print(flag_group)
+        if not flag_group:
+            qs = qs.narrow('%s:"%s"' % ('groups_exact', qs.query.clean('public')))
 
         return qs
 
@@ -205,8 +267,8 @@ class AdFacetedSearchView(FacetedSearchView):
         # TODO Se esta creando el json de facets antes de setearlo y las cantidades quedan mal generadas.
 
         param_facet_url = self.request.GET.get('selected_facets', '').split(',')
-
-        self.facets = get_facet(param_facet_url, self.searchqueryset.facet_counts()['fields'].items())
+        print(20*"=2=")
+        self.facets = get_facet(param_facet_url, self.searchqueryset.facet_counts()['fields'].items(), self.request.user)
         context['clean_facets'] = json.dumps(self.facets)
         context['q'] = self.request.GET.get('q', '')
         return context

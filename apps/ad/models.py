@@ -99,8 +99,12 @@ class Ad(models.Model):
 def ad_post_save(sender, *args, **kwargs):
     ad = kwargs['instance']
 
+    ad.tags.clear()
     for tag in ad.title.split(' '):
         ad.tags.add(tag)
+
+    if not len(ad.groups.all()):
+        ad.groups = [InterestGroup.objects.get(slug='public'),]
 
 
 class AdImage(models.Model):

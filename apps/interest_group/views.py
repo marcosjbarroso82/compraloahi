@@ -9,11 +9,15 @@ from rest_framework.decorators import list_route, detail_route
 
 class InterestGroupViewSet(viewsets.ModelViewSet):
     paginate_by = 100
-    queryset = InterestGroup.objects.all()
+    queryset = InterestGroup.objects.exclude(slug='public')
     serializer_class = InterestGroupSerializer
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
+
+    def get_queryset(self):
+        return self.queryset.filter(members=self.request.user.profile)
+
 
 
 class PostViewSet(viewsets.ModelViewSet):

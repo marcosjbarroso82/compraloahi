@@ -152,11 +152,11 @@
                     </a>
                     <!-- LIST FACET -->
                     <ul class="dropdown-menu dropdown-list" role="menu" id="modalFilterFacet">
-                        <li ng-repeat="facet in vm.facets" ng-if="!facet.activated" id="list-facet">
+                        <li ng-repeat="facet in vm.facets" id="list-facet" ng-if="facet.values.length">
                             <h5>{{ facet.name }}</h5>
                             <ul>
-                                <li  ng-repeat="value in facet.values" ng-click="vm.changeFacet(facet, value, true)">
-                                    {{ value.name }}<span class="badge {{ value.name }}">{{ value.cant }}</span>
+                                <li  ng-repeat="value in facet.values" ng-if="!value.activated" ng-click="vm.changeFacet(facet, value, true)">
+                                    {{ value.label }}<span class="badge {{ value.name }}">{{ value.cant }}</span>
                                 </li>
                             </ul>
                         </li>
