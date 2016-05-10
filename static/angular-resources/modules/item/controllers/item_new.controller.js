@@ -515,8 +515,12 @@
                         var select_facet = '';
                         for(var iv=0; iv < vm.facets[i].values.length; iv++){
                             if(vm.facets[i].values[iv].activated == true){
-                                select_facet += vm.facets[i].name + "_exact:" + vm.facets[i].values[iv].name;
-                                break;
+                                if(select_facet != ''){
+                                    select_facet += ',' + vm.facets[i].name + "_exact:" + vm.facets[i].values[iv].name;
+                                }else{
+                                    select_facet += vm.facets[i].name + "_exact:" + vm.facets[i].values[iv].name;
+                                }
+                                //break;
                             }
                         }
                         if(select_facet != ''){

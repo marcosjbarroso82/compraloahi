@@ -14,7 +14,7 @@
     <style>
         {% for category in categories %}
             .{{ category.slug }}{
-                background-color: {{ category.color }};
+                background-color: {{ category.color }} !important;
             }
         {% endfor %}
     </style>

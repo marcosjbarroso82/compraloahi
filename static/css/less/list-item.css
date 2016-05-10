@@ -440,6 +440,7 @@ body:not(.page-horizontal-bar).compact-menu .menu > li.open {
   margin-top: 10px;
   font-size: .9em;
   height: 20px;
+  background-color: #22baa0;
 }
 #data-filter-map #list-filters-active .active-filter #btn-remove-filter {
   float: right;
@@ -706,17 +707,4 @@ body:not(.page-horizontal-bar).compact-menu .menu > li.open {
 .icon_categories .without-category {
   background-color: white;
   color: #018ba3;
-}
-/** LISTA DE SLUG DE CATEGORIAS CON SU COLOR **/
-.indumentaria22 {
-  background-color: #6FA16E !important;
-  color: white;
-}
-.indumentaria {
-  background-color: #EBA942 !important;
-  color: #000000;
-}
-.muebles {
-  background-color: #9A7B64 !important;
-  color: white;
 }
