@@ -1,8 +1,8 @@
 #!/bin/bash
 ENVNAME=environment                                                   # Name of virtualenv
 DJANGODIR=/webapps/compraloahi/compraloahi
-USER=compraloahi                                                     # the user to run as
-GROUP=webapps                                                                   # the group to run as
+USER=m                                                     # the user to run as
+GROUP=m                                                                   # the group to run as
 DJANGO_SETTINGS_MODULE=compraloahi.settings.settings               # which settings file should Django use
 
 # Activate the virtual environment
