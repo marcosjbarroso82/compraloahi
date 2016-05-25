@@ -3,7 +3,6 @@ from django.utils.decorators import method_decorator
 from django_comments.views.comments import post_comment
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -18,7 +17,6 @@ from django.views.decorators.csrf import csrf_exempt
 from apps.ad.models import Ad
 from apps.user.serializers import UserAuthenticationSerializer
 from apps.util.forms import RegisterInterestedForm
-
 
 
 import logging

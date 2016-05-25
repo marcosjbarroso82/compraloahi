@@ -27,20 +27,55 @@ from rest_framework import status
 from apps.notification.models import Notification
 from rest_framework.decorators import parser_classes
 from apps.interest_group.models import InterestGroup
-from django.db.models import Q
 
 logger = logging.getLogger('debug')
 
+# Este metodo se crea porque se tiene que generar el diccionario de facet de grupos antes de activar el facet "groups_exact=public"
+# y el diccionario de categoria de facet desp de activar el facet "groups_exact=public"
+def get_facet_by_name(params_url, facets_fields, facet_name, user=None):
+    for name, values in facets_fields:
+        if name == facet_name:
+            facet = {}
+            facet['name'] = name
+            facet['values'] = []
+            facet['activated'] = False
+
+            for value in values:
+                try:
+                    value_serializer = {}
+                    value_serializer['name'] = value[0]
+                    value_serializer['cant'] = value[1]
+                    value_serializer['activated'] = False
+
+                    if facet['name'] == 'categories':
+                        value_serializer['label'] = Category.objects.get(slug=value_serializer['name']).name
+                    if facet['name'] == 'groups':
+                        if value_serializer['name'] == 'public': raise InterestGroup.DoesNotExist
+                        value_serializer['label'] = InterestGroup.objects.get(slug=value_serializer['name'],
+                                                                              members=user.profile).name #, members__in=user.pk
+
+                    for param_facet in params_url:
+                        if len(str(param_facet).split(':')) > 1:
+                            param_name = str(param_facet).split(':')[0]
+                            param_value = str(param_facet).split(':')[1]
+                            if param_name.split('_')[0] == name:
+                                if param_name.split('_')[1] != 'exact':
+                                     break
+                                if value_serializer['name'] == param_value:
+                                    facet['activated'] = True
+                                    value_serializer['activated'] = True
+
+                    facet['values'].append(value_serializer)
+                except Category.DoesNotExist:
+                    print("La categoria que se intenta usar como facets, no existe.")
+                except InterestGroup.DoesNotExist:
+                    print("El grupo que se intenta usar como facet no existe, o no puede ser visualizado por el usuario autenticado.")
+
+            return facet
+
 # Devolver un diccionario de filtros activos y un array de facets detallados
 def get_facet(params_url, facets_fields, user):
-    # Var to all facets active
-    facets_active = {}
-    # Var to all facets
     facets = []
-    print(10*"#facets_fields#")
-    print(facets_fields)
-    print(10*"#params_url#")
-    print(params_url)
 
     for name, values in facets_fields:
         facet = {}
@@ -77,42 +112,6 @@ def get_facet(params_url, facets_fields, user):
                 print("La categoria que se intenta usar como facets, no existe.")
             except InterestGroup.DoesNotExist:
                 print("El grupo que se intenta usar como facet no existe, o no puede ser visualizado por el usuario autenticado.")
-        # if not facet['activated']:
-        #     for param_facet in params_url:
-        #         param_name = str(param_facet).split(':')[0]
-        #         # Valida si el parametro pertenece a un facet, y si el facet mismo ya esta activo
-        #         if param_name.split('_')[0] == name: #and facets_active.get(param_name.split('_')[0], True):
-        #             if param_name.split('_')[1] != 'exact':
-        #                  break
-        #             facet_active['value'] = str(param_facet).split(':')[1]
-        #             facet_active['name'] = param_name.split('_')[0]
-        #             break
-        #
-        # for value in values:
-        #     val = {}
-        #     val['name'] = value[0]
-        #     val['cant'] = value[1]
-        #     val['activated'] = False
-        #     #try:
-        #     if not facet['activated'] and facet_active.get('value', None):
-        #         if val['name'] == facet_active['value']:
-        #             facets_active[facet_active['name']] = facet_active['value']
-        #             facet['activated'] = True
-        #             val['activated'] = True
-        #             if facet['name'] == 'categories':
-        #                 try:
-        #                     val['label'] = Category.objects.get(slug=val['name']).name
-        #                 except:
-        #                     val['label'] = val['name']
-        #             if facet['name'] == 'groups':
-        #                 try:
-        #                     print(30*"====")
-        #                     print(user.pk)
-        #                     val['label'] = InterestGroup.objects.get(slug=val['name']).name #, members__in=user.pk
-        #                 except:
-        #                     val['label'] = val['name']
-        #
-        #     facet['values'].append(val)
 
         facets.append(facet)
 
@@ -124,9 +123,7 @@ class SearchViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
     serializer_class = AdsSearchSerializer
 
     def get_queryset(self, *args, **kwargs):
-        # Init queryset
         qs = SearchQuerySet().all()
-
         qs = qs.facet('categories')
 
         if self.request.user.is_authenticated():
@@ -141,7 +138,6 @@ class SearchViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
             for k,v in self.request.query_params.items():
                 if k in D.UNITS.keys():
                     distance = {k:v}
-
         except Exception as e:
             logging.error(e)
 
@@ -152,7 +148,6 @@ class SearchViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
         except Exception as e:
             logging.error(e)
 
-        #import ipdb; ipdb.set_trace()
         if distance and point:
             qs = qs or SearchQuerySet()
             qs = qs.dwithin('location', point, D(**distance)).distance('location', point)
@@ -163,14 +158,11 @@ class SearchViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
                 bottom_left = Point( float( self.request.query_params['w'] ), float( self.request.query_params['s']) )
                 top_right = Point( float(self.request.query_params['e']), float( self.request.query_params['n']) )
                 qs = qs.within('location', bottom_left, top_right)
-            #else:
         except:
             pass
 
-        #try:
-        #    param_facet_url = list(self.request.query_params.getlist('selected_facets', []))
-        #except:
         param_facet_url = self.request.query_params.get('selected_facets', '').split(',')
+
         flag_group = False
         for param_facet in param_facet_url:
             if ":" not in param_facet:
@@ -180,26 +172,15 @@ class SearchViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
                 try:
                     # Validate that the user belongs to the group
                     if field.split('_')[0] == 'groups':
-                        print("ESTO ANDA=???????????")
                         InterestGroup.objects.get(slug=value, members=self.request.user.profile) # , members__in=self.request.user.profile.pk
                         flag_group = True
-
-                    print(30*"========")
-                    print("SET FACET IN QUERY")
-                    print(field)
-                    print(value)
                     qs = qs.narrow('%s:"%s"' % (field, qs.query.clean(value)))
                 except InterestGroup.DoesNotExist:
                     # The user hasnt permissiont to filter by this group.
                     pass
 
-
-        try:
-            print(20*"=1=")
-            self.facets = get_facet(param_facet_url, qs.facet_counts()['fields'].items(), self.request.user)
-            print(20*"=1.5=")
-        except:
-            self.facets = []
+        self.facets = []
+        self.facets.append(get_facet_by_name(param_facet_url, qs.facet_counts()['fields'].items(), 'groups', self.request.user))
 
         order_by = self.request.query_params.get('order_by')
         if order_by:
@@ -209,11 +190,9 @@ class SearchViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
             else:
                 qs = qs.order_by(self.request.query_params.get('order_by'))
 
-        print(20*"####")
-        print(flag_group)
         if not flag_group:
             qs = qs.narrow('%s:"%s"' % ('groups_exact', qs.query.clean('public')))
-
+        self.facets.append(get_facet_by_name(param_facet_url, qs.facet_counts()['fields'].items(), 'categories'))
         return qs
 
     def list(self, request, *args, **kwargs):
@@ -267,7 +246,6 @@ class AdFacetedSearchView(FacetedSearchView):
         # TODO Se esta creando el json de facets antes de setearlo y las cantidades quedan mal generadas.
 
         param_facet_url = self.request.GET.get('selected_facets', '').split(',')
-        print(20*"=2=")
         self.facets = get_facet(param_facet_url, self.searchqueryset.facet_counts()['fields'].items(), self.request.user)
         context['clean_facets'] = json.dumps(self.facets)
         context['q'] = self.request.GET.get('q', '')
@@ -332,7 +310,7 @@ class AdUserViewSet(viewsets.ModelViewSet):
 
 
 class AdPublicViewSet(viewsets.ModelViewSet):
-    queryset = Ad.objects.all()
+    queryset = Ad.objects.filter(groups__slug='public')
     serializer_class = AdPublicSerializer
     permission_classes = (AllowAny,)
     paginate_by = 10
@@ -343,6 +321,8 @@ class CategoriesListAPIView(ListAPIView):
     queryset = Category.objects.all()
 
 
+from django.http import Http404
+
 
 class DetailAdView(DetailView):
     template_name = "ad/details.html"
@@ -350,8 +330,20 @@ class DetailAdView(DetailView):
     model = Ad
     context_object_name = 'item'
 
+    def get_object(self, queryset=None):
+        obj = super(DetailAdView, self).get_object()
+        if self.request.user.is_authenticated() and obj.groups.first().slug != 'public':
+            # Validate if user has permission to view this ad.
+            if not len(self.request.user.profile.interest_groups.filter(pk__in=obj.groups.all().values_list('id'))):
+                raise Http404(("Not permission"))
+        return obj
+        #obj = super(DetailAdView, self).get_object(queryset=Ad.objects.filter(groups__in=self.request.user.profile.interest_groups.all(), status=1))
+        #if not obj:
+        #    return
+
     def get(self, request, *args, **kwargs):
         ad = self.get_object()
+        # import ipdb; ipdb.set_trace()
         if ad.author == request.user:
             for notification in Notification.objects.filter(receiver=ad.author, type='cmmt', read=None):
                 notification.marked_read()

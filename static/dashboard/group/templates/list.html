@@ -1,29 +1,80 @@
 <div class="panel panel-white">
     <div class="panel-body" cg-busy="vm.promiseRequest">
-        <div class="content-data col-md-12" >
-            <a ui-sref="group-create" class="btn btn-success pull-right"><span class="fa fa-plus"></span> Crear Grupo</a>
-            <div id="grid-gallery" class="grid-gallery" ng-show="vm.groups.length > 0">
-                <section class="grid-wrap">
-                    <ul class="grid" style="display: table;">
-                        <li  style="display: inline-flex;" id="group-li-{{ group.id }}" ng-class-odd="'odd'" ng-class-even="'even'" ng-repeat="group in vm.groups">
-                            <a ui-sref="group-update({id:{{ group.id }}})" style="text-decoration: none; color: inherit;">
-                                <figure style="display: inline-block">
+        <a ui-sref="group-create" class="btn btn-success pull-right"><span class="fa fa-plus"></span> Crear Grupo</a>
+        <div class="content-data col-md-12" style="padding-top: 20px;">
+            <div ng-show="vm.groups.length > 0">
+                <div class="col-md-6"
+                     ng-repeat="group in vm.groups"
+                     style="min-height: 160px; margin-bottom: 15px;">
+                    <div style="background: #E5E5E5; display: flex;">
 
-                                    <img ng-src="{{ group.thumbnail_250x160 }}" />
-                                    <figcaption style="position: relative;">
-                                        <i class="fa fa-user fa-2x"
-                                           tooltip="'Eres el propietario del grupo'"
-                                           placement="top"
-                                            style="color: #6A5FAC; position: absolute; top: 5px; right: 5px; z-index: 100;"></i>
-                                        <h3>{{ group.name }}</h3>
-                                        <p>{{ group.description }}</p>
-
-                                    </figcaption>
-                                </figure>
+                        <div class="col-md-5" style="padding-left: 0px;">
+                            <a href="/grupos/{{ group.slug }}" target="_blank">
+                                <img ng-src="{{ group.thumbnail_250x160 }}" />
                             </a>
-                        </li>
-                    </ul>
-                </section>
+                        </div>
+                        <div class="col-md-7" style="min-height: 160px; background: #E5E5E5;">
+                            <h3>{{ group.name }}</h3>
+                            <p>{{ group.short_description }}</p>
+                            <style>
+                                .dropdown-menu.dropdown-menu-right:after, .navbar-right .dropdown-menu:after,
+                                .dropdown-menu.dropdown-menu-right:before, .navbar-right .dropdown-menu:before{
+                                    right: 10px;
+                                }
+                            </style>
+                            <div class="dropdown" style="position: absolute; top: 5px; right: 5px;">
+                                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    <span class="fa fa-ellipsis-v"></span>
+                                </button>
+                                <ul ng-if="group.owner != vm.user_id" class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
+                                    <li>
+                                        <a href="/grupos/{{ group.slug }}" target="_blank">
+                                            <i class="fa fa-eye"></i> Ver
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <i class="fa fa-envelope"></i> Enviar mensaje al administrador
+                                        </a>
+                                    </li>
+                                </ul>
+                                <ul ng-if="group.owner == vm.user_id" class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
+                                    <li>
+                                        <a href="#">
+                                            <i class="fa fa-eye"></i> Ver
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a ui-sref="group-update({id:{{ group.id }}})">
+                                            <i class="fa fa-pencil"></i> Editar
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <i class="fa fa-user-plus"></i> Invitar
+                                        </a>
+                                    </li>
+
+                                    <li role="separator" class="divider"></li>
+                                    <li ng-really-message="Estas seguro que deseas borrar el aviso {{ group.name }} ?"
+                                        ng-really-click="vm.destroy(group)"
+                                        item="group">
+                                        <a href="#">
+                                            <i class="fa fa-trash-o"></i> Eliminar
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <i class="fa fa-user fa-2x"
+                               tooltip="'Eres el propietario del grupo'"
+                               placement="top"
+                               ng-if="group.owner == vm.user_id"
+                               style="color: #6A5FAC; position: absolute; bottom: 5px; right: 5px;"></i>
+                        </div>
+                    </div>
+
+                </div>
             </div>
             <div class="content-data col-md-12" ng-show="vm.groups.length == 0 && vm.request">
                 <p>No tienenes ningun grupo.</p>

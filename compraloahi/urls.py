@@ -49,7 +49,7 @@ urlpatterns = patterns('',
                        # My apps Ad
                        url(r'^item/', include("apps.ad.urls", namespace="ad")),
 
-                       url(r'^group/', include("apps.interest_group.urls", namespace="group")),
+                       url(r'^grupos/', include("apps.interest_group.urls", namespace="group")),
 
                        # My apps User
                        (r'^users/',

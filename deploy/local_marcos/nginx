@@ -9,7 +9,7 @@ upstream compraloahi_app_server {
   server {
 
       listen   80;
-      server_name * localhost;
+      server_name localhost;
       
       # listen 443 ssl;
       # ssl_certificate /etc/nginx/ssl/compraloahi_com_ar.crt;
@@ -25,7 +25,7 @@ upstream compraloahi_app_server {
       }
 
       location /media/ {
-	  alias   /webapps/compraloahi/compraloahi/compraloahi/media/;
+	  alias /webapps/compraloahi/compraloahi/compraloahi/media/;
       }
       location /google742b6e33f36deeca.html {
 	 alias /webapps/compraloahi/compraloahi/google742b6e33f36deeca.html;

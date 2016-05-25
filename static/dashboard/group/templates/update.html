@@ -41,15 +41,14 @@
 <form novalidate angular-validator angular-validator-submit="vm.submit()" name="formConfigGroup" enctype="multipart/form-data" class="panel panel-white">
     <div class="panel-body" cg-busy="vm.promiseRequest">
         <div class="panel col-md-12 panel-info">
-    <div class="panel-heading">
-                <h3 class="panel-title">Descripcion de la grupo</h3>
-    </div>
+            <div class="panel-heading">
+                <h3 class="panel-title">Edita tu grupo</h3>
+            </div>
             <div class="col-md-12">
                 <br/>
                 <div class="col-md-2">
                     <label for="">Image</label>
                     <div cg-busy="vm.promise_img" ng-mouseover="vm.focus_img = true;" ng-mouseleave="vm.focus_img = false;">
-
                         <img ng-if="vm.group.image" id="item-display" src="{{ vm.group.image }}" style="max-width: 100%; max-height: 100%; min-height: 100px; min-width: 100px;" >
                         <img ng-if="!vm.group.image" id="item-display" src="/static/image/images-default.jpeg" style="max-width: 100%; max-height: 100%; min-height: 100px; min-width: 100px;" />
                         <div class="fileUpload btn btn-primary btn-xs" ng-show="vm.focus_img">
@@ -71,63 +70,78 @@
                         <input id="name-group"
                                name="name-group"
                                type="text"
-                   class="form-control"
+                               class="form-control"
                                ng-model="vm.group.name"
                                placeholder="Nombre del Grupo"
-                   ng-minlength="3"
-                   required="required"
+                               ng-minlength="3"
+                               required="required"
                                ng-model-options="{ updateOn: 'blur' }"
                                invalid-message="'El Nombre de la grupo ya existe.'"
                                validator = "!vm.name_unique"
                                required-message="'El nombre de la grupo es requerido!'"
                                validate-on="dirty"/>
-                        <script type="text/ng-template" id="helpnamegroup">
-                        <div class="triangle"></div>
-                        <div class="ns-popover-tooltip" style="max-width: 400px; padding: 10px;">
-                                <img src="/static/image/help/name-group.png" class="img-thumbnail"  />
-                        </div>
-                    </script>
-                        <span class="help">
-                            A tener en cuenta: El nombre de la grupo se representara en la url del sitio cambiando los espacios en blanco por - (guiones medios)
-                        <a ns-popover
-                           class="a-popover"
-                               ns-popover-template="helpnamegroup"
-                           ns-popover-trigger="click"
-                           ns-popover-hide-on-outside-click="true"
-                           ns-popover-hide-on-button-click="true"
-                           ns-popover-template="menu"
-                           ns-popover-theme="ns-popover-list-theme"
-                               ns-popover-placement="bottom"
-                               ns-popover-placement="bottom">Ayuda</a>
-                        </span>
-        </div>
-        <div class="form-group">
-                        <label>Enlace url de la grupo:</label>
-                        <label for=""> <strong>www.compraloahi.com.ar/grupo/{{ vm.configs.new_slug }}</strong></label>
                     </div>
 
-                    <!-- Description -->
+                    <!-- short Description -->
                     <div class="form-group" style="position: relative;">
                         <label for="description-group">Descripción</label>
                         <input id="description-group"
                                name="description-group"
-                       type="text"
+                               type="text"
                                class="form-control"
-                               ng-model="vm.group.description"
-                               placeholder="Descripcion del Grupo"
+                               ng-model="vm.group.short_description"
+                               placeholder="Descripcion corta del Grupo"
                                ng-minlength="3"
-                   required="required"
+                               required="required"
                                ng-model-options="{ updateOn: 'blur' }"
                                validate-on="dirty"/>
-        </div>
-            </div>
+                    </div>
+
+                    <!-- Description -->
+                    <div class="form-group">
+                        <script type="text/ng-template" id="helpdescription">
+                                <div class="triangle"></div>
+                                <div class="ns-popover-tooltip" style="max-width: 400px; padding: 10px;">
+                                    <img src="/static/image/help/description.png" class="img-thumbnail"  />
+                                    <p>La descripcion del gropo es util para dejar en claro las reglas del grupo, y informacion general del grupo.</p>
+                                </div>
+                        </script>
+                        <p class="help" >¿Para que sirve la descripcion?.
+                            <a ns-popover
+                               class="a-popover"
+                               ns-popover-template="helpdescription"
+                               ns-popover-trigger="click"
+                               ns-popover-hide-on-outside-click="true"
+                               ns-popover-hide-on-button-click="true"
+                               ns-popover-template="menu"
+                               ns-popover-theme="ns-popover-list-theme"
+                               ns-popover-placement="bottom"
+                               ns-popover-placement="bottom">Ayuda</a></p>
+                        <div class="form-group" >
+                            <textarea froala
+                                      ng-model="vm.group.description"
+                                      class="form-control"
+                                      name="body"
+                                      placeholder="Descripcion"
+                                      ng-minlength="50"
+                                      required="required"
+                                      invalid-message="'La descripcion debe tener minimo 50 caracteres.'"
+                                      required-message="'La descripcion del aviso es requerida!'"
+                                    >
+                            </textarea>
+                        </div>
+                    </div>
+
+
+
+                </div>
             </div>
         </div>
 
 
-</div>
-<div class="panel-footer">
+    </div>
+    <div class="panel-footer">
         <button type="submit" class="btn btn-success pull-right"><i class="fa fa-floppy-o"></i> Guardar</button>
         <button class="btn pull-right" ui-sref="profile-detail"><i class="fa fa-times"></i> Cancelar</button>
-</div>
+    </div>
 </form>

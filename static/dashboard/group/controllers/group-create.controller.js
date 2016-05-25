@@ -22,7 +22,11 @@
         vm.finish = finish;
 
         // Define vars
-        vm.group = {};
+        vm.group = {
+            name: '',
+            short_description: '',
+            description: ''
+        };
 
         function submit(){
             if (vm.image && 'name' in vm.image){

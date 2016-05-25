@@ -17,57 +17,25 @@
      */
     function Group($http) {
         var Groups = {
-            create: create,
-            detail: detail,
-            destroy: destroy,
-            update: update,
-            list:list
+            members: members,
+            invite: invite,
+            remove_member: remove_member
         };
-
         return Groups;
 
-        function list(){
-            console.log('service list');
-            return $http.get('/api/v1/interest-groups/');
+        function members(id){
+            return $http.get('/api/v1/interest-groups/' + id + '/members/');
         }
 
-        function detail(id){
-            return $http.get('/api/v1/interest-groups/' + id + '/');
+        function invite(id, data){
+            return $http.post('/api/v1/interest-groups/' + id + '/invite/', data);
         }
 
-        function destroy(id){
-            return $http.delete('/api/v1/interest-groups/' + id + '/');
+        function remove_member(id, member){
+            console.log("REMOVE MEMBER");
+            console.log(member);
+            return $http.delete('/api/v1/interest-groups/' + id + '/remove_member/?user=' + String(member.id), { 'user': member.id })
         }
-
-        function create(group){
-            var fd = new FormData();
-            fd.append('name', group.name);
-            fd.append('description', group.description);
-            if (group.image != undefined) {
-                fd.append('image', group.image);
-            }
-            return $http.post('/api/v1/interest-groups/', fd, {
-                headers: {'Content-Type': undefined},
-                withCredentials: true,
-                transformRequest: angular.identity
-            });
-        }
-
-        function update(group){
-            var fd = new FormData();
-            fd.append('name', group.name);
-            fd.append('description', group.description);
-
-            if (group.image && typeof group.image != 'string' && group.image != undefined) {
-                fd.append('image', group.image);
-            }
-            return $http.patch('/api/v1/interest-groups/' + group.id + '/', fd, {
-                headers: {'Content-Type': undefined},
-                withCredentials: true,
-                transformRequest: angular.identity
-            });
-        }
-
     }
 
 })();

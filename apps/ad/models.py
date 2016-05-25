@@ -95,16 +95,33 @@ class Ad(models.Model):
         else:
             return False
 
-@receiver(post_save, sender=Ad)
-def ad_post_save(sender, *args, **kwargs):
-    ad = kwargs['instance']
+    def save(self, *args, **kwargs):
+        super(Ad, self).save(*args, **kwargs)
+        if len(self.groups.all()) == 0:
+            self.groups.add(InterestGroup.objects.get(slug='public'))
 
-    ad.tags.clear()
-    for tag in ad.title.split(' '):
-        ad.tags.add(tag)
+        self.tags.clear()
+        for tag in self.title.split(' '):
+            self.tags.add(tag)
 
-    if not len(ad.groups.all()):
-        ad.groups = [InterestGroup.objects.get(slug='public'),]
+        print(30*"SAVE AD ")
+        print(self.groups.all())
+
+# @receiver(post_save, sender=Ad)
+# def ad_post_save(sender, *args, **kwargs):
+#     ad = kwargs['instance']
+#
+#     ad.tags.clear()
+#     for tag in ad.title.split(' '):
+#         ad.tags.add(tag)
+
+    #print(30*"== AD POST SAVE ==")
+    #if len(ad.groups.all()) == 0:
+    #    print(30*"=####=")
+    #    ad.groups.add(InterestGroup.objects.get(slug='public'))
+    #    ad.save()
+
+    #print(ad.groups.all())
 
 
 class AdImage(models.Model):
@@ -119,6 +136,7 @@ def ad_image_post_save(sender, *args, **kwargs):
     image = kwargs['instance']
     if image.ad.status == 2:
         image.ad.status = 1
+        print(30*"=SAVE AD 1=")
         image.ad.save()
     if image.default and image.ad:
         for img in AdImage.objects.filter(default=True, ad=image.ad).exclude(pk=image.pk):
@@ -131,6 +149,7 @@ def ad_image_post_delete(sender, *args, **kwargs):
     image = kwargs['instance']
     if not len(AdImage.objects.filter(ad=image.ad).exclude(pk=image.pk)):
         image.ad.status = 2
+        print(30*"=SAVE AD 2=")
         image.ad.save()
 
 #@receiver(pre_delete, sender=AdImage)

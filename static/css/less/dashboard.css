@@ -312,7 +312,7 @@ body:not(.page-horizontal-bar).compact-menu .menu > li.open {
   margin-top: 25px;
 }
 #container-profile-data h3 {
-  color: #aa4400;
+  color: #635a9a;
   margin-bottom: 10px;
   margin-top: 0px;
   width: 100%;
@@ -455,9 +455,11 @@ hr {
   font-size: 17px !important;
 }
 .btn-table {
-  border-radius: 50%;
   height: 35px;
   width: 35px;
+  margin-top: 5px;
+}
+.btn-table .fa.fa-eye {
   margin-top: 5px;
 }
 #container-map-with-search #search-places {
