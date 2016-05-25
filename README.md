@@ -6,7 +6,7 @@
         pip install -r requirements.txt
 
     # Install package Postman
-	    hg clone http://bitbucket.org/psam/django-postman/ ~/.virtualenvs/env_compraloahi/lib/python3.4/site-packages/postman
+	    hg clone http://bitbucket.org/psam/django-postman/ ~/.virtualenvs/environment/lib/python3.4/site-packages/postman
 
 
 Packages requeriments:

@@ -1,15 +1,16 @@
 /compraloahi/whoosh_index
-migrations
+apps/*/migrations/*
 /compraloahi/media
 /compraloahi.log
 # Python bytecode
 *.py[co]
 *.pyc
-
+compraloahi/settings/settings.py
 .idea/
 .idea/*
-
+__pycache__
 .codeintel/
 .codeintel/*
 /.directory
 /compraloahi/media/cache
+/node_modules/*

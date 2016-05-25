@@ -1,6 +1,6 @@
 #!/bin/bash
 NAME="Compraloahi"                                                              # Name of the application
-ENVNAME=environment                                                             # Name of virtualenvi
+ENVPATH=/webapps/compraloahi/environment                                                             # Name of virtualenvi
 DJANGODIR=/webapps/compraloahi/compraloahi                                      # Django project directory
 SOCKFILE=/webapps/compraloahi/compraloahi/run/gunicorn.sock                     # we will communicte using this unix socket
 USER=compraloahi                                                                # the user to run as
@@ -11,7 +11,7 @@ DJANGO_WSGI_MODULE=compraloahi.wsgi                                             
     
 # Activate the virtual environment
 cd $DJANGODIR
-source ../$ENVNAME/bin/activate
+source $ENVPATH/bin/activate
 export DJANGO_SETTINGS_MODULE=$DJANGO_SETTINGS_MODULE
 export PYTHONPATH=$DJANGODIR:$PYTHONPATH
     

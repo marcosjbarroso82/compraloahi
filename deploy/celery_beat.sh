@@ -1,0 +1,1 @@
+local_marcos/celery_beat.sh

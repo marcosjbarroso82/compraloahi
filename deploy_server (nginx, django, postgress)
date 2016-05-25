@@ -141,19 +141,19 @@
         $ pip install git+https://github.com/mjroson/django-push-notifications.git
         $ pip install git+https://github.com/mjroson/django-favit.git
         $ pip install -e hg+https://mjroson@bitbucket.org/psam/django-postman (no anda, usar los dos comandos siguientes)
-        $ hg clone http://bitbucket.org/psam/django-postman/ /webapps/compraloahi/env_compraloahi/lib/python3.4/site-packages/postman_repository
-        $ mv /webapps/compraloahi/env_compraloahi/lib/python3.4/site-packages/postman_repository/postman /webapps/compraloahi/env_compraloahi/lib/python3.4/site-packages/postman
+        $ hg clone http://bitbucket.org/psam/django-postman/ /webapps/compraloahi/environment/lib/python3.4/site-packages/postman_repository
+        $ mv /webapps/compraloahi/environment/lib/python3.4/site-packages/postman_repository/postman /webapps/compraloahi/environment/lib/python3.4/site-packages/postman
 
 13 - Generate tables to db (With environment activated and on root dir project)
-      $ python manage.py makemigrations --setttings=compraloahi.settings.production
-      $ python manage.py migrate --setttings=compraloahi.settings.production
+      $ python manage.py makemigrations --setttings=compraloahi.settings.settings
+      $ python manage.py migrate --setttings=compraloahi.settings.settings
 
 14 - Install gunicorn (on virtualenv)
       
     $ pip install gunicorn
 
     # Checked
-      $ gunicorn --workers=3 --name=Compraloahi --user=compraloahi --bind 45.55.220.166:8001 --env DJANGO_SETTINGS_MODULE=compraloahi.settings.production compraloahi.wsgi
+      $ gunicorn --workers=3 --name=Compraloahi --user=compraloahi --bind 45.55.220.166:8001 --env DJANGO_SETTINGS_MODULE=compraloahi.settings.settings compraloahi.wsgi
   
     Params
       workers: As a rule-of-thumb set the --workers (NUM_WORKERS) according to the following formula: 2 * CPUs + 1. 
@@ -173,7 +173,7 @@
       USER=compraloahi                                                                # the user to run as
       GROUP=webapps                                                                   # the group to run as
       NUM_WORKERS=3                                                                   # how many worker processes should Gunicorn spawn
-      DJANGO_SETTINGS_MODULE=compraloahi.settings.production                          # which settings file should Django use
+      DJANGO_SETTINGS_MODULE=compraloahi.settings.settings                          # which settings file should Django use
       DJANGO_WSGI_MODULE=compraloahi.wsgi                                             # WSGI module name
       
       # Activate the virtual environment
@@ -210,7 +210,7 @@
         Add on file :
         ######################################## START FILE COMPRALOAHI.CONF #####################################################
         [program:compraloahi]
-        command = /webapps/compraloahi/env_compraloahi/bin/gunicorn_start        ; Command to start app
+        command = /webapps/compraloahi/environment/bin/gunicorn_start        ; Command to start app
         user = compraloahi                                                   ; User to run as
         stdout_logfile = /webapps/compraloahi/logs/gunicorn_supervisor.log   ; Where to write log messages
         redirect_stderr = true                                               ; Save stderr in the same log
@@ -322,11 +322,11 @@
 
 
 22 - In root to projects and activated virtualenv
-    $ python manage.py collectstatic --settings=compraloahi.settings.production
+    $ python manage.py collectstatic --settings=compraloahi.settings.settings
 
 
 23 - Create superuser to django (on virtualenv)
-    $ python manage.py createsuperuser --settings=compraloahi.settings.production
+    $ python manage.py createsuperuser --settings=compraloahi.settings.settings
 
 
 
