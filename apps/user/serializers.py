@@ -24,7 +24,7 @@ class UserAuthenticationSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         depth = 2
-        fields = ('profile', 'has_items', 'msg_unread', 'notification_unread', 'has_address')
+        fields = ('profile', 'has_items', 'msg_unread', 'notification_unread', 'has_address', 'id')
 
     def get_has_items(self, obj):
         if Ad.objects.filter(author=obj.id).count() > 0:

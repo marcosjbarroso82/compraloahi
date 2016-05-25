@@ -76,6 +76,8 @@
 
         function submit(){
             vm.item.categories = [vm.category_selected,];
+
+            vm.item.groups = [];
             if(!vm.is_public){
                 for(var i=0; i < vm.groups.length;i++){
                     if(vm.groups[i].selected){

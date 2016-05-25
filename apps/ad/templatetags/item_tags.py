@@ -18,7 +18,7 @@ def get_near_items(item):
     qs = SearchQuerySet().all()
     loc = item.locations.first()
     point = Point(loc.lng, loc.lat)
-    qs.dwithin('location', point, D(m=50000)).distance('location', point)
+    qs.dwithin('location', point, D(m=50000)).distance('location', point).filter(groups__slug='public')
 
     return qs
 

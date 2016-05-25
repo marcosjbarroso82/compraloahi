@@ -9,12 +9,12 @@
         .module('dashBoardApp.group.controllers')
         .controller('GroupCtrl', GroupCtrl);
 
-    GroupCtrl.$inject = ['$scope', 'Group', 'AlertNotification'];
+    GroupCtrl.$inject = ['Group', 'AlertNotification', 'Authentication'];
 
     /**
      * @namespace GroupCtrl
      */
-    function GroupCtrl($scope, Group, AlertNotification) {
+    function GroupCtrl(Group, AlertNotification, Authentication) {
 
         var vm = this;
 
@@ -26,6 +26,7 @@
 
         vm.request = false;
 
+        vm.user_id = Authentication.get_user_id();
 
 
         function loadGroups(page_nro){
@@ -38,7 +39,6 @@
 
             function getError(error){
                 AlertNotification.error("Error al consultar los grupos, vuelva a intentarlo mas tarde");
-
                 vm.request = true;
             }
         }
@@ -53,7 +53,7 @@
             Group.destroy(group.id).then(deleteSuccess, deleteError);
 
             function deleteSuccess(data, headers, status){
-                AlertNotification.success("El grupo " + group.title + " fue eliminado con exito!");
+                AlertNotification.success("El grupo " + group.name + " fue eliminado con exito!");
                 vm.groups.splice(vm.groups.indexOf(group),1);
             }
 

@@ -43,6 +43,7 @@
             var fd = new FormData();
             fd.append('name', group.name);
             fd.append('description', group.description);
+            fd.append('short_description', group.short_description);
             if (group.image != undefined) {
                 fd.append('image', group.image);
             }

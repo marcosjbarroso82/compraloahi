@@ -32,6 +32,7 @@ class StoreModelViewSet(ModelViewSet):
                     ad = Ad.objects.get(pk=ad_data['id'], author=request.user)
                     ad.store_published = ad_data.get('store_published', False)
                     ad.save()
+                    print(30*"=AD SAVE 3=")
                 except Ad.DoesNotExist:
                     pass
                 except:

@@ -8,7 +8,7 @@
         ]);
 
     angular
-        .module('appGroup.group.controllers', []);
+        .module('appGroup.group.controllers', ['ngDialog']);
 
     angular
         .module('appGroup.group.services', []);

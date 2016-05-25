@@ -10,10 +10,10 @@
             </div>
             <!-- PROFILE DETAIL -->
             <div class="col-md-9">
-
-                <h3>{{ vm.profile.user.first_name }}<span ng-show="!vm.profile.user.first_name">Sin Nombre</span>,
+                <h3>
+                    {{ vm.profile.user.first_name }}<span ng-show="!vm.profile.user.first_name">Sin Nombre</span>,
                     {{ vm.profile.user.last_name }}<span ng-show="!vm.profile.user.last_name">Sin Apellido</span>
-                    <span>( {{ vm.profile.user.username }} )</span></h3>
+                </h3>
                 <div class="col-md-6">
                     <div class="">
                         <label> Fecha Nacimiento: </label>
@@ -41,9 +41,9 @@
 
             </div>
             <div class="row">
-                    <button class="btn btn-default" ui-sref="profile-address" style="clear: right;">Editar mi ubicacion</button>
-                    <button class="btn btn-default" ui-sref="config-privacity">Configurar mi privacidad</button>
-                </div>
+                <button class="btn btn-default" ui-sref="profile-address" style="clear: right;">Editar mi ubicacion</button>
+                <button class="btn btn-default" ui-sref="config-privacity">Configurar mi privacidad</button>
+            </div>
         </div>
     </div>
     <div class="panel-footer">

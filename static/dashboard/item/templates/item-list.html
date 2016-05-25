@@ -1,4 +1,20 @@
+<style>
+    .fa-facebook{
+        color: #627AAC;
+    }
+    .fa-twitter{
+        color: #00ABF0;
+    }
 
+    .fa-google-plus{
+        color: #D95232;
+    }
+
+    .dropdown .btn{
+        width: 40px;
+        margin-top: 5px;
+    }
+</style>
 <div class="panel panel-white">
     <div class="panel-body" cg-busy="vm.promiseRequest">
 
@@ -23,69 +39,78 @@
                         data-title="'Imagen'">
                         <img id="media-object" class="img-rounded" ng-src="{{ item.images[0].thumbnail_110x110 }}" width="90" height="90">
                     </td>
-                    <td class="v-align-middle col-md-9"
+                    <td class="v-align-middle col-md-10"
                         data-title="'Avisos'"
                         sortable="'title'" filter="{ 'title': 'text' }">
                         <h4><strong>{{ item.title }}</strong></h4>
                         <p>{{ item.short_description }}</p>
                         <small><strong>Fecha de publicacion : </strong>{{ item.pub_date }} || <strong>Price : </strong> $ {{ item.price }}</small>
                     </td>
-                    <td class="v-align-middle col-md-2 text-center" data-title="'Acciones'">
+                    <td class="v-align-middle col-md-1 text-center" data-title="'Acciones'">
+                        <!-- DROPDOWN ACTIONS -->
+                        <div class="dropdown" tooltip="'Acciones'" placement="top">
+                            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                <i class="fa fa-ellipsis-v"></i>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
+                                <li>
+                                    <a href="/item/{{ item.slug }}" target="_blank">
+                                        <i class="fa fa-eye"></i> Ver
+                                    </a>
+                                </li>
+                                <li>
+                                    <a ui-sref="item-update({id:{{ item.id }}})">
+                                        <i class="fa fa-pencil"></i> Editar
+                                    </a>
+                                </li>
 
-                        <!-- view detail -->
-                        <a href="/item/{{ item.slug }}" target="_blank"
-                           class="btn btn-sm btn-default text-success btn-table"
-                           tooltip="'Ir al detalle'" placement="top">
-                            <span class="fa fa-eye"></span>
-                        </a>
-                        <!-- update -->
-                        <button ui-sref="item-update({id:{{ item.id }}})"
-                                class="btn btn-sm text-warning btn-default btn-table"
-                                tooltip="'Editar aviso'" placement="top">
-                            <span class="fa fa-pencil"></span>
-                        </button>
-                        <!-- delete -->
-                        <button class="btn btn-sm btn-default text-danger btn-table"
-                                ng-really-message="Estas seguro que deseas borrar el aviso {{ item.title }} ?"
-                                ng-really-click="vm.destroy(item)"
-                                item="item">
-                                <span class="fa fa-trash-o"
-                                      tooltip="'Eliminar aviso'"
-                                      placement="top"></span>
-                        </button>
-                        
-                        <!-- SHARE FACEBOOK -->
-                        <a href="#"
-                        class="btn btn-sm btn-facebook btn-table"
-                            socialshare
-                            socialshare-provider="facebook"
-                            socialshare-text="Compraloahí - Encontra productos y servicios cerca."
-                            socialshare-url="http://compraloahi.com.ar/item/{{ item.slug }}">
-                            <i class="fa fa-facebook" tooltip="'Compartir en Facebook'"
-                                      placement="top"></i>
-                            </a>
-                        
-                        <!-- SHARE TWITTER -->
-                        <a href="#"
-                        class="btn btn-sm btn-twitter btn-table" 
-                            socialshare
-                            socialshare-provider="twitter"
-                            socialshare-text="Compraloahí - Encontra productos y servicios cerca."
-                            socialshare-url="http://compraloahi.com.ar/item/{{ item.slug }}">
-                            <i class="fa fa-twitter" tooltip="'Compartir en Twitter'"
-                                      placement="top"></i>
-                            </a>
-                        
-                        <!-- SHARE GOOGLE+ -->
-                        <a href="#"
-                        class="btn btn-sm btn-google btn-table" 
-                            socialshare
-                            socialshare-provider="google+"
-                            socialshare-text="Compraloahí - Encontra productos y servicios cerca."
-                            socialshare-url="http://compraloahi.com.ar/item/{{ item.slug }}">
-                            <i class="fa fa-google-plus" tooltip="'Compartir en Google+'"
-                                      placement="top"></i>
-                            </a>
+                                <li role="separator" class="divider"></li>
+                                <li ng-really-message="Estas seguro que deseas borrar el aviso {{ item.title }} ?"
+                                    ng-really-click="vm.destroy(item)"
+                                    item="item">
+                                    <a href="#" >
+                                        <i class="fa fa-trash-o"></i> Eliminar
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- DROPDOWN SOCIAL SHARE -->
+                        <div class="dropdown" tooltip="'Compartir en redes sociales'" placement="top">
+                            <button class="btn btn-default dropdown-toggle" type="button"
+                                    id="dropdownMenuSocial"
+                                    data-toggle="dropdown"
+                                    aria-haspopup="true"
+                                    aria-expanded="true">
+                                <i class="fa fa-share-alt"></i>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuSocial">
+                                <li>
+                                    <a socialshare
+                                       socialshare-provider="facebook"
+                                       socialshare-text="Compraloahí - Encontra productos y servicios cerca."
+                                       socialshare-url="http://compraloahi.com.ar/item/{{ item.slug }}">
+                                        <i class="fa fa-facebook"></i> Facebook
+                                    </a>
+                                </li>
+                                <li>
+                                    <a socialshare
+                                       socialshare-provider="twitter"
+                                       socialshare-text="Compraloahí - Encontra productos y servicios cerca."
+                                       socialshare-url="http://compraloahi.com.ar/item/{{ item.slug }}">
+                                        <i class="fa fa-twitter"></i> Twitter
+                                    </a>
+                                </li>
+                                <li>
+                                    <a socialshare
+                                       socialshare-provider="google+"
+                                       socialshare-text="Compraloahí - Encontra productos y servicios cerca."
+                                       socialshare-url="http://compraloahi.com.ar/item/{{ item.slug }}">
+                                        <i class="fa fa-google-plus"></i> Google plus
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
 
                     </td>
                 </tr>

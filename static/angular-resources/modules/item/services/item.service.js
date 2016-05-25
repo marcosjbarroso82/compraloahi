@@ -9,23 +9,16 @@
         .module('appSearch.item.services')
         .factory('ItemSearch', ItemSearch);
 
-    ItemSearch.$inject = ['$http'];
+    ItemSearch.$inject = ['$resource'];
 
     /**
      * @namespace Item
      * @returns {Factory}
      */
-    function ItemSearch($http) {
-       var ItemSearch = {
-            search: search
-        };
-
-        function search(q){
-            return $http.get('/api/v1/item-search/?' + q);
-
-        }
-
-        return ItemSearch;
+    function ItemSearch($resource) {
+        return $resource("/api/v1/item-search/:id", {id: '@id'}, {
+            query: {method: 'get', isArray: false }
+        });
     }
 
 

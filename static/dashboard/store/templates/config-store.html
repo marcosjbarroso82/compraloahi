@@ -160,7 +160,7 @@
                     <div class="col-md-12">
                         <hr/>
                         <h4>
-                            Dale un formato a tu tienda y elije como quieres que se vean tus productos.
+                            Dale un formato a tu tienda y elije como quieres que se vean tus anuncios.
                         </h4>
                         <div class="col-md-12">
                             <div class="col-md-3 column" ng-click="vm.configs.style.column = 1" ng-class="{'active-colum': vm.configs.style.column == 1}"><img src="/static/image/dashboard/1-col-portfolio.jpg" class="img-responsive"/></div>
@@ -169,7 +169,7 @@
                             <div class="col-md-3 column" ng-click="vm.configs.style.column = 4" ng-class="{'active-colum': vm.configs.style.column == 4}"><img src="/static/image/dashboard/4-col-portfolio.jpg" style="width: 100%;" alt=""/></div>
                         </div>
                             <span class="help">
-                                Tener en cuenta si elijes la primera opcion (1 columna) las imagenes de tus productos deben tener buena calidad para
+                                Tener en cuenta si elijes la primera opcion (1 columna) las imagenes de tus anuncios deben tener buena calidad para
                                 que se visualicen bien, ya que se muestran con mayor tamaño que las otras opciones</span>
                     </div>
                 </div>
@@ -177,7 +177,7 @@
 
             <div class="panel panel-warning col-md-6">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Elije los productos que quieres mostrar en tu tienda</h3>
+                    <h3 class="panel-title">Elije los anuncios que quieres mostrar en tu tienda</h3>
                 </div>
                 <div class="col-md-12" cg-busy="vm.promiseRequestItems">
                     <ul class="media-list">
@@ -197,7 +197,7 @@
                            name="items-selects"
                            ng-model="vm.configs.items"
                            validator="vm.validateItemsSelect()"
-                           invalid-message="'Para poder activar tu tienda es requerido tener al menos un producto.'"/>
+                           invalid-message="'Para poder activar tu tienda es requerido tener al menos un anuncio.'"/>
                 </div>
             </div>
     </div>

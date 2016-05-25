@@ -131,12 +131,14 @@ class AdLocationSerializer(serializers.ModelSerializer):
     # def get_center(self, obj):
     #     return obj.center()
 
+from apps.interest_group.models import InterestGroup
 
 class AdSerializer(serializers.ModelSerializer):
     images = AdImageSerializer(many=True, read_only=True)
     is_favorite = serializers.SerializerMethodField()
     price = serializers.DecimalField(decimal_places=2, max_digits=10, coerce_to_string=False)
     locations = AdLocationSerializer(many=True, read_only=True)
+    groups = serializers.PrimaryKeyRelatedField(many=True, queryset=InterestGroup.objects.all(), required=False)
     # TODO: Falta validar que si o si halla una categoria
 
     class Meta:
@@ -154,8 +156,12 @@ class AdSerializer(serializers.ModelSerializer):
         super(AdSerializer, self).__init__(*args, **kwargs)
         action = self.context['view'].action
 
-        if action == 'create':
+
+        if action == 'create' or action == 'update':
+            request = self.context.get('request', None)
+
             self.fields.pop('status')
+            self.fields['groups'].queryset = InterestGroup.objects.filter(members=request.user.profile)
 
 
 class AdPublicSerializer(serializers.ModelSerializer):

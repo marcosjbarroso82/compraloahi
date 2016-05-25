@@ -23,7 +23,8 @@ TYPE_NOTIFICATION = (
                 ('fav', 'Favorite'),
                 ('cmmt', 'Comment'),
                 ('prox', 'Near Favorite'),
-                ('cal', "Calification")
+                ('cal', "Calification"),
+                ('suscription', "Suscripcion")
             )
 
 CANAL_NOTIFICATION = (

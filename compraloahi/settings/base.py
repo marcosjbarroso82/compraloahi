@@ -132,7 +132,7 @@ MEDIA_ROOT = os.path.join(SITE_ROOT, 'media')
 MEDIA_URL = "/media/"
 
 
-LOGIN_URL = '/accounts/login'
+LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/panel/mis-avisos/'
 
 #SOCIALACCOUNT_QUERY_EMAIL = True
