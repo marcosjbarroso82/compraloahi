@@ -334,8 +334,9 @@ class DetailAdView(DetailView):
         obj = super(DetailAdView, self).get_object()
         if self.request.user.is_authenticated() and obj.groups.first().slug != 'public':
             # Validate if user has permission to view this ad.
-            if not len(self.request.user.profile.interest_groups.filter(pk__in=obj.groups.all().values_list('id'))):
+            if len(self.request.user.profile.interest_groups.filter(pk__in=obj.groups.all().values_list('id'))) == 0:
                 raise Http404(("Not permission"))
+        return obj
         #obj = super(DetailAdView, self).get_object(queryset=Ad.objects.filter(groups__in=self.request.user.profile.interest_groups.all(), status=1))
         #if not obj:
         #    return

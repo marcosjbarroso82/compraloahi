@@ -13,7 +13,7 @@ from apps.userProfile.views import UserLocationViewSet, UserProfileModelView, St
 from apps.msg.views import MsgViewSet
 from apps.user.views import FacebookLogin, GoogleLogin
 from apps.comments.views import ThreadedCommentViewSet
-from apps.interest_group.views import InterestGroupViewSet, PostViewSet
+from apps.interest_group.views import InterestGroupViewSet, PostViewSet, SuscriptionViewSet
 
 router = DefaultRouter()
 router.register(r'user-items', AdUserViewSet, base_name='ad-by-user')
@@ -26,6 +26,8 @@ router.register(r'msgs', MsgViewSet, base_name='msgs')
 router.register(r'comments', ThreadedCommentViewSet, base_name='comment_api')
 router.register(r'interest-groups', InterestGroupViewSet, base_name='interest_group_api')
 router.register(r'(?P<group_pk>\d+)/post', PostViewSet, base_name='timeline')
+router.register(r'membership', SuscriptionViewSet, base_name='membership')
+
 
 urlpatterns = patterns('',
                        ## START URL ACTUALIZADAS TODO: ESTAS URL SE PASARON AHORA, ACOMODAR EL CLIENTE:
