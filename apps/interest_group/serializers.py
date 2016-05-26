@@ -1,7 +1,26 @@
 from rest_framework import serializers
-from .models import InterestGroup, Post
+from .models import InterestGroup, Post, Suscription
 from sorl.thumbnail import get_thumbnail
 from apps.ad.serializers import Base64ImageField
+
+
+class SuscriptionSerializer(serializers.ModelSerializer):
+    member = serializers.SerializerMethodField()
+    display_status = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Suscription
+        exclude = ('hash_invitation', )
+
+    def get_member(self, obj):
+        if obj.email:
+            return obj.email
+        else:
+            return obj.user.username
+
+    def get_display_status(self, obj):
+        return obj.get_status_display()
+
 
 
 class InterestGroupSerializer(serializers.ModelSerializer):

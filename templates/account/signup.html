@@ -17,7 +17,7 @@
                                 <!--<a href="#" class="btn btn-twitter"><i class="fa fa-twitter"></i> Twitter</a>-->
                                 <a href="/accounts/google/login/?process=login" class="btn btn-google"><i class="fa fa-google-plus"></i> Google+</a>
                             </div>
-                            <form class="m-t-md" method="post" action="{% url 'account_signup' %}">
+                            <form class="m-t-md" method="post" >
                                 {% csrf_token %}
                                 {% bootstrap_form form %}
                                 <label>

@@ -44,17 +44,17 @@ class InterestGroup(GenericModel):
 
 
 SUSCRIPTION_STATUS = (
-    (0, 'A la espera'),
-    (1, 'Aceptada'),
-    (2, 'Rechazada'),
-    (3, 'Expirada')
+    (0, 'Pedido'), # Pedido: Cuando el usuario hace la petision de unirse
+    (1, 'Preaprobado'), # Preaprobado: Cuando el admin del grupo invita a un usuario
+    (2, 'Aceptado'),
+    (3, 'Rechazado'), # Rechazado:
+    (4, 'Expirado')
 )
 
-
-
 class Suscription(GenericModel):
-    email = models.EmailField()
-    hash_invitation = models.TextField()
+    user = models.ForeignKey(User, blank=True, null=True)
+    email = models.EmailField(blank=True, null=True)
+    hash_invitation = models.TextField(blank=True)
     status = models.IntegerField(choices=SUSCRIPTION_STATUS, default=0)
     group = models.ForeignKey(InterestGroup, related_name='suscriptions')
 
@@ -81,18 +81,18 @@ def group_post_save(sender, *args, **kwargs):
 def suscription_post_save(sender, *args, **kwargs):
     if kwargs['created']:
         suscription = kwargs['instance']
+        if suscription.status == 1:
+            content = """
+                Has recibido una invitacion para unirte al grupo de %s , ingresa al siguiente enlase para aceptar
+                http://compraloahi.com.ar/%s
+            """ %(suscription.group.name, reverse('group:invitation', kwargs={'group_id': suscription.group.id, 'hash': suscription.hash_invitation}))
 
-        content = """
-            Has recibido una invitacion para unirte al grupo de %s , ingresa al siguiente enlase para aceptar
-            http://compraloahi.com.ar/%s
-        """ %(suscription.group.name, reverse('group:invitation', kwargs={'group_id': suscription.group.id, 'hash': suscription.hash_invitation}))
-
-        msg = EmailMultiAlternatives('Compraloahi - Notifications',
-                                          content,
-                                          'notificacion@compraloahi.com.ar',
-                                          [suscription.email])
-        msg.attach_alternative(content, 'text/html')
-        msg.send()
+            msg = EmailMultiAlternatives('Compraloahi - Notifications',
+                                              content,
+                                              'notificacion@compraloahi.com.ar',
+                                              [suscription.email])
+            msg.attach_alternative(content, 'text/html')
+            msg.send()
         #Notification(email=suscription, type='suscription', message=msg,
         #             extras={"url": '/suscription/%s' % suscription.hash_invitation, }).save()
 

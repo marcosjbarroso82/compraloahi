@@ -20,7 +20,7 @@
                             <!--<a href="#" class="btn btn-twitter"><i class="fa fa-twitter"></i> Twitter</a>-->
                             <a href="/accounts/google/login/?process=login" class="btn btn-google"><i class="fa fa-google-plus"></i> Google+</a>
                         </div>
-                        <form class="m-t-md" role="form" method="POST" action="{% url 'account_login' %}">
+                        <form class="m-t-md" role="form" method="POST" >
                             {% if redirect_field_value %}
                             <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
                             {% endif %}

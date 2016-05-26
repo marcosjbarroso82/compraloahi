@@ -1,12 +1,19 @@
 from rest_framework import viewsets
 from .models import InterestGroup, Post, Suscription
-from .serializers import InterestGroupSerializer, PostSerializer
-from django.views.generic import DetailView
+from .serializers import InterestGroupSerializer, PostSerializer, SuscriptionSerializer
+from django.views.generic import DetailView, CreateView
 from rest_framework.decorators import detail_route
 from rest_framework.permissions import BasePermission
 from rest_framework.response import Response
 from rest_framework import status
 from django.views.generic import UpdateView
+from django.http.response import HttpResponseRedirect, Http404
+
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+from .forms import SuscriptionForm
+from django.core.urlresolvers import reverse
+from django.contrib import messages
 
 
 class IsOwner(BasePermission):
@@ -20,6 +27,46 @@ class IsOwner(BasePermission):
         if obj.owner == request.user:
             return True
         return False
+
+
+class JoinGroup(CreateView):
+    model = Suscription
+
+    @method_decorator(login_required)
+    def get(self, request, *args, **kwargs):
+        try:
+            group = InterestGroup.objects.get(pk=self.kwargs.get('group_id'))
+            user = self.request.user
+            Suscription(group=group, user=user).save()
+            messages.success(self.request, "Te uniste al grupo, espera a que te aprueben la invitacion.")
+            if request.GET.get('next_url'):
+                return HttpResponseRedirect(request.GET.get('next_url'))
+        except InterestGroup.DoesNotExist:
+            # El grupo no existe
+            return Http404()
+        except:
+            # TODO: Que pasa aca?
+            return Http404()
+
+        return HttpResponseRedirect('/')
+
+
+class SuscriptionViewSet(viewsets.ModelViewSet):
+    model = Suscription
+    serializer_class = SuscriptionSerializer
+
+    def get_queryset(self):
+        group_pk = self.request.query_params.get('group')
+        try:
+            group = InterestGroup.objects.get(pk=group_pk)
+            if not group.owner == self.request.user:
+                return []
+        except InterestGroup.DoesNotExist:
+            return Response({'errors': {'group': ['The group doesnt exists']}}, status=status.HTTP_400_BAD_REQUEST)
+        if group_pk and group:
+            return Suscription.objects.filter(group=group_pk).exclude(status__in=[3, 4])
+        else:
+            return Response({'errors': {'group': ['This param is required']}}, status=status.HTTP_400_BAD_REQUEST)
 
 
 from apps.userProfile.models import UserProfile
@@ -96,12 +143,15 @@ class InterestGroupDetail(DetailView):
     model = InterestGroup
     context_object_name = 'group'
 
+    def get_context_data(self, **kwargs):
+        context = super(InterestGroupDetail, self).get_context_data(**kwargs)
+        if self.request.user.is_authenticated():
+            context['subscription'] = Suscription.objects.filter(group=self.object, user=self.request.user)
+        else:
+            context['subscription'] = None
 
-from django.contrib.auth.decorators import login_required
-from django.utils.decorators import method_decorator
-from .forms import SuscriptionForm
-from django.core.urlresolvers import reverse
-from django.contrib import messages
+        return context
+
 
 
 class InvitationGroup(UpdateView):

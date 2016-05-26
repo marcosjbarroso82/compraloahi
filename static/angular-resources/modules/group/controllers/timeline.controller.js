@@ -26,6 +26,7 @@
             members: []
         };
 
+        vm.memberships = [];
         vm.member_email = "";
 
         vm.submit = function(){
@@ -51,6 +52,16 @@
 
             function errorGetPosts(data){
                 AlertNotification.error("Error al intentar cargar los post, vuelva a intentarlo mas tarde.");
+            }
+
+            Group.membership().then(membershipSuccess, membershipError);
+
+            function membershipSuccess(data){
+                vm.memberships = data.data.results;
+            }
+
+            function membershipError(data){
+                AlertNotification.error("Error");
             }
         }
 

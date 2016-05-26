@@ -19,12 +19,18 @@
         var Groups = {
             members: members,
             invite: invite,
-            remove_member: remove_member
+            remove_member: remove_member,
+            membership: membership
         };
         return Groups;
 
         function members(id){
             return $http.get('/api/v1/interest-groups/' + id + '/members/');
+        }
+
+        function membership(){
+            console.log("SERVICE GET MEMBERSHIP");
+            return $http.get('/api/v1/membership/?group=' + String(group));
         }
 
         function invite(id, data){
