@@ -136,7 +136,6 @@ def ad_image_post_save(sender, *args, **kwargs):
     image = kwargs['instance']
     if image.ad.status == 2:
         image.ad.status = 1
-        print(30*"=SAVE AD 1=")
         image.ad.save()
     if image.default and image.ad:
         for img in AdImage.objects.filter(default=True, ad=image.ad).exclude(pk=image.pk):
@@ -149,7 +148,6 @@ def ad_image_post_delete(sender, *args, **kwargs):
     image = kwargs['instance']
     if not len(AdImage.objects.filter(ad=image.ad).exclude(pk=image.pk)):
         image.ad.status = 2
-        print(30*"=SAVE AD 2=")
         image.ad.save()
 
 #@receiver(pre_delete, sender=AdImage)

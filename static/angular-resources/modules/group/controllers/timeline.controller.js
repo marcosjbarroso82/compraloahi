@@ -43,7 +43,7 @@
 
         init();
         function init(){
-            Post.list().then(successGetPosts, errorGetPosts);
+            Post.list(group).then(successGetPosts, errorGetPosts);
 
             function successGetPosts(data){
                 vm.posts = data.data.results;

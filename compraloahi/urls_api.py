@@ -25,7 +25,7 @@ router.register(r'item-search', SearchViewSet, base_name='search') #/ad-search/?
 router.register(r'msgs', MsgViewSet, base_name='msgs')
 router.register(r'comments', ThreadedCommentViewSet, base_name='comment_api')
 router.register(r'interest-groups', InterestGroupViewSet, base_name='interest_group_api')
-router.register(r'post', PostViewSet, base_name='timeline')
+router.register(r'(?P<group_pk>\d+)/post', PostViewSet, base_name='timeline')
 
 urlpatterns = patterns('',
                        ## START URL ACTUALIZADAS TODO: ESTAS URL SE PASARON AHORA, ACOMODAR EL CLIENTE:

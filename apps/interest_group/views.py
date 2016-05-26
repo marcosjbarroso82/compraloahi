@@ -87,6 +87,9 @@ class PostViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
+    def get_queryset(self):
+        return Post.objects.filter(group__pk=self.kwargs.get('group_pk'))
+
 
 class InterestGroupDetail(DetailView):
     template_name = "interest_group/details.html"
