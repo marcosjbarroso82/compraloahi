@@ -1,8 +1,8 @@
 {% extends 'layout/base.html' %}
 {% load bootstrap3 thumbnail static %}
 {% block title %}
-    {% if suscription %}
-        Invitacion al grupo {{ suscription.group.title }}
+    {% if membership_request %}
+        Invitacion al grupo {{ membership_request.group.name }}
     {% else %}
         Invitacion invalida
     {% endif %}
@@ -10,13 +10,13 @@
 
 {% block body_block %}
     <div class="col-md-8 col-md-offset-2" style="margin-top: 50px; margin-bottom: 50px;">
-        {% if suscription %}
+        {% if membership_request %}
             <form id="invitation-form" method="post" action="" role="form">
                 {% csrf_token %}
                 <div style="display: none;">
                     {{ form.as_p }}
                 </div>
-                <h1 class="text-center">Te han invitado a formar parte del grupo {{ suscription.group.title }}</h1>
+                <h1 class="text-center">Te han invitado a formar parte del grupo {{ membership_request.group.name }}</h1>
                 <p class="text-center">¿Deseas unirte?</p>
                 <button class="btn btn-danger" id="btn-cancel" type="button">Cancelar</button>
                 <button class="btn btn-success" id="btn-accept" type="button">Aceptar</button>

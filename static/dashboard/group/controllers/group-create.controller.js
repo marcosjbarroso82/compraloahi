@@ -33,6 +33,10 @@
                 // TODO: Resize image before sending it
                 vm.group.image = vm.image;
             }
+            if (vm.image_header && 'name' in vm.image_header){
+                // TODO: Resize image before sending it
+                vm.group.image_header = vm.image_header;
+            }
             vm.promiseRequest = Group.create(vm.group).then(createSuccess, createError);
 
             function createSuccess(data){

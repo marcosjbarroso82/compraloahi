@@ -24,11 +24,11 @@
         return Post;
 
         function list(){
-            return $http.get('/api/v1/'+ String(group) +'/post/');
+            return $http.get('/api/v1/posts/?group=' + String(group));
         }
 
         function create(post){
-            return $http.post('/api/v1/'+ String(group) +'/post/', post);
+            return $http.post('/api/v1/posts/?group=' + String(group), post);
         }
 
     }

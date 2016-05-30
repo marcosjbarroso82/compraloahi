@@ -25,7 +25,7 @@ class UserProfile(models.Model):
     birth_date = models.DateField(blank=True, null=True)
     user = models.OneToOneField(User, unique=True, related_name='profile')
     privacy_settings = JsonField(default=CONFIG_PRIVACY)
-    interest_groups = models.ManyToManyField(InterestGroup, related_name='members', null=True)
+    #interest_groups = models.ManyToManyField(InterestGroup, related_name='members', null=True)
 
     def __str__(self):
         return 'profile ' + self.user.username
@@ -33,7 +33,6 @@ class UserProfile(models.Model):
     def __init__(self, *args, **kwargs):
         super(UserProfile, self).__init__(*args, **kwargs)
         self.privacy_settings_old = self.privacy_settings
-
 
     def change_privacity(self):
         if self.privacy_settings.get('show_address', True) == self.privacy_settings_old.get('show_address', True):
@@ -64,6 +63,8 @@ class Phone(models.Model):
     type = models.CharField(max_length=200, choices=TYPE_PHONE)
     userProfile = models.ForeignKey(UserProfile, related_name='phones')
 
+    def __str__(self):
+        return '%s: %s' % (self.type, self.number)
 
 
 INFO_ADDRESS = {
@@ -120,8 +121,6 @@ class UserLocation(models.Model):
         return self.title
 
 
-
-
 @receiver(post_save, sender=UserLocation)
 def user_location_post_save(sender, *args, **kwargs):
     loc = kwargs['instance']
@@ -151,7 +150,6 @@ STATUS_STORE = (
     (0, "deactivate"),
     (1, "activate")
 )
-
 
 class Store(models.Model):
     logo = models.ImageField(upload_to='logo', null=False, blank=True)

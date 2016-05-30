@@ -27,6 +27,7 @@
         };
 
         vm.memberships = [];
+        vm.memberships_requests = [];
         vm.member_email = "";
 
         vm.submit = function(){
@@ -54,20 +55,23 @@
                 AlertNotification.error("Error al intentar cargar los post, vuelva a intentarlo mas tarde.");
             }
 
-            Group.membership().then(membershipSuccess, membershipError);
-
-            function membershipSuccess(data){
-                vm.memberships = data.data.results;
+            if(has_permission){
+                Group.memberships_requests().then(membershipsRequestsSuccess, membershipsRequestsError);
+            }
+            function membershipsRequestsSuccess(data){
+                vm.memberships_requests = data.data.results;
             }
 
-            function membershipError(data){
+            function membershipsRequestsError(data){
                 AlertNotification.error("Error");
             }
+
         }
 
         vm.inviteMember = function(){
-            Group.invite(group, { 'email':vm.member_email }).then(InviteMemberSuccess, InviteMemberError);
-
+            if(has_permission){
+                Group.invite({ 'email':vm.member_email }).then(InviteMemberSuccess, InviteMemberError);
+            }
             function InviteMemberSuccess(){
                 AlertNotification.info("La invitacion fue exitosa, solo falta que la confirmacion de la otra persona.");
                 vm.member_email = '';
@@ -80,13 +84,15 @@
 
         var flag_get_user = false;
         vm.toggleUser = function(){
-            if (!flag_get_user){
+
+            if (!flag_get_user && has_permission){
                 flag_get_user = true;
-                Group.members(group).then(getGroupMembersSuccess, getGroupMembersError)
+
+                Group.memberships().then(getGroupMembersSuccess, getGroupMembersError)
             }
 
             function getGroupMembersSuccess(data){
-                vm.group = data.data
+                vm.memberships = data.data.results;
             }
 
             function getGroupMembersError(data){
@@ -98,8 +104,8 @@
             return $sce.trustAsHtml(html);
         };
 
-        vm.remove_member = function(member) {
-            Group.remove_member(group, member).then(deleteSuccess, deleteError);
+        vm.remove_member = function(membership) {
+            Group.remove_member(membership.id).then(deleteSuccess, deleteError);
 
             function deleteSuccess(data, headers, status){
                 AlertNotification.success("Se ha eliminado un miembro del grupo con exito!!");
@@ -108,6 +114,23 @@
 
             function deleteError(data, headers, status){
                 AlertNotification.error("Error al intentar eliminar a un miembro del grupo");
+            }
+        };
+
+        vm.confirm_request = function(membership){
+            Group.memberships_requests_confirm(membership).then(requestConfirmSuccess, requestConfirmError);
+
+            function requestConfirmSuccess(data){
+                vm.memberships_requests.splice(vm.memberships_requests.indexOf(membership),1);
+                var status_show = 'aceptado';
+                if(membership.status == 3){
+                    status_show = 'rechazado'
+                }
+                AlertNotification.error("Has " + status_show + " con exito!" );
+            }
+
+            function requestConfirmError(data){
+                AlertNotification.error("Error al intentar confirmar la solicitud, vuelva a intentarlo mas tarde");
             }
         };
 

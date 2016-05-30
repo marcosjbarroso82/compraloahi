@@ -17,10 +17,11 @@
      */
     function Group($http) {
         var Groups = {
-            members: members,
             invite: invite,
             remove_member: remove_member,
-            membership: membership
+            memberships: memberships,
+            memberships_requests: memberships_requests,
+            memberships_requests_confirm: memberships_requests_confirm
         };
         return Groups;
 
@@ -28,19 +29,25 @@
             return $http.get('/api/v1/interest-groups/' + id + '/members/');
         }
 
-        function membership(){
-            console.log("SERVICE GET MEMBERSHIP");
-            return $http.get('/api/v1/membership/?group=' + String(group));
+        function memberships(){
+            return $http.get('/api/v1/memberships/?group=' + String(group));
         }
 
-        function invite(id, data){
-            return $http.post('/api/v1/interest-groups/' + id + '/invite/', data);
+        function memberships_requests(){
+            return $http.get('/api/v1/memberships-requests/?group=' + String(group));
         }
 
-        function remove_member(id, member){
-            console.log("REMOVE MEMBER");
-            console.log(member);
-            return $http.delete('/api/v1/interest-groups/' + id + '/remove_member/?user=' + String(member.id), { 'user': member.id })
+        function memberships_requests_confirm(data){
+            return $http.post('/api/v1/memberships-requests/'+ data.id +'/?group=' + String(group), data);
+        }
+
+
+        function invite(data){
+            return $http.post('/api/v1/memberships-requests/?group=' + String(group), data);
+        }
+
+        function remove_member(id){
+            return $http.delete('/api/v1/memberships/' + id + '/?group=' + String(group))
         }
     }
 

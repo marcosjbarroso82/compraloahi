@@ -1,16 +1,16 @@
 from django import forms
-from .models import Suscription
+from .models import MemberShipRequest
 
 
-SUSCRIPTION_STATUS = (
-    (1, 'Aceptada'),
-    (2, 'Rechazada')
+REQUEST_STATUS = (
+    (2, 'Aceptada'),
+    (3, 'Rechazada')
 )
 
 
-class SuscriptionForm(forms.ModelForm):
-    status = forms.ChoiceField(choices=SUSCRIPTION_STATUS, widget=forms.RadioSelect, required=True)
+class MemberShipRequestForm(forms.ModelForm):
+    status = forms.ChoiceField(choices=REQUEST_STATUS, widget=forms.RadioSelect, required=True)
 
     class Meta:
-        model = Suscription
+        model = MemberShipRequest
         fields = ('status',)

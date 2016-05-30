@@ -22,7 +22,11 @@
         vm.finish = finish;
 
         // Define vars
-        vm.group = {};
+        vm.group = {
+            name: '',
+            short_description: '',
+            description: ''
+        };
 
         function activate(){
 
@@ -44,6 +48,11 @@
                 // TODO: Resize image before sending it
                 vm.group.image = vm.image;
             }
+            if (vm.image_header && 'name' in vm.image_header){
+                // TODO: Resize image before sending it
+                vm.group.image_header = vm.image_header;
+            }
+            console.log(vm.group.image_header);
             vm.promiseRequest = Group.update(vm.group).then(updateSuccess, updateError);
 
             function updateSuccess(data){

@@ -47,6 +47,9 @@
             if (group.image != undefined) {
                 fd.append('image', group.image);
             }
+            if (group.image_header != undefined) {
+                fd.append('image_header', group.image_header);
+            }
             return $http.post('/api/v1/interest-groups/', fd, {
                 headers: {'Content-Type': undefined},
                 withCredentials: true,
@@ -61,6 +64,9 @@
 
             if (group.image && typeof group.image != 'string' && group.image != undefined) {
                 fd.append('image', group.image);
+            }
+            if (group.image_header && typeof group.image_header != 'string' && group.image_header != undefined) {
+                fd.append('image_header', group.image_header);
             }
             return $http.patch('/api/v1/interest-groups/' + group.id + '/', fd, {
                 headers: {'Content-Type': undefined},

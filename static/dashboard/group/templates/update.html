@@ -49,16 +49,29 @@
                 <div class="col-md-2">
                     <label for="">Image</label>
                     <div cg-busy="vm.promise_img" ng-mouseover="vm.focus_img = true;" ng-mouseleave="vm.focus_img = false;">
-                        <img ng-if="vm.group.image" id="item-display" src="{{ vm.group.image }}" style="max-width: 100%; max-height: 100%; min-height: 100px; min-width: 100px;" >
-                        <img ng-if="!vm.group.image" id="item-display" src="/static/image/images-default.jpeg" style="max-width: 100%; max-height: 100%; min-height: 100px; min-width: 100px;" />
+
+                        <img ng-if="vm.group.image" src="{{ vm.group.image }}" style="max-width: 100%; max-height: 100%; min-height: 100px; min-width: 100px;" >
+                        <img ng-if="!vm.group.image" src="/static/image/images-default.jpeg" style="max-width: 100%; max-height: 100%; min-height: 100px; min-width: 100px;" />
                         <div class="fileUpload btn btn-primary btn-xs" ng-show="vm.focus_img">
                             <span><i class="fa fa-upload"></i></span>
                             <input name="image" id="image" type="file" class="upload" file-model='image' accept="image/*"/>
                         </div>
                     </div>
                 </div>
-
                 <div class="col-md-10">
+                    <label for="">Imagen de cabecera</label>
+                    <div ng-mouseover="vm.focus_img_header = true;" ng-mouseleave="vm.focus_img_header = false;">
+
+                        <img ng-if="vm.group.image_header" src="{{ vm.group.image_header }}" style="max-width: 100%; max-height: 100%; min-height: 100px; min-width: 100px;" >
+                        <img ng-if="!vm.group.image_header" src="/static/image/images-default.jpeg" style="max-width: 100%; max-height: 100%; min-height: 100px; min-width: 100px;" />
+                        <div class="fileUpload btn btn-primary btn-xs" ng-show="vm.focus_img_header">
+                            <span><i class="fa fa-upload"></i></span>
+                            <input name="image_header" id="image_header" type="file" class="upload" file-model='image_header' accept="image/*"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
                     <div class="form-group" style="position: relative;">
                         <label for="name-group">Nombre de la grupo</label>
                         <!-- CHECK VALIDATE IS UNIQUE -->

@@ -2,7 +2,6 @@ import json
 import logging
 
 from django.contrib.gis.measure import D
-#from haystack.utils.geo import Point, D
 from django.contrib.gis.geos import Point
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
@@ -27,7 +26,7 @@ from rest_framework import status
 from apps.notification.models import Notification
 from rest_framework.decorators import parser_classes
 from apps.interest_group.models import InterestGroup
-
+from django.http.response import HttpResponseNotAllowed
 logger = logging.getLogger('debug')
 
 # Este metodo se crea porque se tiene que generar el diccionario de facet de grupos antes de activar el facet "groups_exact=public"
@@ -52,7 +51,7 @@ def get_facet_by_name(params_url, facets_fields, facet_name, user=None):
                     if facet['name'] == 'groups':
                         if value_serializer['name'] == 'public': raise InterestGroup.DoesNotExist
                         value_serializer['label'] = InterestGroup.objects.get(slug=value_serializer['name'],
-                                                                              members=user.profile).name #, members__in=user.pk
+                                                                              memberships__user=user).name #, members__in=user.pk
 
                     for param_facet in params_url:
                         if len(str(param_facet).split(':')) > 1:
@@ -94,7 +93,7 @@ def get_facet(params_url, facets_fields, user):
                     value_serializer['label'] = Category.objects.get(slug=value_serializer['name']).name
                 if facet['name'] == 'groups':
                     if value_serializer['name'] == 'public': raise InterestGroup.DoesNotExist
-                    value_serializer['label'] = InterestGroup.objects.get(slug=value_serializer['name'], members=user.profile).name #, members__in=user.pk
+                    value_serializer['label'] = InterestGroup.objects.get(slug=value_serializer['name'], memberships__user=user).name #, members__in=user.pk
 
                 for param_facet in params_url:
                     if len(str(param_facet).split(':')) > 1:
@@ -172,7 +171,7 @@ class SearchViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
                 try:
                     # Validate that the user belongs to the group
                     if field.split('_')[0] == 'groups':
-                        InterestGroup.objects.get(slug=value, members=self.request.user.profile) # , members__in=self.request.user.profile.pk
+                        InterestGroup.objects.get(slug=value, memberships__user=self.request.user) # , members__in=self.request.user.profile.pk
                         flag_group = True
                     qs = qs.narrow('%s:"%s"' % (field, qs.query.clean(value)))
                 except InterestGroup.DoesNotExist:
@@ -321,9 +320,6 @@ class CategoriesListAPIView(ListAPIView):
     queryset = Category.objects.all()
 
 
-from django.http import Http404
-
-
 class DetailAdView(DetailView):
     template_name = "ad/details.html"
     excluded = ('created', '')
@@ -335,7 +331,7 @@ class DetailAdView(DetailView):
         if self.request.user.is_authenticated() and obj.groups.first().slug != 'public':
             # Validate if user has permission to view this ad.
             if len(self.request.user.profile.interest_groups.filter(pk__in=obj.groups.all().values_list('id'))) == 0:
-                raise Http404(("Not permission"))
+                return HttpResponseNotAllowed
         return obj
         #obj = super(DetailAdView, self).get_object(queryset=Ad.objects.filter(groups__in=self.request.user.profile.interest_groups.all(), status=1))
         #if not obj:
