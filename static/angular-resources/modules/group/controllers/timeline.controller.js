@@ -110,6 +110,7 @@
 
             function deleteSuccess(data, headers, status){
                 AlertNotification.success("Se ha eliminado un miembro del grupo con exito!!");
+                vm.memberships.splice(vm.memberships.indexOf(membership),1);
                 //vm.group.splice(vm.items.indexOf(item),1);
             }
 
@@ -127,7 +128,7 @@
                 if(membership.status == 3){
                     status_show = 'rechazado'
                 }
-                AlertNotification.error("Has " + status_show + " con exito!" );
+                AlertNotification.success("Has " + status_show + " con exito!" );
             }
 
             function requestConfirmError(data){

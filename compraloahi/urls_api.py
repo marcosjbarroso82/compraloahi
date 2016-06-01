@@ -115,13 +115,16 @@ urlpatterns = patterns('',
                        url(r'^memberships/$',
                            MemberShipViewSet.as_view({'get': 'list'}),
                            name='membership'),
+                       url(r'^memberships/(?P<pk>\d+)/$',
+                           MemberShipViewSet.as_view({'delete': 'destroy'}),
+                           name='membership-action'),
 
                        url(r'^memberships-requests/$',
                            MemberShipRequestViewSet.as_view({'get': 'list'}),
-                           name='memberships_requests'),
+                           name='memberships-requests'),
                        url(r'^memberships-requests/(?P<pk>\d+)/$',
                            MemberShipRequestViewSet.as_view({'post': 'confirm_request'}),
-                           name='membership_request_action'),
+                           name='membership-request-action'),
 
 
                        url(r'^change-logo/$',

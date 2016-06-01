@@ -59,6 +59,7 @@ class MemberShipViewSet(viewsets.ModelViewSet):
         return Membership.objects.filter(group=group_pk)
 
 
+
 class MemberShipRequestViewSet(viewsets.ModelViewSet):
     serializer_class = MemberShipRequestSerializer
     permission_classes = (IsOwnerGroup,)
