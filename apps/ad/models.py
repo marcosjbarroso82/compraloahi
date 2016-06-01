@@ -13,6 +13,9 @@ from apps.favorite.models import Favorite
 from colorful.fields import RGBColorField
 from apps.interest_group.models import InterestGroup
 
+import itertools
+from django.template.defaultfilters import slugify
+
 
 class AdQuerySet(models.QuerySet):
 
@@ -22,11 +25,21 @@ class AdQuerySet(models.QuerySet):
 
 class Category(models.Model):
     name = models.CharField(max_length=40)
-    slug = AutoSlugField(populate_from='name')
+    slug = models.SlugField(unique=True, editable=False)
     color = RGBColorField()
 
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        self.slug = orig = slugify(self.name)
+
+        for x in itertools.count(1):
+            if not Category.objects.filter(slug=self.slug).exists():
+                break
+            self.slug = '%s-%d' % (orig, x)
+
+        super(Category, self).save(*args, **kwargs)
 
 
 STATUS_AD = (
@@ -41,7 +54,7 @@ class Ad(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
     pub_date = models.DateTimeField(auto_now_add=True)
-    slug = AutoSlugField(populate_from='title', unique_with='pub_date')
+    slug = models.SlugField(unique=True, editable=False)
     tags = TaggableManager(blank=True)
     author = models.ForeignKey(User, related_name='ads')
     categories = models.ManyToManyField(Category)
@@ -96,6 +109,12 @@ class Ad(models.Model):
             return False
 
     def save(self, *args, **kwargs):
+        self.slug = orig = slugify(self.title)
+
+        for x in itertools.count(1):
+            if not Ad.objects.filter(slug=self.slug).exists():
+                break
+            self.slug = '%s-%d' % (orig, x)
         super(Ad, self).save(*args, **kwargs)
         if len(self.groups.all()) == 0:
             self.groups.add(InterestGroup.objects.get(slug='public'))

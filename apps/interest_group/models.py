@@ -1,3 +1,4 @@
+import itertools
 import random
 import string
 
@@ -5,13 +6,12 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
-from django.core.mail import EmailMultiAlternatives
 from django.core.urlresolvers import reverse
 from django.dispatch.dispatcher import receiver
 from django.template.defaultfilters import slugify
 
 from apps.util.models import GenericModel
-
+from apps.notification.models import Notification
 
 STATUS_GROUP = (
     (0, 'Active'),
@@ -19,32 +19,38 @@ STATUS_GROUP = (
 )
 
 class InterestGroup(GenericModel):
-    name = models.CharField(max_length=20, unique=True)
+    name = models.CharField(max_length=20)
     short_description = models.TextField(max_length=200)
     description = models.TextField()
     owner = models.ForeignKey(User)
     image_header = models.ImageField(default='group/header/default.png', upload_to='group/header/')
     image = models.ImageField(default='group/default.png', upload_to='group')
     status = models.IntegerField(choices=STATUS_GROUP, default=0)
-    slug = models.SlugField(auto_created=True, editable=False)
+    slug = models.SlugField(auto_created=True, editable=False, unique=True)
 
-    def clean_slug(self):
-        if self.name != '':
-            #TODO: y esto? no parece estar bien!
-            print("VALIDATE SLUG")
-            print(39*"===")
-            if InterestGroup.objects.get(slug= self.slug).count() > 0:
-                raise ValidationError('Error, fields name is unique')
+    # def clean_slug(self):
+    #     if self.name != '':
+    #         #TODO: y esto? no parece estar bien!
+    #         print("VALIDATE SLUG")
+    #         print(39*"===")
+    #         if InterestGroup.objects.get(slug= self.slug).count() > 0:
+    #             raise ValidationError('Error, fields name is unique')
 
     def get_url(self):
         if self.slug:
-            return reverse('group', args=[self.slug])
+            return reverse('group:detail', args=[self.slug,])
         else:
             return ''
 
-    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
-        self.slug = slugify(self.name)
-        super().save(force_insert, force_update, using, update_fields)
+    def save(self, *args, **kwargs):
+        self.slug = orig = slugify(self.name)
+
+        for x in itertools.count(1):
+            if not InterestGroup.objects.filter(slug=self.slug).exists():
+                break
+            self.slug = '%s-%d' % (orig, x)
+
+        super(InterestGroup, self).save(*args, **kwargs)
 
 
     def __str__(self):
@@ -116,21 +122,21 @@ def suscription_post_save(sender, *args, **kwargs):
     if kwargs['created']:
         membership_request = kwargs['instance']
         if membership_request.status == 1:
+            url = reverse('group:invitation', kwargs={'group_id': membership_request.group.id,
+                                                                 'hash': membership_request.hash_invitation})
             content = """
                 Has recibido una invitacion para unirte al grupo de %s , ingresa al siguiente enlase para aceptar
                 http://compraloahi.com.ar%s
-            """ %(membership_request.group.name, reverse('group:invitation',
-                                                         kwargs={'group_id': membership_request.group.id,
-                                                                 'hash': membership_request.hash_invitation}))
+            """ %(membership_request.group.name, url)
 
-            msg = EmailMultiAlternatives('Compraloahi - Notifications',
-                                              content,
-                                              'notificacion@compraloahi.com.ar',
-                                              [membership_request.email])
-            msg.attach_alternative(content, 'text/html')
-            msg.send()
-        #Notification(email=suscription, type='suscription', message=msg,
-        #             extras={"url": '/suscription/%s' % suscription.hash_invitation, }).save()
+            #msg = EmailMultiAlternatives('Compraloahi - Notifications',
+            #                                  content,
+            #                                  'notificacion@compraloahi.com.ar',
+            #                                  [membership_request.email])
+            #msg.attach_alternative(content, 'text/html')
+            #msg.send()
+            Notification(email=membership_request.email, type='membership', message=content,
+                         extras={"url": url, }).save()
     else:
         pass
 
@@ -140,3 +146,16 @@ class Post(GenericModel):
     user = models.ForeignKey(User, related_name='posts')
     content = models.TextField()
 
+
+@receiver(post_save, sender=Post)
+def post_post_save(sender, *args, **kwargs):
+    if kwargs['created']:
+        post = kwargs['instance']
+        url = post.group.get_url()
+        content = """
+            Se ha echo una nueva publicacion en el grupo %s.
+        """ % post.group.name
+
+        for member in post.group.memberships.all():
+            Notification(receiver=member.user, type='post', message=content,
+                         extras={"url": url, }).save()

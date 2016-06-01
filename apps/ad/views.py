@@ -183,14 +183,17 @@ class SearchViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
 
         order_by = self.request.query_params.get('order_by')
         if order_by:
+            # TODO: Order by distance not found
             if order_by is 'distance':
                 if distance and point:
-                    qs = qs.order_by(self.request.query_params.get('order_by'))
+                    qs = qs.order_by(order_by)
             else:
-                qs = qs.order_by(self.request.query_params.get('order_by'))
+                qs = qs.order_by(order_by)
 
         if not flag_group:
             qs = qs.narrow('%s:"%s"' % ('groups_exact', qs.query.clean('public')))
+
+
         self.facets.append(get_facet_by_name(param_facet_url, qs.facet_counts()['fields'].items(), 'categories'))
         return qs
 

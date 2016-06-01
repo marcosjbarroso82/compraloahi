@@ -41,8 +41,8 @@ urlpatterns = patterns('',
                            GoogleLogin.as_view(),
                            name='goo_login'),
 
-                       url(r'^rest-auth/', include('rest_auth.urls')),
-                       url(r'^rest-auth/registration/', include('rest_auth.registration.urls')),
+                       #url(r'^rest-auth/', include('rest_auth.urls')),
+                       #url(r'^rest-auth/registration/', include('rest_auth.registration.urls')),
 
                        ### END URL ACTUALIZADAS
                        url(r'^categories/$', CategoriesListAPIView.as_view(), name='categories'),

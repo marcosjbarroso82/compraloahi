@@ -20,9 +20,11 @@
 
         // Defined vars ------------------------------------------------
         vm.items = []; //List items
-        vm.orderings = [{'name': 'price', selected: false}, {'name': 'distance', selected: false}]; // Orderings
+        vm.orderings = [{'name': 'price', selected: false}]; // {'name': 'distance', selected: false}]; // Orderings
         var current_location = {}; // representa la posicion del usuario en el mapa
         var current_location_geo = {}; // representa la posicion obtenida por geo localizacion
+
+        vm.selected_ordering = '';
 
         // Default value to params search.
         var params_search = {};
@@ -130,6 +132,19 @@
                     });
                 });
             }
+            if(check_params(['order_by'])){
+                console.log("PARAM ORDER");
+                console.log(params_search.order_by);
+                angular.forEach(vm.orderings, function(order){
+                    console.log("ORDER NAME");
+                    console.log(order.name);
+                    if(params_search.order_by == order.name){
+                        console.log("SELECTED ORDER");
+                        vm.selected_ordering = angular.copy(order);
+                    }
+                })
+            }
+
             if(check_params(['n', 's', 'e', 'w'])){
                 changeTypeLocationSearch('bounds');
 
@@ -163,7 +178,7 @@
                     vm.centerMap(location);
                     changeCurrentLocation(location, false);
                     setTimeout(function () {
-                          set_params_bounds_to_map(true);
+                        set_params_bounds_to_map(true);
                     }, 500);
                 }
             }
@@ -535,6 +550,11 @@
                 if(selected_facets != ''){
                     query.selected_facets = selected_facets;
                 }
+            }
+
+            if(vm.selected_ordering){
+
+                query.order_by=vm.selected_ordering.name;
             }
 
             if(params_search.q != ''){

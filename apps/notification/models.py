@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from django.core.mail import EmailMultiAlternatives
-from django.core.urlresolvers import reverse
+
 from django.conf import settings
 from django.db import models
 from django.db.models.signals import post_save
@@ -11,21 +11,21 @@ from push_notifications.models import GCMDevice
 
 from django_pgjson.fields import JsonField
 
-from django_comments_xtd.models import XtdComment
 
-from apps.ad.models import Ad
+from django.template.loader import render_to_string
 
 
 AUTH_USER_MODEL = getattr(settings, 'AUTH_USER_MODEL', 'auth.User')
 
 TYPE_NOTIFICATION = (
-                ('msg', 'Message'),
-                ('fav', 'Favorite'),
-                ('cmmt', 'Comment'),
-                ('prox', 'Near Favorite'),
-                ('cal', "Calification"),
-                ('suscription', "Suscripcion")
-            )
+    ('msg', 'Message'),
+    ('fav', 'Favorite'),
+    ('cmmt', 'Comment'),
+    ('prox', 'Near Favorite'),
+    ('cal', "Calification"),
+    ('membership', "Membership"),
+    ('post', "GroupPost")
+)
 
 CANAL_NOTIFICATION = (
     ('alert', 'Alert'),
@@ -37,7 +37,8 @@ CONFIG_NOTIFICATION = {
     "fav": { "alert": True, "email": True, "label": "Desea recibir una notificacion cuando agregan un aviso propio a favoritos" },
     "cmmt": { "alert": True, "email": True, "label": "Desea recibir una notificacion cuando commentan un aviso propio" },
     "prox": { "alert": True, "email": True, "label": "Desea recibir una notificacion cuando estas cerca de uno de tus avisos favoritos" },
-    "cal": { "alert": True, "email": True, "label": "Desea recibir una notificacion cuando tiene tiene la posibilidad de calificar a otro usuario" }
+    "cal": { "alert": True, "email": True, "label": "Desea recibir una notificacion cuando tiene tiene la posibilidad de calificar a otro usuario" },
+    "post": { "alert": True, "email": True, "label": "Desea recibir una notificacion cuando hacen publicaciones en los grupos a los que pertenece" }
 }
 
 
@@ -46,16 +47,20 @@ class ConfigNotification(models.Model):
     config = JsonField(default=CONFIG_NOTIFICATION)
 
     def save(self, *args, **kwargs):
+
         # Validate if has all config
-        for config in CONFIG_NOTIFICATION.keys():
-            for key, value in CONFIG_NOTIFICATION[config].items():
-                if not self.config[config] or not key in self.config[config] or key == 'label':
-                    self.config[config][key] = value
+        for check_key in CONFIG_NOTIFICATION.keys():
+            if not self.config.get(check_key):
+                self.config[check_key] = CONFIG_NOTIFICATION[check_key]
+            for config in CONFIG_NOTIFICATION.keys():
+                for key, value in CONFIG_NOTIFICATION[config].items():
+                    if not self.config.get(config) or not key in self.config.get(config) or key == 'label':
+                        self.config[config][key] = value
 
         super(ConfigNotification, self).save(*args, **kwargs)
 
     def has_perm(self, type, canal):
-        if self.config[type][canal]:
+        if self.config.get(type) and self.config[type].get(canal):
             return True
         else:
             return False
@@ -107,6 +112,8 @@ class Notification(models.Model):
         return self.extras.get('url', "")
 
 
+
+
 @receiver(post_save, sender=Notification)
 def notification_post_save(sender, *args, **kwargs):
     notification = kwargs['instance']
@@ -137,16 +144,25 @@ def notification_post_save(sender, *args, **kwargs):
         if config and config.has_perm(notification.type, 'email') and notification.receiver.email:
             print("Enviando email.....")
             url = notification.get_url()
+            context_data = {}
+
             if url:
-                html_content = notification.message + "\b" + "Ingresa a el siguiente link para ver el detalle http://compraloahi.com.ar" + url
+                context_data['message'] = notification.message + "\b" + "Ingresa a el siguiente link para ver el detalle http://compraloahi.com.ar" + url
             else:
-                html_content = notification.message
-            msg = EmailMultiAlternatives('Compraloahi - Notifications',
-                                              html_content,
-                                              'notificacion@compraloahi.com.ar',
-                                              [notification.receiver.email])
-            msg.attach_alternative(html_content, 'text/html')
+                context_data['message'] = notification.message
+
+            message = render_to_string('notification/email.html', context_data)
+            subject = '[Compraloahi] - Notificacion'
+            msg = EmailMultiAlternatives(
+                subject,
+                message,
+                settings.DEFAULT_FROM_EMAIL,
+                [notification.receiver.email, ],
+                )
+
+            msg.attach_alternative(message, "text/html")
             msg.send()
+
             print("Email enviado!")
 
 
@@ -157,20 +173,6 @@ def create_config_notification(sender, *args, **kwargs):
         user = kwargs['instance']
         ConfigNotification(user=user, config=CONFIG_NOTIFICATION).save()
 
-
-@receiver(post_save, sender=XtdComment, dispatch_uid='XTDCommentPostSave')
-def handle_xtd_comment_post_save(sender, *args, **kwargs):
-    """
-        Generate notification when comment on detail ad.
-    """
-    comment = kwargs['instance']
-    if (comment.level == 0 and not kwargs['created']):
-
-        ad = Ad.objects.get(pk=comment.object_pk)
-        url = reverse('ad:detail', args=[ad.slug])
-
-        Notification(receiver=ad.author, type='cmmt', message="Nuevo comentario en el aviso " + str(ad.title),
-                     extras={"comment": str(comment), "url": url, "ad": comment.object_pk }).save()
 
 
 from apps.msg.models import Msg

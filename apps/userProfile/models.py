@@ -208,6 +208,6 @@ def create_config_notification(sender, *args, **kwargs):
 def create_config_store(sender, *args, **kwargs):
     if kwargs['created']:
         profile = kwargs['instance']
-        profile.interest_groups.add(InterestGroup.objects.get(slug='public'))
-        profile.save()
+        #profile.interest_groups.add(InterestGroup.objects.get(slug='public'))
+        #profile.save()
         Store(profile=profile).save()

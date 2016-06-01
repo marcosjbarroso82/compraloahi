@@ -34,8 +34,9 @@
             Post.create(vm.post).then(successPost, errorPost);
 
             function successPost(data){
-                AlertNotification.success("El post se creo con exito.")
+                AlertNotification.success("El post se creo con exito.");
                 vm.posts.unshift(data.data);
+                vm.post.content = '';
             }
 
             function errorPost(data){
