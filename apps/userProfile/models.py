@@ -4,8 +4,11 @@ from django.dispatch import receiver
 from django.db.models.signals import post_save
 from django.core.exceptions import ValidationError
 from django_pgjson.fields import JsonField
+from django.core.urlresolvers import reverse
 import urllib.request
 import json
+
+from apps.interest_group.models import InterestGroup
 
 TYPE_PHONE = (
     ('TEL', 'Telefono'),
@@ -21,8 +24,8 @@ class UserProfile(models.Model):
     image = models.ImageField(upload_to='profile', null=False, blank=False, default="profile/default.jpg")
     birth_date = models.DateField(blank=True, null=True)
     user = models.OneToOneField(User, unique=True, related_name='profile')
-
     privacy_settings = JsonField(default=CONFIG_PRIVACY)
+    #interest_groups = models.ManyToManyField(InterestGroup, related_name='members', null=True)
 
     def __str__(self):
         return 'profile ' + self.user.username
@@ -30,7 +33,6 @@ class UserProfile(models.Model):
     def __init__(self, *args, **kwargs):
         super(UserProfile, self).__init__(*args, **kwargs)
         self.privacy_settings_old = self.privacy_settings
-
 
     def change_privacity(self):
         if self.privacy_settings.get('show_address', True) == self.privacy_settings_old.get('show_address', True):
@@ -61,6 +63,8 @@ class Phone(models.Model):
     type = models.CharField(max_length=200, choices=TYPE_PHONE)
     userProfile = models.ForeignKey(UserProfile, related_name='phones')
 
+    def __str__(self):
+        return '%s: %s' % (self.type, self.number)
 
 
 INFO_ADDRESS = {
@@ -117,8 +121,6 @@ class UserLocation(models.Model):
         return self.title
 
 
-
-
 @receiver(post_save, sender=UserLocation)
 def user_location_post_save(sender, *args, **kwargs):
     loc = kwargs['instance']
@@ -149,7 +151,6 @@ STATUS_STORE = (
     (1, "activate")
 )
 
-
 class Store(models.Model):
     logo = models.ImageField(upload_to='logo', null=False, blank=True)
     name = models.CharField(max_length=255, blank=True)
@@ -167,6 +168,12 @@ class Store(models.Model):
         if self.name != '':
             if Store.objects.get(slug= self.slug).count() > 0:
                 raise ValidationError('Error, fields name is unique')
+
+    def get_url(self):
+        if self.slug:
+            return reverse('store', args=[self.slug])
+        else:
+            return ''
 
     def save(self, *args, **kwargs):
         # Validate if has all config
@@ -201,4 +208,6 @@ def create_config_notification(sender, *args, **kwargs):
 def create_config_store(sender, *args, **kwargs):
     if kwargs['created']:
         profile = kwargs['instance']
+        #profile.interest_groups.add(InterestGroup.objects.get(slug='public'))
+        #profile.save()
         Store(profile=profile).save()

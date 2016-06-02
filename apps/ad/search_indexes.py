@@ -20,6 +20,7 @@ class AdIndex(indexes.SearchIndex, indexes.Indexable):
     #provinces = indexes.CharField(faceted=True)
     #administrative_area_level_2 = indexes.CharField(faceted=True)
     categories = indexes.MultiValueField(faceted=True)
+    groups = indexes.MultiValueField(faceted=True)
 
     location = indexes.LocationField()
 
@@ -34,7 +35,9 @@ class AdIndex(indexes.SearchIndex, indexes.Indexable):
         self.prepared_data = super(AdIndex, self).prepare(object)
 
         self.prepared_data['tags'] = [tag.name for tag in object.tags.all()]
-        self.prepared_data['categories'] = [category.name for category in object.categories.all()]
+        self.prepared_data['categories'] = [category.slug for category in object.categories.all()]
+        self.prepared_data['groups'] = [group.slug for group in object.groups.all()]
+        #self.prepared_data['categories_slug'] = [category.slug for category in object.categories.all()]
         #self.prepared_data['localities'] = [location.locality for location in object.locations.all()]
         #self.prepared_data['provinces'] = [location.administrative_area_level_1 for location in object.locations.all()]
         #self.prepared_data['administrative_area_level_2'] = [location.administrative_area_level_2 for location in object.locations.all()]

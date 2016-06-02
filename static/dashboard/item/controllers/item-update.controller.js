@@ -9,12 +9,12 @@
         .module('dashBoardApp.item.controllers')
         .controller('ItemUpdateCtrl', ItemUpdateCtrl);
 
-    ItemUpdateCtrl.$inject = ['$state', 'Item', 'AlertNotification', '$stateParams']; //, 'leafletEvents'];
+    ItemUpdateCtrl.$inject = ['$state', 'Item', 'AlertNotification', '$stateParams', 'Group']; //, 'leafletEvents'];
 
     /**
      * @namespace ItemUpdateCtrl
      */
-    function ItemUpdateCtrl($state, Item, AlertNotification, $stateParams){ //, leafletEvents) {
+    function ItemUpdateCtrl($state, Item, AlertNotification, $stateParams, Group){ //, leafletEvents) {
         var vm = this;
 
         vm.search_category = {};
@@ -23,26 +23,18 @@
         vm.selectCategory = selectCategory;
 
         // Define vars
-        vm.item = {};
+        vm.item = {
+            body: '',
+            groups: []
+        };
         vm.item.categories = [];
         vm.item.images = [];
-
-
-        vm.editorOptions = {
-            language: 'es',
-            uiColor: '#FFFFFF',
-            toolbar: [
-                ["Format", "Bold", "Italic", "Underline", "Strike", "SpellChecker", 'TextColor'],
-                ['NumberedList', 'BulletedList', "Indent", "Outdent", 'JustifyLeft', 'JustifyCenter',
-                    'JustifyRight', 'JustifyBlock'],
-                ["Table", "Link", "Unlink", "SectionLink", "Subscript", "Superscript"], ['Undo', 'Redo'],
-                ["Maximize"]
-            ]
-        };
 
         vm.categories_selected = [];
 
         vm.request = false;
+
+        vm.is_public = false;
 
         activate();
 
@@ -67,6 +59,27 @@
                 vm.request = true;
                 // Get categories
                 vm.promiseRequestCategories = Item.getCategories().then(getCategoriesSuccess, getCategoriesError);
+                vm.promiseRequestGroup = Group.list().then(getGroupsSuccess, getGroupsError)
+            }
+
+            function getGroupsSuccess(data){
+                vm.groups = data.data.results;
+                if(vm.item.groups.length > 0){
+                    for(var i=0; i < vm.item.groups.length; i++){
+                        angular.forEach(vm.groups, function(group) {
+                           if(group.id == vm.item.groups[i]){
+                               group.selected = true;
+                               //break; # TODO: break doesnt work with angular.forEarch
+                           }
+                        });
+                    }
+                }else{
+                    vm.is_public = true;
+                }
+            }
+
+            function getGroupsError(data){
+                AlertNotification.error("Error al generar el formulario, intente recargando la pagina nuevamente.");
             }
 
             function getItemDetailError(data){
@@ -75,7 +88,7 @@
 
 
             function getCategoriesSuccess(data){
-                vm.categories = data.data;
+                vm.categories = data.data.results;
                 vm.category_selected = angular.copy(vm.item.categories[0]);
             }
 
@@ -86,6 +99,14 @@
 
         function submit(){
             vm.item.categories = [vm.category_selected,];
+            vm.item.groups = [];
+            if(!vm.is_public){
+                for(var i=0; i < vm.groups.length;i++){
+                    if(vm.groups[i].selected){
+                        vm.item.groups.push(vm.groups[i].id);
+                    }
+                }
+            }
 
             vm.promiseRequest = Item.update(vm.item).then(updateSuccess, updateError);
 

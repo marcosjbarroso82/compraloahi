@@ -11,9 +11,9 @@ from apps.user.views import ChangePasswordUpdateAPIView
 from apps.userProfile.views import UserLocationViewSet, UserProfileModelView, StoreModelViewSet, \
     ProfileLocationViewSet, ConfigPrivacityViewSet
 from apps.msg.views import MsgViewSet
-
-from .views import generate_all_auth_token
-
+from apps.user.views import FacebookLogin, GoogleLogin
+from apps.comments.views import ThreadedCommentViewSet
+from apps.interest_group.views import InterestGroupViewSet, PostViewSet, MemberShipRequestViewSet, MemberShipViewSet
 
 router = DefaultRouter()
 router.register(r'user-items', AdUserViewSet, base_name='ad-by-user')
@@ -23,9 +23,28 @@ router.register(r'user-locations', UserLocationViewSet, base_name='location-by-u
 router.register(r'favorites', FavoriteAdViewSet, base_name='favorites')
 router.register(r'item-search', SearchViewSet, base_name='search') #/ad-search/?q=algo&latitude=-31&longitude=-64&km=33
 router.register(r'msgs', MsgViewSet, base_name='msgs')
-
+router.register(r'comments', ThreadedCommentViewSet, base_name='comment_api')
+router.register(r'interest-groups', InterestGroupViewSet, base_name='interest_group')
+#router.register(r'posts', PostViewSet, base_name='timeline')
+# router.register(r'memberships', MemberShipViewSet, base_name='membership')
+# router.register(r'memberships-requests', MemberShipRequestViewSet, base_name='membership_request')
 
 urlpatterns = patterns('',
+                       ## START URL ACTUALIZADAS TODO: ESTAS URL SE PASARON AHORA, ACOMODAR EL CLIENTE:
+                       # TODO : This url belong to api
+                       url(r'^rest-auth/facebook/$',
+                           FacebookLogin.as_view(),
+                           name='fb_login'),
+
+                       # TODO : This url belong to api
+                       url(r'^rest-auth/google/$',
+                           GoogleLogin.as_view(),
+                           name='goo_login'),
+
+                       #url(r'^rest-auth/', include('rest_auth.urls')),
+                       #url(r'^rest-auth/registration/', include('rest_auth.registration.urls')),
+
+                       ### END URL ACTUALIZADAS
                        url(r'^categories/$', CategoriesListAPIView.as_view(), name='categories'),
 
                        url(r'^store-config/$',
@@ -56,7 +75,7 @@ urlpatterns = patterns('',
                            name='not-unregister'),
 
                        # TODO : Esta url hay que desactivarla en produccion?
-                       url(r'^api-generate-all-token-auth/', generate_all_auth_token),
+                       #url(r'^api-generate-all-token-auth/', generate_all_auth_token),
 
                        url(r'^api-token-auth/', obtain_auth_token),
 
@@ -88,13 +107,29 @@ urlpatterns = patterns('',
                            name='api-user-store-name-is-unique'),
 
                        # Login and logout (DjangoRestFramework)
-                       url(r'^',
-                           include('rest_framework.urls',
-                                   namespace='rest_framework')),
+                       #url(r'^',
+                       #    include('rest_framework.urls',
+                       #            namespace='rest_framework')),
+
+                       url(r'^posts/$', PostViewSet.as_view({'post': 'create', 'get': 'list'}), name='posts'),
+                       url(r'^memberships/$',
+                           MemberShipViewSet.as_view({'get': 'list'}),
+                           name='membership'),
+                       url(r'^memberships/(?P<pk>\d+)/$',
+                           MemberShipViewSet.as_view({'delete': 'destroy'}),
+                           name='membership-action'),
+
+                       url(r'^memberships-requests/$',
+                           MemberShipRequestViewSet.as_view({'get': 'list', 'post': 'invite_member'}),
+                           name='memberships-requests'),
+                       url(r'^memberships-requests/(?P<pk>\d+)/$',
+                           MemberShipRequestViewSet.as_view({'post': 'confirm_request'}),
+                           name='membership-request-action'),
+
 
                        url(r'^change-logo/$',
                            'apps.userProfile.views.upload_logo_store', name='api-store-change-logo'),
 
-                        # Include router api
-                        url(r'^', include(router.urls)),
-                        )
+                       # Include router api
+                       url(r'^', include(router.urls)),
+                       )

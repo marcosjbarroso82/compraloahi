@@ -4,11 +4,10 @@ from django.contrib import admin
 from apps.favorite.views import HasFavoriteNearApiView
 
 from apps.userProfile.views import StoreView
-from apps.user.views import FacebookLogin, GoogleLogin
-
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from .views import HomeView, DashBoardView, log, send_notification, TermAndConditionView
 from django.views.generic import TemplateView
-from .settings import base as settings
+from django.conf import settings
 from apps.util.views import RegisterInterested, TemplateMessage, ContactFormView
 
 urlpatterns = patterns('',
@@ -29,9 +28,6 @@ urlpatterns = patterns('',
 
                        url(r'^oportunidades-interesado/$', TemplateView.as_view(template_name='oportunidades-interesado.html')),
 
-                       # TODO: Esta url no va en produccion
-                       url(r'^log/', log),
-
                        url('^faq/', include('apps.faq.urls', namespace='faq')),
 
                        url('^terminosycondiciones/(?P<template>.*)$', TermAndConditionView.as_view(), name='termsandcondition'),
@@ -41,25 +37,6 @@ urlpatterns = patterns('',
 
                         # Include API
                        (r'^api/v1/', include('compraloahi.urls_api', namespace='api')),
-
-                       # TODO : This url belong to api
-                       url(r'^rest-auth/facebook/$',
-                           FacebookLogin.as_view(),
-                           name='fb_login'),
-
-                        # TODO : This url belong to api
-                       url(r'^rest-auth/google/$',
-                           GoogleLogin.as_view(),
-                           name='goo_login'),
-
-                        # Add authentication by django rest client
-                        #url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-                        # TODO : This url belong to api
-                       url(r'^rest-auth/', include('rest_auth.urls')),
-                       url(r'^rest-auth/registration/', include('rest_auth.registration.urls')),
-
-                       # TODO: Esta url no va en produccion
-                       url(r'^send_notification/', send_notification),
 
                        url(r'^favorite/' , include('apps.favorite.urls', namespace='favorite')),
 
@@ -72,6 +49,8 @@ urlpatterns = patterns('',
                        # My apps Ad
                        url(r'^item/', include("apps.ad.urls", namespace="ad")),
 
+                       url(r'^grupos/', include("apps.interest_group.urls", namespace="group")),
+
                        # My apps User
                        (r'^users/',
                         include('apps.user.urls',
@@ -82,7 +61,6 @@ urlpatterns = patterns('',
                        # App Allauth (social authentication)
                        (r'^accounts/', include('allauth.urls')),
 
-
                        # Parche comments
                        (r'^comments/post/$',
                         'compraloahi.views.comment_post_wrapper'),
@@ -90,13 +68,16 @@ urlpatterns = patterns('',
                        # Package comments
                        (r'^comments/', include('django_comments_xtd.urls')),
 
-                       # Files Media
-                       url(r'^media/(?P<path>.*)$',
-                           "django.views.static.serve",
-                           {'document_root': settings.MEDIA_ROOT}),
-
                        url(r'^tienda/(?P<slug>[a-zA-Z0-9_.-]+)/$',
                            StoreView.as_view(),
                            name="store"),
 
                        )
+
+if settings.DEBUG:
+    urlpatterns += patterns('',
+                            url(r'^send_notification/', send_notification),
+                            url(r'^log/', log),
+                           url(r'^media/(?P<path>.*)$', 'django.views.static.serve',
+                               {'document_root': settings.MEDIA_ROOT, 'show_indexes': True}),
+                           ) + staticfiles_urlpatterns() + urlpatterns

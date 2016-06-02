@@ -23,10 +23,10 @@ class IsRecipient(permissions.BasePermission):
             return True
         return False
 
+from django.contrib.contenttypes.models import ContentType
 
 class MsgViewSet(viewsets.ModelViewSet):
     serializer_class = MsgSerializer
-    paginate_by = 10
 
     def get_serializer(self, *args, **kwargs):
         if "data" in kwargs and isinstance(kwargs["data"], list):
@@ -38,7 +38,6 @@ class MsgViewSet(viewsets.ModelViewSet):
 
     def destroy(self, request, *args, **kwargs):
         return Response({"message": "DELETE method not allowed"}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
-
 
     @list_route(methods=['patch'])
     def set_read_bulk(self, request, pk=None):
@@ -68,12 +67,21 @@ class MsgViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
     def perform_create(self, serializer):
+        content_type = ContentType.objects.get_for_model(Ad)
+        add_fields = {
+                'sender': self.request.user,
+                'content_type': content_type
+                }
+        if 'thread' in serializer.validated_data:
+            parent = serializer.validated_data['thread']
+            if parent.object_id and parent.content_type:
+                add_fields['object_id'] = parent.object_id
+                #add_fields['content_type'] = parent.content_type
         # TODO: what if ad doesn't exists, how to handle exception ? How to make it generic for any model?
         if 'object_id' in serializer.validated_data:
             recipient = Ad.objects.get(pk=serializer.validated_data['object_id']).author
-            serializer.save(sender=self.request.user, recipient=recipient)
-        else:
-            serializer.save(sender=self.request.user)
+            add_fields['recipient'] = recipient
+        serializer.save(**add_fields)
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -136,7 +144,12 @@ class MsgViewSet(viewsets.ModelViewSet):
     @list_route(methods=['get'])
     def inbox(self, request):
         #inbox = Msg.objects.all().filter(recipient=request.user, recipient_deleted_at__isnull=True, thread__isnull=False)
-        inbox = Msg.objects.filter(recipient=request.user, recipient_deleted_at__isnull=True, thread__isnull=False).order_by('thread__pk', '-sent_at').distinct('thread__pk')
+        self.queryset = Msg.objects.filter(recipient=request.user,
+                recipient_deleted_at__isnull=True,
+                thread__isnull=False).order_by('thread__pk',
+                        '-sent_at').distinct('thread__pk')
+        serializer = self.get_serializer(self.queryset, many=True)
+        return Response({"results":serializer.data})
         #msgs_without_thread = Msg.objects.filter(recipient=request.user, recipient_deleted_at__isnull=True, thread__isnull=True).exclude(id=inbox.values_list('thread__id'))
         # TODO: Se resuelve el problema de ordenarlo por fecha en el cliente.
         #from itertools import chain
@@ -155,39 +168,53 @@ class MsgViewSet(viewsets.ModelViewSet):
         #print(res2)
         #from itertools import chain
         #results = list(chain(res, res2))
-        page = self.paginate_queryset(inbox)
-        if page is not None:
-            serializer = self.get_serializer(page, many=True)
-            return self.get_paginated_response(serializer.data)
-
-        serializer = self.get_serializer(inbox, many=True)
-        return Response(serializer.data)
+        #page = self.paginate_queryset(inbox)
+        #if page is not None:
+        #    serializer = self.get_serializer(page, many=True)
+        #    return self.get_paginated_response(serializer.data)
+        # TODO: Not support to paginate because the paginate get array with one
+        # object
+        # serializer = self.get_serializer(self.queryset, many=True)
+        # return Response({"results":serializer.data})
 
     @list_route(methods=['get'])
     def trash(self, request):
         # TODO: a better way for this queryset? maybe a custom object manager for Msg model
-        trash = Msg.objects.all().filter(recipient=request.user, recipient_deleted_at__isnull=False)
+        # trash = Msg.objects.all().filter(recipient=request.user, recipient_deleted_at__isnull=False)
 
-        page = self.paginate_queryset(trash)
-        if page is not None:
-            serializer = self.get_serializer(page, many=True)
-            return self.get_paginated_response(serializer.data)
+        self.queryset = Msg.objects.filter(recipient=request.user,
+                recipient_deleted_at__isnull=False,
+                thread__isnull=False).order_by('thread__pk',
+                        '-sent_at').distinct('thread__pk')
+        serializer = self.get_serializer(self.queryset, many=True)
+        return Response({"results":serializer.data})
 
-        serializer = self.get_serializer(trash, many=True)
-        return Response(serializer.data)
+        # page = self.paginate_queryset(trash)
+        # if page is not None:
+            # serializer = self.get_serializer(page, many=True)
+            # return self.get_paginated_response(serializer.data)
+
+        # serializer = self.get_serializer(trash, many=True)
+        # return Response(serializer.data)
 
     @list_route(methods=['get'])
     def sent(self, request):
         # TODO: filter queryset correctly
-        sent = Msg.objects.all().filter(sender=request.user)
+        self.queryset = Msg.objects.filter(sender=request.user,
+                recipient_deleted_at__isnull=True,
+                thread__isnull=False).order_by('thread__pk',
+                        '-sent_at').distinct('thread__pk')
+        serializer = self.get_serializer(self.queryset, many=True)
+        return Response({"results":serializer.data})
+        # sent = Msg.objects.all().filter(sender=request.user)
 
-        page = self.paginate_queryset(sent)
-        if page is not None:
-            serializer = self.get_serializer(page, many=True)
-            return self.get_paginated_response(serializer.data)
+        # page = self.paginate_queryset(sent)
+        # if page is not None:
+            # serializer = self.get_serializer(page, many=True)
+            # return self.get_paginated_response(serializer.data)
 
-        serializer = self.get_serializer(sent, many=True)
-        return Response(serializer.data)
+        # serializer = self.get_serializer(sent, many=True)
+        # return Response(serializer.data)
 
     def list(self, request, *args, **kwargs):
         # return self.inbox(request)

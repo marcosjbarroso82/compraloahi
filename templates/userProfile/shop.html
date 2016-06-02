@@ -15,12 +15,18 @@
 
     <style>
         .font-color{
-            color: {{ store.style.font_color }};
+            color: {{ store.style.font_color }} !important;
         }
-        .page-inner{
-            background-color: {{ store.style.background_color }};
-        }
+        .page-title{
+            position: relative;
+            padding-top: 50px;
+            padding-bottom: 50px;
+            min-height: 150px;
 
+        }
+        .background-color{
+            background-color: {{ store.style.background_color }} !important;
+        }
     </style>
 {% endblock %}
 
@@ -33,22 +39,14 @@
     {#            <li class="active">Shop</li>#}
     {#        </ol>#}
     {#    </div>#}
-    <div class="panel panel-withe col-md-8 col-md-offset-2" style="margin-top: 60px;">
-        <div class="panel-heading">
-            <h3 class="panel-title font-color" id="nameshop">{{ store.name }}</h3>
-        </div>
-        <div class="panel-body">
+
+    <div class="page-title background-color">
+        <div class="container">
+            <h1 class="font-color">{{ store.name }}</h1>
             <p class="font-color">{{ store.slogan }}</p>
 
         </div>
-    <img id="logoshop" class="pull-right" width="100px" src="{{ store.logo.url }}" style="" alt=""/>
-    </div>
-    <div class="page-title" style="">
-        <div class="container">
-            <h3></h3>
-            <p></p>
-
-        </div>
+        <img id="logoshop" width="100px" src="{{ store.logo.url }}" style="" alt=""/>
     </div>
     <div id="main-wrapper" class="container">
         <div class="row">

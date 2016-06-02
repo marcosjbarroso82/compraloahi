@@ -26,8 +26,8 @@ class StoreModelViewSet(ModelViewSet):
 
 
     def update(self, request, *args, **kwargs):
-        if request.DATA.get('items'):
-            for ad_data in request.DATA.get('items'):
+        if request.data.get('items'):
+            for ad_data in request.data.get('items'):
                 try:
                     ad = Ad.objects.get(pk=ad_data['id'], author=request.user)
                     ad.store_published = ad_data.get('store_published', False)

@@ -57,10 +57,8 @@
 
         function select_all_messages(){
 
-
             angular.forEach(vm.messages, function(message){
                 message.selected = vm.messages_select_all;
-
             });
 
             if(vm.messages_select_all){
@@ -83,9 +81,7 @@
         function getMessagesByFolderSuccess(data){
             data = angular.fromJson(data.data);
             vm.messages = data.results;
-            vm.next_page = data.next;
-            vm.prev_page = data.previous;
-            vm.count = data.count;
+
             vm.messages_selected = [];
             vm.messages_select_all = false;
         }
@@ -122,8 +118,8 @@
                 AlertNotification.success("Los seleccionados mensajes fueron marcados como leido.");
                 var read_msgs = [];
                 for(var i=0; i < vm.messages_selected.length; i++){
-                    if(vm.messages_selected[i].read_at == null){
-                        vm.messages_selected[i].read_at = "Leido";
+                    if(vm.messages_selected[i].is_new == true){
+                        vm.messages_selected[i].is_new = false;
                         read_msgs.push(vm.messages_selected[i]);
                     }
                     vm.messages_selected[i].selected = false;

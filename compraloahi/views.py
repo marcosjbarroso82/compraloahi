@@ -3,7 +3,6 @@ from django.utils.decorators import method_decorator
 from django_comments.views.comments import post_comment
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -18,7 +17,6 @@ from django.views.decorators.csrf import csrf_exempt
 from apps.ad.models import Ad
 from apps.user.serializers import UserAuthenticationSerializer
 from apps.util.forms import RegisterInterestedForm
-
 
 
 import logging
@@ -105,22 +103,17 @@ generate_all_auth_token = GenerateAllAuthToken.as_view()
 
 
 class CustomPagination(pagination.PageNumberPagination):
+    page_size = 200
+    page_size_query_param = 'page'
+    max_page_size = 200
     """
         Custom pagination
             return only page number in next and previous pages.
     """
     def get_paginated_response(self, data):
         resp = {}
-        if self.page.has_next():
-            resp['next']  = self.page.next_page_number()
-        else:
-            resp['next']  = None
-
-        if self.page.has_previous():
-            resp['previous'] = self.page.previous_page_number()
-        else:
-            resp['previous'] = None
-
+        resp['next'] = self.page.next_page_number() if self.page.has_next() else None
+        resp['previous'] = self.page.previous_page_number() if self.page.has_previous() else None
         resp['count'] = self.page.paginator.count
         resp['results'] = data
         return Response(resp)

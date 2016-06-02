@@ -27,13 +27,13 @@ class FavoriteAdViewSet(viewsets.ModelViewSet):
         lng = self.request.GET.get('lng', None)
 
         # TODO: mejorar query de avisos favoritos (usar manager favorites)
-        ads =  Ad.objects.filter(id__in=Favorite.objects.for_user(self.request.user, model=Ad).values_list('target_object_id'))
-        result = ads
+        results =  Ad.objects.filter(id__in=Favorite.objects.for_user(self.request.user, model=Ad).values_list('target_object_id'))
+        result = results
 
         # Filter by distance
         if lat and lng:
-            if ads.count() > 0:
-                for ad in ads:
+            if results.count() > 0:
+                for ad in results:
                     a = float(ad.locations.first().lat) - float(lat)
                     b = float(ad.locations.first().lng) - float(lng)
                     dist = math.sqrt(math.pow(a,2)) + math.pow(b,2)
@@ -42,8 +42,8 @@ class FavoriteAdViewSet(viewsets.ModelViewSet):
         return result
 
     def create(self, request, *args, **kwargs):
-        if request.DATA.get('target_object_id'):
-            ad_id = request.DATA.get('target_object_id')
+        if request.data.get('target_object_id'):
+            ad_id = request.data.get('target_object_id')
             try:
                 ad = Ad.objects.get(pk= ad_id)
 
@@ -73,10 +73,10 @@ class HasFavoriteNearApiView(APIView):
     #     return Ad.objects.filter(id__in=Favorite.objects.for_user(self.request.user, model=Ad).values_list('target_object_id'))
 
     def post(self, request, *args, **kwargs):
-        # = request.DATA.get('token')
-        user = User.objects.get(auth_token=request.DATA.get('token'))
-        if request.DATA.get('location'):
-            loc_data = request.DATA.get('location')
+        # = request.data.get('token')
+        user = User.objects.get(auth_token=request.data.get('token'))
+        if request.data.get('location'):
+            loc_data = request.data.get('location')
             ads = Ad.objects.filter(id__in=Favorite.objects.for_user(user.id, model=Ad).values_list('target_object_id'))
             if ads.count() > 0:
                 for ad in ads:

@@ -38,6 +38,7 @@ THIRD_PARTY_APPS = (
     'rest_auth.registration',
     'djmail',
     'jsonify',
+    'colorful',
     #'termsandconditions',
 )
 
@@ -54,7 +55,8 @@ LOCAL_APPS = (
     'apps.favorite',
     'apps.faq',
     'apps.report_error',
-    'apps.util'
+    'apps.util',
+    'apps.interest_group',
 )
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -130,7 +132,7 @@ MEDIA_ROOT = os.path.join(SITE_ROOT, 'media')
 MEDIA_URL = "/media/"
 
 
-LOGIN_URL = '/accounts/login'
+LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/panel/mis-avisos/'
 
 #SOCIALACCOUNT_QUERY_EMAIL = True

@@ -2,11 +2,13 @@
     'use strict';
 
     angular.module('appSearch', [
-            'leaflet-directive',
-            'tooltip',
-            'appSearch.util',
-            'appSearch.item'
-        ]).config(config);
+        'leaflet-directive',
+        'ngResource',
+        'ngDialog',
+        'tooltip',
+        'appSearch.util',
+        'appSearch.item'
+    ]).config(config);
 
     config.$inject = ['$locationProvider', '$httpProvider'];
 

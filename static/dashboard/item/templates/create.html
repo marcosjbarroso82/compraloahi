@@ -145,16 +145,17 @@
 
         </div>
         <!-- CATEGORIES SELECT -->
+        <hr/>
+        <h3>Selecciona la categoria a la cual pertenece tu anuncio.</h3>
         <div class="form-group">
-            <div class="input-group">
-                <input type="text" ng-model="vm.search_category.title" class="form-control input-sm" maxlength="64" placeholder="Busca la categoria de tu producto" />
+            <div class="input-group m-b-sm col-md-5">
+                <input type="text" aria-describedby="basic-addon2" ng-model="vm.search_category.title" class="form-control input-sm" maxlength="64" placeholder="Busca la categoria de tu producto" />
                 <span  class="input-group-addon"><i class="fa fa-search"></i></span>
             </div>
             <div class="container-categories">
                 <ul class="categories" cg-busy="vm.promiseRequestCategories" >
                     <li ng-repeat="category in vm.categories|filter:vm.search_category.title | orderBy:'name'" class="category">
-                        <input type="radio" id="category_{{ category.id }}" value="{{ category.id }}" ng-model="vm.category_selected"
-                                >
+                        <input type="radio" id="category_{{ category.id }}" value="{{ category.id }}" ng-model="vm.category_selected">
                         <label for="category_{{ category.id }}">{{ category.name }}</label>
                     </li>
                 </ul>
@@ -164,6 +165,33 @@
                    ng-model="vm.category_selected"
                    validator="vm.category_selected"
                    invalid-message="'Es requerido elegir al menos una categoria.'"/>
+        </div>
+        <hr/>
+        <h3>Configura el alcance de tu anuncio.</h3>
+        <!-- GROUP SELECT -->
+        <div class="form-group" ng-show="vm.groups.length">
+            <input type="checkbox" id="is_public" ng-model="vm.is_public"/>
+            <label for="is_public">El anuncio es publico</label>
+        </div>
+        <div class="form-group" ng-disabled="!vm.is_public" ng-show="vm.groups.length && !vm.is_public">
+
+            <div class="input-group m-b-sm col-md-5">
+                <input type="text" aria-describedby="basic-addon2" ng-model="vm.search_group.name" class="form-control input-sm" maxlength="64" placeholder="Busca y selecciona los grupos en los que quieres que se vea tu producto" />
+                <span  class="input-group-addon"><i class="fa fa-search"></i></span>
+            </div>
+            <div class="container-categories">
+                <ul class="categories" cg-busy="vm.promiseRequestGroups" >
+                    <li ng-repeat="group in vm.groups|filter:vm.search_group.name | orderBy:'name'" class="category">
+                        <input type="checkbox" id="group_{{ group.id }}" ng-model="group.selected">
+                        <label for="group_{{ group.id }}">{{ group.name }}</label>
+                    </li>
+                </ul>
+            </div>
+            <input type="hidden"
+                   name="categories"
+                   ng-model="vm.category_selected"
+                   validator="vm.category_selected"
+                   invalid-message="'En caso que el anuncio no sea publico es requerido al menos seleccionar un grupo donde se va a ver visualizar.'"/>
         </div>
     </div>
     <div class="panel-footer">
@@ -193,7 +221,7 @@
                ns-popover-placement="bottom"
                ns-popover-placement="bottom">Ayuda</a></p>
         <div class="form-group" >
-            <textarea ckeditor="vm.editorOptions"
+            <textarea froala
                       ng-model="vm.item.body"
                       class="form-control"
                       name="body"
@@ -235,9 +263,9 @@
                        ns-popover-placement="bottom"
                        ns-popover-placement="bottom">Ayuda</a></span>
 
-            <upload-images  uploaded-images="{{ vm.item.images }}" files-model="images" item-id="{{ vm.item.id }}">
+        <upload-images  uploaded-images="{{ vm.item.images }}" files-model="images" item-id="{{ vm.item.id }}">
 
-            </upload-images>
+        </upload-images>
 
     </div>
     <div class="panel-footer">

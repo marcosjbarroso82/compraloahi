@@ -2,6 +2,7 @@ from rest_framework import serializers
 from .models import Ad, AdImage, Category
 from sorl.thumbnail import get_thumbnail
 from apps.adLocation.models import AdLocation
+from django.db.models import Q
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -131,20 +132,22 @@ class AdLocationSerializer(serializers.ModelSerializer):
     # def get_center(self, obj):
     #     return obj.center()
 
+from apps.interest_group.models import InterestGroup
 
 class AdSerializer(serializers.ModelSerializer):
     images = AdImageSerializer(many=True, read_only=True)
     is_favorite = serializers.SerializerMethodField()
     price = serializers.DecimalField(decimal_places=2, max_digits=10, coerce_to_string=False)
     locations = AdLocationSerializer(many=True, read_only=True)
+    groups = serializers.PrimaryKeyRelatedField(many=True, queryset=InterestGroup.objects.all(), required=False)
     # TODO: Falta validar que si o si halla una categoria
 
     class Meta:
         model = Ad
         fields = ('id', 'images', 'title', 'body', 'status', 'pub_date', 'price', 'slug', 'short_description',
-                  'author', 'categories', 'locations', 'is_favorite', 'status')
+                  'author', 'categories', 'locations', 'is_favorite', 'status', 'store_published', 'groups')
         #exclude = ('author', 'created', 'modified',)
-        read_only_fields = ('pub_date', 'id', 'pub_date', 'slug', 'tags', 'author', 'status')
+        read_only_fields = ('pub_date', 'id', 'pub_date', 'slug', 'tags', 'author', 'status', 'store_published')
 
     def get_is_favorite(self, obj):
         request = self.context.get('request', None)
@@ -154,8 +157,12 @@ class AdSerializer(serializers.ModelSerializer):
         super(AdSerializer, self).__init__(*args, **kwargs)
         action = self.context['view'].action
 
-        if action == 'create':
+
+        if action == 'create' or action == 'update':
+            request = self.context.get('request', None)
+
             self.fields.pop('status')
+            self.fields['groups'].queryset = InterestGroup.objects.filter(Q(memberships__user=request.user) | Q(owner=request.user))
 
 
 class AdPublicSerializer(serializers.ModelSerializer):
@@ -197,6 +204,7 @@ class AdsSearchSerializer(serializers.Serializer):
     images = serializers.SerializerMethodField()
     center = serializers.SerializerMethodField()
     image = serializers.SerializerMethodField()
+    category = serializers.SerializerMethodField()
 
     def get_center(self, obj):
         location = AdLocation.objects.filter(ad=obj.pk).first()
@@ -221,6 +229,8 @@ class AdsSearchSerializer(serializers.Serializer):
         else:
             return False
 
+    def get_category(self, obj):
+        return obj.categories[0]
 
 class SearchResultSerializer(serializers.Serializer):
     facets = serializers.ListField()

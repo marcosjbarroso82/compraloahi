@@ -231,10 +231,11 @@ html {
   overflow-y: auto;
   overflow-x: hidden;
   height: 100%;
+  min-height: 100%;
 }
-.page-content {
+/*.page-content{
   margin-bottom: 40px;
-}
+}*/
 .page-inner {
   padding-bottom: 0px !important;
 }

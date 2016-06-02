@@ -231,10 +231,11 @@ html {
   overflow-y: auto;
   overflow-x: hidden;
   height: 100%;
+  min-height: 100%;
 }
-.page-content {
+/*.page-content{
   margin-bottom: 40px;
-}
+}*/
 .page-inner {
   padding-bottom: 0px !important;
 }
@@ -311,7 +312,7 @@ body:not(.page-horizontal-bar).compact-menu .menu > li.open {
   margin-top: 25px;
 }
 #container-profile-data h3 {
-  color: #aa4400;
+  color: #635a9a;
   margin-bottom: 10px;
   margin-top: 0px;
   width: 100%;
@@ -401,10 +402,13 @@ hr {
 }
 .table thead tr th {
   padding: 10px !important;
-  border-color: rgba(5, 0, 69, 0.76) !important;
+  border-color: #333333 !important;
 }
 .ng-table th.sortable.sort-asc {
-  background-color: rgba(35, 194, 0, 0.3) !important;
+  background-color: #f1f1f1 !important;
+}
+.ng-table th.sortable.sort-desc {
+  background-color: #E5E5E5 !important;
 }
 .cg-busy {
   top: 0px !important;
@@ -451,9 +455,11 @@ hr {
   font-size: 17px !important;
 }
 .btn-table {
-  border-radius: 50%;
   height: 35px;
   width: 35px;
+  margin-top: 5px;
+}
+.btn-table .fa.fa-eye {
   margin-top: 5px;
 }
 #container-map-with-search #search-places {

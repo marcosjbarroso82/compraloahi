@@ -9,7 +9,7 @@
     margin-top: 25px;
   }
   h3{
-    color: #aa4400;
+    color: @color-location;
     margin-bottom: 10px;
     margin-top: 0px;
     width: 100%;
@@ -145,13 +145,17 @@ hr{
     tr{
       th{
         padding: 10px !important;
-        border-color: rgba(5, 0, 69, 0.76) !important;
+        border-color: #333333 !important;
       }
     }
   }
 }
 .ng-table th.sortable.sort-asc{
-  background-color: rgba(35, 194, 0, 0.30) !important;
+  background-color: #f1f1f1 !important;
+}
+
+.ng-table th.sortable.sort-desc{
+  background-color: #E5E5E5 !important;
 }
 
 .cg-busy{
@@ -212,12 +216,14 @@ hr{
 }
 
 .btn-table{
-  border-radius: 50%;
   height: 35px;
   width: 35px;
   margin-top: 5px;
 }
 
+.btn-table .fa.fa-eye{
+  margin-top: 5px;
+}
 
 #container-map-with-search{
   #search-places{

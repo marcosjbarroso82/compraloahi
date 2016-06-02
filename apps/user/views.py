@@ -12,16 +12,16 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.generics import UpdateAPIView
 from rest_framework.response import Response
-from rest_auth.registration.views import SocialLogin
+from rest_auth.registration.views import SocialLoginView
 
 from .serializers import UserSerializer
 
 
-class FacebookLogin(SocialLogin):
+class FacebookLogin(SocialLoginView):
     adapter_class = FacebookOAuth2Adapter
 
 
-class GoogleLogin(SocialLogin):
+class GoogleLogin(SocialLoginView):
     adapter_class = GoogleOAuth2Adapter
 
 

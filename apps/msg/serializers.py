@@ -1,12 +1,25 @@
 from . import models
 from rest_framework import serializers
+from sorl.thumbnail import get_thumbnail
+from apps.ad.serializers import AdPublicSerializer
 
+from apps.ad.models import Ad
 
 class MsgSerializer(serializers.ModelSerializer):
     is_new = serializers.SerializerMethodField()
     sender_deleted = serializers.BooleanField(required=False)
     recipient_deleted = serializers.BooleanField(required=False)
     is_replied = serializers.BooleanField(read_only=True)
+    related_obj = serializers.SerializerMethodField()
+    object_id = serializers.IntegerField(write_only=True, min_value=0)
+
+    def validate_object_id(self, value):
+        try:
+            Ad.objects.get(pk=value)
+        except:
+            raise serializers.ValidationError("The item id is incorrect")
+
+        return value
 
     class Meta:
         # list_serializer_class = MsgListSerializer
@@ -14,7 +27,9 @@ class MsgSerializer(serializers.ModelSerializer):
         read_only_fields = ('sent_at', 'read_at', 'replied_at', 'sender_archived', 'recipient_archived',
                             'sender_deleted_at', 'sender_deleted', 'is_new', 'recipient_deleted',
                             'recipient_deleted_at', 'moderation_status', 'moderation_reason',
-                            'moderation_date')
+                            'moderation_date', 'related_obj')
+        write_only_fields = ('object_id',)
+        exclude = ('content_type',)
 
     def __init__(self, *args, **kwargs):
         super(MsgSerializer, self).__init__(*args, **kwargs)
@@ -53,8 +68,19 @@ class MsgSerializer(serializers.ModelSerializer):
             self.fields['subject'].read_only = True
             self.fields['body'].read_only = True
 
+        if action == 'reply':
+            self.fields['object_id'].read_only = True
+            self.fields['object_id'].required = False
+
         for field_name in not_allowed_to_show:
             self.fields.pop(field_name)
+
+
+    def get_related_obj(self, obj):
+        if obj.related_obj:
+            return AdPublicSerializer(instance=obj.related_obj).data
+        else:
+            return {}
 
     def get_is_new(self, obj):
         request = self.context.get('request', None)

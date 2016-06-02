@@ -4686,7 +4686,7 @@ body:not(.page-horizontal-bar):not(.small-sidebar) .menu.accordion-menu a {
 }
 
 .mailbox-content table tbody tr.read {
-    background: #F9F9F9;
+    background: #E5E5E5;
     color: #7F7F7F;
 }
 

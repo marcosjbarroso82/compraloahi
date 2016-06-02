@@ -68,7 +68,7 @@
             }
 
             function getItemError(data){
-                console.log("Error request items");
+                AlertNotification.error("Error al intentar cargar los datos de configuracion de la tienda. Vuelva a intentarlo mas tarde");
             }
         }
 

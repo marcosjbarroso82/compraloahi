@@ -6,10 +6,15 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.db.models.signals import post_delete, post_save
 from django.dispatch.dispatcher import receiver
-
+from django.core.urlresolvers import reverse
 from taggit.managers import TaggableManager
 
 from apps.favorite.models import Favorite
+from colorful.fields import RGBColorField
+from apps.interest_group.models import InterestGroup
+
+import itertools
+from django.template.defaultfilters import slugify
 
 
 class AdQuerySet(models.QuerySet):
@@ -20,10 +25,21 @@ class AdQuerySet(models.QuerySet):
 
 class Category(models.Model):
     name = models.CharField(max_length=40)
-    slug = AutoSlugField(populate_from='name')
+    slug = models.SlugField(unique=True, editable=False)
+    color = RGBColorField()
 
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        self.slug = orig = slugify(self.name)
+
+        for x in itertools.count(1):
+            if not Category.objects.filter(slug=self.slug).exists():
+                break
+            self.slug = '%s-%d' % (orig, x)
+
+        super(Category, self).save(*args, **kwargs)
 
 
 STATUS_AD = (
@@ -38,7 +54,7 @@ class Ad(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
     pub_date = models.DateTimeField(auto_now_add=True)
-    slug = AutoSlugField(populate_from='title', unique_with='pub_date')
+    slug = models.SlugField(unique=True, editable=False)
     tags = TaggableManager(blank=True)
     author = models.ForeignKey(User, related_name='ads')
     categories = models.ManyToManyField(Category)
@@ -51,6 +67,9 @@ class Ad(models.Model):
                                 max_digits=10)
 
     store_published = models.BooleanField(default=False)
+
+    #is_public = models.BooleanField(default=True)
+    groups = models.ManyToManyField(InterestGroup, related_name='items')
 
     objects = AdQuerySet.as_manager()
 
@@ -74,6 +93,8 @@ class Ad(models.Model):
         else:
             return False
 
+    def get_absolute_url(self):
+        return reverse('ad:detail', [self.slug,])
     # def delete(self, using=None, secure=False):
     #     if secure:
     #         return super(Ad, self).delete(using)
@@ -87,12 +108,37 @@ class Ad(models.Model):
         else:
             return False
 
-@receiver(post_save, sender=Ad)
-def ad_post_save(sender, *args, **kwargs):
-    ad = kwargs['instance']
+    def save(self, *args, **kwargs):
+        self.slug = orig = slugify(self.title)
 
-    for tag in ad.title.split(' '):
-        ad.tags.add(tag)
+        for x in itertools.count(1):
+            if not Ad.objects.filter(slug=self.slug).exists():
+                break
+            self.slug = '%s-%d' % (orig, x)
+        super(Ad, self).save(*args, **kwargs)
+        if len(self.groups.all()) == 0:
+            self.groups.add(InterestGroup.objects.get(slug='public'))
+
+        self.tags.clear()
+        for tag in self.title.split(' '):
+            self.tags.add(tag)
+
+
+# @receiver(post_save, sender=Ad)
+# def ad_post_save(sender, *args, **kwargs):
+#     ad = kwargs['instance']
+#
+#     ad.tags.clear()
+#     for tag in ad.title.split(' '):
+#         ad.tags.add(tag)
+
+    #print(30*"== AD POST SAVE ==")
+    #if len(ad.groups.all()) == 0:
+    #    print(30*"=####=")
+    #    ad.groups.add(InterestGroup.objects.get(slug='public'))
+    #    ad.save()
+
+    #print(ad.groups.all())
 
 
 class AdImage(models.Model):

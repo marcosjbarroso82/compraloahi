@@ -21,3 +21,10 @@ class CounterWhered(models.Model):
 
 
 
+class GenericModel(models.Model):
+    created = models.DateTimeField(auto_now_add=True, auto_created=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        abstract = True
+        ordering = ['-created']

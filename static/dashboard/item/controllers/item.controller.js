@@ -57,10 +57,7 @@
 
         $scope.$watchCollection("vm.items", function () {
             vm.tableParams.reload();
-
-
         });
-
 
         function loadItems(page_nro){
             vm.promiseRequest = Item.list().then(getSuccess, getError);
