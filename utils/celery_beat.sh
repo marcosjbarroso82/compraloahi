@@ -1,5 +1,5 @@
 #!/bin/bash
-ENVNAME=env_compraloahi                                                   # Name of virtualenv
+ENVNAME=environment                                                   # Name of virtualenv
 DJANGODIR=/webapps/compraloahi/compraloahi
 USER=compraloahi                                                                # the user to run as
 GROUP=webapps                                                                   # the group to run as
