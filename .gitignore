@@ -7,7 +7,12 @@
 .idea/
 .idea/*
 
+*/migrations/00*
+
 .codeintel/
 .codeintel/*
 /.directory
 /compraloahi/media/cache
+/compraloahi/media/group/*
+/compraloahi/media/logo/*
+/compraloahi/media/profile/*
