@@ -8,6 +8,8 @@
 .idea/*
 
 */migrations/00*
+migrations/0*
+
 
 .codeintel/
 .codeintel/*
