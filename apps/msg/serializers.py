@@ -78,7 +78,16 @@ class MsgSerializer(serializers.ModelSerializer):
 
     def get_related_obj(self, obj):
         if obj.related_obj:
-            return AdPublicSerializer(instance=obj.related_obj).data
+            ad = obj.related_obj
+            image = ad.images.all().filter(default=True).first()
+            ad_serializer = {
+                'id': ad.id,
+                'images': [
+                    {'thumbnail_110x110': get_thumbnail(image, '110x110', crop='center', quality=99).url if image else '' }
+                ],
+                'title': ad.title
+            }
+            return ad_serializer
         else:
             return {}
 
