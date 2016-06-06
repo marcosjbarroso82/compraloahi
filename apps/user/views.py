@@ -17,12 +17,26 @@ from rest_auth.registration.views import SocialLoginView
 from .serializers import UserSerializer
 
 
-class FacebookLogin(SocialLoginView):
-    adapter_class = FacebookOAuth2Adapter
+class FacebookOAuth2AdapterCustom(FacebookOAuth2Adapter):
+    """
+	Patch to fix django-rest-auth
+    """
+    def __init__(self):
+        pass
 
+class FacebookLogin(SocialLoginView):
+    adapter_class = FacebookOAuth2AdapterCustom
+
+
+class GoogleOAuth2AdapterCustom(GoogleOAuth2Adapter):
+    """
+	Patch to fix django-rest-auth
+    """
+    def __init__(self):
+        pass
 
 class GoogleLogin(SocialLoginView):
-    adapter_class = GoogleOAuth2Adapter
+    adapter_class = GoogleOAuth2AdapterCustom
 
 
 class LogoutView(View):
