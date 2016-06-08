@@ -1,7 +1,4 @@
 import datetime
-
-from autoslug import AutoSlugField
-
 from django.contrib.auth.models import User
 from django.db import models
 from django.db.models.signals import post_delete, post_save
@@ -28,16 +25,29 @@ class Category(models.Model):
     slug = models.SlugField(unique=True, editable=False)
     color = RGBColorField()
 
+    def __init__(self, *args, **kwargs):
+        super(Category, self).__init__(*args, **kwargs)
+        self.old_name = self.name
+
+
     def __str__(self):
         return self.name
 
     def save(self, *args, **kwargs):
-        self.slug = orig = slugify(self.name)
+        if not self.pk:
+            self.slug = orig = slugify(self.name)
 
-        for x in itertools.count(1):
-            if not Category.objects.filter(slug=self.slug).exists():
-                break
-            self.slug = '%s-%d' % (orig, x)
+            for x in itertools.count(1):
+                if not Category.objects.filter(slug=self.slug).exists():
+                    break
+                self.slug = '%s-%d' % (orig, x)
+        elif self.name != self.old_name:
+            self.slug = orig = slugify(self.name)
+
+            for x in itertools.count(1):
+                if not Category.objects.filter(slug=self.slug).exclude(pk=self.pk).exists():
+                    break
+                self.slug = '%s-%d' % (orig, x)
 
         super(Category, self).save(*args, **kwargs)
 
@@ -82,6 +92,10 @@ class Ad(models.Model):
     def __str__(self):
         return self.title
 
+    def __init__(self, *args, **kwargs):
+        super(Ad, self).__init__(*args, **kwargs)
+        self.old_title = self.title
+
     class Meta:
         verbose_name = "Ad"
         verbose_name_plural = "Ads"
@@ -109,12 +123,21 @@ class Ad(models.Model):
             return False
 
     def save(self, *args, **kwargs):
-        self.slug = orig = slugify(self.title)
+        if not self.pk:
+            self.slug = orig = slugify(self.title)
 
-        for x in itertools.count(1):
-            if not Ad.objects.filter(slug=self.slug).exists():
-                break
-            self.slug = '%s-%d' % (orig, x)
+            for x in itertools.count(1):
+                if not Ad.objects.filter(slug=self.slug).exists():
+                    break
+                self.slug = '%s-%d' % (orig, x)
+        elif self.title != self.old_title:
+            self.slug = orig = slugify(self.title)
+
+            for x in itertools.count(1):
+                if not Ad.objects.filter(slug=self.slug).exclude(pk=self.pk).exists():
+                    break
+                self.slug = '%s-%d' % (orig, x)
+
         super(Ad, self).save(*args, **kwargs)
         if len(self.groups.all()) == 0:
             self.groups.add(InterestGroup.objects.get(slug='public'))

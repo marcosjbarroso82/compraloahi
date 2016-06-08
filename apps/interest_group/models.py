@@ -28,27 +28,31 @@ class InterestGroup(GenericModel):
     status = models.IntegerField(choices=STATUS_GROUP, default=0)
     slug = models.SlugField(auto_created=True, editable=False, unique=True)
 
-    # def clean_slug(self):
-    #     if self.name != '':
-    #         #TODO: y esto? no parece estar bien!
-    #         print("VALIDATE SLUG")
-    #         print(39*"===")
-    #         if InterestGroup.objects.get(slug= self.slug).count() > 0:
-    #             raise ValidationError('Error, fields name is unique')
-
     def get_url(self):
         if self.slug:
             return reverse('group:detail', args=[self.slug,])
         else:
             return ''
 
-    def save(self, *args, **kwargs):
-        self.slug = orig = slugify(self.name)
+    def __init__(self, *args, **kwargs):
+        super(InterestGroup, self).__init__(*args, **kwargs)
+        self.old_name = self.name
 
-        for x in itertools.count(1):
-            if not InterestGroup.objects.filter(slug=self.slug).exists():
-                break
-            self.slug = '%s-%d' % (orig, x)
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            self.slug = orig = slugify(self.name)
+
+            for x in itertools.count(1):
+                if not InterestGroup.objects.filter(slug=self.slug).exists():
+                    break
+                self.slug = '%s-%d' % (orig, x)
+        elif self.name != self.old_name:
+            self.slug = orig = slugify(self.name)
+
+            for x in itertools.count(1):
+                if not InterestGroup.objects.filter(slug=self.slug).exclude(pk=self.pk).exists():
+                    break
+                self.slug = '%s-%d' % (orig, x)
 
         super(InterestGroup, self).save(*args, **kwargs)
 

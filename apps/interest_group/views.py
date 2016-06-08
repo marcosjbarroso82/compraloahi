@@ -15,12 +15,8 @@ from .forms import MemberShipRequestForm
 from django.core.urlresolvers import reverse
 from django.contrib import messages
 
-from apps.userProfile.models import UserProfile
-
-from rest_framework.exceptions import PermissionDenied
 from django.db.models import Q
 
-from rest_framework.decorators import permission_classes
 from rest_framework.permissions import SAFE_METHODS
 
 
@@ -58,8 +54,6 @@ class MemberShipViewSet(viewsets.ModelViewSet):
 
         return Membership.objects.filter(group=group_pk)
 
-from django.core.exceptions import ValidationError
-from django.core.validators import validate_email
 
 class MemberShipRequestViewSet(viewsets.ModelViewSet):
     serializer_class = MemberShipRequestSerializer
