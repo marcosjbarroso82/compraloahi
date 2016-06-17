@@ -15,11 +15,11 @@ class RegisterGCMNotification(CreateAPIView):
 
     def create(self, request, *args, **kwargs):
         try:
-            device_id = int(str(request.DATA['device_id']), 16)
+            device_id = int(str(request.data['device_id']), 16)
             # gcm = GCMDevice.objects.get(user=request.user,device_id= device_id) #registration_id= request.DATA['registration_id'],
-            gcm = GCMDevice.objects.get(registration_id = request.DATA['registration_id'])
+            gcm = GCMDevice.objects.get(registration_id = request.data['registration_id'])
             gcm.active = True
-            gcm.registration_id = request.DATA['registration_id']
+            gcm.registration_id = request.data['registration_id']
             gcm.device_id = device_id
             gcm.save()
             return Response({"message": "Success registered notification"}, status=status.HTTP_200_OK)
@@ -36,9 +36,9 @@ class UnregisterGCMNotification(UpdateAPIView):
     serializer_class = DeviceSerializer
 
     def update(self, request, *args, **kwargs):
-        if request.DATA.get('registration_id', '') != '':
+        if request.data.get('registration_id', '') != '':
             try:
-                device_id = int(str(request.DATA['device_id']), 16)
+                device_id = int(str(request.data['device_id']), 16)
                 gcm = GCMDevice.objects.get(user=request.user, device_id= device_id) #registration_id= request.DATA.get('registration_id'),
                 gcm.active = False
                 gcm.save()
@@ -77,7 +77,7 @@ class NotificationMarkBulkReadApiView(UpdateAPIView):
     serializer_class = NotificationSerializer
 
     def update(self, request, *args, **kwargs):
-        notifications = request.DATA.get('notifications', [])
+        notifications = request.data.get('notifications', [])
         if len(notifications) > 0:
             for notification in notifications:
                 try:

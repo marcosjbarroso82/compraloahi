@@ -64,9 +64,9 @@ class ChangePasswordUpdateAPIView(UpdateAPIView):
 
     def partial_update(self, request, *args, **kwargs):
         user = request.user
-        if user.check_password(request.DATA.get('password', None)):
-            if request.DATA['new_password'] == request.DATA['new_password_repeat']:
-                user.set_password(request.DATA['new_password'])
+        if user.check_password(request.data.get('password', None)):
+            if request.data['new_password'] == request.data['new_password_repeat']:
+                user.set_password(request.data['new_password'])
                 user.save()
                 return Response({'message': 'La contraseña se modifico con exito'}, status=status.HTTP_200_OK )
             else:
