@@ -521,7 +521,8 @@
             if(vm.facets){
                 var selected_facets = '';
                 for(var i=0; i < vm.facets.length; i++){
-                    if(vm.facets[i].activated){
+
+                    if(vm.facets[i] && vm.facets[i].activated){
                         var select_facet = '';
                         for(var iv=0; iv < vm.facets[i].values.length; iv++){
                             if(vm.facets[i].values[iv].activated == true){

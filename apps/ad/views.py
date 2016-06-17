@@ -185,7 +185,9 @@ class SearchViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
                     pass
 
         self.facets = []
-        self.facets.append(get_facet_by_name(param_facet_url, qs.facet_counts()['fields'].items(), 'groups', self.request.user))
+        group_facet = get_facet_by_name(param_facet_url, qs.facet_counts()['fields'].items(), 'groups', self.request.user)
+        if group_facet:
+            self.facets.append(group_facet)
 
         order_by = self.request.query_params.get('order_by')
         if order_by:
