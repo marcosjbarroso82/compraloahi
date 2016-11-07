@@ -49,7 +49,7 @@
             defaults: {
                 maxZoom: 15,
                 minZoom: 12,
-                tileLayer: "http://otile2.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png",
+                //tileLayer: "http://otile2.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png",
                 zoomControl: false
             },
             markers: {}

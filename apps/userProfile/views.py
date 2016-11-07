@@ -42,6 +42,7 @@ class StoreModelViewSet(ModelViewSet):
             return super(StoreModelViewSet, self).update(request, *args, **kwargs)
             #return Response({'ads': ['Need a or more ads to config config store']})
 
+from django.http import Http404
 
 class StoreView(DetailView):
     model = Ad
@@ -59,9 +60,7 @@ class StoreView(DetailView):
         try:
             return Store.objects.get(slug=self.kwargs.get('slug', ''), status=1)
         except Store.DoesNotExist:
-
-            # TODO: Return page doesnt exist
-            return {}
+            raise Http404("No existe un store con el slug")
 
 
 @api_view(['GET',])
