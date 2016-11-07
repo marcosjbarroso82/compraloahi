@@ -46,12 +46,14 @@
             <p class="font-color">{{ store.slogan }}</p>
 
         </div>
-        <img id="logoshop" width="100px" src="{{ store.logo.url }}" style="" alt=""/>
+        {% if store.logo %}
+            <img id="logoshop" width="100px" src="{{ store.logo.url }}" style="" alt=""/>
+        {% endif %}
     </div>
-    <div id="main-wrapper" class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <ul class="cd-gallery">
+    <div id="main-wrapper" class="container background-color">
+        <div class="row background-color">
+            <div class="col-md-12 background-color">
+                <ul class="cd-gallery background-color">
                     {% for ad in ads %}
                         <li class="cant-column-{{ store.style.column }}">
                             {% if ad.is_new %}
