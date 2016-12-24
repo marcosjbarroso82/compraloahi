@@ -1,0 +1,47 @@
+{% extends "account/base.html" %}
+{% load bootstrap3 %}
+{% load i18n %}
+{% load account %}
+
+{% block title %}{% trans "Sign In" %}{% endblock %}
+
+
+{% block body_block %}
+
+<main class="page-content">
+    <div class="page-inner">
+        <div id="main-wrapper">
+            <div class="row">
+                <div class="col-md-3 center">
+                    <div class="login-box">
+                        <a href="#" class="logo-name text-lg text-center">Ingresa con tu cuenta</a>
+                        <div class="btn-group btn-group-justified m-t-sm" role="group" aria-label="Justified button group">
+                            <a href="/accounts/facebook/login/?process=login" class="btn btn-facebook"><i class="fa fa-facebook"></i> Facebook</a>
+                            <!--<a href="#" class="btn btn-twitter"><i class="fa fa-twitter"></i> Twitter</a>-->
+                            <a href="/accounts/google/login/?process=login" class="btn btn-google"><i class="fa fa-google-plus"></i> Google+</a>
+                        </div>
+                        <form class="m-t-md" role="form" method="POST" >
+                            {% if redirect_field_value %}
+                            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+                            {% endif %}
+                            {% csrf_token %}
+                           {% bootstrap_form form %}
+
+                            <button type="submit" class="btn btn-success btn-block">Entrar</button>
+                            <a href="{% url 'account_reset_password' %}" class="display-block text-center m-t-md text-sm">Olvido la contraseña?</a>
+                            <p class="text-center m-t-xs text-sm">No tienes una cuenta en compraloahi?</p>
+                            <a href="{{ signup_url }}" class="btn btn-default btn-block m-t-md">Crear una cuenta</a>
+                        </form>
+                    </div>
+
+                </div>
+            </div><!-- Row -->
+        </div><!-- Main Wrapper -->
+    </div><!-- Page Inner -->
+</main><!-- Page Content -->
+
+
+
+
+
+{% endblock %}

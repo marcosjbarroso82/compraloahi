@@ -1,0 +1,7 @@
+{% load i18n %}
+<button class="btn-favit-unfave"
+        href="{% url 'favit.views.remove' %}"
+        data-model="{{ target_model }}"
+        data-id="{{ target_object_id }}">
+    {% trans "Remove" %}
+</button>

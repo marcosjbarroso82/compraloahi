@@ -1,0 +1,163 @@
+{% load staticfiles %}
+
+<!-- LOADING TO ALL request -->
+<script src="{% static 'bower_components/pace-master/pace.min.js' %}"></script>
+
+<!-- STYLE SCROLL JQUERY-->
+<script src="{% static 'bower_components/jquery-slimscroll/jquery.slimscroll.min.js' %}"></script>
+
+<script type="text/javascript" src="{% static 'bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+
+<script src="{% static 'js/theme/theme.js' %}"></script>
+
+<script type="text/javascript" src="{% static 'bower_components/leaflet/dist/leaflet.js' %}"></script>
+
+<!-- CKEDITOR LIB -->
+<script type="text/javascript" src="{% static 'bower_components/froala-wysiwyg-editor/js/froala_editor.pkgd.min.js' %}"></script>
+
+<!-- BOOTSTRAP DATEPICKER -->
+<script type="text/javascript" src="{% static 'bower_components/bootstrap-datepicker/js/bootstrap-datepicker.js' %}"></script>
+
+<!-- angular resources -->
+<script type="text/javascript" src="{% static 'bower_components/angular/angular.js' %}"></script>
+
+<script type="text/javascript" src="{% static 'bower_components/angular-route/angular-route.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'bower_components/angular-ui-router/release/angular-ui-router.min.js' %}"></script>
+
+
+<script type="text/javascript" src="{% static 'bower_components/angular-leaflet/dist/angular-leaflet-directive.js' %}"></script>
+
+<!-- POPOVER -->
+<script type="text/javascript" src="{% static 'bower_components/nsPopover/src/nsPopover.js' %}"></script>
+
+
+<!-- VALIDATOR -->
+<script type="text/javascript" src="{% static 'bower_components/tg-angular-validator/dist/angular-validator.min.js' %}"></script>
+
+<!-- TABLES-->
+<script type="text/javascript" src="{% static 'bower_components/ng-table/dist/ng-table.min.js' %}"></script>
+
+<!-- ALERT NOTIFICATION
+<script type="text/javascript" src="{% static 'bower_components/angular-snackbar/angular.snackbar.min.js' %}"></script>-->
+
+<!-- EASY AND CUSTOMIZABLE POP UP DIALOG -->
+<script type="text/javascript" src="{% static 'bower_components/ngDialog/js/ngDialog.min.js' %}"></script>
+
+<!-- LOAD PROMISE -->
+<script type="text/javascript" src="{% static 'bower_components/angular-busy/dist/angular-busy.min.js' %}"></script>
+
+<!-- EDITOR -->
+<script type="text/javascript" src="{% static 'bower_components/angular-froala/src/angular-froala.js' %}"></script>
+<script type="text/javascript" src="{% static 'bower_components/angular-froala/src/froala-sanitize.js' %}"></script>
+
+
+<!-- Currency mask angular -->
+<script type="text/javascript" src="{% static 'bower_components/ng-currency/dist/ng-currency.min.js' %}"></script>
+
+<script type="text/javascript" src="{% static 'bower_components/angular-tooltip-master/src/tooltip.js' %}"></script>
+
+
+<script type="text/javascript" src="{% static 'bower_components/angularjs-socialshare/dist/angular-socialshare.min.js' %}"></script>
+
+<script type="text/javascript" src="{% static 'bower_components/toastr/toastr.js' %}"></script>
+
+<!-- ###################### END IMPORT ###################### -->
+
+{% include 'dashboard/_authentication_directive.html' %}
+
+
+<!-- ###################### DASHBOARD APP ###################### -->
+<script type="text/javascript" src="{% static 'dashboard/app.js' %}"></script>
+
+<script type="text/javascript" src="{% static 'dashboard/app.config.js' %}"></script>
+<script type="text/javascript" src="{% static 'dashboard/app.routes.js' %}"></script>
+<!-- ###################### END DASHBOARD APP ###################### -->
+
+
+<!-- ###################### DASHBOARD APP - MODULE LAYOUT ###################### -->
+<script type="text/javascript" src="{% static 'dashboard/layout/layout.module.js' %}"></script>
+<script type="text/javascript" src="{% static 'dashboard/layout/controllers/layout.controller.js' %}"></script>
+<script type="text/javascript" src="{% static 'dashboard/layout/controllers/sidebar.controller.js' %}"></script>
+<script type="text/javascript" src="{% static 'dashboard/layout/controllers/nav.controller.js' %}"></script>
+<!-- ###################### END DASHBOARD APP - MODULE LAYOUT ###################### -->
+
+
+<!-- ###################### DASHBOARD APP - MODULE UTILS ###################### -->
+<script type="text/javascript" src="{% static 'dashboard/utils/util.module.js' %}"></script>
+<script type="text/javascript" src="{% static 'dashboard/utils/directives/google-places.directive.js' %}"></script>
+<script type="text/javascript" src="{% static 'dashboard/utils/directives/really-click.directive.js' %}"></script>
+
+<script type="text/javascript" src="{% static 'dashboard/utils/directives/alert-notification.directive.js' %}"></script>
+
+<script type="text/javascript" src="{% static 'dashboard/utils/directives/upload-file-model.directive.js' %}"></script>
+<script type="text/javascript" src="{% static 'dashboard/utils/directives/upload-file-client.directive.js' %}"></script>
+
+<script type="text/javascript" src="{% static 'dashboard/utils/services/upload-multiple-images.service.js' %}"></script>
+<script type="text/javascript" src="{% static 'dashboard/utils/directives/upload-multiple-image.directive.js' %}"></script>
+<script type="text/javascript" src="{% static 'dashboard/utils/controllers/upload-multiple-images.controller.js' %}"></script>
+<!-- ###################### END DASHBOARD APP - MODULE UTILS ###################### -->
+
+
+<!-- ###################### DASHBOARD APP - MODULE PROFILE ###################### -->
+<script type="text/javascript" src="{% static 'dashboard/profile/profile.module.js' %}"></script>
+<script type="text/javascript" src="{% static 'dashboard/profile/services/profile.service.js' %}"></script>
+<script type="text/javascript" src="{% static 'dashboard/profile/controllers/detail-profile.controller.js' %}"></script>
+<script type="text/javascript" src="{% static 'dashboard/profile/controllers/update-profile.controller.js' %}"></script>
+<script type="text/javascript" src="{% static 'dashboard/profile/controllers/change-password.controller.js' %}"></script>
+<script type="text/javascript" src="{% static 'dashboard/profile/controllers/update-address.controller.js' %}"></script>
+<script type="text/javascript" src="{% static 'dashboard/profile/controllers/config-privacity.controller.js' %}"></script>
+<!-- ###################### END DASHBOARD APP - MODULE PROFILE ###################### -->
+
+
+<!-- ###################### DASHBOARD APP - MODULE AD ###################### -->
+<script type="text/javascript" src="{% static 'dashboard/item/item.module.js' %}"></script>
+<script type="text/javascript" src="{% static 'dashboard/item/services/item.service.js' %}"></script>
+<script type="text/javascript" src="{% static 'dashboard/item/controllers/item.controller.js' %}"></script>
+<script type="text/javascript" src="{% static 'dashboard/item/controllers/item-create.controller.js' %}"></script>
+<script type="text/javascript" src="{% static 'dashboard/item/controllers/item-update.controller.js' %}"></script>
+<!-- ###################### END DASHBOARD APP - MODULE AD ###################### -->
+
+
+<!-- ###################### DASHBOARD APP - MODULE MESSAGE ###################### -->
+<script type="text/javascript" src="{% static 'dashboard/message/message.module.js' %}"></script>
+<script type="text/javascript" src="{% static 'dashboard/message/services/message.service.js' %}"></script>
+<script type="text/javascript" src="{% static 'dashboard/message/controllers/message.controller.js' %}"></script>
+<script type="text/javascript" src="{% static 'dashboard/message/controllers/messageThread.controller.js' %}"></script>
+<!-- ###################### END DASHBOARD APP - MODULE MESSAGE ###################### -->
+
+
+<!-- ###################### DASHBOARD APP - MODULE USER LOCATION ###################### -->
+<script type="text/javascript" src="{% static 'dashboard/user-location/location.module.js' %}"></script>
+<script type="text/javascript" src="{% static 'dashboard/user-location/services/location.service.js' %}"></script>
+<script type="text/javascript" src="{% static 'dashboard/user-location/controllers/location.controller.js' %}"></script>
+<!-- ###################### END DASHBOARD APP - MODULE USER LOCATION ###################### -->
+
+
+<!-- ###################### DASHBOARD APP - MODULE FAVORITES ###################### -->
+<script type="text/javascript" src="{% static 'dashboard/favorite/favorite.module.js' %}"></script>
+<script type="text/javascript" src="{% static 'dashboard/favorite/services/favorite.service.js' %}"></script>
+<script type="text/javascript" src="{% static 'dashboard/favorite/controllers/favorite.controller.js' %}"></script>
+<!-- ###################### END DASHBOARD APP - MODULE FAVORITES ###################### -->
+
+
+<!-- ###################### DASHBOARD APP - MODULE NOTIFICATIONS ###################### -->
+<script type="text/javascript" src="{% static 'dashboard/notification/notification.module.js' %}"></script>
+<script type="text/javascript" src="{% static 'dashboard/notification/services/notification.service.js' %}"></script>
+<script type="text/javascript" src="{% static 'dashboard/notification/controllers/config-notification.controller.js' %}"></script>
+<!-- ###################### END DASHBOARD APP - MODULE NOTIFICATIONS ###################### -->
+
+
+<!-- ###################### DASHBOARD APP - MODULE STORE ###################### -->
+<script type="text/javascript" src="{% static 'dashboard/store/store.module.js' %}"></script>
+<script type="text/javascript" src="{% static 'dashboard/store/services/store.service.js' %}"></script>
+<script type="text/javascript" src="{% static 'dashboard/store/controllers/config-store.controller.js' %}"></script>
+<!-- ###################### END DASHBOARD APP - MODULE STORE ###################### -->
+
+
+<!-- ###################### DASHBOARD APP - MODULE GROUP ###################### -->
+<script type="text/javascript" src="{% static 'dashboard/group/group.module.js' %}"></script>
+<script type="text/javascript" src="{% static 'dashboard/group/services/group.service.js' %}"></script>
+<script type="text/javascript" src="{% static 'dashboard/group/controllers/group.controller.js' %}"></script>
+<script type="text/javascript" src="{% static 'dashboard/group/controllers/group-create.controller.js' %}"></script>
+<script type="text/javascript" src="{% static 'dashboard/group/controllers/group-update.controller.js' %}"></script>
+<!-- ###################### END DASHBOARD APP - MODULE GROUP ###################### -->

@@ -1,0 +1,7 @@
+{% load staticfiles %}
+
+<script type="application/javascript" src="{% static 'production/dashboard/concat-lib.js' %}"></script>
+
+{% include 'dashboard/_authentication_directive.html' %}
+
+<script type="application/javascript" src="{% static 'production/dashboard/concat-app.js' %}"></script>

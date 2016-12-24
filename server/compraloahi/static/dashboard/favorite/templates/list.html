@@ -1,0 +1,51 @@
+<div class="panel panel-white">
+    <div class="panel-body" cg-busy="vm.promiseRequest">
+
+        <div class="content-data col-md-12" ng-show="vm.favorites.length > 0">
+            <div class="col-md-12 body-header">
+                <div class="col-md-4 col-md-offset-8">
+                <div class="input-group">
+                    <input name="search" ng-model="vm.filters.title" class="form-control input-search" placeholder="Ingresa el titulo del aviso que buscas..." type="text">
+                    <span class="input-group-btn">
+                        <button class="btn btn-success" type="button"><i class="fa fa-search"></i></button>
+                    </span>
+                </div>
+            </div>
+            </div>
+            <table class="table table-bordred table-striped" ng-table="vm.tableParams" >
+                <tr id="item-row-{{ item.id }}" ng-class-odd="'odd'" ng-class-even="'even'" ng-repeat="item in $data">
+                    <td class="v-align-middle col-md-1"
+                        data-title="'Image'">
+                        <img id="media-object" class="img-rounded" ng-src="{{ item.images[0].thumbnail_110x110 }}" width="90" height="90">
+                    </td>
+                    <td class="v-align-middle col-md-9"
+                        data-title="'Items'"
+                        sortable="'title'">
+                        <h4><strong>{{ item.title }}</strong></h4>
+                        <p>{{ item.short_description }}</p>
+                        <small><strong>Fecha de publicacion : </strong>{{ item.pub_date }} </small>
+                    </td>
+                    <td class="v-align-middle col-md-1" data-title="'Price'" sortable="'price'"> {{ item.price| currency:"$" }}</td>
+                    <td class="v-align-middle col-md-1" data-title="'Actions'">
+                        <!-- delete -->
+                        <button class="btn btn-sm btn-default text-danger btn-table"
+                                ng-really-message="Estas seguro que deseas quitar de favoritos el aviso {{ item.title }} ?"
+                                ng-really-click="vm.remove_favorite(item)"
+                                item="item">
+                            <span class="fa fa-times"
+                                  tooltip="'Quita el aviso de mis favoritos'"
+                                  placement="top"></span>
+                        </button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="content-data col-md-12" ng-show="vm.favorites.length == 0 && vm.request" style="text-align: center;">
+            <p>No tienes ningun aviso en tus favoritos.</p>
+            <p>Empieza a usarlos, con la ayuda de los favoritos no te vas a peder ninguna oportunidad.</p>
+            <h5>¿ Para que me sirve tener favoritos a los avisos de mi interes?</h5>
+            <p>Entra a los avisos que te interesan y agregalo a tus favoritos. <br/> Tu smartphone te avisara cuando estes cerca.</p>
+
+        </div>
+    </div>
+</div>

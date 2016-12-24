@@ -1,0 +1,39 @@
+{% extends "faq/base.html" %}
+{% load bootstrap3 %}
+{% load i18n %}
+
+{% block title %}{% trans "Signup" %}{% endblock %}
+
+{% block body_block %}
+<div class="page-breadcrumb">
+        <ol class="breadcrumb container">
+            <li><a href="/">Inicio</a></li>
+            <li><a href="{% url 'faq:faq_index' %}">Preguntas frecuentes</a></li>
+            <li class="active">Crear pregunta</li>
+        </ol>
+    </div>
+    <div class="page-title">
+        <div class="container">
+            <h3>Enviar pregunta</h3>
+            <p>Usar este formulario para enviar una pregunta (y opcionalmente una respuesta correspondiente ) que le gustaría ver añadido a las preguntas frecuentes sobre este sitio.</p>
+        </div>
+    </div>
+        <div id="main-wrapper">
+            <div class="row">
+                <div class="col-md-6 center">
+                    <div class="login-box">
+                        <form class="m-t-md" method="post" action="">
+                            {% csrf_token %}
+                            {% bootstrap_form form %}
+
+                            <button type="submit" class="btn btn-success btn-block m-t-xs">Crear</button>
+                        </form>
+
+                    </div>
+                </div>
+            </div><!-- Row -->
+        </div><!-- Main Wrapper -->
+
+{% endblock %}
+
+

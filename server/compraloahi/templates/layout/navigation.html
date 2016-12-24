@@ -1,0 +1,137 @@
+<div class="navbar">
+    <div class="navbar-inner container-fluid">
+        <div class="sidebar-pusher">
+            <a class="" href="/">
+                <i><img  id="iso-logo" src="/static/image/compraloahi-iso-logo.png"/></i>
+            </a>
+        </div>
+        <div class="logo-box">
+            <a href="/" class="logo-text"><span><img  id="logo" src="/static/image/compraloahi-logo.png"/> </span></a>
+        </div><!-- Logo Box -->
+        <div class="nav-user-dropdown-responsive ">
+            <a class="waves-effect waves-button waves-classic a">
+            {% load msg_tags %}
+                {% if user.is_authenticated %}
+
+                    <div class="nav-user-dropdown-responsive dropdown">
+                        <a href="#" class="a dropdown-toggle waves-effect waves-button waves-classic" data-toggle="dropdown">
+                            <img class="img-circle avatar" src="{{ user.profile.image.url }}" width="40" height="40" alt="">
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-right dropdown-list" role="menu">
+                            <li role="presentation"><a href="/panel/user/profile/"><i class="fa fa-user"></i>Perfil</a></li>
+                            <li role="presentation"><a href="/panel/mensajes/inbox"><i class="fa fa-envelope"></i>Bandeja<span class="badge badge-success" style="position: absolute; right: 10px;">{% get_msgs_unread_count %}</span></a></li>
+                            <li role="presentation"><a href="/panel/mis-avisos/"><i class="fa fa-bullhorn"></i> Mis Avisos</a></li>
+                            <li role="presentation"><a href="/faq/"><i class="fa fa-question-circle"></i> Ayuda</a></li>
+                            <li role="presentation" class="divider"></li>
+                            <li role="presentation"><a href="{% url 'my-user:my-logout' %}"><i class="fa fa-sign-out m-r-xs"></i>Salir</a></li>
+                        </ul>
+                    </div>
+                {% else %}
+                    <div class="nav-user-dropdown-responsive">
+                        <div class="a">
+                            <div class="nav-user-dropdown-responsive">
+                                <a href="/accounts/login/">Entra</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            </a>
+        </div>
+        <div class="topmenu-outer">
+            <div class="top-menu">
+                <ul class="nav navbar-nav navbar-right">
+                    <!--<li>
+                        <a href="javascript:void(0);" class="waves-effect waves-button waves-classic show-search"><i class="fa fa-search"></i></a>
+                    </li>-->
+
+                    {% if user.is_authenticated %}
+
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle waves-effect waves-button waves-classic" data-toggle="dropdown"><i class="fa fa-envelope"></i><span class="badge badge-success pull-right">{% get_msgs_unread_count %}</span></a>
+                            <ul class="dropdown-menu title-caret dropdown-lg" role="menu">
+                                <li><p class="drop-title">Tienes {% get_msgs_unread_count %} mensajes nuevos !</p></li>
+                                <li class="dropdown-menu-list slimscroll messages">
+                                    <ul class="list-unstyled">
+                                        {% get_msgs_unread_list %}
+                                        {% if msgs %}
+                                            {% for msg in msgs %}
+                                                 <li>
+                                                    <a href="/panel/mensajes/hilo/{% if msg.thread %}{{ msg.thread.id }}{% else %}{{ msg.id }}{% endif %}">
+                                                        <div class="msg-img"><div class="online off"></div><img class="img-circle" src="/static/image/img-default-profile.jpg" alt=""></div>
+                                                        <p class="msg-name">{{ msg.sender }}</p>
+                                                        <p class="msg-text">{{ msg.subject }}</p>
+                                                        <p class="msg-time">{{ msg.sent_at }}</p>
+                                                    </a>
+                                                </li>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </ul>
+                                </li>
+                                <li class="drop-all"><a href="/panel/mensajes/inbox" class="text-center">Todos los mensajes</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            {% load notification_tags %}
+                            <a href="#" class="dropdown-toggle waves-effect waves-button waves-classic" data-toggle="dropdown"><i class="fa fa-bell"></i><span class="badge badge-success pull-right">{% get_notifications_unread_count %}</span></a>
+                            <ul class="dropdown-menu title-caret dropdown-lg" role="menu">
+                                <li><p class="drop-title">Tienes {% get_notifications_unread_count %} notificaciones nuevas !</p></li>
+                                <li class="dropdown-menu-list slimscroll tasks">
+                                    <ul class="list-unstyled">
+                                        {% get_notificacions_unread_list %}
+                                        {% if notifications %}
+                                            {% for notification in notifications %}
+                                                 <li>
+                                                    <a href="{{ notification.get_url }}">
+                                                        <div class="task-icon badge badge-success">
+                                                            <i class="fa
+                                                            {% if notification.type == 'cmmt' %}
+                                                                fa-comment
+                                                            {% elif notification.type == 'msg' %}
+                                                                fa-inbox
+                                                            {% elif notification.type == 'fav' %}
+                                                                fa-heart
+                                                            {% elif notification.type == 'cal' %}
+                                                                fa-bus
+                                                            {% else %}
+                                                                fa-bell
+                                                            {% endif %}
+                                                            "></i>
+                                                        </div>
+                                                        <span class="badge badge-roundless badge-default pull-right">{{ notification.created }}</span>
+                                                        <p class="task-details">{{ notification.message }}</p>
+                                                    </a>
+                                                </li>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </ul>
+                                </li>
+                                <li class="drop-all"><a href="#" class="text-center">Todas las notificaciones</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle waves-effect waves-button waves-classic" data-toggle="dropdown">
+                                <span class="user-name">{{ user.username }}<i class="fa fa-angle-down"></i></span>
+                                <img class="img-circle avatar" src="{{ user.profile.image.url }}" width="40" height="40" alt="">
+                            </a>
+                            <ul class="dropdown-menu dropdown-list" role="menu">
+                                <li role="presentation"><a href="/panel/user/profile/"><i class="fa fa-user"></i>Perfil</a></li>
+                                <li role="presentation"><a href="/panel/mensajes/inbox"><i class="fa fa-envelope"></i>Bandeja<span class="badge badge-success" style="position: absolute; right: 10px;" >{% get_msgs_unread_count %}</span></a></li>
+                                <li role="presentation"><a href="/panel/mis-avisos/"><i class="fa fa-bullhorn"></i> Mis Avisos</a></li>
+                                <li role="presentation"><a href="/faq/"><i class="fa fa-question-circle"></i> Ayuda</a></li>
+                                <li role="presentation" class="divider"></li>
+                                <li role="presentation"><a href="{% url 'my-user:my-logout' %}"><i class="fa fa-sign-out m-r-xs"></i>Salir</a></li>
+                            </ul>
+                        </li>
+                    {% else %}
+                        <ul class="nav navbar-nav navbar-right">
+                            <li><a href="/accounts/signup/" ><button class="btn btn-warning" style="margin-top: -5px; color: black;">Registrate</button></a></li>
+                            <li><a href="/accounts/login/">Entra</a></li>
+                            <li><a href="/faq/"><i class="fa fa-question-circle"></i></a></li>
+                        </ul>
+                    {% endif %}
+
+                </ul><!-- Nav -->
+            </div><!-- Top Menu -->
+        </div>
+    </div>
+</div><!-- Navbar -->

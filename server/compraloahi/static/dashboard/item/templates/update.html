@@ -1,0 +1,258 @@
+<style>
+    .panel-heading{
+        margin-bottom: 10px;
+    }
+
+    .container-categories{
+        height: 110px;
+        overflow-y: auto;
+        border-bottom: 1px solid #c3c3c3;
+        border-right: 1px solid #c3c3c3;
+        border-left: 1px solid #c3c3c3;
+    }
+    .categories{
+        padding: 5px;
+    }
+    .categories .category{
+        width: 33%;
+        float: left;
+        list-style: none;
+    }
+</style>
+<form class="panel panel-white" cg-busy="vm.promiseRequest"  novalidate angular-validator angular-validator-submit="vm.submit()" name="formStep4" enctype="multipart/form-data">
+
+<div class="panel-body" id="container-item-create-data">
+
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            Descripcion general
+        </h3>
+    </div>
+    <div class="panel-body">
+        <!-- TITLE -->
+        <div class="form-group">
+            <label class="control-label" for="title">Titulo</label>
+            <input type="text"
+                   name="title"
+                   class="form-control"
+                   ng-model="vm.item.title"
+                   placeholder="Titulo. Ej: Celular Galaxy GIT"
+                   ng-minlength="3"
+                   ng-maxlength="40"
+                   required="required"
+                   invalid-message="'El minimo de caracteres es de 3 y el maximo es de 40'"
+                   required-message="'El titulo del aviso es requerido!'">
+        </div>
+
+        <!-- SHORT DESCRIPTION -->
+        <div class="form-group">
+            <label class="control-label" for="short_description">Descripcion corta</label>
+            <input type="text"
+                   class="form-control"
+                   ng-model="vm.item.short_description"
+                   maxlength="100"
+                   name="short_description"
+                   placeholder="Escriba una descripcion corta."
+                   required-message="'La descripcion corta es requerida'"
+                   required="required">
+
+            <!-- POPOVER SHORT DESCRIPTION HELP -->
+            <script type="text/ng-template" id="popover">
+                        <div class="triangle"></div>
+                        <div class="ns-popover-tooltip" style="max-width: 400px; padding: 10px;">
+                            <img src="/static/image/help/short-description.png" class="img-thumbnail"  />
+                            <p>La descripcion corta del aviso te permite tener mas posibilidades de ser encontrado, y ademas
+                                es la primer descripcion de tu aviso que el usuario lee.</p>
+                        </div>
+                    </script>
+                    <span class="help" >¿Porque es importante que el aviso tenga una descripcion corta?.
+                        <a ns-popover
+                           class="a-popover"
+                           ns-popover-template="popover"
+                           ns-popover-trigger="click"
+                           ns-popover-hide-on-outside-click="true"
+                           ns-popover-hide-on-button-click="true"
+                           ns-popover-template="menu"
+                           ns-popover-theme="ns-popover-list-theme"
+                           ns-popover-placement="top"
+                           ns-popover-placement="bottom">Ayuda</a></span>
+        </div>
+
+        <!-- PRICE -->
+        <div class="form-group">
+            <label class="control-label" for="price-flag">Precio</label>
+
+            <div class="input-group">
+                <span class="input-group-addon">$</span>
+                <input class="form-control"
+                       ng-model="vm.item.price"
+                       name="price"
+                       type="text"
+                       ng-currency>
+            </div>
+            <!-- POPOVER SHORT DESCRIPTION HELP -->
+            <script type="text/ng-template" id="popover">
+                        <div class="triangle"></div>
+                        <div class="ns-popover-tooltip" style="max-width: 400px; padding: 10px;">
+                            <img src="/static/image/help/short-description.png" class="img-thumbnail"  />
+                            <p>El precio del aviso te permite tener mas posibilidades de ser encontrado a la hora que el
+                                usuario filtra por precio.</p>
+                        </div>
+
+                    </script>
+                    <span class="help" >¿Porque es importante que el aviso tenga un precio?.
+                        <a ns-popover
+                           class="a-popover"
+                           ns-popover-template="popover"
+                           ns-popover-trigger="click"
+                           ns-popover-hide-on-outside-click="true"
+                           ns-popover-hide-on-button-click="true"
+                           ns-popover-template="menu"
+                           ns-popover-theme="ns-popover-list-theme"
+                           ns-popover-placement="top"
+                           ns-popover-placement="bottom">Ayuda</a></span>
+
+            <input type="hidden"
+                   name="price-flag"
+                   ng-model="vm.item.price"
+                   placeholder="Price"
+                   required="required"
+                   title=""
+                   required-message="'El precio es requerido'"/>
+
+        </div>
+        <!-- CATEGORIES SELECT -->
+        <hr/>
+        <h3>Selecciona la categoria a la cual pertenece tu anuncio.</h3>
+        <div class="form-group">
+            <div class="input-group m-b-sm col-md-5">
+                <input type="text" ng-model="vm.search_category.title" class="form-control input-sm" maxlength="64" placeholder="Busca la categoria de tu producto" />
+                <span  class="input-group-addon"><i class="fa fa-search"></i></span>
+            </div>
+            <div class="container-categories">
+                <ul class="categories" cg-busy="vm.promiseRequestCategories" >
+                    <li ng-repeat="category in vm.categories|filter:vm.search_category.title | orderBy:'name'" class="category">
+                        <input type="radio" id="category_{{ category.id }}" value="{{ category.id }}" ng-model="vm.category_selected">
+                         <label for="category_{{ category.id }}">{{ category.name }}</label>
+                    </li>
+                </ul>
+            </div>
+            <input type="hidden"
+                   name="categories"
+                   ng-model="vm.category_selected"
+                   validator="vm.category_selected"
+                   invalid-message="'Es requerido elegir al menos una categoria.'"/>
+        </div>
+
+        <h3>Configura el alcance de tu anuncio.</h3>
+        <!-- GROUP SELECT -->
+        <div class="form-group" ng-show="vm.groups.length">
+            <input type="checkbox" id="is_public" ng-model="vm.is_public"/>
+            <label for="is_public">El anuncio es publico</label>
+        </div>
+        <div class="form-group" ng-disabled="!vm.is_public" ng-show="vm.groups.length && !vm.is_public">
+
+            <div class="input-group m-b-sm col-md-5">
+                <input type="text" aria-describedby="basic-addon2" ng-model="vm.search_group.name" class="form-control input-sm" maxlength="64" placeholder="Busca y selecciona los grupos en los que quieres que se vea tu producto" />
+                <span  class="input-group-addon"><i class="fa fa-search"></i></span>
+            </div>
+            <div class="container-categories">
+                <ul class="categories" cg-busy="vm.promiseRequestGroups" >
+                    <li ng-repeat="group in vm.groups|filter:vm.search_group.name | orderBy:'name'" class="category">
+                        <input type="checkbox" id="group_{{ group.id }}" ng-model="group.selected">
+                        <label for="group_{{ group.id }}">{{ group.name }}</label>
+                    </li>
+                </ul>
+            </div>
+            <input type="hidden"
+                   name="categories"
+                   ng-model="vm.category_selected"
+                   validator="vm.category_selected"
+                   invalid-message="'En caso que el anuncio no sea publico es requerido al menos seleccionar un grupo donde se va a ver visualizar.'"/>
+        </div>
+    </div>
+</div>
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            Imagenes
+        </h3>
+    </div>
+    <div class="panel-body">
+        <div class="form-group">
+            <p>¡Tu producto es el protagonista! No incluyas logos, banners, textos promocionales, bordes ni marcas de agua.</p>
+            <script type="text/ng-template" id="helpimage">
+                        <div class="triangle"></div>
+                        <div class="ns-popover-tooltip" style="max-width: 400px; padding: 10px;">
+                            <img src="/static/image/help/first-image.png" class="img-thumbnail"  />
+                            <p>La imagen destacada es importante ya que es la primera imagen que se ve de tu aviso. Es la imagen
+                        con la cual tu aviso compite con otros.</p>
+                        </div>
+                    </script>
+                    <span class="help" >¿Porque es importante la imagen destacada?.
+                        <a ns-popover
+                           class="a-popover"
+                           ns-popover-template="helpimage"
+                           ns-popover-trigger="click"
+                           ns-popover-hide-on-outside-click="true"
+                           ns-popover-hide-on-button-click="true"
+                           ns-popover-template="menu"
+                           ns-popover-theme="ns-popover-list-theme"
+                           ns-popover-placement="bottom"
+                           ns-popover-placement="bottom">Ayuda</a></span>
+
+            <div ng-if="vm.request">
+                <upload-images uploaded-images="{{ vm.item.images }}" files-model="images" item-id="{{ vm.item.id }}">
+
+                </upload-images>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            Descripcion detallada
+        </h3>
+    </div>
+    <div class="panel-body">
+        <script type="text/ng-template" id="helpbody">
+                    <div class="triangle"></div>
+                    <div class="ns-popover-tooltip" style="max-width: 400px; padding: 10px;">
+                        <img src="/static/image/help/description.png" class="img-thumbnail"  />
+                        <p>La descripcion del aviso aparece en el detalle del mismo, es recomendable describir cada especificacion....</p>
+                    </div>
+                </script>
+        <p class="help" >¿Para que sirve la descripcion?.
+            <a ns-popover
+               class="a-popover"
+               ns-popover-template="helpbody"
+               ns-popover-trigger="click"
+               ns-popover-hide-on-outside-click="true"
+               ns-popover-hide-on-button-click="true"
+               ns-popover-template="menu"
+               ns-popover-theme="ns-popover-list-theme"
+               ns-popover-placement="bottom"
+               ns-popover-placement="bottom">Ayuda</a></p>
+        <div class="form-group" >
+            <textarea froala
+                      ng-model="vm.item.body"
+                      class="form-control"
+                      name="body"
+                      placeholder="Descripcion"
+                      ng-minlength="50"
+                      required="required"
+                      invalid-message="'La descripcion debe tener minimo 50 caracteres.'"
+                      required-message="'La descripcion del aviso es requerida!'">
+            </textarea>
+        </div>
+    </div>
+</div>
+</div>
+<div class="panel-footer">
+    <button type="submit" class="btn btn-primary pull-right"><i class="fa fa-floppy-o"></i> Guardar</button>
+    <button class="btn pull-right" ui-sref="my-items"><i class="fa fa-times"></i> Cancelar</button>
+</div>
+</form>

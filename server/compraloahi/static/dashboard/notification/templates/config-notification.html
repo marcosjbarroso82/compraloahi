@@ -1,0 +1,34 @@
+<div class="panel panel-white">
+    <div class="panel-body">
+        <h4 class="body-header">
+            Configura las alertas a tu gusto.
+        </h4>
+        <form>
+
+            <table class="table">
+                <thead>
+                <th></th>
+                <th>Por celular</th>
+                <th>Por email</th>
+                </thead>
+                <tbody>
+                <tr ng-repeat="config in vm.configs.configs" >
+
+                    <td class="col-md-8">{{ config.label }}</td>
+                    <td class="col-md-1 text-center">
+                        <input checked="" value="config" ng-model="config.alert" type="checkbox">
+                    </td>
+                    <td class="col-md-1 text-center">
+                        <input checked="" value="config" ng-model="config.email" type="checkbox">
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+        </form>
+    </div>
+    <div class="panel-footer">
+        <button class="btn btn-success pull-right" type="button" ng-click="vm.submit()"><i class="fa fa-save"></i> Guardar</button>
+        <button class="btn pull-right" ui-sref="profile-detail"><i class="fa fa-times"></i> Cancelar</button>
+    </div>
+</div>

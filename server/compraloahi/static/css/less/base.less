@@ -1,0 +1,389 @@
+
+@import 'mixin.less';
+
+// Panel
+/*
+@panel-default-heading-bg:    #008080;
+@panel-heading-padding:       0px 0px 0px 20px;
+
+*/
+@border-radius-base: 0px;
+// Colors
+//@orange:                      #ff6600;
+//@blue-dark:                   #4e6c83;
+
+
+// ----- COLOR VAR -----
+/*
+@brand-primary: #466178; // #337ab7
+@brand-success: #2b7929;
+@brand-info: #488dbd;
+@brand-warning: #d89b47;
+@brand-danger: #8d101d;
+*/
+@input-border: #c3c3c3;
+
+@color-input-custom-addon: #ce4f00;
+
+@color-location: #635a9a;
+
+@color-probando: rgb(255, 44, 0);
+
+@color-price: #e54f4f;
+
+@color-default: #f1f1f1;
+
+@color-primary: #7a6fbe;
+
+@color-info: #12AFCB;
+
+@color-success: #22BAA0;
+
+@color-warning: #f6d433;
+
+@color-danger: #f25656;
+
+@color-logo: #018ba3;
+
+// ----- END COLOR VAR ---
+
+
+html, body{
+  height: 100%;
+
+  .modal-backdrop{
+    z-index: 1100;
+  }
+  .modal-footer{
+    button{
+      margin-left: 10px;
+    }
+  }
+
+  .navbar{
+    .mixin-shadow-bottom(.5px, .5px, 1px, .3px, #B2B2B2);
+    z-index: 10 !important;
+    background-color: #E5E5E5;
+    .topmenu-outer{
+      background-color: #E5E5E5;
+    }
+  }
+
+  .horizontal-bar{
+    z-index: 9;
+  }
+
+
+  .input-group-custom-addon.icon-addon.addon-sm{
+    position: relative;
+    color: @color-input-custom-addon;
+
+    &:after {
+      clear: both;
+    }
+
+    .fa,
+    .glyphicon {
+      position: absolute;
+      height: 29px;
+      top: 0px;
+      width: 30px;
+      padding: 0px;
+      margin-top: 3px;
+      border: none;
+      border-left: 1px solid @color-input-custom-addon;
+      font-size: 18px;
+      margin-right: 0;
+      right: 5px;
+      background: none;
+      z-index: 99;
+    }
+
+    &:focus{
+      color: #000 !important;
+    }
+  }
+
+
+
+
+
+  input[type='range'] {
+    -webkit-appearance: none;
+    border-radius: 2px;
+    background-color: #cccccc;
+    height: 6px;
+    vertical-align: middle;
+  }
+  input[type='range']::-moz-range-track {
+    -moz-appearance: none;
+    border-radius: 2px;
+    background-color: #cccccc;
+    height: 6px;
+  }
+
+  input[type='range']::-webkit-slider-thumb {
+    -webkit-appearance: none !important;
+    border-radius: 20px;
+    background-color: @color-location;
+
+    border: 1px solid #bab5ba;
+    height: 20px;
+    width: 20px;
+  }
+  input[type='range']::-moz-range-thumb {
+    -moz-appearance: none;
+    border-radius: 20px;
+    background-color: @color-location;
+
+    border: 1px solid #bab5ba;
+    height: 20px;
+    width: 20px;
+  }
+}
+
+
+
+
+
+
+.search-form{
+  z-index: 500 !important;
+}
+
+/**
+____________________________________________________________________________________
+i-check examples:
+-----------------
+  1 -
+    <div class="checkbox">
+      <label class="i-checks">
+        <input checked="" value="" type="checkbox">
+        <i></i>
+        Label checked
+      </label>
+    </div>
+
+  2 -
+    <div class="radio">
+      <label class="i-checks">
+        <input name="test" value="value" type="radio">
+        <i></i>
+        Label radio
+      </label>
+    </div>
+
+____________________________________________________________________________________
+input-group-custom-addon examples:
+-----------------
+  1 -
+    <div class="input-group-custom-addon icon-addon addon-sm">
+        <input type="text" class="form-control">
+        <button class="glyphicon"></button>
+    </div>
+
+
+*/
+
+.logo-box{
+  width: auto !important;
+  #logo{
+    height: 45px;
+
+    @media (max-width: 767px){
+      display: none;
+    }
+
+  }
+}
+#iso-logo{
+  height: 45px;
+  @media (max-width: 767px){
+    margin-left: 15px;
+  }
+}
+
+
+
+
+.search-form{
+  margin-top: 5px !important;
+  height: 50px !important;
+  width: 50%;
+  margin-left: 25%;
+  border: 1px solid #e9e9e9;
+
+  @media (max-width: 767px){
+    width: 70%;
+    margin-left: 15%;
+  }
+
+  .input-group{
+    height: 50px;
+
+    input{
+      color: #5f5f5f;
+      border: 1px solid #c8c8c8;
+      box-shadow: none;
+      border-radius: 0;
+      background: 0 0;
+      line-height: 55px;
+      font-size: 20px;
+      /*padding-left: 20px !important;
+      padding-bottom: 5px !important;*/
+      padding: 0px 10px !important;
+      height: 100% !important;
+      width: 100%;
+      position: absolute;
+      top: 0px;
+      left: 0px;
+    }
+
+    .icon-search{
+        padding: 0px !important;
+        margin-right: 10px !important;
+        margin-bottom: 2px !important;
+    }
+
+  }
+
+}
+
+
+.nav-user-dropdown-responsive{
+  position: absolute;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+  z-index: 9999;
+  display: none;
+  right: 0;
+
+  @media (max-width: 767px){
+    display: block;
+  }
+  .a{
+    display: inline-block!important;
+    padding: 0px 18px !important;
+    color: #5F5F5F;
+    border: none;
+    position: relative;
+    line-height: 20px;
+    float: right;
+    font-size: 17px;
+    text-decoration: none;
+  }
+}
+
+html{
+  overflow: hidden;
+}
+
+.page-content, .page-inner{
+  height: 100%;
+}
+
+.container-scroll{
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 100%;
+  min-height: 100%;
+}
+
+/*.page-content{
+  margin-bottom: 40px;
+}*/
+
+.page-inner {
+  padding-bottom: 0px !important;
+}
+
+.page-footer{
+  position: relative !important;
+}
+
+.Tooltip{
+  z-index: 2000;
+  position: absolute;
+}
+
+
+
+.btn-favit-favorite{
+  background-color: none !important;
+  border: none;
+}
+
+.favit .fa-heart, .favit .fa-heart-o, .favit.fa-heart-o, .favit.fa-heart{
+      color: @color-primary;
+}
+
+.favit:hover{
+  cursor: pointer !important;
+}
+
+
+
+.pagination > .active > a,
+.pagination > .active > span,
+.pagination > .active > a:hover,
+.pagination > .active > span:hover,
+.pagination > .active > a:focus,
+.pagination > .active > span:focus {
+    background: @color-logo; 
+    border-color: @color-logo;
+}
+
+
+.timeline-options a:hover {
+    color: @color-logo;
+}
+
+.post-options a:hover {
+    color: @color-logo;
+}
+
+
+.menu.accordion-menu > li > a:hover {
+    color: @color-logo;
+}
+
+.menu.accordion-menu > li.active > a,
+.menu.accordion-menu > li.active.open > a,
+.menu.accordion-menu > li.open > a {
+    color: @color-logo;
+}
+
+.menu.accordion-menu ul li a:hover,
+.menu.accordion-menu ul li.active a {
+    color: @color-logo;
+}
+
+.navbar ul li.open > a {
+    color: @color-logo;
+}
+
+body:not(.page-horizontal-bar).compact-menu .menu > li.active,
+body:not(.page-horizontal-bar).compact-menu .menu > li.open {
+    border-left: 3px solid @color-logo;
+}
+
+.menu.accordion-menu ul li a:hover,
+.menu.accordion-menu ul li.active a {
+    color: @color-logo;
+}
+
+
+.pace .pace-progress {
+    background: @color-logo;
+}
+
+.pace .pace-progress-inner {
+    box-shadow: 0 0 10px @color-logo, 0 0 5px @color-logo;
+}
+
+.pace .pace-activity {
+    border-top-color: @color-logo;
+    border-left-color: @color-logo;
+    margin-top: 60px;
+}

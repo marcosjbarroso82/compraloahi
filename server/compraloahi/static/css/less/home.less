@@ -1,0 +1,49 @@
+@import 'base.less';
+
+#btn-download-app, #btn-download-app1{
+  position: absolute;
+
+  bottom: 0px;
+  font-size: 1.3em;
+  .mixin-shadow-bottom(1px, 1px, 2px, .3px, rgba(64, 64, 64, 0.71));
+  border: 1px solid #858a81;
+
+  @media (max-width: 767px){
+    position: relative;
+    width: 100%;
+    left: 0px !important;
+  }
+}
+
+.btn-oportunidades{
+  @media (max-width: 767px){
+    width: 100%;
+  }
+}
+
+.section-ventajas{
+  @media (max-width: 767px){
+    margin: 0px;
+    padding: 0px;
+  }
+}
+
+#btn-download-app{
+  left: 240px;
+}
+
+#btn-download-app1{
+  left: 35px;
+}
+
+.description .panel-title{
+  text-align: center;
+  width: 100%;
+  font-size: 18px !important;
+}
+
+.ventajas-title{
+  font-size: 1.8em;
+  margin-top: 30px;
+  margin-bottom: 20px;
+}

@@ -1,0 +1,208 @@
+<style>
+
+    .column{
+        padding: 2px;
+    }
+
+    .active-colum{
+        border: 2px solid #882819;
+    }
+
+    .fileUpload {
+        overflow: hidden;
+        margin: 10px;
+        position: absolute;
+        right: 0;
+        top: -6px;
+    }
+    .fileUpload input.upload {
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin: 0;
+        padding: 0;
+        font-size: 20px;
+        cursor: pointer;
+        opacity: 0;
+        filter: alpha(opacity=0);
+    }
+    .media-list{
+        margin-top: 30px;
+        max-height: 400px;
+        overflow: auto;
+    }
+    .media-list .media{
+        margin-right: 20px;
+        padding: 10px;
+        border-bottom: 1px solid #C5C5C5;
+    }
+</style>
+
+<form novalidate angular-validator angular-validator-submit="vm.submit()" name="formConfigStore" enctype="multipart/form-data" class="panel panel-white">
+    <div class="panel-body" cg-busy="vm.promiseRequest">
+            <div class="panel col-md-12 panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Descripcion de la tienda</h3>
+                </div>
+                <div class="col-md-12">
+                    <br/>
+                    <div class="col-md-2">
+                        <label for="">Logo</label>
+                        <div cg-busy="vm.promise_img" ng-mouseover="vm.focus_img = true;" ng-mouseleave="vm.focus_img = false;">
+
+                            <img ng-if="vm.configs.logo" id="item-display" src="{{ vm.configs.logo }}" style="max-width: 100%; max-height: 100%; min-height: 100px; min-width: 100px;" >
+                            <img ng-if="!vm.configs.logo" id="item-display" src="/static/image/images-default.jpeg" style="max-width: 100%; max-height: 100%; min-height: 100px; min-width: 100px;" />
+                            <div class="fileUpload btn btn-primary btn-xs" ng-show="vm.focus_img">
+                                <span><i class="fa fa-upload"></i></span>
+                                <input name="logo" id="logo" type="file" class="upload" file-model='logo' accept="image/*"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-10">
+                        <div class="form-group" style="position: relative;">
+                            <label for="name-store">Nombre de la tienda</label>
+                            <!-- CHECK VALIDATE IS UNIQUE -->
+                            <i class="fa fa-check check-field"
+                               tooltip="'El nombre de la tienda esta habilitado.'"
+                               placement="top"
+                               ng-if="vm.name_is_valid">
+                            </i>
+                            <input id="name-store"
+                                   name="name-store"
+                                   type="text"
+                                   class="form-control"
+                                   ng-model="vm.configs.name"
+                                   placeholder="Titulo. Ej: La tienda de Pepe"
+                                   ng-minlength="3"
+                                   required="required"
+                                   ng-model-options="{ updateOn: 'blur' }"
+                                   invalid-message="'El Nombre de la tienda ya existe.'"
+                                   validator = "!vm.name_unique"
+                                   required-message="'El nombre de la tienda es requerido!'"
+                                   validate-on="dirty"/>
+                            <script type="text/ng-template" id="helpnamestore">
+                                    <div class="triangle"></div>
+                                    <div class="ns-popover-tooltip" style="max-width: 400px; padding: 10px;">
+                                        <img src="/static/image/help/name-store.png" class="img-thumbnail"  />
+                                    </div>
+                                </script>
+                                <span class="help">
+                                    A tener en cuenta: El nombre de la tienda se representara en la direccion del sitio cambiando los espacios en blanco por - (guiones medios)
+                                    <a ns-popover
+                                       class="a-popover"
+                                       ns-popover-template="helpnamestore"
+                                       ns-popover-trigger="click"
+                                       ns-popover-hide-on-outside-click="true"
+                                       ns-popover-hide-on-button-click="true"
+                                       ns-popover-template="menu"
+                                       ns-popover-theme="ns-popover-list-theme"
+                                       ns-popover-placement="bottom"
+                                       ns-popover-placement="bottom">Ayuda</a>
+                                </span>
+                        </div>
+                        <div class="form-group">
+                            <label>Enlace url de la tienda:</label>
+                            <label for=""> <strong>www.compraloahi.com.ar/tienda/{{ vm.configs.new_slug }}</strong></label>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="slogan">Agrega un slogan a tu tienda</label>
+                            <input type="text" class="form-control" name="slogan" id="slogan" ng-model="vm.configs.slogan"/>
+                            <script type="text/ng-template" id="helpnamestore">
+                                    <div class="triangle"></div>
+                                    <div class="ns-popover-tooltip" style="max-width: 400px; padding: 10px;">
+                                        <img src="/static/image/help/name-store.png" class="img-thumbnail"  />
+                                        <p> Dale estilo a tu tienda e incentiva a los usuarios con un mensaje alentador.
+                                            El slogan se vera debajo del nombre de la tienda.
+                                        </p>
+                                    </div>
+                                </script>
+                                <span class="help">
+                                    ¿Para que sirve el slogan? ¿ Donde se verá?
+                                    <a ns-popover
+                                       class="a-popover"
+                                       ns-popover-template="helpnamestore"
+                                       ns-popover-trigger="click"
+                                       ns-popover-hide-on-outside-click="true"
+                                       ns-popover-hide-on-button-click="true"
+                                       ns-popover-template="menu"
+                                       ns-popover-theme="ns-popover-list-theme"
+                                       ns-popover-placement="top"
+                                       ns-popover-placement="top">Ayuda</a>
+                                </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-success col-md-6">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Dale estilo a tu tienda</h3>
+                </div>
+                <div class="col-md-12">
+                    <br/>
+                    <div class="form-group">
+                        <label for="color">Elije un color de fondo para tu tienda </label>
+                        <input ng-model="vm.configs.style.background_color" type="color" placeholder="Selecciona un color" class="btn btn-default" style="background-color: {{ vm.configs.style.background_color }}" />
+                    </div>
+                    <div class="form-group">
+                        <label for="color">Elije un color de para la tipografia de tu tienda </label>
+                        <input ng-model="vm.configs.style.font_color" type="color" placeholder="Selecciona un color" class="btn btn-default" style="background-color: {{ vm.configs.style.font_color }}" />
+                        <span class="help"> Tener en cuenta que si el color de fondo es oscuro la tipografia deberia ser clara para su correcta visualizacion</span>
+                    </div>
+                    <label for="">Visualizacion :</label>
+                    <div class="col-md-12 text-center" style="border:1px solid #000000; height: 60px; background-color: {{ vm.configs.style.background_color }}; color: {{ vm.configs.style.font_color }}">
+                        <h3>{{ vm.configs.name }}</h3>
+                    </div>
+
+                    <div class="col-md-12">
+                        <hr/>
+                        <h4>
+                            Dale un formato a tu tienda y elije como quieres que se vean tus anuncios.
+                        </h4>
+                        <div class="col-md-12">
+                            <div class="col-md-3 column" ng-click="vm.configs.style.column = 1" ng-class="{'active-colum': vm.configs.style.column == 1}"><img src="/static/image/dashboard/1-col-portfolio.jpg" class="img-responsive"/></div>
+                            <div class="col-md-3 column" ng-click="vm.configs.style.column = 2" ng-class="{'active-colum': vm.configs.style.column == 2}"><img src="/static/image/dashboard/2-col-portfolio.jpg" style="width: 100%;" alt=""/></div>
+                            <div class="col-md-3 column" ng-click="vm.configs.style.column = 3" ng-class="{'active-colum': vm.configs.style.column == 3}"><img src="/static/image/dashboard/3-col-portfolio.jpg" style="width: 100%;" alt=""/></div>
+                            <div class="col-md-3 column" ng-click="vm.configs.style.column = 4" ng-class="{'active-colum': vm.configs.style.column == 4}"><img src="/static/image/dashboard/4-col-portfolio.jpg" style="width: 100%;" alt=""/></div>
+                        </div>
+                            <span class="help">
+                                Tener en cuenta si elijes la primera opcion (1 columna) las imagenes de tus anuncios deben tener buena calidad para
+                                que se visualicen bien, ya que se muestran con mayor tamaño que las otras opciones</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-warning col-md-6">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Elije los anuncios que quieres mostrar en tu tienda</h3>
+                </div>
+                <div class="col-md-12" cg-busy="vm.promiseRequestItems">
+                    <ul class="media-list">
+                        <li class="media" ng-repeat="item in vm.configs.items">
+                            <div class="media-left">
+                                <a href="#" >
+                                    <img ng-click="item.store_published = !item.store_published;" class="media-object" src="{{ item.images[0].thumbnail_110x110 }}" alt="60">
+                                </a>
+                            </div>
+                            <div class="media-body">
+                                <h4 ng-click="item.store_published = !item.store_published;" class="media-heading"> {{ item.title }}</h4>
+                                <input class="pull-right" type="checkbox" ng-model="item.store_published"/>
+                            </div>
+                        </li>
+                    </ul>
+                    <input type="hidden"
+                           name="items-selects"
+                           ng-model="vm.configs.items"
+                           validator="vm.validateItemsSelect()"
+                           invalid-message="'Para poder activar tu tienda es requerido tener al menos un anuncio.'"/>
+                </div>
+            </div>
+    </div>
+    <div class="panel-footer">
+        <button type="submit" class="btn btn-success pull-right"><i class="fa fa-floppy-o"></i> Guardar</button>
+        <button class="btn pull-right" ui-sref="profile-detail"><i class="fa fa-times"></i> Cancelar</button>
+    </div>
+</form>

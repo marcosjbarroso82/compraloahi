@@ -1,0 +1,137 @@
+{% extends 'layout/base.html' %}
+{% load bootstrap3 %}
+{% load thumbnail %}
+{% load favit_tags %}
+{% block title %}{{ store.name }} {% endblock %}
+
+
+{% block css_header_block %}
+    <link href="{{ STATIC_URL }}bower_components/product-preview-slider/css/style.css" rel="stylesheet" type="text/css">
+
+    <link rel="stylesheet" href="{{ STATIC_URL }}favorite/css/favorite.css">
+
+    <!-- Theme Styles -->
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/less/store.css" >
+
+    <style>
+        .font-color{
+            color: {{ store.style.font_color }} !important;
+        }
+        .page-title{
+            position: relative;
+            padding-top: 50px;
+            padding-bottom: 50px;
+            min-height: 150px;
+
+        }
+        .background-color, .container-scroll{
+            background-color: {{ store.style.background_color }} !important;
+        }
+    </style>
+{% endblock %}
+
+
+{% block body_block %}
+    {#    <div class="page-breadcrumb">#}
+    {#        <ol class="breadcrumb container">#}
+    {#            <li><a href="index.html">Home</a></li>#}
+    {#            <li><a href="#">Extra</a></li>#}
+    {#            <li class="active">Shop</li>#}
+    {#        </ol>#}
+    {#    </div>#}
+
+    <div class="page-title background-color">
+        <div class="container">
+            <h1 class="font-color">{{ store.name }}</h1>
+            <p class="font-color">{{ store.slogan }}</p>
+
+        </div>
+        {% if store.logo %}
+            <img id="logoshop" width="100px" src="{{ store.logo.url }}" style="" alt=""/>
+        {% endif %}
+    </div>
+    <div id="main-wrapper" class="container background-color">
+        <div class="row background-color">
+            <div class="col-md-12 background-color">
+                <ul class="cd-gallery background-color">
+                    {% for ad in ads %}
+                        <li class="cant-column-{{ store.style.column }}">
+                            {% if ad.is_new %}
+                                <span class="cd-sale bg-success">New</span>
+                            {% endif %}
+                            <a href="#">
+                                <ul class="cd-item-wrapper">
+                                    <li class="selected">
+                                        {% with ad.images.all|first as image %}
+                                            {% if store.style.column == 1 or store.style.column == 2 %}
+                                                {% thumbnail image.image "400x400"  as im %}
+                                                    <img src="{{ im.url }}">
+                                                {% endthumbnail %}
+                                            {% else %}
+                                                {% thumbnail image.image "110x110"  as im %}
+                                                    <img src="{{ im.url }}">
+                                                {% endthumbnail %}
+                                            {% endif %}
+                                        {% endwith %}
+                                    </li>
+                                    <li class="move-right" >
+                                        {% with ad.images.last as image %}
+                                            {% if store.style.column == 1 or store.style.column == 2 %}
+                                                {% thumbnail image.image "400x400"  as im %}
+                                                    <img src="{{ im.url }}">
+                                                {% endthumbnail %}
+                                            {% else %}
+                                                {% thumbnail image.image "110x110"  as im %}
+                                                    <img src="{{ im.url }}">
+                                                {% endthumbnail %}
+                                            {% endif %}
+                                        {% endwith %}
+                                    </li>
+                                </ul>
+                            </a>
+                            <div class="cd-item-info">
+                                <b><a href="{% url 'ad:detail' ad.slug %}">{{ ad.title }}</a></b>
+                                <em class="cd-price">${{ ad.price }}</em>
+                            </div>
+                            <div class="cd-item-details">
+                                {% favorite_link ad label="Favorito" classes='pull-left add-to-cart' %}
+                                <a href="{% url 'ad:detail' ad.slug %}" class="pull-right details"><i class="fa fa-list-ul"></i>Details</a>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+                <div class="col-md-12">
+                    {% if is_paginated %}
+                        <ul class="pagination pull-right">
+                            {% if page_obj.has_previous %}
+                                <li class="enabled"><a href="{% url 'store' param_url %}?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+                            {% else %}
+                                <li class="disabled"><a href="#">&laquo;</a></li>
+                            {% endif %}
+                            {% for num_page in paginator.page_range %}
+                                {# Solo mostramos +5 y -5 en el paginator. Podemos cambiar si necesitamos mostrar más o menos páginas #}
+                                {% if page_obj.number|add:'-5' <= num_page and page_obj.number|add:"5" >= num_page%}
+                                    {%if page_obj.number == num_page %}
+                                        <li class="active"><a href="#">{{ num_page }}<span class="sr-only">(current)</span></a></li>
+                                    {% else %}
+                                        <li><a href="{% url 'store' param_url %}?page={{ num_page }}">{{ num_page }}<span class="sr-only">(current)</span></a></li>
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
+                            {% if page_obj.has_next %}
+                                <li><a href="{% url 'store' param_url %}?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+                            {% else %}
+                                <li><a href="#" class="disabled">&raquo;</a></li>
+                            {% endif %}
+                        </ul><!--//pagination-->
+                    {% endif %}
+                </div>
+            </div>
+        </div><!-- Row -->
+    </div>
+{% endblock %}
+
+{% block js_footer_block %}
+    <script type="text/javascript" src="{{ STATIC_URL }}favorite/js/favorite.js"></script>
+    <script src="{{ STATIC_URL }}bower_components/product-preview-slider/js/main.js"></script>
+{% endblock %}
