@@ -18,3 +18,4 @@ apps/*/migrations/0*
 /compraloahi/media/group/*
 /compraloahi/media/logo/*
 /compraloahi/media/profile/*
+static_root/

@@ -1,62 +1,84 @@
 version: '2'
 services:
   nginx:
-    container_name: nginx_${CURRENT_NAME}
+    container_name: nginx
     restart: always
     build: nginx/
     ports:
-      - "${CURRENT_PORT}:${CURRENT_PORT}"
-      #- "8081:8081"
+      - "80:80"
     volumes:
       - /www/static
     volumes_from:
       - server
-      #- client
     links:
       - server:server
-      #- client:client  
   
-  postgres:
-    image: postgres_${CURRENT_NAME}
+  db:
+    image: postgres
+    env_file: .env
     environment:
-      - POSTGRES_USER=erp
-      - POSTGRES_PASSWORD=erp123
-      - POSTGRES_DB=db_erp
-    #ports:
-    #  - '5432:5432'
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASS}
+      - POSTGRES_DB=${DB_NAME}
 
-  server:
-    container_name: server_${CURRENT_NAME}
+
+  # RabbitMQ
+  rabbitmq:
+    image: rabbitmq
+    hostname: rabbitmq
+    env_file: .env
+    expose:
+      - '5672'
+    ports:
+      - "5672:5672"  # we forward this port because it's useful for debugging
+      - "15672:15672"  # here, we can access rabbitmq management plugin
+
+
+  # Elasticsearch
+  elasticsearch:
     restart: always
-    build: .
-    working_dir: /usr/src/app
-    command: /usr/local/bin/gunicorn erp_cms.wsgi:application -w 2 -b :8000 --reload
-    environment:
-      - DATABASE_URL=postgres://erp:erp123@postgres/db_erp
-      - DEFAULT_FROM_EMAIL=testnubiquo@gmail.com
+    image: elasticsearch:1.7
+    #command: elasticsearch -Des.network.host=0.0.0.0
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    expose:
+      - "9200"
+    hostname: elasticsearch
+
+  # Celery worker
+  worker: &app_base
+    build: server/
+    container_name: worker
+    restart: always
+    command: bash -c "sleep 10 && celery -A compraloahi worker -l info --beat"
     volumes:
       - ./server:/usr/src/app
-      - ./static:/usr/src/static
-      - ./templates:/usr/src/templates
-      - ./theme_configs.py:/usr/src/app/erp_cms/theme_configs.py
-    #ports:
-    # - '8000:8000'
+    links:
+      - db
+      - rabbitmq
+    env_file: .env
+    environment:
+      - C_FORCE_ROOT=true
+
+  # Web django app
+  server:
+    <<: *app_base
+    container_name: web
+    restart: always
+    command: sh /usr/src/app/init.sh
+    env_file: .env
+    #environment:
+    #  - DATABASE_URL=postgres://${DB_USER}:${DB_PASS}@db/${DB_NAME}
+    #  - DB_DEFAULT_URL=postgres://${DB_USER}:${DB_PASS}@db/${DB_NAME}
+    volumes:
+      - ./server:/usr/src/app
     expose:
       - "8000"
     links:
-      - postgres:postgres
+      - db
+      - rabbitmq
+      - elasticsearch
     depends_on:
-      - postgres
+      - db
 
-  # client:
-  #   container_name: client
-  #   #restart: always
-  #   build: dashboard_web_client/
-  #   working_dir: /www/app
-  #   #command: sh run.sh
-  #   volumes:
-  #     - ./dashboard_web_client:/www/app
-  #   #ports:
-  #   #  - '4200:4200'
-  #   expose:
-  #     - "4200"

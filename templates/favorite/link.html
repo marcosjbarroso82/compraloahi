@@ -1,9 +1,0 @@
-<a href="#" class="{{ classes }}">
-    <span href="{% url 'favorite:toggle' %}"
-   class="btn-favit-favorite"
-   model="{{ target_model }}" target="_top"
-   id="target_{{ target_object_id }}">
-         <i class="fa fa-heart{% if not undo %}-o{% endif %}"></i>{{ label }}
-    </span>
-
-</a>
