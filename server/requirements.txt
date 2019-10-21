@@ -31,7 +31,7 @@ djangorestframework==3.3.3
 djmail==0.10.0
 docutils==0.12
 drf-haystack==1.2
-ecdsa==0.13
+ecdsa==0.13.3
 elasticsearch==1.4.0
 Fabric==1.11.1
 geopy==1.9.1
