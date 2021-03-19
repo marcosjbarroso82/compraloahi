@@ -27,7 +27,7 @@ django-rest-auth==0.7.0
 django-taggit==0.18.1
 django-termsandconditions==0.1.6
 django-uuidfield==0.5.0
-djangorestframework==3.3.3
+djangorestframework==3.11.2
 djmail==0.10.0
 docutils==0.12
 drf-haystack==1.2
