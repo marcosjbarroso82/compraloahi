@@ -37,7 +37,7 @@ Fabric==1.11.1
 geopy==1.9.1
 ipdb==0.8.1
 ipython==2.4.1
-Jinja2==2.7.3
+Jinja2==2.11.3
 jsonschema==2.4.0
 kombu==3.0.26
 MarkupSafe==0.23
