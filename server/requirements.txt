@@ -51,7 +51,7 @@ psycopg2==2.6
 ptyprocess==0.4
 pycrypto==2.6.1
 pyelasticsearch==1.2
-Pygments==2.0.2
+Pygments==2.7.4
 python3-openid==3.0.10
 pytz==2014.10
 pyzmq==14.5.0
